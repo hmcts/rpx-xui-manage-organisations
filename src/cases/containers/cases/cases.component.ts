@@ -65,7 +65,8 @@ export class CasesComponent implements OnInit {
     if (this.caaCasesPageType === CaaCasesPageType.NewCases ||
       this.selectedFilterType === CaaCasesFilterType.NewCasesToAccept) {
       return [
-        'The tabs below list all of your organisation\'s new cases which need to be accepted. You can accept cases by selecting \'Accept cases\'.'
+        'The tabs below list all of your organisation\'s new cases which need to be accepted.',
+        'You can accept cases by selecting \'Accept cases\'.'
       ];
     }
 
@@ -73,7 +74,8 @@ export class CasesComponent implements OnInit {
       this.selectedFilterType === CaaCasesFilterType.AllAssignedCases ||
       this.selectedFilterType === CaaCasesFilterType.CasesAssignedToAUser) {
       return [
-        'The tabs below list all of your organisation\'s cases which are assigned to users. You can manage case sharing by selecting \'Manage case sharing\'.'
+        'The tabs below list all of your organisation\'s cases which are assigned to users.',
+        'You can manage case sharing by selecting \'Manage case sharing\'.'
       ];
     }
 

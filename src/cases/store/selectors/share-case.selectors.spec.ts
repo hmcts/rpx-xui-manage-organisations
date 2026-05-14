@@ -10,6 +10,7 @@ import { CaaCasesState, getShareCaseListState, reducers } from '../index';
 import { ChangeDetectorRef } from '@angular/core';
 import { LoaderService } from 'src/shared/modules/loader/services/loader.service';
 import { of } from 'rxjs';
+import { ENVIRONMENT_CONFIG, EnvironmentConfig } from '../../../models/environmentConfig.model';
 
 describe('Share case selectors', () => {
   let store: Store<CaaCasesState>;
@@ -18,6 +19,7 @@ describe('Share case selectors', () => {
   let caaCasesService: jasmine.SpyObj<CaaCasesService>;
   let loaderService: jasmine.SpyObj<LoaderService>;
   let cdr: ChangeDetectorRef;
+  let mockEnvironmentConfig: EnvironmentConfig;
   const router: any = {};
 
   beforeEach(() => {
@@ -34,6 +36,14 @@ describe('Share case selectors', () => {
     loaderService = jasmine.createSpyObj<LoaderService>('loaderService', ['show', 'hide'], {
       loaderState: of({ show: false })
     });
+    mockEnvironmentConfig = {
+      idamWeb: '',
+      manageCaseLink: '',
+      manageOrgLink: '',
+      protocol: '',
+      googleAnalyticsKey: '',
+      ogdUpdateRefreshUserEnabled: false
+    };
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
@@ -43,7 +53,8 @@ describe('Share case selectors', () => {
       providers: [
         { provide: Router, useValue: router },
         { provide: CaaCasesService, useValue: caaCasesService },
-        { provide: LoaderService, useValue: loaderService }
+        { provide: LoaderService, useValue: loaderService },
+        { provide: ENVIRONMENT_CONFIG, useValue: mockEnvironmentConfig }
       ]
     });
     store = TestBed.inject(Store);
@@ -55,7 +66,7 @@ describe('Share case selectors', () => {
 
   describe('get share case state', () => {
     xit('should return search state', () => {
-      const caseListComponent = new CasesComponent(store, organisationStore, userStore, router, caaCasesService, loaderService, cdr);
+      const caseListComponent = new CasesComponent(store, organisationStore, userStore, router, caaCasesService, loaderService, cdr, mockEnvironmentConfig);
       caseListComponent.selectedCases = [{
         case_id: '1',
         case_fields: {

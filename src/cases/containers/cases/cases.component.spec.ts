@@ -6,7 +6,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { CaaCasesService } from 'src/cases/services';
 import * as organisationStore from '../../../organisation/store';
 import * as caaCasesStore from '../../store';
-import { CaaCasesFilterType } from 'src/cases/models/caa-cases.enum';
+import { CaaCasesFilterType, CaaCasesPageType } from 'src/cases/models/caa-cases.enum';
+import { ENVIRONMENT_CONFIG } from '../../../models/environmentConfig.model';
 
 describe('CasesComponent', () => {
   let component: CasesComponent;
@@ -14,6 +15,7 @@ describe('CasesComponent', () => {
   let caaCasesService: jasmine.SpyObj<CaaCasesService>;
   let store: MockStore;
   let dispatchSpy: jasmine.Spy;
+  let mockEnvironmentConfig: { ogdUpdateRefreshUserEnabled: boolean };
 
   const createComponent = (): void => {
     fixture = TestBed.createComponent(CasesComponent);
@@ -36,10 +38,12 @@ describe('CasesComponent', () => {
       ]
     );
     caaCasesService.retrieveSessionState.and.returnValue(null);
+    mockEnvironmentConfig = { ogdUpdateRefreshUserEnabled: false };
     await TestBed.configureTestingModule({
       declarations: [CasesComponent],
       providers: [provideMockStore(),
-        { provide: CaaCasesService, useValue: caaCasesService }
+        { provide: CaaCasesService, useValue: caaCasesService },
+        { provide: ENVIRONMENT_CONFIG, useValue: mockEnvironmentConfig }
       ],
       imports: [
         MatAutocompleteModule
@@ -133,5 +137,46 @@ describe('CasesComponent', () => {
     });
 
     expect(loadCaseTypesDispatchCount()).toBe(1);
+  });
+
+  it('should hide access all cases warning text when OGD update refresh user is disabled', () => {
+    store.overrideSelector(organisationStore.getOrganisationSel, null);
+    createComponent();
+    component.selectedFilterType = CaaCasesFilterType.UnassignedCases;
+    (component as any).caaCasesPageType = CaaCasesPageType.UnassignedCases;
+
+    expect(component.casesWarningText[0]).toContain('not assigned to any users');
+    expect(component.casesWarningText.length).toBe(1);
+  });
+
+  it('should show access all cases warning text when OGD update refresh user is enabled', () => {
+    mockEnvironmentConfig.ogdUpdateRefreshUserEnabled = true;
+    store.overrideSelector(organisationStore.getOrganisationSel, null);
+    createComponent();
+    component.selectedFilterType = CaaCasesFilterType.UnassignedCases;
+    (component as any).caaCasesPageType = CaaCasesPageType.UnassignedCases;
+
+    expect(component.casesWarningText[0]).toContain('not assigned to any users');
+    expect(component.casesWarningText[1]).toContain('Access all cases in the organisation');
+  });
+
+  it('should show warning text for assigned cases', () => {
+    store.overrideSelector(organisationStore.getOrganisationSel, null);
+    createComponent();
+    component.selectedFilterType = CaaCasesFilterType.AllAssignedCases;
+    (component as any).caaCasesPageType = CaaCasesPageType.AssignedCases;
+
+    expect(component.casesWarningText[0]).toContain('assigned to users');
+    expect(component.casesWarningText[1]).toContain('manage case sharing');
+  });
+
+  it('should show warning text for new cases', () => {
+    store.overrideSelector(organisationStore.getOrganisationSel, null);
+    createComponent();
+    component.selectedFilterType = CaaCasesFilterType.NewCasesToAccept;
+    (component as any).caaCasesPageType = CaaCasesPageType.NewCases;
+
+    expect(component.casesWarningText[0]).toContain('new cases');
+    expect(component.casesWarningText[1]).toContain('accept cases');
   });
 });

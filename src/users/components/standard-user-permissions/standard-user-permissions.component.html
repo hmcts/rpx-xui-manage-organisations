@@ -25,8 +25,8 @@
           value: 'isPuiOrganisationManager',
           label: 'Manage organisation',
           name: 'roles',
-          hint: 'This user can view and manage some details of your organisations MyHMCTS account details',
-          hiddenLabelContext: 'This user can view and manage some details of your organisations MyHMCTS account details'
+          hint: 'This allows the user to view and manage details of your organisation’s MyHMCTS account',
+          hiddenLabelContext: 'This allows the user to view and manage details of your organisation’s MyHMCTS account'
         }">
       </xuilib-gov-checkbox>
 
@@ -35,8 +35,8 @@
             value: 'isPuiUserManager',
             label: 'Manage user',
             name: 'roles',
-            hint: 'This allows the user to invite others from your organisation with a MyHMCTS account, and to manage existing users’ MyHMCTS access',
-            hiddenLabelContext: 'This provides the user with access to invite others from your organisation with a MyHMCTS account, and also allow the user to manage existing users MyHMCTS access'
+            hint: 'This allows the user to invite people from your organisation to create a MyHMCTS account, and manage existing user access',
+            hiddenLabelContext: 'This allows the user to invite people from your organisation to create a MyHMCTS account, and manage existing user access'
           }">
         </xuilib-gov-checkbox>
         @if (grantFinanceManager$ | async) {
@@ -46,7 +46,7 @@
             value: 'isPuiFinanceManager',
             label: 'Manage fee accounts',
             name: 'roles',
-            hint: 'This provides the user with access to view payments, balances, available credit and transactions'
+            hint: 'This allows the user to view payments, balances, available credit and transactions'
           }">
         </xuilib-gov-checkbox>
         }

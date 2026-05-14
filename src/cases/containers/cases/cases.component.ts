@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { CaaCasesService } from 'src/cases/services';
 
 import * as organisationStore from '../../../organisation/store';
@@ -17,6 +17,7 @@ import { CaaCaseTypeNavigation, CaaCases, CaaCasesSessionState, CaaCasesSessionS
 import { CaaCasesFilterType, CaaCasesPageType } from 'src/cases/models/caa-cases.enum';
 import { HttpErrorResponse } from '@angular/common/http';
 import * as converters from '../../converters/case-converter';
+import { ENVIRONMENT_CONFIG, EnvironmentConfig } from '../../../models/environmentConfig.model';
 
 @Component({
   selector: 'app-cases',
@@ -56,8 +57,36 @@ export class CasesComponent implements OnInit {
   public selectedCases: any[] = [];
   public orgIdentifier: string | null = null;
   public caseDataWithSupplementary: any[];
+  public ogdUpdateRefreshUserEnabled: boolean = false;
   private readonly caseTypesLoaded$ = new BehaviorSubject<boolean>(false);
   private readonly casesLoaded$ = new BehaviorSubject<boolean>(false);
+
+  public get casesWarningText(): string[] {
+    if (this.caaCasesPageType === CaaCasesPageType.NewCases ||
+      this.selectedFilterType === CaaCasesFilterType.NewCasesToAccept) {
+      return [
+        'The tabs below list all of your organisation\'s new cases which need to be accepted. You can accept cases by selecting \'Accept cases\'.'
+      ];
+    }
+
+    if (this.caaCasesPageType === CaaCasesPageType.AssignedCases ||
+      this.selectedFilterType === CaaCasesFilterType.AllAssignedCases ||
+      this.selectedFilterType === CaaCasesFilterType.CasesAssignedToAUser) {
+      return [
+        'The tabs below list all of your organisation\'s cases which are assigned to users. You can manage case sharing by selecting \'Manage case sharing\'.'
+      ];
+    }
+
+    const warningText = [
+      'The tabs below list all of your organisation\'s cases which are not assigned to any users. You can assign cases to users by selecting \'Share Case\'.'
+    ];
+
+    if (this.ogdUpdateRefreshUserEnabled) {
+      warningText.push('You do not need to assign cases to users if they have \'Access all cases in the organisation\' enabled for that case type.');
+    }
+
+    return warningText;
+  }
 
   constructor(private readonly caaCasesStore: Store<caaCasesStore.CaaCasesState>,
     private readonly organisationStore: Store<organisationStore.OrganisationState>,
@@ -65,10 +94,13 @@ export class CasesComponent implements OnInit {
     private readonly router: Router,
     private readonly service: CaaCasesService,
     private readonly loaderService: LoaderService,
-    private cdr: ChangeDetectorRef) {
+    private cdr: ChangeDetectorRef,
+    @Inject(ENVIRONMENT_CONFIG) private readonly environmentConfig: EnvironmentConfig) {
   }
 
   public ngOnInit(): void {
+    this.ogdUpdateRefreshUserEnabled = this.environmentConfig.ogdUpdateRefreshUserEnabled;
+    console.log('OGD update refresh user enabled: ', this.ogdUpdateRefreshUserEnabled);
     this.loadOrganisationFromStore();
 
     this.caaCasesStore.pipe(

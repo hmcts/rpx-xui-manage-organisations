@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from '@hmcts/rpx-xui-common-lib';
 import { Observable, of, Subject } from 'rxjs';
@@ -8,6 +8,7 @@ import { CaaCasesSessionStateValue } from 'src/cases/models/caa-cases.model';
 import { SelectedCaseFilter } from 'src/cases/models/selected-case-filter.model';
 import { CaaCasesUtil } from 'src/cases/util/caa-cases.util';
 import { ErrorMessage } from 'src/shared/models/error-message.model';
+import { ENVIRONMENT_CONFIG, EnvironmentConfig } from '../../../models/environmentConfig.model';
 
 @Component({
   selector: 'app-cases-filter',
@@ -36,14 +37,19 @@ export class CasesFilterComponent implements OnInit, OnChanges {
   public form: FormGroup<CasesFilterForm>;
   public showAutocomplete: boolean = false;
   public filterApplied: boolean = false;
+  public ogdUpdateRefreshUserEnabled = false;
 
   private destroy$ = new Subject<void>();
   private hasAppliedSessionState = false;
   private lastSearchTerm: string = '';
 
-  public constructor(private formBuilder: FormBuilder) {}
+  public constructor(
+    private formBuilder: FormBuilder,
+    @Inject(ENVIRONMENT_CONFIG) private readonly environmentConfig: EnvironmentConfig
+  ) {}
 
   ngOnInit(): void {
+    this.ogdUpdateRefreshUserEnabled = !!this.environmentConfig.ogdUpdateRefreshUserEnabled;
     this.createForm();
   }
 
@@ -101,7 +107,7 @@ export class CasesFilterComponent implements OnInit, OnChanges {
   public populateFormFromSessionState(emitSearch = true): void {
     if (this.sessionStateValue && this.form) {
       console.log('Populating form from session state:', this.sessionStateValue);
-      const filterOptionValue = this.sessionStateValue.filterType as CaaCasesFilterType;
+      const filterOptionValue = this.getAvailableFilterType(this.sessionStateValue.filterType as CaaCasesFilterType);
       this.form.controls.filterOption.setValue(filterOptionValue, { emitEvent: false, onlySelf: true });
 
       this.selectFilterOption(filterOptionValue);
@@ -183,7 +189,15 @@ export class CasesFilterComponent implements OnInit, OnChanges {
   }
 
   public selectFilterOption(caaCasesFilterType: CaaCasesFilterType): void {
-    this.selectedFilterType = caaCasesFilterType;
+    this.selectedFilterType = this.getAvailableFilterType(caaCasesFilterType);
+  }
+
+  private getAvailableFilterType(caaCasesFilterType: CaaCasesFilterType): CaaCasesFilterType {
+    if (!this.ogdUpdateRefreshUserEnabled && caaCasesFilterType === CaaCasesFilterType.NewCasesToAccept) {
+      return CaaCasesFilterType.UnassignedCases;
+    }
+
+    return caaCasesFilterType;
   }
 
   private validateForm(): boolean {

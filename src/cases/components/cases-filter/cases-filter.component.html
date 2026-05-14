@@ -15,6 +15,7 @@
 
                 <div class="govuk-radios" data-module="govuk-radios">
                   <!-- New cases -->
+                  @if (ogdUpdateRefreshUserEnabled) {
                   <div class="govuk-radios__item">
                     <input class="govuk-radios__input" id="newCasesToAccept" name="filterOption" type="radio"
                       formControlName="filterOption" [value]="caaCasesFilterType.NewCasesToAccept" />
@@ -22,6 +23,7 @@
                       New cases to accept
                     </label>
                   </div>
+                  }
 
                   <!-- Cases assigned to a user with conditional text field-->
                   <div class="govuk-radios__item">

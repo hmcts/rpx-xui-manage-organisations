@@ -6,8 +6,8 @@ const conf = {
   failTestOna11yIssues: process.env.FAIL_TEST_ON_A11Y_ISSUES !== 'false',
   headless: true,
   params: {
-    username: 'sreekanth_su@mailinator.com',
-    password: 'Monday01'
+    username: process.env.TEST_USER1_EMAIL,
+    password: process.env.TEST_USER1_PASSWORD
   },
   authenticatedUrls: [
     'organisation',

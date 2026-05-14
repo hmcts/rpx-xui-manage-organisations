@@ -22,8 +22,17 @@ class A11yViolationError extends Error {
 
 let sessionCookies = [];
 
+function getA11yCredentials() {
+  const { username, password } = conf.params;
+  if (!username || !password) {
+    throw new Error('A11y login credentials are not configured');
+  }
+  return { username, password };
+}
+
 async function initBrowser() {
-  idamLogin.withCredentials('TEST_SOLICITOR@mailinator.com', 'genericPassword123')
+  const { username, password } = getA11yCredentials();
+  idamLogin.withCredentials(username, password)
   await idamLogin.do()
   testBrowser = await puppeteer.launch({
     ignoreHTTPSErrors: false,
@@ -36,7 +45,10 @@ async function initBrowser() {
   });
   page = await testBrowser.newPage();
   await page.goto("http://localhost:3000/get-help");
-  const cookies = idamLogin.xuiCallbackResponse.details.setCookies;
+  const cookies = idamLogin.xuiCallbackResponse.details?.setCookies;
+  if (!Array.isArray(cookies) || cookies.length === 0) {
+    throw new Error('A11y login did not return session cookies');
+  }
   sessionCookies = cookies;
   for (let cookie of cookies) {
     await page.setCookie({ name: cookie.name, value: cookie.value })

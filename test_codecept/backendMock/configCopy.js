@@ -30,6 +30,14 @@ let ssr = null;
 /* ── fs helpers ─────────────────────────────────────────────── */
 function readInt(fp) { return Number(fs.readFileSync(fp, 'utf8').trim() || '0'); }
 function writeInt(fp, n) { fs.writeFileSync(fp, String(n)); }
+function isProcessAlive(pid) {
+  try {
+    process.kill(pid, 0);
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 /* ── lock helpers ───────────────────────────────────────────── */
 function acquireLock() {
@@ -61,7 +69,7 @@ function acquireLock() {
       // After waiting, still no counter ⇒ likely stale lock; check owner pid
       try {
         const pid = readInt(OWNER_PIDFILE);
-        if (!pid || !process.kill(pid, 0)) {       // PID missing or not alive
+        if (!pid || !isProcessAlive(pid)) {       // PID missing or not alive
           fs.rmSync(LOCK_DIR, { recursive: true, force: true });
           // try to become the owner again
           fs.mkdirSync(LOCK_DIR, { recursive: false });
@@ -240,7 +248,7 @@ function startStub3000() {
   const isA11y = process.env.TEST_TYPE === 'a11y' || process.env.A11Y_MODE === 'true';
 
   if (PORT_FREE) {
-    const shouldStart = acquireLock();
+    const shouldStart = await acquireLock();
     console.log(shouldStart, serverEntry, 'what')
     if (shouldStart && fs.existsSync(serverEntry)) {
       console.log('[mock] starting SSR on :%d', SSR_PORT);
@@ -248,6 +256,7 @@ function startStub3000() {
       const env = {
         ...process.env,
         NODE_CONFIG_ENV: 'mock',
+        NODE_CONFIG_DIR: cfgDir,
         SESSION_SECRET: process.env.SESSION_SECRET || crypto.randomBytes(32).toString('hex'),
         TEST_CSP_OFF: 'true',
         SSR_ALREADY_RUNNING: 'true'

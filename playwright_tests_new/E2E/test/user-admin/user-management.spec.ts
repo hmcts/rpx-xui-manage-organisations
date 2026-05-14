@@ -5,7 +5,7 @@ test.describe('User administration', () => {
     await expect(signedInPage.getByRole('link', { name: 'Organisation', exact: true })).toBeVisible();
   });
 
-  test('active user details expose permission and suspend controls', async ({ usersPage }) => {
+  test('active user details expose permission and suspend controls', { tag: ['@e2e', '@user-admin'] }, async ({ usersPage }) => {
     await usersPage.open();
     await expect(usersPage.heading).toBeVisible();
     await expect(usersPage.inviteUserButton).toBeVisible();
@@ -22,7 +22,7 @@ test.describe('User administration', () => {
     await expect(usersPage.userDetails).toContainText(/they.ll no longer be able to access MyHMCTS services/);
   });
 
-  test('active user permissions can be reviewed without changing live access', async ({ usersPage }) => {
+  test('active user permissions can be reviewed without changing live access', { tag: ['@e2e', '@user-admin'] }, async ({ usersPage }) => {
     await usersPage.open();
     await usersPage.openFirstActiveUser();
 
@@ -50,7 +50,7 @@ test.describe('User administration', () => {
     await manageCases.setChecked(initiallyChecked);
   });
 
-  test('pending user re-invite opens a prefilled read-only invite form', async ({ usersPage }) => {
+  test('pending user re-invite opens a prefilled read-only invite form', { tag: ['@e2e', '@user-admin'] }, async ({ usersPage }) => {
     await usersPage.open();
     const pendingUser = await usersPage.openFirstUserByStatus('Pending');
     expect(pendingUser, 'A pending user is required for re-invite coverage').not.toBeNull();

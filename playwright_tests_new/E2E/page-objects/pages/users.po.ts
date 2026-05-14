@@ -52,7 +52,11 @@ export class UsersPage extends BasePage {
       .first();
   }
 
-  public async openFirstUserByStatus(status: 'Active' | 'Pending') {
+  public async openFirstUserByStatus(status: 'Active' | 'Pending'): Promise<{
+    href: string;
+    linkText: string;
+    rowText: string;
+  } | null> {
     await this.userList.waitFor({ state: 'visible' });
 
     for (let pageNumber = 1; pageNumber <= 10; pageNumber++) {

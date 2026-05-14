@@ -1,21 +1,6 @@
-import { expect, type Locator } from '@playwright/test';
+import type { Locator } from '@playwright/test';
 import { BasePage } from '../base';
-
-type ContactDetails = {
-  firstName: string;
-  lastName: string;
-  email: string;
-};
-
-type ManualAddress = {
-  line1: string;
-  line2?: string;
-  line3?: string;
-  town: string;
-  county?: string;
-  postcode?: string;
-  country: string;
-};
+import type { RegisterOrganisationAddress, RegisterOrganisationData } from '../../utils/test-setup/register-organisation-data';
 
 const escapeRegExp = (value: string): string => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
@@ -103,7 +88,7 @@ export class RegisterOrganisationPage extends BasePage {
     await this.postcodeInput.fill(postcode);
     await this.findAddressButton.click();
 
-    await expect(this.addressList).toBeVisible();
+    await this.addressList.waitFor({ state: 'visible' });
 
     const addressOption = this.addressList.locator('option').nth(1);
     const selectedAddress = (await addressOption.textContent())?.trim();
@@ -116,14 +101,14 @@ export class RegisterOrganisationPage extends BasePage {
     return selectedAddress;
   }
 
-  public async enterManualUkAddress(address: ManualAddress): Promise<void> {
+  public async enterManualUkAddress(address: RegisterOrganisationAddress): Promise<void> {
     await this.manualAddressLink.click();
     await this.ukAddressYesRadio.check();
     await this.fillManualAddress(address);
     await this.continueWith();
   }
 
-  public async enterManualInternationalAddress(address: ManualAddress): Promise<void> {
+  public async enterManualInternationalAddress(address: RegisterOrganisationAddress): Promise<void> {
     await this.manualAddressLink.click();
     await this.ukAddressNoRadio.check();
     await this.fillManualAddress(address);
@@ -186,7 +171,7 @@ export class RegisterOrganisationPage extends BasePage {
     await this.continueWith();
   }
 
-  public async enterContactDetails(data: ContactDetails): Promise<void> {
+  public async enterContactDetails(data: Pick<RegisterOrganisationData, 'firstName' | 'lastName' | 'email'>): Promise<void> {
     await this.firstNameInput.fill(data.firstName);
     await this.lastNameInput.fill(data.lastName);
     await this.workEmailAddressInput.fill(data.email);
@@ -240,7 +225,7 @@ export class RegisterOrganisationPage extends BasePage {
     return this.page.locator(`#pba-number-${index}`);
   }
 
-  private async fillManualAddress(address: ManualAddress): Promise<void> {
+  private async fillManualAddress(address: RegisterOrganisationAddress): Promise<void> {
     await this.addressLine1Input.fill(address.line1);
     await this.addressLine2Input.fill(address.line2 ?? '');
     await this.addressLine3Input.fill(address.line3 ?? '');

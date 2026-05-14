@@ -1,4 +1,4 @@
-import { expect, type Locator, type Page } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
 import { BasePage } from '../base';
 
 export class UsersPage extends BasePage {
@@ -37,7 +37,7 @@ export class UsersPage extends BasePage {
   }
 
   public async openFirstActiveUser(): Promise<void> {
-    await expect(this.userList).toBeVisible();
+    await this.userList.waitFor({ state: 'visible' });
 
     for (let pageNumber = 1; pageNumber <= 10; pageNumber++) {
       const activeUserLink = this.activeUserRow().locator('a').first();
@@ -56,7 +56,7 @@ export class UsersPage extends BasePage {
       }
 
       await nextPageLink.click();
-      await expect(this.userList).toBeVisible();
+      await this.userList.waitFor({ state: 'visible' });
     }
 
     throw new Error('No active user found in the users list');

@@ -2,7 +2,7 @@ import { test, expect } from '../../fixtures';
 
 test(
   'IDAM login page is up and displays username and password fields',
-  { tag: ['@e2e', '@e2e-smoke'] },
+  { tag: ['@e2e-smoke'] },
   async ({ idamPage, page }) => {
     await page.goto('');
 

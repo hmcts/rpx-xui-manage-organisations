@@ -50,8 +50,9 @@ const functional_output_dir = path.resolve(`${__dirname}/../../functional-output
 
 
 const tags = process.env.DEBUG ? 'functional_debug' : 'fullFunctional'
+const flakyTagFilter = debugMode ? '' : '^(?!.*@Flaky)'
 
-const grepTags = `(?=.*@${testType === 'smoke' ? 'smoke' : tags})^(?!.*@ignore)^(?!.*@${pipelineBranch === 'preview' ? 'AAT_only' : 'preview_only'})`
+const grepTags = `(?=.*@${testType === 'smoke' ? 'smoke' : tags})^(?!.*@ignore)${flakyTagFilter}^(?!.*@${pipelineBranch === 'preview' ? 'AAT_only' : 'preview_only'})`
 console.log(grepTags)
 
 exports.config = {

@@ -42,4 +42,13 @@ test.describe('Invite user API contracts', { tag: '@svc-user-admin' }, () => {
 
     expect([401, 403], 'Anonymous invite requests should be rejected').toContain(response.status);
   });
+
+  test('rejects anonymous re-invite requests before invite processing', async ({ anonymousClient }) => {
+    const response = await anonymousClient.post('api/inviteUser', {
+      data: buildInvitePayload(`anonymous.reinvite.playwright.api.${Date.now()}@mailnesia.com`, true),
+      throwOnError: false
+    });
+
+    expect([401, 403], 'Anonymous re-invite requests should be rejected before processing').toContain(response.status);
+  });
 });

@@ -25,6 +25,10 @@ def channel   = '#xui-pipeline'
 List<LinkedHashMap<String, Object>> secrets = [
   secret('mo-s2s-client-secret',                 'S2S_SECRET'),
   secret('xui-oauth2-token',              'IDAM_SECRET'),
+  secret('test-user1-email', 'TEST_USER1_EMAIL'),
+  secret('test-user1-password', 'TEST_USER1_PASSWORD'),
+  secret('test-roo-username', 'TEST_ROO_EMAIL'),
+  secret('test-roo-password', 'TEST_ROO_PASSWORD'),
   secret('appinsights-connection-string-mo', 'APPINSIGHTS_CONNECTION_STRING'),
   secret('google-analytics-key', 'GOOGLE_ANALYTICS_KEY'),
   secret('launch-darkly-client-id', 'LAUNCH_DARKLY_CLIENT_ID'),

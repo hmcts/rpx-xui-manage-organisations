@@ -18,14 +18,21 @@ test.describe('User list API contracts', { tag: '@svc-user-admin' }, () => {
   test('returns full organisation user list without requiring role expansion', async ({ apiClient }) => {
     const response = await apiClient.get<UserListResponse>('api/allUserListWithoutRoles');
     const users = response.data.users;
+    const activeUser = users?.find((user) => user.email && user.firstName && user.lastName && user.idamStatus === 'ACTIVE');
 
     expect(response.status, 'Full organisation user list should be returned for an authenticated user').toBe(200);
     expect(users, 'All user list without roles response should include users array').toEqual(expect.any(Array));
     expect(users?.length, 'At least one user should be returned').toBeGreaterThan(0);
-    expect(
-      users?.some((user) => user.email && user.firstName && user.lastName && user.userIdentifier),
-      'At least one user should include identity fields'
-    ).toBe(true);
+    expect(activeUser, 'At least one active user should include identity fields').toEqual(
+      expect.objectContaining({
+        email: expect.stringMatching(/^[^@\s]+@[^@\s]+\.[^@\s]+$/),
+        firstName: expect.any(String),
+        idamStatus: 'ACTIVE',
+        lastName: expect.any(String)
+      })
+    );
+    expect(activeUser?.firstName, 'Active user first name should not be empty').not.toHaveLength(0);
+    expect(activeUser?.lastName, 'Active user last name should not be empty').not.toHaveLength(0);
   });
 
   test('returns active organisation users from the organisation users endpoint', async ({ apiClient }) => {

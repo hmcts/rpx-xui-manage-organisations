@@ -155,6 +155,9 @@ withNightlyPipeline(type, product, component) {
     }
     afterSuccess('build') {
         sh 'npm run build'
+        stage('API Unit Coverage') {
+            yarnBuilder.yarn('test:coverage:node')
+        }
         publishHTML([
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
@@ -170,6 +173,14 @@ withNightlyPipeline(type, product, component) {
             reportDir            : "test/reports/lint/ng/",
             reportFiles          : 'index.html',
             reportName           : 'ng lint Report'
+        ])
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "reports/tests/coverage/node",
+            reportFiles          : 'index.html',
+            reportName           : 'node coverage tests'
         ])
     }
 

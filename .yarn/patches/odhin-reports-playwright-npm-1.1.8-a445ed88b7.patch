@@ -146,13 +146,13 @@ index a4679f3122e76eb27f18b7019666cf129b3f2b56..0ee54f845b6f2e4574e2d24a2c14ddae
 +                .slice()
 +                .sort((left, right) => left.retry - right.retry);
 +            const finalAttempt = sortedAttempts[sortedAttempts.length - 1];
-+            const finalRetry = Math.max(finalAttempt?.retry, 0);
++            const finalRetry = Math.max(finalAttempt === null || finalAttempt === void 0 ? void 0 : finalAttempt.retry, 0);
 +            totalAttempts += sortedAttempts.length;
 +            retryAttempts += finalRetry;
 +            if (finalRetry > 0) {
 +                testsWithRetries++;
 +            }
-+            if (finalAttempt?.status === "flaky") {
++            if ((finalAttempt === null || finalAttempt === void 0 ? void 0 : finalAttempt.status) === "flaky") {
 +                recoveredFlakyTests++;
 +            }
 +            transientFailedAttempts += sortedAttempts.filter((attempt, index) => index < sortedAttempts.length - 1 &&

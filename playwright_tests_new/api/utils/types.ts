@@ -7,10 +7,26 @@ export type ManageOrgUser = {
   userIdentifier?: string;
 };
 
+export type DxAddress = {
+  dxExchange?: string;
+  dxNumber?: string;
+};
+
+export type ContactInformation = {
+  addressLine1?: string;
+  addressLine2?: string;
+  dxAddress?: DxAddress[];
+  postCode?: string;
+  townCity?: string;
+};
+
 export type OrganisationDetailsResponse = {
-  contactInformation?: unknown[];
+  contactInformation?: ContactInformation[];
   name?: string;
   organisationIdentifier?: string;
+  paymentAccount?: string[];
+  sraId?: string;
+  sraRegulated?: boolean;
   status?: string;
 };
 

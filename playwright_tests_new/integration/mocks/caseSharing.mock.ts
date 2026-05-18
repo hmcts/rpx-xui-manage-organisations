@@ -102,7 +102,27 @@ export const manageOrgUsersWithoutRolesResponse = {
 };
 
 export const asylumCaseType = 'Asylum';
+export const immigrationCaseType = 'Immigration';
 export const unassignedCaseIds = ['1234567812345671', '1234567812345672'];
+export const assignedCaseIds = ['1234567812345671', '1234567812345672'];
+
+export const assignedAsylumCase = {
+  caseReference: assignedCaseIds[0],
+  caseNumber: '6042070/2023',
+  claimant: 'Grayson Becker',
+  respondent: 'Mrs Test Auto',
+  state: 'Accepted',
+  caseType: asylumCaseType
+};
+
+export const assignedImmigrationCase = {
+  caseReference: assignedCaseIds[1],
+  caseNumber: '6042071/2023',
+  claimant: 'Grayson Becker',
+  respondent: 'Mrs Test Auto',
+  state: 'Accepted',
+  caseType: immigrationCaseType
+};
 
 export const unassignedCaseRows = unassignedCaseIds.map((caseId) => ({
   '[CASE_REFERENCE]': caseId,
@@ -110,6 +130,29 @@ export const unassignedCaseRows = unassignedCaseIds.map((caseId) => ({
   caseType: asylumCaseType,
   case_title: `Asylum appeal ${caseId.slice(-4)}`
 }));
+
+export const assignedCaseRows = [assignedAsylumCase, assignedImmigrationCase].map((assignedCase) => ({
+  '[CASE_REFERENCE]': assignedCase.caseReference,
+  ethosCaseReference: assignedCase.caseNumber,
+  claimant: assignedCase.claimant,
+  respondent: assignedCase.respondent,
+  '[STATE]': assignedCase.state,
+  case_id: assignedCase.caseReference,
+  caseType: assignedCase.caseType
+}));
+
+export const assignedCaseTypesResponse = {
+  case_types_results: [
+    {
+      case_type_id: asylumCaseType,
+      total: assignedCaseRows.filter((assignedCase) => assignedCase.caseType === asylumCaseType).length
+    },
+    {
+      case_type_id: immigrationCaseType,
+      total: assignedCaseRows.filter((assignedCase) => assignedCase.caseType === immigrationCaseType).length
+    }
+  ]
+};
 
 export const unassignedCaseTypesResponse = {
   case_types_results: [
@@ -136,6 +179,38 @@ export const unassignedCasesResponse = {
   ],
   data: unassignedCaseRows
 };
+
+export const buildAssignedCasesResponse = (caseTypeId: string) => ({
+  idField: '[CASE_REFERENCE]',
+  columnConfigs: [
+    {
+      header: 'Case Reference',
+      key: '[CASE_REFERENCE]',
+      type: 'TEXT'
+    },
+    {
+      header: 'Case Number',
+      key: 'ethosCaseReference',
+      type: 'TEXT'
+    },
+    {
+      header: 'Claimant',
+      key: 'claimant',
+      type: 'TEXT'
+    },
+    {
+      header: 'Respondent',
+      key: 'respondent',
+      type: 'TEXT'
+    },
+    {
+      header: 'State',
+      key: '[STATE]',
+      type: 'FixedList'
+    }
+  ],
+  data: assignedCaseRows.filter((assignedCase) => assignedCase.caseType === caseTypeId)
+});
 
 export const buildSharedCases = (caseIds: string[]): CaseSharingSharedCase[] =>
   caseIds.map((caseId) => {

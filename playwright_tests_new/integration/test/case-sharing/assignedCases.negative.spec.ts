@@ -31,6 +31,16 @@ test.describe('Assigned case sharing negative paths', {
       await expect(page.getByRole('heading', { name: 'Manage shared access to a case' })).toBeVisible();
       await expect.poll(() => routeState.loadedShareCaseIds.length).toBe(1);
       await expect(routeState.loadedShareCaseIds[0]).toEqual([assignedAsylumCase.caseReference]);
+      expect(routeState.caseShareCaseRequests).toEqual([
+        {
+          caseIds: [assignedAsylumCase.caseReference],
+          method: 'GET'
+        }
+      ]);
+      await expect.poll(() =>
+        routeState.caseShareUserRequests.length > 0 &&
+        routeState.caseShareUserRequests.every((request) => request.method === 'GET')
+      ).toBe(true);
     });
 
     await test.step('Reject continue when no share or unshare change has been requested', async () => {
@@ -40,6 +50,7 @@ test.describe('Assigned case sharing negative paths', {
         'You have not requested any changes to case sharing'
       );
       expect(routeState.submittedAssignments).toHaveLength(0);
+      expect(routeState.caseAssignmentRequests).toHaveLength(0);
     });
 
     await test.step('Reject removing the only assigned person without a replacement', async () => {
@@ -55,6 +66,7 @@ test.describe('Assigned case sharing negative paths', {
         'At least one person must be assigned to each case'
       );
       expect(routeState.submittedAssignments).toHaveLength(0);
+      expect(routeState.caseAssignmentRequests).toHaveLength(0);
     });
   });
 });

@@ -166,6 +166,16 @@ test.describe('Unassigned case sharing', { tag: ['@integration', '@integration-c
       await expect(page.getByText('Share a case')).toBeVisible();
       await expect.poll(() => routeState.loadedShareCaseIds.length).toBe(1);
       await expect(routeState.loadedShareCaseIds[0]).toEqual(unassignedCaseIds);
+      expect(routeState.caseShareCaseRequests).toEqual([
+        {
+          caseIds: unassignedCaseIds,
+          method: 'GET'
+        }
+      ]);
+      await expect.poll(() =>
+        routeState.caseShareUserRequests.length > 0 &&
+        routeState.caseShareUserRequests.every((request) => request.method === 'GET')
+      ).toBe(true);
 
       for (const caseId of unassignedCaseIds) {
         await expect(caseSharingPage.caseSection(caseId)).toContainText(caseId);
@@ -224,6 +234,12 @@ test.describe('Unassigned case sharing', { tag: ['@integration', '@integration-c
       await confirmPage.confirm();
 
       await expect.poll(() => routeState.submittedAssignments.length).toBe(1);
+      expect(routeState.caseAssignmentRequests).toEqual([
+        {
+          method: 'POST',
+          sharedCaseIds: unassignedCaseIds
+        }
+      ]);
       await expect(page).toHaveURL(/\/unassigned-cases\/case-share-complete\/unassigned-cases$/);
       await expect(completePage.heading).toBeVisible();
       await expect(completePage.whatHappensNextText(

@@ -165,6 +165,16 @@ test.describe('Assigned cases', { tag: ['@integration', '@integration-assigned-c
       await expect(page.getByText('Manage case sharing')).toBeVisible();
       await expect.poll(() => routeState.loadedShareCaseIds.length).toBe(1);
       await expect(routeState.loadedShareCaseIds[0]).toEqual(assignedCaseIds);
+      expect(routeState.caseShareCaseRequests).toEqual([
+        {
+          caseIds: assignedCaseIds,
+          method: 'GET'
+        }
+      ]);
+      await expect.poll(() =>
+        routeState.caseShareUserRequests.length > 0 &&
+        routeState.caseShareUserRequests.every((request) => request.method === 'GET')
+      ).toBe(true);
     });
 
     await test.step('Add a new recipient and remove existing access for selected assigned cases', async () => {
@@ -213,6 +223,12 @@ test.describe('Assigned cases', { tag: ['@integration', '@integration-assigned-c
       await confirmPage.confirm();
 
       await expect.poll(() => routeState.submittedAssignments.length).toBe(1);
+      expect(routeState.caseAssignmentRequests).toEqual([
+        {
+          method: 'POST',
+          sharedCaseIds: assignedCaseIds
+        }
+      ]);
       await expect(page).toHaveURL(/\/assigned-cases\/case-share-complete\/assigned-cases$/);
       await expect(completePage.heading).toBeVisible();
       await expect(completePage.whatHappensNextText(
@@ -268,6 +284,16 @@ test.describe('Assigned cases', { tag: ['@integration', '@integration-assigned-c
       await expect(page.getByRole('heading', { name: 'Manage shared access to a case' })).toBeVisible();
       await expect.poll(() => routeState.loadedShareCaseIds.length).toBe(1);
       await expect(routeState.loadedShareCaseIds[0]).toEqual(assignedCaseIds);
+      expect(routeState.caseShareCaseRequests).toEqual([
+        {
+          caseIds: assignedCaseIds,
+          method: 'GET'
+        }
+      ]);
+      await expect.poll(() =>
+        routeState.caseShareUserRequests.length > 0 &&
+        routeState.caseShareUserRequests.every((request) => request.method === 'GET')
+      ).toBe(true);
     });
 
     await test.step('Cancel the pending new recipient for one selected assigned case', async () => {
@@ -305,6 +331,12 @@ test.describe('Assigned cases', { tag: ['@integration', '@integration-assigned-c
       await confirmPage.confirm();
 
       await expect.poll(() => routeState.submittedAssignments.length).toBe(1);
+      expect(routeState.caseAssignmentRequests).toEqual([
+        {
+          method: 'POST',
+          sharedCaseIds: assignedCaseIds
+        }
+      ]);
       await expect(page).toHaveURL(/\/assigned-cases\/case-share-complete\/assigned-cases$/);
       await expect(completePage.heading).toBeVisible();
     });

@@ -104,6 +104,7 @@ export const manageOrgUsersWithoutRolesResponse = {
 export const asylumCaseType = 'Asylum';
 export const immigrationCaseType = 'Immigration';
 export const unassignedCaseIds = ['1234567812345671', '1234567812345672'];
+export const unassignedImmigrationCaseId = '1234567812345673';
 export const assignedCaseIds = ['1234567812345671', '1234567812345672'];
 
 export const assignedAsylumCase = {
@@ -124,11 +125,49 @@ export const assignedImmigrationCase = {
   caseType: immigrationCaseType
 };
 
-export const unassignedCaseRows = unassignedCaseIds.map((caseId) => ({
-  '[CASE_REFERENCE]': caseId,
-  case_id: caseId,
+export const unassignedAsylumCase = {
+  caseReference: unassignedCaseIds[0],
+  caseNumber: '6042072/2023',
+  claimant: 'Riley Harper',
+  respondent: 'Secretary of State',
+  state: 'Case created',
   caseType: asylumCaseType,
-  case_title: `Asylum appeal ${caseId.slice(-4)}`
+  caseTitle: 'Asylum appeal 5671'
+};
+
+export const unassignedSecondAsylumCase = {
+  caseReference: unassignedCaseIds[1],
+  caseNumber: '6042073/2023',
+  claimant: 'Morgan Drew',
+  respondent: 'Secretary of State',
+  state: 'Case created',
+  caseType: asylumCaseType,
+  caseTitle: 'Asylum appeal 5672'
+};
+
+export const unassignedImmigrationCase = {
+  caseReference: unassignedImmigrationCaseId,
+  caseNumber: '6042074/2023',
+  claimant: 'Taylor Quinn',
+  respondent: 'Secretary of State',
+  state: 'Case created',
+  caseType: immigrationCaseType,
+  caseTitle: 'Immigration appeal 5673'
+};
+
+export const unassignedCaseRows = [
+  unassignedAsylumCase,
+  unassignedSecondAsylumCase,
+  unassignedImmigrationCase
+].map((unassignedCase) => ({
+  '[CASE_REFERENCE]': unassignedCase.caseReference,
+  ethosCaseReference: unassignedCase.caseNumber,
+  claimant: unassignedCase.claimant,
+  respondent: unassignedCase.respondent,
+  '[STATE]': unassignedCase.state,
+  case_id: unassignedCase.caseReference,
+  caseType: unassignedCase.caseType,
+  case_title: unassignedCase.caseTitle
 }));
 
 export const assignedCaseRows = [assignedAsylumCase, assignedImmigrationCase].map((assignedCase) => ({
@@ -158,27 +197,46 @@ export const unassignedCaseTypesResponse = {
   case_types_results: [
     {
       case_type_id: asylumCaseType,
-      total: unassignedCaseIds.length
+      total: unassignedCaseRows.filter((unassignedCase) => unassignedCase.caseType === asylumCaseType).length
+    },
+    {
+      case_type_id: immigrationCaseType,
+      total: unassignedCaseRows.filter((unassignedCase) => unassignedCase.caseType === immigrationCaseType).length
     }
   ]
 };
 
-export const unassignedCasesResponse = {
+export const buildUnassignedCasesResponse = (caseTypeId: string) => ({
   idField: '[CASE_REFERENCE]',
   columnConfigs: [
     {
-      header: 'Case reference',
+      header: 'Case Reference',
       key: '[CASE_REFERENCE]',
-      type: 'text'
+      type: 'TEXT'
     },
     {
-      header: 'Case name',
-      key: 'case_title',
-      type: 'text'
+      header: 'Case Number',
+      key: 'ethosCaseReference',
+      type: 'TEXT'
+    },
+    {
+      header: 'Claimant',
+      key: 'claimant',
+      type: 'TEXT'
+    },
+    {
+      header: 'Respondent',
+      key: 'respondent',
+      type: 'TEXT'
+    },
+    {
+      header: 'State',
+      key: '[STATE]',
+      type: 'FixedList'
     }
   ],
-  data: unassignedCaseRows
-};
+  data: unassignedCaseRows.filter((unassignedCase) => unassignedCase.caseType === caseTypeId)
+});
 
 export const buildAssignedCasesResponse = (caseTypeId: string) => ({
   idField: '[CASE_REFERENCE]',

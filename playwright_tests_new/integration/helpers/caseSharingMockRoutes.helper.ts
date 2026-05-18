@@ -5,12 +5,11 @@ import type {
 } from '../mocks/caseSharing.mock';
 import {
   assignedCaseTypesResponse,
-  asylumCaseType,
   buildCaseAssignmentSuccessResponse,
   buildAssignedCasesResponse,
+  buildUnassignedCasesResponse,
   buildSharedCases,
   petSolicitorTwo,
-  unassignedCasesResponse,
   unassignedCaseTypesResponse
 } from '../mocks/caseSharing.mock';
 import { fulfillJson } from './manageOrgBaseRoutes.helper';
@@ -67,17 +66,23 @@ export const setupUnassignedCaseShareRoutes = async (
 
   await page.route('**/api/caaCases**', async (route) => {
     const url = routeUrl(route.request().url());
+    const caseTypeId = url.searchParams.get('caseTypeId');
 
     routeState.caseListRequests.push({
       caaCasesFilterType: url.searchParams.get('caaCasesFilterType'),
       caaCasesPageType: url.searchParams.get('caaCasesPageType'),
-      caseTypeId: url.searchParams.get('caseTypeId'),
+      caseTypeId,
       method: route.request().method(),
       pageNo: url.searchParams.get('pageNo'),
       pageSize: url.searchParams.get('pageSize')
     });
 
-    await fulfillJson(route, unassignedCasesResponse);
+    if (!caseTypeId) {
+      await fulfillJson(route, { error: 'Missing caseTypeId query parameter' }, 400);
+      return;
+    }
+
+    await fulfillJson(route, buildUnassignedCasesResponse(caseTypeId));
   });
 
   await page.route('**/api/caseshare/cases**', async (route) => {
@@ -128,7 +133,7 @@ export const setupAssignedCaseRoutes = async (page: Page): Promise<AssignedCaseR
 
   await page.route('**/api/caaCases**', async (route) => {
     const url = routeUrl(route.request().url());
-    const caseTypeId = url.searchParams.get('caseTypeId') ?? asylumCaseType;
+    const caseTypeId = url.searchParams.get('caseTypeId');
 
     routeState.caseListRequests.push({
       caaCasesFilterType: url.searchParams.get('caaCasesFilterType'),
@@ -138,6 +143,11 @@ export const setupAssignedCaseRoutes = async (page: Page): Promise<AssignedCaseR
       pageNo: url.searchParams.get('pageNo'),
       pageSize: url.searchParams.get('pageSize')
     });
+
+    if (!caseTypeId) {
+      await fulfillJson(route, { error: 'Missing caseTypeId query parameter' }, 400);
+      return;
+    }
 
     await fulfillJson(route, buildAssignedCasesResponse(caseTypeId));
   });

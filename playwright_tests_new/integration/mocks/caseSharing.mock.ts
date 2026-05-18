@@ -76,7 +76,7 @@ export const manageOrgIntegrationOrganisation = {
 
 export const petSolicitorTwo: CaseShareUser = {
   idamId: 'pet-solicitor-two-idam-id',
-  email: 'div-petsol-2@mailinator.com',
+  email: 'div-petsol-2@example.com',
   firstName: 'Pet',
   lastName: 'Solicitor 2'
 };

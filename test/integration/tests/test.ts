@@ -1,4 +1,3 @@
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 import * as Mocha from 'mocha';
 import { config } from '../../../api/lib/config';
 import * as tunnel from '../../../api/lib/tunnel';

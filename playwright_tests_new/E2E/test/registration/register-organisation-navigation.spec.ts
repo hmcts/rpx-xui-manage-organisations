@@ -4,6 +4,104 @@ import { completeOptionalRegisterOrganisationJourney } from '../../utils/test-se
 
 test.use({ manageOrgUserRole: 'roo' });
 
+const registerOrganisationScreenLabels = {
+  start: 'Apply for an organisation to manage civil, family and tribunal cases',
+  organisationType: 'What type of organisation are you registering?',
+  organisationName: 'What is your organisation name and Companies House number?',
+  registeredAddress: 'What is the registered address of your organisation?',
+  ukAddress: 'Is this a UK address?',
+  documentExchangeReference: 'Do you have a document exchange reference for your main office?',
+  dxReference: 'What\'s the DX reference for this office?',
+  regulator: 'Who is your organisation registered with?',
+  services: 'Which services will your organisation need to access?',
+  pbaChoice: 'Does your organisation have a payment by account number?',
+  pbaNumbers: 'What PBA numbers does your organisation use?',
+  contactDetails: 'Provide your contact details',
+  individualRegulatorChoice: 'Are you (as an individual) registered with a regulator?',
+  individualRegulator: 'What regulator are you (as an individual) registered with?',
+  checkYourAnswers: 'Check your answers before you register'
+} as const;
+
+const backNavigationScreenOrder = [
+  registerOrganisationScreenLabels.individualRegulator,
+  registerOrganisationScreenLabels.individualRegulatorChoice,
+  registerOrganisationScreenLabels.contactDetails,
+  registerOrganisationScreenLabels.pbaNumbers,
+  registerOrganisationScreenLabels.pbaChoice,
+  registerOrganisationScreenLabels.services,
+  registerOrganisationScreenLabels.regulator,
+  registerOrganisationScreenLabels.dxReference,
+  registerOrganisationScreenLabels.documentExchangeReference,
+  registerOrganisationScreenLabels.ukAddress,
+  registerOrganisationScreenLabels.registeredAddress,
+  registerOrganisationScreenLabels.organisationName,
+  registerOrganisationScreenLabels.organisationType,
+  registerOrganisationScreenLabels.start
+] as const;
+
+const checkYourAnswersChangeLinkDestinations = [
+  {
+    summaryLabel: 'Organisation type',
+    expectedScreen: registerOrganisationScreenLabels.organisationType
+  },
+  {
+    summaryLabel: 'Organisation name',
+    expectedScreen: registerOrganisationScreenLabels.organisationName
+  },
+  {
+    summaryLabel: 'Company registration number',
+    expectedScreen: registerOrganisationScreenLabels.organisationName
+  },
+  {
+    summaryLabel: 'Organisation address',
+    expectedScreen: registerOrganisationScreenLabels.ukAddress
+  },
+  {
+    summaryLabel: registerOrganisationScreenLabels.dxReference,
+    expectedScreen: registerOrganisationScreenLabels.dxReference
+  },
+  {
+    summaryLabel: 'Service to access',
+    expectedScreen: registerOrganisationScreenLabels.services
+  },
+  {
+    summaryLabel: registerOrganisationScreenLabels.pbaChoice,
+    expectedScreen: registerOrganisationScreenLabels.pbaChoice
+  },
+  {
+    summaryLabel: 'Regulatory organisation type',
+    expectedScreen: registerOrganisationScreenLabels.regulator
+  },
+  {
+    summaryLabel: 'First name(s)',
+    expectedScreen: registerOrganisationScreenLabels.contactDetails
+  },
+  {
+    summaryLabel: 'Last name',
+    expectedScreen: registerOrganisationScreenLabels.contactDetails
+  },
+  {
+    summaryLabel: 'Email address',
+    expectedScreen: registerOrganisationScreenLabels.contactDetails
+  },
+  {
+    summaryLabel: 'What regulators are you (as an individual) registered with?',
+    expectedScreen: registerOrganisationScreenLabels.individualRegulator
+  }
+] as const;
+
+const continueFromOrganisationTypeChangeScreenOrder = [
+  registerOrganisationScreenLabels.dxReference,
+  registerOrganisationScreenLabels.regulator,
+  registerOrganisationScreenLabels.services,
+  registerOrganisationScreenLabels.pbaChoice,
+  registerOrganisationScreenLabels.pbaNumbers,
+  registerOrganisationScreenLabels.contactDetails,
+  registerOrganisationScreenLabels.individualRegulatorChoice,
+  registerOrganisationScreenLabels.individualRegulator,
+  registerOrganisationScreenLabels.checkYourAnswers
+] as const;
+
 test.describe('Register organisation navigation', () => {
   test(
     'navigates backwards through the optional register-org-new journey',
@@ -13,22 +111,7 @@ test.describe('Register organisation navigation', () => {
       await completeOptionalRegisterOrganisationJourney(registerOrganisationPage, data);
       await expect(registerOrganisationPage.checkYourAnswersHeading).toBeVisible();
 
-      for (const expectedScreen of [
-        'What regulator are you (as an individual) registered with?',
-        'Are you (as an individual) registered with a regulator?',
-        'Provide your contact details',
-        'What PBA numbers does your organisation use?',
-        'Does your organisation have a payment by account number?',
-        'Which services will your organisation need to access?',
-        'Who is your organisation registered with?',
-        'What\'s the DX reference for this office?',
-        'Do you have a document exchange reference for your main office?',
-        'Is this a UK address?',
-        'What is the registered address of your organisation?',
-        'What is your organisation name and Companies House number?',
-        'What type of organisation are you registering?',
-        'Apply for an organisation to manage civil, family and tribunal cases'
-      ]) {
+      for (const expectedScreen of backNavigationScreenOrder) {
         await registerOrganisationPage.goBackInWorkflow();
         await expect(signedInPage.getByText(expectedScreen, { exact: true }).first()).toBeVisible();
       }
@@ -43,56 +126,7 @@ test.describe('Register organisation navigation', () => {
       await completeOptionalRegisterOrganisationJourney(registerOrganisationPage, data);
       await expect(registerOrganisationPage.checkYourAnswersHeading).toBeVisible();
 
-      for (const { summaryLabel, expectedScreen } of [
-        {
-          summaryLabel: 'Organisation type',
-          expectedScreen: 'What type of organisation are you registering?'
-        },
-        {
-          summaryLabel: 'Organisation name',
-          expectedScreen: 'What is your organisation name and Companies House number?'
-        },
-        {
-          summaryLabel: 'Company registration number',
-          expectedScreen: 'What is your organisation name and Companies House number?'
-        },
-        {
-          summaryLabel: 'Organisation address',
-          expectedScreen: 'Is this a UK address?'
-        },
-        {
-          summaryLabel: 'What\'s the DX reference for this office?',
-          expectedScreen: 'What\'s the DX reference for this office?'
-        },
-        {
-          summaryLabel: 'Service to access',
-          expectedScreen: 'Which services will your organisation need to access?'
-        },
-        {
-          summaryLabel: 'Does your organisation have a payment by account number?',
-          expectedScreen: 'Does your organisation have a payment by account number?'
-        },
-        {
-          summaryLabel: 'Regulatory organisation type',
-          expectedScreen: 'Who is your organisation registered with?'
-        },
-        {
-          summaryLabel: 'First name(s)',
-          expectedScreen: 'Provide your contact details'
-        },
-        {
-          summaryLabel: 'Last name',
-          expectedScreen: 'Provide your contact details'
-        },
-        {
-          summaryLabel: 'Email address',
-          expectedScreen: 'Provide your contact details'
-        },
-        {
-          summaryLabel: 'What regulators are you (as an individual) registered with?',
-          expectedScreen: 'What regulator are you (as an individual) registered with?'
-        }
-      ]) {
+      for (const { summaryLabel, expectedScreen } of checkYourAnswersChangeLinkDestinations) {
         await registerOrganisationPage.openSummaryChangeLink(summaryLabel);
         await expect(signedInPage.getByText(expectedScreen, { exact: true }).first()).toBeVisible();
         await registerOrganisationPage.openWorkflowPage('check-your-answers');
@@ -110,37 +144,30 @@ test.describe('Register organisation navigation', () => {
       await expect(registerOrganisationPage.checkYourAnswersHeading).toBeVisible();
 
       await registerOrganisationPage.openSummaryChangeLink('Organisation type');
-      await expect(signedInPage.getByText('What type of organisation are you registering?', { exact: true }).first()).toBeVisible();
-
-      await registerOrganisationPage.continueWith();
       await expect(signedInPage.getByText(
-        'What is your organisation name and Companies House number?',
+        registerOrganisationScreenLabels.organisationType,
         { exact: true }
       ).first()).toBeVisible();
 
       await registerOrganisationPage.continueWith();
       await expect(signedInPage.getByText(
-        'What is the registered address of your organisation?',
+        registerOrganisationScreenLabels.organisationName,
+        { exact: true }
+      ).first()).toBeVisible();
+
+      await registerOrganisationPage.continueWith();
+      await expect(signedInPage.getByText(
+        registerOrganisationScreenLabels.registeredAddress,
         { exact: true }
       ).first()).toBeVisible();
 
       await registerOrganisationPage.enterManualUkAddress(data.manualUkAddress);
       await expect(signedInPage.getByText(
-        'Do you have a document exchange reference for your main office?',
+        registerOrganisationScreenLabels.documentExchangeReference,
         { exact: true }
       ).first()).toBeVisible();
 
-      for (const expectedScreen of [
-        'What\'s the DX reference for this office?',
-        'Who is your organisation registered with?',
-        'Which services will your organisation need to access?',
-        'Does your organisation have a payment by account number?',
-        'What PBA numbers does your organisation use?',
-        'Provide your contact details',
-        'Are you (as an individual) registered with a regulator?',
-        'What regulator are you (as an individual) registered with?',
-        'Check your answers before you register'
-      ]) {
+      for (const expectedScreen of continueFromOrganisationTypeChangeScreenOrder) {
         await registerOrganisationPage.continueWith();
         await expect(signedInPage.getByText(expectedScreen, { exact: true }).first()).toBeVisible();
       }

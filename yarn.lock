@@ -12264,12 +12264,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"config@npm:^3.2.5":
-  version: 3.3.12
-  resolution: "config@npm:3.3.12"
+"config@npm:^4.4.1":
+  version: 4.4.1
+  resolution: "config@npm:4.4.1"
   dependencies:
     json5: "npm:^2.2.3"
-  checksum: 10/f7973d1192c98d9b8d49e273bef816b4c74a6bab6e7c500792d3fe239e87fa3a80fac89ee552b7da7e2c3d9f6f8f3568e856f08ebd9861917cf47a655cee3e6a
+  checksum: 10/b237298b107111f88f8b4226c6412298a93052642c8e67a352e36f64be02fb4644351890f57e518338d1491e83064c6fb8fe31f676c7355491ef969e174ec9f1
   languageName: node
   linkType: hard
 
@@ -24389,7 +24389,7 @@ __metadata:
     codeceptjs: "npm:^3.5.6"
     codeceptjs-cucumber-json-reporter: "npm:^1.0.14"
     codelyzer: "npm:^5.1.2"
-    config: "npm:^3.2.5"
+    config: "npm:^4.4.1"
     connect-redis: "npm:^4.0.4"
     cookie-parser: "npm:^1.4.4"
     core-js: "npm:^2.5.4"

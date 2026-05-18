@@ -22,6 +22,7 @@ export {
   assignedCaseRows,
   assignedCaseTypesResponse,
   assignedImmigrationCase,
+  assignedSecondAsylumCase,
   asylumCaseType,
   buildAssignedCaseTypesResponse,
   buildAssignedCasesResponse,

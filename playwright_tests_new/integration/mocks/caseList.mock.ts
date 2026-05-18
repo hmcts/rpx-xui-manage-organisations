@@ -36,6 +36,16 @@ export const assignedAsylumCase = {
   caseTitle: assignedCaseIds[0]
 };
 
+export const assignedSecondAsylumCase = {
+  caseReference: '1234567812345673',
+  caseNumber: '6042075/2023',
+  claimant: 'Avery Jordan',
+  respondent: 'Mrs Test Auto',
+  state: 'Accepted',
+  caseType: asylumCaseType,
+  caseTitle: 'Asylum appeal 5673'
+};
+
 export const assignedImmigrationCase = {
   caseReference: assignedCaseIds[1],
   caseNumber: '6042071/2023',
@@ -87,7 +97,11 @@ const toCaseListRow = (mockCase: typeof assignedAsylumCase | typeof unassignedAs
   case_title: mockCase.caseTitle
 });
 
-export const assignedCaseRows = [assignedAsylumCase, assignedImmigrationCase].map(toCaseListRow);
+export const assignedCaseRows = [
+  assignedAsylumCase,
+  assignedSecondAsylumCase,
+  assignedImmigrationCase
+].map(toCaseListRow);
 export const unassignedCaseRows = [
   unassignedAsylumCase,
   unassignedSecondAsylumCase,

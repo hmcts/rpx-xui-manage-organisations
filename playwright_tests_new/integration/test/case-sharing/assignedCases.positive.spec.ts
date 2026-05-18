@@ -4,6 +4,7 @@ import {
   assignedAsylumCase,
   assignedCaseIds,
   assignedImmigrationCase,
+  assignedSecondAsylumCase,
   asylumCaseType,
   immigrationCaseType,
   manageOrgIntegrationOrganisationName,
@@ -40,7 +41,7 @@ test.describe('Assigned cases', { tag: ['@integration', '@integration-assigned-c
       await expect(assignedCasesPage.filterButton('Hide assigned cases filter')).toBeHidden();
       await expect(assignedCasesPage.caseTypeTab(asylumCaseType)).toBeVisible();
       await expect(assignedCasesPage.caseTypeTab(immigrationCaseType)).toBeVisible();
-      await expect(page.getByText('Showing 1 to 1 of 1 Asylum cases')).toBeVisible();
+      await expect(page.getByText('Showing 1 to 2 of 2 Asylum cases', { exact: true })).toBeVisible();
       await expect(assignedCasesPage.manageCaseSharingButton).toBeDisabled();
 
       await expect.poll(() => routeState.caseTypesRequests.length).toBeGreaterThan(0);
@@ -92,6 +93,7 @@ test.describe('Assigned cases', { tag: ['@integration', '@integration-assigned-c
         )
       ).toBe(true);
       await expect(assignedCasesPage.caseList).toContainText(assignedAsylumCase.caseReference);
+      await expect(assignedCasesPage.caseList).not.toContainText(assignedSecondAsylumCase.caseReference);
       await expect(assignedCasesPage.caseList).not.toContainText(assignedImmigrationCase.caseReference);
 
       await assignedCasesPage.filterRadio('all-assignees').check();
@@ -105,6 +107,7 @@ test.describe('Assigned cases', { tag: ['@integration', '@integration-assigned-c
         )
       ).toBe(true);
       await expect(assignedCasesPage.caseList).toContainText(assignedAsylumCase.caseReference);
+      await expect(assignedCasesPage.caseList).toContainText(assignedSecondAsylumCase.caseReference);
       await expect(assignedCasesPage.caseList).toContainText(assignedAsylumCase.caseNumber);
 
       await assignedCasesPage.hideAssignedCasesFilter();
@@ -117,12 +120,16 @@ test.describe('Assigned cases', { tag: ['@integration', '@integration-assigned-c
       await expect(assignedCasesPage.caseList).toContainText(assignedAsylumCase.caseReference);
       await expect(assignedCasesPage.caseList).toContainText(assignedAsylumCase.caseNumber);
       await expect(assignedCasesPage.caseList).toContainText(assignedAsylumCase.claimant);
+      await expect(assignedCasesPage.caseList).toContainText(assignedSecondAsylumCase.caseReference);
+      await expect(assignedCasesPage.caseList).not.toContainText(assignedImmigrationCase.caseReference);
 
       await assignedCasesPage.openCaseTypeTab(immigrationCaseType);
 
-      await expect(page.getByText('Showing 1 to 1 of 1 Immigration cases')).toBeVisible();
+      await expect(page.getByText('Showing 1 to 1 of 1 Immigration cases', { exact: true })).toBeVisible();
       await expect(assignedCasesPage.caseList).toContainText(assignedImmigrationCase.caseReference);
       await expect(assignedCasesPage.caseList).toContainText(assignedImmigrationCase.caseNumber);
+      await expect(assignedCasesPage.caseList).not.toContainText(assignedAsylumCase.caseReference);
+      await expect(assignedCasesPage.caseList).not.toContainText(assignedSecondAsylumCase.caseReference);
       expect(routeState.caseListRequests).toEqual(
         expect.arrayContaining([
           {

@@ -5,6 +5,7 @@ import type {
 } from '../mocks/caseSharing.mock';
 import {
   assignedCaseTypesResponse,
+  asylumCaseType,
   buildCaseAssignmentSuccessResponse,
   buildAssignedCasesResponse,
   buildUnassignedCasesResponse,
@@ -66,7 +67,7 @@ export const setupUnassignedCaseShareRoutes = async (
 
   await page.route('**/api/caaCases**', async (route) => {
     const url = routeUrl(route.request().url());
-    const caseTypeId = url.searchParams.get('caseTypeId');
+    const caseTypeId = url.searchParams.get('caseTypeId') ?? asylumCaseType;
 
     routeState.caseListRequests.push({
       caaCasesFilterType: url.searchParams.get('caaCasesFilterType'),
@@ -143,11 +144,6 @@ export const setupAssignedCaseRoutes = async (page: Page): Promise<AssignedCaseR
       pageNo: url.searchParams.get('pageNo'),
       pageSize: url.searchParams.get('pageSize')
     });
-
-    if (!caseTypeId) {
-      await fulfillJson(route, { error: 'Missing caseTypeId query parameter' }, 400);
-      return;
-    }
 
     await fulfillJson(route, buildAssignedCasesResponse(caseTypeId));
   });

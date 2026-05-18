@@ -7,7 +7,8 @@ import {
   petSolicitorTwo,
   unassignedAsylumCase,
   unassignedCaseIds,
-  unassignedImmigrationCase
+  unassignedImmigrationCase,
+  unassignedSecondAsylumCase
 } from '../../mocks/caseSharing.mock';
 import { UnassignedCaseSharingPage } from '../../page-objects/case-sharing.po';
 
@@ -35,6 +36,7 @@ test.describe('Unassigned case sharing', { tag: ['@integration', '@integration-c
       await expect(caseSharingPage.caseList).toContainText(unassignedAsylumCase.caseReference);
       await expect(caseSharingPage.caseList).toContainText(unassignedAsylumCase.caseNumber);
       await expect(caseSharingPage.caseList).toContainText(unassignedAsylumCase.claimant);
+      await expect(caseSharingPage.caseList).toContainText(unassignedSecondAsylumCase.caseReference);
 
       await expect.poll(() => routeState.caseTypesRequests.length).toBeGreaterThan(0);
       await expect(routeState.caseTypesRequests[0]).toEqual({
@@ -60,6 +62,8 @@ test.describe('Unassigned case sharing', { tag: ['@integration', '@integration-c
       await expect(caseSharingPage.caseList).toContainText(unassignedImmigrationCase.caseReference);
       await expect(caseSharingPage.caseList).toContainText(unassignedImmigrationCase.caseNumber);
       await expect(caseSharingPage.caseList).toContainText(unassignedImmigrationCase.claimant);
+      await expect(caseSharingPage.caseList).not.toContainText(unassignedAsylumCase.caseReference);
+      await expect(caseSharingPage.caseList).not.toContainText(unassignedSecondAsylumCase.caseReference);
       await expect.poll(() =>
         routeState.caseListRequests.some((request) =>
           request.caaCasesFilterType === 'none' &&
@@ -73,6 +77,9 @@ test.describe('Unassigned case sharing', { tag: ['@integration', '@integration-c
 
       await caseSharingPage.openCaseTypeTab(asylumCaseType);
       await expect(page.getByText('Showing 1 to 2 of 2 Asylum cases')).toBeVisible();
+      await expect(caseSharingPage.caseList).toContainText(unassignedAsylumCase.caseReference);
+      await expect(caseSharingPage.caseList).toContainText(unassignedSecondAsylumCase.caseReference);
+      await expect(caseSharingPage.caseList).not.toContainText(unassignedImmigrationCase.caseReference);
     });
 
     await test.step('Validate the unassigned case reference filter before sharing', async () => {

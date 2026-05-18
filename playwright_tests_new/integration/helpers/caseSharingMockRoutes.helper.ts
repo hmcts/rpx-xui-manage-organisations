@@ -67,7 +67,7 @@ export const setupUnassignedCaseShareRoutes = async (
 
   await page.route('**/api/caaCases**', async (route) => {
     const url = routeUrl(route.request().url());
-    const caseTypeId = url.searchParams.get('caseTypeId') ?? asylumCaseType;
+    const caseTypeId = url.searchParams.get('caseTypeId');
 
     routeState.caseListRequests.push({
       caaCasesFilterType: url.searchParams.get('caaCasesFilterType'),
@@ -134,7 +134,7 @@ export const setupAssignedCaseRoutes = async (page: Page): Promise<AssignedCaseR
 
   await page.route('**/api/caaCases**', async (route) => {
     const url = routeUrl(route.request().url());
-    const caseTypeId = url.searchParams.get('caseTypeId');
+    const caseTypeId = url.searchParams.get('caseTypeId') ?? asylumCaseType;
 
     routeState.caseListRequests.push({
       caaCasesFilterType: url.searchParams.get('caaCasesFilterType'),

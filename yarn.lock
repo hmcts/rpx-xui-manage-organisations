@@ -3407,12 +3407,50 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/ccd-case-ui-toolkit@npm:7.3.48":
-  version: 7.3.48
-  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.3.48"
+"@hmcts/ccd-case-ui-toolkit@npm:7.3.52-exui-4425-rc-6":
+  version: 7.3.52-exui-4425-rc-6
+  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.3.52-exui-4425-rc-6"
   dependencies:
+    "@edium/fsm": "npm:^2.1.2"
+    "@hmcts/ccpay-web-component": "npm:6.5.17"
+    "@hmcts/media-viewer": "npm:4.2.16-exui-4425-rc1"
+    file-saver: "npm:^2.0.2"
+    govuk-frontend: "npm:^4.9.0"
+    lz-string: "npm:^1.5.0"
+    marked: "npm:^12.0.2"
+    pegjs: "npm:^0.10.0"
+    rx-polling-hmcts: "npm:1.1.1"
     tslib: "npm:^2.3.0"
-  checksum: 10/f9d4f6389b6f627d935c998c08e7877b50c8658f9161ca8108370ae9fddedc035d6811b62ca5629ebea3c6227865c8ca4df90924ae7673d521e7b7520a46e0d8
+  peerDependencies:
+    "@angular-material-components/datetime-picker": 16.0.1
+    "@angular-material-components/moment-adapter": 16.0.1
+    "@angular/animations": ^20.3.18
+    "@angular/cdk": 17.3.5
+    "@angular/common": ^20.3.18
+    "@angular/compiler": ^20.3.18
+    "@angular/core": ^20.3.18
+    "@angular/forms": ^20.3.18
+    "@angular/localize": ^20.3.18
+    "@angular/material": ^16.2.0
+    "@angular/platform-browser": ^20.3.18
+    "@angular/platform-browser-dynamic": ^20.3.18
+    "@angular/router": ^20.3.18
+    "@angular/upgrade": ^20.3.18
+    "@ngrx/effects": 17.2.0
+    "@ngrx/store": ^17.2.0
+    "@nicky-lenaers/ngx-scroll-to": ^14.0.0
+    govuk-elements-sass: ^3.1.2
+    moment: ^2.30.1
+    moment-timezone: ^0.5.31
+    ngx-chips: ^3.0.0
+    ngx-markdown: ^20
+    ngx-pagination: 6.0.3
+    rpx-xui-translation: 1.2.0
+    rxjs: ^7.8.1
+    rxjs-compat: ^6.6.7
+    underscore: ^1.9.1
+    zone.js: ^0.15.1
+  checksum: 10/d3293b6ebae9858dd80e2853527b3a6f4f2df642e378955dc6a77a937eb9c728c877ce2cce3e59648ffcb47a1d1d656a6ee205bea3b14e7bdf8336b04d046319
   languageName: node
   linkType: hard
 
@@ -3428,6 +3466,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@hmcts/ccpay-web-component@npm:6.5.17":
+  version: 6.5.17
+  resolution: "@hmcts/ccpay-web-component@npm:6.5.17"
+  dependencies:
+    tslib: "npm:^2.3.0"
+  peerDependencies:
+    "@angular/common": ^20.3.1
+    "@angular/core": ~20.3.1
+  checksum: 10/7be62fd80d676934e2217985ab414f107aeaf8c6e44a9a128d41a856a4417b8ab0b5ba5be57af529a207ac2599c0e47fa52b204b461dc7002dd9d9585a5667df
+  languageName: node
+  linkType: hard
+
 "@hmcts/frontend@npm:0.0.50-alpha":
   version: 0.0.50-alpha
   resolution: "@hmcts/frontend@npm:0.0.50-alpha"
@@ -3435,11 +3485,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/media-viewer@npm:4.2.16":
-  version: 4.2.16
-  resolution: "@hmcts/media-viewer@npm:4.2.16"
+"@hmcts/media-viewer@npm:4.2.16-exui-4425-rc1":
+  version: 4.2.16-exui-4425-rc1
+  resolution: "@hmcts/media-viewer@npm:4.2.16-exui-4425-rc1"
   dependencies:
     "@swimlane/ngx-datatable": "npm:^20.0.0"
+    moment-timezone: "npm:^0.5.28"
     mutable-div: "npm:^2.0.0"
     pdfjs-dist: "npm:^4.10.38"
     socket.io-client: "npm:^4.8.0"
@@ -3447,6 +3498,7 @@ __metadata:
     uuid: "npm:^11.0.3"
   peerDependencies:
     "@angular/animations": ^20.0.0
+    "@angular/cdk": ^17.3.8
     "@angular/common": ^20.0.0
     "@angular/core": ^20.0.0
     "@angular/forms": ^20.0.0
@@ -3456,7 +3508,38 @@ __metadata:
     "@ngrx/router-store": ^20
     "@ngrx/store": ^20
     "@ngrx/store-devtools": ^20
-  checksum: 10/3f49d013cf857a4d07c5a59722855ac348f0eead29203575824595211ab9d4af5ef0bc77cc0366c170206ffe09e6be33b46b4d1f43392dc3ee40552695334acb
+    ngx-chips: 3.0.0
+    rpx-xui-translation: 1.1.2-CME-780-9
+    rxjs: ^7.8.1
+  checksum: 10/2490a95a5d671dc288b8c66c982ea190ecca740fcee51842733f5ac580eaa0378d363bed1704613b109b859f0e309848254ba4f2fa18111b1b42ad20628bc880
+  languageName: node
+  linkType: hard
+
+"@hmcts/media-viewer@npm:4.2.18-exui-4425-rc1":
+  version: 4.2.18-exui-4425-rc1
+  resolution: "@hmcts/media-viewer@npm:4.2.18-exui-4425-rc1"
+  dependencies:
+    "@swimlane/ngx-datatable": "npm:^20.0.0"
+    moment-timezone: "npm:^0.5.28"
+    mutable-div: "npm:^2.0.0"
+    pdfjs-dist: "npm:^4.10.38"
+    socket.io-client: "npm:^4.8.0"
+    tslib: "npm:^2.3.0"
+    uuid: "npm:^11.0.3"
+  peerDependencies:
+    "@angular/animations": ^20.0.0
+    "@angular/cdk": ^17.3.8
+    "@angular/common": ^20.0.0
+    "@angular/core": ^20.0.0
+    "@angular/forms": ^20.0.0
+    "@angular/platform-browser": ^20.0.0
+    "@ngrx/effects": ^20
+    "@ngrx/store": ^20
+    "@ngrx/store-devtools": ^20
+    ngx-chips: 3.0.0
+    rpx-xui-translation: 1.1.2-CME-780-9
+    rxjs: ^7.8.1
+  checksum: 10/f05736a7f314d6b3c5345a0111bca081890f61fa4f53103380ab6d6f04a7b5ac7116fc62e5f69d92addc317cdbf48779e0b84c87e68c274f2ceee79296ed72c2
   languageName: node
   linkType: hard
 
@@ -3533,16 +3616,34 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-common-lib@npm:3.2.8":
-  version: 3.2.8
-  resolution: "@hmcts/rpx-xui-common-lib@npm:3.2.8"
+"@hmcts/rpx-xui-common-lib@npm:3.2.9-exui-4425-rc-2":
+  version: 3.2.9-exui-4425-rc-2
+  resolution: "@hmcts/rpx-xui-common-lib@npm:3.2.9-exui-4425-rc-2"
   dependencies:
+    "@hmcts/frontend": "npm:0.0.50-alpha"
+    core-js: "npm:^3.37.0"
+    govuk-frontend: "npm:4.9.0"
     tslib: "npm:^2.0.0"
   peerDependencies:
+    "@angular/animations": ^20.3.18
+    "@angular/cdk": 16.2.0
+    "@angular/common": ^20.3.18
+    "@angular/compiler": ^20.3.18
+    "@angular/core": ^20.3.18
+    "@angular/forms": ^20.3.18
+    "@angular/localize": ^20.3.18
+    "@angular/material": 16.2.0
+    "@angular/platform-browser": ^20.3.18
+    "@angular/platform-browser-dynamic": ^20.3.18
+    "@angular/router": ^20.3.18
+    "@ng-idle/core": ^16.0.0
+    "@ng-idle/keepalive": ^16.0.0
     launchdarkly-js-client-sdk: ^3.3.0
     ngx-pagination: ^3.2.1
     rpx-xui-translation: 1.1.2-CME-780-9
-  checksum: 10/4e48b962f867ee137fca5415e6f465cc3c68ed7845a925565b423711a32e032ac8b3af39923439653f6200391f75f089ab49f795743e1ef0a11a934aafeee331
+    rxjs: ^7.8.1
+    zone.js: ~0.15.1
+  checksum: 10/371ec0e1a1a1744e53a97efc726dd5e0265d883b9e7959cb2dc3eec4eee337b10b47363950f34c8f4892c7e7f081b8bbc2f3c3313f5a6c5ea13000be6aa443c2
   languageName: node
   linkType: hard
 
@@ -12464,6 +12565,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"core-js@npm:^3.37.0":
+  version: 3.49.0
+  resolution: "core-js@npm:3.49.0"
+  checksum: 10/31d018f9830b0240ae40869e380595f2d06a8800709ad63299a42a438ba0c8d5805045fa02a20a78f42761d83103b0b71eca982955f5e890fb7cf6b2fe6a9ab1
+  languageName: node
+  linkType: hard
+
 "core-util-is@npm:1.0.2":
   version: 1.0.2
   resolution: "core-util-is@npm:1.0.2"
@@ -13629,10 +13737,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dexie@npm:^3.2.2":
-  version: 3.2.7
-  resolution: "dexie@npm:3.2.7"
-  checksum: 10/e70dae162b1589ff02b98810d1cdc157be0e0f66710be28ab2477db4ccd5cc7364f8c681e3f21883c3835ea800f8100ec975b015fa3ac6cdcb5686d187b31043
+"dexie@npm:^4.0.8":
+  version: 4.4.2
+  resolution: "dexie@npm:4.4.2"
+  checksum: 10/29736168a74f3c840e7ec9f7fdd4abf695824a4c55f097c12a7d63c096286557663609301f6d9a36874bc82548c630de9d27ba4cd33a71d1cdc07b1a1298616e
   languageName: node
   linkType: hard
 
@@ -16355,6 +16463,20 @@ __metadata:
   version: 4.7.0
   resolution: "govuk-frontend@npm:4.7.0"
   checksum: 10/f97dbe62e77ba74b88f80afa597faaf89453d077c7c97b452107f531a8f2432d9daafdb05895bea1713532a77a1bbe2af7f648df0f6c5a25fb6b86825b55acf0
+  languageName: node
+  linkType: hard
+
+"govuk-frontend@npm:4.9.0":
+  version: 4.9.0
+  resolution: "govuk-frontend@npm:4.9.0"
+  checksum: 10/03bae503b0c5aabcfb2724409f55f2221101a60f5334488319c9911408637efaa6737b733d4774436a520e9a79bf52bd9ae9a9e60f61a929c529b8125c0d5e29
+  languageName: node
+  linkType: hard
+
+"govuk-frontend@npm:^4.9.0":
+  version: 4.10.1
+  resolution: "govuk-frontend@npm:4.10.1"
+  checksum: 10/7fc16896b73134d227e3c8f6ed4017015293dd12e81262b6dea30b97156727523fb6c133f95f34461846a32cafe516cccf1d94100d936ae1c48a9059177e79cc
   languageName: node
   linkType: hard
 
@@ -19465,7 +19587,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"luxon@npm:^2.4.0":
+"luxon@npm:^2.5.2":
   version: 2.5.2
   resolution: "luxon@npm:2.5.2"
   checksum: 10/9090506a702dac0edefbe87ad29836a842721b2ae255974b410ca705766502173b773ddfd1c918b2e19041679e2659b811d23085f8b23e28be54f063e6c1237a
@@ -24334,14 +24456,14 @@ __metadata:
     "@angular/router": "npm:^20.3.18"
     "@circlon/angular-tree-component": "npm:^11.0.4"
     "@edium/fsm": "npm:^2.1.2"
-    "@hmcts/ccd-case-ui-toolkit": "npm:7.3.48"
+    "@hmcts/ccd-case-ui-toolkit": "npm:7.3.52-exui-4425-rc-6"
     "@hmcts/ccpay-web-component": "npm:6.5.14"
     "@hmcts/frontend": "npm:0.0.50-alpha"
-    "@hmcts/media-viewer": "npm:4.2.16"
+    "@hmcts/media-viewer": "npm:4.2.18-exui-4425-rc1"
     "@hmcts/nodejs-healthcheck": "npm:^1.8.6"
     "@hmcts/playwright-common": "npm:^1.1.2"
     "@hmcts/properties-volume": "npm:0.0.13"
-    "@hmcts/rpx-xui-common-lib": "npm:3.2.8"
+    "@hmcts/rpx-xui-common-lib": "npm:3.2.9-exui-4425-rc-2"
     "@hmcts/rpx-xui-node-lib": "npm:2.30.12"
     "@microsoft/applicationinsights-web": "npm:^3.3.9"
     "@ng-idle/core": "npm:^16.0.0"
@@ -24460,7 +24582,7 @@ __metadata:
     puppeteer: "npm:^22.4.1"
     redis: "npm:^3.0.2"
     rest-assured: "npm:^0.1.0"
-    rpx-xui-translation: "npm:1.2.0-angular-20.3.14"
+    rpx-xui-translation: "npm:1.2.3-exui-4425-rc-2"
     rx-polling-hmcts: "npm:^1.1.1"
     rxjs: "npm:^7.8.1"
     rxjs-compat: "npm:^6.4.0"
@@ -24491,17 +24613,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"rpx-xui-translation@npm:1.2.0-angular-20.3.14":
-  version: 1.2.0-angular-20.3.14
-  resolution: "rpx-xui-translation@npm:1.2.0-angular-20.3.14"
+"rpx-xui-translation@npm:1.2.3-exui-4425-rc-2":
+  version: 1.2.3-exui-4425-rc-2
+  resolution: "rpx-xui-translation@npm:1.2.3-exui-4425-rc-2"
   dependencies:
-    dexie: "npm:^3.2.2"
-    luxon: "npm:^2.4.0"
+    dexie: "npm:^4.0.8"
+    luxon: "npm:^2.5.2"
     tslib: "npm:^2.0.0"
   peerDependencies:
-    "@angular/common": ^20.3.14
-    "@angular/core": ^20.3.14
-  checksum: 10/6c66db44fdcbc1bcf95ff219db399b7b6e3db6832870247c63f402efe4c156ee8e8888b33dc2da991264d66598e2064adc9df9a8fbf1a4ede431193cfc705ec5
+    "@angular/common": ^20.3.18
+    "@angular/core": ^20.3.18
+    rxjs: ^7.8.0
+  checksum: 10/d7c83109c68ddaaa2fd8f9e9915aba8fe094318c5f2a997085f8eb9a277b09214a726d66854beb2108fb10a33ad7d10b5282999f859c288a3672123f8de94e9b
   languageName: node
   linkType: hard
 
@@ -24544,7 +24667,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rx-polling-hmcts@npm:^1.1.1":
+"rx-polling-hmcts@npm:1.1.1, rx-polling-hmcts@npm:^1.1.1":
   version: 1.1.1
   resolution: "rx-polling-hmcts@npm:1.1.1"
   dependencies:

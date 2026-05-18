@@ -4,87 +4,40 @@ import type {
   CaseSharingSharedCase
 } from '../mocks/caseSharing.mock';
 import {
-  assignedCaseTypesResponse,
-  asylumCaseType,
+  buildAssignedSharedCases,
   buildCaseAssignmentSuccessResponse,
-  buildAssignedCasesResponse,
-  buildUnassignedCasesResponse,
-  buildSharedCases,
-  petSolicitorTwo,
-  unassignedCaseTypesResponse
+  buildUnassignedSharedCases,
+  caseShareAssignableUsers
 } from '../mocks/caseSharing.mock';
 import { fulfillJson } from './manageOrgBaseRoutes.helper';
+import {
+  type CaaCaseListRouteState,
+  setupAssignedCaseListRoutes,
+  setupUnassignedCaseListRoutes
+} from './caaCaseListMockRoutes.helper';
 
-interface CaseTypesRequest {
-  caaCasesFilterType: string | null;
-  caaCasesPageType: string | null;
-  method: string;
-}
-
-interface CaseListRequest extends CaseTypesRequest {
-  caseTypeId: string | null;
-  pageNo: string | null;
-  pageSize: string | null;
-}
-
-export interface UnassignedCaseShareRouteState {
+interface CaseShareRouteOnlyState {
   assignmentResponses: CaseSharingSharedCase[][];
-  caseListRequests: CaseListRequest[];
-  caseTypesRequests: CaseTypesRequest[];
   loadedShareCaseIds: string[][];
   submittedAssignments: CaseAssignmentsRequest[];
 }
 
-export interface AssignedCaseRouteState {
-  caseListRequests: CaseListRequest[];
-  caseTypesRequests: CaseTypesRequest[];
-}
+export type CaseShareRouteState = CaaCaseListRouteState & CaseShareRouteOnlyState;
+export type UnassignedCaseShareRouteState = CaseShareRouteState;
+export type AssignedCaseShareRouteState = CaseShareRouteState;
+export type AssignedCaseRouteState = CaaCaseListRouteState;
 
 const routeUrl = (requestUrl: string): URL => new URL(requestUrl);
 
-export const setupUnassignedCaseShareRoutes = async (
-  page: Page
-): Promise<UnassignedCaseShareRouteState> => {
-  const routeState: UnassignedCaseShareRouteState = {
+const setupCaseShareRoutes = async (
+  page: Page,
+  buildSharedCases: (caseIds: string[]) => CaseSharingSharedCase[]
+): Promise<CaseShareRouteOnlyState> => {
+  const routeState: CaseShareRouteOnlyState = {
     assignmentResponses: [],
-    caseListRequests: [],
-    caseTypesRequests: [],
     loadedShareCaseIds: [],
     submittedAssignments: []
   };
-
-  await page.route('**/api/caaCaseTypes**', async (route) => {
-    const url = routeUrl(route.request().url());
-
-    routeState.caseTypesRequests.push({
-      caaCasesFilterType: url.searchParams.get('caaCasesFilterType'),
-      caaCasesPageType: url.searchParams.get('caaCasesPageType'),
-      method: route.request().method()
-    });
-
-    await fulfillJson(route, unassignedCaseTypesResponse);
-  });
-
-  await page.route('**/api/caaCases**', async (route) => {
-    const url = routeUrl(route.request().url());
-    const caseTypeId = url.searchParams.get('caseTypeId');
-
-    routeState.caseListRequests.push({
-      caaCasesFilterType: url.searchParams.get('caaCasesFilterType'),
-      caaCasesPageType: url.searchParams.get('caaCasesPageType'),
-      caseTypeId,
-      method: route.request().method(),
-      pageNo: url.searchParams.get('pageNo'),
-      pageSize: url.searchParams.get('pageSize')
-    });
-
-    if (!caseTypeId) {
-      await fulfillJson(route, { error: 'Missing caseTypeId query parameter' }, 400);
-      return;
-    }
-
-    await fulfillJson(route, buildUnassignedCasesResponse(caseTypeId));
-  });
 
   await page.route('**/api/caseshare/cases**', async (route) => {
     const url = routeUrl(route.request().url());
@@ -98,7 +51,7 @@ export const setupUnassignedCaseShareRoutes = async (
   });
 
   await page.route('**/api/caseshare/users**', async (route) =>
-    fulfillJson(route, [petSolicitorTwo])
+    fulfillJson(route, caseShareAssignableUsers)
   );
 
   await page.route('**/api/caseshare/case-assignments**', async (route) => {
@@ -114,39 +67,19 @@ export const setupUnassignedCaseShareRoutes = async (
   return routeState;
 };
 
-export const setupAssignedCaseRoutes = async (page: Page): Promise<AssignedCaseRouteState> => {
-  const routeState: AssignedCaseRouteState = {
-    caseListRequests: [],
-    caseTypesRequests: []
-  };
+export const setupUnassignedCaseShareRoutes = async (
+  page: Page
+): Promise<UnassignedCaseShareRouteState> => ({
+  ...(await setupUnassignedCaseListRoutes(page)),
+  ...(await setupCaseShareRoutes(page, buildUnassignedSharedCases))
+});
 
-  await page.route('**/api/caaCaseTypes**', async (route) => {
-    const url = routeUrl(route.request().url());
+export const setupAssignedCaseShareRoutes = async (
+  page: Page
+): Promise<AssignedCaseShareRouteState> => ({
+  ...(await setupAssignedCaseListRoutes(page)),
+  ...(await setupCaseShareRoutes(page, buildAssignedSharedCases))
+});
 
-    routeState.caseTypesRequests.push({
-      caaCasesFilterType: url.searchParams.get('caaCasesFilterType'),
-      caaCasesPageType: url.searchParams.get('caaCasesPageType'),
-      method: route.request().method()
-    });
-
-    await fulfillJson(route, assignedCaseTypesResponse);
-  });
-
-  await page.route('**/api/caaCases**', async (route) => {
-    const url = routeUrl(route.request().url());
-    const caseTypeId = url.searchParams.get('caseTypeId') ?? asylumCaseType;
-
-    routeState.caseListRequests.push({
-      caaCasesFilterType: url.searchParams.get('caaCasesFilterType'),
-      caaCasesPageType: url.searchParams.get('caaCasesPageType'),
-      caseTypeId,
-      method: route.request().method(),
-      pageNo: url.searchParams.get('pageNo'),
-      pageSize: url.searchParams.get('pageSize')
-    });
-
-    await fulfillJson(route, buildAssignedCasesResponse(caseTypeId));
-  });
-
-  return routeState;
-};
+export const setupAssignedCaseRoutes = async (page: Page): Promise<AssignedCaseRouteState> =>
+  setupAssignedCaseListRoutes(page);

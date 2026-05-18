@@ -4,7 +4,10 @@ import type {
   CaseSharingSharedCase
 } from '../mocks/caseSharing.mock';
 import {
+  assignedCaseTypesResponse,
+  asylumCaseType,
   buildCaseAssignmentSuccessResponse,
+  buildAssignedCasesResponse,
   buildSharedCases,
   petSolicitorTwo,
   unassignedCasesResponse,
@@ -30,6 +33,11 @@ export interface UnassignedCaseShareRouteState {
   caseTypesRequests: CaseTypesRequest[];
   loadedShareCaseIds: string[][];
   submittedAssignments: CaseAssignmentsRequest[];
+}
+
+export interface AssignedCaseRouteState {
+  caseListRequests: CaseListRequest[];
+  caseTypesRequests: CaseTypesRequest[];
 }
 
 const routeUrl = (requestUrl: string): URL => new URL(requestUrl);
@@ -95,6 +103,43 @@ export const setupUnassignedCaseShareRoutes = async (
     routeState.assignmentResponses.push(responseBody);
 
     await fulfillJson(route, responseBody);
+  });
+
+  return routeState;
+};
+
+export const setupAssignedCaseRoutes = async (page: Page): Promise<AssignedCaseRouteState> => {
+  const routeState: AssignedCaseRouteState = {
+    caseListRequests: [],
+    caseTypesRequests: []
+  };
+
+  await page.route('**/api/caaCaseTypes**', async (route) => {
+    const url = routeUrl(route.request().url());
+
+    routeState.caseTypesRequests.push({
+      caaCasesFilterType: url.searchParams.get('caaCasesFilterType'),
+      caaCasesPageType: url.searchParams.get('caaCasesPageType'),
+      method: route.request().method()
+    });
+
+    await fulfillJson(route, assignedCaseTypesResponse);
+  });
+
+  await page.route('**/api/caaCases**', async (route) => {
+    const url = routeUrl(route.request().url());
+    const caseTypeId = url.searchParams.get('caseTypeId') ?? asylumCaseType;
+
+    routeState.caseListRequests.push({
+      caaCasesFilterType: url.searchParams.get('caaCasesFilterType'),
+      caaCasesPageType: url.searchParams.get('caaCasesPageType'),
+      caseTypeId,
+      method: route.request().method(),
+      pageNo: url.searchParams.get('pageNo'),
+      pageSize: url.searchParams.get('pageSize')
+    });
+
+    await fulfillJson(route, buildAssignedCasesResponse(caseTypeId));
   });
 
   return routeState;

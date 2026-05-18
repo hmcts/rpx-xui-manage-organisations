@@ -44,7 +44,7 @@
     "start:node": "cd api && yarn watch",
     "start:node:docker": "PUI_ENV=ldocker;cd api && yarn watch",
     "test": "yarn test:ng",
-    "test:a11y": "echo ran in later step",
+    "test:a11y": "sh -c 'if [ \"${1:-}\" = \"--\" ]; then shift; fi; yarn test:a11y:playwright \"$@\"' --",
     "test:a11y:playwright": "sh -c 'if [ \"${1:-}\" = \"--\" ]; then shift; fi; PLAYWRIGHT_INCLUDE_A11Y=true PLAYWRIGHT_HTML_OUTPUT=${PLAYWRIGHT_HTML_OUTPUT:-functional-output/tests/playwright-a11y/html-report} PLAYWRIGHT_JUNIT_OUTPUT=${PLAYWRIGHT_JUNIT_OUTPUT:-functional-output/tests/playwright-a11y/playwright-a11y-junit.xml} PLAYWRIGHT_REPORT_FOLDER=${PLAYWRIGHT_REPORT_FOLDER:-functional-output/tests/playwright-a11y/odhin-report} PLAYWRIGHT_REPORT_INDEX_FILENAME=${PLAYWRIGHT_REPORT_INDEX_FILENAME:-xui-playwright-a11y.html} PLAYWRIGHT_REPORT_PROJECT=${PLAYWRIGHT_REPORT_PROJECT:-RPX XUI Manage Organisations - A11y} PLAYWRIGHT_REPORT_TITLE=${PLAYWRIGHT_REPORT_TITLE:-RPX XUI Manage Organisations Playwright A11y} yarn test:playwrightE2E:raw -- --grep @a11y \"$@\"' --",
     "test:a11yInTest": "yarn build && yarn patch:static && cross-env EXTERNAL_SERVERS=true WEB_BASE_URL=http://localhost:3000 bash -c 'node test_codecept/backendMock/configCopy.js & npx wait-on http://localhost:3000/external/configuration-ui/ && SSR_ALREADY_RUNNING=true NODE_CONFIG_ENV=mock TEST_TYPE=a11y PARALLEL=false npx codeceptjs run --config ./test_codecept/codeceptCommon/codeceptA11y.conf.ts'",
     "test:api": "ts-node ./test_codecept/integration/tests/test.ts",

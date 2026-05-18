@@ -113,6 +113,23 @@ def publishPlaywrightIntegrationReport = { String reportName ->
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-integration/**,test-results/**/*'
 }
 
+def publishPlaywrightA11yReport = { String reportName ->
+    ensureHtmlReportForPublishing(
+        "functional-output/tests/playwright-a11y/odhin-report",
+        'xui-playwright-a11y.html',
+        reportName
+    )
+    publishHTML([
+        allowMissing         : true,
+        alwaysLinkToLastBuild: true,
+        keepAll              : true,
+        reportDir            : "functional-output/tests/playwright-a11y/odhin-report",
+        reportFiles          : 'xui-playwright-a11y.html',
+        reportName           : reportName
+    ])
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-a11y/**,test-results/**/*'
+}
+
 def secrets = [
   'rpx-${env}': [
     secret('test-user1-email', 'TEST_USER1_EMAIL'),
@@ -258,6 +275,25 @@ withNightlyPipeline(type, product, component) {
                             throw e
                         } finally {
                             publishPlaywrightIntegrationReport('Nightly Manage Org Playwright Integration')
+                        }
+                    }
+                },
+                playwrightA11y: {
+                    stage('Playwright Accessibility Tests') {
+                        try {
+                            withEnv([
+                                "FUNCTIONAL_TESTS_WORKERS=1",
+                                "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
+                                "PLAYWRIGHT_SKIP_INSTALL=true"
+                            ]) {
+                                yarnBuilder.yarn('test:a11y')
+                            }
+                        } catch (Exception e) {
+                            echo "[failFast] Playwright Accessibility Tests catch: ${e.getClass().getName()}: ${e.getMessage()}"
+                            if (handleFailFastAbort(e)) { return }
+                            throw e
+                        } finally {
+                            publishPlaywrightA11yReport('Nightly Manage Org Playwright A11y')
                         }
                     }
                 },

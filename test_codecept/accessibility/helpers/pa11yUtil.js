@@ -1,5 +1,4 @@
 const pa11y = require('pa11y');
-const assert = require('assert');
 const { conf } = require('../config/config');
 
 const jwt = require('jsonwebtoken');
@@ -14,11 +13,26 @@ const fs = require('fs');
 let testBrowser = null;
 let page = null;
 
+class A11yViolationError extends Error {
+  constructor(issueCount) {
+    super("a11y issues reported: " + issueCount);
+    this.name = 'A11yViolationError';
+  }
+}
 
 let sessionCookies = [];
 
+function getA11yCredentials() {
+  const { username, password } = conf.params;
+  if (!username || !password) {
+    throw new Error('A11y login credentials are not configured');
+  }
+  return { username, password };
+}
+
 async function initBrowser() {
-  idamLogin.withCredentials('TEST_SOLICITOR@mailinator.com', 'genericPassword123')
+  const { username, password } = getA11yCredentials();
+  idamLogin.withCredentials(username, password)
   await idamLogin.do()
   testBrowser = await puppeteer.launch({
     ignoreHTTPSErrors: false,
@@ -31,7 +45,10 @@ async function initBrowser() {
   });
   page = await testBrowser.newPage();
   await page.goto("http://localhost:3000/get-help");
-  const cookies = idamLogin.xuiCallbackResponse.details.setCookies;
+  const cookies = idamLogin.xuiCallbackResponse.details?.setCookies;
+  if (!Array.isArray(cookies) || cookies.length === 0) {
+    throw new Error('A11y login did not return session cookies');
+  }
   sessionCookies = cookies;
   for (let cookie of cookies) {
     await page.setCookie({ name: cookie.name, value: cookie.value })
@@ -50,20 +67,27 @@ async function pa11ytest(test, actions, startUrl, roles) {
   }
   let isTestSuccess = false;
   let retryCounter = 0;
+  let lastError;
   test.screenshots = [];
   test.steps = actions;
   while (!isTestSuccess && retryCounter < 3) {
 
     try {
-      await pa11ytestRunner(test, actions, startUrl, roles);
+      const result = await pa11ytestRunner(test, actions, startUrl, roles);
       isTestSuccess = true;
+      return result;
     } catch (err) {
+      lastError = err;
       retryCounter++;
+      if (err instanceof A11yViolationError) {
+        throw err;
+      }
       console.log("Error running pally test " + err);
       console.log("Retrying test again for " + retryCounter);
     }
   }
   console.log(test.screenshots);
+  throw lastError || new Error('pa11y test failed after retries');
 }
 
 async function pa11ytestRunner(test, actions, startUrl, roles) {
@@ -137,7 +161,9 @@ async function pa11ytestRunner(test, actions, startUrl, roles) {
   test.a11yResult = result;
   console.log("Test Execution time : " + elapsedTime);
   if (conf.failTestOna11yIssues) {
-    assert(result.issues.length === 0, "a11y issues reported")
+    if (result.issues.length > 0) {
+      throw new A11yViolationError(result.issues.length);
+    }
   }
   result.steps = actions
 

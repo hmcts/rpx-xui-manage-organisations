@@ -264,17 +264,19 @@ withPipeline(type, product, component) {
             reportName           : "ng coverage tests"
         ])
 
+    }
+
+    afterAlways('test') {
         publishHTML([
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "reports/tests/a11y/",
-            reportFiles          : 'Report.html',
+            reportDir            : "functional-output/tests/codecept-a11y/",
+            reportFiles          : 'Report.html,index.html',
             reportName           : 'Manage Org a11y Test'
         ])
 
-
-
+        steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/codecept-a11y/**'
 
     }
 

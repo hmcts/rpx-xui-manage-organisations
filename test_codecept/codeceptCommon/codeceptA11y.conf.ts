@@ -134,10 +134,6 @@ exports.config = {
   },
   include: {
   },
-  retry: {
-    Feature: 3
-
-  },
   bootstrap: async () => {
     if (testType === "a11y" && !parallel) {
       await setup()
@@ -182,7 +178,6 @@ async function teardown() {
     await applicationServer.stop();
   }
   await generateReport()
-  process.exit(0);
 }
 
 async function generateReport() {

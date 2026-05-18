@@ -72,7 +72,21 @@ export class RegisterOrganisationPage extends BasePage {
   }
 
   public async continueWith(buttonName = 'Continue'): Promise<void> {
+    await this.waitForLoader();
     await this.page.getByRole('button', { name: buttonName }).click();
+    await this.waitForLoader();
+  }
+
+  public async goBackInWorkflow(): Promise<void> {
+    await this.waitForLoader();
+    await this.clickBackControl();
+    await this.waitForLoader();
+  }
+
+  public async openSummaryChangeLink(label: string | RegExp): Promise<void> {
+    await this.waitForLoader();
+    await this.summaryChangeLink(label).click();
+    await this.waitForLoader();
   }
 
   public async startRegistration(): Promise<void> {
@@ -240,6 +254,20 @@ export class RegisterOrganisationPage extends BasePage {
 
   private pbaNumberInput(index: number): Locator {
     return this.page.locator(`#pba-number-${index}`);
+  }
+
+  private async waitForLoader(): Promise<void> {
+    await this.page.locator('app-loader .overlay').waitFor({ state: 'hidden' });
+  }
+
+  private async clickBackControl(): Promise<void> {
+    const backButton = this.page.getByRole('button', { name: 'Back', exact: true }).first();
+    if (await backButton.isVisible()) {
+      await backButton.click();
+      return;
+    }
+
+    await this.page.getByRole('link', { name: 'Back', exact: true }).first().click();
   }
 
   private async fillManualAddress(address: RegisterOrganisationAddress): Promise<void> {

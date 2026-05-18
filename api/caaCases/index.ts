@@ -40,7 +40,7 @@ export async function handleCaaCases(req: EnhancedRequest, res: Response, next: 
 
     const response = await req.http.post(path, payload);
     if (!objectContainsOnlySafeCharacters(response.data)) {
-      return res.send('Invalid caa case data').status(400);
+      return res.status(400).send('Invalid caa case data');
     }
     const caaCases = mapCcdCases(caseTypeId, response.data);
     res.send(caaCases);

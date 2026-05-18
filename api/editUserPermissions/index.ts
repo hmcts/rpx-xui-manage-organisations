@@ -9,7 +9,7 @@ const logger = log4jui.getLogger('outgoing');
 
 router.put('', inviteUserRoute);
 
-async function inviteUserRoute(req: Request, res: Response) {
+async function inviteUserRoute(req: Request<{ userId: string }>, res: Response) {
   let errReport: ErrorReport;
   if (!req.params.userId) {
     errReport = getErrorReport('UserId is missing', '400', 'User Permissions route error');

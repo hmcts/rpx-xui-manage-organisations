@@ -2,9 +2,13 @@ import { expect, test } from '../../fixtures';
 import { setupUnassignedCaseShareRoutes } from '../../helpers';
 import {
   asylumCaseType,
+  immigrationCaseType,
   manageOrgIntegrationOrganisationName,
   petSolicitorTwo,
-  unassignedCaseIds
+  unassignedAsylumCase,
+  unassignedCaseIds,
+  unassignedImmigrationCase,
+  unassignedSecondAsylumCase
 } from '../../mocks/caseSharing.mock';
 import { UnassignedCaseSharingPage } from '../../page-objects/case-sharing.po';
 
@@ -23,9 +27,16 @@ test.describe('Unassigned case sharing', { tag: ['@integration', '@integration-c
 
       await expect(caseSharingPage.unassignedCasesHeading).toBeVisible();
       await expect(page.getByText(manageOrgIntegrationOrganisationName)).toBeVisible();
-      await expect(caseSharingPage.asylumTab(asylumCaseType)).toBeVisible();
+      await expect(caseSharingPage.filterButton('Show unassigned cases filter')).toBeVisible();
+      await expect(caseSharingPage.filterButton('Hide unassigned cases filter')).toBeHidden();
+      await expect(caseSharingPage.caseTypeTab(asylumCaseType)).toBeVisible();
+      await expect(caseSharingPage.caseTypeTab(immigrationCaseType)).toBeVisible();
       await expect(caseSharingPage.shareCaseButton).toBeDisabled();
-      await expect(page.getByText('Showing 1 to 2 of 2 Asylum cases')).toBeVisible();
+      await expect(page.getByText('Showing 1 to 2 of 2 Asylum cases', { exact: true })).toBeVisible();
+      await expect(caseSharingPage.caseList).toContainText(unassignedAsylumCase.caseReference);
+      await expect(caseSharingPage.caseList).toContainText(unassignedAsylumCase.caseNumber);
+      await expect(caseSharingPage.caseList).toContainText(unassignedAsylumCase.claimant);
+      await expect(caseSharingPage.caseList).toContainText(unassignedSecondAsylumCase.caseReference);
 
       await expect.poll(() => routeState.caseTypesRequests.length).toBeGreaterThan(0);
       await expect(routeState.caseTypesRequests[0]).toEqual({
@@ -42,6 +53,59 @@ test.describe('Unassigned case sharing', { tag: ['@integration', '@integration-c
         pageNo: '1',
         pageSize: '25'
       });
+    });
+
+    await test.step('Render unassigned case data for each case-type tab', async () => {
+      await caseSharingPage.openCaseTypeTab(immigrationCaseType);
+
+      await expect(page.getByText('Showing 1 to 1 of 1 Immigration cases', { exact: true })).toBeVisible();
+      await expect(caseSharingPage.caseList).toContainText(unassignedImmigrationCase.caseReference);
+      await expect(caseSharingPage.caseList).toContainText(unassignedImmigrationCase.caseNumber);
+      await expect(caseSharingPage.caseList).toContainText(unassignedImmigrationCase.claimant);
+      await expect(caseSharingPage.caseList).not.toContainText(unassignedAsylumCase.caseReference);
+      await expect(caseSharingPage.caseList).not.toContainText(unassignedSecondAsylumCase.caseReference);
+      await expect.poll(() =>
+        routeState.caseListRequests.some((request) =>
+          request.caaCasesFilterType === 'none' &&
+          request.caaCasesPageType === 'unassigned-cases' &&
+          request.caseTypeId === immigrationCaseType &&
+          request.method === 'POST' &&
+          request.pageNo === '1' &&
+          request.pageSize === '25'
+        )
+      ).toBe(true);
+
+      await caseSharingPage.openCaseTypeTab(asylumCaseType);
+      await expect(page.getByText('Showing 1 to 2 of 2 Asylum cases', { exact: true })).toBeVisible();
+      await expect(caseSharingPage.caseList).toContainText(unassignedAsylumCase.caseReference);
+      await expect(caseSharingPage.caseList).toContainText(unassignedSecondAsylumCase.caseReference);
+      await expect(caseSharingPage.caseList).not.toContainText(unassignedImmigrationCase.caseReference);
+    });
+
+    await test.step('Validate the unassigned case reference filter before sharing', async () => {
+      await caseSharingPage.showUnassignedCasesFilter();
+
+      await expect(caseSharingPage.filterButton('Hide unassigned cases filter')).toBeVisible();
+      await expect(caseSharingPage.filterButton('Show unassigned cases filter')).toBeHidden();
+
+      const caseTypesRequestCount = routeState.caseTypesRequests.length;
+      const caseListRequestCount = routeState.caseListRequests.length;
+
+      await caseSharingPage.applyFilter();
+
+      await expect(page.getByRole('alert', { name: 'There is a problem' })).toContainText(
+        'Enter a valid HMCTS case reference number'
+      );
+      await expect(caseSharingPage.caseReferenceError).toContainText(
+        'Enter a valid HMCTS case reference number'
+      );
+      expect(routeState.caseTypesRequests).toHaveLength(caseTypesRequestCount);
+      expect(routeState.caseListRequests).toHaveLength(caseListRequestCount);
+
+      await caseSharingPage.hideUnassignedCasesFilter();
+
+      await expect(caseSharingPage.filterButton('Show unassigned cases filter')).toBeVisible();
+      await expect(caseSharingPage.filterButton('Hide unassigned cases filter')).toBeHidden();
     });
 
     await test.step('Select two cases and open the share journey', async () => {

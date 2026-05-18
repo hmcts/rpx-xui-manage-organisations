@@ -4,6 +4,8 @@ const escapeRegExp = (value: string): string => value.replace(/[.*+?^${}()|[\]\\
 
 export class UnassignedCaseSharingPage {
   public readonly addUserButton: Locator;
+  public readonly applyFilterButton: Locator;
+  public readonly caseReferenceError: Locator;
   public readonly confirmButton: Locator;
   public readonly continueButton: Locator;
   public readonly recipientSearchInput: Locator;
@@ -13,6 +15,8 @@ export class UnassignedCaseSharingPage {
 
   constructor(private readonly page: Page) {
     this.addUserButton = this.page.locator('#btn-add-user');
+    this.applyFilterButton = this.page.getByRole('button', { name: 'Apply filter' });
+    this.caseReferenceError = this.page.locator('#case-reference-number-error-message');
     this.confirmButton = this.page.getByRole('button', { name: 'Confirm' });
     this.continueButton = this.page.locator('#btn-continue');
     this.recipientSearchInput = this.page.locator('#add-user-input').getByRole('combobox');
@@ -23,6 +27,10 @@ export class UnassignedCaseSharingPage {
 
   public async gotoUnassignedCases(): Promise<void> {
     await this.page.goto('/unassigned-cases');
+  }
+
+  public filterButton(name: string): Locator {
+    return this.page.getByRole('button', { name, exact: true });
   }
 
   public asylumTab(caseType: string): Locator {
@@ -45,6 +53,18 @@ export class UnassignedCaseSharingPage {
     for (const caseId of caseIds) {
       await this.caseCheckbox(caseId).check();
     }
+  }
+
+  public async showUnassignedCasesFilter(): Promise<void> {
+    await this.filterButton('Show unassigned cases filter').click();
+  }
+
+  public async hideUnassignedCasesFilter(): Promise<void> {
+    await this.filterButton('Hide unassigned cases filter').click();
+  }
+
+  public async applyFilter(): Promise<void> {
+    await this.applyFilterButton.click();
   }
 
   public async startCaseSharing(): Promise<void> {

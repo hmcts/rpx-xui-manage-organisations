@@ -66,15 +66,21 @@ export const setupUnassignedCaseShareRoutes = async (
 
   await page.route('**/api/caaCases**', async (route) => {
     const url = routeUrl(route.request().url());
+    const caseTypeId = url.searchParams.get('caseTypeId');
 
     routeState.caseListRequests.push({
       caaCasesFilterType: url.searchParams.get('caaCasesFilterType'),
       caaCasesPageType: url.searchParams.get('caaCasesPageType'),
-      caseTypeId: url.searchParams.get('caseTypeId'),
+      caseTypeId,
       method: route.request().method(),
       pageNo: url.searchParams.get('pageNo'),
       pageSize: url.searchParams.get('pageSize')
     });
+
+    if (!caseTypeId) {
+      await fulfillJson(route, { error: 'Missing caseTypeId query parameter' }, 400);
+      return;
+    }
 
     await fulfillJson(route, unassignedCasesResponse);
   });

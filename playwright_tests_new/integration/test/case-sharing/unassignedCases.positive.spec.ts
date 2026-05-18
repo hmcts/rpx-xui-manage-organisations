@@ -23,6 +23,8 @@ test.describe('Unassigned case sharing', { tag: ['@integration', '@integration-c
 
       await expect(caseSharingPage.unassignedCasesHeading).toBeVisible();
       await expect(page.getByText(manageOrgIntegrationOrganisationName)).toBeVisible();
+      await expect(caseSharingPage.filterButton('Show unassigned cases filter')).toBeVisible();
+      await expect(caseSharingPage.filterButton('Hide unassigned cases filter')).toBeHidden();
       await expect(caseSharingPage.asylumTab(asylumCaseType)).toBeVisible();
       await expect(caseSharingPage.shareCaseButton).toBeDisabled();
       await expect(page.getByText('Showing 1 to 2 of 2 Asylum cases')).toBeVisible();
@@ -42,6 +44,27 @@ test.describe('Unassigned case sharing', { tag: ['@integration', '@integration-c
         pageNo: '1',
         pageSize: '25'
       });
+    });
+
+    await test.step('Validate the unassigned case reference filter before sharing', async () => {
+      await caseSharingPage.showUnassignedCasesFilter();
+
+      await expect(caseSharingPage.filterButton('Hide unassigned cases filter')).toBeVisible();
+      await expect(caseSharingPage.filterButton('Show unassigned cases filter')).toBeHidden();
+
+      await caseSharingPage.applyFilter();
+
+      await expect(page.getByRole('alert', { name: 'There is a problem' })).toContainText(
+        'Enter a valid HMCTS case reference number'
+      );
+      await expect(caseSharingPage.caseReferenceError).toContainText(
+        'Enter a valid HMCTS case reference number'
+      );
+
+      await caseSharingPage.hideUnassignedCasesFilter();
+
+      await expect(caseSharingPage.filterButton('Show unassigned cases filter')).toBeVisible();
+      await expect(caseSharingPage.filterButton('Hide unassigned cases filter')).toBeHidden();
     });
 
     await test.step('Select two cases and open the share journey', async () => {

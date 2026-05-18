@@ -67,7 +67,7 @@ export class UsersPage extends BasePage {
         const selectedUser = {
           href: (await userLink.getAttribute('href')) ?? '',
           linkText: (await userLink.innerText()).trim(),
-          rowText: (await userRow.innerText()).trim(),
+          rowText: (await userRow.innerText()).trim()
         };
         await userLink.click();
         return selectedUser;
@@ -109,6 +109,6 @@ export class UsersPage extends BasePage {
 
   public permissionCheckbox(label: string): Locator {
     const escapedLabel = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    return this.page.getByRole('checkbox', { name: new RegExp(`^${escapedLabel}$`, 'i') });
+    return this.page.getByRole('checkbox', { name: new RegExp(`^(Permit users to )?${escapedLabel}$`, 'i') });
   }
 }

@@ -90,7 +90,17 @@ test.describe('Register organisation validation', () => {
       await expect(registerOrganisationPage.validationSummaryError('Enter email address')).toBeVisible();
 
       await registerOrganisationPage.firstNameInput.fill('Playwright');
+      await registerOrganisationPage.continueWith();
+      await expect(registerOrganisationPage.validationSummaryError('Enter first name')).toHaveCount(0);
+      await expect(registerOrganisationPage.validationSummaryError('Enter last name')).toBeVisible();
+      await expect(registerOrganisationPage.validationSummaryError('Enter email address')).toBeVisible();
+
       await registerOrganisationPage.lastNameInput.fill('Validator');
+      await registerOrganisationPage.continueWith();
+      await expect(registerOrganisationPage.validationSummaryError('Enter first name')).toHaveCount(0);
+      await expect(registerOrganisationPage.validationSummaryError('Enter last name')).toHaveCount(0);
+      await expect(registerOrganisationPage.validationSummaryError('Enter email address')).toBeVisible();
+
       await registerOrganisationPage.workEmailAddressInput.fill('playwright.validator@example.com');
       await registerOrganisationPage.continueWith();
       await expect(signedInPage.getByText('Are you (as an individual) registered with a regulator?')).toBeVisible();

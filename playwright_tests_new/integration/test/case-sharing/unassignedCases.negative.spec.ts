@@ -2,9 +2,11 @@ import { expect, test } from '../../fixtures';
 import { setupUnassignedCaseShareRoutes } from '../../helpers';
 import {
   asylumCaseType,
+  buildRecipientName,
   buildRecipientOptionName,
   petSolicitorTwo,
-  unassignedAsylumCase
+  unassignedAsylumCase,
+  unassignedCaseIds
 } from '../../mocks/caseSharing.mock';
 import { CaseSharingPage } from '../../page-objects/case-sharing.po';
 import { UnassignedCasesPage } from '../../page-objects/unassigned-cases.po';
@@ -100,5 +102,61 @@ test.describe('Unassigned case sharing negative paths', {
         }
       ])
     );
+  });
+
+  test('blocks confirmation when a selected unassigned case is left without an assigned person', async ({
+    manageOrgIntegrationPage: page
+  }) => {
+    const routeState = await setupUnassignedCaseShareRoutes(page);
+    const unassignedCasesPage = new UnassignedCasesPage(page);
+    const caseSharingPage = new CaseSharingPage(page);
+    const [cancelledCaseId, remainingCaseId] = unassignedCaseIds;
+    const recipientName = buildRecipientName(petSolicitorTwo);
+    const recipientOptionName = buildRecipientOptionName(petSolicitorTwo);
+
+    await test.step('Open case sharing for two unassigned cases', async () => {
+      await unassignedCasesPage.gotoUnassignedCases();
+
+      await expect(unassignedCasesPage.pageHeading).toBeVisible();
+      await expect(unassignedCasesPage.caseCheckbox(cancelledCaseId)).toBeVisible();
+      await expect(unassignedCasesPage.caseCheckbox(remainingCaseId)).toBeVisible();
+
+      await unassignedCasesPage.selectCase(cancelledCaseId);
+      await unassignedCasesPage.selectCase(remainingCaseId);
+      await expect(unassignedCasesPage.shareCaseButton).toBeEnabled();
+      await unassignedCasesPage.startCaseSharing();
+
+      await expect(page).toHaveURL(/\/unassigned-cases\/case-share\?init=true&pageType=unassigned-cases$/);
+      await expect(page.getByRole('heading', { name: /Add recipient/ })).toBeVisible();
+      await expect.poll(() => routeState.loadedShareCaseIds.length).toBe(1);
+      await expect(routeState.loadedShareCaseIds[0]).toEqual(unassignedCaseIds);
+    });
+
+    await test.step('Reject continue when cancellation leaves a selected case unassigned', async () => {
+      await caseSharingPage.selectRecipient('pet', recipientOptionName);
+      await caseSharingPage.addRecipient();
+      await caseSharingPage.showAllCaseSections();
+
+      for (const caseId of unassignedCaseIds) {
+        await expect(caseSharingPage.caseSection(caseId)).toContainText(recipientName);
+        await expect(caseSharingPage.caseSection(caseId)).toContainText(petSolicitorTwo.email);
+        await expect(caseSharingPage.caseSection(caseId)).toContainText('To be added');
+      }
+
+      await caseSharingPage.cancelPendingRecipientForCase(cancelledCaseId, recipientName);
+
+      await expect(caseSharingPage.caseSection(cancelledCaseId)).not.toContainText(recipientName);
+      await expect(caseSharingPage.caseSection(remainingCaseId)).toContainText(recipientName);
+      await expect(caseSharingPage.caseSection(remainingCaseId)).toContainText(petSolicitorTwo.email);
+
+      await caseSharingPage.continueButton.click();
+
+      await expect(page.getByRole('alert', { name: 'There is a problem' })).toContainText(
+        'At least one person must be assigned to each case'
+      );
+      await expect(page).toHaveURL(/\/unassigned-cases\/case-share\?init=true&pageType=unassigned-cases$/);
+      expect(routeState.submittedAssignments).toHaveLength(0);
+      expect(routeState.caseAssignmentRequests).toHaveLength(0);
+    });
   });
 });

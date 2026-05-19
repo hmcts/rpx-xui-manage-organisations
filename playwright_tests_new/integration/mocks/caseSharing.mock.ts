@@ -60,7 +60,7 @@ export interface CaseAssignmentsRequest {
   sharedCases: CaseSharingSharedCase[];
 }
 
-interface BuildSharedCasesOptions {
+export interface BuildSharedCasesOptions {
   existingAccess?: Record<string, CaseShareUser[]>;
 }
 
@@ -94,8 +94,11 @@ export const buildSharedCases = (
 export const buildAssignedSharedCases = (caseIds: string[]): CaseSharingSharedCase[] =>
   buildSharedCases(caseIds, { existingAccess: assignedExistingAccess });
 
-export const buildUnassignedSharedCases = (caseIds: string[]): CaseSharingSharedCase[] =>
-  buildSharedCases(caseIds);
+export const buildUnassignedSharedCases = (
+  caseIds: string[],
+  options: BuildSharedCasesOptions = {}
+): CaseSharingSharedCase[] =>
+  buildSharedCases(caseIds, options);
 
 export const buildCaseAssignmentSuccessResponse = (
   sharedCases: CaseSharingSharedCase[]

@@ -1,5 +1,6 @@
 import type { Page, Route } from '@playwright/test';
 import type {
+  BuildSharedCasesOptions,
   CaseAssignmentsRequest,
   CaseSharingSharedCase
 } from '../mocks/caseSharing.mock';
@@ -131,10 +132,11 @@ const setupCaseShareRoutes = async (
 };
 
 export const setupUnassignedCaseShareRoutes = async (
-  page: Page
+  page: Page,
+  sharedCaseOptions: BuildSharedCasesOptions = {}
 ): Promise<UnassignedCaseShareRouteState> => ({
   ...(await setupUnassignedCaseListRoutes(page)),
-  ...(await setupCaseShareRoutes(page, buildUnassignedSharedCases))
+  ...(await setupCaseShareRoutes(page, (caseIds) => buildUnassignedSharedCases(caseIds, sharedCaseOptions)))
 });
 
 export const setupAssignedCaseShareRoutes = async (

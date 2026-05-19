@@ -6,6 +6,7 @@ import {
   buildRecipientOptionName,
   immigrationCaseType,
   manageOrgIntegrationOrganisationName,
+  petSolicitorOne,
   petSolicitorTwo,
   unassignedAsylumCase,
   unassignedCaseIds,
@@ -21,12 +22,17 @@ test.describe('Unassigned case sharing', { tag: ['@integration', '@integration-c
   test('shares selected unassigned cases and preserves cancelled-recipient scope', async ({
     manageOrgIntegrationPage: page
   }) => {
-    const routeState = await setupUnassignedCaseShareRoutes(page);
+    const [cancelledCaseId, confirmedCaseId] = unassignedCaseIds;
+    const routeState = await setupUnassignedCaseShareRoutes(page, {
+      existingAccess: {
+        [cancelledCaseId]: [petSolicitorOne]
+      }
+    });
     const unassignedCasesPage = new UnassignedCasesPage(page);
     const caseSharingPage = new CaseSharingPage(page);
     const confirmPage = new CaseShareConfirmPage(page);
     const completePage = new CaseShareCompletePage(page);
-    const [cancelledCaseId, confirmedCaseId] = unassignedCaseIds;
+    const existingRecipientName = buildRecipientName(petSolicitorOne);
     const recipientName = buildRecipientName(petSolicitorTwo);
     const recipientOptionName = buildRecipientOptionName(petSolicitorTwo);
 
@@ -168,6 +174,8 @@ test.describe('Unassigned case sharing', { tag: ['@integration', '@integration-c
       for (const caseId of unassignedCaseIds) {
         await expect(caseSharingPage.caseSection(caseId)).toContainText(caseId);
       }
+      await expect(caseSharingPage.caseSection(cancelledCaseId)).toContainText(existingRecipientName);
+      await expect(caseSharingPage.caseSection(cancelledCaseId)).toContainText(petSolicitorOne.email);
     });
 
     await test.step('Add and then cancel one pending recipient before confirming', async () => {
@@ -186,6 +194,10 @@ test.describe('Unassigned case sharing', { tag: ['@integration', '@integration-c
       await caseSharingPage.cancelPendingRecipientForCase(cancelledCaseId, recipientName);
 
       await expect(caseSharingPage.caseSection(cancelledCaseId)).not.toContainText(recipientName);
+      await expect(caseSharingPage.caseSection(cancelledCaseId)).not.toContainText(petSolicitorTwo.email);
+      await expect(caseSharingPage.caseSection(cancelledCaseId)).not.toContainText('To be added');
+      await expect(caseSharingPage.caseSection(cancelledCaseId)).toContainText(existingRecipientName);
+      await expect(caseSharingPage.caseSection(cancelledCaseId)).toContainText(petSolicitorOne.email);
       await expect(caseSharingPage.caseSection(confirmedCaseId)).toContainText(recipientName);
       await expect(caseSharingPage.caseSection(confirmedCaseId)).toContainText(petSolicitorTwo.email);
     });
@@ -232,12 +244,13 @@ test.describe('Unassigned case sharing', { tag: ['@integration', '@integration-c
 
     expect(submittedAssignment.sharedCases.map((sharedCase) => sharedCase.caseId)).toEqual(unassignedCaseIds);
     expect(cancelledCase).toBeDefined();
+    expect(cancelledCase?.sharedWith ?? []).toEqual([petSolicitorOne]);
     expect(cancelledCase?.pendingShares ?? []).toEqual([]);
     expect(cancelledCase?.pendingUnshares ?? []).toEqual([]);
     expect(confirmedCase).toBeDefined();
     expect(confirmedCase?.pendingShares ?? []).toEqual([petSolicitorTwo]);
     expect(confirmedCase?.pendingUnshares ?? []).toEqual([]);
-    expect(cancelledResponseCase?.sharedWith ?? []).toEqual([]);
+    expect(cancelledResponseCase?.sharedWith ?? []).toEqual([petSolicitorOne]);
     expect(cancelledResponseCase?.pendingShares ?? []).toEqual([]);
     expect(confirmedResponseCase?.sharedWith).toEqual([petSolicitorTwo]);
     expect(confirmedResponseCase?.pendingShares).toEqual([]);

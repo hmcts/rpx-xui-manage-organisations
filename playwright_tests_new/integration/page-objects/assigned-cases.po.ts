@@ -1,30 +1,16 @@
 import type { Locator, Page } from '@playwright/test';
+import { CaseListPage } from './case-list.po';
 
-export class AssignedCasesPage {
-  public readonly assignedCasesHeading: Locator;
-  public readonly caseList: Locator;
+export class AssignedCasesPage extends CaseListPage {
   public readonly manageCaseSharingButton: Locator;
 
-  constructor(private readonly page: Page) {
-    this.assignedCasesHeading = this.page.getByRole('heading', { name: 'Assigned Cases' });
-    this.caseList = this.page.locator('ccd-case-list');
+  constructor(page: Page) {
+    super(page, 'Assigned Cases');
     this.manageCaseSharingButton = this.page.locator('#btn-share-assigned-case-button');
   }
 
   public async gotoAssignedCases(): Promise<void> {
     await this.page.goto('/assigned-cases');
-  }
-
-  public filterButton(name: string): Locator {
-    return this.page.getByRole('button', { name, exact: true });
-  }
-
-  public caseTypeTab(caseType: string): Locator {
-    return this.page.getByRole('tab', { name: caseType, exact: true });
-  }
-
-  public caseCheckbox(caseId: string): Locator {
-    return this.page.locator(`#select-${caseId}`);
   }
 
   public async showAssignedCasesFilter(): Promise<void> {
@@ -35,11 +21,7 @@ export class AssignedCasesPage {
     await this.filterButton('Hide assigned cases filter').click();
   }
 
-  public async openCaseTypeTab(caseType: string): Promise<void> {
-    await this.caseTypeTab(caseType).click();
-  }
-
-  public async selectCase(caseId: string): Promise<void> {
-    await this.caseCheckbox(caseId).check();
+  public async startCaseSharing(): Promise<void> {
+    await this.manageCaseSharingButton.click();
   }
 }

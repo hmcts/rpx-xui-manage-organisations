@@ -1,5 +1,8 @@
 import { expect, test } from '../../fixtures';
-import { setupRegisterOrganisationRoutes } from '../../helpers';
+import {
+  completeMinimumSolicitorJourney,
+  setupRegisterOrganisationRoutes
+} from '../../helpers';
 import {
   minimumSolicitorRegistration,
   registrationCannotBeCompletedResponse
@@ -16,21 +19,7 @@ test.describe('Register organisation negative paths', { tag: ['@integration', '@
     });
     const registerOrganisationPage = new RegisterOrganisationPage(page);
 
-    await registerOrganisationPage.openStartPage();
-    await registerOrganisationPage.startRegistration();
-    await registerOrganisationPage.chooseSolicitorOrganisationType();
-    await registerOrganisationPage.enterOrganisationName(minimumSolicitorRegistration.companyName);
-    await registerOrganisationPage.enterManualInternationalAddress(
-      minimumSolicitorRegistration.manualInternationalAddress
-    );
-    await registerOrganisationPage.declineDocumentExchangeReference();
-    await registerOrganisationPage.enterOrganisationRegulator(
-      minimumSolicitorRegistration.organisationRegulatorNumber
-    );
-    await registerOrganisationPage.chooseServices('Divorce', 'Damages');
-    await registerOrganisationPage.declinePaymentByAccount();
-    await registerOrganisationPage.enterContactDetails(minimumSolicitorRegistration.contactDetails);
-    await registerOrganisationPage.declineIndividualRegulator();
+    await completeMinimumSolicitorJourney(registerOrganisationPage);
 
     await expect(registerOrganisationPage.checkYourAnswersHeading).toBeVisible();
 

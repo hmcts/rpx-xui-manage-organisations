@@ -1,5 +1,9 @@
 import { expect, test } from '../../fixtures';
-import { setupRegisterOrganisationRoutes } from '../../helpers';
+import {
+  completeMinimumSolicitorJourney,
+  completeOptionalOtherOrganisationJourney,
+  setupRegisterOrganisationRoutes
+} from '../../helpers';
 import {
   minimumSolicitorRegistration,
   optionalOtherOrganisationRegistration,
@@ -15,40 +19,9 @@ test.describe('Register organisation', { tag: ['@integration', '@integration-reg
     const registerOrganisationPage = new RegisterOrganisationPage(page);
 
     await test.step('Complete the other-organisation route with optional values', async () => {
-      await registerOrganisationPage.openStartPage();
-      await expect(page).toHaveURL(/\/register-org-new\/register$/);
-
-      await registerOrganisationPage.startRegistration();
-      await registerOrganisationPage.chooseOtherOrganisationType(
-        otherOrganisationType.value_en,
-        optionalOtherOrganisationRegistration.otherOrganisationDetail
-      );
-      await registerOrganisationPage.enterOrganisationNameAndCompanyHouseNumber(
-        optionalOtherOrganisationRegistration.companyName,
-        optionalOtherOrganisationRegistration.companyHouseNumber
-      );
-      await registerOrganisationPage.enterManualUkAddress(
-        optionalOtherOrganisationRegistration.manualUkAddress
-      );
-      await registerOrganisationPage.enterDocumentExchangeReference(
-        optionalOtherOrganisationRegistration.dxNumber,
-        optionalOtherOrganisationRegistration.dxExchange
-      );
-      await registerOrganisationPage.enterOtherOrganisationRegulator(
-        optionalOtherOrganisationRegistration.organisationRegulatorName,
-        optionalOtherOrganisationRegistration.organisationRegulatorNumber
-      );
-      await registerOrganisationPage.chooseServices('Divorce', 'Damages');
-      await registerOrganisationPage.enterPaymentByAccountNumbers(
-        optionalOtherOrganisationRegistration.pbaNumbers
-      );
-      await registerOrganisationPage.enterContactDetails(
-        optionalOtherOrganisationRegistration.contactDetails
-      );
-      await registerOrganisationPage.enterOtherIndividualRegulator(
-        optionalOtherOrganisationRegistration.individualRegulatorName,
-        optionalOtherOrganisationRegistration.individualRegulatorNumber
-      );
+      await completeOptionalOtherOrganisationJourney(registerOrganisationPage);
+      await expect(page).toHaveURL(/\/register-org-new\/check-your-answers$/);
+      await expect(registerOrganisationPage.checkYourAnswersHeading).toBeVisible();
     });
 
     await test.step('Assert Check Your Answers preserves the full journey values', async () => {
@@ -189,21 +162,7 @@ test.describe('Register organisation', { tag: ['@integration', '@integration-reg
     const routeState = await setupRegisterOrganisationRoutes(page);
     const registerOrganisationPage = new RegisterOrganisationPage(page);
 
-    await registerOrganisationPage.openStartPage();
-    await registerOrganisationPage.startRegistration();
-    await registerOrganisationPage.chooseSolicitorOrganisationType();
-    await registerOrganisationPage.enterOrganisationName(minimumSolicitorRegistration.companyName);
-    await registerOrganisationPage.enterManualInternationalAddress(
-      minimumSolicitorRegistration.manualInternationalAddress
-    );
-    await registerOrganisationPage.declineDocumentExchangeReference();
-    await registerOrganisationPage.enterOrganisationRegulator(
-      minimumSolicitorRegistration.organisationRegulatorNumber
-    );
-    await registerOrganisationPage.chooseServices('Divorce', 'Damages');
-    await registerOrganisationPage.declinePaymentByAccount();
-    await registerOrganisationPage.enterContactDetails(minimumSolicitorRegistration.contactDetails);
-    await registerOrganisationPage.declineIndividualRegulator();
+    await completeMinimumSolicitorJourney(registerOrganisationPage);
 
     await expect(registerOrganisationPage.checkYourAnswersHeading).toBeVisible();
     await expect(registerOrganisationPage.summaryValue('Organisation type')).toContainText('Solicitor');

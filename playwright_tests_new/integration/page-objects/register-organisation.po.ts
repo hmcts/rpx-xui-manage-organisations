@@ -4,15 +4,23 @@ import type { RegisterOrganisationAddress } from '../mocks/registerOrganisation.
 const escapeRegExp = (value: string): string => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 export class RegisterOrganisationPage {
+  public readonly addressLine1Input: Locator;
+  public readonly addressLine2Input: Locator;
+  public readonly addressLine3Input: Locator;
   public readonly checkYourAnswersHeading: Locator;
   public readonly companyHouseNumberInput: Locator;
   public readonly confirmedOrganisationAccountCheckbox: Locator;
   public readonly countryInput: Locator;
+  public readonly countyInput: Locator;
+  public readonly documentExchangeNoRadio: Locator;
+  public readonly documentExchangeYesRadio: Locator;
   public readonly dxExchangeInput: Locator;
   public readonly dxNumberInput: Locator;
   public readonly firstNameInput: Locator;
   public readonly lastNameInput: Locator;
   public readonly manualAddressLink: Locator;
+  public readonly otherServicesCheckbox: Locator;
+  public readonly otherServicesInput: Locator;
   public readonly organisationNameInput: Locator;
   public readonly organisationRegistrationNumberInput: Locator;
   public readonly otherOrganisationDetailInput: Locator;
@@ -20,6 +28,10 @@ export class RegisterOrganisationPage {
   public readonly otherOrganisationTypeSelect: Locator;
   public readonly pbaNoRadio: Locator;
   public readonly pbaYesRadio: Locator;
+  public readonly postCodeInput: Locator;
+  public readonly postTownInput: Locator;
+  public readonly registeredWithRegulatorNoRadio: Locator;
+  public readonly registeredWithRegulatorYesRadio: Locator;
   public readonly regulatorNameInput: Locator;
   public readonly regulatorTypeSelect: Locator;
   public readonly solicitorOrganisationTypeRadio: Locator;
@@ -30,17 +42,25 @@ export class RegisterOrganisationPage {
   public readonly workEmailAddressInput: Locator;
 
   constructor(private readonly page: Page) {
+    this.addressLine1Input = this.page.locator('#addressLine1');
+    this.addressLine2Input = this.page.locator('#addressLine2');
+    this.addressLine3Input = this.page.locator('#addressLine3');
     this.checkYourAnswersHeading = this.page.getByRole('heading', {
       name: 'Check your answers before you register'
     });
     this.companyHouseNumberInput = this.page.locator('#company-house-number');
     this.confirmedOrganisationAccountCheckbox = this.page.locator('#confirmed-organisation-account');
     this.countryInput = this.page.locator('#country');
+    this.countyInput = this.page.locator('#county');
+    this.documentExchangeNoRadio = this.page.locator('#document-exchange-no');
+    this.documentExchangeYesRadio = this.page.locator('#document-exchange-yes');
     this.dxExchangeInput = this.page.locator('#dx-exchange');
     this.dxNumberInput = this.page.locator('#dx-number');
     this.firstNameInput = this.page.locator('#first-name');
     this.lastNameInput = this.page.locator('#last-name');
     this.manualAddressLink = this.page.getByRole('link', { name: 'I can\'t enter a UK postcode' });
+    this.otherServicesCheckbox = this.page.locator('input[data-service-label="Service not listed"]');
+    this.otherServicesInput = this.page.locator('#other-services');
     this.organisationNameInput = this.page.locator('#company-name');
     this.organisationRegistrationNumberInput = this.page.locator('#organisation-registration-number0');
     this.otherOrganisationDetailInput = this.page.locator('#other-organisation-detail');
@@ -48,6 +68,10 @@ export class RegisterOrganisationPage {
     this.otherOrganisationTypeSelect = this.page.locator('#other-organisation-type');
     this.pbaNoRadio = this.page.locator('#pba-no');
     this.pbaYesRadio = this.page.locator('#pba-yes');
+    this.postCodeInput = this.page.locator('#postCode');
+    this.postTownInput = this.page.locator('#postTown');
+    this.registeredWithRegulatorNoRadio = this.page.locator('#registered-with-regulator-no');
+    this.registeredWithRegulatorYesRadio = this.page.locator('#registered-with-regulator-yes');
     this.regulatorNameInput = this.page.locator('#regulator-name0');
     this.regulatorTypeSelect = this.page.locator('#regulator-type0');
     this.solicitorOrganisationTypeRadio = this.page.locator('#SolicitorOrganisation');
@@ -76,6 +100,10 @@ export class RegisterOrganisationPage {
 
   public summaryChangeLink(label: string | RegExp): Locator {
     return this.summaryRow(label).locator('.govuk-summary-list__actions a');
+  }
+
+  public pbaNumberInput(index = 0): Locator {
+    return this.page.locator(`#pba-number-${index}`);
   }
 
   public async openStartPage(): Promise<void> {
@@ -129,7 +157,7 @@ export class RegisterOrganisationPage {
   }
 
   public async enterDocumentExchangeReference(dxNumber: string, dxExchange: string): Promise<void> {
-    await this.page.locator('#document-exchange-yes').check();
+    await this.documentExchangeYesRadio.check();
     await this.continueWith();
     await this.dxNumberInput.fill(dxNumber);
     await this.dxExchangeInput.fill(dxExchange);
@@ -137,7 +165,7 @@ export class RegisterOrganisationPage {
   }
 
   public async declineDocumentExchangeReference(): Promise<void> {
-    await this.page.locator('#document-exchange-no').check();
+    await this.documentExchangeNoRadio.check();
     await this.continueWith();
   }
 
@@ -169,7 +197,7 @@ export class RegisterOrganisationPage {
       if (index > 0) {
         await this.page.getByRole('button', { name: 'Add another PBA number' }).click();
       }
-      await this.page.locator(`#pba-number-${index}`).fill(pbaNumber);
+      await this.pbaNumberInput(index).fill(pbaNumber);
     }
     await this.continueWith();
   }
@@ -191,7 +219,7 @@ export class RegisterOrganisationPage {
   }
 
   public async enterOtherIndividualRegulator(regulatorName: string, registrationNumber: string): Promise<void> {
-    await this.page.locator('#registered-with-regulator-yes').check();
+    await this.registeredWithRegulatorYesRadio.check();
     await this.continueWith();
     await this.regulatorTypeSelect.selectOption({ label: 'Other' });
     await this.regulatorNameInput.fill(regulatorName);
@@ -200,7 +228,7 @@ export class RegisterOrganisationPage {
   }
 
   public async declineIndividualRegulator(): Promise<void> {
-    await this.page.locator('#registered-with-regulator-no').check();
+    await this.registeredWithRegulatorNoRadio.check();
     await this.continueWith();
   }
 
@@ -219,18 +247,31 @@ export class RegisterOrganisationPage {
     await this.waitForLoader();
   }
 
+  public async goBack(): Promise<void> {
+    await this.waitForLoader();
+
+    const backButton = this.page.getByRole('button', { name: 'Back', exact: true });
+    if (await backButton.count()) {
+      await backButton.click();
+    } else {
+      await this.page.getByRole('link', { name: 'Back', exact: true }).click();
+    }
+
+    await this.waitForLoader();
+  }
+
   private async fillManualAddress(address: RegisterOrganisationAddress): Promise<void> {
-    await this.page.locator('#addressLine1').fill(address.addressLine1);
-    await this.page.locator('#addressLine2').fill(address.addressLine2 ?? '');
-    await this.page.locator('#addressLine3').fill(address.addressLine3 ?? '');
-    await this.page.locator('#postTown').fill(address.postTown);
-    await this.page.locator('#county').fill(address.county ?? '');
+    await this.addressLine1Input.fill(address.addressLine1);
+    await this.addressLine2Input.fill(address.addressLine2 ?? '');
+    await this.addressLine3Input.fill(address.addressLine3 ?? '');
+    await this.postTownInput.fill(address.postTown);
+    await this.countyInput.fill(address.county ?? '');
 
     if (address.country !== 'UK') {
       await this.countryInput.fill(address.country);
     }
 
-    await this.page.locator('#postCode').fill(address.postCode ?? '');
+    await this.postCodeInput.fill(address.postCode ?? '');
   }
 
   private async waitForLoader(): Promise<void> {

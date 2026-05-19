@@ -17,6 +17,7 @@ def product   = "xui"
 def component = "mo-webapp"
 def channel   = '#xui-pipeline'
 def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
+def playwrightArtifactExcludes = 'test-results/.playwright-artifacts-*/**,**/.playwright-artifacts-*/**'
 
 def handleFailFastAbort = { Exception e ->
     def abortedByFailFast = false
@@ -76,7 +77,11 @@ def publishPlaywrightApiReport = { String reportName ->
         reportFiles          : 'xui-mo-playwright-api.html',
         reportName           : reportName
     ])
-    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-api/**,test-results/**/*'
+    steps.archiveArtifacts(
+        allowEmptyArchive: true,
+        artifacts: 'functional-output/tests/playwright-api/**,test-results/**/*',
+        excludes: playwrightArtifactExcludes
+    )
 }
 
 def publishPlaywrightE2EReport = { String reportName ->
@@ -93,7 +98,11 @@ def publishPlaywrightE2EReport = { String reportName ->
         reportFiles          : 'xui-playwright-e2e.html',
         reportName           : reportName
     ])
-    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-e2e/**,test-results/**/*'
+    steps.archiveArtifacts(
+        allowEmptyArchive: true,
+        artifacts: 'functional-output/tests/playwright-e2e/**,test-results/**/*',
+        excludes: playwrightArtifactExcludes
+    )
 }
 
 def publishPlaywrightIntegrationReport = { String reportName ->
@@ -110,7 +119,11 @@ def publishPlaywrightIntegrationReport = { String reportName ->
         reportFiles          : 'xui-mo-playwright-integration.html',
         reportName           : reportName
     ])
-    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-integration/**,test-results/**/*'
+    steps.archiveArtifacts(
+        allowEmptyArchive: true,
+        artifacts: 'functional-output/tests/playwright-integration/**,test-results/**/*',
+        excludes: playwrightArtifactExcludes
+    )
 }
 
 def secrets = [

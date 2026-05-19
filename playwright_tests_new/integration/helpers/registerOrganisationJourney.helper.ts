@@ -5,6 +5,8 @@ import {
 } from '../mocks/registerOrganisation.mock';
 import { RegisterOrganisationPage } from '../page-objects/register-organisation.po';
 
+const serviceValues = (services: Array<{ value: string }>): string[] => services.map(({ value }) => value);
+
 export const completeOptionalOtherOrganisationJourney = async (
   registerOrganisationPage: RegisterOrganisationPage
 ): Promise<void> => {
@@ -29,7 +31,7 @@ export const completeOptionalOtherOrganisationJourney = async (
     optionalOtherOrganisationRegistration.organisationRegulatorName,
     optionalOtherOrganisationRegistration.organisationRegulatorNumber
   );
-  await registerOrganisationPage.chooseServices('Divorce', 'Damages');
+  await registerOrganisationPage.chooseServices(...serviceValues(optionalOtherOrganisationRegistration.services));
   await registerOrganisationPage.enterPaymentByAccountNumbers(
     optionalOtherOrganisationRegistration.pbaNumbers
   );
@@ -56,7 +58,7 @@ export const completeMinimumSolicitorJourney = async (
   await registerOrganisationPage.enterOrganisationRegulator(
     minimumSolicitorRegistration.organisationRegulatorNumber
   );
-  await registerOrganisationPage.chooseServices('Divorce', 'Damages');
+  await registerOrganisationPage.chooseServices(...serviceValues(minimumSolicitorRegistration.services));
   await registerOrganisationPage.declinePaymentByAccount();
   await registerOrganisationPage.enterContactDetails(minimumSolicitorRegistration.contactDetails);
   await registerOrganisationPage.declineIndividualRegulator();

@@ -58,8 +58,9 @@ test.describe('Register organisation', { tag: ['@integration', '@integration-reg
       await expect(registerOrganisationPage.summaryValue('What\'s the DX reference for this office?')).toContainText(
         optionalOtherOrganisationRegistration.dxNumber
       );
-      await expect(registerOrganisationPage.summaryValue('Service to access')).toContainText('Divorce');
-      await expect(registerOrganisationPage.summaryValue('Service to access')).toContainText('Damages');
+      for (const service of optionalOtherOrganisationRegistration.services) {
+        await expect(registerOrganisationPage.summaryValue('Service to access')).toContainText(service.value);
+      }
       await expect(registerOrganisationPage.summaryValue(
         'Does your organisation have a payment by account number?'
       )).toContainText('Yes');

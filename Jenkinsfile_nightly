@@ -66,18 +66,15 @@ def stagePlaywrightArtifacts = { String stageDir ->
             mkdir -p "$PW_ARTIFACT_STAGE_DIR"
 
             if [ -d test-results ]; then
-              find test-results -path 'test-results/.playwright-artifacts-*' -prune -o -type f \( \
-                -name '*.png' -o \
-                -name '*.webm' -o \
-                -name '*.zip' -o \
-                -name 'error-context.md' -o \
-                -name 'node-api-calls.json' -o \
-                -name 'node-api-calls.pretty.txt' \
-              \) -print 2>/dev/null | while IFS= read -r file; do
-                [ -f "$file" ] || continue
-                target="$PW_ARTIFACT_STAGE_DIR/$file"
-                mkdir -p "$(dirname "$target")"
-                cp "$file" "$target" 2>/dev/null || true
+              find test-results -path 'test-results/.playwright-artifacts-*' -prune -o -type f -print 2>/dev/null | while IFS= read -r file; do
+                case "$file" in
+                  *.png|*.webm|*.zip|*/error-context.md|*/node-api-calls.json|*/node-api-calls.pretty.txt)
+                    [ -f "$file" ] || continue
+                    target="$PW_ARTIFACT_STAGE_DIR/$file"
+                    mkdir -p "$(dirname "$target")"
+                    cp "$file" "$target" 2>/dev/null || true
+                    ;;
+                esac
               done
             fi
         '''

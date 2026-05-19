@@ -207,6 +207,10 @@ export class RegisterOrganisationPage {
     await this.continueWith();
   }
 
+  public async addAnotherPaymentByAccountNumber(): Promise<void> {
+    await this.page.getByRole('button', { name: 'Add another PBA number' }).click();
+  }
+
   public async enterContactDetails(contactDetails: {
     firstName: string;
     lastName: string;

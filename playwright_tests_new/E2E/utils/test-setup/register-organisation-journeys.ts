@@ -23,23 +23,3 @@ export const completeOptionalRegisterOrganisationJourney = async (
     data.individualRegulatorNumber
   );
 };
-
-export const continuePopulatedOptionalJourneyFromOrganisationRegulatorToCheckYourAnswers = async (
-  registerOrganisationPage: RegisterOrganisationPage
-): Promise<void> => {
-  await registerOrganisationPage.continueWith(); // regulator -> services
-  await registerOrganisationPage.continueWith(); // services -> PBA choice
-  await registerOrganisationPage.continueWith(); // PBA choice -> PBA details
-  await registerOrganisationPage.continueWith(); // PBA details -> contact details
-  await registerOrganisationPage.continueWith(); // contact details -> individual regulator choice
-  await registerOrganisationPage.continueWith(); // individual regulator choice -> individual regulator details
-  await registerOrganisationPage.continueWith(); // individual regulator details -> Check Your Answers
-};
-
-export const continuePopulatedOptionalJourneyFromContactDetailsToCheckYourAnswers = async (
-  registerOrganisationPage: RegisterOrganisationPage
-): Promise<void> => {
-  await registerOrganisationPage.continueWith(); // contact details -> individual regulator choice
-  await registerOrganisationPage.continueWith(); // individual regulator choice -> individual regulator details
-  await registerOrganisationPage.continueWith(); // individual regulator details -> Check Your Answers
-};

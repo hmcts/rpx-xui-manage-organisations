@@ -130,7 +130,7 @@ test.describe('Register organisation validation paths', { tag: ['@integration', 
       await expect(registerOrganisationPage.validationSummaryError('Enter a valid PBA number')).toBeVisible();
 
       await registerOrganisationPage.pbaNumberInput().fill(optionalOtherOrganisationRegistration.pbaNumbers[0]);
-      await page.getByRole('button', { name: 'Add another PBA number' }).click();
+      await registerOrganisationPage.addAnotherPaymentByAccountNumber();
       await registerOrganisationPage.pbaNumberInput(1).fill(optionalOtherOrganisationRegistration.pbaNumbers[0]);
       await registerOrganisationPage.continueWith();
       await expect(registerOrganisationPage.validationSummaryError(

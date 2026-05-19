@@ -160,7 +160,6 @@
     "ngx-cookie-service": "^17.0.0",
     "ngx-logger": "^5.0.12",
     "ngx-markdown": "^18.1.0",
-    "ngx-md": "^19.0.0",
     "ngx-pagination": "^6.0.3",
     "node-fetch": "^2.6.1",
     "node-http-proxy-json": "^0.1.9",

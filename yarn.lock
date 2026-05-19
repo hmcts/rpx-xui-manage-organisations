@@ -21078,20 +21078,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ngx-md@npm:^19.0.0":
-  version: 19.0.0
-  resolution: "ngx-md@npm:19.0.0"
-  dependencies:
-    marked: "npm:^4.0.17"
-    prismjs: "npm:^1.28.0"
-    tslib: "npm:^2.3.0"
-  peerDependencies:
-    "@angular/common": ^19.0.0
-    "@angular/core": ^19.0.0
-  checksum: 10/233da9194a3a272f24f5f2b55bc159a37539100582ed54233ffa5296fb868f810f81af2560ec829922eef1e3fc81e4ac70eba65614af82610e2f29cc45814f00
-  languageName: node
-  linkType: hard
-
 "ngx-pagination@npm:^6.0.3":
   version: 6.0.3
   resolution: "ngx-pagination@npm:6.0.3"
@@ -24442,7 +24428,6 @@ __metadata:
     ngx-cookie-service: "npm:^17.0.0"
     ngx-logger: "npm:^5.0.12"
     ngx-markdown: "npm:^18.1.0"
-    ngx-md: "npm:^19.0.0"
     ngx-pagination: "npm:^6.0.3"
     node-fetch: "npm:^2.6.1"
     node-html-parser: "npm:^6.1.5"

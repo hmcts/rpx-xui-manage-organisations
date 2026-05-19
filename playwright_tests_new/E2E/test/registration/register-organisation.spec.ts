@@ -1,5 +1,10 @@
 import { test, expect } from '../../fixtures';
 import { createRegisterOrganisationData } from '../../utils/test-setup/register-organisation-data';
+import {
+  completeOptionalRegisterOrganisationJourney,
+  continuePopulatedOptionalJourneyFromContactDetailsToCheckYourAnswers,
+  continuePopulatedOptionalJourneyFromOrganisationRegulatorToCheckYourAnswers
+} from '../../utils/test-setup/register-organisation-journeys';
 
 test.use({ manageOrgUserRole: 'roo' });
 
@@ -137,6 +142,55 @@ test(
     ]) {
       await expect(registerOrganisationPage.summaryChangeLink(summaryLabel)).toBeVisible();
     }
+  }
+);
+
+test(
+  'removes optional details from check your answers when answers are changed to No',
+  { tag: ['@e2e', '@registration'] },
+  async ({ registerOrganisationPage }) => {
+    const data = createRegisterOrganisationData();
+    const ukPostcode = data.manualUkAddress.postcode;
+
+    await completeOptionalRegisterOrganisationJourney(registerOrganisationPage, data);
+    await expect(registerOrganisationPage.checkYourAnswersHeading).toBeVisible();
+
+    await registerOrganisationPage.openSummaryChangeLink(
+      'Do you have a document exchange reference for your main office?'
+    );
+    await registerOrganisationPage.declineDocumentExchangeReference();
+    await continuePopulatedOptionalJourneyFromOrganisationRegulatorToCheckYourAnswers(registerOrganisationPage);
+
+    await registerOrganisationPage.openSummaryChangeLink('Does your organisation have a payment by account number?');
+    await registerOrganisationPage.declinePaymentByAccount();
+    await continuePopulatedOptionalJourneyFromContactDetailsToCheckYourAnswers(registerOrganisationPage);
+
+    await registerOrganisationPage.openSummaryChangeLink(
+      'Are you (as an individual) registered with a regulator?'
+    );
+    await registerOrganisationPage.declineIndividualRegulator();
+
+    await expect(registerOrganisationPage.checkYourAnswersHeading).toBeVisible();
+    expect(ukPostcode).toBeTruthy();
+    await expect(registerOrganisationPage.summaryValue('Organisation name')).toContainText(data.organisationName);
+    await expect(registerOrganisationPage.summaryValue('Organisation address')).toContainText(data.manualUkAddress.line1);
+    await expect(registerOrganisationPage.summaryValue('Organisation address')).toContainText(ukPostcode as string);
+    await expect(registerOrganisationPage.summaryValue('First name(s)')).toContainText(data.firstName);
+    await expect(registerOrganisationPage.summaryValue('Email address')).toContainText(data.email);
+    await expect(registerOrganisationPage.summaryValue(
+      'Do you have a document exchange reference for your main office?'
+    )).toContainText('No');
+    await expect(registerOrganisationPage.summaryRow('What\'s the DX reference for this office?')).toHaveCount(0);
+    await expect(registerOrganisationPage.summaryValue(
+      'Does your organisation have a payment by account number?'
+    )).toContainText('No');
+    await expect(registerOrganisationPage.summaryRow('What PBA numbers does your organisation use?')).toHaveCount(0);
+    await expect(registerOrganisationPage.summaryValue(
+      'Are you (as an individual) registered with a regulator?'
+    )).toContainText('No');
+    await expect(registerOrganisationPage.summaryRow(
+      'What regulators are you (as an individual) registered with?'
+    )).toHaveCount(0);
   }
 );
 

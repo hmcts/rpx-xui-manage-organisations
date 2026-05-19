@@ -1,5 +1,7 @@
 import { expect, test } from '../../fixtures';
 import {
+  continuePopulatedOptionalJourneyFromContactDetailsToCheckYourAnswers,
+  continuePopulatedOptionalJourneyFromOrganisationRegulatorToCheckYourAnswers,
   completeOptionalOtherOrganisationJourney,
   setupRegisterOrganisationRoutes
 } from '../../helpers';
@@ -113,5 +115,110 @@ test.describe('Register organisation Check Your Answers change links', {
     await registerOrganisationPage.goBack();
 
     await expect(registerOrganisationPage.checkYourAnswersHeading).toBeVisible();
+  });
+
+  test('removes stale optional details from CYA and submission after answers are changed to No', async ({
+    manageOrgIntegrationPage: page
+  }) => {
+    const routeState = await setupRegisterOrganisationRoutes(page);
+    const registerOrganisationPage = new RegisterOrganisationPage(page);
+
+    await completeOptionalOtherOrganisationJourney(registerOrganisationPage);
+    await expect(registerOrganisationPage.checkYourAnswersHeading).toBeVisible();
+
+    await test.step('Change DX answer to No and return through the populated downstream journey', async () => {
+      await registerOrganisationPage.summaryChangeLink(
+        'Do you have a document exchange reference for your main office?'
+      ).click();
+      await expect(page).toHaveURL(/\/register-org-new\/document-exchange-reference$/);
+      await registerOrganisationPage.declineDocumentExchangeReference();
+      await continuePopulatedOptionalJourneyFromOrganisationRegulatorToCheckYourAnswers(registerOrganisationPage);
+    });
+
+    await test.step('Change PBA answer to No and return through the populated downstream journey', async () => {
+      await registerOrganisationPage.summaryChangeLink(
+        'Does your organisation have a payment by account number?'
+      ).click();
+      await expect(page).toHaveURL(/\/register-org-new\/payment-by-account$/);
+      await registerOrganisationPage.declinePaymentByAccount();
+      await continuePopulatedOptionalJourneyFromContactDetailsToCheckYourAnswers(registerOrganisationPage);
+    });
+
+    await test.step('Change individual regulator answer to No', async () => {
+      await registerOrganisationPage.summaryChangeLink(
+        'Are you (as an individual) registered with a regulator?'
+      ).click();
+      await expect(page).toHaveURL(/\/register-org-new\/individual-registered-with-regulator$/);
+      await registerOrganisationPage.declineIndividualRegulator();
+    });
+
+    await test.step('Assert CYA no longer displays hidden optional details', async () => {
+      await expect(registerOrganisationPage.checkYourAnswersHeading).toBeVisible();
+      await expect(registerOrganisationPage.summaryValue('Organisation name')).toContainText(
+        optionalOtherOrganisationRegistration.companyName
+      );
+      await expect(registerOrganisationPage.summaryValue('Organisation address')).toContainText(
+        optionalOtherOrganisationRegistration.manualUkAddress.addressLine1
+      );
+      await expect(registerOrganisationPage.summaryValue('Organisation address')).toContainText(
+        optionalOtherOrganisationRegistration.manualUkAddress.postCode
+      );
+      await expect(registerOrganisationPage.summaryValue('First name(s)')).toContainText(
+        optionalOtherOrganisationRegistration.contactDetails.firstName
+      );
+      await expect(registerOrganisationPage.summaryValue('Email address')).toContainText(
+        optionalOtherOrganisationRegistration.contactDetails.workEmailAddress
+      );
+      await expect(registerOrganisationPage.summaryValue(
+        'Do you have a document exchange reference for your main office?'
+      )).toContainText('No');
+      await expect(registerOrganisationPage.summaryRow('What\'s the DX reference for this office?')).toHaveCount(0);
+      await expect(registerOrganisationPage.summaryValue(
+        'Does your organisation have a payment by account number?'
+      )).toContainText('No');
+      await expect(registerOrganisationPage.summaryRow('What PBA numbers does your organisation use?')).toHaveCount(0);
+      await expect(registerOrganisationPage.summaryValue(
+        'Are you (as an individual) registered with a regulator?'
+      )).toContainText('No');
+      await expect(registerOrganisationPage.summaryRow(
+        'What regulators are you (as an individual) registered with?'
+      )).toHaveCount(0);
+    });
+
+    await registerOrganisationPage.submitRegistration();
+
+    await expect(registerOrganisationPage.submittedHeading).toBeVisible();
+    await expect.poll(() => routeState.registrationRequests.length).toBe(1);
+
+    expect(routeState.registrationRequests[0]).toMatchObject({
+      address: optionalOtherOrganisationRegistration.manualUkAddress,
+      companyHouseNumber: optionalOtherOrganisationRegistration.companyHouseNumber,
+      companyName: optionalOtherOrganisationRegistration.companyName,
+      contactDetails: optionalOtherOrganisationRegistration.contactDetails,
+      dxExchange: null,
+      dxNumber: null,
+      hasDxReference: false,
+      hasIndividualRegisteredWithRegulator: false,
+      hasPBA: false,
+      inInternationalMode: true,
+      individualRegulators: [],
+      organisationType: {
+        description: 'Other',
+        key: 'OTHER'
+      },
+      otherOrganisationDetail: optionalOtherOrganisationRegistration.otherOrganisationDetail,
+      otherOrganisationType: {
+        description: otherOrganisationType.value_en,
+        key: otherOrganisationType.key
+      },
+      pbaNumbers: [],
+      regulators: [{
+        organisationRegistrationNumber: optionalOtherOrganisationRegistration.organisationRegulatorNumber,
+        regulatorName: optionalOtherOrganisationRegistration.organisationRegulatorName,
+        regulatorType: 'Other'
+      }],
+      services: optionalOtherOrganisationRegistration.services,
+      sraRegulated: false
+    });
   });
 });

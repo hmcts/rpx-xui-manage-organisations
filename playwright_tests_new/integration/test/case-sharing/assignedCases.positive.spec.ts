@@ -258,7 +258,7 @@ test.describe('Assigned cases', { tag: ['@integration', '@integration-assigned-c
     }
   });
 
-  test('keeps assigned pending-share cancellation scoped to the selected case', async ({
+  test('keeps assigned same-tab pending-share cancellation scoped to the selected case', async ({
     manageOrgIntegrationPage: page
   }) => {
     const routeState = await setupAssignedCaseShareRoutes(page);
@@ -266,27 +266,27 @@ test.describe('Assigned cases', { tag: ['@integration', '@integration-assigned-c
     const caseSharingPage = new CaseSharingPage(page);
     const confirmPage = new CaseShareConfirmPage(page);
     const completePage = new CaseShareCompletePage(page);
-    const [cancelledCaseId, confirmedCaseId] = assignedCaseIds;
+    const sameTabAssignedCaseIds = [assignedAsylumCase.caseReference, assignedSecondAsylumCase.caseReference];
+    const [cancelledCaseId, confirmedCaseId] = sameTabAssignedCaseIds;
     const recipientName = buildRecipientName(petSolicitorTwo);
     const recipientOptionName = buildRecipientOptionName(petSolicitorTwo);
 
-    await test.step('Open assigned case sharing for two selected cases', async () => {
+    await test.step('Open assigned case sharing for two selected same-tab cases', async () => {
       await assignedCasesPage.gotoAssignedCases();
 
       await expect(assignedCasesPage.pageHeading).toBeVisible();
 
       await assignedCasesPage.selectCase(cancelledCaseId);
-      await assignedCasesPage.openCaseTypeTab(immigrationCaseType);
       await assignedCasesPage.selectCase(confirmedCaseId);
       await assignedCasesPage.startCaseSharing();
 
       await expect(page).toHaveURL(/\/assigned-cases\/case-share\?init=true&pageType=assigned-cases$/);
       await expect(page.getByRole('heading', { name: 'Manage shared access to a case' })).toBeVisible();
       await expect.poll(() => routeState.loadedShareCaseIds.length).toBe(1);
-      await expect(routeState.loadedShareCaseIds[0]).toEqual(assignedCaseIds);
+      await expect(routeState.loadedShareCaseIds[0]).toEqual(sameTabAssignedCaseIds);
       expect(routeState.caseShareCaseRequests).toEqual([
         {
-          caseIds: assignedCaseIds,
+          caseIds: sameTabAssignedCaseIds,
           method: 'GET'
         }
       ]);
@@ -301,7 +301,7 @@ test.describe('Assigned cases', { tag: ['@integration', '@integration-assigned-c
       await caseSharingPage.addRecipient();
       await caseSharingPage.showAllCaseSections();
 
-      for (const caseId of assignedCaseIds) {
+      for (const caseId of sameTabAssignedCaseIds) {
         const selectedCase = caseSharingPage.caseSection(caseId);
 
         await expect(selectedCase).toContainText(recipientName);
@@ -334,7 +334,7 @@ test.describe('Assigned cases', { tag: ['@integration', '@integration-assigned-c
       expect(routeState.caseAssignmentRequests).toEqual([
         {
           method: 'POST',
-          sharedCaseIds: assignedCaseIds
+          sharedCaseIds: sameTabAssignedCaseIds
         }
       ]);
       await expect(page).toHaveURL(/\/assigned-cases\/case-share-complete\/assigned-cases$/);
@@ -349,7 +349,7 @@ test.describe('Assigned cases', { tag: ['@integration', '@integration-assigned-c
       sharedCase.caseId === confirmedCaseId
     );
 
-    expect(submittedAssignment.sharedCases.map((sharedCase) => sharedCase.caseId)).toEqual(assignedCaseIds);
+    expect(submittedAssignment.sharedCases.map((sharedCase) => sharedCase.caseId)).toEqual(sameTabAssignedCaseIds);
     expect(cancelledCase?.pendingShares).toEqual([]);
     expect(cancelledCase?.pendingUnshares).toEqual([]);
     expect(confirmedCase?.pendingShares).toEqual([petSolicitorTwo]);

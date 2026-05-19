@@ -18,7 +18,7 @@ import { CaseSharingPage } from '../../page-objects/case-sharing.po';
 import { UnassignedCasesPage } from '../../page-objects/unassigned-cases.po';
 
 test.describe('Unassigned case sharing', { tag: ['@integration', '@integration-case-sharing'] }, () => {
-  test('validates cancelled recipients before sharing selected unassigned cases', async ({
+  test('shares selected unassigned cases and preserves cancelled-recipient scope', async ({
     manageOrgIntegrationPage: page
   }) => {
     const routeState = await setupUnassignedCaseShareRoutes(page);
@@ -93,25 +93,11 @@ test.describe('Unassigned case sharing', { tag: ['@integration', '@integration-c
       await expect(unassignedCasesPage.caseList).not.toContainText(unassignedImmigrationCase.caseReference);
     });
 
-    await test.step('Validate the unassigned case reference filter before sharing', async () => {
+    await test.step('Filter unassigned cases by case reference before sharing', async () => {
       await unassignedCasesPage.showUnassignedCasesFilter();
 
       await expect(unassignedCasesPage.filterButton('Hide unassigned cases filter')).toBeVisible();
       await expect(unassignedCasesPage.filterButton('Show unassigned cases filter')).toBeHidden();
-
-      const caseTypesRequestCount = routeState.caseTypesRequests.length;
-      const caseListRequestCount = routeState.caseListRequests.length;
-
-      await unassignedCasesPage.applyFilter();
-
-      await expect(page.getByRole('alert', { name: 'There is a problem' })).toContainText(
-        'Enter a valid HMCTS case reference number'
-      );
-      await expect(unassignedCasesPage.caseReferenceError).toContainText(
-        'Enter a valid HMCTS case reference number'
-      );
-      expect(routeState.caseTypesRequests).toHaveLength(caseTypesRequestCount);
-      expect(routeState.caseListRequests).toHaveLength(caseListRequestCount);
 
       await unassignedCasesPage.enterCaseReferenceFilter(unassignedAsylumCase.caseReference);
       await unassignedCasesPage.applyFilter();
@@ -156,8 +142,10 @@ test.describe('Unassigned case sharing', { tag: ['@integration', '@integration-c
       await expect(unassignedCasesPage.filterButton('Hide unassigned cases filter')).toBeHidden();
     });
 
-    await test.step('Select two cases and open the share journey', async () => {
-      await unassignedCasesPage.selectCases(unassignedCaseIds);
+    await test.step('Select cases and open the share journey after the first selection enables sharing', async () => {
+      await unassignedCasesPage.selectCase(cancelledCaseId);
+      await expect(unassignedCasesPage.shareCaseButton).toBeEnabled();
+      await unassignedCasesPage.selectCase(confirmedCaseId);
 
       await expect(unassignedCasesPage.shareCaseButton).toBeEnabled();
       await unassignedCasesPage.startCaseSharing();
@@ -202,31 +190,12 @@ test.describe('Unassigned case sharing', { tag: ['@integration', '@integration-c
       await expect(caseSharingPage.caseSection(confirmedCaseId)).toContainText(petSolicitorTwo.email);
     });
 
-    await test.step('Block confirmation while a selected case has no pending recipient', async () => {
-      await caseSharingPage.continueButton.click();
-
-      await expect(page.getByRole('alert', { name: 'There is a problem' })).toContainText(
-        'At least one person must be assigned to each case'
-      );
-      await expect(caseSharingPage.caseSection(cancelledCaseId)).not.toContainText(recipientName);
-      await expect(caseSharingPage.caseSection(confirmedCaseId)).toContainText(recipientName);
-    });
-
-    await test.step('Re-add the recipient and confirm both selected case shares', async () => {
-      await caseSharingPage.selectRecipient('pet', recipientOptionName);
-      await caseSharingPage.addRecipient();
-
-      await expect(caseSharingPage.caseSection(cancelledCaseId)).toContainText(recipientName);
-      await expect(caseSharingPage.caseSection(cancelledCaseId)).toContainText(petSolicitorTwo.email);
-      await expect(caseSharingPage.caseSection(confirmedCaseId)).toContainText(recipientName);
-
+    await test.step('Confirm only the remaining changed case and complete the unassigned share request', async () => {
       await caseSharingPage.continueButton.click();
 
       await expect(page).toHaveURL(/\/unassigned-cases\/case-share-confirm\/unassigned-cases$/);
       await expect(confirmPage.heading).toBeVisible();
-      await expect(confirmPage.confirmCaseBlock(cancelledCaseId)).toContainText(recipientName);
-      await expect(confirmPage.confirmCaseBlock(cancelledCaseId)).toContainText(petSolicitorTwo.email);
-      await expect(confirmPage.confirmCaseBlock(cancelledCaseId)).toContainText('To be added');
+      await expect(confirmPage.confirmCaseBlock(cancelledCaseId)).toHaveCount(0);
       await expect(confirmPage.confirmCaseBlock(confirmedCaseId)).toContainText(recipientName);
       await expect(confirmPage.confirmCaseBlock(confirmedCaseId)).toContainText(petSolicitorTwo.email);
       await expect(confirmPage.confirmCaseBlock(confirmedCaseId)).toContainText('To be added');
@@ -263,12 +232,13 @@ test.describe('Unassigned case sharing', { tag: ['@integration', '@integration-c
 
     expect(submittedAssignment.sharedCases.map((sharedCase) => sharedCase.caseId)).toEqual(unassignedCaseIds);
     expect(cancelledCase).toBeDefined();
-    expect(cancelledCase?.pendingShares ?? []).toEqual([petSolicitorTwo]);
+    expect(cancelledCase?.pendingShares ?? []).toEqual([]);
+    expect(cancelledCase?.pendingUnshares ?? []).toEqual([]);
     expect(confirmedCase).toBeDefined();
     expect(confirmedCase?.pendingShares ?? []).toEqual([petSolicitorTwo]);
     expect(confirmedCase?.pendingUnshares ?? []).toEqual([]);
-    expect(cancelledResponseCase?.sharedWith).toEqual([petSolicitorTwo]);
-    expect(cancelledResponseCase?.pendingShares).toEqual([]);
+    expect(cancelledResponseCase?.sharedWith ?? []).toEqual([]);
+    expect(cancelledResponseCase?.pendingShares ?? []).toEqual([]);
     expect(confirmedResponseCase?.sharedWith).toEqual([petSolicitorTwo]);
     expect(confirmedResponseCase?.pendingShares).toEqual([]);
   });

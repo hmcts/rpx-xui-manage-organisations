@@ -20,7 +20,7 @@ const { version: appVersion } = JSON.parse(readFileSync(resolve(process.cwd(), '
 module.exports = defineConfig({
   testDir: 'playwright_tests_new/E2E',
   testMatch: ['**/test/**/*.spec.ts'],
-  testIgnore: ['**/test/smoke/smokeTest.spec.ts'],
+  testIgnore: ['**/test/smoke/smokeTest.spec.ts', '**/*.a11y.spec.ts'],
   grep: resolveTagGrep(process.env),
   grepInvert: resolveTagGrepInvert(process.env),
   fullyParallel: true,

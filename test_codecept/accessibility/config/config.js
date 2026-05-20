@@ -1,13 +1,24 @@
+require('dotenv-extended').load({
+  defaults: '.env.example',
+  errorOnExtra: false,
+  errorOnMissing: false,
+  includeProcessEnv: true,
+  silent: true
+});
+
+const localBaseUrl = process.env.WEB_BASE_URL || 'http://localhost:3000/';
+const baseUrl = localBaseUrl.endsWith('/') ? localBaseUrl : `${localBaseUrl}/`;
+
 const conf = {
   reportPath: 'functional-output/tests/codecept-a11y/',
   appName: 'Manage Organisation',
   baseUrl1: 'https://manage-org.aat.platform.hmcts.net/',
-  baseUrl: 'http://localhost:3000/',
-  failTestOna11yIssues: false,
+  baseUrl,
+  failTestOna11yIssues: process.env.FAIL_TEST_ON_A11Y_ISSUES !== 'false',
   headless: true,
   params: {
-    username: 'sreekanth_su@mailinator.com',
-    password: 'Monday01'
+    username: process.env.TEST_USER1_EMAIL,
+    password: process.env.TEST_USER1_PASSWORD
   },
   authenticatedUrls: [
     'organisation',
@@ -33,4 +44,3 @@ const conf = {
 };
 
 module.exports = { conf };
-

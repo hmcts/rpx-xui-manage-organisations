@@ -111,6 +111,11 @@ export class RegisterOrganisationPage {
     await this.waitForLoader();
   }
 
+  public async openWorkflowPage(path: string): Promise<void> {
+    await this.page.goto(`/register-org-new/${path}`);
+    await this.waitForLoader();
+  }
+
   public async startRegistration(): Promise<void> {
     await this.confirmedOrganisationAccountCheckbox.check();
     await this.continueWith('Start');

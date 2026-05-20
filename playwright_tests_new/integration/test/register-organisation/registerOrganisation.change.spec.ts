@@ -1,3 +1,4 @@
+import type { Page } from '@playwright/test';
 import { expect, test } from '../../fixtures';
 import {
   continuePopulatedOptionalJourneyFromContactDetailsToCheckYourAnswers,
@@ -11,10 +12,145 @@ import {
 } from '../../mocks/registerOrganisation.mock';
 import { RegisterOrganisationPage } from '../../page-objects/register-organisation.po';
 
+interface CheckYourAnswersChangeLinkCase {
+  assertPopulatedFields: (page: Page, registerOrganisationPage: RegisterOrganisationPage) => Promise<void>;
+  expectedUrl: RegExp;
+  name: string;
+  summaryLabel: string;
+}
+
+const checkYourAnswersChangeLinkCases: CheckYourAnswersChangeLinkCase[] = [
+  {
+    assertPopulatedFields: async (_page, registerOrganisationPage) => {
+      await expect(registerOrganisationPage.otherOrganisationTypeRadio).toBeChecked();
+      await expect(registerOrganisationPage.otherOrganisationTypeSelect.locator('option:checked')).toContainText(
+        otherOrganisationType.value_en
+      );
+      await expect(registerOrganisationPage.otherOrganisationDetailInput).toHaveValue(
+        optionalOtherOrganisationRegistration.otherOrganisationDetail
+      );
+    },
+    expectedUrl: /\/register-org-new\/organisation-type$/,
+    name: 'organisation type',
+    summaryLabel: 'Organisation type'
+  },
+  {
+    assertPopulatedFields: async (_page, registerOrganisationPage) => {
+      await expect(registerOrganisationPage.organisationNameInput).toHaveValue(
+        optionalOtherOrganisationRegistration.companyName
+      );
+      await expect(registerOrganisationPage.companyHouseNumberInput).toHaveValue(
+        optionalOtherOrganisationRegistration.companyHouseNumber
+      );
+    },
+    expectedUrl: /\/register-org-new\/company-house-details$/,
+    name: 'organisation name',
+    summaryLabel: 'Organisation name'
+  },
+  {
+    assertPopulatedFields: async (_page, registerOrganisationPage) => {
+      await expect(registerOrganisationPage.addressLine1Input).toHaveValue(
+        optionalOtherOrganisationRegistration.manualUkAddress.addressLine1
+      );
+      await expect(registerOrganisationPage.postCodeInput).toHaveValue(
+        optionalOtherOrganisationRegistration.manualUkAddress.postCode
+      );
+    },
+    expectedUrl: /\/register-org-new\/registered-address\/internal$/,
+    name: 'organisation address',
+    summaryLabel: 'Organisation address'
+  },
+  {
+    assertPopulatedFields: async (_page, registerOrganisationPage) => {
+      await expect(registerOrganisationPage.dxNumberInput).toHaveValue(optionalOtherOrganisationRegistration.dxNumber);
+      await expect(registerOrganisationPage.dxExchangeInput).toHaveValue(
+        optionalOtherOrganisationRegistration.dxExchange
+      );
+    },
+    expectedUrl: /\/register-org-new\/document-exchange-reference-details$/,
+    name: 'DX reference',
+    summaryLabel: 'What\'s the DX reference for this office?'
+  },
+  {
+    assertPopulatedFields: async (_page, registerOrganisationPage) => {
+      await expect(registerOrganisationPage.pbaNumberInput()).toHaveValue(
+        optionalOtherOrganisationRegistration.pbaNumbers[0]
+      );
+      await expect(registerOrganisationPage.pbaNumberInput(1)).toHaveValue(
+        optionalOtherOrganisationRegistration.pbaNumbers[1]
+      );
+    },
+    expectedUrl: /\/register-org-new\/payment-by-account-details$/,
+    name: 'PBA numbers',
+    summaryLabel: 'What PBA numbers does your organisation use?'
+  },
+  {
+    assertPopulatedFields: async (_page, registerOrganisationPage) => {
+      await expect(registerOrganisationPage.regulatorTypeSelect.locator('option:checked')).toContainText('Other');
+      await expect(registerOrganisationPage.regulatorNameInput).toHaveValue(
+        optionalOtherOrganisationRegistration.organisationRegulatorName
+      );
+      await expect(registerOrganisationPage.organisationRegistrationNumberInput).toHaveValue(
+        optionalOtherOrganisationRegistration.organisationRegulatorNumber
+      );
+    },
+    expectedUrl: /\/register-org-new\/regulatory-organisation-type$/,
+    name: 'organisation regulator',
+    summaryLabel: 'Regulatory organisation type'
+  },
+  {
+    assertPopulatedFields: async (_page, registerOrganisationPage) => {
+      await expect(registerOrganisationPage.firstNameInput).toHaveValue(
+        optionalOtherOrganisationRegistration.contactDetails.firstName
+      );
+      await expect(registerOrganisationPage.lastNameInput).toHaveValue(
+        optionalOtherOrganisationRegistration.contactDetails.lastName
+      );
+      await expect(registerOrganisationPage.workEmailAddressInput).toHaveValue(
+        optionalOtherOrganisationRegistration.contactDetails.workEmailAddress
+      );
+    },
+    expectedUrl: /\/register-org-new\/contact-details$/,
+    name: 'contact details',
+    summaryLabel: 'First name(s)'
+  },
+  {
+    assertPopulatedFields: async (_page, registerOrganisationPage) => {
+      await expect(registerOrganisationPage.regulatorTypeSelect.locator('option:checked')).toContainText('Other');
+      await expect(registerOrganisationPage.regulatorNameInput).toHaveValue(
+        optionalOtherOrganisationRegistration.individualRegulatorName
+      );
+      await expect(registerOrganisationPage.organisationRegistrationNumberInput).toHaveValue(
+        optionalOtherOrganisationRegistration.individualRegulatorNumber
+      );
+    },
+    expectedUrl: /\/register-org-new\/individual-registered-with-regulator-details$/,
+    name: 'individual regulator',
+    summaryLabel: 'What regulators are you (as an individual) registered with?'
+  }
+];
+
+const backNavigationScreenOrder = [
+  'What regulator are you (as an individual) registered with?',
+  'Are you (as an individual) registered with a regulator?',
+  'Provide your contact details',
+  'What PBA numbers does your organisation use?',
+  'Does your organisation have a payment by account number?',
+  'Which services will your organisation need to access?',
+  'Who is your organisation registered with?',
+  'What\'s the DX reference for this office?',
+  'Do you have a document exchange reference for your main office?',
+  'Is this a UK address?',
+  'What is the registered address of your organisation?',
+  'What is your organisation name and Companies House number?',
+  'What type of organisation are you registering?',
+  'Apply for an organisation to manage civil, family and tribunal cases'
+] as const;
+
 test.describe('Register organisation Check Your Answers change links', {
   tag: ['@integration', '@integration-register-organisation']
 }, () => {
-  test('routes CYA change links back to populated registration steps', async ({
+  test('navigates backwards through the populated optional registration journey', async ({
     manageOrgIntegrationPage: page
   }) => {
     await setupRegisterOrganisationRoutes(page);
@@ -23,99 +159,31 @@ test.describe('Register organisation Check Your Answers change links', {
     await completeOptionalOtherOrganisationJourney(registerOrganisationPage);
     await expect(registerOrganisationPage.checkYourAnswersHeading).toBeVisible();
 
-    await registerOrganisationPage.summaryChangeLink('Organisation type').click();
-    await expect(page).toHaveURL(/\/register-org-new\/organisation-type$/);
-    await expect(registerOrganisationPage.otherOrganisationTypeRadio).toBeChecked();
-    await expect(registerOrganisationPage.otherOrganisationTypeSelect.locator('option:checked')).toContainText(
-      otherOrganisationType.value_en
-    );
-    await expect(registerOrganisationPage.otherOrganisationDetailInput).toHaveValue(
-      optionalOtherOrganisationRegistration.otherOrganisationDetail
-    );
-    await registerOrganisationPage.goBack();
-    await expect(registerOrganisationPage.checkYourAnswersHeading).toBeVisible();
-
-    await registerOrganisationPage.summaryChangeLink('Organisation name').click();
-    await expect(page).toHaveURL(/\/register-org-new\/company-house-details$/);
-    await expect(registerOrganisationPage.organisationNameInput).toHaveValue(
-      optionalOtherOrganisationRegistration.companyName
-    );
-    await expect(registerOrganisationPage.companyHouseNumberInput).toHaveValue(
-      optionalOtherOrganisationRegistration.companyHouseNumber
-    );
-    await registerOrganisationPage.goBack();
-    await expect(registerOrganisationPage.checkYourAnswersHeading).toBeVisible();
-
-    await registerOrganisationPage.summaryChangeLink('Organisation address').click();
-    await expect(page).toHaveURL(/\/register-org-new\/registered-address\/internal$/);
-    await expect(registerOrganisationPage.addressLine1Input).toHaveValue(
-      optionalOtherOrganisationRegistration.manualUkAddress.addressLine1
-    );
-    await expect(registerOrganisationPage.postCodeInput).toHaveValue(
-      optionalOtherOrganisationRegistration.manualUkAddress.postCode
-    );
-    await registerOrganisationPage.goBack();
-    await expect(registerOrganisationPage.checkYourAnswersHeading).toBeVisible();
-
-    await registerOrganisationPage.summaryChangeLink('What\'s the DX reference for this office?').click();
-    await expect(page).toHaveURL(/\/register-org-new\/document-exchange-reference-details$/);
-    await expect(registerOrganisationPage.dxNumberInput).toHaveValue(optionalOtherOrganisationRegistration.dxNumber);
-    await expect(registerOrganisationPage.dxExchangeInput).toHaveValue(optionalOtherOrganisationRegistration.dxExchange);
-    await registerOrganisationPage.goBack();
-    await expect(registerOrganisationPage.checkYourAnswersHeading).toBeVisible();
-
-    await registerOrganisationPage.summaryChangeLink('What PBA numbers does your organisation use?').click();
-    await expect(page).toHaveURL(/\/register-org-new\/payment-by-account-details$/);
-    await expect(registerOrganisationPage.pbaNumberInput()).toHaveValue(
-      optionalOtherOrganisationRegistration.pbaNumbers[0]
-    );
-    await expect(registerOrganisationPage.pbaNumberInput(1)).toHaveValue(
-      optionalOtherOrganisationRegistration.pbaNumbers[1]
-    );
-    await registerOrganisationPage.goBack();
-    await expect(registerOrganisationPage.checkYourAnswersHeading).toBeVisible();
-
-    await registerOrganisationPage.summaryChangeLink('Regulatory organisation type').click();
-    await expect(page).toHaveURL(/\/register-org-new\/regulatory-organisation-type$/);
-    await expect(registerOrganisationPage.regulatorTypeSelect.locator('option:checked')).toContainText('Other');
-    await expect(registerOrganisationPage.regulatorNameInput).toHaveValue(
-      optionalOtherOrganisationRegistration.organisationRegulatorName
-    );
-    await expect(registerOrganisationPage.organisationRegistrationNumberInput).toHaveValue(
-      optionalOtherOrganisationRegistration.organisationRegulatorNumber
-    );
-    await registerOrganisationPage.goBack();
-    await expect(registerOrganisationPage.checkYourAnswersHeading).toBeVisible();
-
-    await registerOrganisationPage.summaryChangeLink('First name(s)').click();
-    await expect(page).toHaveURL(/\/register-org-new\/contact-details$/);
-    await expect(registerOrganisationPage.firstNameInput).toHaveValue(
-      optionalOtherOrganisationRegistration.contactDetails.firstName
-    );
-    await expect(registerOrganisationPage.lastNameInput).toHaveValue(
-      optionalOtherOrganisationRegistration.contactDetails.lastName
-    );
-    await expect(registerOrganisationPage.workEmailAddressInput).toHaveValue(
-      optionalOtherOrganisationRegistration.contactDetails.workEmailAddress
-    );
-    await registerOrganisationPage.goBack();
-    await expect(registerOrganisationPage.checkYourAnswersHeading).toBeVisible();
-
-    await registerOrganisationPage.summaryChangeLink(
-      'What regulators are you (as an individual) registered with?'
-    ).click();
-    await expect(page).toHaveURL(/\/register-org-new\/individual-registered-with-regulator-details$/);
-    await expect(registerOrganisationPage.regulatorTypeSelect.locator('option:checked')).toContainText('Other');
-    await expect(registerOrganisationPage.regulatorNameInput).toHaveValue(
-      optionalOtherOrganisationRegistration.individualRegulatorName
-    );
-    await expect(registerOrganisationPage.organisationRegistrationNumberInput).toHaveValue(
-      optionalOtherOrganisationRegistration.individualRegulatorNumber
-    );
-    await registerOrganisationPage.goBack();
-
-    await expect(registerOrganisationPage.checkYourAnswersHeading).toBeVisible();
+    for (const expectedScreen of backNavigationScreenOrder) {
+      await registerOrganisationPage.goBack();
+      await expect(page.getByText(expectedScreen, { exact: true }).first()).toBeVisible();
+    }
   });
+
+  for (const changeLinkCase of checkYourAnswersChangeLinkCases) {
+    test(`routes the ${changeLinkCase.name} CYA change link back to populated registration details`, async ({
+      manageOrgIntegrationPage: page
+    }) => {
+      await setupRegisterOrganisationRoutes(page);
+      const registerOrganisationPage = new RegisterOrganisationPage(page);
+
+      await completeOptionalOtherOrganisationJourney(registerOrganisationPage);
+      await expect(registerOrganisationPage.checkYourAnswersHeading).toBeVisible();
+
+      await registerOrganisationPage.summaryChangeLink(changeLinkCase.summaryLabel).click();
+
+      await expect(page).toHaveURL(changeLinkCase.expectedUrl);
+      await changeLinkCase.assertPopulatedFields(page, registerOrganisationPage);
+
+      await registerOrganisationPage.goBack();
+      await expect(registerOrganisationPage.checkYourAnswersHeading).toBeVisible();
+    });
+  }
 
   test('removes stale optional details from CYA and submission after answers are changed to No', async ({
     manageOrgIntegrationPage: page

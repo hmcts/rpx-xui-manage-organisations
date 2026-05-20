@@ -1,6 +1,7 @@
 import {
   minimumSolicitorRegistration,
   optionalOtherOrganisationRegistration,
+  optionalSolicitorRegistration,
   otherOrganisationType
 } from '../mocks/registerOrganisation.mock';
 import { RegisterOrganisationPage } from '../page-objects/register-organisation.po';
@@ -62,6 +63,38 @@ export const completeMinimumSolicitorJourney = async (
   await registerOrganisationPage.declinePaymentByAccount();
   await registerOrganisationPage.enterContactDetails(minimumSolicitorRegistration.contactDetails);
   await registerOrganisationPage.declineIndividualRegulator();
+};
+
+export const completeOptionalSolicitorJourney = async (
+  registerOrganisationPage: RegisterOrganisationPage
+): Promise<void> => {
+  await registerOrganisationPage.openStartPage();
+  await registerOrganisationPage.startRegistration();
+  await registerOrganisationPage.chooseSolicitorOrganisationType();
+  await registerOrganisationPage.enterOrganisationNameAndCompanyHouseNumber(
+    optionalSolicitorRegistration.companyName,
+    optionalSolicitorRegistration.companyHouseNumber
+  );
+  await registerOrganisationPage.enterManualUkAddress(
+    optionalSolicitorRegistration.manualUkAddress
+  );
+  await registerOrganisationPage.enterDocumentExchangeReference(
+    optionalSolicitorRegistration.dxNumber,
+    optionalSolicitorRegistration.dxExchange
+  );
+  await registerOrganisationPage.enterOtherOrganisationRegulator(
+    optionalSolicitorRegistration.organisationRegulatorName,
+    optionalSolicitorRegistration.organisationRegulatorNumber
+  );
+  await registerOrganisationPage.chooseServices(...serviceValues(optionalSolicitorRegistration.services));
+  await registerOrganisationPage.enterPaymentByAccountNumbers(
+    optionalSolicitorRegistration.pbaNumbers
+  );
+  await registerOrganisationPage.enterContactDetails(optionalSolicitorRegistration.contactDetails);
+  await registerOrganisationPage.enterOtherIndividualRegulator(
+    optionalSolicitorRegistration.individualRegulatorName,
+    optionalSolicitorRegistration.individualRegulatorNumber
+  );
 };
 
 export const continuePopulatedOptionalJourneyFromOrganisationRegulatorToCheckYourAnswers = async (

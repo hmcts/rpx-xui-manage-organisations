@@ -13,6 +13,7 @@ export class UsersPage extends BasePage {
   public readonly suspendAccountButton: Locator;
   public readonly suspendConfirmationHeading: Locator;
   public readonly resendInvitationButton: Locator;
+  public readonly sendInvitationButton: Locator;
   public readonly inviteUserHeading: Locator;
   public readonly firstNameInput: Locator;
   public readonly lastNameInput: Locator;
@@ -34,6 +35,7 @@ export class UsersPage extends BasePage {
       name: 'Are you sure you want to suspend this account?'
     });
     this.resendInvitationButton = page.locator('#resend-invite-button');
+    this.sendInvitationButton = page.getByRole('button', { name: 'Send invitation' });
     this.inviteUserHeading = page.getByRole('heading', { name: 'Invite user' });
     this.firstNameInput = page.locator('#firstName');
     this.lastNameInput = page.locator('#lastName');
@@ -95,6 +97,10 @@ export class UsersPage extends BasePage {
     }
   }
 
+  public async openInviteUser(): Promise<void> {
+    await this.inviteUserButton.click();
+  }
+
   public async openEditPermissions(): Promise<void> {
     await this.changePermissionsLink.click();
   }
@@ -107,8 +113,16 @@ export class UsersPage extends BasePage {
     await this.suspendAccountButton.click();
   }
 
+  public async submitInvite(): Promise<void> {
+    await this.sendInvitationButton.click();
+  }
+
   public permissionCheckbox(label: string): Locator {
     const escapedLabel = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     return this.page.getByRole('checkbox', { name: new RegExp(`^(Permit users to )?${escapedLabel}$`, 'i') });
+  }
+
+  public validationSummaryError(message: string): Locator {
+    return this.page.getByRole('alert').getByText(message, { exact: true });
   }
 }

@@ -29,7 +29,7 @@ module.exports = defineConfig({
     baseURL: baseUrl,
   },
   testDir: '.',
-  testMatch: ['playwright_tests/**/*.test.ts', 'playwright_tests_new/E2E/**/*.spec.ts', 'playwright_tests_new/api/**/*.api.ts'],
+  testMatch: ['playwright_tests_new/E2E/**/*.spec.ts', 'playwright_tests_new/api/**/*.api.ts'],
   grep: resolveTagGrep(process.env),
   grepInvert: resolveTagGrepInvert(process.env),
   /* Run tests in files in parallel */

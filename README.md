@@ -80,6 +80,7 @@ Playwright API, integration, accessibility, and E2E lanes are the authoritative 
 - `yarn test:functional` and `yarn test:fullfunctional` are retained only as no-op bridges for shared Jenkins hooks while the deployed Playwright stages run the real gates.
 - Direct legacy Codecept aliases such as `yarn test:codeceptE2E`, `yarn test:a11yInTest`, `yarn test:api`, and `yarn test:xuiIntegration` fail fast with their Playwright replacements.
 - `test_codecept/**` assets remain in the repository for audit and deletion follow-up; do not use them as active validation commands.
+- `playwright_tests/**` legacy specs also remain for audit and deletion follow-up; active Playwright configs select `playwright_tests_new/**` only.
 
 ## Playwright authentication
 

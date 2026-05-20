@@ -11,7 +11,7 @@ import {
   unassignedAsylumCase,
   unassignedCaseIds,
   unassignedImmigrationCase,
-  unassignedSecondAsylumCase
+  unassignedSecondAsylumCase,
 } from '../../mocks/caseSharing.mock';
 import { CaseShareCompletePage } from '../../page-objects/case-share-complete.po';
 import { CaseShareConfirmPage } from '../../page-objects/case-share-confirm.po';
@@ -19,14 +19,12 @@ import { CaseSharingPage } from '../../page-objects/case-sharing.po';
 import { UnassignedCasesPage } from '../../page-objects/unassigned-cases.po';
 
 test.describe('Unassigned case sharing', { tag: ['@integration', '@integration-case-sharing'] }, () => {
-  test('shares selected unassigned cases and preserves cancelled-recipient scope', async ({
-    manageOrgIntegrationPage: page
-  }) => {
+  test('shares selected unassigned cases and preserves cancelled-recipient scope', async ({ manageOrgIntegrationPage: page }) => {
     const [cancelledCaseId, confirmedCaseId] = unassignedCaseIds;
     const routeState = await setupUnassignedCaseShareRoutes(page, {
       existingAccess: {
-        [cancelledCaseId]: [petSolicitorOne]
-      }
+        [cancelledCaseId]: [petSolicitorOne],
+      },
     });
     const unassignedCasesPage = new UnassignedCasesPage(page);
     const caseSharingPage = new CaseSharingPage(page);
@@ -57,7 +55,7 @@ test.describe('Unassigned case sharing', { tag: ['@integration', '@integration-c
         caaCasesFilterType: 'none',
         caaCasesFilterValue: null,
         caaCasesPageType: 'unassigned-cases',
-        method: 'POST'
+        method: 'POST',
       });
       await expect.poll(() => routeState.caseListRequests.length).toBeGreaterThan(0);
       await expect(routeState.caseListRequests[0]).toEqual({
@@ -67,7 +65,7 @@ test.describe('Unassigned case sharing', { tag: ['@integration', '@integration-c
         caseTypeId: asylumCaseType,
         method: 'POST',
         pageNo: '1',
-        pageSize: '25'
+        pageSize: '25',
       });
     });
 
@@ -80,17 +78,20 @@ test.describe('Unassigned case sharing', { tag: ['@integration', '@integration-c
       await expect(unassignedCasesPage.caseList).toContainText(unassignedImmigrationCase.claimant);
       await expect(unassignedCasesPage.caseList).not.toContainText(unassignedAsylumCase.caseReference);
       await expect(unassignedCasesPage.caseList).not.toContainText(unassignedSecondAsylumCase.caseReference);
-      await expect.poll(() =>
-        routeState.caseListRequests.some((request) =>
-          request.caaCasesFilterType === 'none' &&
-          request.caaCasesFilterValue === null &&
-          request.caaCasesPageType === 'unassigned-cases' &&
-          request.caseTypeId === immigrationCaseType &&
-          request.method === 'POST' &&
-          request.pageNo === '1' &&
-          request.pageSize === '25'
+      await expect
+        .poll(() =>
+          routeState.caseListRequests.some(
+            (request) =>
+              request.caaCasesFilterType === 'none' &&
+              request.caaCasesFilterValue === null &&
+              request.caaCasesPageType === 'unassigned-cases' &&
+              request.caseTypeId === immigrationCaseType &&
+              request.method === 'POST' &&
+              request.pageNo === '1' &&
+              request.pageSize === '25'
+          )
         )
-      ).toBe(true);
+        .toBe(true);
 
       await unassignedCasesPage.openCaseTypeTab(asylumCaseType);
       await expect(page.getByText('Showing 1 to 2 of 2 Asylum cases', { exact: true })).toBeVisible();
@@ -108,37 +109,46 @@ test.describe('Unassigned case sharing', { tag: ['@integration', '@integration-c
       await unassignedCasesPage.enterCaseReferenceFilter(unassignedAsylumCase.caseReference);
       await unassignedCasesPage.applyFilter();
 
-      await expect.poll(() =>
-        routeState.caseTypesRequests.some((request) =>
-          request.caaCasesFilterType === 'case-reference-number' &&
-          request.caaCasesFilterValue === unassignedAsylumCase.caseReference &&
-          request.caaCasesPageType === 'unassigned-cases' &&
-          request.method === 'POST'
+      await expect
+        .poll(() =>
+          routeState.caseTypesRequests.some(
+            (request) =>
+              request.caaCasesFilterType === 'case-reference-number' &&
+              request.caaCasesFilterValue === unassignedAsylumCase.caseReference &&
+              request.caaCasesPageType === 'unassigned-cases' &&
+              request.method === 'POST'
+          )
         )
-      ).toBe(true);
-      await expect.poll(() =>
-        routeState.caseListRequests.some((request) =>
-          request.caaCasesFilterType === 'case-reference-number' &&
-          request.caaCasesFilterValue === unassignedAsylumCase.caseReference &&
-          request.caaCasesPageType === 'unassigned-cases' &&
-          request.caseTypeId === asylumCaseType &&
-          request.method === 'POST' &&
-          request.pageNo === '1' &&
-          request.pageSize === '25'
+        .toBe(true);
+      await expect
+        .poll(() =>
+          routeState.caseListRequests.some(
+            (request) =>
+              request.caaCasesFilterType === 'case-reference-number' &&
+              request.caaCasesFilterValue === unassignedAsylumCase.caseReference &&
+              request.caaCasesPageType === 'unassigned-cases' &&
+              request.caseTypeId === asylumCaseType &&
+              request.method === 'POST' &&
+              request.pageNo === '1' &&
+              request.pageSize === '25'
+          )
         )
-      ).toBe(true);
+        .toBe(true);
       await expect(unassignedCasesPage.caseList).toContainText(unassignedAsylumCase.caseReference);
       await expect(unassignedCasesPage.caseList).not.toContainText(unassignedSecondAsylumCase.caseReference);
 
       await unassignedCasesPage.filterButton('Reset').click();
-      await expect.poll(() =>
-        routeState.caseTypesRequests.some((request) =>
-          request.caaCasesFilterType === 'none' &&
-          request.caaCasesFilterValue === null &&
-          request.caaCasesPageType === 'unassigned-cases' &&
-          request.method === 'POST'
+      await expect
+        .poll(() =>
+          routeState.caseTypesRequests.some(
+            (request) =>
+              request.caaCasesFilterType === 'none' &&
+              request.caaCasesFilterValue === null &&
+              request.caaCasesPageType === 'unassigned-cases' &&
+              request.method === 'POST'
+          )
         )
-      ).toBe(true);
+        .toBe(true);
       await expect(unassignedCasesPage.caseList).toContainText(unassignedAsylumCase.caseReference);
       await expect(unassignedCasesPage.caseList).toContainText(unassignedSecondAsylumCase.caseReference);
 
@@ -163,13 +173,16 @@ test.describe('Unassigned case sharing', { tag: ['@integration', '@integration-c
       expect(routeState.caseShareCaseRequests).toEqual([
         {
           caseIds: unassignedCaseIds,
-          method: 'GET'
-        }
+          method: 'GET',
+        },
       ]);
-      await expect.poll(() =>
-        routeState.caseShareUserRequests.length > 0 &&
-        routeState.caseShareUserRequests.every((request) => request.method === 'GET')
-      ).toBe(true);
+      await expect
+        .poll(
+          () =>
+            routeState.caseShareUserRequests.length > 0 &&
+            routeState.caseShareUserRequests.every((request) => request.method === 'GET')
+        )
+        .toBe(true);
 
       for (const caseId of unassignedCaseIds) {
         await expect(caseSharingPage.caseSection(caseId)).toContainText(caseId);
@@ -218,29 +231,23 @@ test.describe('Unassigned case sharing', { tag: ['@integration', '@integration-c
       expect(routeState.caseAssignmentRequests).toEqual([
         {
           method: 'POST',
-          sharedCaseIds: unassignedCaseIds
-        }
+          sharedCaseIds: unassignedCaseIds,
+        },
       ]);
       await expect(page).toHaveURL(/\/unassigned-cases\/case-share-complete\/unassigned-cases$/);
       await expect(completePage.heading).toBeVisible();
-      await expect(completePage.whatHappensNextText(
-        'If you\'ve shared one or more cases, your colleagues will now be able to access them from their case list.'
-      )).toBeVisible();
+      await expect(
+        completePage.whatHappensNextText(
+          "If you've shared one or more cases, your colleagues will now be able to access them from their case list."
+        )
+      ).toBeVisible();
     });
 
     const submittedAssignment = routeState.submittedAssignments[0];
-    const cancelledCase = submittedAssignment.sharedCases.find((sharedCase) =>
-      sharedCase.caseId === cancelledCaseId
-    );
-    const confirmedCase = submittedAssignment.sharedCases.find((sharedCase) =>
-      sharedCase.caseId === confirmedCaseId
-    );
-    const cancelledResponseCase = routeState.assignmentResponses[0].find((sharedCase) =>
-      sharedCase.caseId === cancelledCaseId
-    );
-    const confirmedResponseCase = routeState.assignmentResponses[0].find((sharedCase) =>
-      sharedCase.caseId === confirmedCaseId
-    );
+    const cancelledCase = submittedAssignment.sharedCases.find((sharedCase) => sharedCase.caseId === cancelledCaseId);
+    const confirmedCase = submittedAssignment.sharedCases.find((sharedCase) => sharedCase.caseId === confirmedCaseId);
+    const cancelledResponseCase = routeState.assignmentResponses[0].find((sharedCase) => sharedCase.caseId === cancelledCaseId);
+    const confirmedResponseCase = routeState.assignmentResponses[0].find((sharedCase) => sharedCase.caseId === confirmedCaseId);
 
     expect(submittedAssignment.sharedCases.map((sharedCase) => sharedCase.caseId)).toEqual(unassignedCaseIds);
     expect(cancelledCase).toBeDefined();
@@ -254,5 +261,90 @@ test.describe('Unassigned case sharing', { tag: ['@integration', '@integration-c
     expect(cancelledResponseCase?.pendingShares ?? []).toEqual([]);
     expect(confirmedResponseCase?.sharedWith).toEqual([petSolicitorTwo]);
     expect(confirmedResponseCase?.pendingShares).toEqual([]);
+  });
+
+  test('shares selected unassigned cases without cancelling recipients', async ({ manageOrgIntegrationPage: page }) => {
+    const routeState = await setupUnassignedCaseShareRoutes(page);
+    const unassignedCasesPage = new UnassignedCasesPage(page);
+    const caseSharingPage = new CaseSharingPage(page);
+    const confirmPage = new CaseShareConfirmPage(page);
+    const completePage = new CaseShareCompletePage(page);
+    const recipientName = buildRecipientName(petSolicitorTwo);
+    const recipientOptionName = buildRecipientOptionName(petSolicitorTwo);
+
+    await test.step('Open the share journey for two selected unassigned Asylum cases', async () => {
+      await unassignedCasesPage.gotoUnassignedCases();
+
+      await expect(unassignedCasesPage.pageHeading).toBeVisible();
+      await unassignedCasesPage.selectCase(unassignedCaseIds[0]);
+      await expect(unassignedCasesPage.shareCaseButton).toBeEnabled();
+      await unassignedCasesPage.selectCase(unassignedCaseIds[1]);
+      await unassignedCasesPage.startCaseSharing();
+
+      await expect(page).toHaveURL(/\/unassigned-cases\/case-share\?init=true&pageType=unassigned-cases$/);
+      await expect(page.getByRole('heading', { name: /Add recipient/ })).toBeVisible();
+      await expect.poll(() => routeState.loadedShareCaseIds.length).toBe(1);
+      await expect(routeState.loadedShareCaseIds[0]).toEqual(unassignedCaseIds);
+
+      for (const caseId of unassignedCaseIds) {
+        await expect(caseSharingPage.caseSection(caseId)).toContainText(caseId);
+      }
+    });
+
+    await test.step('Add the same recipient to both selected cases', async () => {
+      await caseSharingPage.selectRecipient('pet', recipientOptionName);
+      await caseSharingPage.addRecipient();
+      await caseSharingPage.showAllCaseSections();
+
+      for (const caseId of unassignedCaseIds) {
+        const selectedCase = caseSharingPage.caseSection(caseId);
+
+        await expect(selectedCase).toContainText(recipientName);
+        await expect(selectedCase).toContainText(petSolicitorTwo.email);
+        await expect(selectedCase).toContainText('To be added');
+      }
+    });
+
+    await test.step('Confirm both selected case shares and submit the request', async () => {
+      await caseSharingPage.continueButton.click();
+
+      await expect(page).toHaveURL(/\/unassigned-cases\/case-share-confirm\/unassigned-cases$/);
+      await expect(confirmPage.heading).toBeVisible();
+
+      for (const caseId of unassignedCaseIds) {
+        await expect(confirmPage.confirmCaseBlock(caseId)).toContainText(recipientName);
+        await expect(confirmPage.confirmCaseBlock(caseId)).toContainText(petSolicitorTwo.email);
+        await expect(confirmPage.confirmCaseBlock(caseId)).toContainText('To be added');
+      }
+
+      await confirmPage.confirm();
+
+      await expect.poll(() => routeState.submittedAssignments.length).toBe(1);
+      expect(routeState.caseAssignmentRequests).toEqual([
+        {
+          method: 'POST',
+          sharedCaseIds: unassignedCaseIds,
+        },
+      ]);
+      await expect(page).toHaveURL(/\/unassigned-cases\/case-share-complete\/unassigned-cases$/);
+      await expect(completePage.heading).toBeVisible();
+    });
+
+    const submittedAssignment = routeState.submittedAssignments[0];
+    const responseCases = routeState.assignmentResponses[0];
+
+    expect(submittedAssignment.sharedCases.map((sharedCase) => sharedCase.caseId)).toEqual(unassignedCaseIds);
+
+    for (const caseId of unassignedCaseIds) {
+      const submittedCase = submittedAssignment.sharedCases.find((sharedCase) => sharedCase.caseId === caseId);
+      const responseCase = responseCases.find((sharedCase) => sharedCase.caseId === caseId);
+
+      expect(submittedCase).toBeDefined();
+      expect(submittedCase?.sharedWith ?? []).toEqual([]);
+      expect(submittedCase?.pendingShares ?? []).toEqual([petSolicitorTwo]);
+      expect(submittedCase?.pendingUnshares ?? []).toEqual([]);
+      expect(responseCase?.sharedWith).toEqual([petSolicitorTwo]);
+      expect(responseCase?.pendingShares).toEqual([]);
+    }
   });
 });

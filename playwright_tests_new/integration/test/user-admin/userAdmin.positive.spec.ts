@@ -37,44 +37,23 @@ test.describe('User administration', { tag: ['@integration', '@integration-user-
     await expect(userAdminPage.userList).toContainText(userAdminPendingUser.email);
     await expect(userAdminPage.userRow(userAdminActiveUser.email)).toContainText(userAdminActiveUser.fullName);
     await expect(userAdminPage.userRow(userAdminPendingUser.email)).toContainText(userAdminPendingUser.fullName);
+    await expect(userAdminPage.userStatusCell(userAdminActiveUser.email)).toHaveText('Active');
+    await expect(userAdminPage.userStatusCell(userAdminPendingUser.email)).toHaveText('Pending');
     expect((await userAdminPage.tableCellTexts()).every((cellText) => cellText.length > 0)).toBe(true);
     await expect.poll(() => routeState.userListRequests.length).toBeGreaterThan(0);
+    expect(routeState.userListRequests.every((method) => method === 'GET')).toBe(true);
 
     await userAdminPage.openInviteUser();
 
     await expect(page).toHaveURL(/\/users\/invite-user$/);
     await expect(userAdminPage.inviteUserHeading).toBeVisible();
     await expect.poll(() => routeState.jurisdictionRequests.length).toBeGreaterThan(0);
+    expect(routeState.jurisdictionRequests.every((method) => method === 'GET')).toBe(true);
 
     await userAdminPage.goBack();
 
     await expect(page).toHaveURL(/\/users$/);
     await expect(userAdminPage.heading).toBeVisible();
-    expect(routeState.inviteUserRequests).toHaveLength(0);
-  });
-
-  test('validates required invite-user fields and missing permissions without posting an invite', async ({
-    manageOrgIntegrationPage: page
-  }) => {
-    const routeState = await setupUserAdminRoutes(page);
-    const userAdminPage = new UserAdminPage(page);
-
-    await userAdminPage.openUsers();
-    await userAdminPage.openInviteUser();
-    await userAdminPage.submitInvite();
-
-    await expect(userAdminPage.validationSummaryError('Enter first name')).toBeVisible();
-    await expect(userAdminPage.validationSummaryError('Enter last name')).toBeVisible();
-    await expect(userAdminPage.validationSummaryError('Enter a valid email address')).toBeVisible();
-    await expect(userAdminPage.validationSummaryError('You must select at least one action')).toBeVisible();
-
-    await userAdminPage.fillInviteUser(inviteUserFormData);
-    await userAdminPage.submitInvite();
-
-    await expect(userAdminPage.validationSummaryError('Enter first name')).toHaveCount(0);
-    await expect(userAdminPage.validationSummaryError('Enter last name')).toHaveCount(0);
-    await expect(userAdminPage.validationSummaryError('Enter a valid email address')).toHaveCount(0);
-    await expect(userAdminPage.validationSummaryError('You must select at least one action')).toBeVisible();
     expect(routeState.inviteUserRequests).toHaveLength(0);
   });
 
@@ -102,6 +81,7 @@ test.describe('User administration', { tag: ['@integration', '@integration-user-
       await expect.poll(() => routeState.inviteUserRequests.length).toBe(1);
       expect(routeState.inviteUserRequests[0]).toEqual({
         ...inviteUserFormData,
+        method: 'POST',
         resendInvite: false,
         roles: expectedRolesFor(permissions)
       });

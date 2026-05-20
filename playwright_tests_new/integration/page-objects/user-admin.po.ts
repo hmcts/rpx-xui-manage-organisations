@@ -43,6 +43,10 @@ export class UserAdminPage {
     });
   }
 
+  public userStatusCell(userEmail: string): Locator {
+    return this.userRow(userEmail).locator('td').nth(2);
+  }
+
   public async openUsers(): Promise<void> {
     await this.page.goto('/users');
     await this.waitForLoader();

@@ -1,6 +1,9 @@
 import type { Page } from '@playwright/test';
 import { expect, test } from '../../fixtures';
-import { setupRegisterOrganisationRoutes } from '../../helpers';
+import {
+  completeOptionalOtherOrganisationJourney,
+  setupRegisterOrganisationRoutes
+} from '../../helpers';
 import {
   minimumSolicitorRegistration,
   optionalOtherOrganisationRegistration,
@@ -342,6 +345,21 @@ test.describe('Register organisation validation paths', { tag: ['@integration', 
 
     await expect(registerOrganisationPage.validationSummaryError('Enter a registration reference')).toBeVisible();
 
+    expect(routeState.registrationRequests).toHaveLength(0);
+  });
+
+  test('blocks other-organisation submission until terms are accepted', async ({
+    manageOrgIntegrationPage: page
+  }) => {
+    const { registerOrganisationPage, routeState } = await setupRegisterOrganisationPage(page);
+
+    await completeOptionalOtherOrganisationJourney(registerOrganisationPage);
+    await expect(registerOrganisationPage.checkYourAnswersHeading).toBeVisible();
+    await registerOrganisationPage.submitRegistrationForm();
+
+    await expect(registerOrganisationPage.validationSummaryError(
+      'Please select checkbox to confirm you have read and understood the terms and conditions'
+    )).toBeVisible();
     expect(routeState.registrationRequests).toHaveLength(0);
   });
 });

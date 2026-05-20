@@ -1,4 +1,3 @@
-import type { Page } from '@playwright/test';
 import { expect, test } from '../../fixtures';
 import {
   continuePopulatedOptionalJourneyFromContactDetailsToCheckYourAnswers,
@@ -13,7 +12,7 @@ import {
 import { RegisterOrganisationPage } from '../../page-objects/register-organisation.po';
 
 interface CheckYourAnswersChangeLinkCase {
-  assertPopulatedFields: (page: Page, registerOrganisationPage: RegisterOrganisationPage) => Promise<void>;
+  assertPopulatedFields: (registerOrganisationPage: RegisterOrganisationPage) => Promise<void>;
   expectedUrl: RegExp;
   name: string;
   summaryLabel: string;
@@ -21,7 +20,7 @@ interface CheckYourAnswersChangeLinkCase {
 
 const checkYourAnswersChangeLinkCases: CheckYourAnswersChangeLinkCase[] = [
   {
-    assertPopulatedFields: async (_page, registerOrganisationPage) => {
+    assertPopulatedFields: async (registerOrganisationPage) => {
       await expect(registerOrganisationPage.otherOrganisationTypeRadio).toBeChecked();
       await expect(registerOrganisationPage.otherOrganisationTypeSelect.locator('option:checked')).toContainText(
         otherOrganisationType.value_en
@@ -35,7 +34,7 @@ const checkYourAnswersChangeLinkCases: CheckYourAnswersChangeLinkCase[] = [
     summaryLabel: 'Organisation type'
   },
   {
-    assertPopulatedFields: async (_page, registerOrganisationPage) => {
+    assertPopulatedFields: async (registerOrganisationPage) => {
       await expect(registerOrganisationPage.organisationNameInput).toHaveValue(
         optionalOtherOrganisationRegistration.companyName
       );
@@ -48,7 +47,20 @@ const checkYourAnswersChangeLinkCases: CheckYourAnswersChangeLinkCase[] = [
     summaryLabel: 'Organisation name'
   },
   {
-    assertPopulatedFields: async (_page, registerOrganisationPage) => {
+    assertPopulatedFields: async (registerOrganisationPage) => {
+      await expect(registerOrganisationPage.organisationNameInput).toHaveValue(
+        optionalOtherOrganisationRegistration.companyName
+      );
+      await expect(registerOrganisationPage.companyHouseNumberInput).toHaveValue(
+        optionalOtherOrganisationRegistration.companyHouseNumber
+      );
+    },
+    expectedUrl: /\/register-org-new\/company-house-details$/,
+    name: 'company registration number',
+    summaryLabel: 'Company registration number'
+  },
+  {
+    assertPopulatedFields: async (registerOrganisationPage) => {
       await expect(registerOrganisationPage.addressLine1Input).toHaveValue(
         optionalOtherOrganisationRegistration.manualUkAddress.addressLine1
       );
@@ -61,7 +73,7 @@ const checkYourAnswersChangeLinkCases: CheckYourAnswersChangeLinkCase[] = [
     summaryLabel: 'Organisation address'
   },
   {
-    assertPopulatedFields: async (_page, registerOrganisationPage) => {
+    assertPopulatedFields: async (registerOrganisationPage) => {
       await expect(registerOrganisationPage.dxNumberInput).toHaveValue(optionalOtherOrganisationRegistration.dxNumber);
       await expect(registerOrganisationPage.dxExchangeInput).toHaveValue(
         optionalOtherOrganisationRegistration.dxExchange
@@ -72,7 +84,17 @@ const checkYourAnswersChangeLinkCases: CheckYourAnswersChangeLinkCase[] = [
     summaryLabel: 'What\'s the DX reference for this office?'
   },
   {
-    assertPopulatedFields: async (_page, registerOrganisationPage) => {
+    assertPopulatedFields: async (registerOrganisationPage) => {
+      for (const service of optionalOtherOrganisationRegistration.services) {
+        await expect(registerOrganisationPage.serviceCheckbox(service.value)).toBeChecked();
+      }
+    },
+    expectedUrl: /\/register-org-new\/organisation-services-access$/,
+    name: 'services',
+    summaryLabel: 'Service to access'
+  },
+  {
+    assertPopulatedFields: async (registerOrganisationPage) => {
       await expect(registerOrganisationPage.pbaNumberInput()).toHaveValue(
         optionalOtherOrganisationRegistration.pbaNumbers[0]
       );
@@ -85,7 +107,7 @@ const checkYourAnswersChangeLinkCases: CheckYourAnswersChangeLinkCase[] = [
     summaryLabel: 'What PBA numbers does your organisation use?'
   },
   {
-    assertPopulatedFields: async (_page, registerOrganisationPage) => {
+    assertPopulatedFields: async (registerOrganisationPage) => {
       await expect(registerOrganisationPage.regulatorTypeSelect.locator('option:checked')).toContainText('Other');
       await expect(registerOrganisationPage.regulatorNameInput).toHaveValue(
         optionalOtherOrganisationRegistration.organisationRegulatorName
@@ -99,7 +121,7 @@ const checkYourAnswersChangeLinkCases: CheckYourAnswersChangeLinkCase[] = [
     summaryLabel: 'Regulatory organisation type'
   },
   {
-    assertPopulatedFields: async (_page, registerOrganisationPage) => {
+    assertPopulatedFields: async (registerOrganisationPage) => {
       await expect(registerOrganisationPage.firstNameInput).toHaveValue(
         optionalOtherOrganisationRegistration.contactDetails.firstName
       );
@@ -115,7 +137,7 @@ const checkYourAnswersChangeLinkCases: CheckYourAnswersChangeLinkCase[] = [
     summaryLabel: 'First name(s)'
   },
   {
-    assertPopulatedFields: async (_page, registerOrganisationPage) => {
+    assertPopulatedFields: async (registerOrganisationPage) => {
       await expect(registerOrganisationPage.regulatorTypeSelect.locator('option:checked')).toContainText('Other');
       await expect(registerOrganisationPage.regulatorNameInput).toHaveValue(
         optionalOtherOrganisationRegistration.individualRegulatorName
@@ -178,12 +200,102 @@ test.describe('Register organisation Check Your Answers change links', {
       await registerOrganisationPage.summaryChangeLink(changeLinkCase.summaryLabel).click();
 
       await expect(page).toHaveURL(changeLinkCase.expectedUrl);
-      await changeLinkCase.assertPopulatedFields(page, registerOrganisationPage);
+      await changeLinkCase.assertPopulatedFields(registerOrganisationPage);
 
       await registerOrganisationPage.goBack();
       await expect(registerOrganisationPage.checkYourAnswersHeading).toBeVisible();
     });
   }
+
+  test('continues from an organisation-type CYA change link back to CYA after changing the answer', async ({
+    manageOrgIntegrationPage: page
+  }) => {
+    await setupRegisterOrganisationRoutes(page);
+    const registerOrganisationPage = new RegisterOrganisationPage(page);
+
+    await completeOptionalOtherOrganisationJourney(registerOrganisationPage);
+    await expect(registerOrganisationPage.checkYourAnswersHeading).toBeVisible();
+
+    await registerOrganisationPage.summaryChangeLink('Organisation type').click();
+
+    await expect(page).toHaveURL(/\/register-org-new\/organisation-type$/);
+    await expect(registerOrganisationPage.otherOrganisationTypeRadio).toBeChecked();
+    await expect(registerOrganisationPage.otherOrganisationTypeSelect.locator('option:checked')).toContainText(
+      otherOrganisationType.value_en
+    );
+
+    await registerOrganisationPage.solicitorOrganisationTypeRadio.check();
+    await registerOrganisationPage.continueWith();
+    await expect(page).toHaveURL(/\/register-org-new\/company-house-details$/);
+    await expect(registerOrganisationPage.organisationNameInput).toHaveValue(
+      optionalOtherOrganisationRegistration.companyName
+    );
+    await expect(registerOrganisationPage.companyHouseNumberInput).toHaveValue(
+      optionalOtherOrganisationRegistration.companyHouseNumber
+    );
+
+    await registerOrganisationPage.continueWith();
+    await expect(page).toHaveURL(/\/register-org-new\/registered-address\/external$/);
+
+    await registerOrganisationPage.enterManualUkAddress(optionalOtherOrganisationRegistration.manualUkAddress);
+    await expect(page).toHaveURL(/\/register-org-new\/document-exchange-reference$/);
+
+    await registerOrganisationPage.continueWith();
+    await expect(page).toHaveURL(/\/register-org-new\/document-exchange-reference-details$/);
+    await expect(registerOrganisationPage.dxNumberInput).toHaveValue(optionalOtherOrganisationRegistration.dxNumber);
+    await expect(registerOrganisationPage.dxExchangeInput).toHaveValue(
+      optionalOtherOrganisationRegistration.dxExchange
+    );
+
+    await registerOrganisationPage.continueWith();
+    await expect(page).toHaveURL(/\/register-org-new\/regulatory-organisation-type$/);
+
+    await registerOrganisationPage.continueWith();
+    await expect(page).toHaveURL(/\/register-org-new\/organisation-services-access$/);
+
+    await registerOrganisationPage.continueWith();
+    await expect(page).toHaveURL(/\/register-org-new\/payment-by-account$/);
+
+    await registerOrganisationPage.continueWith();
+    await expect(page).toHaveURL(/\/register-org-new\/payment-by-account-details$/);
+
+    await registerOrganisationPage.continueWith();
+    await expect(page).toHaveURL(/\/register-org-new\/contact-details$/);
+    await expect(registerOrganisationPage.firstNameInput).toHaveValue(
+      optionalOtherOrganisationRegistration.contactDetails.firstName
+    );
+    await expect(registerOrganisationPage.lastNameInput).toHaveValue(
+      optionalOtherOrganisationRegistration.contactDetails.lastName
+    );
+    await expect(registerOrganisationPage.workEmailAddressInput).toHaveValue(
+      optionalOtherOrganisationRegistration.contactDetails.workEmailAddress
+    );
+
+    await registerOrganisationPage.continueWith();
+    await expect(page).toHaveURL(/\/register-org-new\/individual-registered-with-regulator$/);
+
+    await registerOrganisationPage.continueWith();
+    await expect(page).toHaveURL(/\/register-org-new\/individual-registered-with-regulator-details$/);
+    await expect(registerOrganisationPage.regulatorNameInput).toHaveValue(
+      optionalOtherOrganisationRegistration.individualRegulatorName
+    );
+    await expect(registerOrganisationPage.organisationRegistrationNumberInput).toHaveValue(
+      optionalOtherOrganisationRegistration.individualRegulatorNumber
+    );
+
+    await registerOrganisationPage.continueWith();
+    await expect(page).toHaveURL(/\/register-org-new\/check-your-answers$/);
+
+    await expect(registerOrganisationPage.checkYourAnswersHeading).toBeVisible();
+    await expect(registerOrganisationPage.summaryValue('Organisation type')).toContainText('Solicitor');
+    await expect(registerOrganisationPage.summaryRow('Organisation details')).toHaveCount(0);
+    await expect(registerOrganisationPage.summaryValue('Organisation name')).toContainText(
+      optionalOtherOrganisationRegistration.companyName
+    );
+    await expect(registerOrganisationPage.summaryValue('What\'s the DX reference for this office?')).toContainText(
+      optionalOtherOrganisationRegistration.dxNumber
+    );
+  });
 
   test('removes stale optional details from CYA and submission after answers are changed to No', async ({
     manageOrgIntegrationPage: page

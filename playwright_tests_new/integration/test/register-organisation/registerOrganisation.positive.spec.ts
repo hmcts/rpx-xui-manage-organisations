@@ -96,14 +96,42 @@ const assertMinimumSolicitorCheckYourAnswers = async (
     minimumSolicitorRegistration.companyName
   );
   await expect(registerOrganisationPage.summaryRow('Company registration number')).toHaveCount(0);
+
+  const addressSummary = registerOrganisationPage.summaryValue('Organisation address');
+  for (const addressLine of [
+    minimumSolicitorRegistration.manualInternationalAddress.addressLine1,
+    minimumSolicitorRegistration.manualInternationalAddress.postTown,
+    minimumSolicitorRegistration.manualInternationalAddress.country
+  ]) {
+    await expect(addressSummary).toContainText(addressLine);
+  }
+
   await expect(registerOrganisationPage.summaryValue(
     'Do you have a document exchange reference for your main office?'
   )).toContainText('No');
   await expect(registerOrganisationPage.summaryRow('What\'s the DX reference for this office?')).toHaveCount(0);
+  for (const service of minimumSolicitorRegistration.services) {
+    await expect(registerOrganisationPage.summaryValue('Service to access')).toContainText(service.value);
+  }
   await expect(registerOrganisationPage.summaryValue(
     'Does your organisation have a payment by account number?'
   )).toContainText('No');
   await expect(registerOrganisationPage.summaryRow('What PBA numbers does your organisation use?')).toHaveCount(0);
+  await expect(registerOrganisationPage.summaryValue('Regulatory organisation type')).toContainText(
+    'Solicitor Regulation Authority (SRA)'
+  );
+  await expect(registerOrganisationPage.summaryValue('Regulatory organisation type')).toContainText(
+    minimumSolicitorRegistration.organisationRegulatorNumber
+  );
+  await expect(registerOrganisationPage.summaryValue('First name(s)')).toContainText(
+    minimumSolicitorRegistration.contactDetails.firstName
+  );
+  await expect(registerOrganisationPage.summaryValue('Last name')).toContainText(
+    minimumSolicitorRegistration.contactDetails.lastName
+  );
+  await expect(registerOrganisationPage.summaryValue('Email address')).toContainText(
+    minimumSolicitorRegistration.contactDetails.workEmailAddress
+  );
   await expect(registerOrganisationPage.summaryValue(
     'Are you (as an individual) registered with a regulator?'
   )).toContainText('No');
@@ -192,22 +220,6 @@ test.describe('Register organisation', { tag: ['@integration', '@integration-reg
 
     await expect(page).toHaveURL(/\/register-org-new\/check-your-answers$/);
     await assertOptionalOtherOrganisationCheckYourAnswers(registerOrganisationPage);
-    expect(routeState.registrationRequests).toHaveLength(0);
-  });
-
-  test('blocks other-organisation submission until terms are accepted', async ({
-    manageOrgIntegrationPage: page
-  }) => {
-    const routeState = await setupRegisterOrganisationRoutes(page);
-    const registerOrganisationPage = new RegisterOrganisationPage(page);
-
-    await completeOptionalOtherOrganisationJourney(registerOrganisationPage);
-    await expect(registerOrganisationPage.checkYourAnswersHeading).toBeVisible();
-    await registerOrganisationPage.submitRegistrationForm();
-
-    await expect(registerOrganisationPage.validationSummaryError(
-      'Please select checkbox to confirm you have read and understood the terms and conditions'
-    )).toBeVisible();
     expect(routeState.registrationRequests).toHaveLength(0);
   });
 

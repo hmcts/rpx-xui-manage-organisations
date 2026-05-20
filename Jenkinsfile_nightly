@@ -58,24 +58,46 @@ def ensureHtmlReportForPublishing = { String reportDir, String reportFile, Strin
     }
 }
 
-def stagePlaywrightArtifacts = { String stageDir ->
-    withEnv(["PW_ARTIFACT_STAGE_DIR=${stageDir}"]) {
+def stagePlaywrightArtifacts = { String stageDir, String sourceDir ->
+    withEnv([
+        "PW_ARTIFACT_STAGE_DIR=${stageDir}",
+        "PW_ARTIFACT_SOURCE_DIR=${sourceDir}"
+    ]) {
         steps.sh '''
             set -eu
             rm -rf "$PW_ARTIFACT_STAGE_DIR"
             mkdir -p "$PW_ARTIFACT_STAGE_DIR"
 
-            if [ -d test-results ]; then
-              find test-results -path 'test-results/.playwright-artifacts-*' -prune -o -type f -print 2>/dev/null | while IFS= read -r file; do
+            if [ -d "$PW_ARTIFACT_SOURCE_DIR" ]; then
+              source_abs="$(cd "$PW_ARTIFACT_SOURCE_DIR" && pwd)"
+              file_list="$(mktemp)"
+              find "$source_abs" -path '*/.playwright-artifacts-*' -prune -o -type f -print 2>/dev/null > "$file_list"
+              copied=0
+              failed=0
+              while IFS= read -r file; do
                 case "$file" in
                   *.png|*.webm|*.zip|*/error-context.md|*/node-api-calls.json|*/node-api-calls.pretty.txt)
-                    [ -f "$file" ] || continue
-                    target="$PW_ARTIFACT_STAGE_DIR/$file"
+                    if [ ! -f "$file" ]; then
+                      failed=$((failed + 1))
+                      continue
+                    fi
+                    relative="${file#$source_abs/}"
+                    target="$PW_ARTIFACT_STAGE_DIR/$relative"
                     mkdir -p "$(dirname "$target")"
-                    cp "$file" "$target" 2>/dev/null || true
+                    if cp "$file" "$target"; then
+                      copied=$((copied + 1))
+                    else
+                      failed=$((failed + 1))
+                    fi
                     ;;
                 esac
-              done
+              done < "$file_list"
+              rm -f "$file_list"
+              echo "Staged $copied Playwright artifact(s) from $PW_ARTIFACT_SOURCE_DIR to $PW_ARTIFACT_STAGE_DIR"
+              if [ "$failed" -gt 0 ]; then
+                echo "Failed to stage $failed Playwright artifact(s) from $PW_ARTIFACT_SOURCE_DIR"
+                exit 1
+              fi
             fi
         '''
     }
@@ -95,7 +117,7 @@ def publishPlaywrightApiReport = { String reportName ->
         reportFiles          : 'xui-mo-playwright-api.html',
         reportName           : reportName
     ])
-    stagePlaywrightArtifacts('functional-output/tests/playwright-api/stable-artifacts')
+    stagePlaywrightArtifacts('functional-output/tests/playwright-api/stable-artifacts', 'test-results/playwright-api')
     steps.archiveArtifacts(
         allowEmptyArchive: true,
         artifacts: 'functional-output/tests/playwright-api/**'
@@ -116,7 +138,7 @@ def publishPlaywrightE2EReport = { String reportName ->
         reportFiles          : 'xui-playwright-e2e.html',
         reportName           : reportName
     ])
-    stagePlaywrightArtifacts('functional-output/tests/playwright-e2e/stable-artifacts')
+    stagePlaywrightArtifacts('functional-output/tests/playwright-e2e/stable-artifacts', 'test-results/playwright-e2e')
     steps.archiveArtifacts(
         allowEmptyArchive: true,
         artifacts: 'functional-output/tests/playwright-e2e/**'
@@ -137,7 +159,7 @@ def publishPlaywrightIntegrationReport = { String reportName ->
         reportFiles          : 'xui-mo-playwright-integration.html',
         reportName           : reportName
     ])
-    stagePlaywrightArtifacts('functional-output/tests/playwright-integration/stable-artifacts')
+    stagePlaywrightArtifacts('functional-output/tests/playwright-integration/stable-artifacts', 'test-results/playwright-integration')
     steps.archiveArtifacts(
         allowEmptyArchive: true,
         artifacts: 'functional-output/tests/playwright-integration/**'
@@ -261,6 +283,7 @@ withNightlyPipeline(type, product, component) {
                         try {
                             withEnv([
                                 "FUNCTIONAL_TESTS_WORKERS=4",
+                                "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-api",
                                 "PLAYWRIGHT_SKIP_INSTALL=true"
                             ]) {
                                 yarnBuilder.yarn('test:api:pw')
@@ -279,6 +302,7 @@ withNightlyPipeline(type, product, component) {
                         try {
                             withEnv([
                                 "FUNCTIONAL_TESTS_WORKERS=4",
+                                "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-integration",
                                 "PLAYWRIGHT_SKIP_INSTALL=true"
                             ]) {
                                 yarnBuilder.yarn('test:playwright:integration')
@@ -297,6 +321,7 @@ withNightlyPipeline(type, product, component) {
                         try {
                             withEnv([
                                 "FUNCTIONAL_TESTS_WORKERS=2",
+                                "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-e2e",
                                 "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
                                 "PLAYWRIGHT_TAGS=@e2e"
                             ]) {

@@ -1,5 +1,11 @@
 import { defineConfig, devices } from '@playwright/test';
-import { resolveReporters, resolveTagGrep, resolveTagGrepInvert, resolveWorkerCount } from './playwright-reporting';
+import {
+  resolveOutputDir,
+  resolveReporters,
+  resolveTagGrep,
+  resolveTagGrepInvert,
+  resolveWorkerCount,
+} from './playwright-reporting';
 const { version: appVersion } = require('./package.json');
 
 require('dotenv-extended').load({
@@ -15,8 +21,10 @@ export const axeTestEnabled = process.env.ENABLE_AXE_TESTS === 'true';
 const smokeSpecPattern = 'playwright_tests_new/E2E/test/smoke/smokeTest.spec.ts';
 const baseUrl = process.env.TEST_URL || 'http://localhost:3000/';
 const workerCount = resolveWorkerCount(process.env);
+const outputDir = resolveOutputDir(process.env);
 
 module.exports = defineConfig({
+  outputDir,
   use: {
     baseURL: baseUrl,
   },

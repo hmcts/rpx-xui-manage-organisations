@@ -195,7 +195,7 @@ export class RegisterOrganisationPage {
 
     for (const [index, pbaNumber] of pbaNumbers.entries()) {
       if (index > 0) {
-        await this.page.getByRole('button', { name: 'Add another PBA number' }).click();
+        await this.addAnotherPaymentByAccountNumber();
       }
       await this.pbaNumberInput(index).fill(pbaNumber);
     }

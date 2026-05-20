@@ -12,7 +12,7 @@ const replacements = [
 const bridgeCommands = new Set(['test:functional', 'test:fullfunctional']);
 const isBridge = mode === 'bridge' || bridgeCommands.has(command);
 
-console.log(`Legacy Codecept runner "${command}" is retired.`);
+console.log(`Legacy Manage Org functional runner "${command}" is retired.`);
 console.log('Authoritative Manage Org functional gates now run through Playwright:');
 for (const replacement of replacements) {
   console.log(`- ${replacement}`);

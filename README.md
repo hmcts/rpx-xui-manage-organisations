@@ -81,6 +81,7 @@ Playwright API, integration, accessibility, and E2E lanes are the authoritative 
 - Direct legacy Codecept aliases such as `yarn test:codeceptE2E`, `yarn test:a11yInTest`, `yarn test:api`, and `yarn test:xuiIntegration` fail fast with their Playwright replacements.
 - `test_codecept/**` assets remain in the repository for audit and deletion follow-up; do not use them as active validation commands.
 - `playwright_tests/**` legacy specs also remain for audit and deletion follow-up; active Playwright configs select `playwright_tests_new/**` only.
+- `yarn lint:playwright:architecture` fails if package scripts or Jenkinsfiles reintroduce executable legacy Codecept, legacy API functional, pa11y, backend mock, or old Playwright paths.
 
 ## Playwright authentication
 

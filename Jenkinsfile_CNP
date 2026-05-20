@@ -359,17 +359,7 @@ withPipeline(type, product, component) {
     }
 
     afterAlways('test') {
-        publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "functional-output/tests/codecept-a11y/",
-            reportFiles          : 'Report.html,index.html',
-            reportName           : 'Manage Org a11y Test'
-        ])
-
-        steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/codecept-a11y/**'
-
+        publishPlaywrightA11yReport('Manage Org Playwright A11y Test')
     }
 
 //    after('smoketest:demo') {

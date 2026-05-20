@@ -132,6 +132,36 @@ export const optionalOtherOrganisationRegistration = {
   ]
 };
 
+export const optionalSolicitorRegistration = {
+  companyHouseNumber: '55667788',
+  companyName: 'PW Integration Optional Solicitors LLP',
+  contactDetails: {
+    firstName: 'Sam',
+    lastName: 'Solicitor',
+    workEmailAddress: 'sam.solicitor@example.com'
+  },
+  dxExchange: 'London 84',
+  dxNumber: 'DX9988776655',
+  individualRegulatorName: 'Optional Individual Regulator',
+  individualRegulatorNumber: 'OPT-IND-001',
+  manualUkAddress: {
+    addressLine1: 'Solicitor Integration House',
+    addressLine2: '84 Optional Street',
+    addressLine3: 'Solicitor Wing',
+    county: 'Greater London',
+    country: 'UK',
+    postCode: 'SW1V 4BZ',
+    postTown: 'London'
+  },
+  organisationRegulatorName: 'Optional Organisation Regulator',
+  organisationRegulatorNumber: 'OPT-ORG-001',
+  pbaNumbers: ['PBA1122334', 'PBA4433221'],
+  services: [
+    { key: 'ABA1', value: 'Divorce' },
+    { key: 'AAA7', value: 'Damages' }
+  ]
+};
+
 export const minimumSolicitorRegistration = {
   companyName: 'PW Integration Solicitors LLP',
   contactDetails: {

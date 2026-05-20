@@ -393,19 +393,6 @@ withPipeline(type, product, component) {
         runPlaywrightFunctionalTestsInParallel('PREVIEW')
     }
 
-    afterSuccess('functionalTest:preview') {
-        publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/tests/functional/",
-            reportFiles          : 'index.html',
-            reportName           : 'PREVIEW Functional Test'
-        ])
-
-    }
-
-
     afterAlways('smoketest:aat') {
         publishHTML([
             allowMissing         : true,
@@ -423,18 +410,6 @@ withPipeline(type, product, component) {
         )
 
         runPlaywrightFunctionalTestsInParallel('AAT')
-    }
-
-    afterSuccess('functionalTest:aat') {
-        publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/tests/functional/",
-            reportFiles          : 'index.html',
-            reportName           : 'AAT Functional Test'
-        ])
-
     }
 
 }

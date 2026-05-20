@@ -51,7 +51,7 @@ Playwright API runs emit an Odhin report under `functional-output/tests/playwrig
 - `yarn test:smoke` is the Jenkins CNP smoke entrypoint and runs unauthenticated login and protected-route redirect smoke checks.
 - `yarn test:playwrightE2E:raw` is the Jenkins CNP Playwright E2E entrypoint and runs migrated new-framework Chromium journeys using `playwright.e2e.config.ts`.
 - `yarn test:crossbrowser:raw` is the Jenkins nightly cross-browser entrypoint and runs migrated new-framework Firefox/WebKit journeys using `playwright-nightly.config.ts`.
-- `yarn test:api:pw` runs the Playwright `node-api` project for migrated API-functional coverage. The first tranche covers organisation details, user/session context, user lists, public configuration/reference data, and protected-route guard rails. Mutating invite and registration POST checks are present but disabled by default. `yarn test:api` remains the legacy Codecept/Mocha API path until the Playwright API lane has been proven in CI.
+- `yarn test:api:pw` runs the Playwright `node-api` project for migrated API-functional coverage. The lane covers organisation details, user/session context, user lists, public configuration/reference data, protected-route guard rails, invite, re-invite, and register-organisation API coverage. Mutating invite and registration POST checks are present but disabled by default unless their lifecycle has been agreed.
 - `PLAYWRIGHT_TAGS` runs only matching Playwright tags, for example `PLAYWRIGHT_TAGS=@registration yarn test:playwrightE2E`.
 - `PLAYWRIGHT_EXCLUDE_TAGS` removes matching Playwright tags, for example `PLAYWRIGHT_TAGS=@e2e PLAYWRIGHT_EXCLUDE_TAGS=@e2e-smoke yarn test:playwrightE2E -- --list`.
 
@@ -66,10 +66,20 @@ Every migrated new-framework journey must have one execution-pack tag and one do
   - `@registration` for register organisation and register other organisation journeys.
   - `@organisation` for organisation details and organisation profile journeys.
   - `@user-admin` for users, invite, suspend, permissions, and re-invite journeys.
+  - `@auth` for deployed authentication and sign-out journeys.
+  - `@terms` for terms-and-conditions route and content checks.
   - `@api` for Playwright API-functional coverage.
   - `@integration` for Playwright mock-backed integration coverage.
 
 Jenkins CNP and nightly Playwright E2E stages set `PLAYWRIGHT_TAGS=@e2e` only for the E2E lane. API and integration lanes remain selected by their dedicated Playwright projects so they are not filtered out by E2E tag policy.
+
+## Legacy Codecept retirement
+
+Playwright API, integration, accessibility, and E2E lanes are the authoritative Manage Organisation functional gates.
+
+- `yarn test:functional` and `yarn test:fullfunctional` are retained only as no-op bridges for shared Jenkins hooks while the deployed Playwright stages run the real gates.
+- Direct legacy Codecept aliases such as `yarn test:codeceptE2E`, `yarn test:a11yInTest`, `yarn test:api`, and `yarn test:xuiIntegration` fail fast with their Playwright replacements.
+- `test_codecept/**` assets remain in the repository for audit and deletion follow-up; do not use them as active validation commands.
 
 ## Playwright authentication
 

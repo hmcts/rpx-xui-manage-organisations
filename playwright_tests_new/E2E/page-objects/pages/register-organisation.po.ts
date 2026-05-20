@@ -63,6 +63,10 @@ export class RegisterOrganisationPage extends BasePage {
     await this.page.goto('/register-org-new/register');
   }
 
+  public async openLegacyStartPage(): Promise<void> {
+    await this.page.goto('/register-org/register');
+  }
+
   public async openWorkflowPage(path: string): Promise<void> {
     await this.page.goto(`/register-org-new/${path}`);
   }

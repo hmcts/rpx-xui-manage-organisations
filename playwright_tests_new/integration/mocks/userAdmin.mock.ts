@@ -7,7 +7,7 @@ export const userAdminActiveUser = {
   fullName: 'Avery Active',
   email: 'avery.active@example.com',
   idamStatus: 'ACTIVE',
-  status: 'active'
+  status: 'Active'
 };
 
 export const userAdminPendingUser = {
@@ -17,7 +17,28 @@ export const userAdminPendingUser = {
   fullName: 'Parker Pending',
   email: 'parker.pending@example.com',
   idamStatus: 'PENDING',
-  status: 'pending'
+  status: 'Pending'
+};
+
+export const userAdminActiveUserRoles = [
+  'pui-organisation-manager',
+  'pui-user-manager'
+];
+
+export const userAdminPendingUserRoles = [
+  'pui-user-manager'
+];
+
+export const userAdminActiveUserDetails = {
+  ...userAdminActiveUser,
+  accessTypes: [],
+  roles: userAdminActiveUserRoles
+};
+
+export const userAdminPendingUserDetails = {
+  ...userAdminPendingUser,
+  accessTypes: [],
+  roles: userAdminPendingUserRoles
 };
 
 export const userAdminUsersWithoutRolesResponse = {
@@ -38,6 +59,20 @@ export const inviteUserFormData = {
   firstName: 'Casey',
   lastName: 'Invite',
   email: 'casey.invite@example.com'
+};
+
+export const editUserPermissionsSuccessResponse = {
+  roleAdditionResponse: {
+    idamStatusCode: '201',
+    idamMessage: 'User roles added'
+  },
+  roleDeletionResponse: [
+    {
+      roleName: 'pui-user-manager',
+      idamStatusCode: '204',
+      idamMessage: 'User role deleted'
+    }
+  ]
 };
 
 export const expectedCcdCaseworkerRoles = [

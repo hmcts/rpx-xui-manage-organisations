@@ -180,7 +180,11 @@ def publishPlaywrightA11yReport = { String reportName ->
         reportFiles          : 'xui-playwright-a11y.html',
         reportName           : reportName
     ])
-    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-a11y/**'
+    stagePlaywrightArtifacts('functional-output/tests/playwright-a11y/stable-artifacts', 'test-results/playwright-a11y')
+    steps.archiveArtifacts(
+        allowEmptyArchive: true,
+        artifacts: 'functional-output/tests/playwright-a11y/**'
+    )
 }
 
 def secrets = [
@@ -251,10 +255,6 @@ withNightlyPipeline(type, product, component) {
             reportFiles          : 'index.html',
             reportName           : 'node coverage tests'
         ])
-    }
-
-    afterAlways('test') {
-        publishPlaywrightA11yReport('Manage Org Playwright A11y Test')
     }
 
     afterSuccess('fortify-scan') {
@@ -342,6 +342,7 @@ withNightlyPipeline(type, product, component) {
                         try {
                             withEnv([
                                 "FUNCTIONAL_TESTS_WORKERS=4",
+                                "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-a11y",
                                 "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
                                 "PLAYWRIGHT_SKIP_INSTALL=true"
                             ]) {

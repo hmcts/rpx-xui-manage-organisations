@@ -1,6 +1,11 @@
 import { AxeUtils } from '@hmcts/playwright-common';
 import { test, expect } from '../../fixtures';
 import type { RegisterOrganisationPage } from '../../page-objects/pages/register-organisation.po';
+import { createRegisterOrganisationData } from '../../utils/test-setup/register-organisation-data';
+import {
+  completeMinimumRegisterOrganisationJourney,
+  completeOptionalRegisterOrganisationJourney
+} from '../../utils/test-setup/register-organisation-journeys';
 
 type RegisterOrganisationRoute = {
   name: string;
@@ -20,6 +25,13 @@ type RegisterOrganisationInteractiveState = RegisterOrganisationRoute & {
     issue: string;
     reason: string;
   };
+};
+
+type RegisterOrganisationJourneyState = {
+  name: string;
+  expectedErrors?: readonly string[];
+  expectedSelectors: readonly string[];
+  prepare: (registerOrganisationPage: RegisterOrganisationPage) => Promise<void>;
 };
 
 const registerOrganisationPages = [
@@ -206,6 +218,39 @@ const registerOrganisationValidationStates = [
     expectedErrors: ['Enter first name', 'Enter last name', 'Enter email address']
   },
   {
+    name: 'contact details missing last name and email',
+    path: 'contact-details',
+    component: 'app-contact-details',
+    expectedErrors: ['Enter last name', 'Enter email address'],
+    prepare: async (registerOrganisationPage) => {
+      await registerOrganisationPage.firstNameInput.fill('Playwright');
+      await registerOrganisationPage.continueWith();
+    }
+  },
+  {
+    name: 'contact details missing email',
+    path: 'contact-details',
+    component: 'app-contact-details',
+    expectedErrors: ['Enter email address'],
+    prepare: async (registerOrganisationPage) => {
+      await registerOrganisationPage.firstNameInput.fill('Playwright');
+      await registerOrganisationPage.lastNameInput.fill('Accessibility');
+      await registerOrganisationPage.continueWith();
+    }
+  },
+  {
+    name: 'contact details invalid email',
+    path: 'contact-details',
+    component: 'app-contact-details',
+    expectedErrors: ['Enter email address'],
+    prepare: async (registerOrganisationPage) => {
+      await registerOrganisationPage.firstNameInput.fill('Playwright');
+      await registerOrganisationPage.lastNameInput.fill('Accessibility');
+      await registerOrganisationPage.workEmailAddressInput.fill('not-an-email');
+      await registerOrganisationPage.continueWith();
+    }
+  },
+  {
     name: 'individual regulator missing selection',
     path: 'individual-registered-with-regulator',
     component: 'app-individual-registered-with-regulator',
@@ -253,6 +298,17 @@ const registerOrganisationInteractiveStates = [
     }
   },
   {
+    name: 'registered address lookup results',
+    path: 'registered-address/external',
+    component: 'app-registered-address',
+    expectedSelectors: ['#addressList'],
+    prepare: async (registerOrganisationPage) => {
+      await registerOrganisationPage.postcodeInput.fill('SW1A 1AA');
+      await registerOrganisationPage.findAddressButton.click();
+      await registerOrganisationPage.addressList.waitFor({ state: 'visible' });
+    }
+  },
+  {
     name: 'regulatory organisation other regulator fields',
     path: 'regulatory-organisation-type',
     component: 'app-regulatory-organisation-type',
@@ -288,6 +344,43 @@ const registerOrganisationInteractiveStates = [
     }
   }
 ] as const satisfies readonly RegisterOrganisationInteractiveState[];
+
+const termsAndConditionsError = 'Please select checkbox to confirm you have read and understood the terms and conditions';
+
+const registerOrganisationJourneyStates = [
+  {
+    name: 'check your answers optional journey',
+    expectedSelectors: ['#confirm-terms-and-conditions'],
+    prepare: async (registerOrganisationPage) => {
+      await completeOptionalRegisterOrganisationJourney(
+        registerOrganisationPage,
+        createRegisterOrganisationData()
+      );
+    }
+  },
+  {
+    name: 'check your answers minimum journey',
+    expectedSelectors: ['#confirm-terms-and-conditions'],
+    prepare: async (registerOrganisationPage) => {
+      await completeMinimumRegisterOrganisationJourney(
+        registerOrganisationPage,
+        createRegisterOrganisationData()
+      );
+    }
+  },
+  {
+    name: 'check your answers terms and conditions error',
+    expectedErrors: [termsAndConditionsError],
+    expectedSelectors: ['#confirm-terms-and-conditions'],
+    prepare: async (registerOrganisationPage) => {
+      await completeOptionalRegisterOrganisationJourney(
+        registerOrganisationPage,
+        createRegisterOrganisationData()
+      );
+      await registerOrganisationPage.continueWith('Confirm and submit');
+    }
+  }
+] as const satisfies readonly RegisterOrganisationJourneyState[];
 
 test.describe('register organisation accessibility @a11y', () => {
   for (const registerOrganisationPageRoute of registerOrganisationPages) {
@@ -365,6 +458,29 @@ test.describe('register organisation accessibility @a11y', () => {
         }
         await axeUtils.audit();
         await axeUtils.generateReport(testInfo, `${interactiveState.name} accessibility report`);
+      }
+    );
+  }
+
+  for (const journeyState of registerOrganisationJourneyStates) {
+    test(
+      `${journeyState.name} state has no automatically detectable accessibility violations`,
+      { tag: ['@e2e', '@a11y', '@registration'] },
+      async ({ page, registerOrganisationPage }, testInfo) => {
+        const axeUtils = new AxeUtils(page);
+
+        await journeyState.prepare(registerOrganisationPage);
+
+        await expect(page).toHaveURL(/\/register-org-new\/check-your-answers$/);
+        await expect(registerOrganisationPage.checkYourAnswersHeading).toBeVisible();
+        for (const expectedSelector of journeyState.expectedSelectors) {
+          await expect(page.locator(expectedSelector)).toBeVisible();
+        }
+        for (const expectedError of journeyState.expectedErrors ?? []) {
+          await expect(registerOrganisationPage.validationSummaryError(expectedError)).toBeVisible();
+        }
+        await axeUtils.audit();
+        await axeUtils.generateReport(testInfo, `${journeyState.name} accessibility report`);
       }
     );
   }

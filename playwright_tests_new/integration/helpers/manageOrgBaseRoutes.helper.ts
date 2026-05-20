@@ -4,7 +4,7 @@ import {
   manageOrgIntegrationUserDetails,
   manageOrgRuntimeConfiguration,
   manageOrgUsersWithoutRolesResponse
-} from '../mocks/caseSharing.mock';
+} from '../mocks/manageOrgIntegration.mock';
 
 export const fulfillJson = async (
   route: Route,

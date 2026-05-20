@@ -22,28 +22,28 @@ def component = "mo-webapp"
 def channel   = '#xui-pipeline'
 def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 
-def handleFailFastAbort = { Exception e ->
-    def abortedByFailFast = false
+def handleParallelInterruption = { Exception e ->
+    def interrupted = false
     def failFastExitCodes = ['129', '137', '143']
     if (e instanceof org.jenkinsci.plugins.workflow.steps.FlowInterruptedException) {
         def msg = e.getMessage() ?: ''
-        abortedByFailFast = msg.contains('Failed in branch')
-        echo "[failFast] FlowInterruptedException: message=${msg}"
+        interrupted = msg.contains('Failed in branch')
+        echo "[parallel] FlowInterruptedException: message=${msg}"
     } else if (e instanceof hudson.AbortException) {
         def msg = e.getMessage() ?: ''
         def matcher = (msg =~ /(exit code|status)\s+(\d+)/)
         def exitCode = matcher.find() ? matcher.group(2) : null
-        abortedByFailFast = (currentBuild?.result == 'ABORTED') || (exitCode in failFastExitCodes)
-        echo "[failFast] AbortException: buildResult=${currentBuild?.result}, exitCode=${exitCode}"
+        interrupted = (currentBuild?.result == 'ABORTED') || (exitCode in failFastExitCodes)
+        echo "[parallel] AbortException: buildResult=${currentBuild?.result}, exitCode=${exitCode}"
     } else {
-        echo "[failFast] Non-abort exception: ${e.getClass().getName()}: ${e.getMessage()}"
+        echo "[parallel] Non-abort exception: ${e.getClass().getName()}: ${e.getMessage()}"
     }
-    if (abortedByFailFast) {
-        echo "[failFast] Marking stage as ABORTED due to failFast interruption"
+    if (interrupted) {
+        echo "[parallel] Marking stage as ABORTED due to Jenkins interruption"
         catchError(buildResult: 'ABORTED', stageResult: 'ABORTED') { throw e }
         return true
     }
-    echo "[failFast] Not a failFast interruption; rethrowing"
+    echo "[parallel] Not an interruption; rethrowing"
     return false
 }
 
@@ -170,6 +170,27 @@ def publishPlaywrightIntegrationReport = { String reportName ->
     )
 }
 
+def publishPlaywrightA11yReport = { String reportName ->
+    ensureHtmlReportForPublishing(
+        "functional-output/tests/playwright-a11y/odhin-report",
+        'xui-playwright-a11y.html',
+        reportName
+    )
+    publishHTML([
+        allowMissing         : true,
+        alwaysLinkToLastBuild: true,
+        keepAll              : true,
+        reportDir            : "functional-output/tests/playwright-a11y/odhin-report",
+        reportFiles          : 'xui-playwright-a11y.html',
+        reportName           : reportName
+    ])
+    stagePlaywrightArtifacts('functional-output/tests/playwright-a11y/stable-artifacts', 'test-results/playwright-a11y')
+    steps.archiveArtifacts(
+        allowEmptyArchive: true,
+        artifacts: 'functional-output/tests/playwright-a11y/**'
+    )
+}
+
 def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
     stage("${environmentName} Functional Tests (Parallel)") {
         parallel(
@@ -185,8 +206,8 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                             yarnBuilder.yarn('test:api:pw')
                         }
                     } catch (Exception e) {
-                        echo "[failFast] API Tests catch: ${e.getClass().getName()}: ${e.getMessage()}"
-                        if (handleFailFastAbort(e)) { return }
+                        echo "[parallel] API Tests catch: ${e.getClass().getName()}: ${e.getMessage()}"
+                        if (handleParallelInterruption(e)) { return }
                         throw e
                     } finally {
                         publishPlaywrightApiReport("${environmentName} Manage Org Playwright API")
@@ -204,11 +225,31 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                             yarnBuilder.yarn('test:playwright:integration')
                         }
                     } catch (Exception e) {
-                        echo "[failFast] Playwright Integration Tests catch: ${e.getClass().getName()}: ${e.getMessage()}"
-                        if (handleFailFastAbort(e)) { return }
+                        echo "[parallel] Playwright Integration Tests catch: ${e.getClass().getName()}: ${e.getMessage()}"
+                        if (handleParallelInterruption(e)) { return }
                         throw e
                     } finally {
                         publishPlaywrightIntegrationReport("${environmentName} Manage Org Playwright Integration")
+                    }
+                }
+            },
+            playwrightA11y: {
+                stage('Playwright Accessibility Tests') {
+                    try {
+                        withEnv([
+                            "FUNCTIONAL_TESTS_WORKERS=4",
+                            "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-a11y",
+                            "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
+                            "PLAYWRIGHT_SKIP_INSTALL=true"
+                        ]) {
+                            yarnBuilder.yarn('test:a11y:playwright')
+                        }
+                    } catch (Exception e) {
+                        echo "[parallel] Playwright Accessibility Tests catch: ${e.getClass().getName()}: ${e.getMessage()}"
+                        if (handleParallelInterruption(e)) { return }
+                        throw e
+                    } finally {
+                        publishPlaywrightA11yReport("${environmentName} Manage Org Register Organisation Playwright A11y")
                     }
                 }
             },
@@ -225,8 +266,8 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                             yarnBuilder.yarn('test:playwrightE2E:raw')
                         }
                     } catch (Exception e) {
-                        echo "[failFast] Playwright E2E catch: ${e.getClass().getName()}: ${e.getMessage()}"
-                        if (handleFailFastAbort(e)) { return }
+                        echo "[parallel] Playwright E2E catch: ${e.getClass().getName()}: ${e.getMessage()}"
+                        if (handleParallelInterruption(e)) { return }
                         throw e
                     } finally {
                         publishPlaywrightE2EReport("${environmentName} Manage Org Playwright E2E")
@@ -319,18 +360,6 @@ withPipeline(type, product, component) {
             reportFiles          : "index.html",
             reportName           : "ng coverage tests"
         ])
-
-        publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/tests/a11y/",
-            reportFiles          : 'Report.html',
-            reportName           : 'Manage Org a11y Test'
-        ])
-
-
-
 
     }
 

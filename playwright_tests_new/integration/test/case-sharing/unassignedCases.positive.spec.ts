@@ -11,7 +11,7 @@ import {
   unassignedAsylumCase,
   unassignedCaseIds,
   unassignedImmigrationCase,
-  unassignedSecondAsylumCase,
+  unassignedSecondAsylumCase
 } from '../../mocks/caseSharing.mock';
 import { CaseShareCompletePage } from '../../page-objects/case-share-complete.po';
 import { CaseShareConfirmPage } from '../../page-objects/case-share-confirm.po';
@@ -23,8 +23,8 @@ test.describe('Unassigned case sharing', { tag: ['@integration', '@integration-c
     const [cancelledCaseId, confirmedCaseId] = unassignedCaseIds;
     const routeState = await setupUnassignedCaseShareRoutes(page, {
       existingAccess: {
-        [cancelledCaseId]: [petSolicitorOne],
-      },
+        [cancelledCaseId]: [petSolicitorOne]
+      }
     });
     const unassignedCasesPage = new UnassignedCasesPage(page);
     const caseSharingPage = new CaseSharingPage(page);
@@ -55,7 +55,7 @@ test.describe('Unassigned case sharing', { tag: ['@integration', '@integration-c
         caaCasesFilterType: 'none',
         caaCasesFilterValue: null,
         caaCasesPageType: 'unassigned-cases',
-        method: 'POST',
+        method: 'POST'
       });
       await expect.poll(() => routeState.caseListRequests.length).toBeGreaterThan(0);
       await expect(routeState.caseListRequests[0]).toEqual({
@@ -65,7 +65,7 @@ test.describe('Unassigned case sharing', { tag: ['@integration', '@integration-c
         caseTypeId: asylumCaseType,
         method: 'POST',
         pageNo: '1',
-        pageSize: '25',
+        pageSize: '25'
       });
     });
 
@@ -173,8 +173,8 @@ test.describe('Unassigned case sharing', { tag: ['@integration', '@integration-c
       expect(routeState.caseShareCaseRequests).toEqual([
         {
           caseIds: unassignedCaseIds,
-          method: 'GET',
-        },
+          method: 'GET'
+        }
       ]);
       await expect
         .poll(
@@ -231,14 +231,14 @@ test.describe('Unassigned case sharing', { tag: ['@integration', '@integration-c
       expect(routeState.caseAssignmentRequests).toEqual([
         {
           method: 'POST',
-          sharedCaseIds: unassignedCaseIds,
-        },
+          sharedCaseIds: unassignedCaseIds
+        }
       ]);
       await expect(page).toHaveURL(/\/unassigned-cases\/case-share-complete\/unassigned-cases$/);
       await expect(completePage.heading).toBeVisible();
       await expect(
         completePage.whatHappensNextText(
-          "If you've shared one or more cases, your colleagues will now be able to access them from their case list."
+          'If you\'ve shared one or more cases, your colleagues will now be able to access them from their case list.'
         )
       ).toBeVisible();
     });
@@ -323,8 +323,8 @@ test.describe('Unassigned case sharing', { tag: ['@integration', '@integration-c
       expect(routeState.caseAssignmentRequests).toEqual([
         {
           method: 'POST',
-          sharedCaseIds: unassignedCaseIds,
-        },
+          sharedCaseIds: unassignedCaseIds
+        }
       ]);
       await expect(page).toHaveURL(/\/unassigned-cases\/case-share-complete\/unassigned-cases$/);
       await expect(completePage.heading).toBeVisible();

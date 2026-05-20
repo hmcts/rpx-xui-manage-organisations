@@ -8,7 +8,7 @@ const { somethingLike } = Matchers;
 const pactSetUp = new PactTestSetup({ provider: 'referenceData_organisationalExternalUsers', port: 8000 });
 
 describe('Register External Organisation', () => {
-  describe('Register External Organisation', async () => {
+  describe('Register External Organisation', () => {
     const mockRequest = {
       'name': 'Joe Blogg',
       'status': 'ACTIVE',
@@ -72,24 +72,20 @@ describe('Register External Organisation', () => {
         }
       };
       // @ts-ignore
-      pactSetUp.provider.addInteraction(interaction);
+      await pactSetUp.provider.addInteraction(interaction);
     });
 
-    it('Returns the correct response', async() => {
-      const taskUrl: string = `${pactSetUp.provider.mockService.baseUrl}/refdata/external/v1/organisations`;
-      const resp = registerOrganisationExternalV1(taskUrl, mockRequest as any);
+    after(async () => {
+      await pactSetUp.provider.finalize();
+    });
 
-      resp.then((response) => {
-        expect(response.status).to.equal(201);
-        const responseDto: OrganisationCreatedResponse = <OrganisationCreatedResponse> response.data;
-        assertResponse(responseDto);
-      }).then(() => {
-        pactSetUp.provider.verify();
-        pactSetUp.provider.finalize();
-      }).finally(() => {
-        pactSetUp.provider.verify();
-        pactSetUp.provider.finalize();
-      });
+    it('Returns the correct response', async () => {
+      const taskUrl: string = `${pactSetUp.provider.mockService.baseUrl}/refdata/external/v1/organisations`;
+      const response = await registerOrganisationExternalV1(taskUrl, mockRequest as any);
+      expect(response.status).to.equal(201);
+      const responseDto: OrganisationCreatedResponse = <OrganisationCreatedResponse> response.data;
+      assertResponse(responseDto);
+      await pactSetUp.provider.verify();
     });
   });
 });

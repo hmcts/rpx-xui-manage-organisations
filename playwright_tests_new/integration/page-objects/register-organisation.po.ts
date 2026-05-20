@@ -106,8 +106,17 @@ export class RegisterOrganisationPage {
     return this.page.locator(`#pba-number-${index}`);
   }
 
+  public serviceCheckbox(serviceLabel: string): Locator {
+    return this.page.locator(`input[data-service-label="${serviceLabel}"]`);
+  }
+
   public async openStartPage(): Promise<void> {
     await this.page.goto('/register-org-new/register');
+    await this.waitForLoader();
+  }
+
+  public async openWorkflowPage(path: string): Promise<void> {
+    await this.page.goto(`/register-org-new/${path}`);
     await this.waitForLoader();
   }
 
@@ -184,7 +193,7 @@ export class RegisterOrganisationPage {
 
   public async chooseServices(...serviceLabels: string[]): Promise<void> {
     for (const serviceLabel of serviceLabels) {
-      await this.page.locator(`input[data-service-label="${serviceLabel}"]`).check();
+      await this.serviceCheckbox(serviceLabel).check();
     }
     await this.continueWith();
   }

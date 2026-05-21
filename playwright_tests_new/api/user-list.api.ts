@@ -85,4 +85,10 @@ test.describe('User list API contracts', { tag: '@svc-user-admin' }, () => {
 
     expect([401, 403], 'Anonymous full user list requests should be rejected').toContain(response.status);
   });
+
+  test('rejects anonymous full user list with roles requests', async ({ anonymousClient }) => {
+    const response = await anonymousClient.get('api/allUserList', { throwOnError: false });
+
+    expect([401, 403], 'Anonymous full user list with roles requests should be rejected').toContain(response.status);
+  });
 });

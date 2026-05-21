@@ -116,6 +116,18 @@ test.describe('Protected API guard rail contracts', { tag: '@svc-auth-guards' },
     expect([401, 403], 'Anonymous PBA delete requests should be rejected').toContain(response.status);
   });
 
+  test('rejects anonymous fee account lookup requests', async ({ anonymousClient }) => {
+    const response = await anonymousClient.get('api/accounts?accountNames=PBA0000000', { throwOnError: false });
+
+    expect([401, 403], 'Anonymous fee account lookup requests should be rejected').toContain(response.status);
+  });
+
+  test('rejects anonymous payment history lookup requests', async ({ anonymousClient }) => {
+    const response = await anonymousClient.get('api/payments/PBA0000000', { throwOnError: false });
+
+    expect([401, 403], 'Anonymous payment history lookup requests should be rejected').toContain(response.status);
+  });
+
   test('rejects anonymous PBA add-delete requests before payload processing', async ({ anonymousClient }) => {
     const response = await anonymousClient.post('api/pba/addDeletePBA', {
       data: pbaAddDeletePayload,

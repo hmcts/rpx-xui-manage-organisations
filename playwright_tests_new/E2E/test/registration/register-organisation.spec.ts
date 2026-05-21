@@ -21,6 +21,18 @@ test(
 );
 
 test(
+  'redirects the legacy register organisation start URL to register-org-new',
+  { tag: ['@e2e', '@registration'] },
+  async ({ signedInPage, registerOrganisationPage }) => {
+    await registerOrganisationPage.openLegacyStartPage();
+
+    await expect(signedInPage).toHaveURL(/\/register-org-new\/register$/);
+    await expect(registerOrganisationPage.startPageHeading).toBeVisible();
+    await expect(registerOrganisationPage.alreadyRegisteredHeading).toBeVisible();
+  }
+);
+
+test(
   'registers a new solicitor organisation through register-org-new',
   { tag: ['@e2e', '@registration'] },
   async ({ signedInPage, registerOrganisationPage }) => {

@@ -5,6 +5,7 @@ export const manageOrgIntegrationOrganisationName = 'Manage Org Integration Soli
 
 export const manageOrgRuntimeConfiguration = {
   idamWeb: 'https://idam.manage-org.integration.mock',
+  launchDarklyClientId: 'manage-org-integration-client-id',
   manageCaseLink: 'https://manage-case.manage-org.integration.mock',
   manageOrgLink: 'http://localhost:4200',
   protocol: 'http',

@@ -184,6 +184,19 @@ def publishPlaywrightA11yReport = { String reportName ->
         reportFiles          : 'xui-playwright-a11y.html',
         reportName           : reportName
     ])
+    ensureHtmlReportForPublishing(
+        "functional-output/tests/playwright-a11y/integration/odhin-report",
+        'xui-playwright-a11y-integration.html',
+        "${reportName} - Integration"
+    )
+    publishHTML([
+        allowMissing         : true,
+        alwaysLinkToLastBuild: true,
+        keepAll              : true,
+        reportDir            : "functional-output/tests/playwright-a11y/integration/odhin-report",
+        reportFiles          : 'xui-playwright-a11y-integration.html',
+        reportName           : "${reportName} - Integration"
+    ])
     stagePlaywrightArtifacts('functional-output/tests/playwright-a11y/stable-artifacts', 'test-results/playwright-a11y')
     steps.archiveArtifacts(
         allowEmptyArchive: true,
@@ -261,6 +274,7 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                             "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-e2e",
                             "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
                             "PLAYWRIGHT_TAGS=@e2e",
+                            "PLAYWRIGHT_EXCLUDE_TAGS=@a11y",
                             "PLAYWRIGHT_SKIP_INSTALL=true"
                         ]) {
                             yarnBuilder.yarn('test:playwrightE2E:raw')
@@ -393,19 +407,6 @@ withPipeline(type, product, component) {
         runPlaywrightFunctionalTestsInParallel('PREVIEW')
     }
 
-    afterSuccess('functionalTest:preview') {
-        publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/tests/functional/",
-            reportFiles          : 'index.html',
-            reportName           : 'PREVIEW Functional Test'
-        ])
-
-    }
-
-
     afterAlways('smoketest:aat') {
         publishHTML([
             allowMissing         : true,
@@ -423,18 +424,6 @@ withPipeline(type, product, component) {
         )
 
         runPlaywrightFunctionalTestsInParallel('AAT')
-    }
-
-    afterSuccess('functionalTest:aat') {
-        publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/tests/functional/",
-            reportFiles          : 'index.html',
-            reportName           : 'AAT Functional Test'
-        ])
-
     }
 
 }

@@ -34,6 +34,7 @@ const activePipelineFiles = [
   'Jenkinsfile_nightly',
   'Jenkinsfile_parameterized'
 ];
+const parameterizedPipelineFile = 'Jenkinsfile_parameterized';
 const retiredExecutionPatterns = [
   { pattern: /\bnpx\s+codeceptjs\b/, label: 'CodeceptJS runner' },
   { pattern: /\bcodeceptjs\s+run(?:-workers)?\b/, label: 'CodeceptJS runner' },
@@ -147,6 +148,39 @@ for (const fileName of activePipelineFiles) {
     if (pattern.test(pipelineSource)) {
       failures.push(`${fileName}: contains ${label}; pipelines must run only Playwright retirement lanes.`);
     }
+  }
+}
+
+const retiredRunnerSource = readFileSync(join(root, 'scripts/retired-codecept-runner.js'), 'utf-8');
+if (!/mode\s*===\s*['"]bridge['"]\s*&&\s*bridgeCommands\.has\(command\)/.test(retiredRunnerSource)) {
+  failures.push(
+    'scripts/retired-codecept-runner.js: bridge mode must only succeed for the explicit shared Jenkins bridge commands.'
+  );
+}
+
+const a11yRunnerSource = readFileSync(join(root, 'scripts/run-playwright-a11y.js'), 'utf-8');
+for (const expectedContract of [
+  'assertNoGrepOverrides',
+  'resolveSafeOutputRoot',
+  'PLAYWRIGHT_EXCLUDE_TAGS',
+  'PLAYWRIGHT_TAGS',
+  'PW_ODHIN_FORCE_EXIT_ON_COMPLETION'
+]) {
+  if (!a11yRunnerSource.includes(expectedContract)) {
+    failures.push(`scripts/run-playwright-a11y.js: missing a11y runner hardening contract ${expectedContract}.`);
+  }
+}
+
+const parameterizedPipelineSource = readFileSync(join(root, parameterizedPipelineFile), 'utf-8');
+for (const expectedEvidencePath of [
+  'functional-output/tests/playwright-a11y/integration/odhin-report',
+  'xui-playwright-a11y-integration.html',
+  'stagePlaywrightArtifacts',
+  "sh 'yarn test:coverage:node'",
+  'reports/tests/coverage/node'
+]) {
+  if (!parameterizedPipelineSource.includes(expectedEvidencePath)) {
+    failures.push(`${parameterizedPipelineFile}: missing Playwright retirement evidence contract ${expectedEvidencePath}.`);
   }
 }
 

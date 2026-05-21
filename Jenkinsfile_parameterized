@@ -73,6 +73,51 @@ def publishPlaywrightReport = { String reportDir, String reportFile, String repo
     archiveArtifacts allowEmptyArchive: true, artifacts: artifacts
 }
 
+def stagePlaywrightArtifacts = { String stageDir, String sourceDir ->
+    withEnv([
+        "PW_ARTIFACT_STAGE_DIR=${stageDir}",
+        "PW_ARTIFACT_SOURCE_DIR=${sourceDir}"
+    ]) {
+        sh '''
+            set -eu
+            rm -rf "$PW_ARTIFACT_STAGE_DIR"
+            mkdir -p "$PW_ARTIFACT_STAGE_DIR"
+
+            if [ -d "$PW_ARTIFACT_SOURCE_DIR" ]; then
+              source_abs="$(cd "$PW_ARTIFACT_SOURCE_DIR" && pwd)"
+              file_list="$(mktemp)"
+              find "$source_abs" -path '*/.playwright-artifacts-*' -prune -o -type f -print 2>/dev/null > "$file_list"
+              copied=0
+              failed=0
+              while IFS= read -r file; do
+                case "$file" in
+                  *.png|*.webm|*.zip|*/error-context.md|*/node-api-calls.json|*/node-api-calls.pretty.txt)
+                    if [ ! -f "$file" ]; then
+                      failed=$((failed + 1))
+                      continue
+                    fi
+                    relative="${file#$source_abs/}"
+                    target="$PW_ARTIFACT_STAGE_DIR/$relative"
+                    mkdir -p "$(dirname "$target")"
+                    if cp "$file" "$target"; then
+                      copied=$((copied + 1))
+                    else
+                      failed=$((failed + 1))
+                    fi
+                    ;;
+                esac
+              done < "$file_list"
+              rm -f "$file_list"
+              echo "Staged $copied Playwright artifact(s) from $PW_ARTIFACT_SOURCE_DIR to $PW_ARTIFACT_STAGE_DIR"
+              if [ "$failed" -gt 0 ]; then
+                echo "Failed to stage $failed Playwright artifact(s) from $PW_ARTIFACT_SOURCE_DIR"
+                exit 1
+              fi
+            fi
+        '''
+    }
+}
+
 def runPlaywrightFunctionalTests = { String environmentName ->
     stage("${environmentName} Playwright Functional Replacement") {
         try {
@@ -128,24 +173,34 @@ def runPlaywrightFunctionalTests = { String environmentName ->
                 }
             )
         } finally {
+            stagePlaywrightArtifacts('functional-output/tests/playwright-api/stable-artifacts', 'test-results/playwright-api')
             publishPlaywrightReport(
                 "functional-output/tests/playwright-api/odhin-report",
                 'xui-mo-playwright-api.html',
                 "${environmentName} Manage Org Playwright API",
                 'functional-output/tests/playwright-api/**'
             )
+            stagePlaywrightArtifacts('functional-output/tests/playwright-integration/stable-artifacts', 'test-results/playwright-integration')
             publishPlaywrightReport(
                 "functional-output/tests/playwright-integration/odhin-report",
                 'xui-mo-playwright-integration.html',
                 "${environmentName} Manage Org Playwright Integration",
                 'functional-output/tests/playwright-integration/**'
             )
+            stagePlaywrightArtifacts('functional-output/tests/playwright-a11y/stable-artifacts', 'test-results/playwright-a11y')
             publishPlaywrightReport(
                 "functional-output/tests/playwright-a11y/odhin-report",
                 'xui-playwright-a11y.html',
                 "${environmentName} Manage Org Register Organisation Playwright A11y",
                 'functional-output/tests/playwright-a11y/**'
             )
+            publishPlaywrightReport(
+                "functional-output/tests/playwright-a11y/integration/odhin-report",
+                'xui-playwright-a11y-integration.html',
+                "${environmentName} Manage Org Register Organisation Playwright A11y - Integration",
+                'functional-output/tests/playwright-a11y/integration/**'
+            )
+            stagePlaywrightArtifacts('functional-output/tests/playwright-e2e/stable-artifacts', 'test-results/playwright-e2e')
             publishPlaywrightReport(
                 "functional-output/tests/playwright-e2e/odhin-report",
                 'xui-playwright-e2e.html',
@@ -192,6 +247,7 @@ withParameterizedPipeline(type, product, component, params.ENVIRONMENT, 'sandbox
     }
 
     after('test') {
+        sh 'yarn test:coverage:node'
 
         publishHTML ( [
             allowMissing         : true,
@@ -215,7 +271,7 @@ withParameterizedPipeline(type, product, component, params.ENVIRONMENT, 'sandbox
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "test/reports/tests/coverage/node",
+            reportDir            : "reports/tests/coverage/node",
             reportFiles          : "index.html",
             reportName           : "node coverage tests"
         ])

@@ -21,13 +21,11 @@ import { CaseShareConfirmPage } from '../../page-objects/case-share-confirm.po';
 import { CaseSharingPage } from '../../page-objects/case-sharing.po';
 import { UnassignedCasesPage } from '../../page-objects/unassigned-cases.po';
 
-const pendingCaseSharingA11yFix =
-  'Pending product accessibility fixes for CAA case-list tab contrast and case-selection checkbox labels; keep product code out of EXUI-4640.';
+const pendingProductA11yDefect =
+  'Skipped pending separate product defect fix: CAA case-list inactive tabs fail colour contrast and CCD case-list selection checkboxes have no accessible names. EXUI-4640 is test/CI retirement only and must not change src/** application code.';
 
-test.describe('case sharing accessibility', { tag: ['@integration', '@integration-case-sharing', '@a11y'] }, () => {
-  test.beforeEach(() => {
-    test.skip(true, pendingCaseSharingA11yFix);
-  });
+test.describe('case sharing accessibility - skipped pending product defect: tab contrast and checkbox accessible names', { tag: ['@integration', '@integration-case-sharing', '@a11y'] }, () => {
+  test.skip(true, pendingProductA11yDefect);
 
   test('unassigned case-sharing list, share, confirm and complete states have no automatically detectable accessibility violations', async ({
     manageOrgIntegrationPage: page

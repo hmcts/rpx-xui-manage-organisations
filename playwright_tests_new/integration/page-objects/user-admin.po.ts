@@ -2,6 +2,7 @@ import type { Locator, Page } from '@playwright/test';
 
 export class UserAdminPage {
   public readonly backLink: Locator;
+  private readonly backControl: Locator;
   public readonly confirmationPanel: Locator;
   public readonly emailInput: Locator;
   public readonly editUserHeading: Locator;
@@ -21,6 +22,7 @@ export class UserAdminPage {
 
   constructor(private readonly page: Page) {
     this.backLink = this.page.getByRole('link', { name: 'Back', exact: true });
+    this.backControl = this.page.locator('.govuk-back-link');
     this.confirmationPanel = this.page.locator('.govuk-panel--confirmation');
     this.emailInput = this.page.locator('#email');
     this.editUserHeading = this.page.getByRole('heading', { name: 'Edit user' });
@@ -137,7 +139,7 @@ export class UserAdminPage {
   }
 
   public async goBack(): Promise<void> {
-    await this.backLink.click();
+    await this.backControl.click();
     await this.waitForLoader();
   }
 

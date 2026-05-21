@@ -21,7 +21,7 @@ async function generateMergedReport() {
 
     for (let result of results) {
 
-        if (!result.includes('.json')) {
+        if (!result.includes('.json') || result === 'report_output.json') {
             continue;
         }
         console.log('reading individual json '+result);
@@ -66,4 +66,3 @@ async function generateMergedReport() {
 }
 
 module.exports = generateMergedReport;
-

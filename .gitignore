@@ -43,6 +43,7 @@ api/.nyc_output
 
 # misc
 /.playwright-cli/
+.ssr.lock/
 /.sass-cache
 /connect.lock
 /coverage

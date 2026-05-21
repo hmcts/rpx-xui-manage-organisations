@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-const [mode = 'fail', command = 'legacy Codecept runner'] = process.argv.slice(2);
-
 const replacements = [
   'yarn test:api:pw',
   'yarn test:playwright:integration',
@@ -10,18 +8,54 @@ const replacements = [
 ];
 
 const bridgeCommands = new Set(['test:functional', 'test:fullfunctional']);
-const isBridge = mode === 'bridge' || bridgeCommands.has(command);
 
-console.log(`Legacy Manage Org functional runner "${command}" is retired.`);
-console.log('Authoritative Manage Org functional gates now run through Playwright:');
-for (const replacement of replacements) {
-  console.log(`- ${replacement}`);
+const resolveRetiredRunnerOutcome = (mode = 'fail', command = 'legacy Codecept runner') => {
+  const isBridge = mode === 'bridge' && bridgeCommands.has(command);
+  const isFailMode = mode === 'fail';
+
+  if (isBridge) {
+    return {
+      bridge: true,
+      exitCode: 0,
+      reason: 'This shared Jenkins hook is intentionally a no-op bridge to avoid duplicate Playwright execution.'
+    };
+  }
+
+  return {
+    bridge: false,
+    exitCode: 1,
+    reason: isFailMode
+      ? `"${command}" must not be used for new validation. Use the Playwright replacement above.`
+      : `"${command}" is not an allowed retired-runner bridge command.`
+  };
+};
+
+const run = (argv = process.argv.slice(2), logger = console) => {
+  const [mode = 'fail', command = 'legacy Codecept runner'] = argv;
+  const outcome = resolveRetiredRunnerOutcome(mode, command);
+
+  logger.log(`Legacy Manage Org functional runner "${command}" is retired.`);
+  logger.log('Authoritative Manage Org functional gates now run through Playwright:');
+  for (const replacement of replacements) {
+    logger.log(`- ${replacement}`);
+  }
+
+  if (outcome.bridge) {
+    logger.log(outcome.reason);
+  } else {
+    logger.error(outcome.reason);
+  }
+
+  return outcome.exitCode;
+};
+
+if (require.main === module) {
+  process.exit(run());
 }
 
-if (isBridge) {
-  console.log('This shared Jenkins hook is intentionally a no-op bridge to avoid duplicate Playwright execution.');
-  process.exit(0);
-}
-
-console.error(`"${command}" must not be used for new validation. Use the Playwright replacement above.`);
-process.exit(1);
+module.exports = {
+  bridgeCommands,
+  replacements,
+  resolveRetiredRunnerOutcome,
+  run
+};

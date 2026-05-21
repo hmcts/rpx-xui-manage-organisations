@@ -48,10 +48,10 @@ Playwright API runs emit an Odhin report under `functional-output/tests/playwrig
 - Report metadata can be overridden with `PLAYWRIGHT_REPORT_PROJECT`, `PLAYWRIGHT_REPORT_RELEASE`, `PLAYWRIGHT_REPORT_TEST_ENVIRONMENT`, `PLAYWRIGHT_REPORT_FOLDER`, and `PLAYWRIGHT_REPORT_INDEX_FILENAME`.
 - Existing `PW_ODHIN_*` overrides are still supported for backward compatibility.
 - Jenkins archives both `functional-output/tests/playwright-e2e/**` and `test-results/**/*` for Playwright CI runs.
-- `yarn test:smoke` is the Jenkins CNP smoke entrypoint and runs the login-page smoke check only.
+- `yarn test:smoke` is the Jenkins CNP smoke entrypoint and runs unauthenticated login and protected-route redirect smoke checks.
 - `yarn test:playwrightE2E:raw` is the Jenkins CNP Playwright E2E entrypoint and runs migrated new-framework Chromium journeys using `playwright.e2e.config.ts`.
 - `yarn test:crossbrowser:raw` is the Jenkins nightly cross-browser entrypoint and runs migrated new-framework Firefox/WebKit journeys using `playwright-nightly.config.ts`.
-- `yarn test:api:pw` runs the Playwright `node-api` project for migrated API-functional coverage. The first tranche covers organisation details, user/session context, user lists, public configuration/reference data, and protected-route guard rails. Mutating invite and registration POST checks are present but disabled by default. `yarn test:api` remains the legacy Codecept/Mocha API path until the Playwright API lane has been proven in CI.
+- `yarn test:api:pw` runs the Playwright `node-api` project for migrated API-functional coverage. The lane covers organisation details, user/session context, user lists, public configuration/reference data, protected-route guard rails, invite, re-invite, and register-organisation API coverage. Mutating invite and registration POST checks are present but disabled by default unless their lifecycle has been agreed.
 - `PLAYWRIGHT_TAGS` runs only matching Playwright tags, for example `PLAYWRIGHT_TAGS=@registration yarn test:playwrightE2E`.
 - `PLAYWRIGHT_EXCLUDE_TAGS` removes matching Playwright tags, for example `PLAYWRIGHT_TAGS=@e2e PLAYWRIGHT_EXCLUDE_TAGS=@e2e-smoke yarn test:playwrightE2E -- --list`.
 
@@ -61,15 +61,30 @@ Every migrated new-framework journey must have one execution-pack tag and one do
 
 - Execution-pack tags:
   - `@e2e` for migrated end-to-end journeys.
-  - `@e2e-smoke` for the unauthenticated login-page smoke check.
+  - `@e2e-smoke` for unauthenticated login and protected-route redirect smoke checks.
+  - `@a11y` for dedicated accessibility scans. `*.a11y.spec.ts` files are ignored by normal E2E and integration runs unless `PLAYWRIGHT_INCLUDE_A11Y=true`.
 - Domain tags:
   - `@registration` for register organisation and register other organisation journeys.
   - `@organisation` for organisation details and organisation profile journeys.
   - `@user-admin` for users, invite, suspend, permissions, and re-invite journeys.
+  - `@auth` for deployed authentication and sign-out journeys.
+  - `@terms` for terms-and-conditions route and content checks.
   - `@api` for Playwright API-functional coverage.
   - `@integration` for Playwright mock-backed integration coverage.
 
-Jenkins CNP and nightly Playwright E2E stages set `PLAYWRIGHT_TAGS=@e2e` only for the E2E lane. API and integration lanes remain selected by their dedicated Playwright projects so they are not filtered out by E2E tag policy.
+Jenkins CNP, nightly, and parameterized Playwright E2E stages set `PLAYWRIGHT_TAGS=@e2e` and exclude `@a11y` so dedicated accessibility scans remain owned by `yarn test:a11y:playwright`. API and integration lanes remain selected by their dedicated Playwright projects so they are not filtered out by E2E tag policy.
+
+## Legacy Codecept retirement
+
+Playwright API, integration, accessibility, and E2E lanes are the authoritative Manage Organisation functional gates.
+
+- `yarn test:functional` and `yarn test:fullfunctional` are retained only as no-op bridges for shared Jenkins hooks while the CNP, nightly, and parameterized Playwright stages run the real gates; parameterized `functionalTest:*` and `fullFunctionalTest:*` hooks both invoke the Playwright replacement pack.
+- Direct legacy Codecept aliases such as `yarn test:codeceptE2E`, `yarn test:a11yInTest`, `yarn test:api`, and `yarn test:xuiIntegration` fail fast with their Playwright replacements.
+- `yarn test:a11y:playwright` runs the deployed E2E route scans and discovers the mocked integration case-sharing accessibility specs; those integration specs stay skipped until the product accessibility fixes are delivered in a separate application PR.
+- `test_codecept/**` assets remain in the repository for audit and deletion follow-up; do not use them as active validation commands.
+- `playwright_tests/**` legacy specs also remain for audit and deletion follow-up; active Playwright configs select `playwright_tests_new/**` only.
+- `yarn lint:playwright:architecture` fails if package scripts or active Jenkinsfiles reintroduce executable legacy Codecept, legacy API functional, pa11y, backend mock, legacy functional report publishers, or old Playwright paths.
+- Live mutating invite, re-invite, and register-organisation API POST probes are not part of default CNP/nightly because they create persistent AAT data; use `yarn test:api:pw:mutating` only when the target environment and cleanup window are agreed.
 
 ## Playwright authentication
 
@@ -81,7 +96,7 @@ Populate local Playwright credentials from Key Vault with `yarn env:populate:aat
 - `MANAGE_ORG_API_ENABLE_REGISTRATION_POST=true` enables the mutating register-organisation API POST test. Keep it disabled unless the target environment and data lifecycle are agreed.
 - Smoke/login tests stay unauthenticated by default. Only tests that request `signedInPage` load cached auth state.
 - Use `yarn test:playwrightE2E:list` to confirm the CNP Playwright E2E pack.
-- Use `yarn test:playwright:smoke:list` to list the login-page smoke check only, or `yarn test:playwright:smoke` to run it.
+- Use `yarn test:playwright:smoke:list` to list unauthenticated smoke checks, or `yarn test:playwright:smoke` to run them.
 
 ## Further help 1
 

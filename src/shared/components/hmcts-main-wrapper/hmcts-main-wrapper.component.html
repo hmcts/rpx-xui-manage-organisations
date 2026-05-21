@@ -2,7 +2,7 @@
   <a [routerLink]="backLink" class="govuk-back-link">Back</a>
 }
 @if (!backLink && backAction) {
-  <a href="#" (click)="onBackAction($event)" class="govuk-back-link">Back</a>
+  <a (click)="backAction()" class="govuk-back-link">Back</a>
 }
 <main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
   <div class="govuk-grid-row">

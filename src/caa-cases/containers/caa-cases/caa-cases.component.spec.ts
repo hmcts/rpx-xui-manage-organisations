@@ -192,20 +192,6 @@ describe('CaaCasesComponent', () => {
     expect(component.tableConfig).not.toBeNull();
   });
 
-  it('should add accessible names to case selection checkboxes rendered by the case-list component', () => {
-    const nativeElement = fixture.nativeElement as HTMLElement;
-    nativeElement.insertAdjacentHTML('beforeend', `
-      <input id="select-all" class="govuk-checkboxes__input" type="checkbox">
-      <input id="select-1234567812345678" class="govuk-checkboxes__input" type="checkbox">
-    `);
-    component.currentCaseType = 'Asylum';
-
-    component.ngAfterViewChecked();
-
-    expect(nativeElement.querySelector('#select-all')?.getAttribute('aria-label')).toEqual('Select all Asylum cases');
-    expect(nativeElement.querySelector('#select-1234567812345678')?.getAttribute('aria-label')).toEqual('Select case 1234567812345678');
-  });
-
   it('should return correct no cases found message', () => {
     component.totalCases = 0;
     component.caaCasesPageType = CaaCasesPageType.UnassignedCases;

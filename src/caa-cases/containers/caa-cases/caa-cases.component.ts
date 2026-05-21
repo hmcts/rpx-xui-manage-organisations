@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { AfterViewChecked, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatLegacyTabGroup as MatTabGroup } from '@angular/material/legacy-tabs';
 import { Router } from '@angular/router';
 import { TableConfig } from '@hmcts/ccd-case-ui-toolkit';
@@ -29,7 +29,7 @@ import { buildCompositeTrackKey } from '../../../shared/utils/track-by.util';
   templateUrl: './caa-cases.component.html',
   standalone: false
 })
-export class CaaCasesComponent implements OnInit, AfterViewChecked {
+export class CaaCasesComponent implements OnInit {
   public cases$: Observable<any>;
   public casesError$: Observable<HttpErrorResponse>;
   public selectedOrganisation$: Observable<OrganisationDetails>;
@@ -66,13 +66,7 @@ export class CaaCasesComponent implements OnInit, AfterViewChecked {
               private readonly organisationStore: Store<fromOrganisationStore.OrganisationState>,
               private readonly userStore: Store<fromUserStore.UserState>,
               private readonly router: Router,
-              private readonly service: CaaCasesService,
-              private readonly elementRef: ElementRef<HTMLElement>,
-              private readonly renderer: Renderer2) {
-  }
-
-  public ngAfterViewChecked(): void {
-    this.applyCaseSelectionAccessibleLabels();
+              private readonly service: CaaCasesService) {
   }
 
   public ngOnInit(): void {
@@ -415,31 +409,5 @@ export class CaaCasesComponent implements OnInit, AfterViewChecked {
       this.tabGroup.selectedIndex = 0;
     }
     this.loadDataFromStore();
-  }
-
-  private applyCaseSelectionAccessibleLabels(): void {
-    const hostElement = this.elementRef.nativeElement;
-    const caseType = this.currentCaseType || 'case';
-    const selectAllCheckbox = hostElement.querySelector<HTMLInputElement>('input#select-all');
-
-    if (selectAllCheckbox) {
-      this.setCaseSelectionAccessibleLabel(selectAllCheckbox, `Select all ${caseType} cases`);
-    }
-
-    hostElement
-      .querySelectorAll<HTMLInputElement>('input.govuk-checkboxes__input[id^="select-"]')
-      .forEach((caseCheckbox) => {
-        if (caseCheckbox.id === 'select-all') {
-          return;
-        }
-
-        this.setCaseSelectionAccessibleLabel(caseCheckbox, `Select case ${caseCheckbox.id.replace(/^select-/, '')}`);
-      });
-  }
-
-  private setCaseSelectionAccessibleLabel(checkbox: HTMLInputElement, label: string): void {
-    if (checkbox.getAttribute('aria-label') !== label) {
-      this.renderer.setAttribute(checkbox, 'aria-label', label);
-    }
   }
 }

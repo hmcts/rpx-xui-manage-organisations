@@ -1,4 +1,3 @@
-import { ElementRef, Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -14,8 +13,6 @@ describe('Share case selectors', () => {
   let organisationStore: Store<OrganisationState>;
   let userStore: Store<UserState>;
   let caaCasesService: jasmine.SpyObj<CaaCasesService>;
-  let elementRef: ElementRef<HTMLElement>;
-  let renderer: jasmine.SpyObj<Renderer2>;
   const router: any = {};
 
   beforeEach(() => {
@@ -29,8 +26,6 @@ describe('Share case selectors', () => {
         'removeSessionState'
       ]
     );
-    elementRef = new ElementRef(document.createElement('app-caa-cases-component'));
-    renderer = jasmine.createSpyObj<Renderer2>('renderer', ['setAttribute']);
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
@@ -50,15 +45,7 @@ describe('Share case selectors', () => {
 
   describe('get share case state', () => {
     xit('should return search state', () => {
-      const caseListComponent = new CaaCasesComponent(
-        store,
-        organisationStore,
-        userStore,
-        router,
-        caaCasesService,
-        elementRef,
-        renderer
-      );
+      const caseListComponent = new CaaCasesComponent(store, organisationStore, userStore, router, caaCasesService);
       caseListComponent.selectedCases = [{
         case_id: '1',
         case_fields: {

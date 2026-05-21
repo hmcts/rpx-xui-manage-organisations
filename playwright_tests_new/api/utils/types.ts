@@ -47,6 +47,11 @@ export type FeeAccount = {
   status?: string | null;
 };
 
+export type MutatingApiResult = {
+  code?: number;
+  message?: string;
+};
+
 export type ReferenceItem = {
   id?: string;
   [key: string]: unknown;

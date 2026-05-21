@@ -3405,9 +3405,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/ccd-case-ui-toolkit@npm:7.3.52-exui-4291-1":
-  version: 7.3.52-exui-4291-1
-  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.3.52-exui-4291-1"
+"@hmcts/ccd-case-ui-toolkit@npm:7.3.53-exui-4291":
+  version: 7.3.53-exui-4291
+  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.3.53-exui-4291"
   dependencies:
     "@edium/fsm": "npm:^3.0.2"
     "@hmcts/ccpay-web-component": "npm:6.5.17"
@@ -3415,7 +3415,7 @@ __metadata:
     file-saver: "npm:^2.0.2"
     govuk-frontend: "npm:^4.9.0"
     lz-string: "npm:^1.5.0"
-    marked: "npm:^12.0.2"
+    marked: "npm:^17.0.3"
     pegjs: "npm:^0.10.0"
     rx-polling-hmcts: "npm:1.1.1"
     tslib: "npm:^2.3.0"
@@ -3448,7 +3448,7 @@ __metadata:
     rxjs-compat: ^6.6.7
     underscore: ^1.9.1
     zone.js: ^0.15.1
-  checksum: 10/3ab88baa570cc3f50119a19760f61cd66f645d39c242f4723fb016bb431fdcdbf3f50ccaa33d64c4a60bb443bd2f68ce6d45baa37ad92b54bc9775ebc26f0126
+  checksum: 10/8d66d17f9c27e862abe97574a0419d830e84b7d95baf206473f409eb6b50b4e597da9368faa69ae9bd6ed8f71aaad5b05e618e001ff959a8d6d99d9a22994c4f
   languageName: node
   linkType: hard
 
@@ -24399,7 +24399,7 @@ __metadata:
     "@angular/platform-browser-dynamic": "npm:^20.3.18"
     "@angular/router": "npm:^20.3.18"
     "@circlon/angular-tree-component": "npm:^11.0.4"
-    "@hmcts/ccd-case-ui-toolkit": "npm:7.3.52-exui-4291-1"
+    "@hmcts/ccd-case-ui-toolkit": "npm:7.3.53-exui-4291"
     "@hmcts/ccpay-web-component": "npm:6.5.14"
     "@hmcts/frontend": "npm:0.0.50-alpha"
     "@hmcts/media-viewer": "npm:4.2.16"

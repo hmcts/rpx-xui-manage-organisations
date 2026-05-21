@@ -62,6 +62,7 @@ Every migrated new-framework journey must have one execution-pack tag and one do
 - Execution-pack tags:
   - `@e2e` for migrated end-to-end journeys.
   - `@e2e-smoke` for unauthenticated login and protected-route redirect smoke checks.
+  - `@a11y` for dedicated accessibility scans. `*.a11y.spec.ts` files are ignored by normal E2E and integration runs unless `PLAYWRIGHT_INCLUDE_A11Y=true`.
 - Domain tags:
   - `@registration` for register organisation and register other organisation journeys.
   - `@organisation` for organisation details and organisation profile journeys.
@@ -71,18 +72,18 @@ Every migrated new-framework journey must have one execution-pack tag and one do
   - `@api` for Playwright API-functional coverage.
   - `@integration` for Playwright mock-backed integration coverage.
 
-Jenkins CNP and nightly Playwright E2E stages set `PLAYWRIGHT_TAGS=@e2e` only for the E2E lane. API and integration lanes remain selected by their dedicated Playwright projects so they are not filtered out by E2E tag policy.
+Jenkins CNP, nightly, and parameterized Playwright E2E stages set `PLAYWRIGHT_TAGS=@e2e` and exclude `@a11y` so dedicated accessibility scans remain owned by `yarn test:a11y:playwright`. API and integration lanes remain selected by their dedicated Playwright projects so they are not filtered out by E2E tag policy.
 
 ## Legacy Codecept retirement
 
 Playwright API, integration, accessibility, and E2E lanes are the authoritative Manage Organisation functional gates.
 
-- `yarn test:functional` and `yarn test:fullfunctional` are retained only as no-op bridges for shared Jenkins hooks while the deployed Playwright stages run the real gates.
+- `yarn test:functional` and `yarn test:fullfunctional` are retained only as no-op bridges for shared Jenkins hooks while the CNP, nightly, and parameterized Playwright stages run the real gates; parameterized `functionalTest:*` and `fullFunctionalTest:*` hooks both invoke the Playwright replacement pack.
 - Direct legacy Codecept aliases such as `yarn test:codeceptE2E`, `yarn test:a11yInTest`, `yarn test:api`, and `yarn test:xuiIntegration` fail fast with their Playwright replacements.
 - `yarn test:a11y:playwright` runs the deployed E2E route scans and discovers the mocked integration case-sharing accessibility specs; those integration specs stay skipped until the product accessibility fixes are delivered in a separate application PR.
 - `test_codecept/**` assets remain in the repository for audit and deletion follow-up; do not use them as active validation commands.
 - `playwright_tests/**` legacy specs also remain for audit and deletion follow-up; active Playwright configs select `playwright_tests_new/**` only.
-- `yarn lint:playwright:architecture` fails if package scripts or Jenkinsfiles reintroduce executable legacy Codecept, legacy API functional, pa11y, backend mock, or old Playwright paths.
+- `yarn lint:playwright:architecture` fails if package scripts or active Jenkinsfiles reintroduce executable legacy Codecept, legacy API functional, pa11y, backend mock, legacy functional report publishers, or old Playwright paths.
 - Live mutating invite, re-invite, and register-organisation API POST probes are not part of default CNP/nightly because they create persistent AAT data; use `yarn test:api:pw:mutating` only when the target environment and cleanup window are agreed.
 
 ## Playwright authentication

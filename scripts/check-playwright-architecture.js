@@ -29,6 +29,11 @@ const activePlaywrightConfigFiles = [
   'playwright.integration.config.ts',
   'playwright-nightly.config.ts'
 ];
+const activePipelineFiles = [
+  'Jenkinsfile_CNP',
+  'Jenkinsfile_nightly',
+  'Jenkinsfile_parameterized'
+];
 const retiredExecutionPatterns = [
   { pattern: /\bnpx\s+codeceptjs\b/, label: 'CodeceptJS runner' },
   { pattern: /\bcodeceptjs\s+run(?:-workers)?\b/, label: 'CodeceptJS runner' },
@@ -132,7 +137,7 @@ for (const fileName of activePlaywrightConfigFiles) {
   }
 }
 
-for (const fileName of ['Jenkinsfile_CNP', 'Jenkinsfile_nightly']) {
+for (const fileName of activePipelineFiles) {
   const pipelineSource = readFileSync(join(root, fileName), 'utf-8');
   for (const { pattern, label } of [
     ...retiredExecutionPatterns,

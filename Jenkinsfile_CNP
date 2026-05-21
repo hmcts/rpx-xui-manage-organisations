@@ -274,6 +274,7 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                             "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-e2e",
                             "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
                             "PLAYWRIGHT_TAGS=@e2e",
+                            "PLAYWRIGHT_EXCLUDE_TAGS=@a11y",
                             "PLAYWRIGHT_SKIP_INSTALL=true"
                         ]) {
                             yarnBuilder.yarn('test:playwrightE2E:raw')

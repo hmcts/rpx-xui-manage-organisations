@@ -34,4 +34,9 @@ export class HmctsMainWrapperComponent {
   public trackByActionButton(index: number, btn: { name: string; class: string }): string | number {
     return buildCompositeTrackKey(index, btn?.name, btn?.class);
   }
+
+  public onBackAction(event: Event): void {
+    event.preventDefault();
+    this.backAction?.();
+  }
 }

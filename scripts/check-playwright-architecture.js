@@ -38,6 +38,10 @@ const retiredExecutionPatterns = [
   { pattern: /ensure-codecept-a11y-report\.js\b/, label: 'legacy Codecept a11y report shim' },
   { pattern: /\bpa11y\b/, label: 'legacy pa11y runner' }
 ];
+const oldPlaywrightPathPattern = {
+  pattern: /(^|[^A-Za-z0-9_])playwright_tests\//,
+  label: 'legacy playwright_tests path'
+};
 const forbiddenPipelineScriptPatterns = [
   {
     pattern: /yarnBuilder\.yarn\(['"]test:(?:codeceptE2E|xuiIntegration|ngIntegrationMockEnv|a11yInTest|a11y:codecept|api|backendMock|functional|fullfunctional)['"]\)/,
@@ -114,7 +118,7 @@ for (const scriptName of legacyBridgeScripts) {
 }
 
 for (const [scriptName, command] of Object.entries(packageJson.scripts ?? {})) {
-  for (const { pattern, label } of retiredExecutionPatterns) {
+  for (const { pattern, label } of [...retiredExecutionPatterns, oldPlaywrightPathPattern]) {
     if (pattern.test(command)) {
       failures.push(`${scriptName}: invokes ${label}; retained legacy assets must not be executed.`);
     }
@@ -123,14 +127,18 @@ for (const [scriptName, command] of Object.entries(packageJson.scripts ?? {})) {
 
 for (const fileName of activePlaywrightConfigFiles) {
   const configSource = readFileSync(join(root, fileName), 'utf-8');
-  if (/(^|[^_])playwright_tests\//.test(configSource)) {
+  if (oldPlaywrightPathPattern.pattern.test(configSource)) {
     failures.push(`${fileName}: active Playwright configs must select playwright_tests_new/**, not legacy playwright_tests/**.`);
   }
 }
 
 for (const fileName of ['Jenkinsfile_CNP', 'Jenkinsfile_nightly']) {
   const pipelineSource = readFileSync(join(root, fileName), 'utf-8');
-  for (const { pattern, label } of [...retiredExecutionPatterns, ...forbiddenPipelineScriptPatterns]) {
+  for (const { pattern, label } of [
+    ...retiredExecutionPatterns,
+    ...forbiddenPipelineScriptPatterns,
+    oldPlaywrightPathPattern
+  ]) {
     if (pattern.test(pipelineSource)) {
       failures.push(`${fileName}: contains ${label}; pipelines must run only Playwright retirement lanes.`);
     }

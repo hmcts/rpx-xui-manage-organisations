@@ -46,6 +46,7 @@ div.hmcts-header__logo {
 
 
 
+// Angular Material tab styles are injected after global styles, so these a11y colour overrides must win explicitly.
 .mat-tab-label {
   font-family: Roboto, Arial, sans-serif;
   margin: 0;
@@ -70,12 +71,13 @@ div.hmcts-header__logo {
   font-size: 19px;
   font-size: 1.1875rem;
   line-height: 1.31579;
-  color: #005ea5;
+  color: #005ea5 !important;
+  opacity: 1 !important;
 }
 
 .mat-tab-label-active {
   text-decoration: none;
-  color: #0b0c0c;
+  color: #0b0c0c !important;
   filter: contrast(100%);
 }
 

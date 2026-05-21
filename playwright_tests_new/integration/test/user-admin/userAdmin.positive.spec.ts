@@ -22,12 +22,11 @@ const expectedRolesFor = (permissions: string[]): string[] => {
     : roles;
 };
 
-const expectRoleNames = (
-  actualRoles: { name: string }[],
-  expectedRoleNames: string[]
-): void => {
-  expect(actualRoles.map(({ name }) => name).sort()).toEqual([...expectedRoleNames].sort());
-};
+const roleNames = (actualRoles: { name: string }[]): string[] =>
+  actualRoles.map(({ name }) => name).sort();
+
+const sortedRoles = (expectedRoleNames: string[]): string[] =>
+  [...expectedRoleNames].sort();
 
 test.describe('User administration', { tag: ['@integration', '@integration-user-admin'] }, () => {
   test('renders the users list and returns from invite-user with the back link', async ({
@@ -179,11 +178,11 @@ test.describe('User administration', { tag: ['@integration', '@integration-user-
       method: 'PUT',
       userId: userAdminActiveUser.userIdentifier
     });
-    expectRoleNames(routeState.editUserPermissionRequests[0].rolesAdd, [
+    expect(roleNames(routeState.editUserPermissionRequests[0].rolesAdd)).toEqual(sortedRoles([
       'pui-case-manager',
       ...expectedCcdCaseworkerRoles
-    ]);
-    expectRoleNames(routeState.editUserPermissionRequests[0].rolesDelete, ['pui-user-manager']);
+    ]));
+    expect(roleNames(routeState.editUserPermissionRequests[0].rolesDelete)).toEqual(sortedRoles(['pui-user-manager']));
     await expect(page).toHaveURL(new RegExp(`/users/user/${userAdminActiveUser.userIdentifier}$`));
     await expect.poll(() => routeState.allUserListRequests.length).toBeGreaterThan(0);
     expect(routeState.allUserListRequests.every((method) => method === 'GET')).toBe(true);

@@ -17,6 +17,13 @@ const pbaPayload = {
   pbaNumber: 'PBA0000000'
 };
 
+const pbaAddDeletePayload = {
+  pendingPaymentAccount: {
+    pendingAddPaymentAccount: [],
+    pendingRemovePaymentAccount: []
+  }
+};
+
 test.describe('Protected API guard rail contracts', { tag: '@svc-auth-guards' }, () => {
   test('rejects anonymous organisation user requests', async ({ anonymousClient }) => {
     const response = await anonymousClient.get('api/organisation/users', { throwOnError: false });
@@ -107,5 +114,14 @@ test.describe('Protected API guard rail contracts', { tag: '@svc-auth-guards' },
     });
 
     expect([401, 403], 'Anonymous PBA delete requests should be rejected').toContain(response.status);
+  });
+
+  test('rejects anonymous PBA add-delete requests before payload processing', async ({ anonymousClient }) => {
+    const response = await anonymousClient.post('api/pba/addDeletePBA', {
+      data: pbaAddDeletePayload,
+      throwOnError: false
+    });
+
+    expect([401, 403], 'Anonymous PBA add-delete requests should be rejected').toContain(response.status);
   });
 });

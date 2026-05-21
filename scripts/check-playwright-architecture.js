@@ -23,6 +23,32 @@ const retiredLegacyScripts = [
   'patch:static'
 ];
 const legacyBridgeScripts = ['test:functional', 'test:fullfunctional'];
+const forbiddenLegacyDirectories = [
+  'test_codecept',
+  'playwright_tests',
+  'test/accessibility',
+  'test/integration',
+  'test/nodeMock'
+];
+const forbiddenLegacyDependencies = [
+  '@types/faker',
+  '@types/jasminewd2',
+  'allure-js-commons',
+  'codeceptjs',
+  'codeceptjs-cucumber-json-reporter',
+  'cucumber-html-report',
+  'cucumber-html-reporter',
+  'faker',
+  'mochawesome',
+  'pa11y',
+  'pa11y-reporter-html',
+  'portfinder',
+  'puppeteer',
+  'rest-assured',
+  'should',
+  'start-server-and-test',
+  'why-is-node-running'
+];
 const activePlaywrightConfigFiles = [
   'playwright.config.ts',
   'playwright.e2e.config.ts',
@@ -73,6 +99,20 @@ const extensionFor = (filePath) => {
 
 const isAllowedAssertionFile = (filePath) =>
   allowedAssertionFiles.some((allowedAssertionFile) => allowedAssertionFile.test(filePath));
+
+for (const directory of forbiddenLegacyDirectories) {
+  if (existsSync(join(root, directory))) {
+    failures.push(`${directory}: retired legacy test assets must stay deleted; use playwright_tests_new/** coverage.`);
+  }
+}
+
+for (const dependencySection of ['dependencies', 'devDependencies', 'resolutions']) {
+  for (const dependencyName of forbiddenLegacyDependencies) {
+    if (packageJson[dependencySection]?.[dependencyName]) {
+      failures.push(`${dependencySection}.${dependencyName}: retired legacy test dependency must not be reintroduced.`);
+    }
+  }
+}
 
 const walk = (directory, files = []) => {
   if (!existsSync(directory)) {

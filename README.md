@@ -81,9 +81,9 @@ Playwright API, integration, accessibility, and E2E lanes are the authoritative 
 - `yarn test:functional` and `yarn test:fullfunctional` are retained only as no-op bridges for shared Jenkins hooks while the CNP, nightly, and parameterized Playwright stages run the real gates; parameterized `functionalTest:*` and `fullFunctionalTest:*` hooks both invoke the Playwright replacement pack.
 - Direct legacy Codecept aliases such as `yarn test:codeceptE2E`, `yarn test:a11yInTest`, `yarn test:api`, and `yarn test:xuiIntegration` fail fast with their Playwright replacements.
 - `yarn test:a11y:playwright` runs the deployed E2E route scans and discovers the mocked integration case-sharing accessibility specs; those integration specs stay skipped until the product accessibility fixes are delivered in a separate application PR.
-- `test_codecept/**` assets remain in the repository for audit and deletion follow-up; do not use them as active validation commands.
-- `playwright_tests/**` legacy specs also remain for audit and deletion follow-up; active Playwright configs select `playwright_tests_new/**` only.
-- `yarn lint:playwright:architecture` fails if package scripts or active Jenkinsfiles reintroduce executable legacy Codecept, legacy API functional, pa11y, backend mock, legacy functional report publishers, or old Playwright paths.
+- Retired legacy assets have been deleted from the active tree: `test_codecept/**`, old `playwright_tests/**`, legacy pa11y accessibility tests, old API-functional tests, and old local mock assets. Historical evidence is available from git history and the migration Jira trail.
+- `test/java/**` remains because Fortify still owns that Java wrapper; it is not part of the retired functional framework estate.
+- `yarn lint:playwright:architecture` fails if package scripts, active Jenkinsfiles, repository directories, or direct dependencies reintroduce executable legacy Codecept, legacy API functional, pa11y, backend mock, legacy functional report publishers, or old Playwright paths.
 - Live mutating invite, re-invite, and register-organisation API POST probes are not part of default CNP/nightly because they create persistent AAT data; use `yarn test:api:pw:mutating` only when the target environment and cleanup window are agreed.
 
 ## Playwright authentication

@@ -22,8 +22,8 @@ export class PbaManagementPage {
   }
 
   public organisationPbaSummary(): Locator {
-    return this.page.locator('.govuk-summary-list__row').filter({
-      has: this.page.locator('.govuk-summary-list__key', { hasText: 'PBA numbers' })
+    return this.page.locator('.govuk-summary-list__row, .govuk-table__row').filter({
+      has: this.page.locator('.govuk-summary-list__key, .govuk-table__header', { hasText: 'PBA numbers' })
     });
   }
 

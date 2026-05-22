@@ -227,11 +227,13 @@ test.describe('Register organisation', { tag: ['@integration', '@integration-reg
       manageOrgRuntimeConfiguration.manageCaseLink
     );
     await expect(registerOrganisationPage.manageCasesLink).toHaveAttribute('target', '_blank');
+    await expect(registerOrganisationPage.manageCasesLink).toHaveAttribute('rel', 'noopener noreferrer');
     await expect(registerOrganisationPage.manageOrganisationLink).toHaveAttribute(
       'href',
       manageOrgRuntimeConfiguration.manageOrgLink
     );
     await expect(registerOrganisationPage.manageOrganisationLink).toHaveAttribute('target', '_blank');
+    await expect(registerOrganisationPage.manageOrganisationLink).toHaveAttribute('rel', 'noopener noreferrer');
     expect(routeState.registrationRequests).toHaveLength(0);
   });
 

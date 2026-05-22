@@ -8,7 +8,7 @@ const { somethingLike } = Matchers;
 const pactSetUp = new PactTestSetup({ provider: 'acc_manageCaseAssignment', port: 8000 });
 
 describe('Get cases from acc ', () => {
-  describe('Get cases from acc', async () => {
+  describe('Get cases from acc', () => {
     before(async () => {
       await pactSetUp.provider.setup();
       const interaction = {
@@ -35,31 +35,27 @@ describe('Get cases from acc ', () => {
         }
       };
       // @ts-ignore
-      pactSetUp.provider.addInteraction(interaction);
+      await pactSetUp.provider.addInteraction(interaction);
+    });
+
+    after(async () => {
+      await pactSetUp.provider.finalize();
     });
 
     it('returns the correct response', async () => {
       const caseUrl: string = `${pactSetUp.provider.mockService.baseUrl}/case-assignments?case_ids=[123456789]`;
 
-      const resp = getCases(caseUrl);
-
-      resp.then((response) => {
-        const responseDto: CCDRawCaseUserModel[] = <CCDRawCaseUserModel[]>response.data.case_assignments;
-        assertResponse(responseDto);
-      }).then(() => {
-        pactSetUp.provider.verify();
-        pactSetUp.provider.finalize();
-      }).finally(() => {
-        pactSetUp.provider.verify();
-        pactSetUp.provider.finalize();
-      });
+      const response = await getCases(caseUrl);
+      const responseDto: CCDRawCaseUserModel[] = <CCDRawCaseUserModel[]>response.data.case_assignments;
+      assertResponse(responseDto);
+      await pactSetUp.provider.verify();
     });
 
     function assertResponse(dto: CCDRawCaseUserModel[]): void {
       expect(dto).to.be.not.null;
       expect(dto[0].case_id).to.equal('123456789');
       expect(dto[0].case_title).to.equal('Case 1');
-      expect(dto[0].shared_with[0].case_roles).to.equal([]);
+      expect(dto[0].shared_with[0].case_roles).to.deep.equal([]);
       expect(dto[0].shared_with[0].first_name).to.equal('Joe');
     }
 

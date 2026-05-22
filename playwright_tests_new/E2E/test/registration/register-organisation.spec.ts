@@ -1,5 +1,8 @@
 import { test, expect } from '../../fixtures';
 import { createRegisterOrganisationData } from '../../utils/test-setup/register-organisation-data';
+import {
+  completeOptionalRegisterOrganisationJourney
+} from '../../utils/test-setup/register-organisation-journeys';
 
 test.use({ manageOrgUserRole: 'roo' });
 
@@ -18,6 +21,18 @@ test(
 );
 
 test(
+  'redirects the legacy register organisation start URL to register-org-new',
+  { tag: ['@e2e', '@registration'] },
+  async ({ signedInPage, registerOrganisationPage }) => {
+    await registerOrganisationPage.openLegacyStartPage();
+
+    await expect(signedInPage).toHaveURL(/\/register-org-new\/register$/);
+    await expect(registerOrganisationPage.startPageHeading).toBeVisible();
+    await expect(registerOrganisationPage.alreadyRegisteredHeading).toBeVisible();
+  }
+);
+
+test(
   'registers a new solicitor organisation through register-org-new',
   { tag: ['@e2e', '@registration'] },
   async ({ signedInPage, registerOrganisationPage }) => {
@@ -30,7 +45,7 @@ test(
     await registerOrganisationPage.startRegistration();
     await registerOrganisationPage.chooseSolicitorOrganisationType();
     await registerOrganisationPage.enterOrganisationName(data.organisationName);
-    const selectedAddress = await registerOrganisationPage.selectRegisteredAddress(data.postcode);
+    const selectedAddress = await registerOrganisationPage.selectRegisteredAddress(data.lookupPostcode);
     await registerOrganisationPage.enterDocumentExchangeReference(data.dxNumber, data.dxExchange);
     await registerOrganisationPage.enterOrganisationRegulator(data.regulatorNumber);
     await registerOrganisationPage.chooseDivorceService();
@@ -57,5 +72,24 @@ test(
 
     await registerOrganisationPage.submitRegistration();
     await expect(registerOrganisationPage.submittedHeading).toBeVisible({ timeout: 30_000 });
+  }
+);
+
+test(
+  'routes a live Check Your Answers change link without submitting registration',
+  { tag: ['@e2e', '@registration'] },
+  async ({ signedInPage, registerOrganisationPage }) => {
+    const data = createRegisterOrganisationData();
+
+    await completeOptionalRegisterOrganisationJourney(registerOrganisationPage, data);
+    await expect(registerOrganisationPage.checkYourAnswersHeading).toBeVisible();
+
+    await registerOrganisationPage.openSummaryChangeLink(
+      'Do you have a document exchange reference for your main office?'
+    );
+    await expect(signedInPage).toHaveURL(/\/register-org-new\/document-exchange-reference$/);
+
+    await registerOrganisationPage.declineDocumentExchangeReference();
+    await expect(signedInPage).toHaveURL(/\/register-org-new\/regulatory-organisation-type$/);
   }
 );

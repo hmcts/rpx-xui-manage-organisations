@@ -45,6 +45,172 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
   ]
 }
 
+def ensureHtmlReportForPublishing = { String reportDir, String reportFile, String suiteName ->
+    withEnv([
+        "PW_ODHIN_ENSURE_REPORT_DIR=${reportDir}",
+        "PW_ODHIN_ENSURE_REPORT_FILE=${reportFile}",
+        "PW_ODHIN_ENSURE_SUITE_NAME=${suiteName}"
+    ]) {
+        sh '''
+            node scripts/ensure-odhin-report.js \
+              --report-dir "$PW_ODHIN_ENSURE_REPORT_DIR" \
+              --report-file "$PW_ODHIN_ENSURE_REPORT_FILE" \
+              --suite-name "$PW_ODHIN_ENSURE_SUITE_NAME"
+        '''
+    }
+}
+
+def publishPlaywrightReport = { String reportDir, String reportFile, String reportName, String artifacts ->
+    ensureHtmlReportForPublishing(reportDir, reportFile, reportName)
+    publishHTML([
+        allowMissing         : true,
+        alwaysLinkToLastBuild: true,
+        keepAll              : true,
+        reportDir            : reportDir,
+        reportFiles          : reportFile,
+        reportName           : reportName
+    ])
+    archiveArtifacts allowEmptyArchive: true, artifacts: artifacts
+}
+
+def stagePlaywrightArtifacts = { String stageDir, String sourceDir ->
+    withEnv([
+        "PW_ARTIFACT_STAGE_DIR=${stageDir}",
+        "PW_ARTIFACT_SOURCE_DIR=${sourceDir}"
+    ]) {
+        sh '''
+            set -eu
+            rm -rf "$PW_ARTIFACT_STAGE_DIR"
+            mkdir -p "$PW_ARTIFACT_STAGE_DIR"
+
+            if [ -d "$PW_ARTIFACT_SOURCE_DIR" ]; then
+              source_abs="$(cd "$PW_ARTIFACT_SOURCE_DIR" && pwd)"
+              file_list="$(mktemp)"
+              find "$source_abs" -path '*/.playwright-artifacts-*' -prune -o -type f -print 2>/dev/null > "$file_list"
+              copied=0
+              failed=0
+              while IFS= read -r file; do
+                case "$file" in
+                  *.png|*.webm|*.zip|*/error-context.md|*/node-api-calls.json|*/node-api-calls.pretty.txt)
+                    if [ ! -f "$file" ]; then
+                      failed=$((failed + 1))
+                      continue
+                    fi
+                    relative="${file#$source_abs/}"
+                    target="$PW_ARTIFACT_STAGE_DIR/$relative"
+                    mkdir -p "$(dirname "$target")"
+                    if cp "$file" "$target"; then
+                      copied=$((copied + 1))
+                    else
+                      failed=$((failed + 1))
+                    fi
+                    ;;
+                esac
+              done < "$file_list"
+              rm -f "$file_list"
+              echo "Staged $copied Playwright artifact(s) from $PW_ARTIFACT_SOURCE_DIR to $PW_ARTIFACT_STAGE_DIR"
+              if [ "$failed" -gt 0 ]; then
+                echo "Failed to stage $failed Playwright artifact(s) from $PW_ARTIFACT_SOURCE_DIR"
+                exit 1
+              fi
+            fi
+        '''
+    }
+}
+
+def runPlaywrightFunctionalTests = { String environmentName ->
+    stage("${environmentName} Playwright Functional Replacement") {
+        try {
+            parallel(
+                failFast: true,
+                api: {
+                    stage('API Tests') {
+                        withEnv([
+                            "FUNCTIONAL_TESTS_WORKERS=4",
+                            "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-api",
+                            "PLAYWRIGHT_SKIP_INSTALL=true"
+                        ]) {
+                            sh 'yarn test:api:pw'
+                        }
+                    }
+                },
+                playwrightIntegration: {
+                    stage('Playwright Integration Tests') {
+                        withEnv([
+                            "FUNCTIONAL_TESTS_WORKERS=4",
+                            "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-integration",
+                            "PLAYWRIGHT_SKIP_INSTALL=true"
+                        ]) {
+                            sh 'yarn test:playwright:integration'
+                        }
+                    }
+                },
+                playwrightA11y: {
+                    stage('Playwright Accessibility Tests') {
+                        withEnv([
+                            "FUNCTIONAL_TESTS_WORKERS=4",
+                            "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-a11y",
+                            "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
+                            "PLAYWRIGHT_SKIP_INSTALL=true"
+                        ]) {
+                            sh 'yarn test:a11y:playwright'
+                        }
+                    }
+                },
+                playwrightE2E: {
+                    stage('Playwright E2E') {
+                        withEnv([
+                            "FUNCTIONAL_TESTS_WORKERS=2",
+                            "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-e2e",
+                            "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
+                            "PLAYWRIGHT_TAGS=@e2e",
+                            "PLAYWRIGHT_EXCLUDE_TAGS=@a11y",
+                            "PLAYWRIGHT_SKIP_INSTALL=true"
+                        ]) {
+                            sh 'yarn test:playwrightE2E:raw'
+                        }
+                    }
+                }
+            )
+        } finally {
+            stagePlaywrightArtifacts('functional-output/tests/playwright-api/stable-artifacts', 'test-results/playwright-api')
+            publishPlaywrightReport(
+                "functional-output/tests/playwright-api/odhin-report",
+                'xui-mo-playwright-api.html',
+                "${environmentName} Manage Org Playwright API",
+                'functional-output/tests/playwright-api/**'
+            )
+            stagePlaywrightArtifacts('functional-output/tests/playwright-integration/stable-artifacts', 'test-results/playwright-integration')
+            publishPlaywrightReport(
+                "functional-output/tests/playwright-integration/odhin-report",
+                'xui-mo-playwright-integration.html',
+                "${environmentName} Manage Org Playwright Integration",
+                'functional-output/tests/playwright-integration/**'
+            )
+            stagePlaywrightArtifacts('functional-output/tests/playwright-a11y/stable-artifacts', 'test-results/playwright-a11y')
+            publishPlaywrightReport(
+                "functional-output/tests/playwright-a11y/odhin-report",
+                'xui-playwright-a11y.html',
+                "${environmentName} Manage Org Register Organisation Playwright A11y",
+                'functional-output/tests/playwright-a11y/**'
+            )
+            publishPlaywrightReport(
+                "functional-output/tests/playwright-a11y/integration/odhin-report",
+                'xui-playwright-a11y-integration.html',
+                "${environmentName} Manage Org Register Organisation Playwright A11y - Integration",
+                'functional-output/tests/playwright-a11y/integration/**'
+            )
+            stagePlaywrightArtifacts('functional-output/tests/playwright-e2e/stable-artifacts', 'test-results/playwright-e2e')
+            publishPlaywrightReport(
+                "functional-output/tests/playwright-e2e/odhin-report",
+                'xui-playwright-e2e.html',
+                "${environmentName} Manage Org Playwright E2E",
+                'functional-output/tests/playwright-e2e/**'
+            )
+        }
+    }
+}
+
 withParameterizedPipeline(type, product, component, params.ENVIRONMENT, 'sandbox') {
   enableSlackNotifications(channel)
   enableDockerBuild()
@@ -81,6 +247,7 @@ withParameterizedPipeline(type, product, component, params.ENVIRONMENT, 'sandbox
     }
 
     after('test') {
+        sh 'yarn test:coverage:node'
 
         publishHTML ( [
             allowMissing         : true,
@@ -104,7 +271,7 @@ withParameterizedPipeline(type, product, component, params.ENVIRONMENT, 'sandbox
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "test/reports/tests/coverage/node",
+            reportDir            : "reports/tests/coverage/node",
             reportFiles          : "index.html",
             reportName           : "node coverage tests"
         ])
@@ -121,14 +288,11 @@ withParameterizedPipeline(type, product, component, params.ENVIRONMENT, 'sandbox
     }
 
     after('functionalTest:demo') {
-        publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/tests/functional/",
-            reportFiles          : 'index.html',
-            reportName           : 'DEMO Functional Test'
-        ])
+        runPlaywrightFunctionalTests('DEMO')
+    }
+
+    after('fullFunctionalTest:demo') {
+        runPlaywrightFunctionalTests('DEMO')
     }
 
     after('smoketest:preview') {
@@ -153,14 +317,11 @@ withParameterizedPipeline(type, product, component, params.ENVIRONMENT, 'sandbox
     }
 
     after('functionalTest:preview') {
-        publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "test/reports/tests/functional/",
-            reportFiles          : 'index.html',
-            reportName           : 'PREVIEW Functional Test'
-        ])
+        runPlaywrightFunctionalTests('PREVIEW')
+    }
+
+    after('fullFunctionalTest:preview') {
+        runPlaywrightFunctionalTests('PREVIEW')
     }
 
     after('smoketest:aat') {
@@ -185,14 +346,11 @@ withParameterizedPipeline(type, product, component, params.ENVIRONMENT, 'sandbox
     }
 
     after('functionalTest:aat') {
-        publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "test/reports/tests/functional/",
-            reportFiles          : 'index.html',
-            reportName           : 'AAT Functional Test'
-        ])
+        runPlaywrightFunctionalTests('AAT')
+    }
+
+    after('fullFunctionalTest:aat') {
+        runPlaywrightFunctionalTests('AAT')
     }
 
     after('smoketest:prod'){

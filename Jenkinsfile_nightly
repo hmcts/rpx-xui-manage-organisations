@@ -6,9 +6,8 @@ properties([
         displayName  : 'Expert UI Manage Organisations',
         projectUrlStr: 'https://github.com/hmcts/rpx-xui-manage-organisations'
     ],
-    pipelineTriggers([
-    cron('H 07 * * 1-5')
-    ])
+    // Keep master scheduled, but leave nightly-dev and PR branches manual-only.
+    pipelineTriggers(env.BRANCH_NAME == 'master' ? [cron('H 07 * * 1-5')] : [])
 ])
 
 @Library("Infrastructure")
@@ -18,6 +17,188 @@ def product   = "xui"
 def component = "mo-webapp"
 def channel   = '#xui-pipeline'
 def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
+
+def handleParallelInterruption = { Exception e ->
+    def interrupted = false
+    def failFastExitCodes = ['129', '137', '143']
+    if (e instanceof org.jenkinsci.plugins.workflow.steps.FlowInterruptedException) {
+        def msg = e.getMessage() ?: ''
+        interrupted = msg.contains('Failed in branch')
+        echo "[parallel] FlowInterruptedException: message=${msg}"
+    } else if (e instanceof hudson.AbortException) {
+        def msg = e.getMessage() ?: ''
+        def matcher = (msg =~ /(exit code|status)\s+(\d+)/)
+        def exitCode = matcher.find() ? matcher.group(2) : null
+        interrupted = (currentBuild?.result == 'ABORTED') || (exitCode in failFastExitCodes)
+        echo "[parallel] AbortException: buildResult=${currentBuild?.result}, exitCode=${exitCode}"
+    } else {
+        echo "[parallel] Non-abort exception: ${e.getClass().getName()}: ${e.getMessage()}"
+    }
+    if (interrupted) {
+        echo "[parallel] Marking stage as ABORTED due to Jenkins interruption"
+        catchError(buildResult: 'ABORTED', stageResult: 'ABORTED') { throw e }
+        return true
+    }
+    echo "[parallel] Not an interruption; rethrowing"
+    return false
+}
+
+def ensureHtmlReportForPublishing = { String reportDir, String reportFile, String suiteName ->
+    withEnv([
+        "PW_ODHIN_ENSURE_REPORT_DIR=${reportDir}",
+        "PW_ODHIN_ENSURE_REPORT_FILE=${reportFile}",
+        "PW_ODHIN_ENSURE_SUITE_NAME=${suiteName}"
+    ]) {
+        steps.sh '''
+            node scripts/ensure-odhin-report.js \
+              --report-dir "$PW_ODHIN_ENSURE_REPORT_DIR" \
+              --report-file "$PW_ODHIN_ENSURE_REPORT_FILE" \
+              --suite-name "$PW_ODHIN_ENSURE_SUITE_NAME"
+        '''
+    }
+}
+
+def stagePlaywrightArtifacts = { String stageDir, String sourceDir ->
+    withEnv([
+        "PW_ARTIFACT_STAGE_DIR=${stageDir}",
+        "PW_ARTIFACT_SOURCE_DIR=${sourceDir}"
+    ]) {
+        steps.sh '''
+            set -eu
+            rm -rf "$PW_ARTIFACT_STAGE_DIR"
+            mkdir -p "$PW_ARTIFACT_STAGE_DIR"
+
+            if [ -d "$PW_ARTIFACT_SOURCE_DIR" ]; then
+              source_abs="$(cd "$PW_ARTIFACT_SOURCE_DIR" && pwd)"
+              file_list="$(mktemp)"
+              find "$source_abs" -path '*/.playwright-artifacts-*' -prune -o -type f -print 2>/dev/null > "$file_list"
+              copied=0
+              failed=0
+              while IFS= read -r file; do
+                case "$file" in
+                  *.png|*.webm|*.zip|*/error-context.md|*/node-api-calls.json|*/node-api-calls.pretty.txt)
+                    if [ ! -f "$file" ]; then
+                      failed=$((failed + 1))
+                      continue
+                    fi
+                    relative="${file#$source_abs/}"
+                    target="$PW_ARTIFACT_STAGE_DIR/$relative"
+                    mkdir -p "$(dirname "$target")"
+                    if cp "$file" "$target"; then
+                      copied=$((copied + 1))
+                    else
+                      failed=$((failed + 1))
+                    fi
+                    ;;
+                esac
+              done < "$file_list"
+              rm -f "$file_list"
+              echo "Staged $copied Playwright artifact(s) from $PW_ARTIFACT_SOURCE_DIR to $PW_ARTIFACT_STAGE_DIR"
+              if [ "$failed" -gt 0 ]; then
+                echo "Failed to stage $failed Playwright artifact(s) from $PW_ARTIFACT_SOURCE_DIR"
+                exit 1
+              fi
+            fi
+        '''
+    }
+}
+
+def publishPlaywrightApiReport = { String reportName ->
+    ensureHtmlReportForPublishing(
+        "functional-output/tests/playwright-api/odhin-report",
+        'xui-mo-playwright-api.html',
+        reportName
+    )
+    publishHTML([
+        allowMissing         : true,
+        alwaysLinkToLastBuild: true,
+        keepAll              : true,
+        reportDir            : "functional-output/tests/playwright-api/odhin-report",
+        reportFiles          : 'xui-mo-playwright-api.html',
+        reportName           : reportName
+    ])
+    stagePlaywrightArtifacts('functional-output/tests/playwright-api/stable-artifacts', 'test-results/playwright-api')
+    steps.archiveArtifacts(
+        allowEmptyArchive: true,
+        artifacts: 'functional-output/tests/playwright-api/**'
+    )
+}
+
+def publishPlaywrightE2EReport = { String reportName ->
+    ensureHtmlReportForPublishing(
+        "functional-output/tests/playwright-e2e/odhin-report",
+        'xui-playwright-e2e.html',
+        reportName
+    )
+    publishHTML([
+        allowMissing         : true,
+        alwaysLinkToLastBuild: true,
+        keepAll              : true,
+        reportDir            : "functional-output/tests/playwright-e2e/odhin-report/",
+        reportFiles          : 'xui-playwright-e2e.html',
+        reportName           : reportName
+    ])
+    stagePlaywrightArtifacts('functional-output/tests/playwright-e2e/stable-artifacts', 'test-results/playwright-e2e')
+    steps.archiveArtifacts(
+        allowEmptyArchive: true,
+        artifacts: 'functional-output/tests/playwright-e2e/**'
+    )
+}
+
+def publishPlaywrightIntegrationReport = { String reportName ->
+    ensureHtmlReportForPublishing(
+        "functional-output/tests/playwright-integration/odhin-report",
+        'xui-mo-playwright-integration.html',
+        reportName
+    )
+    publishHTML([
+        allowMissing         : true,
+        alwaysLinkToLastBuild: true,
+        keepAll              : true,
+        reportDir            : "functional-output/tests/playwright-integration/odhin-report",
+        reportFiles          : 'xui-mo-playwright-integration.html',
+        reportName           : reportName
+    ])
+    stagePlaywrightArtifacts('functional-output/tests/playwright-integration/stable-artifacts', 'test-results/playwright-integration')
+    steps.archiveArtifacts(
+        allowEmptyArchive: true,
+        artifacts: 'functional-output/tests/playwright-integration/**'
+    )
+}
+
+def publishPlaywrightA11yReport = { String reportName ->
+    ensureHtmlReportForPublishing(
+        "functional-output/tests/playwright-a11y/odhin-report",
+        'xui-playwright-a11y.html',
+        reportName
+    )
+    publishHTML([
+        allowMissing         : true,
+        alwaysLinkToLastBuild: true,
+        keepAll              : true,
+        reportDir            : "functional-output/tests/playwright-a11y/odhin-report",
+        reportFiles          : 'xui-playwright-a11y.html',
+        reportName           : reportName
+    ])
+    ensureHtmlReportForPublishing(
+        "functional-output/tests/playwright-a11y/integration/odhin-report",
+        'xui-playwright-a11y-integration.html',
+        "${reportName} - Integration"
+    )
+    publishHTML([
+        allowMissing         : true,
+        alwaysLinkToLastBuild: true,
+        keepAll              : true,
+        reportDir            : "functional-output/tests/playwright-a11y/integration/odhin-report",
+        reportFiles          : 'xui-playwright-a11y-integration.html',
+        reportName           : "${reportName} - Integration"
+    ])
+    stagePlaywrightArtifacts('functional-output/tests/playwright-a11y/stable-artifacts', 'test-results/playwright-a11y')
+    steps.archiveArtifacts(
+        allowEmptyArchive: true,
+        artifacts: 'functional-output/tests/playwright-a11y/**'
+    )
+}
 
 def secrets = [
   'rpx-${env}': [
@@ -60,6 +241,9 @@ withNightlyPipeline(type, product, component) {
     }
     afterSuccess('build') {
         sh 'npm run build'
+        stage('API Unit Coverage') {
+            yarnBuilder.yarn('test:coverage:node')
+        }
         publishHTML([
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
@@ -76,32 +260,18 @@ withNightlyPipeline(type, product, component) {
             reportFiles          : 'index.html',
             reportName           : 'ng lint Report'
         ])
-    }
-
-    afterSuccess('fortify-scan') {
-        steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
-    }
-
-    afterSuccess('fullFunctionalTest') {
-
-      publishHTML([
-        allowMissing         : true,
-        alwaysLinkToLastBuild: true,
-        keepAll              : true,
-        reportDir            : "reports/tests/api_functional/",
-        reportFiles          : 'mochawesome.html',
-        reportName           : 'API Functional Test'
-      ])
-
         publishHTML([
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "reports/tests/functional/",
+            reportDir            : "reports/tests/coverage/node",
             reportFiles          : 'index.html',
-            reportName           : 'XUI Manage Organisation Full functional Tests'
+            reportName           : 'node coverage tests'
         ])
+    }
 
+    afterSuccess('fortify-scan') {
+        steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
     }
 
     afterSuccess('mutationTest') {
@@ -127,41 +297,89 @@ withNightlyPipeline(type, product, component) {
   }
 
     afterSuccess('fortify-scan') {
-        stage('Playwright E2E') {
-            withEnv([
-                "FUNCTIONAL_TESTS_WORKERS=2",
-                "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
-                "PLAYWRIGHT_SKIP_INSTALL=true"
-            ]) {
-                yarnBuilder.yarn('test:playwrightE2E:raw')
-            }
-            publishHTML([
-                allowMissing         : true,
-                alwaysLinkToLastBuild: true,
-                keepAll              : true,
-                reportDir            : "functional-output/tests/playwright-e2e/odhin-report/",
-                reportFiles          : 'xui-playwright-e2e.html',
-                reportName           : 'XUI Manage Organisation Playwright E2E'
-            ])
+        stage('Nightly Functional Tests (Parallel)') {
+            parallel(
+                failFast: true,
+                api: {
+                    stage('API Tests') {
+                        try {
+                            withEnv([
+                                "FUNCTIONAL_TESTS_WORKERS=4",
+                                "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-api",
+                                "PLAYWRIGHT_SKIP_INSTALL=true"
+                            ]) {
+                                yarnBuilder.yarn('test:api:pw')
+                            }
+                        } catch (Exception e) {
+                            echo "[parallel] API Tests catch: ${e.getClass().getName()}: ${e.getMessage()}"
+                            if (handleParallelInterruption(e)) { return }
+                            throw e
+                        } finally {
+                            publishPlaywrightApiReport('Nightly Manage Org Playwright API')
+                        }
+                    }
+                },
+                playwrightIntegration: {
+                    stage('Playwright Integration Tests') {
+                        try {
+                            withEnv([
+                                "FUNCTIONAL_TESTS_WORKERS=4",
+                                "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-integration",
+                                "PLAYWRIGHT_SKIP_INSTALL=true"
+                            ]) {
+                                yarnBuilder.yarn('test:playwright:integration')
+                            }
+                        } catch (Exception e) {
+                            echo "[parallel] Playwright Integration Tests catch: ${e.getClass().getName()}: ${e.getMessage()}"
+                            if (handleParallelInterruption(e)) { return }
+                            throw e
+                        } finally {
+                            publishPlaywrightIntegrationReport('Nightly Manage Org Playwright Integration')
+                        }
+                    }
+                },
+                playwrightA11y: {
+                    stage('Playwright Accessibility Tests') {
+                        try {
+                            withEnv([
+                                "FUNCTIONAL_TESTS_WORKERS=4",
+                                "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-a11y",
+                                "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
+                                "PLAYWRIGHT_SKIP_INSTALL=true"
+                            ]) {
+                                yarnBuilder.yarn('test:a11y:playwright')
+                            }
+                        } catch (Exception e) {
+                            echo "[parallel] Playwright Accessibility Tests catch: ${e.getClass().getName()}: ${e.getMessage()}"
+                            if (handleParallelInterruption(e)) { return }
+                            throw e
+                        } finally {
+                            publishPlaywrightA11yReport('Nightly Manage Org Register Organisation Playwright A11y')
+                        }
+                    }
+                },
+                playwrightE2E: {
+                    stage('Playwright E2E Cross Browser') {
+                        try {
+                            withEnv([
+                                "FUNCTIONAL_TESTS_WORKERS=2",
+                                "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-e2e",
+                                "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
+                                "PLAYWRIGHT_TAGS=@e2e",
+                                "PLAYWRIGHT_EXCLUDE_TAGS=@a11y"
+                            ]) {
+                                yarnBuilder.yarn('test:crossbrowser')
+                            }
+                        } catch (Exception e) {
+                            echo "[parallel] Playwright E2E catch: ${e.getClass().getName()}: ${e.getMessage()}"
+                            if (handleParallelInterruption(e)) { return }
+                            throw e
+                        } finally {
+                            publishPlaywrightE2EReport('Nightly Manage Org Playwright E2E Cross Browser')
+                        }
+                    }
+                }
+            )
         }
-
-        stage('Cross Browser Test') {
-            withEnv([
-                "FUNCTIONAL_TESTS_WORKERS=2",
-                "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
-                "PLAYWRIGHT_SKIP_INSTALL=true"
-            ]) {
-                yarnBuilder.yarn('test:crossbrowser:raw')
-            }
-        }
-        publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "functional-output/tests/playwright-e2e/odhin-report/",
-            reportFiles          : 'xui-playwright-e2e.html',
-            reportName           : 'XUI Manage Organisation Cross Browser Tests'
-        ])
-        steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-e2e/**,test-results/**/*'
     }
 }

@@ -40,14 +40,18 @@ For publishing the pacts to broker execute `yarn publish-pact`
 
 ## Playwright reporting
 
-Playwright smoke and browser runs emit an Odhin report under `functional-output/tests/playwright-e2e/odhin-report/xui-playwright-e2e.html`.
+Playwright smoke runs emit an Odhin report under `functional-output/tests/playwright-smoke/odhin-report/xui-playwright-smoke.html`.
+Playwright browser runs emit an Odhin report under `functional-output/tests/playwright-e2e/odhin-report/xui-playwright-e2e.html`.
 Playwright API runs emit an Odhin report under `functional-output/tests/playwright-api/odhin-report/xui-mo-playwright-api.html`.
+Jenkins also generates a single evidence landing page at `functional-output/tests/manage-org-evidence/index.html`.
 
 - Run info includes project, release, target environment, branch, worker count, CPU cores, and RAM.
 - Branch defaults to the current git branch and can be overridden with `PLAYWRIGHT_REPORT_BRANCH` or `GIT_BRANCH`.
-- Report metadata can be overridden with `PLAYWRIGHT_REPORT_PROJECT`, `PLAYWRIGHT_REPORT_RELEASE`, `PLAYWRIGHT_REPORT_TEST_ENVIRONMENT`, `PLAYWRIGHT_REPORT_FOLDER`, and `PLAYWRIGHT_REPORT_INDEX_FILENAME`.
+- Report metadata can be overridden with `PLAYWRIGHT_REPORT_PROJECT`, `PLAYWRIGHT_REPORT_RELEASE`, `PLAYWRIGHT_REPORT_TEST_ENVIRONMENT`, `PLAYWRIGHT_REPORT_FOLDER`, `PLAYWRIGHT_REPORT_INDEX_FILENAME`, `PLAYWRIGHT_HTML_OUTPUT`, and `PLAYWRIGHT_JUNIT_OUTPUT`.
 - Existing `PW_ODHIN_*` overrides are still supported for backward compatibility.
-- Jenkins archives both `functional-output/tests/playwright-e2e/**` and `test-results/**/*` for Playwright CI runs.
+- Jenkins publishes lane-specific JUnit XML from `functional-output/tests/playwright-smoke/**`, `functional-output/tests/playwright-api/**`, `functional-output/tests/playwright-integration/**`, `functional-output/tests/playwright-a11y/**`, and `functional-output/tests/playwright-e2e/**`.
+- Jenkins archives the lane output folders and publishes the evidence dashboard after the Playwright replacement lanes finish.
+- Run `yarn report:playwright:evidence` locally to create the same dashboard from whatever reports are present under `functional-output/tests`.
 - `yarn test:smoke` is the Jenkins CNP smoke entrypoint and runs unauthenticated login and protected-route redirect smoke checks.
 - `yarn test:playwrightE2E:raw` is the Jenkins CNP Playwright E2E entrypoint and runs migrated new-framework Chromium journeys using `playwright.e2e.config.ts`.
 - `yarn test:crossbrowser:raw` is the Jenkins nightly cross-browser entrypoint and runs migrated new-framework Firefox/WebKit journeys using `playwright-nightly.config.ts`.

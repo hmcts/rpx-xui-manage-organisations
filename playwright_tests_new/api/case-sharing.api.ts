@@ -18,8 +18,8 @@ test.describe('Case sharing API contracts', { tag: '@svc-case-sharing' }, () => 
         lastName: expect.any(String)
       })
     );
-    expect(identifiableUser?.firstName, 'Mapped case-share user first name should not be empty').not.toHaveLength(0);
-    expect(identifiableUser?.idamId, 'Mapped case-share user IDAM identifier should not be empty').not.toHaveLength(0);
-    expect(identifiableUser?.lastName, 'Mapped case-share user last name should not be empty').not.toHaveLength(0);
+    expect(identifiableUser!.firstName, 'Mapped case-share user first name should not be empty').toBeTruthy();
+    expect(identifiableUser!.idamId, 'Mapped case-share user IDAM identifier should not be empty').toBeTruthy();
+    expect(identifiableUser!.lastName, 'Mapped case-share user last name should not be empty').toBeTruthy();
   });
 });

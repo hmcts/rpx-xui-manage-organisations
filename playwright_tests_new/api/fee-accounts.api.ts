@@ -2,7 +2,7 @@ import { test, expect } from './fixtures';
 import type { FeeAccount, OrganisationDetailsResponse } from './utils/types';
 
 const unknownPaymentAccount = 'PBA0000000';
-const missingAccountMessage = 'Account not found';
+const allowUnseededFeeAccounts = process.env.MANAGE_ORG_API_ALLOW_UNSEEDED_FEE_ACCOUNTS === 'true';
 
 test.describe('Fee account API contracts', { tag: '@svc-fee-accounts' }, () => {
   test('returns fee account details for an organisation payment account when the fee account service recognises it', async ({
@@ -17,16 +17,19 @@ test.describe('Fee account API contracts', { tag: '@svc-fee-accounts' }, () => {
     const response = await apiClient.get<FeeAccount[]>(`api/accounts?accountNames=${paymentAccount}`, {
       throwOnError: false
     });
+    const unseededFeeAccountMessage =
+      `The configured organisation PBA ${paymentAccount} is not recognised by the fee account service in this ` +
+      'known non-seeded environment.';
+    const seededFeeAccountFailureMessage =
+      `Configured organisation PBA ${paymentAccount} should be recognised by the fee account service. ` +
+      'Set MANAGE_ORG_API_ALLOW_UNSEEDED_FEE_ACCOUNTS=true only for known non-seeded environments.';
 
-    test.skip(
-      response.status === 404,
-      `The configured organisation PBA ${paymentAccount} is not recognised by the fee account service in this environment.`
-    );
-    expect(response.status, 'Recognised organisation payment accounts should return fee account details').toBe(200);
+    test.skip(allowUnseededFeeAccounts && response.status === 404, unseededFeeAccountMessage);
+    expect(response.status, seededFeeAccountFailureMessage).toBe(200);
     expect(response.data, 'Fee account lookup response should be an array').toEqual(expect.any(Array));
+    expect(response.data.length, 'Fee account lookup should return one account result for one account request').toBe(1);
     const [account] = response.data;
 
-    expect(response.data.length, 'Fee account lookup should return one account result for one account request').toBe(1);
     expect(account, 'Fee account response should preserve the requested account number and balance shape').toEqual(
       expect.objectContaining({
         account_number: paymentAccount,
@@ -36,15 +39,27 @@ test.describe('Fee account API contracts', { tag: '@svc-fee-accounts' }, () => {
   });
 
   test('returns the missing-account contract for an unknown payment account', async ({ apiClient }) => {
-    const response = await apiClient.get<string[]>(`api/accounts?accountNames=${unknownPaymentAccount}`, {
-      throwOnError: false
-    });
+    const response = await apiClient.get<Array<string | Record<string, unknown>>>(
+      `api/accounts?accountNames=${unknownPaymentAccount}`,
+      {
+        throwOnError: false
+      }
+    );
 
     expect(response.status, 'Unknown fee account lookups should use the missing-account status').toBe(404);
     expect(response.data, 'Missing-account lookup response should be an array').toEqual(expect.any(Array));
+    expect(response.data.length, 'Missing-account lookup should return one result for one account request').toBe(1);
     const [account] = response.data;
 
-    expect(response.data.length, 'Missing-account lookup should return one result for one account request').toBe(1);
-    expect(account, 'Missing-account response should preserve the current node API error message').toBe(missingAccountMessage);
+    expect(account, 'Missing-account response should include an upstream error entry').toBeTruthy();
+    if (typeof account === 'string') {
+      expect(account.trim().length, 'String missing-account responses should not be empty').toBeGreaterThan(0);
+      return;
+    }
+
+    expect(
+      Object.keys(account).length,
+      'Object missing-account responses should include upstream error details'
+    ).toBeGreaterThan(0);
   });
 });

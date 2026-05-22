@@ -63,6 +63,36 @@ export class RegisterOrganisationPage extends BasePage {
     await this.page.goto('/register-org-new/register');
   }
 
+  public async openLegacyStartPage(): Promise<void> {
+    await this.page.goto('/register-org/register');
+  }
+
+  public async openWorkflowPage(path: string): Promise<void> {
+    await this.page.goto(`/register-org-new/${path}`);
+  }
+
+  public validationSummaryError(message: string): Locator {
+    return this.page.getByRole('alert').getByText(message, { exact: true });
+  }
+
+  public async continueWith(buttonName = 'Continue'): Promise<void> {
+    await this.waitForLoader();
+    await this.page.getByRole('button', { name: buttonName }).click();
+    await this.waitForLoader();
+  }
+
+  public async goBackInWorkflow(): Promise<void> {
+    await this.waitForLoader();
+    await this.clickBackControl();
+    await this.waitForLoader();
+  }
+
+  public async openSummaryChangeLink(label: string | RegExp): Promise<void> {
+    await this.waitForLoader();
+    await this.summaryChangeLink(label).click();
+    await this.waitForLoader();
+  }
+
   public async startRegistration(): Promise<void> {
     await this.confirmedOrganisationAccountCheckbox.check();
     await this.continueWith('Start');
@@ -171,6 +201,15 @@ export class RegisterOrganisationPage extends BasePage {
     await this.continueWith();
   }
 
+  public async enterPaymentByAccountDetails(): Promise<void> {
+    await this.pbaYesRadio.check();
+    await this.continueWith();
+  }
+
+  public async fillPaymentByAccountNumber(pbaNumber: string, index = 0): Promise<void> {
+    await this.pbaNumberInput(index).fill(pbaNumber);
+  }
+
   public async enterContactDetails(data: Pick<RegisterOrganisationData, 'firstName' | 'lastName' | 'email'>): Promise<void> {
     await this.firstNameInput.fill(data.firstName);
     await this.lastNameInput.fill(data.lastName);
@@ -213,16 +252,26 @@ export class RegisterOrganisationPage extends BasePage {
     });
   }
 
-  private async continueWith(buttonName = 'Continue'): Promise<void> {
-    await this.page.getByRole('button', { name: buttonName }).click();
-  }
-
   private serviceCheckbox(serviceLabel: string): Locator {
     return this.page.locator(`input[data-service-label="${serviceLabel}"]`);
   }
 
   private pbaNumberInput(index: number): Locator {
     return this.page.locator(`#pba-number-${index}`);
+  }
+
+  private async waitForLoader(): Promise<void> {
+    await this.page.locator('app-loader .overlay').waitFor({ state: 'hidden' });
+  }
+
+  private async clickBackControl(): Promise<void> {
+    const backButton = this.page.getByRole('button', { name: 'Back', exact: true }).first();
+    if (await backButton.isVisible()) {
+      await backButton.click();
+      return;
+    }
+
+    await this.page.getByRole('link', { name: 'Back', exact: true }).first().click();
   }
 
   private async fillManualAddress(address: RegisterOrganisationAddress): Promise<void> {

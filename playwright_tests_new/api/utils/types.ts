@@ -30,6 +30,11 @@ export type OrganisationDetailsResponse = {
   status?: string;
 };
 
+export type MutatingApiResult = {
+  code?: number;
+  message?: string;
+};
+
 export type ReferenceItem = {
   id?: string;
   [key: string]: unknown;

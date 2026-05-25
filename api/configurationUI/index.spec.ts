@@ -15,13 +15,20 @@ import {
 } from '../configuration/references';
 import { configurationUIRoute } from './index';
 
-chai.use(sinonChai);
+const sinonChaiPlugin = (sinonChai as unknown as { default?: Chai.ChaiPlugin }).default ??
+  (sinonChai as unknown as Chai.ChaiPlugin);
+
+chai.use(sinonChaiPlugin);
 
 describe('configurationUI index', () => {
-  const req = mockReq();
-  const res = mockRes();
+  let req;
+  let res;
 
   beforeEach(() => {
+    req = mockReq();
+    res = mockRes();
+    delete process.env.PUI_ENV;
+    delete process.env.PREVIEW_DEPLOYMENT_ID;
     // Setup a stub for getConfigValue that returns different values based on the argument passed to it
     const stub = sinon.stub(configuration, 'getConfigValue');
     stub.withArgs(GOOGLE_ANALYTICS_KEY).returns('Google');
@@ -49,6 +56,7 @@ describe('configurationUI index', () => {
     expect(configuration.showFeature).to.be.calledWith(FEATURE_TERMS_AND_CONDITIONS_ENABLED);
     expect(res.status).to.be.calledWith(200);
     expect(res.send).to.be.calledWith({
+      environment: 'LOCAL',
       googleAnalyticsKey: 'Google',
       idamWeb: '/idam-web',
       launchDarklyClientId: 'abc123',
@@ -56,8 +64,19 @@ describe('configurationUI index', () => {
       manageOrgLink: '/manage-org',
       protocol: 'http',
       servicesTandCPath: undefined,
-      termsAndConditionsEnabled: true,
-      envrionment: 'LOCAL'
+      termsAndConditionsEnabled: true
+    });
+  });
+
+  it('should prefer preview deployment id over PUI_ENV', async () => {
+    process.env.PUI_ENV = 'aat';
+    process.env.PREVIEW_DEPLOYMENT_ID = 'xui-mo-webapp-pr-1';
+
+    await configurationUIRoute(req, res);
+
+    expect(res.status).to.be.calledWith(200);
+    expect(res.send).to.be.calledWithMatch({
+      environment: 'preview'
     });
   });
 });

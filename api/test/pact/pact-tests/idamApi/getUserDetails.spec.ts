@@ -6,7 +6,7 @@ const { Matchers } = require('@pact-foundation/pact');
 const { somethingLike } = Matchers;
 const pactSetUp = new PactTestSetup({ provider: 'idamApi_users', port: 8000 });
 
-describe('Idam API user details', async () => {
+describe('Idam API user details', () => {
   const RESPONSE_BODY = {
     'id': somethingLike('abc123'),
     'forename': somethingLike('Joe'),
@@ -42,24 +42,19 @@ describe('Idam API user details', async () => {
         }
       };
       // @ts-ignore
-      pactSetUp.provider.addInteraction(interaction);
+      await pactSetUp.provider.addInteraction(interaction);
+    });
+
+    after(async () => {
+      await pactSetUp.provider.finalize();
     });
 
     it('returns the correct response', async () => {
       const taskUrl = `${pactSetUp.provider.mockService.baseUrl}`;
 
-      const response: Promise<any> = getDetails(taskUrl, jwt);
-
-      response.then((axiosResponse) => {
-        const dto: IdamGetDetailsResponseDto = <IdamGetDetailsResponseDto>axiosResponse;
-        assertResponses(dto);
-      }).then(() => {
-        pactSetUp.provider.verify();
-        pactSetUp.provider.finalize();
-      }).finally(() => {
-        pactSetUp.provider.verify();
-        pactSetUp.provider.finalize();
-      });
+      const response: IdamGetDetailsResponseDto = await getDetails(taskUrl, jwt);
+      assertResponses(response);
+      await pactSetUp.provider.verify();
     });
   });
 });

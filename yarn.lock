@@ -21617,7 +21617,7 @@ __metadata:
 
 "odhin-reports-playwright@patch:odhin-reports-playwright@npm%3A1.1.8#./.yarn/patches/odhin-reports-playwright-npm-1.1.8-a445ed88b7.patch::locator=rpx-xui-manage-organisations%40workspace%3A.":
   version: 1.1.8
-  resolution: "odhin-reports-playwright@patch:odhin-reports-playwright@npm%3A1.1.8#./.yarn/patches/odhin-reports-playwright-npm-1.1.8-a445ed88b7.patch::version=1.1.8&hash=5312fc&locator=rpx-xui-manage-organisations%40workspace%3A."
+  resolution: "odhin-reports-playwright@patch:odhin-reports-playwright@npm%3A1.1.8#./.yarn/patches/odhin-reports-playwright-npm-1.1.8-a445ed88b7.patch::version=1.1.8&hash=42863d&locator=rpx-xui-manage-organisations%40workspace%3A."
   dependencies:
     ansi-to-html: "npm:^0.7.2"
     autoprefixer: "npm:^10.4.14"
@@ -21643,7 +21643,7 @@ __metadata:
     typescript: "npm:^5.1.6"
     xhr2: "npm:^0.2.1"
     xmlhttprequest: "npm:^1.8.0"
-  checksum: 10/a3eabcb85b5982e73bd5832d3d8dfca4dea8c47d5993c883fce84ff4cf662452c61bd8b73874f5d01e7b63d4ebb4d7e23eb38d0f9c833888cf928b69063af17b
+  checksum: 10/715c492966120f4d66178e04f82797a6af29fa93991c33d18929fc9a8726fb8ce03ba3defb3a6c5f03c4d50f4cdead67a3eca97f8a312d928b6e8a98c0ea8835
   languageName: node
   linkType: hard
 

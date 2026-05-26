@@ -13,7 +13,7 @@ const externalServers = process.env.EXTERNAL_SERVERS === 'true';
 let appWithMockBackend = null;
 const testType = 'a11y'
 const parallel = process.env.PARALLEL ? process.env.PARALLEL.includes('y') : false
-const head = true
+const showBrowser = process.env.HEAD === 'true'
 
 
 
@@ -36,8 +36,8 @@ exports.config = {
       url: externalServers
         ? (process.env.WEB_BASE_URL || 'http://localhost:3000')
         : 'https://manage-org.aat.platform.hmcts.net',
-      show: true,
-      headless: false,
+      show: showBrowser,
+      headless: !showBrowser,
       waitForNavigation: ['domcontentloaded'],
       restart: true,
       keepCookies: false,
@@ -134,10 +134,6 @@ exports.config = {
   },
   include: {
   },
-  retry: {
-    Feature: 3
-
-  },
   bootstrap: async () => {
     if (testType === "a11y" && !parallel) {
       await setup()
@@ -182,7 +178,6 @@ async function teardown() {
     await applicationServer.stop();
   }
   await generateReport()
-  process.exit(0);
 }
 
 async function generateReport() {

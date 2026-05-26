@@ -8,7 +8,7 @@ const { somethingLike } = Matchers;
 const pactSetUp = new PactTestSetup({ provider: 'referenceData_professionalExternalUsers', port: 8000 });
 
 describe('RD Professional API', () => {
-  describe('Suspend A User', async () => {
+  describe('Suspend A User', () => {
     const mockRequest = {
       'email': 'Joe.bloggs@mailnesia.com',
       'firstName': 'Joe',
@@ -54,7 +54,11 @@ describe('RD Professional API', () => {
         }
       };
       // @ts-ignore
-      pactSetUp.provider.addInteraction(interaction);
+      await pactSetUp.provider.addInteraction(interaction);
+    });
+
+    after(async () => {
+      await pactSetUp.provider.finalize();
     });
 
     it('returns the correct response', async () => {
@@ -62,18 +66,10 @@ describe('RD Professional API', () => {
       const userId = '123456';
       const taskUrl: string = `${pactSetUp.provider.mockService.baseUrl}/refdata/external/v1/organisations/users/` + userId;
 
-      const resp = suspendUser(taskUrl, mockRequest as any);
-
-      resp.then((response) => {
-        const responseDto: SuspendUserReponseDto = <SuspendUserReponseDto>response.data;
-        assertResponse(responseDto);
-      }).then(() => {
-        pactSetUp.provider.verify();
-        pactSetUp.provider.finalize();
-      }).finally(() => {
-        pactSetUp.provider.verify();
-        pactSetUp.provider.finalize();
-      });
+      const response = await suspendUser(taskUrl, mockRequest as any);
+      const responseDto: SuspendUserReponseDto = <SuspendUserReponseDto>response.data;
+      assertResponse(responseDto);
+      await pactSetUp.provider.verify();
     });
   });
 });

@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 import {
   resolveDefaultReporter,
   resolveEnvironmentFromUrl,
+  resolveOutputDir,
   resolveReporters,
   resolveTagGrep,
   resolveTagGrepInvert,
@@ -19,6 +20,15 @@ test.describe('playwright reporting configuration', () => {
     expect(resolveWorkerCount({ FUNCTIONAL_TESTS_WORKERS: '4' })).toBe(4);
     expect(resolveWorkerCount({ FUNCTIONAL_TESTS_WORKERS: '0' })).toBe(1);
     expect(resolveWorkerCount({ FUNCTIONAL_TESTS_WORKERS: 'invalid' })).toBe(1);
+  });
+
+  test('resolves suite-specific output directories', () => {
+    expect(resolveOutputDir({})).toBe('test-results');
+    expect(resolveOutputDir({ PLAYWRIGHT_OUTPUT_DIR: 'test-results/fallback' })).toBe('test-results/fallback');
+    expect(resolveOutputDir({
+      PLAYWRIGHT_OUTPUT_DIR: 'test-results/fallback',
+      PLAYWRIGHT_TEST_OUTPUT_DIR: 'test-results/playwright-integration'
+    })).toBe('test-results/playwright-integration');
   });
 
   test('infers target environment from known service URLs', () => {

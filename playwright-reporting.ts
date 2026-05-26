@@ -48,6 +48,9 @@ export const resolveWorkerCount = (env: EnvMap = process.env): number => {
   return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
 };
 
+export const resolveOutputDir = (env: EnvMap = process.env): string =>
+  env.PLAYWRIGHT_TEST_OUTPUT_DIR || env.PLAYWRIGHT_OUTPUT_DIR || 'test-results';
+
 const escapeRegExp = (value: string): string => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 const resolveTagPattern = (configured?: string): RegExp | undefined => {

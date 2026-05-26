@@ -90,18 +90,36 @@ test.describe('Manage Org Playwright architecture guard', { tag: '@svc-internal'
     }, /Jenkinsfile_CNP: contains optional JUnit publisher for required Playwright evidence/);
   });
 
+  test('rejects missing required Jenkins JUnit lane publication', () => {
+    expectGuardFailure((rootDir) => {
+      const pipelinePath = path.join(rootDir, 'Jenkinsfile_CNP');
+      fs.writeFileSync(
+        pipelinePath,
+        fs
+          .readFileSync(pipelinePath, 'utf8')
+          .replace('publishPlaywrightJUnit(\'functional-output/tests/playwright-e2e/**/*junit.xml\')', '')
+      );
+    }, /Jenkinsfile_CNP: missing required Playwright JUnit evidence contract E2E JUnit publication/);
+  });
+
+  test('rejects missing parameterized shared JUnit publisher', () => {
+    expectGuardFailure((rootDir) => {
+      const pipelinePath = path.join(rootDir, 'Jenkinsfile_parameterized');
+      fs.writeFileSync(
+        pipelinePath,
+        fs
+          .readFileSync(pipelinePath, 'utf8')
+          .replace('junit(allowEmptyResults: false, testResults: artifacts.replace(\'**\', \'**/*junit.xml\'))', '')
+      );
+    }, /Jenkinsfile_parameterized: missing required Playwright JUnit evidence contract shared lane JUnit publisher/);
+  });
+
   test('rejects a missing parameterized evidence contract', () => {
     expectGuardFailure((rootDir) => {
+      const pipelinePath = path.join(rootDir, 'Jenkinsfile_parameterized');
       fs.writeFileSync(
-        path.join(rootDir, 'Jenkinsfile_parameterized'),
-        [
-          'stagePlaywrightArtifacts(\'functional-output/tests/playwright-api/stable-artifacts\', \'test-results/playwright-api\')',
-          'sh \'yarn test:coverage:node\'',
-          'junit(allowEmptyResults: false, testResults: \'functional-output/tests/playwright-smoke/**/*junit.xml\')',
-          'functional-output/tests/playwright-a11y/integration/odhin-report',
-          'stagePlaywrightArtifacts',
-          'reports/tests/coverage/node'
-        ].join('\n')
+        pipelinePath,
+        fs.readFileSync(pipelinePath, 'utf8').replace('xui-playwright-a11y-integration.html', '')
       );
     }, /Jenkinsfile_parameterized: missing Playwright retirement evidence contract xui-playwright-a11y-integration\.html/);
   });

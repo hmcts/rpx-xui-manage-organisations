@@ -125,13 +125,17 @@ function buildPlaywrightEvidenceDashboard(options = {}) {
 }
 
 function buildEvidenceModel(options) {
+  const artifactBaseUrl = buildArtifactBaseUrl(process.env.BUILD_URL || '');
   const rootDir = path.resolve(options.rootDir || DEFAULT_ROOT_DIR);
+  const rootArtifactPath = toPosix(options.rootDir || DEFAULT_ROOT_DIR);
   const outputDir = path.resolve(options.outputDir || path.join(rootDir, 'manage-org-evidence'));
   const packageSummary = buildPackageSummary(options.packageJsonPath);
   const generatedAt = new Date().toISOString();
 
   const lanes = LANES.map((lane) => {
-    const artifacts = lane.artifacts.map((laneArtifact) => resolveArtifact(laneArtifact, rootDir, outputDir));
+    const artifacts = lane.artifacts.map((laneArtifact) =>
+      resolveArtifact(laneArtifact, rootDir, outputDir, rootArtifactPath, artifactBaseUrl)
+    );
     const requiredArtifacts = artifacts.filter((laneArtifact) => laneArtifact.required);
     const existingArtifacts = artifacts.filter((laneArtifact) => laneArtifact.exists);
     const existingRequiredArtifacts = requiredArtifacts.filter((laneArtifact) => laneArtifact.exists);
@@ -151,19 +155,19 @@ function buildEvidenceModel(options) {
   });
 
   return {
-    buildUrl: process.env.BUILD_URL || '',
+    buildUrl: sanitizeDisplayUrl(process.env.BUILD_URL || ''),
     branch: process.env.BRANCH_NAME || process.env.GIT_BRANCH || process.env.PLAYWRIGHT_REPORT_BRANCH || '',
     generatedAt,
     lanes,
     outputDir,
     packageSummary,
     rootDir,
-    testUrl: process.env.TEST_URL || '',
+    testUrl: sanitizeDisplayUrl(process.env.TEST_URL || ''),
     title: options.title || DEFAULT_TITLE,
   };
 }
 
-function resolveArtifact(laneArtifact, rootDir, outputDir) {
+function resolveArtifact(laneArtifact, rootDir, outputDir, rootArtifactPath, artifactBaseUrl) {
   const candidates = laneArtifact.paths.map((relativePath) => ({
     absolutePath: path.join(rootDir, relativePath),
     relativePath,
@@ -174,10 +178,56 @@ function resolveArtifact(laneArtifact, rootDir, outputDir) {
   return {
     exists: Boolean(found),
     label: laneArtifact.label,
-    link: found ? toPosix(path.relative(outputDir, selected.absolutePath)) : '',
+    link: found ? buildArtifactLink(selected, outputDir, rootArtifactPath, artifactBaseUrl) : '',
     required: laneArtifact.required,
     selectedPath: selected.relativePath,
   };
+}
+
+function buildArtifactBaseUrl(buildUrl) {
+  if (!buildUrl) {
+    return '';
+  }
+
+  try {
+    const url = new URL(buildUrl);
+    url.username = '';
+    url.password = '';
+    url.search = '';
+    url.hash = '';
+    if (!url.pathname.endsWith('/')) {
+      url.pathname = `${url.pathname}/`;
+    }
+    return new URL('artifact/', url).toString();
+  } catch {
+    return '';
+  }
+}
+
+function buildArtifactLink(selected, outputDir, rootArtifactPath, artifactBaseUrl) {
+  if (artifactBaseUrl) {
+    return `${artifactBaseUrl}${encodeURI(toPosix(path.join(rootArtifactPath, selected.relativePath)))}`;
+  }
+
+  return toPosix(path.relative(outputDir, selected.absolutePath));
+}
+
+function sanitizeDisplayUrl(value) {
+  const rawValue = String(value || '').trim();
+  if (!rawValue) {
+    return '';
+  }
+
+  try {
+    const url = new URL(rawValue);
+    url.username = '';
+    url.password = '';
+    url.search = '';
+    url.hash = '';
+    return url.toString();
+  } catch {
+    return rawValue.replace(/\/\/[^/@]+@/, '//[redacted]@').split(/[?#]/)[0];
+  }
 }
 
 function buildPackageSummary(packageJsonPath) {

@@ -61,6 +61,71 @@ const activePipelineFiles = [
   'Jenkinsfile_parameterized'
 ];
 const parameterizedPipelineFile = 'Jenkinsfile_parameterized';
+const requiredPipelineJunitContracts = [
+  {
+    fileName: 'Jenkinsfile_CNP',
+    contracts: [
+      {
+        label: 'API JUnit publication',
+        pattern: /publishPlaywrightJUnit\(['"]functional-output\/tests\/playwright-api\/\*\*\/\*junit\.xml['"]\)/
+      },
+      {
+        label: 'integration JUnit publication',
+        pattern: /publishPlaywrightJUnit\(['"]functional-output\/tests\/playwright-integration\/\*\*\/\*junit\.xml['"]\)/
+      },
+      {
+        label: 'accessibility JUnit publication',
+        pattern: /publishPlaywrightJUnit\(['"]functional-output\/tests\/playwright-a11y\/\*\*\/\*junit\.xml['"]\)/
+      },
+      {
+        label: 'E2E JUnit publication',
+        pattern: /publishPlaywrightJUnit\(['"]functional-output\/tests\/playwright-e2e\/\*\*\/\*junit\.xml['"]\)/
+      },
+      {
+        label: 'smoke JUnit publication',
+        pattern: /publishPlaywrightJUnit\(['"]functional-output\/tests\/playwright-smoke\/\*\*\/\*junit\.xml['"]\)/
+      }
+    ]
+  },
+  {
+    fileName: 'Jenkinsfile_nightly',
+    contracts: [
+      {
+        label: 'API JUnit publication',
+        pattern: /publishPlaywrightJUnit\(['"]functional-output\/tests\/playwright-api\/\*\*\/\*junit\.xml['"]\)/
+      },
+      {
+        label: 'integration JUnit publication',
+        pattern: /publishPlaywrightJUnit\(['"]functional-output\/tests\/playwright-integration\/\*\*\/\*junit\.xml['"]\)/
+      },
+      {
+        label: 'accessibility JUnit publication',
+        pattern: /publishPlaywrightJUnit\(['"]functional-output\/tests\/playwright-a11y\/\*\*\/\*junit\.xml['"]\)/
+      },
+      {
+        label: 'E2E JUnit publication',
+        pattern: /publishPlaywrightJUnit\(['"]functional-output\/tests\/playwright-e2e\/\*\*\/\*junit\.xml['"]\)/
+      }
+    ]
+  },
+  {
+    fileName: 'Jenkinsfile_parameterized',
+    contracts: [
+      {
+        label: 'shared lane JUnit publisher',
+        pattern: /junit\(\s*allowEmptyResults:\s*false,\s*testResults:\s*artifacts\.replace\(['"]\*\*['"],\s*['"]\*\*\/\*junit\.xml['"]\)\s*\)/
+      },
+      { label: 'API artifact root', pattern: /functional-output\/tests\/playwright-api\/\*\*/ },
+      { label: 'integration artifact root', pattern: /functional-output\/tests\/playwright-integration\/\*\*/ },
+      { label: 'accessibility artifact root', pattern: /functional-output\/tests\/playwright-a11y\/\*\*/ },
+      { label: 'E2E artifact root', pattern: /functional-output\/tests\/playwright-e2e\/\*\*/ },
+      {
+        label: 'smoke JUnit publication',
+        pattern: /junit\(allowEmptyResults:\s*false,\s*testResults:\s*['"]functional-output\/tests\/playwright-smoke\/\*\*\/\*junit\.xml['"]\)/
+      }
+    ]
+  }
+];
 const retiredExecutionPatterns = [
   { pattern: /\bnpx\s+codeceptjs\b/, label: 'CodeceptJS runner' },
   { pattern: /\bcodeceptjs\s+run(?:-workers)?\b/, label: 'CodeceptJS runner' },
@@ -191,6 +256,15 @@ for (const fileName of activePipelineFiles) {
   ]) {
     if (pattern.test(pipelineSource)) {
       failures.push(`${fileName}: contains ${label}; pipelines must run only Playwright retirement lanes.`);
+    }
+  }
+}
+
+for (const { fileName, contracts } of requiredPipelineJunitContracts) {
+  const pipelineSource = readFileSync(join(root, fileName), 'utf-8');
+  for (const { pattern, label } of contracts) {
+    if (!pattern.test(pipelineSource)) {
+      failures.push(`${fileName}: missing required Playwright JUnit evidence contract ${label}.`);
     }
   }
 }

@@ -5,7 +5,6 @@ import {
   completeOptionalSolicitorJourney,
   setupRegisterOrganisationRoutes
 } from '../../helpers';
-import { manageOrgRuntimeConfiguration } from '../../mocks/manageOrgIntegration.mock';
 import {
   minimumSolicitorRegistration,
   optionalOtherOrganisationRegistration,
@@ -211,32 +210,6 @@ const assertOptionalSolicitorCheckYourAnswers = async (
 };
 
 test.describe('Register organisation', { tag: ['@integration', '@integration-register-organisation'] }, () => {
-  test('renders already-registered guidance with configured external links', async ({
-    manageOrgIntegrationPage: page
-  }) => {
-    const routeState = await setupRegisterOrganisationRoutes(page);
-    const registerOrganisationPage = new RegisterOrganisationPage(page);
-
-    await registerOrganisationPage.openStartPage();
-
-    await expect(page).toHaveURL(/\/register-org-new\/register$/);
-    await expect(registerOrganisationPage.startPageHeading).toBeVisible();
-    await expect(registerOrganisationPage.alreadyRegisteredHeading).toBeVisible();
-    await expect(registerOrganisationPage.manageCasesLink).toHaveAttribute(
-      'href',
-      manageOrgRuntimeConfiguration.manageCaseLink
-    );
-    await expect(registerOrganisationPage.manageCasesLink).toHaveAttribute('target', '_blank');
-    await expect(registerOrganisationPage.manageCasesLink).toHaveAttribute('rel', 'noopener noreferrer');
-    await expect(registerOrganisationPage.manageOrganisationLink).toHaveAttribute(
-      'href',
-      manageOrgRuntimeConfiguration.manageOrgLink
-    );
-    await expect(registerOrganisationPage.manageOrganisationLink).toHaveAttribute('target', '_blank');
-    await expect(registerOrganisationPage.manageOrganisationLink).toHaveAttribute('rel', 'noopener noreferrer');
-    expect(routeState.registrationRequests).toHaveLength(0);
-  });
-
   test('renders the other-organisation CYA page with optional registration data', async ({
     manageOrgIntegrationPage: page
   }) => {

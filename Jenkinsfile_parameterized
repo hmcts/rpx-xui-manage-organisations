@@ -70,7 +70,7 @@ def publishPlaywrightReport = { String reportDir, String reportFile, String repo
         reportFiles          : reportFile,
         reportName           : reportName
     ])
-    junit(allowEmptyResults: true, testResults: artifacts.replace('**', '**/*junit.xml'))
+    junit(allowEmptyResults: false, testResults: artifacts.replace('**', '**/*junit.xml'))
     archiveArtifacts allowEmptyArchive: true, artifacts: artifacts
 }
 
@@ -342,7 +342,7 @@ withParameterizedPipeline(type, product, component, params.ENVIRONMENT, 'sandbox
             reportFiles          : 'index.html',
             reportName           : 'PREVIEW Smoke Test'
         ])
-        junit(allowEmptyResults: true, testResults: 'functional-output/tests/playwright-smoke/**/*junit.xml')
+        junit(allowEmptyResults: false, testResults: 'functional-output/tests/playwright-smoke/**/*junit.xml')
         archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-smoke/**,test-results/playwright-smoke/**/*'
     }
 
@@ -377,7 +377,7 @@ withParameterizedPipeline(type, product, component, params.ENVIRONMENT, 'sandbox
             reportFiles          : 'index.html',
             reportName           : 'AAT Smoke Test'
         ])
-        junit(allowEmptyResults: true, testResults: 'functional-output/tests/playwright-smoke/**/*junit.xml')
+        junit(allowEmptyResults: false, testResults: 'functional-output/tests/playwright-smoke/**/*junit.xml')
         archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-smoke/**,test-results/playwright-smoke/**/*'
     }
 
@@ -412,7 +412,7 @@ withParameterizedPipeline(type, product, component, params.ENVIRONMENT, 'sandbox
             reportFiles          : 'index.html',
             reportName           : 'PROD Smoke Test'
         ])
-        junit(allowEmptyResults: true, testResults: 'functional-output/tests/playwright-smoke/**/*junit.xml')
+        junit(allowEmptyResults: false, testResults: 'functional-output/tests/playwright-smoke/**/*junit.xml')
         archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-smoke/**,test-results/playwright-smoke/**/*'
     }
 

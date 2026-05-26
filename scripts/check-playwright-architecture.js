@@ -71,7 +71,7 @@ const retiredExecutionPatterns = [
   { pattern: /\bpa11y\b/, label: 'legacy pa11y runner' }
 ];
 const oldPlaywrightPathPattern = {
-  pattern: /(^|[^A-Za-z0-9_])playwright_tests\//,
+  pattern: /(^|[^A-Za-z0-9_])playwright_tests(?:\/|(?=$|[^A-Za-z0-9_]))/,
   label: 'legacy playwright_tests path'
 };
 const forbiddenPipelineScriptPatterns = [
@@ -80,12 +80,16 @@ const forbiddenPipelineScriptPatterns = [
     label: 'legacy yarnBuilder test stage'
   },
   {
-    pattern: /\byarn\s+(?:run\s+)?test:(?:codeceptE2E|xuiIntegration|ngIntegrationMockEnv|a11yInTest|a11y:codecept|api|backendMock|functional|fullfunctional)(?:\s|$)/,
+    pattern: /\byarn\s+(?:run\s+)?test:(?:codeceptE2E|xuiIntegration|ngIntegrationMockEnv|a11yInTest|a11y:codecept|api|backendMock|functional|fullfunctional)(?=\s|['")]|$)/,
     label: 'legacy yarn test command'
   },
   {
     pattern: /reports\/tests\/(?:functional|api_functional|a11y)\//,
     label: 'legacy functional report publisher'
+  },
+  {
+    pattern: /allowEmptyResults\s*:\s*true/,
+    label: 'optional JUnit publisher for required Playwright evidence'
   }
 ];
 const checkedExtensions = new Set(['.ts', '.js', '.cjs', '.mjs']);

@@ -1,7 +1,8 @@
 import { expect } from 'chai';
-import { caseAssignment } from './caaCases.constants';
-import { getApiPath, getRequestBody } from './caaCases.util';
+import { caseAssignment, caseId, caseTypeStr } from './caaCases.constants';
+import { getApiPath, getRequestBody, mapCcdCases } from './caaCases.util';
 import { CaaCasesPageType } from './enums';
+import { CcdCase } from './interfaces';
 
 describe('caaCases Util', () => {
   it('should getApiPath', () => {
@@ -251,5 +252,98 @@ describe('caaCases Util', () => {
         }
       ]
     });
+  });
+
+  it('should map CCD headers and case data to Manage Org CAA cases', () => {
+    const ccdCase = {
+      headers: [
+        {
+          fields: [
+            {
+              label: 'Case name',
+              case_field_id: 'CaseName',
+              case_field_type: { type: 'Text' }
+            },
+            {
+              label: 'Created date',
+              case_field_id: 'CreatedDate',
+              case_field_type: { type: 'DateTime' }
+            },
+            {
+              label: 'Organisation policy',
+              case_field_id: 'OrganisationPolicy',
+              case_field_type: { type: 'OrganisationPolicy' }
+            }
+          ]
+        }
+      ],
+      cases: [
+        {
+          case_id: '1111222233334444',
+          fields: {
+            CaseName: 'Smith v Jones',
+            CreatedDate: '2026-05-27T10:00:00Z',
+            OrganisationPolicy: {
+              OrgPolicyReference: 'ORG-POLICY-1'
+            }
+          }
+        }
+      ]
+    } as unknown as CcdCase;
+
+    const mappedCases = mapCcdCases('Civil', ccdCase);
+
+    expect(mappedCases.idField).to.equal('[CASE_REFERENCE]');
+    expect(mappedCases.columnConfigs).to.eql([
+      { header: 'Case name', key: 'CaseName', type: 'Text' },
+      { header: 'Created date', key: 'CreatedDate', type: 'date' },
+      { header: 'Organisation policy', key: 'OrganisationPolicy', type: 'OrganisationPolicy' }
+    ]);
+    expect(mappedCases.data).to.eql([
+      {
+        CaseName: 'Smith v Jones',
+        CreatedDate: '2026-05-27T10:00:00Z',
+        OrganisationPolicy: 'ORG-POLICY-1',
+        [caseId]: '1111222233334444',
+        [caseTypeStr]: 'Civil'
+      }
+    ]);
+  });
+
+  it('should ignore empty headers and null object values when mapping CCD cases', () => {
+    const ccdCase = {
+      headers: [
+        {
+          fields: [
+            null,
+            {
+              label: 'Organisation policy',
+              case_field_id: 'OrganisationPolicy',
+              case_field_type: { type: 'OrganisationPolicy' }
+            }
+          ]
+        }
+      ],
+      cases: [
+        {
+          case_id: '2222333344445555',
+          fields: {
+            OrganisationPolicy: null
+          }
+        }
+      ]
+    } as unknown as CcdCase;
+
+    const mappedCases = mapCcdCases('Family', ccdCase);
+
+    expect(mappedCases.columnConfigs).to.eql([
+      { header: 'Organisation policy', key: 'OrganisationPolicy', type: 'OrganisationPolicy' }
+    ]);
+    expect(mappedCases.data).to.eql([
+      {
+        [caseId]: '2222333344445555',
+        [caseTypeStr]: 'Family'
+      }
+    ]);
   });
 });

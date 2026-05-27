@@ -122,7 +122,7 @@ export async function getPBA(req: EnhancedRequest, res: Response, next: NextFunc
   const markupPath: string = url + req.originalUrl;
 
   try {
-    const { status, data }: { status: number; data: any } = await handleGet(markupPath, req, null);
+    const { status, data }: { status: number; data: any } = await handleGet(markupPath, req);
     res.status(status).send(data);
   } catch (error) {
     next(error);

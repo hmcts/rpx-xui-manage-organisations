@@ -1,5 +1,4 @@
 import { AxiosResponse } from 'axios';
-import { NextFunction } from 'express';
 import { EnhancedRequest } from '../models/enhanced-request.interface';
 import * as log4jui from '../lib/log4jui';
 import { JUILogger } from '../lib/models';
@@ -10,15 +9,15 @@ const logger: JUILogger = log4jui.getLogger('crud-service');
  * Generic handleGet call Rest API with GET method
  * @param path
  * @param req
- * @param next
  * @returns {Promise<AxiosResponse>}
  */
-export async function handleGet(path: string, req: EnhancedRequest, next: NextFunction): Promise<AxiosResponse> {
+export async function handleGet(path: string, req: EnhancedRequest): Promise<AxiosResponse> {
   try {
     logger.info('handle get:', path);
     return await req.http.get(path);
   } catch (e) {
-    next(e);
+    logger.error(e.status, e.statusText, JSON.stringify(e.data));
+    throw e;
   }
 }
 

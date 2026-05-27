@@ -11,13 +11,18 @@ import { CCDRawCaseUserModel } from './models/ccd-raw-case-user.model';
 import { UnassignedCaseModel } from './models/unassigned-case.model';
 import { UserDetails } from './models/user-details.model';
 
-const prdUrl: string = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH);
-const ccdUrl: string = getConfigValue(SERVICES_MCA_PROXY_API_PATH);
+function getPrdUrl(): string {
+  return getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH);
+}
+
+function getCcdUrl(): string {
+  return getConfigValue(SERVICES_MCA_PROXY_API_PATH);
+}
 
 export async function getUsers(req: EnhancedRequest, res: Response, next: NextFunction): Promise<Response> {
   try {
-    const path = `${prdUrl}/refdata/external/v1/organisations/users?returnRoles=false&status=active`;
-    const { status, data }: {status: number, data: any} = await handleGet(path, req, next);
+    const path = `${getPrdUrl()}/refdata/external/v1/organisations/users?returnRoles=false&status=active`;
+    const { status, data }: {status: number, data: any} = await handleGet(path, req);
     const users = [...data.users]
       .map((user) => prdToUserDetails(user));
     return res.status(status).send(users);
@@ -29,8 +34,8 @@ export async function getUsers(req: EnhancedRequest, res: Response, next: NextFu
 export async function getCases(req: EnhancedRequest, res: Response, next: NextFunction): Promise<Response> {
   try {
     const caseIds = req.query.case_ids;
-    const path = `${ccdUrl}/case-assignments?case_ids=${caseIds}`;
-    const { status, data }: {status: number, data: any} = await handleGet(path, req, next);
+    const path = `${getCcdUrl()}/case-assignments?case_ids=${caseIds}`;
+    const { status, data }: {status: number, data: any} = await handleGet(path, req);
     const caseUsers: CCDRawCaseUserModel[] = [...data.case_assignments];
     const sharedCases: SharedCase[] = [];
     for (const caseUser of caseUsers) {
@@ -96,7 +101,7 @@ export async function assignCases(req: EnhancedRequest, res: Response): Promise<
 }
 
 function doShareCase(req: EnhancedRequest, shareCases: SharedCase[]): Promise<AxiosResponse>[] {
-  const path = `${ccdUrl}/case-assignments`;
+  const path = `${getCcdUrl()}/case-assignments`;
   const promises: Promise<AxiosResponse>[] = [];
   // @ts-ignore
   shareCases.flatMap((sharedCase) => {
@@ -116,7 +121,7 @@ function doShareCase(req: EnhancedRequest, shareCases: SharedCase[]): Promise<Ax
 }
 
 function doUnShareCase(req: EnhancedRequest, shareCases: SharedCase[]): Promise<AxiosResponse> {
-  const path = `${ccdUrl}/case-assignments`;
+  const path = `${getCcdUrl()}/case-assignments`;
   const unassignedCaseModels: UnassignedCaseModel[] = [];
   let promise: Promise<AxiosResponse> = null;
   for (const aCase of shareCases) {

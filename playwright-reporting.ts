@@ -14,6 +14,29 @@ type ReporterOptions = {
   includeJunit?: boolean;
 };
 
+const resolveFlag = (raw: string | undefined, fallback: boolean): boolean => {
+  if (raw === undefined || raw.trim() === '') {
+    return fallback;
+  }
+  return raw.trim().toLowerCase() === 'true';
+};
+
+const resolvePositiveNumber = (raw: string | undefined, fallback: number): number => {
+  const parsed = Number.parseInt(String(raw ?? ''), 10);
+  return Number.isFinite(parsed) && parsed >= 0 ? parsed : fallback;
+};
+
+const resolveOdhinTestOutput = (env: EnvMap = process.env): boolean | 'only-on-failure' => {
+  const configured = (env.PW_ODHIN_TEST_OUTPUT ?? 'only-on-failure').trim().toLowerCase();
+  if (configured === 'true') {
+    return true;
+  }
+  if (configured === 'false') {
+    return false;
+  }
+  return 'only-on-failure';
+};
+
 export const resolveDefaultReporter = (env: EnvMap = process.env): string => {
   const configured = env.PLAYWRIGHT_DEFAULT_REPORTER?.trim();
   return configured || (env.CI ? 'dot' : 'list');
@@ -24,6 +47,25 @@ export const resolveWorkerCount = (env: EnvMap = process.env): number => {
   const parsed = configured ? Number.parseInt(configured, 10) : Number.NaN;
   return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
 };
+
+export const resolveOutputDir = (env: EnvMap = process.env): string =>
+  env.PLAYWRIGHT_TEST_OUTPUT_DIR || env.PLAYWRIGHT_OUTPUT_DIR || 'test-results';
+
+const escapeRegExp = (value: string): string => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+const resolveTagPattern = (configured?: string): RegExp | undefined => {
+  const tags = configured
+    ?.split(',')
+    .map((tag) => tag.trim())
+    .filter(Boolean);
+
+  return tags?.length ? new RegExp(`(^|[^\\w-])(?:${tags.map(escapeRegExp).join('|')})(?=$|[^\\w-])`) : undefined;
+};
+
+export const resolveTagGrep = (env: EnvMap = process.env): RegExp | undefined => resolveTagPattern(env.PLAYWRIGHT_TAGS);
+
+export const resolveTagGrepInvert = (env: EnvMap = process.env): RegExp | undefined =>
+  resolveTagPattern(env.PLAYWRIGHT_EXCLUDE_TAGS);
 
 const resolveHtmlOutputFolder = (options: ReporterOptions, env: EnvMap = process.env): string =>
   env.PLAYWRIGHT_HTML_OUTPUT || options.htmlOutputFolder || 'functional-output/tests/playwright-e2e';
@@ -88,11 +130,7 @@ export const resolveBranchName = (env: EnvMap = process.env): string => {
   return 'local';
 };
 
-const resolveTestEnvironmentLabel = (
-  env: EnvMap,
-  baseUrl: string,
-  workerCount: number,
-): string => {
+const resolveTestEnvironmentLabel = (env: EnvMap, baseUrl: string, workerCount: number): string => {
   const configured = env.PLAYWRIGHT_REPORT_TEST_ENVIRONMENT || env.PW_ODHIN_ENV;
   if (configured) {
     return configured;
@@ -104,26 +142,14 @@ const resolveTestEnvironmentLabel = (
   return `${targetEnv} | ${runContext} | workers=${workerCount} | agent_cpu_cores=${cpuCores} | agent_ram_gib=${totalRamGiB}`;
 };
 
-export const resolveReporters = (
-  options: ReporterOptions,
-  baseUrl: string,
-  env: EnvMap = process.env,
-): ReporterDescription[] => {
-  const configured = env.PLAYWRIGHT_REPORTERS
-    ?.split(',')
+export const resolveReporters = (options: ReporterOptions, baseUrl: string, env: EnvMap = process.env): ReporterDescription[] => {
+  const configured = env.PLAYWRIGHT_REPORTERS?.split(',')
     .map((reporter) => reporter.trim())
     .filter(Boolean);
   const reporterNames = configured?.length
     ? configured
-    : [
-        resolveDefaultReporter(env),
-        'html',
-        'odhin',
-        ...(options.includeJunit && env.CI ? ['junit'] : []),
-      ];
-  const uniqueReporterNames = reporterNames.filter(
-    (reporterName, index) => reporterNames.indexOf(reporterName) === index,
-  );
+    : [resolveDefaultReporter(env), 'html', 'odhin-progress', 'odhin', ...(options.includeJunit && env.CI ? ['junit'] : [])];
+  const uniqueReporterNames = reporterNames.filter((reporterName, index) => reporterNames.indexOf(reporterName) === index);
   const workerCount = resolveWorkerCount(env);
   const reportBranch = resolveBranchName(env);
 
@@ -141,7 +167,7 @@ export const resolveReporters = (
         return ['junit', { outputFile: env.PLAYWRIGHT_JUNIT_OUTPUT || 'playwright-junit.xml' }];
       case 'odhin':
         return [
-          'odhin-reports-playwright',
+          './playwright_tests_new/common/reporters/odhin-adaptive.reporter.cjs',
           {
             outputFolder: resolveOdhinOutputFolder(options, env),
             indexFilename: resolveOdhinIndexFilename(options, env),
@@ -149,13 +175,27 @@ export const resolveReporters = (
             testEnvironment: resolveTestEnvironmentLabel(env, baseUrl, workerCount),
             project: env.PLAYWRIGHT_REPORT_PROJECT || env.PW_ODHIN_PROJECT || options.defaultProject,
             release:
-              env.PLAYWRIGHT_REPORT_RELEASE ||
-              env.PW_ODHIN_RELEASE ||
-              `${options.defaultRelease} | branch=${reportBranch}`,
+              env.PLAYWRIGHT_REPORT_RELEASE || env.PW_ODHIN_RELEASE || `${options.defaultRelease} | branch=${reportBranch}`,
             startServer: env.PW_ODHIN_START_SERVER === 'true',
-            consoleLog: true,
-            consoleError: true,
-            testOutput: env.PW_ODHIN_TEST_OUTPUT || 'only-on-failure',
+            consoleLog: resolveFlag(env.PW_ODHIN_CONSOLE_LOG, Boolean(env.CI)),
+            consoleError: resolveFlag(env.PW_ODHIN_CONSOLE_ERROR, Boolean(env.CI)),
+            testOutput: resolveOdhinTestOutput(env),
+            lightweight: resolveFlag(env.PW_ODHIN_LIGHTWEIGHT, !env.CI),
+            profile: resolveFlag(env.PW_ODHIN_PROFILE, true),
+            runtimeHookTimeoutMs: resolvePositiveNumber(env.PW_ODHIN_RUNTIME_HOOK_TIMEOUT_MS, env.CI ? 0 : 15000),
+          },
+        ];
+      case 'odhin-progress':
+        return [
+          './playwright_tests_new/common/reporters/odhin-progress.reporter.cjs',
+          {
+            enabled: resolveFlag(env.PW_ODHIN_PROGRESS, Boolean(env.CI)),
+            graceMs: resolvePositiveNumber(env.PW_ODHIN_PROGRESS_GRACE_MS, 1500),
+            intervalMs: resolvePositiveNumber(env.PW_ODHIN_PROGRESS_INTERVAL_MS, 5000),
+            hardTimeoutMs: resolvePositiveNumber(env.PW_ODHIN_PROGRESS_HARD_TIMEOUT_MS, 0),
+            timeoutExitCode: resolvePositiveNumber(env.PW_ODHIN_PROGRESS_TIMEOUT_EXIT_CODE, 1),
+            completionExitDelayMs: resolvePositiveNumber(env.PW_ODHIN_COMPLETION_EXIT_DELAY_MS, 0),
+            forceExitOnCompletion: resolveFlag(env.PW_ODHIN_FORCE_EXIT_ON_COMPLETION, Boolean(env.CI)),
           },
         ];
       case 'dot':

@@ -13,6 +13,18 @@ const manageOrgFeatureFlagsResponse = {
     version: 1,
     flagVersion: 1
   },
+  'mo-caa-menu-items': {
+    value: true,
+    variation: 0,
+    version: 1,
+    flagVersion: 1
+  },
+  'mo-new-cases': {
+    value: true,
+    variation: 0,
+    version: 1,
+    flagVersion: 1
+  },
   'mo-new-register-org': {
     value: true,
     variation: 0,
@@ -21,6 +33,14 @@ const manageOrgFeatureFlagsResponse = {
   },
   $flagsState: {
     'edit-permissions': {
+      variation: 0,
+      version: 1
+    },
+    'mo-caa-menu-items': {
+      variation: 0,
+      version: 1
+    },
+    'mo-new-cases': {
       variation: 0,
       version: 1
     },

@@ -24,19 +24,19 @@ export class UsersPage extends BasePage {
     super(page);
     this.heading = page.getByRole('heading', { name: 'Users' });
     this.inviteUserButton = page.getByRole('button', { name: 'Invite user' });
-    this.userList = page.locator('xuilib-user-list');
+    this.userList = page.locator('table.govuk-table');
     this.userDetails = page.locator('xuilib-user-details');
     this.userDetailsHeading = page.getByRole('heading', { name: 'User details' });
     this.pendingUserDetailsHeading = page.getByRole('heading', { name: 'Pending user details' });
     this.changePermissionsLink = this.userDetails.getByRole('link', { name: 'Change' });
-    this.editUserHeading = page.getByRole('heading', { name: 'Edit user' });
+    this.editUserHeading = page.getByRole('heading', { name: /^(Edit user|Manage user)$/ });
     this.suspendAccountButton = page.getByRole('button', { name: 'Suspend account' });
     this.suspendConfirmationHeading = page.getByRole('heading', {
       name: 'Are you sure you want to suspend this account?'
     });
     this.resendInvitationButton = page.locator('#resend-invite-button');
-    this.sendInvitationButton = page.getByRole('button', { name: 'Send invitation' });
-    this.inviteUserHeading = page.getByRole('heading', { name: 'Invite user' });
+    this.sendInvitationButton = page.getByRole('button', { name: /^(Send invitation|Submit)$/ });
+    this.inviteUserHeading = page.getByRole('heading', { name: /^(Invite user|Manage user)$/ });
     this.firstNameInput = page.locator('#firstName');
     this.lastNameInput = page.locator('#lastName');
     this.emailInput = page.locator('#email');
@@ -109,6 +109,10 @@ export class UsersPage extends BasePage {
     await this.resendInvitationButton.click();
   }
 
+  public async isManageUserPage(): Promise<boolean> {
+    return this.page.getByRole('heading', { name: 'Manage user' }).isVisible();
+  }
+
   public async openSuspendConfirmation(): Promise<void> {
     await this.suspendAccountButton.click();
   }
@@ -118,8 +122,13 @@ export class UsersPage extends BasePage {
   }
 
   public permissionCheckbox(label: string): Locator {
+    const labelPatterns: Record<string, RegExp> = {
+      'Manage Cases': /^(Permit users to )?Manage Cases$|^Manage cases for your organisation$/i,
+      'Manage Users': /^(Permit users to )?Manage Users?$|^Manage user$/i,
+      'Manage Organisation': /^(Permit users to )?Manage Organisation$/i
+    };
     const escapedLabel = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    return this.page.getByRole('checkbox', { name: new RegExp(`^(Permit users to )?${escapedLabel}$`, 'i') });
+    return this.page.getByRole('checkbox', { name: labelPatterns[label] ?? new RegExp(`^(Permit users to )?${escapedLabel}$`, 'i') });
   }
 
   public validationSummaryError(message: string): Locator {

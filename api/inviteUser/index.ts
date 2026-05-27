@@ -10,12 +10,11 @@ const logger = log4jui.getLogger('invite-user');
 
 router.post('/', inviteUserRoute);
 
-const rdProfessionalApiPath = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH);
-const reqUrl = getRefdataUserCommonUrlUtil(rdProfessionalApiPath);
-
 export async function inviteUserRoute(req: Request, res: Response) {
   const payload = req.body;
   try {
+    const rdProfessionalApiPath = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH);
+    const reqUrl = getRefdataUserCommonUrlUtil(rdProfessionalApiPath);
     logger.info('INVITE USER: request URL:: ', reqUrl);
     logger.info('INVITE USER: payload:: ', payload);
     const response = await req.http.post(reqUrl, payload);
@@ -36,6 +35,8 @@ export async function inviteUserRoute(req: Request, res: Response) {
 export async function inviteUserRouteOGD(req: Request) {
   const payload = req.body.userPayload;
   try {
+    const rdProfessionalApiPath = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH);
+    const reqUrl = getRefdataUserCommonUrlUtil(rdProfessionalApiPath);
     logger.info('INVITE USER OGD: request URL:: ', reqUrl);
     const response = await req.http.post(reqUrl, payload);
     logger.info('response::', response.data);

@@ -6,6 +6,17 @@ const path = require('node:path');
 
 const DEFAULT_ROOT_DIR = 'functional-output/tests';
 const DEFAULT_TITLE = 'Manage Org Playwright Evidence';
+const DEFAULT_API_PACKAGE_JSON = 'api/package.json';
+
+const COVERAGE_ARTIFACTS = [
+  artifact('Node coverage HTML', ['../../reports/tests/coverage/node/index.html'], false),
+  artifact('Angular coverage HTML', ['../../reports/tests/coverage/ng/html-report/index.html', '../../reports/tests/coverage/ng/index.html'], false),
+  artifact('Node LCOV', ['../../reports/tests/coverage/node/lcov.info'], false),
+  artifact('Angular LCOV', ['../../reports/tests/coverage/ng/lcov.info'], false),
+];
+
+const COVERAGE_SCRIPT_NAMES = ['test:coverage', 'test:coverage:ng', 'test:coverage:node'];
+const NODE_COVERAGE_METRICS = ['statements', 'branches', 'functions', 'lines'];
 
 const LANES = [
   {
@@ -76,6 +87,7 @@ function artifact(label, paths, required) {
 
 function parseArgs(argv) {
   const options = {
+    apiPackageJsonPath: process.env.MANAGE_ORG_EVIDENCE_API_PACKAGE_JSON || DEFAULT_API_PACKAGE_JSON,
     outputDir: process.env.MANAGE_ORG_EVIDENCE_OUTPUT_DIR || '',
     packageJsonPath: process.env.MANAGE_ORG_EVIDENCE_PACKAGE_JSON || 'package.json',
     rootDir: process.env.MANAGE_ORG_EVIDENCE_ROOT || DEFAULT_ROOT_DIR,
@@ -96,6 +108,9 @@ function parseArgs(argv) {
       index += 1;
     } else if (arg === '--package-json' && next) {
       options.packageJsonPath = next;
+      index += 1;
+    } else if (arg === '--api-package-json' && next) {
+      options.apiPackageJsonPath = next;
       index += 1;
     }
   }
@@ -130,6 +145,7 @@ function buildEvidenceModel(options) {
   const rootArtifactPath = toPosix(options.rootDir || DEFAULT_ROOT_DIR);
   const outputDir = path.resolve(options.outputDir || path.join(rootDir, 'manage-org-evidence'));
   const packageSummary = buildPackageSummary(options.packageJsonPath);
+  const coverageSummary = buildCoverageSummary(options, rootDir, outputDir, rootArtifactPath, artifactBaseUrl);
   const generatedAt = new Date().toISOString();
 
   const lanes = LANES.map((lane) => {
@@ -157,6 +173,7 @@ function buildEvidenceModel(options) {
   return {
     buildUrl: sanitizeDisplayUrl(process.env.BUILD_URL || ''),
     branch: process.env.BRANCH_NAME || process.env.GIT_BRANCH || process.env.PLAYWRIGHT_REPORT_BRANCH || '',
+    coverageSummary,
     generatedAt,
     lanes,
     outputDir,
@@ -236,26 +253,75 @@ function buildPackageSummary(packageJsonPath) {
     replacementScripts: [],
   };
 
-  try {
-    const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
-    const scripts = packageJson.scripts || {};
-    summary.retiredAliases = Object.entries(scripts)
-      .filter(([, command]) => /retired-codecept-runner\.js\s+(fail|bridge)\b/.test(String(command)))
-      .map(([name]) => name)
-      .sort();
-    summary.replacementScripts = [
-      'test:smoke',
-      'test:api:pw',
-      'test:playwright:integration',
-      'test:a11y:playwright',
-      'test:playwrightE2E',
-      'test:crossbrowser',
-    ].filter((name) => Boolean(scripts[name]));
-  } catch {
-    // Keep the dashboard useful in partial Jenkins workspaces.
+  const packageJson = readJsonFile(packageJsonPath);
+  if (!packageJson) {
+    return summary;
   }
 
+  const scripts = packageJson.scripts || {};
+  summary.retiredAliases = Object.entries(scripts)
+    .filter(([, command]) => /retired-codecept-runner\.js\s+(fail|bridge)\b/.test(String(command)))
+    .map(([name]) => name)
+    .sort();
+  summary.replacementScripts = [
+    'test:smoke',
+    'test:api:pw',
+    'test:playwright:integration',
+    'test:a11y:playwright',
+    'test:playwrightE2E',
+    'test:crossbrowser',
+  ].filter((name) => Boolean(scripts[name]));
+
   return summary;
+}
+
+function buildCoverageSummary(options, rootDir, outputDir, rootArtifactPath, artifactBaseUrl) {
+  const packageJson = readJsonFile(options.packageJsonPath);
+  const apiPackageJson = readJsonFile(options.apiPackageJsonPath);
+  const scripts = packageJson?.scripts || {};
+  const nycConfig = apiPackageJson?.nyc || null;
+
+  return {
+    artifacts: COVERAGE_ARTIFACTS.map((coverageArtifact) =>
+      resolveArtifact(coverageArtifact, rootDir, outputDir, rootArtifactPath, artifactBaseUrl)
+    ),
+    node: buildNodeCoverageSummary(nycConfig),
+    scripts: COVERAGE_SCRIPT_NAMES.map((name) => ({
+      command: scripts[name] || '',
+      name,
+    })),
+  };
+}
+
+function buildNodeCoverageSummary(nycConfig) {
+  if (!nycConfig) {
+    return {
+      detected: false,
+      gateLabel: 'Not detected',
+      scopeLabel: 'Not detected',
+      thresholds: NODE_COVERAGE_METRICS.map((metric) => ({
+        metric,
+        value: 'not set',
+      })),
+    };
+  }
+
+  return {
+    detected: true,
+    gateLabel: nycConfig['check-coverage'] ? 'Enabled' : 'Disabled',
+    scopeLabel: nycConfig['per-file'] ? 'Per-file' : 'Aggregate',
+    thresholds: NODE_COVERAGE_METRICS.map((metric) => ({
+      metric,
+      value: formatCoverageThreshold(nycConfig[metric]),
+    })),
+  };
+}
+
+function formatCoverageThreshold(value) {
+  if (typeof value !== 'number' || Number.isNaN(value)) {
+    return 'not set';
+  }
+  return `${value}%`;
 }
 
 function buildDashboardHtml(model) {
@@ -323,6 +389,45 @@ function buildDashboardHtml(model) {
       </tbody>
     </table>
 
+    <h2>Coverage Position</h2>
+    <p>Coverage gates stay separate from Playwright functional evidence, but the dashboard links them so reviewers can see the current unit-test ratchet state beside the migrated suite evidence.</p>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Coverage command</th>
+          <th scope="col">Configured script</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${model.coverageSummary.scripts.map(renderCoverageScript).join('\n')}
+      </tbody>
+    </table>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Node coverage gate</th>
+          <th scope="col">Scope</th>
+          <th scope="col">Statements</th>
+          <th scope="col">Branches</th>
+          <th scope="col">Functions</th>
+          <th scope="col">Lines</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>${escapeHtml(model.coverageSummary.node.gateLabel)}</td>
+          <td>${escapeHtml(model.coverageSummary.node.scopeLabel)}</td>
+          ${model.coverageSummary.node.thresholds
+            .map((threshold) => `<td>${escapeHtml(threshold.value)}</td>`)
+            .join('\n')}
+        </tr>
+      </tbody>
+    </table>
+    <p><strong>Coverage report evidence:</strong></p>
+    <ul>
+      ${model.coverageSummary.artifacts.map(renderArtifact).join('\n')}
+    </ul>
+
     <h2>Retirement Position</h2>
     <p>Playwright is the authoritative Manage Organisation functional gate for smoke, API, integration, accessibility, and E2E coverage.</p>
     <p><strong>Replacement scripts:</strong> ${escapeHtml(model.packageSummary.replacementScripts.join(', ') || 'not detected')}</p>
@@ -330,6 +435,14 @@ function buildDashboardHtml(model) {
   </body>
 </html>
 `;
+}
+
+function renderCoverageScript(coverageScript) {
+  return `
+        <tr>
+          <th scope="row"><code>${escapeHtml(coverageScript.name)}</code></th>
+          <td>${coverageScript.command ? `<code>${escapeHtml(coverageScript.command)}</code>` : '<span class="missing">not detected</span>'}</td>
+        </tr>`;
 }
 
 function renderArtifact(laneArtifact) {
@@ -355,6 +468,15 @@ function escapeHtml(value) {
     .replace(/'/g, '&#39;');
 }
 
+function readJsonFile(filePath) {
+  try {
+    return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+  } catch {
+    // Keep the dashboard useful in partial Jenkins workspaces.
+    return null;
+  }
+}
+
 if (require.main === module) {
   try {
     const result = buildPlaywrightEvidenceDashboard(parseArgs(process.argv.slice(2)));
@@ -369,5 +491,6 @@ module.exports = {
   buildDashboardHtml,
   buildEvidenceModel,
   buildPlaywrightEvidenceDashboard,
+  buildCoverageSummary,
   parseArgs,
 };

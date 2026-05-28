@@ -79,4 +79,31 @@ describe('configurationUI index', () => {
       environment: 'preview'
     });
   });
+
+  it('should derive demo environment from IDAM web URL when PUI_ENV is prod', async () => {
+    process.env.PUI_ENV = 'prod';
+    (configuration.getConfigValue as sinon.SinonStub).withArgs(SERVICES_IDAM_WEB)
+      .returns('https://idam-web-public.demo.platform.hmcts.net');
+
+    await configurationUIRoute(req, res);
+
+    expect(res.status).to.be.calledWith(200);
+    expect(res.send).to.be.calledWithMatch({
+      environment: 'demo',
+      idamWeb: 'https://idam-web-public.demo.platform.hmcts.net'
+    });
+  });
+
+  it('should derive prod environment from the public IDAM web URL', async () => {
+    (configuration.getConfigValue as sinon.SinonStub).withArgs(SERVICES_IDAM_WEB)
+      .returns('https://hmcts-access.service.gov.uk');
+
+    await configurationUIRoute(req, res);
+
+    expect(res.status).to.be.calledWith(200);
+    expect(res.send).to.be.calledWithMatch({
+      environment: 'prod',
+      idamWeb: 'https://hmcts-access.service.gov.uk'
+    });
+  });
 });

@@ -88,6 +88,7 @@ test.describe('Manage Org Playwright retirement scripts', { tag: '@svc-internal'
     expect(capturedEnv.PLAYWRIGHT_EXCLUDE_TAGS).toBe('');
     expect(capturedEnv.PLAYWRIGHT_INCLUDE_A11Y).toBe('true');
     expect(capturedEnv.PLAYWRIGHT_TAGS).toBe('');
+    expect(capturedEnv.FUNCTIONAL_TESTS_WORKERS).toBe('8');
     expect(capturedEnv.PW_ODHIN_FORCE_EXIT_ON_COMPLETION).toBe('true');
   });
 

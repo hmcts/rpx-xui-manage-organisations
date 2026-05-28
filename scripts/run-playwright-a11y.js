@@ -124,7 +124,7 @@ const runYarn = (label, args, envOverrides, env = process.env, spawn = spawnSync
   const result = spawn('yarn', args, {
     env: {
       ...env,
-      FUNCTIONAL_TESTS_WORKERS: env.FUNCTIONAL_TESTS_WORKERS || '4',
+      FUNCTIONAL_TESTS_WORKERS: env.FUNCTIONAL_TESTS_WORKERS || '8',
       ...envOverrides,
       PLAYWRIGHT_INCLUDE_A11Y: 'true',
       PLAYWRIGHT_EXCLUDE_TAGS: '',

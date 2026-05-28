@@ -17,7 +17,6 @@ export const router = Router({ mergeParams: true });
 router.get('/', configurationUIRoute);
 
 const DEPLOYMENT_ENVIRONMENTS = ['aat', 'demo', 'perftest', 'ithc', 'prod'];
-const RUNTIME_ENVIRONMENT_LOG_PREFIX = '[configurationUI runtime environment]';
 
 /**
  * All the following environmental variables are passed to the UI.
@@ -45,31 +44,16 @@ function getRuntimeEnvironment(): string {
   const puiEnv = process && process.env && process.env.PUI_ENV;
   const idamWeb = getConfigValue(SERVICES_IDAM_WEB);
 
-  console.log(`${RUNTIME_ENVIRONMENT_LOG_PREFIX} inputs`, {
-    idamWeb,
-    previewDeploymentId,
-    puiEnv
-  });
-
   if (previewDeploymentId) {
-    console.log(`${RUNTIME_ENVIRONMENT_LOG_PREFIX} selected preview from PREVIEW_DEPLOYMENT_ID`);
     return 'preview';
   }
 
   const deploymentEnvironment = getEnvironmentFromDeploymentUrl(idamWeb);
   if (deploymentEnvironment) {
-    console.log(`${RUNTIME_ENVIRONMENT_LOG_PREFIX} selected environment from IDAM web URL`, {
-      environment: deploymentEnvironment
-    });
     return deploymentEnvironment;
   }
 
-  const fallbackEnvironment = puiEnv || 'LOCAL';
-  console.log(`${RUNTIME_ENVIRONMENT_LOG_PREFIX} selected fallback environment`, {
-    environment: fallbackEnvironment
-  });
-
-  return fallbackEnvironment;
+  return puiEnv || 'LOCAL';
 }
 
 function getEnvironmentFromDeploymentUrl(url?: string): string | null {

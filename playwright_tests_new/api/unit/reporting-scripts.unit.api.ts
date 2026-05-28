@@ -39,6 +39,21 @@ let loadMonitor: {
   };
 };
 
+let evidenceDashboard: {
+  buildPlaywrightEvidenceDashboard: (options: {
+    outputDir?: string;
+    packageJsonPath?: string;
+    rootDir: string;
+    title?: string;
+  }) => {
+    dashboardPath: string;
+    model: {
+      lanes: Array<{ id: string; status: string }>;
+    };
+  };
+  parseArgs: (argv: string[]) => { outputDir: string; packageJsonPath: string; rootDir: string; title: string };
+};
+
 const sample = (overrides: Record<string, unknown>): Record<string, unknown> => ({
   cpuPercent: 10,
   load1PerCore: 0.2,
@@ -57,6 +72,9 @@ test.describe('Manage Org Playwright reporting scripts', { tag: '@svc-internal' 
 
     const loadMonitorModule = await import('../../../scripts/playwright-load-monitor.js');
     loadMonitor = (loadMonitorModule.default ?? loadMonitorModule) as typeof loadMonitor;
+
+    const evidenceDashboardModule = await import('../../../scripts/build-playwright-evidence-dashboard.js');
+    evidenceDashboard = (evidenceDashboardModule.default ?? evidenceDashboardModule) as typeof evidenceDashboard;
   });
 
   test('preserves an existing Odhín report and parses Jenkins arguments', () => {
@@ -171,5 +189,79 @@ test.describe('Manage Org Playwright reporting scripts', { tag: '@svc-internal' 
     expect(signals.cpuSaturatedSamplePercent).toBe(66.67);
     expect(signals.memoryPressureThresholdPercent).toBe(85);
     expect(loadMonitor.buildRecommendation(signals)).toContain('Memory pressure detected');
+  });
+
+  test('builds a Manage Org evidence dashboard from lane artifacts', () => {
+    const previousBuildUrl = process.env.BUILD_URL;
+    const previousTestUrl = process.env.TEST_URL;
+    const previousCwd = process.cwd();
+    const workspaceRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'manage-org-evidence-workspace-'));
+    const rootDir = path.join('functional-output', 'tests');
+    const packageJsonPath = path.join(rootDir, 'package.json');
+    const outputDir = path.join(rootDir, 'manage-org-evidence');
+
+    try {
+      process.chdir(workspaceRoot);
+      process.env.BUILD_URL = 'https://build.example.test/job/manage-org/job/PR-1568/6/?crumb=secret';
+      process.env.TEST_URL = 'https://user:password@manage-org.example.test/path?token=secret#fragment';
+
+      fs.mkdirSync(path.join(rootDir, 'playwright-api/odhin-report'), { recursive: true });
+      fs.mkdirSync(path.join(rootDir, 'playwright-api/html-report'), { recursive: true });
+      fs.writeFileSync(path.join(rootDir, 'playwright-api/odhin-report/xui-mo-playwright-api.html'), '<html>api</html>');
+      fs.writeFileSync(path.join(rootDir, 'playwright-api/html-report/index.html'), '<html>api html</html>');
+      fs.writeFileSync(path.join(rootDir, 'playwright-api/playwright-api-junit.xml'), '<testsuite />');
+      fs.writeFileSync(
+        packageJsonPath,
+        JSON.stringify({
+          scripts: {
+            'lint:reporting:scripts': 'node --check scripts/retired-codecept-runner.js',
+            'test:api:pw': 'playwright api',
+            'test:codeceptE2E': 'node scripts/retired-codecept-runner.js fail test:codeceptE2E',
+            'test:playwrightE2E': 'playwright e2e',
+            'test:smoke': 'playwright smoke'
+          }
+        })
+      );
+
+      const result = evidenceDashboard.buildPlaywrightEvidenceDashboard({
+        outputDir,
+        packageJsonPath,
+        rootDir,
+        title: 'PREVIEW Manage Org Evidence'
+      });
+
+      const apiLane = result.model.lanes.find((lane) => lane.id === 'api');
+      const e2eLane = result.model.lanes.find((lane) => lane.id === 'e2e');
+      const html = fs.readFileSync(result.dashboardPath, 'utf8');
+
+      expect(apiLane?.status).toBe('ready');
+      expect(e2eLane?.status).toBe('missing');
+      expect(html).toContain('PREVIEW Manage Org Evidence');
+      expect(html).toContain(
+        'https://build.example.test/job/manage-org/job/PR-1568/6/artifact/functional-output/tests/playwright-api/odhin-report/xui-mo-playwright-api.html'
+      );
+      expect(html).not.toContain('../playwright-api/');
+      expect(html).toContain('https://manage-org.example.test/path');
+      expect(html).not.toContain('user:password');
+      expect(html).not.toContain('token=secret');
+      expect(html).not.toContain('crumb=secret');
+      expect(html).toContain('test:codeceptE2E');
+      expect(html).not.toContain('lint:reporting:scripts');
+      expect(html).toContain('Playwright is the authoritative Manage Organisation functional gate');
+      expect(evidenceDashboard.parseArgs(['--root-dir', rootDir, '--title', 'Evidence']).title).toBe('Evidence');
+    } finally {
+      process.chdir(previousCwd);
+      if (previousBuildUrl === undefined) {
+        delete process.env.BUILD_URL;
+      } else {
+        process.env.BUILD_URL = previousBuildUrl;
+      }
+      if (previousTestUrl === undefined) {
+        delete process.env.TEST_URL;
+      } else {
+        process.env.TEST_URL = previousTestUrl;
+      }
+      fs.rmSync(workspaceRoot, { recursive: true, force: true });
+    }
   });
 });

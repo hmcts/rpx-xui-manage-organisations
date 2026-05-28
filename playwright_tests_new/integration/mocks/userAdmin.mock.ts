@@ -72,7 +72,8 @@ export const editUserPermissionsSuccessResponse = {
       idamStatusCode: '204',
       idamMessage: 'User role deleted'
     }
-  ]
+  ],
+  statusUpdateResponse: null
 };
 
 export const expectedCcdCaseworkerRoles = [

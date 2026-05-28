@@ -83,6 +83,11 @@ export const protectedRouteInventory: ProtectedRouteInventoryEntry[] = [
     coverageFile: 'playwright_tests_new/api/reference-data.api.ts'
   },
   {
+    route: '/ogd-flow',
+    coverageType: 'documented-exclusion',
+    evidence: 'OGD invite/update orchestration guardrail coverage is intentionally outside this PBA-management/API-integrity slice.'
+  },
+  {
     route: '/payments/:account',
     coverageType: 'documented-exclusion',
     evidence: 'Payment-history lookup guardrail coverage is intentionally outside this PBA-management/API-integrity slice.'
@@ -98,6 +103,16 @@ export const protectedRouteInventory: ProtectedRouteInventoryEntry[] = [
     coverageType: 'covered-by-suite',
     evidence: 'Authenticated registration API contract coverage.',
     coverageFile: 'playwright_tests_new/api/register-organisation.api.ts'
+  },
+  {
+    route: '/refresh-user',
+    coverageType: 'documented-exclusion',
+    evidence: 'Role-mapping refresh guardrail coverage is intentionally outside this PBA-management/API-integrity slice.'
+  },
+  {
+    route: '/retrieve-access-types',
+    coverageType: 'documented-exclusion',
+    evidence: 'Access-type retrieval guardrail coverage is intentionally outside this PBA-management/API-integrity slice.'
   },
   {
     route: '/termsAndConditions',

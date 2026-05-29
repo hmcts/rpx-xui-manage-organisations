@@ -10,11 +10,19 @@ import * as log4jui from '../lib/log4jui';
 export const router = Router({ mergeParams: true });
 const logger = log4jui.getLogger('OGD-FLOW');
 
-function shouldCompareAccessTypes(req: Request, userPayload): boolean {
+interface OgdAccessTypePayload {
+  roles?: string[];
+  rolesAdd?: Array<{ name: string }>;
+  userAccessTypes?: unknown[];
+}
+
+function shouldCompareAccessTypes(req: Request, userPayload: OgdAccessTypePayload): boolean {
   const userAccessTypes = Array.isArray(userPayload.userAccessTypes) ? userPayload.userAccessTypes : [];
+  const rolesAdd = Array.isArray(userPayload.rolesAdd) ? userPayload.rolesAdd : [];
+  const roles = Array.isArray(userPayload.roles) ? userPayload.roles : [];
   const hasOrganisationProfiles = Array.isArray(req.body.orgIdsPayload) && req.body.orgIdsPayload.length > 0;
-  const isAddingCaseManager = (userPayload.rolesAdd || []).some((role) => role.name === 'pui-case-manager');
-  const hasCaseManagerRole = (userPayload.roles || []).includes('pui-case-manager');
+  const isAddingCaseManager = rolesAdd.some((role) => role.name === 'pui-case-manager');
+  const hasCaseManagerRole = roles.includes('pui-case-manager');
 
   return userAccessTypes.length > 0 || (hasOrganisationProfiles && (isAddingCaseManager || hasCaseManagerRole));
 }

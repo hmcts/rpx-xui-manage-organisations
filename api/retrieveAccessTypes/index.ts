@@ -51,11 +51,11 @@ export async function compareAccessTypes(req: Request) {
     } else if (exists(error, 'apiStatusCode')) {
       status = error.apiStatusCode;
     }
-    throw ({
+    throw {
       apiError: valueOrNull(error, 'data.errorMessage') || valueOrNull(error, 'apiError'),
       apiStatusCode: status,
       message: valueOrNull(error, 'data.errorDescription') || valueOrNull(error, 'message')
-    });
+    };
   }
 }
 

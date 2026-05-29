@@ -4,6 +4,7 @@ import {
   expectedCcdCaseworkerRoles,
   inviteUserFormData,
   userAdminActiveUser,
+  userAdminOrganisationProfileIds,
   userAdminPendingUser
 } from '../../mocks/userAdmin.mock';
 import { UserAdminPage } from '../../page-objects/user-admin.po';
@@ -27,6 +28,21 @@ const roleNames = (actualRoles: { name: string }[]): string[] =>
 
 const sortedRoles = (expectedRoleNames: string[]): string[] =>
   [...expectedRoleNames].sort();
+
+const expectedCivilAccessTypes = (standardAccessEnabled: boolean, financeAccessEnabled: boolean) => [
+  {
+    accessTypeId: 'CIVIL_STANDARD',
+    enabled: standardAccessEnabled,
+    jurisdictionId: 'CIVIL',
+    organisationProfileId: userAdminOrganisationProfileIds[0]
+  },
+  {
+    accessTypeId: 'CIVIL_FINANCE',
+    enabled: financeAccessEnabled,
+    jurisdictionId: 'CIVIL',
+    organisationProfileId: userAdminOrganisationProfileIds[0]
+  }
+];
 
 test.describe('User administration', { tag: ['@integration', '@integration-user-admin'] }, () => {
   test('renders the users list and returns from invite-user with the back link', async ({
@@ -140,6 +156,51 @@ test.describe('User administration', { tag: ['@integration', '@integration-user-
     });
   });
 
+  test('submits OGD manage-user invite payload with access profile selections', async ({
+    manageOrgIntegrationPage: page
+  }) => {
+    const routeState = await setupUserAdminRoutes(page, { enableOgdInviteUserFlow: true });
+    const userAdminPage = new UserAdminPage(page);
+
+    await userAdminPage.openUsers();
+    await userAdminPage.openInviteUser();
+
+    await expect(page).toHaveURL(/\/users\/manage$/);
+    await expect(userAdminPage.inviteUserHeading).toBeVisible();
+    await expect(userAdminPage.permissionCheckbox('Case access administrator')).toBeVisible();
+    await expect(userAdminPage.permissionCheckbox('Manage fee accounts')).toBeVisible();
+
+    await userAdminPage.fillInviteUser(inviteUserFormData);
+    await userAdminPage.selectPermissions(
+      'Case access administrator',
+      'Manage cases for your organisation'
+    );
+    await userAdminPage.showAdditionalAccessTypes();
+    await userAdminPage.permissionCheckbox('Civil standard access').check();
+    await userAdminPage.submitInvite();
+
+    await expect(userAdminPage.confirmationPanel).toContainText('You\'ve invited');
+    await expect(userAdminPage.confirmationPanel).toContainText(inviteUserFormData.email);
+    await expect(page).toHaveURL(/\/users\/invite-user-success$/);
+    await expect.poll(() => routeState.ogdInviteUserRequests.length).toBe(1);
+    expect(routeState.inviteUserRequests).toHaveLength(0);
+    expect(routeState.ogdInviteUserRequests[0].orgIdsPayload).toEqual(userAdminOrganisationProfileIds);
+    expect(routeState.ogdInviteUserRequests[0].userPayload).toMatchObject({
+      ...inviteUserFormData,
+      resendInvite: false,
+      userAccessTypes: expectedCivilAccessTypes(true, false)
+    });
+    expect(routeState.ogdInviteUserRequests[0].userPayload.roles).toEqual(expect.arrayContaining([
+      'pui-caa',
+      'pui-case-manager',
+      ...expectedCcdCaseworkerRoles
+    ]));
+    await expect.poll(() => routeState.retrieveAccessTypeRequests.length).toBeGreaterThan(0);
+    for (const retrieveAccessTypeRequest of routeState.retrieveAccessTypeRequests) {
+      expect(retrieveAccessTypeRequest.organisationProfileIds).toEqual(userAdminOrganisationProfileIds);
+    }
+  });
+
   test('submits edit-permissions role additions and deletions for an active user', async ({
     manageOrgIntegrationPage: page
   }) => {
@@ -221,5 +282,58 @@ test.describe('User administration', { tag: ['@integration', '@integration-user-
     await expect(userAdminPage.userDetailsHeading).toBeVisible();
     await expect(userAdminPage.userDetailValue('Permissions')).toContainText('Manage organisations');
     await expect(page.getByText('This user\'s account has been suspended.')).toBeVisible();
+  });
+
+  test('submits OGD manage-user update payload with access profile changes', async ({
+    manageOrgIntegrationPage: page
+  }) => {
+    const routeState = await setupUserAdminRoutes(page, { enableOgdInviteUserFlow: true });
+    const userAdminPage = new UserAdminPage(page);
+
+    await userAdminPage.openUsers();
+    await userAdminPage.openUserDetails(userAdminActiveUser.email);
+
+    await expect(userAdminPage.userDetailsHeading).toBeVisible();
+    await expect(page.getByRole('link', { name: /^(Change roles|Change)$/ }).first()).toBeVisible();
+
+    await userAdminPage.openEditPermissions();
+
+    await expect(page).toHaveURL(new RegExp(`/users/user/${userAdminActiveUser.userIdentifier}/manage$`));
+    await expect(userAdminPage.editUserHeading).toBeVisible();
+    await expect(userAdminPage.permissionCheckbox('Manage organisation')).toBeChecked();
+    await expect(userAdminPage.permissionCheckbox('Manage user')).toBeChecked();
+    await expect(userAdminPage.permissionCheckbox('Manage cases for your organisation')).not.toBeChecked();
+
+    await userAdminPage.permissionCheckbox('Manage user').uncheck();
+    await userAdminPage.permissionCheckbox('Manage cases for your organisation').check();
+    await userAdminPage.showAdditionalAccessTypes();
+    await userAdminPage.permissionCheckbox('Civil standard access').check();
+    await userAdminPage.permissionCheckbox('Civil finance access').uncheck();
+    await userAdminPage.submitEditPermissions();
+
+    await expect.poll(() => routeState.ogdEditUserPermissionRequests.length).toBe(1);
+    expect(routeState.editUserPermissionRequests).toHaveLength(0);
+    expect(routeState.ogdEditUserPermissionRequests[0].orgIdsPayload).toEqual(userAdminOrganisationProfileIds);
+    expect(routeState.ogdEditUserPermissionRequests[0]).toMatchObject({
+      method: 'PUT',
+      userId: userAdminActiveUser.userIdentifier
+    });
+    expect(routeState.ogdEditUserPermissionRequests[0].userPayload).toMatchObject({
+      email: userAdminActiveUser.email,
+      firstName: userAdminActiveUser.firstName,
+      id: userAdminActiveUser.userIdentifier,
+      idamStatus: userAdminActiveUser.idamStatus,
+      lastName: userAdminActiveUser.lastName,
+      userAccessTypes: expectedCivilAccessTypes(true, false)
+    });
+    expect(roleNames(routeState.ogdEditUserPermissionRequests[0].userPayload.rolesAdd)).toEqual(sortedRoles([
+      'pui-case-manager',
+      ...expectedCcdCaseworkerRoles
+    ]));
+    expect(roleNames(routeState.ogdEditUserPermissionRequests[0].userPayload.rolesDelete)).toEqual(sortedRoles([
+      'pui-user-manager'
+    ]));
+    await expect(page).toHaveURL(/\/users\/updated-user-success$/);
+    await expect.poll(() => routeState.allUserListRequests.length).toBeGreaterThan(0);
   });
 });

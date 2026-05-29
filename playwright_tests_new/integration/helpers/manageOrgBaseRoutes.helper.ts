@@ -6,7 +6,16 @@ import {
   manageOrgUsersWithoutRolesResponse
 } from '../mocks/manageOrgIntegration.mock';
 
-const manageOrgFeatureFlagsResponse = {
+type FeatureFlagOverrides = Record<string, boolean>;
+
+interface SetupManageOrgBaseRoutesOptions {
+  featureFlags?: FeatureFlagOverrides;
+  organisation?: unknown;
+  runtimeConfiguration?: Record<string, unknown>;
+  usersWithoutRolesResponse?: unknown;
+}
+
+const manageOrgFeatureFlags = {
   'edit-permissions': {
     value: true,
     variation: 0,
@@ -30,26 +39,31 @@ const manageOrgFeatureFlagsResponse = {
     variation: 0,
     version: 1,
     flagVersion: 1
-  },
-  $flagsState: {
-    'edit-permissions': {
+  }
+};
+
+const buildFeatureFlagsResponse = (overrides: FeatureFlagOverrides = {}) => {
+  const featureFlags = Object.entries(overrides).reduce((flags, [flagName, value]) => ({
+    ...flags,
+    [flagName]: {
+      value,
       variation: 0,
-      version: 1
-    },
-    'mo-caa-menu-items': {
-      variation: 0,
-      version: 1
-    },
-    'mo-new-cases': {
-      variation: 0,
-      version: 1
-    },
-    'mo-new-register-org': {
-      variation: 0,
-      version: 1
+      version: 1,
+      flagVersion: 1
     }
-  },
-  $valid: true
+  }), manageOrgFeatureFlags);
+
+  return {
+    ...featureFlags,
+    $flagsState: Object.keys(featureFlags).reduce((flagsState, flagName) => ({
+      ...flagsState,
+      [flagName]: {
+        variation: 0,
+        version: 1
+      }
+    }), {}),
+    $valid: true
+  };
 };
 
 export const fulfillJson = async (
@@ -62,21 +76,38 @@ export const fulfillJson = async (
   body: JSON.stringify(body)
 });
 
-export const setupManageOrgBaseRoutes = async (page: Page): Promise<void> => {
+export const routeManageOrgFeatureFlags = async (
+  page: Page,
+  featureFlags: FeatureFlagOverrides = {}
+): Promise<void> => {
+  await page.unroute('https://app.launchdarkly.com/sdk/evalx/**');
+  await page.unroute('https://app.launchdarkly.com/sdk/eval/**');
+  const featureFlagsResponse = buildFeatureFlagsResponse(featureFlags);
+
   await page.route('https://app.launchdarkly.com/sdk/evalx/**', async (route) =>
-    fulfillJson(route, manageOrgFeatureFlagsResponse)
+    fulfillJson(route, featureFlagsResponse)
   );
 
   await page.route('https://app.launchdarkly.com/sdk/eval/**', async (route) =>
-    fulfillJson(route, manageOrgFeatureFlagsResponse)
+    fulfillJson(route, featureFlagsResponse)
   );
+};
+
+export const setupManageOrgBaseRoutes = async (
+  page: Page,
+  options: SetupManageOrgBaseRoutesOptions = {}
+): Promise<void> => {
+  await routeManageOrgFeatureFlags(page, options.featureFlags);
 
   await page.route('https://events.launchdarkly.com/**', async (route) =>
     route.fulfill({ status: 202, body: '' })
   );
 
   await page.route('**/external/configuration-ui/**', async (route) =>
-    fulfillJson(route, manageOrgRuntimeConfiguration)
+    fulfillJson(route, {
+      ...manageOrgRuntimeConfiguration,
+      ...options.runtimeConfiguration
+    })
   );
 
   await page.route('**/auth/isAuthenticated', async (route) => fulfillJson(route, true));
@@ -90,10 +121,10 @@ export const setupManageOrgBaseRoutes = async (page: Page): Promise<void> => {
   );
 
   await page.route('**/api/organisation**', async (route) =>
-    fulfillJson(route, manageOrgIntegrationOrganisation)
+    fulfillJson(route, options.organisation ?? manageOrgIntegrationOrganisation)
   );
 
   await page.route('**/api/allUserListWithoutRoles**', async (route) =>
-    fulfillJson(route, manageOrgUsersWithoutRolesResponse)
+    fulfillJson(route, options.usersWithoutRolesResponse ?? manageOrgUsersWithoutRolesResponse)
   );
 };

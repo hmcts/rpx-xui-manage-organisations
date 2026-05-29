@@ -1,5 +1,9 @@
 import { manageOrgIntegrationOrganisationIdentifier } from './manageOrgIntegration.mock';
 
+export const userAdminOrganisationProfileIds = [
+  'SOLICITOR_PROFILE'
+];
+
 export const userAdminActiveUser = {
   userIdentifier: 'user-admin-active-user-id',
   firstName: 'Avery',
@@ -25,6 +29,21 @@ export const userAdminActiveUserRoles = [
   'pui-user-manager'
 ];
 
+export const userAdminActiveUserAccessTypes = [
+  {
+    accessTypeId: 'CIVIL_STANDARD',
+    enabled: false,
+    jurisdictionId: 'CIVIL',
+    organisationProfileId: userAdminOrganisationProfileIds[0]
+  },
+  {
+    accessTypeId: 'CIVIL_FINANCE',
+    enabled: true,
+    jurisdictionId: 'CIVIL',
+    organisationProfileId: userAdminOrganisationProfileIds[0]
+  }
+];
+
 export const userAdminPendingUserRoles = [
   'pui-user-manager'
 ];
@@ -32,19 +51,25 @@ export const userAdminPendingUserRoles = [
 export const userAdminActiveUserDetails = {
   ...userAdminActiveUser,
   accessTypes: [],
+  userAccessTypes: userAdminActiveUserAccessTypes,
   roles: userAdminActiveUserRoles
 };
 
 export const userAdminPendingUserDetails = {
   ...userAdminPendingUser,
   accessTypes: [],
+  userAccessTypes: [],
   roles: userAdminPendingUserRoles
 };
 
 export const userAdminUsersWithoutRolesResponse = {
   organisationIdentifier: manageOrgIntegrationOrganisationIdentifier,
+  organisationProfileIds: userAdminOrganisationProfileIds,
   users: [
-    userAdminActiveUser,
+    {
+      ...userAdminActiveUser,
+      userAccessTypes: userAdminActiveUserAccessTypes
+    },
     userAdminPendingUser
   ]
 };
@@ -74,6 +99,37 @@ export const editUserPermissionsSuccessResponse = {
     }
   ],
   statusUpdateResponse: null
+};
+
+export const userAdminAccessTypesResponse = {
+  jurisdictions: [
+    {
+      jurisdictionId: 'CIVIL',
+      jurisdictionName: 'Civil',
+      accessTypes: [
+        {
+          accessTypeId: 'CIVIL_STANDARD',
+          accessDefault: false,
+          accessMandatory: false,
+          description: 'Civil standard access',
+          display: true,
+          displayOrder: 1,
+          hint: 'Allows standard civil case access',
+          organisationProfileId: userAdminOrganisationProfileIds[0]
+        },
+        {
+          accessTypeId: 'CIVIL_FINANCE',
+          accessDefault: false,
+          accessMandatory: false,
+          description: 'Civil finance access',
+          display: true,
+          displayOrder: 2,
+          hint: 'Allows finance-related civil case access',
+          organisationProfileId: userAdminOrganisationProfileIds[0]
+        }
+      ]
+    }
+  ]
 };
 
 export const expectedCcdCaseworkerRoles = [

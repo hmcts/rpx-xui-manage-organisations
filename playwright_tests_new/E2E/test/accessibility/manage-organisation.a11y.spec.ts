@@ -63,7 +63,9 @@ test.describe('authenticated Manage Organisation accessibility @a11y', () => {
       await expect(usersPage.validationSummaryError('Enter first name')).toBeVisible();
       await expect(usersPage.validationSummaryError('Enter last name')).toBeVisible();
       await expect(usersPage.validationSummaryError('Enter a valid email address')).toBeVisible();
-      await expect(usersPage.validationSummaryError('You must select at least one action')).toBeVisible();
+      if (!(await usersPage.isManageUserPage())) {
+        await expect(usersPage.validationSummaryError('You must select at least one action')).toBeVisible();
+      }
       const axeUtils = new AxeUtils(signedInPage);
       await axeUtils.audit();
       await axeUtils.generateReport(testInfo, 'invite user validation accessibility report');

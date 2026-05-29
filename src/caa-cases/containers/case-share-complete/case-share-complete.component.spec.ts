@@ -11,7 +11,7 @@ import { ResetAssignedCaseSelection, ResetUnassignedCaseSelection } from '../../
 import { CaaCasesState } from '../../store/reducers';
 import { CaseShareCompleteComponent } from './case-share-complete.component';
 
-describe('CaseShareCompleteComponent', () => {
+describe('CaaCaseShareCompleteComponent', () => {
   let component: CaseShareCompleteComponent;
   let fixture: ComponentFixture<CaseShareCompleteComponent>;
 

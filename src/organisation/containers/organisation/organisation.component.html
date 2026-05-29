@@ -1,205 +1,213 @@
 <app-hmcts-main-wrapper [title]="'Organisation'">
   <app-prd-pba-success [response]="organisationDetails.response"></app-prd-pba-success>
-  <ng-container *ngIf="(isFeatureEnabled$ | async)">
-    <!-- Organisation name -->
+  @if (isFeatureEnabled$ | async) {
+  <!-- Organisation name -->
+  <dl class="govuk-summary-list">
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Name</dt>
+      <dd class="govuk-summary-list__value">{{organisationDetails.name}}</dd>
+    </div>
+  </dl>
+
+  <!-- Company registration number -->
+  @if (companyRegistrationNumber) {
+  <dl id="company-registration-number" class="govuk-summary-list">
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Company registration number</dt>
+      <dd class="govuk-summary-list__value">{{companyRegistrationNumber}}</dd>
+    </div>
+  </dl>
+  }
+
+  <!-- Organisation address -->
+  <dl class="govuk-summary-list">
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Organisation address</dt>
+      <dd class="govuk-summary-list__value">
+        <div>{{organisationContactInformation.addressLine1}}</div>
+        @if (organisationContactInformation.addressLine2) {<div>{{organisationContactInformation.addressLine2}}</div>}
+        @if (organisationContactInformation.addressLine3) {<div>{{organisationContactInformation.addressLine3}}</div>}
+        <div>{{organisationContactInformation.townCity}}</div>
+        <div>{{organisationContactInformation.county}}</div>
+        @if (organisationContactInformation.postCode) {<div>{{organisationContactInformation.postCode}}</div>}
+      </dd>
+    </div>
+  </dl>
+
+  <!-- DX reference -->
+  @if (organisationDxAddress?.dxNumber) {<dl class="govuk-summary-list">
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">DX reference</dt>
+      <dd class="govuk-summary-list__value">
+        {{organisationDxAddress.dxNumber}}
+        @if (organisationDxAddress.dxExchange) {<span>, {{organisationDxAddress.dxExchange}}</span>}
+      </dd>
+    </div>
+  </dl>}
+
+  <!-- Organisation type -->
+  @if (organisationType) {<dl id="organisation-type" class="govuk-summary-list">
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Organisation type</dt>
+      <dd class="govuk-summary-list__value">{{orgTypeDescription}}</dd>
+    </div>
+  </dl>}
+
+  <!-- PBA Numbers -->
+  <dl class="govuk-summary-list">
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">PBA numbers</dt>
+      <dd class="govuk-summary-list__value">
+        @for (pba of organisationPaymentAccount; track pba.pbaNumber) {
+        <div>
+          {{pba.pbaNumber}}
+        </div>
+        }
+        <br />
+        @for (pendingPBA of organisationPendingPaymentAccount; track pendingPBA) {
+        <div>{{pendingPBA}} (Pending approval)</div>
+        }
+      </dd>
+      @if (showChangePbaNumberLink) {<dd class="govuk-summary-list__actions">
+        <a class="govuk-link" id="change-pba-account-numbers__link" routerLink="/organisation/update-pba-numbers">
+          Change<span class="govuk-visually-hidden">PBA numbers</span>
+        </a>
+      </dd>}
+    </div>
+  </dl>
+
+  <!-- Regulatory organisation type -->
+  @if (regulators?.length) {<dl id="regulators" class="govuk-summary-list">
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">
+        Regulatory organisation type
+      </dt>
+      <dd class="govuk-summary-list__value">
+        @for (regulator of regulators; track regulator.organisationRegistrationNumber) {
+        <div>
+          <ng-container [ngSwitch]="regulator.regulatorType">
+            <span *ngSwitchCase="regulatoryTypeEnum.Other">
+              {{regulator.regulatorType}}: {{regulator.regulatorName}} ref:
+              {{regulator.organisationRegistrationNumber}}
+            </span>
+            <span *ngSwitchCase="regulatoryTypeEnum.NotApplicable">
+              {{regulator.regulatorType}}
+            </span>
+            <span *ngSwitchDefault>
+              {{regulator.regulatorType}} ref: {{regulator.organisationRegistrationNumber}}
+            </span>
+            <br />
+          </ng-container>
+        </div>
+        }
+      </dd>
+    </div>
+  </dl>}
+
+  <!-- Administration details -->
+  @if (organisationDetails.superUser) {<div>
+    <h2 class="govuk-heading-m govuk-!-margin-top-8">Administrator details</h2>
     <dl class="govuk-summary-list">
       <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">Name</dt>
-        <dd class="govuk-summary-list__value">{{organisationDetails.name}}</dd>
+        <dt class="govuk-summary-list__key">First name(s)</dt>
+        <dd class="govuk-summary-list__value">{{organisationDetails.superUser.firstName}}</dd>
       </div>
     </dl>
-
-    <!-- Company registration number -->
-    <dl id="company-registration-number" class="govuk-summary-list" *ngIf="companyRegistrationNumber">
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">Company registration number</dt>
-        <dd class="govuk-summary-list__value">{{companyRegistrationNumber}}</dd>
-      </div>
-    </dl>
-
-    <!-- Organisation address -->
     <dl class="govuk-summary-list">
       <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">Organisation address</dt>
-        <dd class="govuk-summary-list__value">
+        <dt class="govuk-summary-list__key">Last name</dt>
+        <dd class="govuk-summary-list__value">{{organisationDetails.superUser.lastName}}</dd>
+      </div>
+    </dl>
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Email address</dt>
+        <dd class="govuk-summary-list__value">{{organisationDetails.superUser.email}}</dd>
+      </div>
+    </dl>
+  </div>}
+  }
+  @if (!(isFeatureEnabled$ | async)) {
+  <table class="govuk-table">
+    <tbody class="govuk-table__body">
+      <tr class="govuk-table__row">
+        <th class="govuk-table__header" scope="row">Name</th>
+        <td class="govuk-table__cell">
+          <div>{{organisationDetails.name}}</div>
+        </td>
+      </tr>
+      <tr class="govuk-table__row">
+        <th class="govuk-table__header" scope="row">Address</th>
+        <td class="govuk-table__cell">
+          <!-- Contact Information -->
           <div>{{organisationContactInformation.addressLine1}}</div>
-          <div *ngIf="organisationContactInformation.addressLine2">{{organisationContactInformation.addressLine2}}</div>
-          <div *ngIf="organisationContactInformation.addressLine3">{{organisationContactInformation.addressLine3}}</div>
+          @if (organisationContactInformation.addressLine2) {<div>{{organisationContactInformation.addressLine2}}</div>}
+          @if (organisationContactInformation.addressLine3) {<div>{{organisationContactInformation.addressLine3}}</div>}
           <div>{{organisationContactInformation.townCity}}</div>
           <div>{{organisationContactInformation.county}}</div>
-          <div *ngIf="organisationContactInformation.postCode">{{organisationContactInformation.postCode}}</div>
-        </dd>
-      </div>
-    </dl>
-
-    <!-- DX reference -->
-    <dl class="govuk-summary-list" *ngIf="organisationDxAddress?.dxNumber">
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">DX reference</dt>
-        <dd class="govuk-summary-list__value">
-          {{organisationDxAddress.dxNumber}}
-          <span *ngIf="organisationDxAddress.dxExchange">, {{organisationDxAddress.dxExchange}}</span>
-        </dd>
-      </div>
-    </dl>
-
-    <!-- Organisation type -->
-    <dl id="organisation-type" class="govuk-summary-list" *ngIf="organisationType">
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">Organisation type</dt>
-        <dd class="govuk-summary-list__value">{{orgTypeDescription}}</dd>
-      </div>
-    </dl>
-
-    <!-- PBA Numbers -->
-    <dl class="govuk-summary-list">
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">PBA numbers</dt>
-        <dd class="govuk-summary-list__value">
-          <div *ngFor="let pba of organisationPaymentAccount; trackBy: trackByPba">
-            {{pba.pbaNumber}}
-          </div>
-          <br />
-          <div *ngFor="let pendingPBA of organisationPendingPaymentAccount; trackBy: trackByString">{{pendingPBA}} (Pending approval)</div>
-        </dd>
-        <dd *ngIf="showChangePbaNumberLink" class="govuk-summary-list__actions">
-          <a class="govuk-link" id="change-pba-account-numbers__link"
-            routerLink="/organisation/update-pba-numbers">
-            Change<span class="govuk-visually-hidden">PBA numbers</span>
-          </a>
-        </dd>
-      </div>
-    </dl>
-
-    <!-- Regulatory organisation type -->
-    <dl id="regulators" class="govuk-summary-list" *ngIf="regulators?.length">
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Regulatory organisation type
-        </dt>
-        <dd class="govuk-summary-list__value">
-          <div *ngFor="let regulator of regulators; trackBy: trackByRegulator">
-            <ng-container [ngSwitch]="regulator.regulatorType">
-              <span *ngSwitchCase="regulatoryTypeEnum.Other">
-                {{regulator.regulatorType}}: {{regulator.regulatorName}} ref:
-                {{regulator.organisationRegistrationNumber}}
-              </span>
-              <span *ngSwitchCase="regulatoryTypeEnum.NotApplicable">
-                {{regulator.regulatorType}}
-              </span>
-              <span *ngSwitchDefault>
-                {{regulator.regulatorType}} ref: {{regulator.organisationRegistrationNumber}}
-              </span>
-              <br />
-            </ng-container>
-          </div>
-        </dd>
-      </div>
-    </dl>
-
-    <!-- Administration details -->
-    <div *ngIf="organisationDetails.superUser">
-      <h2 class="govuk-heading-m govuk-!-margin-top-8">Administrator details</h2>
-      <dl class="govuk-summary-list">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">First name(s)</dt>
-          <dd class="govuk-summary-list__value">{{organisationDetails.superUser.firstName}}</dd>
-        </div>
-      </dl>
-      <dl class="govuk-summary-list">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Last name</dt>
-          <dd class="govuk-summary-list__value">{{organisationDetails.superUser.lastName}}</dd>
-        </div>
-      </dl>
-      <dl class="govuk-summary-list">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Email address</dt>
-          <dd class="govuk-summary-list__value">{{organisationDetails.superUser.email}}</dd>
-        </div>
-      </dl>
-    </div>
-  </ng-container>
-  <ng-container *ngIf="!(isFeatureEnabled$ | async)">
-    <table class="govuk-table">
-      <tbody class="govuk-table__body">
-        <tr class="govuk-table__row">
-          <th class="govuk-table__header" scope="row">Name</th>
-          <td class="govuk-table__cell">
-            <div>{{organisationDetails.name}}</div>
-          </td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th class="govuk-table__header" scope="row">Address</th>
-          <td class="govuk-table__cell">
-            <!-- Contact Information -->
-            <div>{{organisationContactInformation.addressLine1}}</div>
-            <div *ngIf="organisationContactInformation.addressLine2">{{organisationContactInformation.addressLine2}}
-            </div>
-            <div *ngIf="organisationContactInformation.addressLine3">{{organisationContactInformation.addressLine3}}
-            </div>
-            <div>{{organisationContactInformation.townCity}}</div>
-            <div>{{organisationContactInformation.county}}</div>
-            <div *ngIf="organisationContactInformation.postCode">{{organisationContactInformation.postCode}}
-            </div>
-            <!-- !Contact Information -->
-          </td>
-        </tr>
-        <!-- PBA Numbers -->
-        <tr class="govuk-table__row">
-          <th class="govuk-table__header" scope="row">PBA numbers</th>
-          <td class="govuk-table__cell">
-            <div class="govuk-grid-row">
-              <div class="govuk-grid-column-three-quarters">
-                <div *ngFor="let pba of organisationPaymentAccount; trackBy: trackByPba">{{pba.pbaNumber}}</div>
-                <br>
-                <div *ngFor="let pendingPBA of organisationPendingPaymentAccount; trackBy: trackByString">{{pendingPBA}} (Pending approval)
-                </div>
+          @if (organisationContactInformation.postCode) {<div>{{organisationContactInformation.postCode}}</div>}
+          <!-- !Contact Information -->
+        </td>
+      </tr>
+      <!-- PBA Numbers -->
+      <tr class="govuk-table__row">
+        <th class="govuk-table__header" scope="row">PBA numbers</th>
+        <td class="govuk-table__cell">
+          <div class="govuk-grid-row">
+            <div class="govuk-grid-column-three-quarters">
+              @for(pba of organisationPaymentAccount; track pba.pbaNumber) {
+              <div>{{pba.pbaNumber}}</div>
+              }
+              <br>
+              @for(pendingPBA of organisationPendingPaymentAccount; track pendingPBA) {
+              <div>{{pendingPBA}}
+                (Pending approval)
               </div>
-              <div class="govuk-grid-column-one-quarter govuk-!-text-align-right">
-                <a class="govuk-link fright" routerLink="/organisation/update-pba-numbers"
-                  *ngIf="showChangePbaNumberLink" id="change-pba-account-numbers__link"
-                  aria-label="Change PBA account numbers">Change</a>
-              </div>
+              }
             </div>
-          </td>
-        </tr>
-        <!-- !PBA Numbers -->
-        <tr class="govuk-table__row" *ngIf="!organisationPaymentAccount">
-          <th class="govuk-table__header" scope="row">PBA number</th>
-          <td class="govuk-table__cell">
-            <div>
-              <p>Until you've added one or more payment by account (PBA) numbers,
-                you won't be able to make payments when creating a case or view your transactions.</p>
+            <div class="govuk-grid-column-one-quarter govuk-!-text-align-right">
+              @if (showChangePbaNumberLink) {<a class="govuk-link fright" routerLink="/organisation/update-pba-numbers"
+                id="change-pba-account-numbers__link" aria-label="Change PBA account numbers">Change</a>}
             </div>
-          </td>
-        </tr>
-        <tr class="govuk-table__row" *ngIf="organisationDxAddress && organisationDxAddress.dxNumber">
-          <th class="govuk-table__header" scope="row">DX number</th>
-          <td class="govuk-table__cell">
-            <div>{{organisationDxAddress.dxNumber}}</div>
-          </td>
-        </tr>
-        <tr class="govuk-table__row" *ngIf="organisationDxAddress && organisationDxAddress.dxExchange">
-          <th class="govuk-table__header" scope="row">DX exchange</th>
-          <td class="govuk-table__cell">
-            <div>{{organisationDxAddress.dxExchange}}</div>
-          </td>
-        </tr>
-        <tr class="govuk-table__row" *ngIf="organisationDetails.superUser">
-          <th class="govuk-table__header" scope="row">Administrator</th>
-          <td class="govuk-table__cell">
-            <div>{{organisationDetails.superUser.firstName}} {{organisationDetails.superUser.lastName}}</div>
-            <div class="govuk-caption-m govuk-!-font-size-16">{{organisationDetails.superUser.email}}</div>
-          </td>
-        </tr>
-        <tr class="govuk-table__row" *ngIf="organisationDetails.sraId">
-          <th class="govuk-table__header" scope="row">SRA ID</th>
-          <td class="govuk-table__cell">
-            <div>{{organisationDetails.sraId}}</div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </ng-container>
+          </div>
+        </td>
+      </tr>
+      <!-- !PBA Numbers -->
+      @if (!organisationPaymentAccount) {<tr class="govuk-table__row">
+        <th class="govuk-table__header" scope="row">PBA number</th>
+        <td class="govuk-table__cell">
+          <div>
+            <p>Until you've added one or more payment by account (PBA) numbers,
+              you won't be able to make payments when creating a case or view your transactions.</p>
+          </div>
+        </td>
+      </tr>}
+      @if (organisationDxAddress && organisationDxAddress.dxNumber) {<tr class="govuk-table__row">
+        <th class="govuk-table__header" scope="row">DX number</th>
+        <td class="govuk-table__cell">
+          <div>{{organisationDxAddress.dxNumber}}</div>
+        </td>
+      </tr>}
+      @if (organisationDxAddress && organisationDxAddress.dxExchange) {<tr class="govuk-table__row">
+        <th class="govuk-table__header" scope="row">DX exchange</th>
+        <td class="govuk-table__cell">
+          <div>{{organisationDxAddress.dxExchange}}</div>
+        </td>
+      </tr>}
+      @if (organisationDetails.superUser) {<tr class="govuk-table__row">
+        <th class="govuk-table__header" scope="row">Administrator</th>
+        <td class="govuk-table__cell">
+          <div>{{organisationDetails.superUser.firstName}} {{organisationDetails.superUser.lastName}}</div>
+          <div class="govuk-caption-m govuk-!-font-size-16">{{organisationDetails.superUser.email}}</div>
+        </td>
+      </tr>}
+      @if (organisationDetails.sraId) {<tr class="govuk-table__row">
+        <th class="govuk-table__header" scope="row">SRA ID</th>
+        <td class="govuk-table__cell">
+          <div>{{organisationDetails.sraId}}</div>
+        </td>
+      </tr>}
+    </tbody>
+  </table>
+  }
 </app-hmcts-main-wrapper>

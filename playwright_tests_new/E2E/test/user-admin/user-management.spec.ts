@@ -64,16 +64,27 @@ test.describe('User administration', () => {
     await usersPage.openReinvite();
 
     await expect(usersPage.inviteUserHeading).toBeVisible();
-    await expect(usersPage.firstNameInput).toBeDisabled();
-    await expect(usersPage.firstNameInput).not.toHaveValue('');
-    await expect(usersPage.lastNameInput).toBeDisabled();
-    await expect(usersPage.lastNameInput).not.toHaveValue('');
-    await expect(usersPage.emailInput).toBeDisabled();
-    await expect(usersPage.emailInput).not.toHaveValue('');
-    const prefilledName = `${await usersPage.firstNameInput.inputValue()} ${await usersPage.lastNameInput.inputValue()}`;
-    expect(pendingUser.linkText).toContain(prefilledName);
-    const prefilledEmail = await usersPage.emailInput.inputValue();
-    expect(pendingUser.rowText).toContain(prefilledEmail);
-    await expect(usersPage.backLink).toHaveAttribute('href', pendingUser.href);
+    if (await usersPage.isManageUserPage()) {
+      await expect(usersPage.page.locator('#firstName')).toContainText(/\S/);
+      await expect(usersPage.page.locator('#lastName')).toContainText(/\S/);
+      await expect(usersPage.page.locator('#email')).toContainText(/\S/);
+      const prefilledName = `${(await usersPage.page.locator('#firstName').innerText()).trim()} ${(await usersPage.page.locator('#lastName').innerText()).trim()}`;
+      expect(pendingUser.linkText).toContain(prefilledName);
+      const prefilledEmail = (await usersPage.page.locator('#email').innerText()).trim();
+      expect(pendingUser.rowText).toContain(prefilledEmail);
+      await expect(usersPage.backLink).toHaveAttribute('href', '/users');
+    } else {
+      await expect(usersPage.firstNameInput).toBeDisabled();
+      await expect(usersPage.firstNameInput).not.toHaveValue('');
+      await expect(usersPage.lastNameInput).toBeDisabled();
+      await expect(usersPage.lastNameInput).not.toHaveValue('');
+      await expect(usersPage.emailInput).toBeDisabled();
+      await expect(usersPage.emailInput).not.toHaveValue('');
+      const prefilledName = `${await usersPage.firstNameInput.inputValue()} ${await usersPage.lastNameInput.inputValue()}`;
+      expect(pendingUser.linkText).toContain(prefilledName);
+      const prefilledEmail = await usersPage.emailInput.inputValue();
+      expect(pendingUser.rowText).toContain(prefilledEmail);
+      await expect(usersPage.backLink).toHaveAttribute('href', pendingUser.href);
+    }
   });
 });

@@ -1,9 +1,10 @@
-import { OrganisationDetails } from '../../../models/organisation.model';
+import { Jurisdiction, OrganisationDetails } from '../../../models/organisation.model';
 import { PBANumberModel } from '../../../models/pbaNumber.model';
 import * as fromOrganisation from '../actions/organisation.actions';
 
 export interface OrganisationState {
   organisationDetails: OrganisationDetails;
+  organisationJurisdications: Jurisdiction[];
   loaded: boolean;
   loading: boolean;
   error?: any;
@@ -11,6 +12,7 @@ export interface OrganisationState {
 
 export const initialState: OrganisationState = {
   organisationDetails: null,
+  organisationJurisdications: [],
   loaded: false,
   loading: false
 };
@@ -20,7 +22,8 @@ export function reducer(
   action: fromOrganisation.organisationActions
 ): OrganisationState {
   switch (action.type) {
-    case fromOrganisation.LOAD_ORGANISATION: {
+    case fromOrganisation.LOAD_ORGANISATION:
+    case fromOrganisation.LOAD_ORGANISATION_ACCESS_TYPES: {
       return {
         ...state,
         loaded: false,
@@ -29,9 +32,11 @@ export function reducer(
     }
     case fromOrganisation.LOAD_ORGANISATION_SUCCESS: {
       const paymentAccount: PBANumberModel[] = [];
+      // if the users are loaded before organisation, the profile ids will be added since this is not provided by the GET operation
       const newPayload = { ...action.payload, organisationProfileIds: state.organisationDetails?.organisationProfileIds };
+      const newAction = { ...action, payload: newPayload };
       newPayload.paymentAccount.forEach((pba) => {
-        let pbaNumberModel: PBANumberModel = { pbaNumber: '' };
+        let pbaNumberModel: PBANumberModel;
         if (typeof pba === 'string') {
           pbaNumberModel = {
             pbaNumber: pba
@@ -40,7 +45,7 @@ export function reducer(
         paymentAccount.push(pbaNumberModel);
       });
       const loadedOrgDetails = {
-        ...newPayload,
+        ...newAction.payload,
         paymentAccount,
         pendingAddPaymentAccount: [],
         pendingRemovePaymentAccount: []
@@ -49,6 +54,22 @@ export function reducer(
         ...state,
         organisationDetails: loadedOrgDetails,
         loaded: true
+      };
+    }
+
+    case fromOrganisation.LOAD_ORGANISATION_ACCESS_TYPES_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        organisationJurisdications: action.payload
+      };
+    }
+
+    case fromOrganisation.LOAD_ORGANISATION_ACCESS_TYPES_FAIL: {
+      return {
+        ...state,
+        loading: false,
+        loaded: false
       };
     }
 
@@ -131,7 +152,9 @@ export function reducer(
       if (state.organisationDetails?.organisationProfileIds){
         profileIds = state.organisationDetails?.organisationProfileIds ?? [];
       }
-      profileIds = [...new Set([...profileIds ?? [], ...action.payload])];
+      if (action.payload){
+        profileIds = [...new Set([...profileIds ?? [], ...action.payload])];
+      }
       return {
         ...state,
         organisationDetails: {
@@ -148,3 +171,4 @@ export function reducer(
 export const getOrganisation = (state: OrganisationState) => state.organisationDetails;
 export const getOrganisationLoaded = (state: OrganisationState) => state.loaded;
 export const getOrganisationError = (state: OrganisationState) => state.error;
+export const getOrganisationAccessTypes = (state: OrganisationState) => state.organisationJurisdications;

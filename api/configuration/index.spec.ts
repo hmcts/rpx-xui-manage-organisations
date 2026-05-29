@@ -4,6 +4,7 @@ import 'mocha';
 import * as sinon from 'sinon';
 
 import { getConfigValue } from '../configuration';
+import { PACT_BROKER_PASSWORD, SYSTEM_USER_PASSWORD } from './references';
 
 const config = (configModule as any).default || configModule;
 
@@ -34,37 +35,37 @@ describe('configuration index', () => {
   });
 
   it('reads the system user password directly from the environment when set', () => {
-    process.env.SYSTEM_USER_PASSWORD = 'system-user-password-from-env';
-    const configGetStub = sandbox.stub(config, 'get').returns('system-user-password-from-config');
+    process.env.SYSTEM_USER_PASSWORD = 'env-value';
+    const configGetStub = sandbox.stub(config, 'get').returns('config-value');
 
-    const value = getConfigValue('secrets.rpx.system-user-password');
+    const value = getConfigValue(SYSTEM_USER_PASSWORD);
 
-    expect(value).to.equal('system-user-password-from-env');
+    expect(value).to.equal('env-value');
     sinon.assert.notCalled(configGetStub);
   });
 
   it('reads the Pact broker password directly from the environment when set', () => {
-    process.env.PACT_BROKER_PASSWORD = 'pact-broker-password-from-env';
-    const configGetStub = sandbox.stub(config, 'get').returns('pact-broker-password-from-config');
+    process.env.PACT_BROKER_PASSWORD = 'env-value';
+    const configGetStub = sandbox.stub(config, 'get').returns('config-value');
 
-    const value = getConfigValue('pact.brokerPassword');
+    const value = getConfigValue(PACT_BROKER_PASSWORD);
 
-    expect(value).to.equal('pact-broker-password-from-env');
+    expect(value).to.equal('env-value');
     sinon.assert.notCalled(configGetStub);
   });
 
   it('falls back to config for env-only references when the environment is not set', () => {
     delete process.env.SYSTEM_USER_PASSWORD;
-    const configGetStub = sandbox.stub(config, 'get').returns('system-user-password-from-config');
+    const configGetStub = sandbox.stub(config, 'get').returns('config-value');
 
-    const value = getConfigValue('secrets.rpx.system-user-password');
+    const value = getConfigValue(SYSTEM_USER_PASSWORD);
 
-    expect(value).to.equal('system-user-password-from-config');
-    sinon.assert.calledOnceWithExactly(configGetStub, 'secrets.rpx.system-user-password');
+    expect(value).to.equal('config-value');
+    sinon.assert.calledOnceWithExactly(configGetStub, SYSTEM_USER_PASSWORD);
   });
 
   it('continues to read normal references from config', () => {
-    process.env.SYSTEM_USER_PASSWORD = 'system-user-password-from-env';
+    process.env.SYSTEM_USER_PASSWORD = 'env-value';
     const configGetStub = sandbox.stub(config, 'get').returns('https://idam.example.test');
 
     const value = getConfigValue('services.idamApi');

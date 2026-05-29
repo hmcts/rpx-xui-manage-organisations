@@ -2,7 +2,7 @@ import * as propertiesVolume from '@hmcts/properties-volume';
 import * as configModule from 'config';
 
 import { DEVELOPMENT, HTTP } from './constants';
-import { ENVIRONMENT, PROTOCOL } from './references';
+import { ENVIRONMENT, PACT_BROKER_PASSWORD, PROTOCOL, SYSTEM_USER_PASSWORD } from './references';
 
 // Handle both CommonJS and ES module exports - Consider uniform exports in future
 const config = (configModule as any).default || configModule;
@@ -39,8 +39,8 @@ initialiseSecrets();
 export const getEnvironment = () => process.env.NODE_CONFIG_ENV;
 
 const ENV_ONLY_CONFIG_REFERENCES: Record<string, string> = {
-  'pact.brokerPassword': 'PACT_BROKER_PASSWORD',
-  'secrets.rpx.system-user-password': 'SYSTEM_USER_PASSWORD'
+  [PACT_BROKER_PASSWORD]: 'PACT_BROKER_PASSWORD',
+  [SYSTEM_USER_PASSWORD]: 'SYSTEM_USER_PASSWORD'
 };
 
 /**

@@ -58,7 +58,6 @@
         "google-analytics-key": "GOOGLE_ANALYTICS_KEY",
         "launch-darkly-client-id": "LAUNCH_DARKLY_CLIENT_ID",
         "system-user-name": "SYSTEM_USER_NAME",
-        "system-user-password": "SYSTEM_USER_PASSWORD",
         "mo-session-secret": "SESSION_SECRET"
       }
     },
@@ -112,7 +111,6 @@
       "brokerUrl": "PACT_BROKER_URL",
       "consumerVersion": "PACT_CONSUMER_VERSION",
       "branchName": "PACT_BRANCH_NAME",
-      "brokerUsername": "PACT_BROKER_USERNAME",
-      "brokerPassword": "PACT_BROKER_PASSWORD"
+      "brokerUsername": "PACT_BROKER_USERNAME"
     }
 }

@@ -3,7 +3,7 @@ import { buildCompositeTrackKey, buildIdOrIndexKey } from 'src/shared/utils/trac
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { Store, select } from '@ngrx/store';
 import { iif, Observable, of, Subject, Subscription } from 'rxjs';
-import { map, switchMap, takeUntil } from 'rxjs/operators';
+import { map, shareReplay, switchMap, takeUntil } from 'rxjs/operators';
 import { AppConstants } from '../../../app/app.constants';
 import { DxAddress, OrganisationContactInformation, OrganisationDetails, PBANumberModel } from '../../../models';
 import { Regulator, RegulatorType, RegulatoryType } from '../../../register-org/models';
@@ -59,7 +59,8 @@ export class OrganisationComponent implements OnInit, OnDestroy {
           })
         ),
         of(newRegisterOrg));
-      })
+      }),
+      shareReplay({ bufferSize: 1, refCount: true })
     );
   }
 

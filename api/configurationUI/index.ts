@@ -2,6 +2,7 @@ import { Router } from 'express';
 
 import { getConfigValue, showFeature } from '../configuration';
 import {
+  FEATURE_OGD_UPDATE_REFRESH_USER_ENABLED,
   FEATURE_TERMS_AND_CONDITIONS_ENABLED,
   GOOGLE_ANALYTICS_KEY,
   LAUNCH_DARKLY_CLIENT_ID,
@@ -31,6 +32,7 @@ export async function configurationUIRoute(req, res): Promise<void> {
     launchDarklyClientId,
     manageCaseLink: getConfigValue(LINKS_MANAGE_CASES_LINK),
     manageOrgLink: getConfigValue(LINKS_MANAGE_ORG_LINK),
+    ogdUpdateRefreshUserEnabled: showFeature(FEATURE_OGD_UPDATE_REFRESH_USER_ENABLED),
     protocol: getConfigValue(PROTOCOL),
     servicesTandCPath: getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH),
     termsAndConditionsEnabled: showFeature(FEATURE_TERMS_AND_CONDITIONS_ENABLED)

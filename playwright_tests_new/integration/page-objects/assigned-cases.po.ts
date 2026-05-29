@@ -5,20 +5,28 @@ export class AssignedCasesPage extends CaseListPage {
   public readonly manageCaseSharingButton: Locator;
 
   constructor(page: Page) {
-    super(page, 'Assigned Cases');
-    this.manageCaseSharingButton = this.page.locator('#btn-share-assigned-case-button');
+    super(page, 'Cases');
+    this.manageCaseSharingButton = this.page.locator('#btn-share-unassigned-case-button');
   }
 
   public async gotoAssignedCases(): Promise<void> {
-    await this.page.goto('/assigned-cases');
+    await this.page.goto('/cases');
   }
 
   public async showAssignedCasesFilter(): Promise<void> {
-    await this.filterButton('Show assigned cases filter').click();
+    await this.filterButton('Show cases filter').click();
   }
 
   public async hideAssignedCasesFilter(): Promise<void> {
-    await this.filterButton('Hide assigned cases filter').click();
+    await this.filterButton('Hide cases filter').click();
+  }
+
+  public async selectAllAssignedCasesFilter(): Promise<void> {
+    await this.page.locator('#allAssignedCases').check();
+  }
+
+  public async selectCaseReferenceFilter(): Promise<void> {
+    await this.page.locator('#findCaseByReferenceNumber').check();
   }
 
   public async startCaseSharing(): Promise<void> {

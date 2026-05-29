@@ -55,6 +55,75 @@ test.describe('User administration negative paths', {
     expect(routeState.inviteUserRequests).toHaveLength(0);
   });
 
+  test('validates required OGD manage-user fields without posting an invite', async ({
+    manageOrgIntegrationPage: page
+  }) => {
+    const routeState = await setupUserAdminRoutes(page, { enableOgdInviteUserFlow: true });
+    const userAdminPage = new UserAdminPage(page);
+
+    await userAdminPage.openUsers();
+    await userAdminPage.openInviteUser();
+    await userAdminPage.submitInvite();
+
+    await expect(page).toHaveURL(/\/users\/manage$/);
+    await expect(userAdminPage.validationSummaryError('Enter first name')).toBeVisible();
+    await expect(userAdminPage.validationSummaryError('Enter last name')).toBeVisible();
+    await expect(userAdminPage.validationSummaryError('Enter a valid email address')).toBeVisible();
+    await expect(userAdminPage.validationSummaryError('Select at least one permission')).toBeVisible();
+    await expect(page.getByText(/You must select at least\s+one action/)).toBeVisible();
+    expect(routeState.ogdInviteUserRequests).toHaveLength(0);
+    expect(routeState.inviteUserRequests).toHaveLength(0);
+  });
+
+  test('validates malformed OGD manage-user email without posting an invite', async ({
+    manageOrgIntegrationPage: page
+  }) => {
+    const routeState = await setupUserAdminRoutes(page, { enableOgdInviteUserFlow: true });
+    const userAdminPage = new UserAdminPage(page);
+
+    await userAdminPage.openUsers();
+    await userAdminPage.openInviteUser();
+    await userAdminPage.fillInviteUser({
+      ...inviteUserFormData,
+      email: 'not-an-email'
+    });
+    await userAdminPage.selectPermissions('Case access administrator');
+    await userAdminPage.submitInvite();
+
+    await expect(page).toHaveURL(/\/users\/manage$/);
+    await expect(userAdminPage.validationSummaryError('Enter a valid email address')).toBeVisible();
+    await expect(userAdminPage.validationSummaryError('Select at least one permission')).toHaveCount(0);
+    expect(routeState.ogdInviteUserRequests).toHaveLength(0);
+    expect(routeState.inviteUserRequests).toHaveLength(0);
+  });
+
+  test('routes OGD manage-user update failure to the service failure page', async ({
+    manageOrgIntegrationPage: page
+  }) => {
+    const routeState = await setupUserAdminRoutes(page, {
+      enableOgdInviteUserFlow: true,
+      ogdUpdateStatus: 500,
+      ogdUpdateResponse: {
+        error: {
+          apiError: 'OGD update failed',
+          apiStatusCode: 500,
+          message: 'Access type update failed'
+        }
+      }
+    });
+    const userAdminPage = new UserAdminPage(page);
+
+    await userAdminPage.openUsers();
+    await userAdminPage.openUserDetails(userAdminActiveUser.email);
+    await userAdminPage.openEditPermissions();
+    await userAdminPage.permissionCheckbox('Manage cases for your organisation').check();
+    await userAdminPage.submitEditPermissions();
+
+    await expect.poll(() => routeState.ogdEditUserPermissionRequests.length).toBe(1);
+    await expect(page).toHaveURL(/\/service-down$/);
+    await expect(page.getByRole('heading', { name: 'Sorry, there is a problem with the service' })).toBeVisible();
+  });
+
   test('validates pending-user re-invite permissions without posting an invite', async ({
     manageOrgIntegrationPage: page
   }) => {

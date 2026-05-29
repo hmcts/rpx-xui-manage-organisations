@@ -105,6 +105,10 @@ export interface UserAdminRouteState {
 
 interface SetupUserAdminRoutesOptions {
   enableOgdInviteUserFlow?: boolean;
+  ogdInviteStatus?: number;
+  ogdInviteResponse?: unknown;
+  ogdUpdateStatus?: number;
+  ogdUpdateResponse?: unknown;
 }
 
 const rejectUnexpectedMethod = async (
@@ -274,7 +278,11 @@ export const setupUserAdminRoutes = async (
       method: request.method()
     });
 
-    await fulfillJson(route, { userIdentifier: 'invited-user-id' });
+    await fulfillJson(
+      route,
+      options.ogdInviteResponse ?? { userIdentifier: 'invited-user-id' },
+      options.ogdInviteStatus ?? 200
+    );
   });
 
   await page.route('**/api/editUserPermissions/users/**', async (route) => {
@@ -307,7 +315,11 @@ export const setupUserAdminRoutes = async (
       userId: pathSegmentAfter(request.url(), 'update')
     });
 
-    await fulfillJson(route, editUserPermissionsSuccessResponse);
+    await fulfillJson(
+      route,
+      options.ogdUpdateResponse ?? editUserPermissionsSuccessResponse,
+      options.ogdUpdateStatus ?? 200
+    );
   });
 
   await page.route('**/api/user/*/suspend', async (route) => {

@@ -10,6 +10,15 @@ import * as log4jui from '../lib/log4jui';
 export const router = Router({ mergeParams: true });
 const logger = log4jui.getLogger('OGD-FLOW');
 
+function shouldCompareAccessTypes(req: Request, userPayload): boolean {
+  const userAccessTypes = Array.isArray(userPayload.userAccessTypes) ? userPayload.userAccessTypes : [];
+  const hasOrganisationProfiles = Array.isArray(req.body.orgIdsPayload) && req.body.orgIdsPayload.length > 0;
+  const isAddingCaseManager = (userPayload.rolesAdd || []).some((role) => role.name === 'pui-case-manager');
+  const hasCaseManagerRole = (userPayload.roles || []).includes('pui-case-manager');
+
+  return userAccessTypes.length > 0 || (hasOrganisationProfiles && (isAddingCaseManager || hasCaseManagerRole));
+}
+
 export async function ogdInvite(req: Request, res: Response) {
   try {
     logger.info('ogdInvite:: Invite Request received');
@@ -36,7 +45,7 @@ export async function ogdUpdate(req: Request, res: Response) {
     logger.info('ogdUpdate:: Edit User Request received');
     const userPayload = req.body.userPayload;
     const userId = req.params.userId;
-    if (userPayload.userAccessTypes.length > 0) {
+    if (shouldCompareAccessTypes(req, userPayload)) {
       const compareResult = await compareAccessTypes(req);
       req.body = { ...userPayload, ...compareResult };
     } else {

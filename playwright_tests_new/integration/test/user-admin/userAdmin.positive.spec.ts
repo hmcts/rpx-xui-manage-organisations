@@ -190,7 +190,7 @@ test.describe('User administration', { tag: ['@integration', '@integration-user-
       resendInvite: false,
       userAccessTypes: expectedCivilAccessTypes(true, false)
     });
-    expect(routeState.ogdInviteUserRequests[0].userPayload.roles).toEqual(expect.arrayContaining([
+    expect([...routeState.ogdInviteUserRequests[0].userPayload.roles].sort()).toEqual(sortedRoles([
       'pui-caa',
       'pui-case-manager',
       ...expectedCcdCaseworkerRoles
@@ -215,9 +215,9 @@ test.describe('User administration', { tag: ['@integration', '@integration-user-
     await expect(userAdminPage.userDetailValue('Email address')).toContainText(userAdminActiveUser.email);
     await expect(userAdminPage.userDetailValue('Permissions')).toContainText('Manage organisations');
     await expect(userAdminPage.userDetailValue('Permissions')).toContainText('Manage users');
-    await expect(page.getByRole('link', { name: 'Change roles' })).toBeVisible();
+    await expect(userAdminPage.editPermissionsLink(userAdminActiveUser.userIdentifier)).toBeVisible();
 
-    await userAdminPage.openEditPermissions();
+    await userAdminPage.openEditPermissions(userAdminActiveUser.userIdentifier);
 
     await expect(page).toHaveURL(new RegExp(`/users/user/${userAdminActiveUser.userIdentifier}/editpermission$`));
     await expect(userAdminPage.editUserHeading).toBeVisible();
@@ -294,9 +294,9 @@ test.describe('User administration', { tag: ['@integration', '@integration-user-
     await userAdminPage.openUserDetails(userAdminActiveUser.email);
 
     await expect(userAdminPage.userDetailsHeading).toBeVisible();
-    await expect(page.getByRole('link', { name: /^(Change roles|Change)$/ }).first()).toBeVisible();
+    await expect(userAdminPage.editPermissionsLink(userAdminActiveUser.userIdentifier)).toBeVisible();
 
-    await userAdminPage.openEditPermissions();
+    await userAdminPage.openEditPermissions(userAdminActiveUser.userIdentifier);
 
     await expect(page).toHaveURL(new RegExp(`/users/user/${userAdminActiveUser.userIdentifier}/manage$`));
     await expect(userAdminPage.editUserHeading).toBeVisible();

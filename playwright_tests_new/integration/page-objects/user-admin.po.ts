@@ -91,8 +91,14 @@ export class UserAdminPage {
     await this.waitForLoader();
   }
 
-  public async openEditPermissions(): Promise<void> {
-    await this.page.getByRole('link', { name: /^(Change roles|Change)$/ }).first().click();
+  public editPermissionsLink(userId: string): Locator {
+    return this.page.locator(
+      `a[href$="/users/user/${userId}/editpermission"], a[href$="/users/user/${userId}/manage"]`
+    ).filter({ hasText: /^(Change roles|Change)$/ });
+  }
+
+  public async openEditPermissions(userId: string): Promise<void> {
+    await this.editPermissionsLink(userId).click();
     await this.waitForLoader();
   }
 

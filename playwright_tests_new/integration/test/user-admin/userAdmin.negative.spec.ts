@@ -3,6 +3,7 @@ import { setupUserAdminRoutes } from '../../helpers';
 import {
   inviteUserFormData,
   userAdminActiveUser,
+  userAdminOrganisationProfileIds,
   userAdminPendingUser
 } from '../../mocks/userAdmin.mock';
 import { UserAdminPage } from '../../page-objects/user-admin.po';
@@ -115,11 +116,43 @@ test.describe('User administration negative paths', {
 
     await userAdminPage.openUsers();
     await userAdminPage.openUserDetails(userAdminActiveUser.email);
-    await userAdminPage.openEditPermissions();
+    await userAdminPage.openEditPermissions(userAdminActiveUser.userIdentifier);
     await userAdminPage.permissionCheckbox('Manage cases for your organisation').check();
     await userAdminPage.submitEditPermissions();
 
     await expect.poll(() => routeState.ogdEditUserPermissionRequests.length).toBe(1);
+    await expect(page).toHaveURL(/\/service-down$/);
+    await expect(page.getByRole('heading', { name: 'Sorry, there is a problem with the service' })).toBeVisible();
+  });
+
+  test('routes OGD manage-user invite failure to the service failure page', async ({
+    manageOrgIntegrationPage: page
+  }) => {
+    const routeState = await setupUserAdminRoutes(page, {
+      enableOgdInviteUserFlow: true,
+      ogdInviteStatus: 500,
+      ogdInviteResponse: {
+        error: {
+          apiError: 'OGD invite failed',
+          apiStatusCode: 500,
+          message: 'Invite failed'
+        }
+      }
+    });
+    const userAdminPage = new UserAdminPage(page);
+
+    await userAdminPage.openUsers();
+    await userAdminPage.openInviteUser();
+    await userAdminPage.fillInviteUser(inviteUserFormData);
+    await userAdminPage.selectPermissions(
+      'Case access administrator',
+      'Manage cases for your organisation'
+    );
+    await userAdminPage.submitInvite();
+
+    await expect.poll(() => routeState.ogdInviteUserRequests.length).toBe(1);
+    expect(routeState.inviteUserRequests).toHaveLength(0);
+    expect(routeState.ogdInviteUserRequests[0].orgIdsPayload).toEqual(userAdminOrganisationProfileIds);
     await expect(page).toHaveURL(/\/service-down$/);
     await expect(page.getByRole('heading', { name: 'Sorry, there is a problem with the service' })).toBeVisible();
   });

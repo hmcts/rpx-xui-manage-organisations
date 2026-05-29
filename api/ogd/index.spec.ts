@@ -47,6 +47,32 @@ describe('ogd index', () => {
     ]
   };
 
+  const accessTypesResponseWithDefault = {
+    jurisdictions: [
+      {
+        jurisdictionId: 'CIVIL',
+        accessTypes: [
+          {
+            accessTypeId: 'CIVIL_DEFAULT',
+            accessDefault: true,
+            accessMandatory: false,
+            display: true,
+            organisationProfileId: 'SOLICITOR_PROFILE'
+          }
+        ]
+      }
+    ]
+  };
+
+  const defaultUserAccessTypes = [
+    {
+      accessTypeId: 'CIVIL_DEFAULT',
+      enabled: true,
+      jurisdictionId: 'CIVIL',
+      organisationProfileId: 'SOLICITOR_PROFILE'
+    }
+  ];
+
   const userAccessTypes = [
     {
       accessTypeId: 'CIVIL_STANDARD',
@@ -158,7 +184,49 @@ describe('ogd index', () => {
     sinon.assert.calledWith(res.send, { roleAdditionResponse: { idamStatusCode: '201' } });
   });
 
-  it('does not invite, update, or refresh when compare-access-types fails', async () => {
+  it('compares access types when update adds case-manager access with no selected access types', async () => {
+    req.params = { userId: 'active-user-id' };
+    req.body = {
+      orgIdsPayload: ['SOLICITOR_PROFILE'],
+      userPayload: {
+        email: 'avery.active@example.com',
+        firstName: 'Avery',
+        id: 'active-user-id',
+        idamStatus: 'ACTIVE',
+        lastName: 'Active',
+        rolesAdd: [{ name: 'pui-case-manager' }],
+        rolesDelete: [],
+        userAccessTypes: []
+      }
+    };
+    postStub.onCall(0).resolves({ data: accessTypesResponseWithDefault } as AxiosResponse);
+    putStub.resolves({ data: { roleAdditionResponse: { idamStatusCode: '201' } } } as AxiosResponse);
+    postStub.onCall(1).resolves({ data: { refreshed: true } } as AxiosResponse);
+
+    await ogdUpdate(req, res);
+
+    sinon.assert.calledWith(postStub.firstCall, 'ccd-definition-api/retrieve-access-types', {
+      organisationProfileIds: ['SOLICITOR_PROFILE']
+    });
+    sinon.assert.calledWith(
+      putStub,
+      'rd-professional-api/refdata/external/v1/organisations/users/active-user-id',
+      {
+        email: 'avery.active@example.com',
+        firstName: 'Avery',
+        id: 'active-user-id',
+        idamStatus: 'ACTIVE',
+        lastName: 'Active',
+        rolesAdd: [{ name: 'pui-case-manager' }],
+        rolesDelete: [],
+        userAccessTypes: defaultUserAccessTypes
+      }
+    );
+    sinon.assert.calledWith(postStub.secondCall, 'role-assignment-api/am/role-mapping/professional/refresh?userId=active-user-id');
+    sinon.assert.calledWith(res.send, { roleAdditionResponse: { idamStatusCode: '201' } });
+  });
+
+  it('does not invite or refresh when compare-access-types fails during invite', async () => {
     req.body = {
       orgIdsPayload: ['SOLICITOR_PROFILE'],
       userPayload: {
@@ -175,6 +243,39 @@ describe('ogd index', () => {
     });
 
     await ogdInvite(req, res);
+
+    sinon.assert.calledOnceWithExactly(postStub, 'ccd-definition-api/retrieve-access-types', {
+      organisationProfileIds: ['SOLICITOR_PROFILE']
+    });
+    sinon.assert.notCalled(putStub);
+    sinon.assert.calledWith(res.status, 503);
+    sinon.assert.calledWith(res.json, {
+      apiError: 'Service unavailable',
+      apiStatusCode: 503,
+      message: 'CCD access types unavailable'
+    });
+    sinon.assert.notCalled(res.send);
+  });
+
+  it('does not update or refresh when compare-access-types fails during update', async () => {
+    req.params = { userId: 'active-user-id' };
+    req.body = {
+      orgIdsPayload: ['SOLICITOR_PROFILE'],
+      userPayload: {
+        rolesAdd: [{ name: 'pui-case-manager' }],
+        rolesDelete: [],
+        userAccessTypes: []
+      }
+    };
+    postStub.rejects({
+      data: {
+        errorDescription: 'CCD access types unavailable',
+        errorMessage: 'Service unavailable'
+      },
+      status: 503
+    });
+
+    await ogdUpdate(req, res);
 
     sinon.assert.calledOnceWithExactly(postStub, 'ccd-definition-api/retrieve-access-types', {
       organisationProfileIds: ['SOLICITOR_PROFILE']
@@ -248,6 +349,84 @@ describe('ogd index', () => {
       roles: ['pui-user-manager']
     });
     sinon.assert.calledWith(postStub.secondCall, 'role-assignment-api/am/role-mapping/professional/refresh?userId=new-user-id');
+    sinon.assert.calledWith(res.status, 502);
+    sinon.assert.calledWith(res.json, {
+      apiError: 'Refresh failed',
+      apiStatusCode: 502,
+      message: 'Refresh unavailable'
+    });
+    sinon.assert.notCalled(res.send);
+  });
+
+  it('does not refresh when update fails after access-type comparison', async () => {
+    req.params = { userId: 'active-user-id' };
+    req.body = {
+      orgIdsPayload: ['SOLICITOR_PROFILE'],
+      userPayload: {
+        email: 'avery.active@example.com',
+        firstName: 'Avery',
+        id: 'active-user-id',
+        idamStatus: 'ACTIVE',
+        lastName: 'Active',
+        rolesAdd: [{ name: 'pui-case-manager' }],
+        rolesDelete: [],
+        userAccessTypes: []
+      }
+    };
+    postStub.onCall(0).resolves({ data: accessTypesResponseWithDefault } as AxiosResponse);
+    putStub.rejects({
+      data: {
+        message: 'RD update rejected'
+      },
+      status: 422
+    });
+
+    await ogdUpdate(req, res);
+
+    sinon.assert.calledOnceWithExactly(postStub, 'ccd-definition-api/retrieve-access-types', {
+      organisationProfileIds: ['SOLICITOR_PROFILE']
+    });
+    sinon.assert.calledOnce(putStub);
+    sinon.assert.calledWith(res.status, 422);
+    sinon.assert.calledWith(res.json, {
+      apiError: 'RD update rejected',
+      apiStatusCode: 422,
+      message: 'RD update rejected'
+    });
+    sinon.assert.notCalled(res.send);
+  });
+
+  it('does not return success when refresh-user fails after an update', async () => {
+    req.params = { userId: 'active-user-id' };
+    req.body = {
+      orgIdsPayload: ['SOLICITOR_PROFILE'],
+      userPayload: {
+        email: 'avery.active@example.com',
+        firstName: 'Avery',
+        id: 'active-user-id',
+        idamStatus: 'ACTIVE',
+        lastName: 'Active',
+        rolesAdd: [{ name: 'pui-case-manager' }],
+        rolesDelete: [],
+        userAccessTypes
+      }
+    };
+    postStub.onCall(0).resolves({ data: accessTypesResponse } as AxiosResponse);
+    putStub.resolves({ data: { roleAdditionResponse: { idamStatusCode: '201' } } } as AxiosResponse);
+    postStub.onCall(1).rejects({
+      data: {
+        errorDescription: 'Refresh unavailable',
+        errorMessage: 'Refresh failed'
+      },
+      status: 502
+    });
+
+    await ogdUpdate(req, res);
+
+    sinon.assert.calledWith(postStub.firstCall, 'ccd-definition-api/retrieve-access-types', {
+      organisationProfileIds: ['SOLICITOR_PROFILE']
+    });
+    sinon.assert.calledWith(postStub.secondCall, 'role-assignment-api/am/role-mapping/professional/refresh?userId=active-user-id');
     sinon.assert.calledWith(res.status, 502);
     sinon.assert.calledWith(res.json, {
       apiError: 'Refresh failed',

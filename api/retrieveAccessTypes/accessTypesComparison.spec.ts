@@ -95,4 +95,40 @@ describe('processAccessTypes', () => {
       ]
     });
   });
+
+  it('preserves hyphenated access type identifiers when adding displayed defaults', () => {
+    const currentOrganisationAccessTypes = [
+      {
+        jurisdictionId: 'CIVIL-FAMILY',
+        accessTypes: [
+          {
+            accessTypeId: 'URGENT-APPLICATIONS-DEFAULT',
+            accessDefault: true,
+            accessMandatory: false,
+            display: true,
+            organisationProfileId: 'SOLICITOR-PROFILE'
+          }
+        ]
+      }
+    ];
+
+    const userAccessTypeOptions = {
+      email: 'casey.invite@example.com',
+      userAccessTypes: []
+    };
+
+    const result = processAccessTypes(currentOrganisationAccessTypes, userAccessTypeOptions);
+
+    expect(result).to.deep.equal({
+      email: 'casey.invite@example.com',
+      userAccessTypes: [
+        {
+          accessTypeId: 'URGENT-APPLICATIONS-DEFAULT',
+          enabled: true,
+          jurisdictionId: 'CIVIL-FAMILY',
+          organisationProfileId: 'SOLICITOR-PROFILE'
+        }
+      ]
+    });
+  });
 });

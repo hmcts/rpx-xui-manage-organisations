@@ -6,7 +6,7 @@ import * as path from 'path';
 import { app, logger } from './application';
 import errorHandler from './lib/error.handler';
 
-console.log('WE ARE USING server.ts on the box.');
+logger.info('Starting server runtime');
 
 /**
  * Used Server side
@@ -22,14 +22,18 @@ app.use(express.static(path.join(__dirname, '..'), { index: false }));
  * Used on server.ts only but should be fine to lift and shift to local.ts
  */
 app.use('/*', (req, res) => {
-  console.time(`GET: ${req.originalUrl}`);
+  const startTime = Date.now();
   res.set('Cache-Control', 'no-store, s-maxage=0, max-age=0, must-revalidate, proxy-revalidate');
   res.render('../index', {
     providers: [{ provide: 'REQUEST', useValue: req }, { provide: 'RESPONSE', useValue: res }],
     req,
     res
   });
-  console.timeEnd(`GET: ${req.originalUrl}`);
+  logger.info('Rendered server route', {
+    duration: Date.now() - startTime,
+    method: req.method,
+    url: req.originalUrl
+  });
 });
 
 const port = process.env.PORT || 3000;

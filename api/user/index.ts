@@ -25,13 +25,18 @@ function handleUserRoute(req, res) {
   };
 
   try {
-    console.log(userDetails);
+    logger.info('User details requested', {
+      orgId,
+      roleCount: roles ? roles.length : 0,
+      sessionTimeout,
+      userId
+    });
     if (!objectContainsOnlySafeCharacters(userDetails)) {
       return res.send('Invalid user data').status(400);
     }
     res.send(userDetails);
   } catch (error) {
-    logger.info(error);
+    logger.error('User details route error', error);
     const errReport = {
       apiError: error,
       apiStatusCode: exists(error, 'statusCode'),

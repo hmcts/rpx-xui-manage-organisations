@@ -7,44 +7,72 @@ export class UsersPage extends BasePage {
   public readonly userList: Locator;
   public readonly userDetails: Locator;
   public readonly userDetailsHeading: Locator;
+  public readonly pendingUserDetailsHeading: Locator;
   public readonly changePermissionsLink: Locator;
+  public readonly editUserHeading: Locator;
   public readonly suspendAccountButton: Locator;
   public readonly suspendConfirmationHeading: Locator;
+  public readonly resendInvitationButton: Locator;
+  public readonly sendInvitationButton: Locator;
+  public readonly inviteUserHeading: Locator;
+  public readonly firstNameInput: Locator;
+  public readonly lastNameInput: Locator;
+  public readonly emailInput: Locator;
+  public readonly backLink: Locator;
 
   constructor(page: Page) {
     super(page);
     this.heading = page.getByRole('heading', { name: 'Users' });
     this.inviteUserButton = page.getByRole('button', { name: 'Invite user' });
-    this.userList = page.locator('xuilib-user-list');
+    this.userList = page.locator('table.govuk-table');
     this.userDetails = page.locator('xuilib-user-details');
     this.userDetailsHeading = page.getByRole('heading', { name: 'User details' });
+    this.pendingUserDetailsHeading = page.getByRole('heading', { name: 'Pending user details' });
     this.changePermissionsLink = this.userDetails.getByRole('link', { name: 'Change' });
+    this.editUserHeading = page.getByRole('heading', { name: /^(Edit user|Manage user)$/ });
     this.suspendAccountButton = page.getByRole('button', { name: 'Suspend account' });
     this.suspendConfirmationHeading = page.getByRole('heading', {
       name: 'Are you sure you want to suspend this account?'
     });
+    this.resendInvitationButton = page.locator('#resend-invite-button');
+    this.sendInvitationButton = page.getByRole('button', { name: /^(Send invitation|Submit)$/ });
+    this.inviteUserHeading = page.getByRole('heading', { name: /^(Invite user|Manage user)$/ });
+    this.firstNameInput = page.locator('#firstName');
+    this.lastNameInput = page.locator('#lastName');
+    this.emailInput = page.locator('#email');
+    this.backLink = page.getByRole('link', { name: 'Back', exact: true });
   }
 
   public async open(): Promise<void> {
     await this.page.getByRole('link', { name: 'Users', exact: true }).click();
   }
 
-  public activeUserRow(): Locator {
+  public userRowByStatus(status: 'Active' | 'Pending'): Locator {
     return this.page
       .locator('tbody tr')
-      .filter({ has: this.page.locator('td', { hasText: /^Active$/ }) })
+      .filter({ has: this.page.locator('td', { hasText: new RegExp(`^${status}$`) }) })
       .first();
   }
 
-  public async openFirstActiveUser(): Promise<void> {
+  public async openFirstUserByStatus(status: 'Active' | 'Pending'): Promise<{
+    href: string;
+    linkText: string;
+    rowText: string;
+  } | null> {
     await this.userList.waitFor({ state: 'visible' });
 
     for (let pageNumber = 1; pageNumber <= 10; pageNumber++) {
-      const activeUserLink = this.activeUserRow().locator('a').first();
+      const userRow = this.userRowByStatus(status);
+      const userLink = userRow.locator('a').first();
 
-      if (await activeUserLink.isVisible()) {
-        await activeUserLink.click();
-        return;
+      if (await userLink.isVisible()) {
+        const selectedUser = {
+          href: (await userLink.getAttribute('href')) ?? '',
+          linkText: (await userLink.innerText()).trim(),
+          rowText: (await userRow.innerText()).trim()
+        };
+        await userLink.click();
+        return selectedUser;
       }
 
       const nextPageLink = this.page
@@ -59,10 +87,51 @@ export class UsersPage extends BasePage {
       await this.userList.waitFor({ state: 'visible' });
     }
 
-    throw new Error('No active user found in the users list');
+    return null;
+  }
+
+  public async openFirstActiveUser(): Promise<void> {
+    const selectedUser = await this.openFirstUserByStatus('Active');
+    if (!selectedUser) {
+      throw new Error('No active user found in the users list');
+    }
+  }
+
+  public async openInviteUser(): Promise<void> {
+    await this.inviteUserButton.click();
+  }
+
+  public async openEditPermissions(): Promise<void> {
+    await this.changePermissionsLink.click();
+  }
+
+  public async openReinvite(): Promise<void> {
+    await this.resendInvitationButton.click();
+  }
+
+  public async isManageUserPage(): Promise<boolean> {
+    return this.page.getByRole('heading', { name: 'Manage user' }).isVisible();
   }
 
   public async openSuspendConfirmation(): Promise<void> {
     await this.suspendAccountButton.click();
+  }
+
+  public async submitInvite(): Promise<void> {
+    await this.sendInvitationButton.click();
+  }
+
+  public permissionCheckbox(label: string): Locator {
+    const labelPatterns: Record<string, RegExp> = {
+      'Manage Cases': /^(Permit users to )?Manage Cases$|^Manage cases for your organisation$/i,
+      'Manage Users': /^(Permit users to )?Manage Users?$|^Manage user$/i,
+      'Manage Organisation': /^(Permit users to )?Manage Organisation$/i
+    };
+    const escapedLabel = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return this.page.getByRole('checkbox', { name: labelPatterns[label] ?? new RegExp(`^(Permit users to )?${escapedLabel}$`, 'i') });
+  }
+
+  public validationSummaryError(message: string): Locator {
+    return this.page.getByRole('alert').getByText(message, { exact: true });
   }
 }

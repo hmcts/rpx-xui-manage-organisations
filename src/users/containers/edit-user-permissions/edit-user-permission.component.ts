@@ -162,10 +162,11 @@ export class EditUserPermissionComponent implements OnInit, OnDestroy {
     if (rolesAdded.length > 0 || rolesDeleted.length > 0) {
       this.userStore.dispatch(new fromStore.EditUser(editUserRolesObj));
     } else {
-      this.summaryErrors = { isFromValid: false, items: [{ id: 'roles', message: 'You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same' }],
+      const noPermissionChangesMessage = 'You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same';
+      this.summaryErrors = { isFromValid: false, items: [{ id: 'roles', message: noPermissionChangesMessage }],
         header: this.errorMessages.header };
-      this.permissionErrors = { isInvalid: true, messages: ['You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'] };
-      return;
+      this.permissionErrors = { isInvalid: true, messages: [noPermissionChangesMessage] };
+      this.userStore.dispatch(new fromStore.EditUserFailure(noPermissionChangesMessage));
     }
   }
 }

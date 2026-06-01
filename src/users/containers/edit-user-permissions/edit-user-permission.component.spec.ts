@@ -251,12 +251,16 @@ describe('Edit User Permission Component Component', () => {
 
       component.onSubmit();
 
+      const action = userStoreSpyObject.dispatch.calls.mostRecent().args[0];
+      expect(action).toEqual(jasmine.any(fromStore.EditUserFailure));
+      expect(action.payload).toBe('You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same');
       expect(component.summaryErrors?.isFromValid).toBeFalse();
-      expect(component.summaryErrors?.items[0].message).toBe('You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same');
+      expect(component.summaryErrors?.items[0].message).toBe(action.payload);
       expect(component.permissionErrors?.isInvalid).toBeTrue();
-      expect(userStoreSpyObject.dispatch).not.toHaveBeenCalled();
     });
+  });
 
+  describe('EditUserPermissionComponent', () => {
     it('should show validation errors when no checkboxes are selected', () => {
       component.editUserForm = component.getFormGroup(false, false, false, false, false, null);
 

@@ -1,5 +1,6 @@
 import { EditUserPermissionComponent } from './edit-user-permission.component';
 import * as fromStore from '../../store';
+import { Subject } from 'rxjs';
 
 describe('Edit User Permission Component Component', () => {
   let component: EditUserPermissionComponent;

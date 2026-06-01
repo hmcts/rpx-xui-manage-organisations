@@ -96,6 +96,6 @@
     "brokerUrl": "https://pact-broker.platform.hmcts.net",
     "consumerVersion": "",
     "brokerUsername": "",
-    "brokerPassword": ""
+    "brokerPassword": null
   }
 }

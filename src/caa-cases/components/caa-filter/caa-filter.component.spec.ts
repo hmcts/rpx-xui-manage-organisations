@@ -327,35 +327,26 @@ describe('CaaFilterComponent', () => {
     expect(component.caaFilterFormControlSubscription.unsubscribe).toHaveBeenCalled();
   });
 
-  /**
-   * This test needs to be revisited later as user typed in values that are not in the user list
-   * are not allowed anymore and the validation always fail as we send in the text as input.
-   */
-  xit('should emit selected filter value when searching from the Assigned Cases page', () => {
-    component.selectedOrganisationUsers = [
+  it('should emit selected filter value when searching from the Assigned Cases page', () => {
+    const selectedOrganisationUsers = [
       { userIdentifier: 'user1', fullName: 'Andy Test', email: 'andy@test.com', status: 'active' },
       { userIdentifier: 'user2', fullName: 'Smith Test', email: 'smith@test.com', status: 'inactive' },
       { userIdentifier: 'user3', fullName: 'Lindsey Johnson', email: 'user@test.com', status: 'pending' }
     ];
+    component.selectedOrganisationUsers = selectedOrganisationUsers;
     component.caaCasesPageType = CaaCasesPageType.AssignedCases;
     fixture.detectChanges();
-    // Values need to be set using the form elements themselves, rather than directly on the FormControls, in order to
-    // trigger the validation and set form validity
     let radioButton = nativeElement.querySelector('#caa-filter-assignee-name');
     radioButton.click();
     expect(component.selectedFilterType).toEqual(CaaCasesFilterType.AssigneeName);
-    let textInput = nativeElement.querySelector('#assignee-person');
-    textInput.value = 'Andy Test - andy@test.com';
-    textInput.dispatchEvent(new Event('input'));
+    component.caaFormGroup.get(component.assigneePersonFormControl).setValue(component.getDisplayName(selectedOrganisationUsers[0]));
     spyOn(component.emitSelectedFilterValue, 'emit');
     component.onSearch();
     expect(component.emitSelectedFilterValue.emit).toHaveBeenCalledWith('user1');
     radioButton = nativeElement.querySelector('#caa-filter-case-reference-number');
     radioButton.click();
     expect(component.selectedFilterType).toEqual(CaaCasesFilterType.CaseReferenceNumber);
-    textInput = nativeElement.querySelector('#case-reference-number');
-    textInput.value = '1111-2222-3333-4444';
-    textInput.dispatchEvent(new Event('input'));
+    component.caaFormGroup.get(component.caseRefFormControl).setValue('1111-2222-3333-4444');
     component.onSearch();
     expect(component.emitSelectedFilterValue.emit).toHaveBeenCalledWith('1111-2222-3333-4444');
     radioButton = nativeElement.querySelector('#caa-filter-all-assignees');
@@ -365,18 +356,16 @@ describe('CaaFilterComponent', () => {
     expect(component.emitSelectedFilterValue.emit).toHaveBeenCalledWith(null);
   });
 
-  /**
-   * This test needs to be revisited later as user typed in values that are not in the user list
-   * are not allowed anymore and the validation always fail as we send in the text as input.
-   */
-  xit('should clear the validation error for the Assignee Name input field on the Assigned Cases filter', () => {
+  it('should clear the validation error for the Assignee Name input field on the Assigned Cases filter', () => {
+    const selectedOrganisationUsers = [
+      { userIdentifier: 'user1', fullName: 'Lindsey Smith', email: 'lindsey@test.com', status: 'active' }
+    ];
+    component.selectedOrganisationUsers = selectedOrganisationUsers;
     component.caaCasesPageType = CaaCasesPageType.AssignedCases;
     fixture.detectChanges();
     const assigneeNameOptionRadioButton = nativeElement.querySelector('#caa-filter-assignee-name');
     assigneeNameOptionRadioButton.click();
-    const assigneeNameInput = nativeElement.querySelector('#assignee-person');
-    assigneeNameInput.value = '';
-    assigneeNameInput.dispatchEvent(new Event('input'));
+    component.caaFormGroup.get(component.assigneePersonFormControl).setValue('');
     spyOn(component.emitErrorMessages, 'emit');
     const searchButton = nativeElement.querySelector('.govuk-button');
     searchButton.click();
@@ -386,8 +375,7 @@ describe('CaaFilterComponent', () => {
     expect(component.assigneeNameErrorMessage).toEqual(CaaCasesFilterErrorMessage.InvalidAssigneeName);
     expect(errorMessageElement.textContent).toContain(component.assigneeNameErrorMessage);
     expect(component.emitErrorMessages.emit).toHaveBeenCalledWith(component.errorMessages);
-    assigneeNameInput.value = 'lindsey - lindsey@test.com';
-    assigneeNameInput.dispatchEvent(new Event('input'));
+    component.caaFormGroup.get(component.assigneePersonFormControl).setValue(component.getDisplayName(selectedOrganisationUsers[0]));
     searchButton.click();
     fixture.detectChanges();
     errorMessageElement = nativeElement.querySelector('.govuk-error-message');

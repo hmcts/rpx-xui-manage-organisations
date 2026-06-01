@@ -57,14 +57,14 @@ describe('appInsights', () => {
 
   it('should not activate AppInsights if the key is not defined', () => {
     hasConfigValueStub.withArgs(APP_INSIGHTS_CONNECTION_STRING).returns(false);
-    const consoleSpy = sinon.spy(console, 'error');
+    const loggerErrorSpy = sinon.spy(appInsights.logger, 'error');
     appInsights.initialiseAppInsights();
     expect(configuration.hasConfigValue).to.be.calledWith(APP_INSIGHTS_CONNECTION_STRING);
     expect(configuration.getConfigValue).not.to.be.called;
     expect(applicationinsights.setup).not.to.be.called;
     expect(applicationinsights.Configuration.start).not.to.be.called;
     expect(applicationinsights.TelemetryClient.prototype.trackTrace).not.to.be.called;
-    expect(consoleSpy).to.be.calledWith(`App Insights not activated: connection string "${APP_INSIGHTS_CONNECTION_STRING}" is not defined!`);
+    expect(loggerErrorSpy).to.be.calledWith(`App Insights not activated: connection string "${APP_INSIGHTS_CONNECTION_STRING}" is not defined!`);
   });
 
   it('should reset the AppInsights client if it has been initialised', () => {

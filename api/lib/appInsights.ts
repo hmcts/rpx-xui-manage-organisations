@@ -4,7 +4,7 @@ import { getConfigValue, hasConfigValue, showFeature } from '../configuration';
 import { APP_INSIGHTS_CONNECTION_STRING, FEATURE_APP_INSIGHTS_ENABLED } from '../configuration/references';
 
 export let client;
-const logger = log4js.getLogger('app-insights');
+export const logger = log4js.getLogger('app-insights');
 
 export function initialiseAppInsights() {
   // Check the APP_INSIGHTS_CONNECTION_STRING config value is present before trying to initialise the App Insights client

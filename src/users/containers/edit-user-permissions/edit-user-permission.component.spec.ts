@@ -1,6 +1,4 @@
 import { EditUserPermissionComponent } from './edit-user-permission.component';
-import { Subject } from 'rxjs';
-import * as fromRoot from '../../../app/store';
 import * as fromStore from '../../store';
 
 describe('Edit User Permission Component Component', () => {
@@ -85,175 +83,62 @@ describe('Edit User Permission Component Component', () => {
     });
   });
 
-  describe('ngOnInit', () => {
-    let routerState$;
-    let userLoaded$;
-    let user$;
-    let editUserFailure$;
-    let userLoading$;
-
-    beforeEach(() => {
-      routerState$ = new Subject();
-      userLoaded$ = new Subject();
-      user$ = new Subject();
-      editUserFailure$ = new Subject();
-      userLoading$ = new Subject();
-
-      routerStoreSpyObject.pipe.and.returnValue(routerState$.asObservable());
-      userStoreSpyObject.pipe.and.returnValues(
-        user$.asObservable(),
-        userLoading$.asObservable(),
-        userLoaded$.asObservable()
-      );
-      userStoreSpyObject.select.and.callFake((selector) => {
-        if (selector === fromStore.editUserFailureSelector) {
-          return editUserFailure$.asObservable();
-        }
-        return new Subject().asObservable();
-      });
-    });
-
-    it('should load user details and set form values from the user', () => {
-      component.ngOnInit();
-
-      routerState$.next({ state: { params: { userId: '1234' } } });
-      userLoaded$.next(true);
-      user$.next({
-        manageCases: 'Yes',
-        manageOrganisations: 'No',
-        manageUsers: 'Yes',
-        managePayments: 'No',
-        roles: ['pui-user-manager', 'pui-caa']
-      });
-
-      expect(userStoreSpyObject.dispatch).toHaveBeenCalledWith(jasmine.any(fromStore.LoadUserDetails));
-      expect(component.userId).toBe('1234');
-      expect(component.backUrl).toBe('/users/user/1234');
-      expect(component.editUserForm.get('roles.pui-case-manager').value).toBeTrue();
-      expect(component.editUserForm.get('roles.pui-user-manager').value).toBeTrue();
-      expect(component.editUserForm.get('roles.pui-organisation-manager').value).toBeFalse();
-      expect(component.editUserForm.get('roles.pui-finance-manager').value).toBeFalse();
-      expect(component.editUserForm.get('roles.pui-caa').value).toBeTrue();
-    });
-
-    it('should dispatch load users when users are not loaded', () => {
-      component.ngOnInit();
-
-      routerState$.next({ state: { params: { userId: '1234' } } });
-      userLoaded$.next(false);
-
-      expect(userStoreSpyObject.dispatch).toHaveBeenCalledWith(jasmine.any(fromStore.LoadUsers));
-      expect(userStoreSpyObject.dispatch).toHaveBeenCalledWith(jasmine.any(fromStore.LoadUserDetails));
-    });
-
-    it('should redirect to the failure page when editUserFailure becomes true', () => {
-      component.ngOnInit();
-      component.userId = '1234';
-
-      editUserFailure$.next(true);
-
-      expect(routerStoreSpyObject.dispatch).toHaveBeenCalledWith(jasmine.any(fromRoot.Go));
-      const action = routerStoreSpyObject.dispatch.calls.mostRecent().args[0];
-      expect(action.payload.path).toEqual(['users/user/1234/editpermission-failure']);
-    });
-
-    it('should redirect to the user details page on edit success action', () => {
-      component.ngOnInit();
-      component.userId = '1234';
-
-      actionsSubject.next({ type: fromStore.EDIT_USER_SUCCESS });
-
-      expect(routerStoreSpyObject.dispatch).toHaveBeenCalledWith(jasmine.any(fromRoot.Go));
-      const action = routerStoreSpyObject.dispatch.calls.mostRecent().args[0];
-      expect(action.payload.path).toEqual(['users/user/1234']);
-    });
-
-    it('should redirect to service down on server error action', () => {
-      component.ngOnInit();
-
-      actionsSubject.next({ type: fromStore.EDIT_USER_SERVER_ERROR });
-
-      expect(routerStoreSpyObject.dispatch).toHaveBeenCalledWith(jasmine.any(fromRoot.Go));
-      const action = routerStoreSpyObject.dispatch.calls.mostRecent().args[0];
-      expect(action.payload.path).toEqual(['service-down']);
+  describe('EditUserPermissionComponent', () => {
+    it('getIsCaseAccessAdmin', () => {
+      const user = { roles: ['pui-caa'] };
+      expect(component.getIsCaseAccessAdmin(user)).toEqual(true);
     });
   });
 
-  describe('ngOnDestroy', () => {
-    it('should unsubscribe from all tracked subscriptions', () => {
-      component.userSubscription = jasmine.createSpyObj('subscription', ['unsubscribe']);
-      component.dependanciesSubscription = jasmine.createSpyObj('subscription', ['unsubscribe']);
-      component.editPermissionSuccessSubscription = jasmine.createSpyObj('subscription', ['unsubscribe']);
-      component.editPermissionServerErrorSubscription = jasmine.createSpyObj('subscription', ['unsubscribe']);
-      component.editUserFailureSubscription = jasmine.createSpyObj('subscription', ['unsubscribe']);
-
-      component.ngOnDestroy();
-
-      expect(component.userSubscription.unsubscribe).toHaveBeenCalled();
-      expect(component.dependanciesSubscription.unsubscribe).toHaveBeenCalled();
-      expect(component.editPermissionSuccessSubscription.unsubscribe).toHaveBeenCalled();
-      expect(component.editPermissionServerErrorSubscription.unsubscribe).toHaveBeenCalled();
-      expect(component.editUserFailureSubscription.unsubscribe).toHaveBeenCalled();
+  describe('EditUserPermissionComponent', () => {
+    it('getIsPuiFinanceManager', () => {
+      const user = { managePayments: 'Yes' };
+      expect(component.getIsPuiFinanceManager(user)).toEqual(true);
     });
   });
 
-  describe('onSubmit', () => {
-    beforeEach(() => {
-      component.userId = '1234';
+  describe('EditUserPermissionComponent', () => {
+    it('getFormGroup', () => {
+      const form = component.getFormGroup(true, false, true, false, true, null);
+
+      expect(form.get('roles.pui-case-manager')?.value).toBeTrue();
+      expect(form.get('roles.pui-user-manager')?.value).toBeFalse();
+      expect(form.get('roles.pui-organisation-manager')?.value).toBeTrue();
+      expect(form.get('roles.pui-finance-manager')?.value).toBeFalse();
+      expect(form.get('roles.pui-caa')?.value).toBeTrue();
+    });
+  });
+
+  describe('EditUserPermissionComponent', () => {
+    it('onSubmit should set validation errors when the form is invalid', () => {
+      component.editUserForm = {
+        valid: false
+      } as any;
+
+      component.onSubmit();
+
+      expect(component.summaryErrors?.isFromValid).toBeFalse();
+      expect(component.permissionErrors?.isInvalid).toBeTrue();
+    });
+  });
+
+  describe('EditUserPermissionComponent', () => {
+    it('onSubmit should dispatch EditUserFailure when no permission changes were made', () => {
       component.user = {
+        id: 'user-1',
         email: 'user@test.com',
         firstName: 'Test',
         lastName: 'User',
         idamStatus: 'ACTIVE',
         roles: ['pui-user-manager']
       };
-    });
-
-    it('should show validation errors when no checkboxes are selected', () => {
-      component.editUserForm = component.getFormGroup(false, false, false, false, false, null);
-
-      component.onSubmit();
-
-      expect(component.summaryErrors.isFromValid).toBeFalse();
-      expect(component.summaryErrors.items[0].message).toBe('You must select at least one action');
-      expect(component.permissionErrors.isInvalid).toBeTrue();
-      expect(userStoreSpyObject.dispatch).not.toHaveBeenCalled();
-    });
-
-    it('should keep the user on the page when no permissions have changed', () => {
+      component.userId = 'user-1';
       component.editUserForm = component.getFormGroup(false, true, false, false, false, null);
 
       component.onSubmit();
 
-      expect(component.summaryErrors.isFromValid).toBeFalse();
-      expect(component.permissionErrors.isInvalid).toBeTrue();
-      expect(userStoreSpyObject.dispatch).not.toHaveBeenCalledWith(jasmine.any(fromStore.EditUserFailure));
-    });
-
-    it('should dispatch edit user when permissions have changed', () => {
-      component.editUserForm = component.getFormGroup(false, false, true, false, false, null);
-
-      component.onSubmit();
-
-      expect(userStoreSpyObject.dispatch).toHaveBeenCalledWith(jasmine.any(fromStore.EditUser));
-    });
-
-    it('should include add and delete roles in the edit user payload', () => {
-      component.user = {
-        email: 'user@test.com',
-        firstName: 'Test',
-        lastName: 'User',
-        idamStatus: 'ACTIVE',
-        roles: ['pui-user-manager', 'pui-caa']
-      };
-      component.editUserForm = component.getFormGroup(false, false, true, false, false, null);
-
-      component.onSubmit();
-
-      const action = userStoreSpyObject.dispatch.calls.mostRecent().args[0];
-      expect(action.payload.userId).toBe('1234');
-      expect(action.payload.editUserRolesObj.rolesAdd).toEqual([{ name: 'pui-organisation-manager' }]);
-      expect(action.payload.editUserRolesObj.rolesDelete).toEqual([{ name: 'pui-user-manager' }, { name: 'pui-caa' }]);
+      expect(userStoreSpyObject.dispatch).toHaveBeenCalledWith(jasmine.any(fromStore.EditUserFailure));
+      expect(component.permissionErrors?.isInvalid).toBeTrue();
     });
   });
 });

@@ -1,3 +1,4 @@
+import type { Page } from '@playwright/test';
 import { expect, test } from '../../fixtures';
 import {
   completeMinimumSolicitorJourney,
@@ -210,6 +211,14 @@ const assertOptionalSolicitorCheckYourAnswers = async (
   )).toContainText(optionalSolicitorRegistration.individualRegulatorNumber);
 };
 
+const assertRegistrationSubmitted = async (
+  page: Page,
+  registerOrganisationPage: RegisterOrganisationPage
+): Promise<void> => {
+  await expect(page).toHaveURL(/\/register-org-new\/registration-submitted$/);
+  await expect(registerOrganisationPage.submittedHeading).toBeVisible();
+};
+
 test.describe('Register organisation', { tag: ['@integration', '@integration-register-organisation'] }, () => {
   test('renders already-registered guidance with configured external links', async ({
     manageOrgIntegrationPage: page
@@ -257,7 +266,7 @@ test.describe('Register organisation', { tag: ['@integration', '@integration-reg
     await completeOptionalOtherOrganisationJourney(registerOrganisationPage);
     await registerOrganisationPage.submitRegistration();
 
-    await expect(registerOrganisationPage.submittedHeading).toBeVisible();
+    await assertRegistrationSubmitted(page, registerOrganisationPage);
     await expect.poll(() => routeState.registrationRequests.length).toBe(1);
     expect(routeState.lovRequests).toContainEqual({
       categoryId: 'OrgType',
@@ -314,7 +323,7 @@ test.describe('Register organisation', { tag: ['@integration', '@integration-reg
     await assertOptionalSolicitorCheckYourAnswers(registerOrganisationPage);
     await registerOrganisationPage.submitRegistration();
 
-    await expect(registerOrganisationPage.submittedHeading).toBeVisible();
+    await assertRegistrationSubmitted(page, registerOrganisationPage);
     await expect.poll(() => routeState.registrationRequests.length).toBe(1);
 
     const submittedRegistration = routeState.registrationRequests[0];
@@ -372,7 +381,7 @@ test.describe('Register organisation', { tag: ['@integration', '@integration-reg
     await completeMinimumSolicitorJourney(registerOrganisationPage);
     await registerOrganisationPage.submitRegistration();
 
-    await expect(registerOrganisationPage.submittedHeading).toBeVisible();
+    await assertRegistrationSubmitted(page, registerOrganisationPage);
     await expect.poll(() => routeState.registrationRequests.length).toBe(1);
 
     const submittedRegistration = routeState.registrationRequests[0];

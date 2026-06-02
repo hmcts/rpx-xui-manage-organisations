@@ -1,45 +1,35 @@
 import type { Locator, Page } from '@playwright/test';
+import { CaseListPage } from './case-list.po';
 
-export class AssignedCasesPage {
-  public readonly assignedCasesHeading: Locator;
-  public readonly caseList: Locator;
+export class AssignedCasesPage extends CaseListPage {
   public readonly manageCaseSharingButton: Locator;
 
-  constructor(private readonly page: Page) {
-    this.assignedCasesHeading = this.page.getByRole('heading', { name: 'Assigned Cases' });
-    this.caseList = this.page.locator('ccd-case-list');
-    this.manageCaseSharingButton = this.page.locator('#btn-share-assigned-case-button');
+  constructor(page: Page) {
+    super(page, 'Cases');
+    this.manageCaseSharingButton = this.page.locator('#btn-share-unassigned-case-button');
   }
 
   public async gotoAssignedCases(): Promise<void> {
-    await this.page.goto('/assigned-cases');
-  }
-
-  public filterButton(name: string): Locator {
-    return this.page.getByRole('button', { name, exact: true });
-  }
-
-  public caseTypeTab(caseType: string): Locator {
-    return this.page.getByRole('tab', { name: caseType, exact: true });
-  }
-
-  public caseCheckbox(caseId: string): Locator {
-    return this.page.locator(`#select-${caseId}`);
+    await this.page.goto('/cases');
   }
 
   public async showAssignedCasesFilter(): Promise<void> {
-    await this.filterButton('Show assigned cases filter').click();
+    await this.filterButton('Show cases filter').click();
   }
 
   public async hideAssignedCasesFilter(): Promise<void> {
-    await this.filterButton('Hide assigned cases filter').click();
+    await this.filterButton('Hide cases filter').click();
   }
 
-  public async openCaseTypeTab(caseType: string): Promise<void> {
-    await this.caseTypeTab(caseType).click();
+  public async selectAllAssignedCasesFilter(): Promise<void> {
+    await this.page.locator('#allAssignedCases').check();
   }
 
-  public async selectCase(caseId: string): Promise<void> {
-    await this.caseCheckbox(caseId).check();
+  public async selectCaseReferenceFilter(): Promise<void> {
+    await this.page.locator('#findCaseByReferenceNumber').check();
+  }
+
+  public async startCaseSharing(): Promise<void> {
+    await this.manageCaseSharingButton.click();
   }
 }

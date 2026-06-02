@@ -23,3 +23,20 @@ export const completeOptionalRegisterOrganisationJourney = async (
     data.individualRegulatorNumber
   );
 };
+
+export const completeMinimumRegisterOrganisationJourney = async (
+  registerOrganisationPage: RegisterOrganisationPage,
+  data: RegisterOrganisationData
+): Promise<void> => {
+  await registerOrganisationPage.openStartPage();
+  await registerOrganisationPage.startRegistration();
+  await registerOrganisationPage.chooseSolicitorOrganisationType();
+  await registerOrganisationPage.enterOrganisationName(data.organisationName);
+  await registerOrganisationPage.enterManualInternationalAddress(data.manualInternationalAddress);
+  await registerOrganisationPage.declineDocumentExchangeReference();
+  await registerOrganisationPage.enterOrganisationRegulator(data.regulatorNumber);
+  await registerOrganisationPage.chooseServices('Divorce', 'Damages');
+  await registerOrganisationPage.declinePaymentByAccount();
+  await registerOrganisationPage.enterContactDetails(data);
+  await registerOrganisationPage.declineIndividualRegulator();
+};

@@ -2,7 +2,7 @@ import { defineConfig } from '@playwright/test';
 import { load as loadDotenv } from 'dotenv-extended';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { resolveReporters, resolveWorkerCount } from './playwright-reporting';
+import { resolveOutputDir, resolveReporters, resolveWorkerCount } from './playwright-reporting';
 
 loadDotenv({
   defaults: '.env.example',
@@ -14,11 +14,14 @@ loadDotenv({
 
 const baseUrl = process.env.TEST_URL || 'https://manage-org.aat.platform.hmcts.net/';
 const workerCount = resolveWorkerCount(process.env);
+const outputDir = resolveOutputDir(process.env);
 const { version: appVersion } = JSON.parse(readFileSync(resolve(process.cwd(), 'package.json'), 'utf-8')) as { version: string };
 
 module.exports = defineConfig({
+  outputDir,
   testDir: 'playwright_tests_new/integration',
   testMatch: ['**/*.spec.ts'],
+  testIgnore: process.env.PLAYWRIGHT_INCLUDE_A11Y === 'true' ? [] : ['**/*.a11y.spec.ts'],
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,

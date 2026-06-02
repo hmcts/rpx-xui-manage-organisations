@@ -82,7 +82,8 @@
             "production": {
               "buildTarget": "rpx-xui-manage-organisations:build:production"
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serveTest": {
           "builder": "@angular-devkit/build-angular:dev-server",

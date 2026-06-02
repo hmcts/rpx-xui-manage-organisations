@@ -5,6 +5,7 @@ import * as sinonChai from 'sinon-chai';
 import { mockReq, mockRes } from 'sinon-express-mock';
 import * as configuration from '../configuration';
 import {
+  FEATURE_OGD_UPDATE_REFRESH_USER_ENABLED,
   FEATURE_TERMS_AND_CONDITIONS_ENABLED,
   GOOGLE_ANALYTICS_KEY,
   LAUNCH_DARKLY_CLIENT_ID,
@@ -30,7 +31,9 @@ describe('configurationUI index', () => {
     stub.withArgs(LINKS_MANAGE_ORG_LINK).returns('/manage-org');
     stub.withArgs(PROTOCOL).returns('http');
     stub.withArgs(SERVICES_IDAM_WEB).returns('/idam-web');
-    sinon.stub(configuration, 'showFeature').withArgs(FEATURE_TERMS_AND_CONDITIONS_ENABLED).returns(true);
+    const showFeatureStub = sinon.stub(configuration, 'showFeature');
+    showFeatureStub.withArgs(FEATURE_OGD_UPDATE_REFRESH_USER_ENABLED).returns(false);
+    showFeatureStub.withArgs(FEATURE_TERMS_AND_CONDITIONS_ENABLED).returns(true);
   });
 
   afterEach(() => {
@@ -46,6 +49,7 @@ describe('configurationUI index', () => {
     expect(configuration.getConfigValue).to.be.calledWith(LINKS_MANAGE_ORG_LINK);
     expect(configuration.getConfigValue).to.be.calledWith(PROTOCOL);
     expect(configuration.getConfigValue).to.be.calledWith(SERVICES_IDAM_WEB);
+    expect(configuration.showFeature).to.be.calledWith(FEATURE_OGD_UPDATE_REFRESH_USER_ENABLED);
     expect(configuration.showFeature).to.be.calledWith(FEATURE_TERMS_AND_CONDITIONS_ENABLED);
     expect(res.status).to.be.calledWith(200);
     expect(res.send).to.be.calledWith({
@@ -54,6 +58,7 @@ describe('configurationUI index', () => {
       launchDarklyClientId: 'abc123',
       manageCaseLink: '/manage-cases',
       manageOrgLink: '/manage-org',
+      ogdUpdateRefreshUserEnabled: false,
       protocol: 'http',
       servicesTandCPath: undefined,
       termsAndConditionsEnabled: true,

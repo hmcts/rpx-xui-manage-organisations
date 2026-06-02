@@ -2,7 +2,6 @@ import { expect, test } from '../../fixtures';
 import { setupAssignedCaseShareRoutes } from '../../helpers';
 import {
   assignedAsylumCase,
-  assignedCaseIds,
   assignedImmigrationCase,
   assignedSecondAsylumCase,
   asylumCaseType,
@@ -37,37 +36,48 @@ test.describe('Assigned cases', { tag: ['@integration', '@integration-assigned-c
 
       await expect(assignedCasesPage.pageHeading).toBeVisible();
       await expect(page.getByText(manageOrgIntegrationOrganisationName)).toBeVisible();
-      await expect(assignedCasesPage.filterButton('Show assigned cases filter')).toBeVisible();
-      await expect(assignedCasesPage.filterButton('Hide assigned cases filter')).toBeHidden();
+      await expect(assignedCasesPage.filterButton('Show cases filter')).toBeVisible();
+      await expect(assignedCasesPage.filterButton('Hide cases filter')).toBeHidden();
+
+      await assignedCasesPage.showAssignedCasesFilter();
+      await assignedCasesPage.selectAllAssignedCasesFilter();
+      await assignedCasesPage.applyFilter();
+
       await expect(assignedCasesPage.caseTypeTab(asylumCaseType)).toBeVisible();
       await expect(assignedCasesPage.caseTypeTab(immigrationCaseType)).toBeVisible();
       await expect(page.getByText('Showing 1 to 2 of 2 Asylum cases', { exact: true })).toBeVisible();
       await expect(assignedCasesPage.manageCaseSharingButton).toBeDisabled();
 
       await expect.poll(() => routeState.caseTypesRequests.length).toBeGreaterThan(0);
-      await expect(routeState.caseTypesRequests[0]).toEqual({
-        caaCasesFilterType: 'all-assignees',
-        caaCasesFilterValue: null,
-        caaCasesPageType: 'assigned-cases',
-        method: 'POST'
-      });
+      expect(routeState.caseTypesRequests).toEqual(
+        expect.arrayContaining([
+          {
+            caaCasesFilterType: 'all-assignees',
+            caaCasesFilterValue: null,
+            caaCasesPageType: 'assigned-cases',
+            method: 'POST'
+          }
+        ])
+      );
       await expect.poll(() => routeState.caseListRequests.length).toBeGreaterThan(0);
-      expect(routeState.caseListRequests[0]).toEqual({
-        caaCasesFilterType: 'all-assignees',
-        caaCasesFilterValue: null,
-        caaCasesPageType: 'assigned-cases',
-        caseTypeId: asylumCaseType,
-        method: 'POST',
-        pageNo: '1',
-        pageSize: '25'
-      });
+      expect(routeState.caseListRequests).toEqual(
+        expect.arrayContaining([
+          {
+            caaCasesFilterType: 'all-assignees',
+            caaCasesFilterValue: null,
+            caaCasesPageType: 'assigned-cases',
+            caseTypeId: asylumCaseType,
+            method: 'POST',
+            pageNo: '1',
+            pageSize: '25'
+          }
+        ])
+      );
     });
 
     await test.step('Toggle assigned-cases filters using the visible controls', async () => {
-      await assignedCasesPage.showAssignedCasesFilter();
-
-      await expect(assignedCasesPage.filterButton('Hide assigned cases filter')).toBeVisible();
-      await expect(assignedCasesPage.filterButton('Show assigned cases filter')).toBeHidden();
+      await expect(assignedCasesPage.filterButton('Hide cases filter')).toBeVisible();
+      await expect(assignedCasesPage.filterButton('Show cases filter')).toBeHidden();
 
       await assignedCasesPage.selectCaseReferenceFilter();
       await assignedCasesPage.enterCaseReferenceFilter(assignedAsylumCase.caseReference);
@@ -96,7 +106,7 @@ test.describe('Assigned cases', { tag: ['@integration', '@integration-assigned-c
       await expect(assignedCasesPage.caseList).not.toContainText(assignedSecondAsylumCase.caseReference);
       await expect(assignedCasesPage.caseList).not.toContainText(assignedImmigrationCase.caseReference);
 
-      await assignedCasesPage.filterRadio('all-assignees').check();
+      await assignedCasesPage.selectAllAssignedCasesFilter();
       await assignedCasesPage.applyFilter();
       await expect.poll(() =>
         routeState.caseTypesRequests.some((request) =>
@@ -112,8 +122,8 @@ test.describe('Assigned cases', { tag: ['@integration', '@integration-assigned-c
 
       await assignedCasesPage.hideAssignedCasesFilter();
 
-      await expect(assignedCasesPage.filterButton('Show assigned cases filter')).toBeVisible();
-      await expect(assignedCasesPage.filterButton('Hide assigned cases filter')).toBeHidden();
+      await expect(assignedCasesPage.filterButton('Show cases filter')).toBeVisible();
+      await expect(assignedCasesPage.filterButton('Hide cases filter')).toBeHidden();
     });
 
     await test.step('Render assigned case data for each case-type tab', async () => {
@@ -154,20 +164,19 @@ test.describe('Assigned cases', { tag: ['@integration', '@integration-assigned-c
       await expect(assignedCasesPage.manageCaseSharingButton).toBeEnabled();
     });
 
-    await test.step('Select assigned cases across tabs and open manage-sharing', async () => {
+    await test.step('Select an assigned case and open manage-sharing', async () => {
       await assignedCasesPage.openCaseTypeTab(immigrationCaseType);
       await assignedCasesPage.selectCase(assignedImmigrationCase.caseReference);
 
       await assignedCasesPage.startCaseSharing();
 
-      await expect(page).toHaveURL(/\/assigned-cases\/case-share\?init=true&pageType=assigned-cases$/);
+      await expect(page).toHaveURL(/\/cases\/case-share\?init=true&pageType=assigned-cases$/);
       await expect(page.getByRole('heading', { name: 'Manage shared access to a case' })).toBeVisible();
-      await expect(page.getByText('Manage case sharing')).toBeVisible();
       await expect.poll(() => routeState.loadedShareCaseIds.length).toBe(1);
-      await expect(routeState.loadedShareCaseIds[0]).toEqual(assignedCaseIds);
+      await expect(routeState.loadedShareCaseIds[0]).toEqual([assignedImmigrationCase.caseReference]);
       expect(routeState.caseShareCaseRequests).toEqual([
         {
-          caseIds: assignedCaseIds,
+          caseIds: [assignedImmigrationCase.caseReference],
           method: 'GET'
         }
       ]);
@@ -180,7 +189,7 @@ test.describe('Assigned cases', { tag: ['@integration', '@integration-assigned-c
     await test.step('Add a new recipient and remove existing access for selected assigned cases', async () => {
       await caseSharingPage.showAllCaseSections();
 
-      for (const caseId of assignedCaseIds) {
+      for (const caseId of [assignedImmigrationCase.caseReference]) {
         const selectedCase = caseSharingPage.caseSection(caseId);
 
         await expect(selectedCase).toContainText(existingRecipientName);
@@ -191,7 +200,7 @@ test.describe('Assigned cases', { tag: ['@integration', '@integration-assigned-c
       await caseSharingPage.addRecipient();
       await caseSharingPage.removeRecipientFromAllCases(existingRecipientOptionName);
 
-      for (const caseId of assignedCaseIds) {
+      for (const caseId of [assignedImmigrationCase.caseReference]) {
         const selectedCase = caseSharingPage.caseSection(caseId);
 
         await expect(selectedCase).toContainText(newRecipientName);
@@ -206,10 +215,10 @@ test.describe('Assigned cases', { tag: ['@integration', '@integration-assigned-c
     await test.step('Confirm assigned case-sharing changes and submit the expected payload', async () => {
       await caseSharingPage.continueButton.click();
 
-      await expect(page).toHaveURL(/\/assigned-cases\/case-share-confirm\/assigned-cases$/);
+      await expect(page).toHaveURL(/\/cases\/case-share-confirm\/assigned-cases$/);
       await expect(confirmPage.heading).toBeVisible();
 
-      for (const caseId of assignedCaseIds) {
+      for (const caseId of [assignedImmigrationCase.caseReference]) {
         const confirmBlock = confirmPage.confirmCaseBlock(caseId);
 
         await expect(confirmBlock).toContainText(newRecipientName);
@@ -226,10 +235,10 @@ test.describe('Assigned cases', { tag: ['@integration', '@integration-assigned-c
       expect(routeState.caseAssignmentRequests).toEqual([
         {
           method: 'POST',
-          sharedCaseIds: assignedCaseIds
+          sharedCaseIds: [assignedImmigrationCase.caseReference]
         }
       ]);
-      await expect(page).toHaveURL(/\/assigned-cases\/case-share-complete\/assigned-cases$/);
+      await expect(page).toHaveURL(/\/cases\/case-share-complete\/assigned-cases$/);
       await expect(completePage.heading).toBeVisible();
       await expect(completePage.whatHappensNextText(
         'The people you added can now access and update the selected cases from their case list.'
@@ -242,9 +251,9 @@ test.describe('Assigned cases', { tag: ['@integration', '@integration-assigned-c
     const submittedAssignment = routeState.submittedAssignments[0];
     const responseAssignment = routeState.assignmentResponses[0];
 
-    expect(submittedAssignment.sharedCases.map((sharedCase) => sharedCase.caseId)).toEqual(assignedCaseIds);
+    expect(submittedAssignment.sharedCases.map((sharedCase) => sharedCase.caseId)).toEqual([assignedImmigrationCase.caseReference]);
 
-    for (const caseId of assignedCaseIds) {
+    for (const caseId of [assignedImmigrationCase.caseReference]) {
       const submittedCase = submittedAssignment.sharedCases.find((sharedCase) =>
         sharedCase.caseId === caseId
       );
@@ -275,12 +284,15 @@ test.describe('Assigned cases', { tag: ['@integration', '@integration-assigned-c
       await assignedCasesPage.gotoAssignedCases();
 
       await expect(assignedCasesPage.pageHeading).toBeVisible();
+      await assignedCasesPage.showAssignedCasesFilter();
+      await assignedCasesPage.selectAllAssignedCasesFilter();
+      await assignedCasesPage.applyFilter();
 
       await assignedCasesPage.selectCase(cancelledCaseId);
       await assignedCasesPage.selectCase(confirmedCaseId);
       await assignedCasesPage.startCaseSharing();
 
-      await expect(page).toHaveURL(/\/assigned-cases\/case-share\?init=true&pageType=assigned-cases$/);
+      await expect(page).toHaveURL(/\/cases\/case-share\?init=true&pageType=assigned-cases$/);
       await expect(page.getByRole('heading', { name: 'Manage shared access to a case' })).toBeVisible();
       await expect.poll(() => routeState.loadedShareCaseIds.length).toBe(1);
       await expect(routeState.loadedShareCaseIds[0]).toEqual(sameTabAssignedCaseIds);
@@ -321,7 +333,7 @@ test.describe('Assigned cases', { tag: ['@integration', '@integration-assigned-c
     await test.step('Show only the remaining changed assigned case on check and confirm', async () => {
       await caseSharingPage.continueButton.click();
 
-      await expect(page).toHaveURL(/\/assigned-cases\/case-share-confirm\/assigned-cases$/);
+      await expect(page).toHaveURL(/\/cases\/case-share-confirm\/assigned-cases$/);
       await expect(confirmPage.heading).toBeVisible();
       await expect(confirmPage.confirmCaseBlock(cancelledCaseId)).toHaveCount(0);
       await expect(confirmPage.confirmCaseBlock(confirmedCaseId)).toContainText(recipientName);
@@ -337,7 +349,7 @@ test.describe('Assigned cases', { tag: ['@integration', '@integration-assigned-c
           sharedCaseIds: sameTabAssignedCaseIds
         }
       ]);
-      await expect(page).toHaveURL(/\/assigned-cases\/case-share-complete\/assigned-cases$/);
+      await expect(page).toHaveURL(/\/cases\/case-share-complete\/assigned-cases$/);
       await expect(completePage.heading).toBeVisible();
     });
 

@@ -23,6 +23,32 @@ const retiredLegacyScripts = [
   'patch:static'
 ];
 const legacyBridgeScripts = ['test:functional', 'test:fullfunctional'];
+const forbiddenLegacyDirectories = [
+  'test_codecept',
+  'playwright_tests',
+  'test/accessibility',
+  'test/integration',
+  'test/nodeMock'
+];
+const forbiddenLegacyDependencies = [
+  '@types/faker',
+  '@types/jasminewd2',
+  'allure-js-commons',
+  'codeceptjs',
+  'codeceptjs-cucumber-json-reporter',
+  'cucumber-html-report',
+  'cucumber-html-reporter',
+  'faker',
+  'mochawesome',
+  'pa11y',
+  'pa11y-reporter-html',
+  'portfinder',
+  'puppeteer',
+  'rest-assured',
+  'should',
+  'start-server-and-test',
+  'why-is-node-running'
+];
 const activePlaywrightConfigFiles = [
   'playwright.config.ts',
   'playwright.e2e.config.ts',
@@ -34,6 +60,72 @@ const activePipelineFiles = [
   'Jenkinsfile_nightly',
   'Jenkinsfile_parameterized'
 ];
+const parameterizedPipelineFile = 'Jenkinsfile_parameterized';
+const requiredPipelineJunitContracts = [
+  {
+    fileName: 'Jenkinsfile_CNP',
+    contracts: [
+      {
+        label: 'API JUnit publication',
+        pattern: /publishPlaywrightJUnit\(['"]functional-output\/tests\/playwright-api\/\*\*\/\*junit\.xml['"]\)/
+      },
+      {
+        label: 'integration JUnit publication',
+        pattern: /publishPlaywrightJUnit\(['"]functional-output\/tests\/playwright-integration\/\*\*\/\*junit\.xml['"]\)/
+      },
+      {
+        label: 'accessibility JUnit publication',
+        pattern: /publishPlaywrightJUnit\(['"]functional-output\/tests\/playwright-a11y\/\*\*\/\*junit\.xml['"]\)/
+      },
+      {
+        label: 'E2E JUnit publication',
+        pattern: /publishPlaywrightJUnit\(['"]functional-output\/tests\/playwright-e2e\/\*\*\/\*junit\.xml['"]\)/
+      },
+      {
+        label: 'smoke JUnit publication',
+        pattern: /publishPlaywrightJUnit\(['"]functional-output\/tests\/playwright-smoke\/\*\*\/\*junit\.xml['"]\)/
+      }
+    ]
+  },
+  {
+    fileName: 'Jenkinsfile_nightly',
+    contracts: [
+      {
+        label: 'API JUnit publication',
+        pattern: /publishPlaywrightJUnit\(['"]functional-output\/tests\/playwright-api\/\*\*\/\*junit\.xml['"]\)/
+      },
+      {
+        label: 'integration JUnit publication',
+        pattern: /publishPlaywrightJUnit\(['"]functional-output\/tests\/playwright-integration\/\*\*\/\*junit\.xml['"]\)/
+      },
+      {
+        label: 'accessibility JUnit publication',
+        pattern: /publishPlaywrightJUnit\(['"]functional-output\/tests\/playwright-a11y\/\*\*\/\*junit\.xml['"]\)/
+      },
+      {
+        label: 'E2E JUnit publication',
+        pattern: /publishPlaywrightJUnit\(['"]functional-output\/tests\/playwright-e2e\/\*\*\/\*junit\.xml['"]\)/
+      }
+    ]
+  },
+  {
+    fileName: 'Jenkinsfile_parameterized',
+    contracts: [
+      {
+        label: 'shared lane JUnit publisher',
+        pattern: /junit\(\s*allowEmptyResults:\s*false,\s*testResults:\s*artifacts\.replace\(['"]\*\*['"],\s*['"]\*\*\/\*junit\.xml['"]\)\s*\)/
+      },
+      { label: 'API artifact root', pattern: /functional-output\/tests\/playwright-api\/\*\*/ },
+      { label: 'integration artifact root', pattern: /functional-output\/tests\/playwright-integration\/\*\*/ },
+      { label: 'accessibility artifact root', pattern: /functional-output\/tests\/playwright-a11y\/\*\*/ },
+      { label: 'E2E artifact root', pattern: /functional-output\/tests\/playwright-e2e\/\*\*/ },
+      {
+        label: 'smoke JUnit publication',
+        pattern: /junit\(allowEmptyResults:\s*false,\s*testResults:\s*['"]functional-output\/tests\/playwright-smoke\/\*\*\/\*junit\.xml['"]\)/
+      }
+    ]
+  }
+];
 const retiredExecutionPatterns = [
   { pattern: /\bnpx\s+codeceptjs\b/, label: 'CodeceptJS runner' },
   { pattern: /\bcodeceptjs\s+run(?:-workers)?\b/, label: 'CodeceptJS runner' },
@@ -44,7 +136,7 @@ const retiredExecutionPatterns = [
   { pattern: /\bpa11y\b/, label: 'legacy pa11y runner' }
 ];
 const oldPlaywrightPathPattern = {
-  pattern: /(^|[^A-Za-z0-9_])playwright_tests\//,
+  pattern: /(^|[^A-Za-z0-9_])playwright_tests(?:\/|(?=$|[^A-Za-z0-9_]))/,
   label: 'legacy playwright_tests path'
 };
 const forbiddenPipelineScriptPatterns = [
@@ -53,12 +145,16 @@ const forbiddenPipelineScriptPatterns = [
     label: 'legacy yarnBuilder test stage'
   },
   {
-    pattern: /\byarn\s+(?:run\s+)?test:(?:codeceptE2E|xuiIntegration|ngIntegrationMockEnv|a11yInTest|a11y:codecept|api|backendMock|functional|fullfunctional)(?:\s|$)/,
+    pattern: /\byarn\s+(?:run\s+)?test:(?:codeceptE2E|xuiIntegration|ngIntegrationMockEnv|a11yInTest|a11y:codecept|api|backendMock|functional|fullfunctional)(?=\s|['")]|$)/,
     label: 'legacy yarn test command'
   },
   {
     pattern: /reports\/tests\/(?:functional|api_functional|a11y)\//,
     label: 'legacy functional report publisher'
+  },
+  {
+    pattern: /allowEmptyResults\s*:\s*true/,
+    label: 'optional JUnit publisher for required Playwright evidence'
   }
 ];
 const checkedExtensions = new Set(['.ts', '.js', '.cjs', '.mjs']);
@@ -72,6 +168,20 @@ const extensionFor = (filePath) => {
 
 const isAllowedAssertionFile = (filePath) =>
   allowedAssertionFiles.some((allowedAssertionFile) => allowedAssertionFile.test(filePath));
+
+for (const directory of forbiddenLegacyDirectories) {
+  if (existsSync(join(root, directory))) {
+    failures.push(`${directory}: retired legacy test assets must stay deleted; use playwright_tests_new/** coverage.`);
+  }
+}
+
+for (const dependencySection of ['dependencies', 'devDependencies', 'resolutions']) {
+  for (const dependencyName of forbiddenLegacyDependencies) {
+    if (packageJson[dependencySection]?.[dependencyName]) {
+      failures.push(`${dependencySection}.${dependencyName}: retired legacy test dependency must not be reintroduced.`);
+    }
+  }
+}
 
 const walk = (directory, files = []) => {
   if (!existsSync(directory)) {
@@ -147,6 +257,48 @@ for (const fileName of activePipelineFiles) {
     if (pattern.test(pipelineSource)) {
       failures.push(`${fileName}: contains ${label}; pipelines must run only Playwright retirement lanes.`);
     }
+  }
+}
+
+for (const { fileName, contracts } of requiredPipelineJunitContracts) {
+  const pipelineSource = readFileSync(join(root, fileName), 'utf-8');
+  for (const { pattern, label } of contracts) {
+    if (!pattern.test(pipelineSource)) {
+      failures.push(`${fileName}: missing required Playwright JUnit evidence contract ${label}.`);
+    }
+  }
+}
+
+const retiredRunnerSource = readFileSync(join(root, 'scripts/retired-codecept-runner.js'), 'utf-8');
+if (!/mode\s*===\s*['"]bridge['"]\s*&&\s*bridgeCommands\.has\(command\)/.test(retiredRunnerSource)) {
+  failures.push(
+    'scripts/retired-codecept-runner.js: bridge mode must only succeed for the explicit shared Jenkins bridge commands.'
+  );
+}
+
+const a11yRunnerSource = readFileSync(join(root, 'scripts/run-playwright-a11y.js'), 'utf-8');
+for (const expectedContract of [
+  'assertNoGrepOverrides',
+  'resolveSafeOutputRoot',
+  'PLAYWRIGHT_EXCLUDE_TAGS',
+  'PLAYWRIGHT_TAGS',
+  'PW_ODHIN_FORCE_EXIT_ON_COMPLETION'
+]) {
+  if (!a11yRunnerSource.includes(expectedContract)) {
+    failures.push(`scripts/run-playwright-a11y.js: missing a11y runner hardening contract ${expectedContract}.`);
+  }
+}
+
+const parameterizedPipelineSource = readFileSync(join(root, parameterizedPipelineFile), 'utf-8');
+for (const expectedEvidencePath of [
+  'functional-output/tests/playwright-a11y/integration/odhin-report',
+  'xui-playwright-a11y-integration.html',
+  'stagePlaywrightArtifacts',
+  "sh 'yarn test:coverage:node'",
+  'reports/tests/coverage/node'
+]) {
+  if (!parameterizedPipelineSource.includes(expectedEvidencePath)) {
+    failures.push(`${parameterizedPipelineFile}: missing Playwright retirement evidence contract ${expectedEvidencePath}.`);
   }
 }
 

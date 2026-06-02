@@ -39,7 +39,7 @@ export class UserAdminPage {
     this.suspendAccountHeading = this.page.getByRole('heading', {
       name: 'Are you sure you want to suspend this account?'
     });
-    this.userList = this.page.locator('xuilib-user-list');
+    this.userList = this.page.locator('table');
     this.userDetailsHeading = this.page.getByRole('heading', { name: 'User details' });
   }
 

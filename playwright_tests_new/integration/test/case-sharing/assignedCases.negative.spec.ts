@@ -22,12 +22,24 @@ test.describe('Assigned case sharing negative paths', {
       await assignedCasesPage.gotoAssignedCases();
 
       await expect(assignedCasesPage.pageHeading).toBeVisible();
+      await assignedCasesPage.showAssignedCasesFilter();
+      await assignedCasesPage.selectAllAssignedCasesFilter();
+      await assignedCasesPage.applyFilter();
+
+      await expect.poll(() =>
+        routeState.caseTypesRequests.some((request) =>
+          request.caaCasesFilterType === 'all-assignees' &&
+          request.caaCasesFilterValue === null &&
+          request.caaCasesPageType === 'assigned-cases' &&
+          request.method === 'POST'
+        )
+      ).toBe(true);
       await expect(assignedCasesPage.caseCheckbox(assignedAsylumCase.caseReference)).toBeVisible();
 
       await assignedCasesPage.selectCase(assignedAsylumCase.caseReference);
       await assignedCasesPage.startCaseSharing();
 
-      await expect(page).toHaveURL(/\/assigned-cases\/case-share\?init=true&pageType=assigned-cases$/);
+      await expect(page).toHaveURL(/\/cases\/case-share\?init=true&pageType=assigned-cases$/);
       await expect(page.getByRole('heading', { name: 'Manage shared access to a case' })).toBeVisible();
       await expect.poll(() => routeState.loadedShareCaseIds.length).toBe(1);
       await expect(routeState.loadedShareCaseIds[0]).toEqual([assignedAsylumCase.caseReference]);

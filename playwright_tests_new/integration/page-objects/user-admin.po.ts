@@ -25,15 +25,15 @@ export class UserAdminPage {
     this.backControl = this.page.locator('.govuk-back-link');
     this.confirmationPanel = this.page.locator('.govuk-panel--confirmation');
     this.emailInput = this.page.locator('#email');
-    this.editUserHeading = this.page.getByRole('heading', { name: 'Edit user' });
+    this.editUserHeading = this.page.getByRole('heading', { name: /^(Edit user|Manage user)$/ });
     this.firstNameInput = this.page.locator('#firstName');
     this.heading = this.page.getByRole('heading', { name: 'Users' });
     this.inviteUserButton = this.page.getByRole('button', { name: 'Invite user' });
-    this.inviteUserHeading = this.page.getByRole('heading', { name: 'Invite user' });
+    this.inviteUserHeading = this.page.getByRole('heading', { name: /^(Invite user|Manage user)$/ });
     this.lastNameInput = this.page.locator('#lastName');
     this.pendingUserDetailsHeading = this.page.getByRole('heading', { name: 'Pending user details' });
     this.resendInvitationButton = this.page.locator('#resend-invite-button');
-    this.sendInvitationButton = this.page.getByRole('button', { name: 'Send invitation' });
+    this.sendInvitationButton = this.page.getByRole('button', { name: /^(Send invitation|Submit)$/ });
     this.submitButton = this.page.getByRole('button', { name: 'Submit' });
     this.suspendAccountButton = this.page.getByRole('button', { name: 'Suspend account' });
     this.suspendAccountHeading = this.page.getByRole('heading', {
@@ -91,8 +91,14 @@ export class UserAdminPage {
     await this.waitForLoader();
   }
 
-  public async openEditPermissions(): Promise<void> {
-    await this.page.getByRole('link', { name: 'Change roles' }).click();
+  public editPermissionsLink(userId: string): Locator {
+    return this.page.locator(
+      `a[href$="/users/user/${userId}/editpermission"], a[href$="/users/user/${userId}/manage"]`
+    ).filter({ hasText: /^(Change roles|Change)$/ });
+  }
+
+  public async openEditPermissions(userId: string): Promise<void> {
+    await this.editPermissionsLink(userId).click();
     await this.waitForLoader();
   }
 
@@ -130,6 +136,10 @@ export class UserAdminPage {
     for (const permissionLabel of permissionLabels) {
       await this.permissionCheckbox(permissionLabel).check();
     }
+  }
+
+  public async showAdditionalAccessTypes(): Promise<void> {
+    await this.page.locator('#org-access-accordion .govuk-accordion__section-button').click();
   }
 
   public async tableCellTexts(): Promise<string[]> {

@@ -4,26 +4,14 @@ export function processAccessTypes(currentOrganisationAccessTypes, userAccessTyp
   const accessTypesMap = new Map();
   currentOrganisationAccessTypes.forEach((jurisdiction) => {
     jurisdiction.accessTypes.forEach((accessType) => {
-      const key = JSON.stringify([
-        jurisdiction.jurisdictionId,
-        accessType.organisationProfileId,
-        accessType.accessTypeId
-      ]);
-      accessTypesMap.set(key, {
-        jurisdictionId: jurisdiction.jurisdictionId,
-        accessType
-      });
+      const key = `${jurisdiction.jurisdictionId}-${accessType.organisationProfileId}-${accessType.accessTypeId}`;
+      accessTypesMap.set(key, accessType);
     });
   });
 
   userAccessTypeOptions.userAccessTypes.forEach((userAccessType) => {
-    const key = JSON.stringify([
-      userAccessType.jurisdictionId,
-      userAccessType.organisationProfileId,
-      userAccessType.accessTypeId
-    ]);
-    const accessTypeEntry = accessTypesMap.get(key);
-    const accessType = accessTypeEntry?.accessType;
+    const key = `${userAccessType.jurisdictionId}-${userAccessType.organisationProfileId}-${userAccessType.accessTypeId}`;
+    const accessType = accessTypesMap.get(key);
 
     if (accessType && accessType.display) {
       if (accessType.accessMandatory && accessType.accessDefault) {
@@ -44,13 +32,13 @@ export function processAccessTypes(currentOrganisationAccessTypes, userAccessTyp
     accessTypesMap.delete(key);
   });
 
-  accessTypesMap.forEach((accessTypeEntry) => {
-    const accessType = accessTypeEntry.accessType;
+  accessTypesMap.forEach((accessType, key) => {
     if (accessType.display) {
+      const [jurisdictionId, organisationProfileId, accessTypeId] = key.split('-');
       processedAccessTypes.push({
-        jurisdictionId: accessTypeEntry.jurisdictionId,
-        organisationProfileId: accessType.organisationProfileId,
-        accessTypeId: accessType.accessTypeId,
+        jurisdictionId,
+        organisationProfileId,
+        accessTypeId,
         enabled: accessType.accessDefault
       });
     }

@@ -339,8 +339,7 @@ withNightlyPipeline(type, product, component) {
                                     "FUNCTIONAL_TESTS_WORKERS=4",
                                     "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-api",
                                     "PLAYWRIGHT_HTML_OUTPUT=functional-output/tests/playwright-api/html-report",
-                                    "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-api/playwright-api-junit.xml",
-                                    "PLAYWRIGHT_SKIP_INSTALL=true"
+                                    "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-api/playwright-api-junit.xml"
                                 ]) {
                                     yarnBuilder.yarn('test:api:pw')
                                 }
@@ -359,8 +358,7 @@ withNightlyPipeline(type, product, component) {
                                 withEnv([
                                     "FUNCTIONAL_TESTS_WORKERS=4",
                                     "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-integration",
-                                    "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-integration/playwright-integration-junit.xml",
-                                    "PLAYWRIGHT_SKIP_INSTALL=true"
+                                    "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-integration/playwright-integration-junit.xml"
                                 ]) {
                                     yarnBuilder.yarn('test:playwright:integration')
                                 }
@@ -380,8 +378,7 @@ withNightlyPipeline(type, product, component) {
                                     "FUNCTIONAL_TESTS_WORKERS=4",
                                     "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-a11y",
                                     "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-a11y/playwright-a11y-junit.xml",
-                                    "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
-                                    "PLAYWRIGHT_SKIP_INSTALL=true"
+                                    "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0"
                                 ]) {
                                     yarnBuilder.yarn('test:a11y:playwright')
                                 }

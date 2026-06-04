@@ -247,8 +247,7 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                                 "FUNCTIONAL_TESTS_WORKERS=4",
                                 "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-api",
                                 "PLAYWRIGHT_HTML_OUTPUT=functional-output/tests/playwright-api/html-report",
-                                "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-api/playwright-api-junit.xml",
-                                "PLAYWRIGHT_SKIP_INSTALL=true"
+                                "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-api/playwright-api-junit.xml"
                             ]) {
                                 yarnBuilder.yarn('test:api:pw')
                             }
@@ -267,8 +266,7 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                             withEnv([
                                 "FUNCTIONAL_TESTS_WORKERS=4",
                                 "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-integration",
-                                "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-integration/playwright-integration-junit.xml",
-                                "PLAYWRIGHT_SKIP_INSTALL=true"
+                                "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-integration/playwright-integration-junit.xml"
                             ]) {
                                 yarnBuilder.yarn('test:playwright:integration')
                             }
@@ -288,8 +286,7 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                                 "FUNCTIONAL_TESTS_WORKERS=4",
                                 "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-a11y",
                                 "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-a11y/playwright-a11y-junit.xml",
-                                "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
-                                "PLAYWRIGHT_SKIP_INSTALL=true"
+                                "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0"
                             ]) {
                                 yarnBuilder.yarn('test:a11y:playwright')
                             }
@@ -311,8 +308,7 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                                 "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-e2e/playwright-e2e-junit.xml",
                                 "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
                                 "PLAYWRIGHT_TAGS=@e2e",
-                                "PLAYWRIGHT_EXCLUDE_TAGS=@a11y",
-                                "PLAYWRIGHT_SKIP_INSTALL=true"
+                                "PLAYWRIGHT_EXCLUDE_TAGS=@a11y"
                             ]) {
                                 yarnBuilder.yarn('test:playwrightE2E:raw')
                             }

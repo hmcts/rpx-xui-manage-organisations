@@ -45,6 +45,21 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
   ]
 }
 
+def playwrightBrowserEnv = { boolean skipInstall = true ->
+    def values = ["PLAYWRIGHT_BROWSERS_PATH=${env.WORKSPACE}/.cache/ms-playwright"]
+    if (skipInstall) {
+        values << "PLAYWRIGHT_SKIP_INSTALL=true"
+    }
+    values
+}
+
+def installPlaywrightBrowsers = { String installScript, String verifyScript ->
+    withEnv(playwrightBrowserEnv(false)) {
+        sh "yarn ${installScript}"
+        sh "yarn ${verifyScript}"
+    }
+}
+
 def ensureHtmlReportForPublishing = { String reportDir, String reportFile, String suiteName ->
     withEnv([
         "PW_ODHIN_ENSURE_REPORT_DIR=${reportDir}",
@@ -139,58 +154,60 @@ def stagePlaywrightArtifacts = { String stageDir, String sourceDir ->
 def runPlaywrightFunctionalTests = { String environmentName ->
     stage("${environmentName} Playwright Functional Replacement") {
         try {
-            parallel(
-                failFast: true,
-                api: {
-                    stage('API Tests') {
-                        withEnv([
-                            "FUNCTIONAL_TESTS_WORKERS=4",
-                            "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-api",
-                            "PLAYWRIGHT_HTML_OUTPUT=functional-output/tests/playwright-api/html-report",
-                            "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-api/playwright-api-junit.xml"
-                        ]) {
-                            sh 'yarn test:api:pw'
+            withEnv(playwrightBrowserEnv()) {
+                parallel(
+                    failFast: true,
+                    api: {
+                        stage('API Tests') {
+                            withEnv([
+                                "FUNCTIONAL_TESTS_WORKERS=4",
+                                "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-api",
+                                "PLAYWRIGHT_HTML_OUTPUT=functional-output/tests/playwright-api/html-report",
+                                "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-api/playwright-api-junit.xml"
+                            ]) {
+                                sh 'yarn test:api:pw'
+                            }
+                        }
+                    },
+                    playwrightIntegration: {
+                        stage('Playwright Integration Tests') {
+                            withEnv([
+                                "FUNCTIONAL_TESTS_WORKERS=4",
+                                "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-integration",
+                                "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-integration/playwright-integration-junit.xml"
+                            ]) {
+                                sh 'yarn test:playwright:integration'
+                            }
+                        }
+                    },
+                    playwrightA11y: {
+                        stage('Playwright Accessibility Tests') {
+                            withEnv([
+                                "FUNCTIONAL_TESTS_WORKERS=4",
+                                "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-a11y",
+                                "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-a11y/playwright-a11y-junit.xml",
+                                "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0"
+                            ]) {
+                                sh 'yarn test:a11y:playwright'
+                            }
+                        }
+                    },
+                    playwrightE2E: {
+                        stage('Playwright E2E') {
+                            withEnv([
+                                "FUNCTIONAL_TESTS_WORKERS=2",
+                                "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-e2e",
+                                "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-e2e/playwright-e2e-junit.xml",
+                                "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
+                                "PLAYWRIGHT_TAGS=@e2e",
+                                "PLAYWRIGHT_EXCLUDE_TAGS=@a11y"
+                            ]) {
+                                sh 'yarn test:playwrightE2E:raw'
+                            }
                         }
                     }
-                },
-                playwrightIntegration: {
-                    stage('Playwright Integration Tests') {
-                        withEnv([
-                            "FUNCTIONAL_TESTS_WORKERS=4",
-                            "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-integration",
-                            "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-integration/playwright-integration-junit.xml"
-                        ]) {
-                            sh 'yarn test:playwright:integration'
-                        }
-                    }
-                },
-                playwrightA11y: {
-                    stage('Playwright Accessibility Tests') {
-                        withEnv([
-                            "FUNCTIONAL_TESTS_WORKERS=4",
-                            "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-a11y",
-                            "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-a11y/playwright-a11y-junit.xml",
-                            "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0"
-                        ]) {
-                            sh 'yarn test:a11y:playwright'
-                        }
-                    }
-                },
-                playwrightE2E: {
-                    stage('Playwright E2E') {
-                        withEnv([
-                            "FUNCTIONAL_TESTS_WORKERS=2",
-                            "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-e2e",
-                            "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-e2e/playwright-e2e-junit.xml",
-                            "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
-                            "PLAYWRIGHT_TAGS=@e2e",
-                            "PLAYWRIGHT_EXCLUDE_TAGS=@a11y"
-                        ]) {
-                            sh 'yarn test:playwrightE2E:raw'
-                        }
-                    }
-                }
-            )
+                )
+            }
         } finally {
             stagePlaywrightArtifacts('functional-output/tests/playwright-api/stable-artifacts', 'test-results/playwright-api')
             publishPlaywrightReport(
@@ -241,7 +258,10 @@ withParameterizedPipeline(type, product, component, params.ENVIRONMENT, 'sandbox
 
     after('checkout') {
         sh 'yarn cache clean'
-        sh 'yarn test:setup:playwright-install-chromium'
+        installPlaywrightBrowsers(
+            'test:setup:playwright-install-chromium',
+            'test:setup:playwright-verify-chromium'
+        )
     }
 
     after('build') {

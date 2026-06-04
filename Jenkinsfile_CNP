@@ -22,6 +22,21 @@ def component = "mo-webapp"
 def channel   = '#xui-pipeline'
 def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 
+def playwrightBrowserEnv = { boolean skipInstall = true ->
+    def values = ["PLAYWRIGHT_BROWSERS_PATH=${env.WORKSPACE}/.cache/ms-playwright"]
+    if (skipInstall) {
+        values << "PLAYWRIGHT_SKIP_INSTALL=true"
+    }
+    values
+}
+
+def installPlaywrightBrowsers = { String installScript, String verifyScript ->
+    withEnv(playwrightBrowserEnv(false)) {
+        yarnBuilder.yarn(installScript)
+        yarnBuilder.yarn(verifyScript)
+    }
+}
+
 def handleParallelInterruption = { Exception e ->
     def interrupted = false
     def failFastExitCodes = ['129', '137', '143']
@@ -238,90 +253,92 @@ def publishPlaywrightA11yReport = { String reportName ->
 def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
     stage("${environmentName} Functional Tests (Parallel)") {
         try {
-            parallel(
-                failFast: true,
-                api: {
-                    stage('API Tests') {
-                        try {
-                            withEnv([
-                                "FUNCTIONAL_TESTS_WORKERS=4",
-                                "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-api",
-                                "PLAYWRIGHT_HTML_OUTPUT=functional-output/tests/playwright-api/html-report",
-                                "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-api/playwright-api-junit.xml"
-                            ]) {
-                                yarnBuilder.yarn('test:api:pw')
+            withEnv(playwrightBrowserEnv()) {
+                parallel(
+                    failFast: true,
+                    api: {
+                        stage('API Tests') {
+                            try {
+                                withEnv([
+                                    "FUNCTIONAL_TESTS_WORKERS=4",
+                                    "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-api",
+                                    "PLAYWRIGHT_HTML_OUTPUT=functional-output/tests/playwright-api/html-report",
+                                    "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-api/playwright-api-junit.xml"
+                                ]) {
+                                    yarnBuilder.yarn('test:api:pw')
+                                }
+                            } catch (Exception e) {
+                                echo "[parallel] API Tests catch: ${e.getClass().getName()}: ${e.getMessage()}"
+                                if (handleParallelInterruption(e)) { return }
+                                throw e
+                            } finally {
+                                publishPlaywrightApiReport("${environmentName} Manage Org Playwright API")
                             }
-                        } catch (Exception e) {
-                            echo "[parallel] API Tests catch: ${e.getClass().getName()}: ${e.getMessage()}"
-                            if (handleParallelInterruption(e)) { return }
-                            throw e
-                        } finally {
-                            publishPlaywrightApiReport("${environmentName} Manage Org Playwright API")
+                        }
+                    },
+                    playwrightIntegration: {
+                        stage('Playwright Integration Tests') {
+                            try {
+                                withEnv([
+                                    "FUNCTIONAL_TESTS_WORKERS=4",
+                                    "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-integration",
+                                    "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-integration/playwright-integration-junit.xml"
+                                ]) {
+                                    yarnBuilder.yarn('test:playwright:integration')
+                                }
+                            } catch (Exception e) {
+                                echo "[parallel] Playwright Integration Tests catch: ${e.getClass().getName()}: ${e.getMessage()}"
+                                if (handleParallelInterruption(e)) { return }
+                                throw e
+                            } finally {
+                                publishPlaywrightIntegrationReport("${environmentName} Manage Org Playwright Integration")
+                            }
+                        }
+                    },
+                    playwrightA11y: {
+                        stage('Playwright Accessibility Tests') {
+                            try {
+                                withEnv([
+                                    "FUNCTIONAL_TESTS_WORKERS=4",
+                                    "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-a11y",
+                                    "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-a11y/playwright-a11y-junit.xml",
+                                    "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0"
+                                ]) {
+                                    yarnBuilder.yarn('test:a11y:playwright')
+                                }
+                            } catch (Exception e) {
+                                echo "[parallel] Playwright Accessibility Tests catch: ${e.getClass().getName()}: ${e.getMessage()}"
+                                if (handleParallelInterruption(e)) { return }
+                                throw e
+                            } finally {
+                                publishPlaywrightA11yReport("${environmentName} Manage Org Register Organisation Playwright A11y")
+                            }
+                        }
+                    },
+                    playwrightE2E: {
+                        stage('Playwright E2E') {
+                            try {
+                                withEnv([
+                                    "FUNCTIONAL_TESTS_WORKERS=2",
+                                    "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-e2e",
+                                    "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-e2e/playwright-e2e-junit.xml",
+                                    "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
+                                    "PLAYWRIGHT_TAGS=@e2e",
+                                    "PLAYWRIGHT_EXCLUDE_TAGS=@a11y"
+                                ]) {
+                                    yarnBuilder.yarn('test:playwrightE2E:raw')
+                                }
+                            } catch (Exception e) {
+                                echo "[parallel] Playwright E2E catch: ${e.getClass().getName()}: ${e.getMessage()}"
+                                if (handleParallelInterruption(e)) { return }
+                                throw e
+                            } finally {
+                                publishPlaywrightE2EReport("${environmentName} Manage Org Playwright E2E")
+                            }
                         }
                     }
-                },
-                playwrightIntegration: {
-                    stage('Playwright Integration Tests') {
-                        try {
-                            withEnv([
-                                "FUNCTIONAL_TESTS_WORKERS=4",
-                                "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-integration",
-                                "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-integration/playwright-integration-junit.xml"
-                            ]) {
-                                yarnBuilder.yarn('test:playwright:integration')
-                            }
-                        } catch (Exception e) {
-                            echo "[parallel] Playwright Integration Tests catch: ${e.getClass().getName()}: ${e.getMessage()}"
-                            if (handleParallelInterruption(e)) { return }
-                            throw e
-                        } finally {
-                            publishPlaywrightIntegrationReport("${environmentName} Manage Org Playwright Integration")
-                        }
-                    }
-                },
-                playwrightA11y: {
-                    stage('Playwright Accessibility Tests') {
-                        try {
-                            withEnv([
-                                "FUNCTIONAL_TESTS_WORKERS=4",
-                                "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-a11y",
-                                "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-a11y/playwright-a11y-junit.xml",
-                                "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0"
-                            ]) {
-                                yarnBuilder.yarn('test:a11y:playwright')
-                            }
-                        } catch (Exception e) {
-                            echo "[parallel] Playwright Accessibility Tests catch: ${e.getClass().getName()}: ${e.getMessage()}"
-                            if (handleParallelInterruption(e)) { return }
-                            throw e
-                        } finally {
-                            publishPlaywrightA11yReport("${environmentName} Manage Org Register Organisation Playwright A11y")
-                        }
-                    }
-                },
-                playwrightE2E: {
-                    stage('Playwright E2E') {
-                        try {
-                            withEnv([
-                                "FUNCTIONAL_TESTS_WORKERS=2",
-                                "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-e2e",
-                                "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-e2e/playwright-e2e-junit.xml",
-                                "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
-                                "PLAYWRIGHT_TAGS=@e2e",
-                                "PLAYWRIGHT_EXCLUDE_TAGS=@a11y"
-                            ]) {
-                                yarnBuilder.yarn('test:playwrightE2E:raw')
-                            }
-                        } catch (Exception e) {
-                            echo "[parallel] Playwright E2E catch: ${e.getClass().getName()}: ${e.getMessage()}"
-                            if (handleParallelInterruption(e)) { return }
-                            throw e
-                        } finally {
-                            publishPlaywrightE2EReport("${environmentName} Manage Org Playwright E2E")
-                        }
-                    }
-                }
-            )
+                )
+            }
         } finally {
             publishManageOrgEvidenceDashboard("${environmentName} Manage Org Playwright Evidence")
         }
@@ -377,7 +394,10 @@ withPipeline(type, product, component) {
     afterAlways('checkout') {
         stage('Playwright Install Chromium') {
             try {
-                yarnBuilder.yarn('test:setup:playwright-install-chromium')
+                installPlaywrightBrowsers(
+                    'test:setup:playwright-install-chromium',
+                    'test:setup:playwright-verify-chromium'
+                )
             } catch (Error) {
                 error(message: "${STAGE_NAME} is unstable: " + Error.toString())
             }

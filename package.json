@@ -53,7 +53,7 @@
     "test:coverage": "yarn test:ng",
     "test:coverage:ng": "ng test rpx-xui-manage-organisations --code-coverage --watch",
     "test:coverage:node": "cd api && yarn coverage",
-    "test:crossbrowser": "yarn test:setup:playwright-install-all && yarn playwright install webkit && yarn playwright install firefox && yarn test:crossbrowser:raw",
+    "test:crossbrowser": "yarn test:setup:playwright-install-all && yarn test:setup:playwright-verify-all && yarn test:crossbrowser:raw",
     "test:crossbrowser:raw": "sh -c 'if [ \"${1:-}\" = \"--\" ]; then shift; fi; PLAYWRIGHT_JUNIT_OUTPUT=\"${PLAYWRIGHT_JUNIT_OUTPUT:-functional-output/tests/playwright-e2e/playwright-e2e-junit.xml}\" npx playwright test -c playwright-nightly.config.ts \"$@\"' --",
     "test:node": "cd api && yarn test",
     "test:functional": "node scripts/retired-codecept-runner.js bridge test:functional",
@@ -84,7 +84,9 @@
     "test:xuiIntegration": "node scripts/retired-codecept-runner.js fail test:xuiIntegration",
     "patch:static": "node scripts/retired-codecept-runner.js fail patch:static",
     "test:setup:playwright-install-all": "npx playwright install --with-deps",
-    "test:setup:playwright-install-chromium": "npx playwright install chromium"
+    "test:setup:playwright-install-chromium": "npx playwright install chromium",
+    "test:setup:playwright-verify-all": "node scripts/verify-playwright-browsers.js chromium firefox webkit",
+    "test:setup:playwright-verify-chromium": "node scripts/verify-playwright-browsers.js chromium"
   },
   "private": true,
   "dependencies": {

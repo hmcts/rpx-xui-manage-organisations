@@ -12,7 +12,6 @@ import { BasicAccessTypes } from '../../models/basic-access-types.model';
 import { PersonalDetails } from '../../models/personal-details.model';
 
 import { Jurisdiction, OrganisationDetails } from 'src/models';
-import { LoggerService } from 'src/shared/services/logger.service';
 import { AppConstants } from '../../../app/app.constants';
 import { GlobalError } from '../../../app/store/reducers/app.reducer';
 import { StandardUserPermissionsComponent, UserPersonalDetailsComponent } from 'src/users/components';
@@ -40,6 +39,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   public user: User;
   public showWarningMessage: boolean = false;
   public resendInvite: boolean = false;
+  public hasOrganisationAccessPermission: boolean = false;
   public combinedErrors$: Observable<{
     isFromValid: boolean;
     items: { id: string; message: any; }[];
@@ -53,12 +53,17 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   private organisation$: Observable<OrganisationDetails>;
   public updatedUser: User;
   private onDestroy$ = new Subject<void>();
+  private readonly standardPermissionRoleNames = [
+    'pui-user-manager',
+    'pui-finance-manager',
+    'pui-organisation-manager',
+    'pui-caa'
+  ];
 
   constructor(private readonly actions$: Actions,
     private readonly routerStore: Store<fromRoot.State>,
     private readonly userStore: Store<fromStore.UserState>,
     private readonly orgStore: Store<fromOrgStore.OrganisationState>,
-    private loggerService: LoggerService,
     private inviteUserSvc: InviteUserService) {}
 
   ngOnInit(): void {
@@ -150,10 +155,14 @@ export class ManageUserComponent implements OnInit, OnDestroy {
 
   onPersonalDetailsChange($event: PersonalDetails){
     this.updatedUser = { ...this.updatedUser, firstName: $event.firstName, lastName: $event.lastName, email: $event.email };
-    this.loggerService.debug('updatedUser', this.updatedUser);
   }
 
   onSelectedCaseManagamentPermissionsChange($event: CaseManagementPermissions) {
+    this.hasOrganisationAccessPermission = $event.manageCases;
+    if (this.standardPermission && (this.hasOrganisationAccessPermission || this.standardPermission.errors.basicPermissions.length > 0)) {
+      this.standardPermission.hasOrganisationAccessPermission = this.hasOrganisationAccessPermission;
+      this.standardPermission.updateCurrentErrors();
+    }
     // when manageCases is true, add add the pui-case-manager roles field to the user else remove it from the roles field
     const caseAdminRole = 'pui-case-manager';
     let updatedRoles: string[];
@@ -165,18 +174,17 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     this.updatedUser = { ...this.updatedUser, roles: [...new Set(updatedRoles)] };
     // when manageCases is false then the roles property is an empty array, which will clear all the access types
     this.updatedUser = { ...this.updatedUser, userAccessTypes: $event.userAccessTypes };
-    this.loggerService.debug('updatedUser', this.updatedUser);
   }
 
   onStandardUserPermissionsChange($event: BasicAccessTypes) {
-    let roles: string[] = this.user?.roles ?? [];
+    let roles: string[] = (this.updatedUser?.roles ?? this.user?.roles ?? [])
+      .filter((role) => !this.standardPermissionRoleNames.includes(role));
     roles = this.updateStandardPermission(roles, 'pui-user-manager', $event.isPuiUserManager);
     roles = this.updateStandardPermission(roles, 'pui-finance-manager', $event.isPuiFinanceManager);
     roles = this.updateStandardPermission(roles, 'pui-organisation-manager', $event.isPuiOrganisationManager);
     roles = this.updateStandardPermission(roles, 'pui-caa', $event.isCaseAccessAdmin);
 
     this.updatedUser = { ...this.updatedUser, roles: [...new Set(roles)] };
-    this.loggerService.debug('updatedUser', this.updatedUser);
   }
 
   private updateStandardPermission(currentRoles: string[], roleName: string, enabled: boolean) {
@@ -225,7 +233,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
         }
       });
     }
-    if (this.standardPermission.errors.basicPermissions.length > 0){
+    if (!this.hasOrganisationAccessPermission && this.standardPermission.errors.basicPermissions.length > 0){
       errorItems.push({ id: 'isCaseAccessAdmin', message: this.standardPermission.errors.basicPermissions });
     }
 

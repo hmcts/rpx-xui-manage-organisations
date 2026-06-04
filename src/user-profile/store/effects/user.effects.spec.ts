@@ -210,6 +210,34 @@ describe('User Profile Effects', () => {
       expect(effects.editUser$).toBeObservable(expected);
     }));
 
+    it('should return EditUserSuccess when the user update returns a 200 role addition response', waitForAsync(() => {
+      const payload = {
+        id: 'user-1',
+        email: 'user@test.com',
+        firstName: 'Test',
+        lastName: 'User',
+        rolesAdd: [{ name: 'pui-finance-manager' }],
+        rolesDelete: [{ name: 'pui-user-manager' }]
+      };
+      userServiceMock.editUserPermissions.and.returnValue(of({
+        roleAdditionResponse: {
+          idamStatusCode: '200'
+        },
+        roleDeletionResponse: [
+          {
+            idamStatusCode: '204'
+          }
+        ],
+        statusUpdateResponse: null
+      }));
+      const action = new usersActions.EditUser(payload as any);
+      const completion = new usersActions.EditUserSuccess('user-1');
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(effects.editUser$).toBeObservable(expected);
+    }));
+
     it('should return EditUserFailure when the status update response fails', waitForAsync(() => {
       const payload = {
         id: 'user-1',

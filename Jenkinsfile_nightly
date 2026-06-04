@@ -19,7 +19,8 @@ def channel   = '#xui-pipeline'
 def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 
 def playwrightBrowserEnv = { boolean skipInstall = true ->
-    def values = ["PLAYWRIGHT_BROWSERS_PATH=${env.WORKSPACE}/.cache/ms-playwright"]
+    def browserPath = env.PLAYWRIGHT_BROWSERS_PATH ?: "${env.WORKSPACE}/.cache/ms-playwright"
+    def values = ["PLAYWRIGHT_BROWSERS_PATH=${browserPath}"]
     if (skipInstall) {
         values << "PLAYWRIGHT_SKIP_INSTALL=true"
     }
@@ -27,10 +28,12 @@ def playwrightBrowserEnv = { boolean skipInstall = true ->
 }
 
 def installPlaywrightBrowsers = { String installScript, String verifyScript ->
+    env.PLAYWRIGHT_BROWSERS_PATH = "${env.WORKSPACE}/.cache/ms-playwright"
     withEnv(playwrightBrowserEnv(false)) {
         yarnBuilder.yarn(installScript)
         yarnBuilder.yarn(verifyScript)
     }
+    env.PLAYWRIGHT_SKIP_INSTALL = 'true'
 }
 
 def handleParallelInterruption = { Exception e ->

@@ -75,4 +75,20 @@ describe('StaticUserPermissionsComponent', () => {
     expect(component.permissions.isPuiUserManager).toBeTrue();
     expect(spy).toHaveBeenCalledWith(component.permissions);
   });
+
+  it('should not show a basic permissions error when organisation access permission is selected', () => {
+    component.permissionsForm.setValue({
+      isCaseAccessAdmin: false,
+      isPuiFinanceManager: false,
+      isPuiOrganisationManager: false,
+      isPuiUserManager: false
+    });
+    component.updateCurrentErrors();
+    expect(component.errors.basicPermissions).toEqual(['Select at least one permission']);
+
+    component.hasOrganisationAccessPermission = true;
+    component.updateCurrentErrors();
+
+    expect(component.errors.basicPermissions).toEqual([]);
+  });
 });

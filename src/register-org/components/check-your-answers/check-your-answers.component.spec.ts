@@ -12,6 +12,9 @@ import { LoggerService } from '../../../shared/services/logger.service';
 import { RegistrationData } from '../../models/registration-data.model';
 import { RegisterOrgService } from '../../services';
 import { CheckYourAnswersComponent } from './check-your-answers.component';
+import { EnvironmentService } from '../../../shared/services/environment.service';
+import { ENVIRONMENT_CONFIG } from '../../../models';
+import { mockEnvironmentConfig } from '../../../shared/services/environment.service.spec';
 // provideHttpClient imported above
 
 describe('CheckYourAnswersComponent', () => {
@@ -60,6 +63,8 @@ describe('CheckYourAnswersComponent', () => {
       imports: [RouterTestingModule, ReactiveFormsModule, ExuiCommonLibModule, RegisterOrgModule],
       providers: [
         { provide: LoggerService, useValue: mockLoggerService },
+        EnvironmentService,
+        { provide: ENVIRONMENT_CONFIG, useValue: mockEnvironmentConfig },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
         ...buildMockStoreProviders()

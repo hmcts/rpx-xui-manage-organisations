@@ -65,6 +65,7 @@ const LANES = [
       artifact('Odhin report', ['playwright-e2e/odhin-report/xui-playwright-e2e.html'], true),
       artifact('Playwright HTML', ['playwright-e2e/index.html', 'playwright-e2e/html-report/index.html'], false),
       artifact('JUnit XML', ['playwright-e2e/playwright-e2e-junit.xml'], true),
+      artifact('Load profile', ['playwright-e2e/odhin-report/load-profile/load-profile.html'], false),
       artifact('Stable failure artifacts', ['playwright-e2e/stable-artifacts'], false),
     ],
   },

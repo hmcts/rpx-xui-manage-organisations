@@ -114,6 +114,31 @@ def publishPlaywrightJUnit = { String testResults ->
     )
 }
 
+def publishPlaywrightLoadProfile = { String reportDir, String reportName ->
+    withEnv([
+        "PW_LOAD_PROFILE_REPORT_DIR=${reportDir}",
+        "PW_LOAD_PROFILE_REPORT_NAME=${reportName}"
+    ]) {
+        steps.sh '''
+            node scripts/ensure-load-profile-report.js \
+              --report-dir "$PW_LOAD_PROFILE_REPORT_DIR" \
+              --report-name "$PW_LOAD_PROFILE_REPORT_NAME"
+        '''
+    }
+    publishHTML([
+        allowMissing         : true,
+        alwaysLinkToLastBuild: true,
+        keepAll              : true,
+        reportDir            : reportDir,
+        reportFiles          : 'load-profile.html',
+        reportName           : reportName
+    ])
+    steps.archiveArtifacts(
+        allowEmptyArchive: true,
+        artifacts: "${reportDir}/load-profile.html"
+    )
+}
+
 def publishManageOrgEvidenceDashboard = { String reportName ->
     withEnv([
         "MANAGE_ORG_EVIDENCE_TITLE=${reportName}"
@@ -148,6 +173,10 @@ def publishPlaywrightApiReport = { String reportName ->
         reportFiles          : 'xui-mo-playwright-api.html',
         reportName           : reportName
     ])
+    publishPlaywrightLoadProfile(
+        "functional-output/tests/playwright-api/odhin-report/load-profile",
+        "${reportName} System Load"
+    )
     stagePlaywrightArtifacts('functional-output/tests/playwright-api/stable-artifacts', 'test-results/playwright-api')
     publishPlaywrightJUnit('functional-output/tests/playwright-api/**/*junit.xml')
     steps.archiveArtifacts(
@@ -170,6 +199,10 @@ def publishPlaywrightE2EReport = { String reportName ->
         reportFiles          : 'xui-playwright-e2e.html',
         reportName           : reportName
     ])
+    publishPlaywrightLoadProfile(
+        "functional-output/tests/playwright-e2e/odhin-report/load-profile",
+        "${reportName} System Load"
+    )
     stagePlaywrightArtifacts('functional-output/tests/playwright-e2e/stable-artifacts', 'test-results/playwright-e2e')
     publishPlaywrightJUnit('functional-output/tests/playwright-e2e/**/*junit.xml')
     steps.archiveArtifacts(
@@ -192,6 +225,10 @@ def publishPlaywrightIntegrationReport = { String reportName ->
         reportFiles          : 'xui-mo-playwright-integration.html',
         reportName           : reportName
     ])
+    publishPlaywrightLoadProfile(
+        "functional-output/tests/playwright-integration/odhin-report/load-profile",
+        "${reportName} System Load"
+    )
     stagePlaywrightArtifacts('functional-output/tests/playwright-integration/stable-artifacts', 'test-results/playwright-integration')
     publishPlaywrightJUnit('functional-output/tests/playwright-integration/**/*junit.xml')
     steps.archiveArtifacts(
@@ -418,7 +455,7 @@ withNightlyPipeline(type, product, component) {
                                     "PLAYWRIGHT_EXCLUDE_TAGS=@a11y",
                                     "PLAYWRIGHT_SKIP_INSTALL=true"
                                 ]) {
-                                    yarnBuilder.yarn('test:crossbrowser:raw')
+                                    yarnBuilder.yarn('test:crossbrowser:profile')
                                 }
                             } catch (Exception e) {
                                 echo "[parallel] Playwright E2E catch: ${e.getClass().getName()}: ${e.getMessage()}"

@@ -267,8 +267,7 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                             withEnv([
                                 "FUNCTIONAL_TESTS_WORKERS=4",
                                 "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-integration",
-                                "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-integration/playwright-integration-junit.xml",
-                                "PLAYWRIGHT_SKIP_INSTALL=true"
+                                "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-integration/playwright-integration-junit.xml"
                             ]) {
                                 yarnBuilder.yarn('test:playwright:integration')
                             }

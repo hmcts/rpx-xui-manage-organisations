@@ -269,6 +269,7 @@ withNightlyPipeline(type, product, component) {
         stage('Playwright Install All Browsers') {
             sh '''
                 node .yarn/releases/yarn-4.9.2.cjs install --immutable
+                touch .yarn_dependencies_installed
                 node .yarn/releases/yarn-4.9.2.cjs test:setup:playwright-install-all
             '''
         }

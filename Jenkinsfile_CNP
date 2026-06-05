@@ -381,7 +381,10 @@ withPipeline(type, product, component) {
     afterAlways('checkout') {
         stage('Playwright Install Chromium') {
             try {
-                sh 'node .yarn/releases/yarn-4.9.2.cjs test:setup:playwright-install-chromium'
+                sh '''
+                    node .yarn/releases/yarn-4.9.2.cjs install --immutable
+                    node .yarn/releases/yarn-4.9.2.cjs test:setup:playwright-install-chromium
+                '''
             } catch (Error) {
                 error(message: "${STAGE_NAME} is unstable: " + Error.toString())
             }

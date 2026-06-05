@@ -267,7 +267,10 @@ withNightlyPipeline(type, product, component) {
     afterSuccess('checkout') {
         sh 'yarn cache clean'
         stage('Playwright Install All Browsers') {
-            sh 'node .yarn/releases/yarn-4.9.2.cjs test:setup:playwright-install-all'
+            sh '''
+                node .yarn/releases/yarn-4.9.2.cjs install --immutable
+                node .yarn/releases/yarn-4.9.2.cjs test:setup:playwright-install-all
+            '''
         }
     }
     afterSuccess('build') {

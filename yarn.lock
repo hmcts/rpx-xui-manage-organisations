@@ -17940,20 +17940,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ngx-md@npm:^12.0.0":
-  version: 12.0.5
-  resolution: "ngx-md@npm:12.0.5"
-  dependencies:
-    marked: "npm:^0.7.0"
-    prismjs: "npm:^1.15.0"
-    tslib: "npm:^2.0.0"
-  peerDependencies:
-    "@angular/common": ">= 8.0.0 < 10.0.0"
-    "@angular/core": ">= 8.0.0 < 10.0.0"
-  checksum: 10/684a9bb65997e3b094d4aab43c5214d777dffa7c4077646a7a473704f6d5b997491c3f09947647414a6fcd9cee7f1aa23d484dc8f8a9ddb249638d50917581b6
-  languageName: node
-  linkType: hard
-
 "ngx-pagination@npm:^6.0.3":
   version: 6.0.3
   resolution: "ngx-pagination@npm:6.0.3"
@@ -19570,7 +19556,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prismjs@npm:^1.15.0, prismjs@npm:^1.28.0, prismjs@npm:^1.29.0":
+"prismjs@npm:^1.28.0, prismjs@npm:^1.29.0":
   version: 1.30.0
   resolution: "prismjs@npm:1.30.0"
   checksum: 10/6b48a2439a82e5c6882f48ebc1564c3890e16463ba17ac10c3ad4f62d98dea5b5c915b172b63b83023a70ad4f5d7be3e8a60304420db34a161fae69dd4e3e2da
@@ -20564,6 +20550,7 @@ __metadata:
     "@angular/platform-browser": "npm:^20.3.18"
     "@angular/platform-browser-dynamic": "npm:^20.3.18"
     "@angular/router": "npm:^20.3.18"
+    "@babel/runtime": "npm:7.28.3"
     "@circlon/angular-tree-component": "npm:^11.0.4"
     "@edium/fsm": "npm:^2.1.2"
     "@hmcts/ccd-case-ui-toolkit": "npm:7.3.48"
@@ -20665,7 +20652,6 @@ __metadata:
     ngx-cookie-service: "npm:^17.0.0"
     ngx-logger: "npm:^5.0.12"
     ngx-markdown: "npm:^18.1.0"
-    ngx-md: "npm:^12.0.0"
     ngx-pagination: "npm:^6.0.3"
     node-fetch: "npm:^2.6.1"
     node-html-parser: "npm:^6.1.5"

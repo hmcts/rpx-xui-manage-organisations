@@ -1,7 +1,7 @@
 <div class="govuk-!-margin-top-8">
   <h1 class="govuk-heading-m">Administrator access permissions</h1>
-  <div class="govuk-form-group" [class.govuk-form-group--error]="errors.basicPermissions.length > 0">
-    @if (errors.basicPermissions.length > 0) {
+  <div class="govuk-form-group" [class.govuk-form-group--error]="showPermissionError && errors.basicPermissions.length > 0">
+    @if (showPermissionError && errors.basicPermissions.length > 0) {
     <p id="basic-permissions-error" class="govuk-error-message">
       <span class="govuk-visually-hidden">Error:</span> You must select at least
       one action

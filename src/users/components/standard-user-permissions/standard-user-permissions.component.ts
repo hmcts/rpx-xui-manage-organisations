@@ -12,6 +12,8 @@ import { BasicAccessTypes } from '../../models/basic-access-types.model';
 })
 export class StandardUserPermissionsComponent implements OnInit, OnDestroy {
   @Input() public user: User;
+  @Input() public hasOrganisationAccessPermission = false;
+  @Input() public showPermissionError = true;
 
   @Output() public selectedPermissionsChanged = new EventEmitter<BasicAccessTypes>();
 
@@ -61,7 +63,7 @@ export class StandardUserPermissionsComponent implements OnInit, OnDestroy {
   }
 
   updateCurrentErrors(){
-    if (this.permissionsForm.errors?.atLeastOneTrue){
+    if (!this.hasOrganisationAccessPermission && this.permissionsForm?.errors?.atLeastOneTrue){
       this.errors.basicPermissions = ['Select at least one permission'];
     } else {
       this.errors.basicPermissions = [];

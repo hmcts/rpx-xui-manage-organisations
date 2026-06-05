@@ -100,5 +100,16 @@ describe('UserPersonalDetailsComponent', () => {
         email: 'john@doe.com'
       });
     });
+
+    it('should clear email error when the email becomes valid', () => {
+      component.personalDetailForm.controls.email.markAsTouched();
+      component.personalDetailForm.controls.email.setValue('not-an-email');
+
+      expect(component.errors.email).toEqual(['Enter a valid email address']);
+
+      component.personalDetailForm.controls.email.setValue('john@doe.com');
+
+      expect(component.errors.email).toEqual([]);
+    });
   });
 });

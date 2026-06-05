@@ -22,7 +22,6 @@ test.describe('playwright reporting configuration', () => {
     expect(resolveWorkerCount({ FUNCTIONAL_TESTS_WORKERS: 'invalid', CI: 'true' })).toBe(1);
     expect(resolveWorkerCount({})).toBeGreaterThan(1);
     expect(resolveWorkerCount({})).toBeLessThanOrEqual(10);
-    expect(resolveWorkerCount({}, { localDefault: 4 })).toBeLessThanOrEqual(4);
   });
 
   test('resolves suite-specific output directories', () => {

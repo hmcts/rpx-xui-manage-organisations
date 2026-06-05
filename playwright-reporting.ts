@@ -44,11 +44,7 @@ export const resolveDefaultReporter = (env: EnvMap = process.env): string => {
   return configured || (env.CI ? 'dot' : 'list');
 };
 
-type WorkerCountOptions = {
-  localDefault?: number;
-};
-
-export const resolveWorkerCount = (env: EnvMap = process.env, options: WorkerCountOptions = {}): number => {
+export const resolveWorkerCount = (env: EnvMap = process.env): number => {
   const configured = env.FUNCTIONAL_TESTS_WORKERS?.trim();
   const parsed = configured ? Number.parseInt(configured, 10) : Number.NaN;
   if (Number.isFinite(parsed) && parsed > 0) {
@@ -57,8 +53,7 @@ export const resolveWorkerCount = (env: EnvMap = process.env, options: WorkerCou
   if (env.CI) {
     return 1;
   }
-  const localDefault = options.localDefault ?? MAX_LOCAL_WORKERS;
-  return Math.max(Math.min(availableParallelism?.() ?? cpus().length, localDefault), 1);
+  return Math.max(Math.min(availableParallelism?.() ?? cpus().length, MAX_LOCAL_WORKERS), 1);
 };
 
 export const resolveOutputDir = (env: EnvMap = process.env): string =>

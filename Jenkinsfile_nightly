@@ -348,7 +348,7 @@ withNightlyPipeline(type, product, component) {
                         stage('API Tests') {
                             try {
                                 withEnv(playwrightBrowsersEnv() + [
-                                    "FUNCTIONAL_TESTS_WORKERS=4",
+                                    "FUNCTIONAL_TESTS_WORKERS=6",
                                     "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-api",
                                     "PLAYWRIGHT_HTML_OUTPUT=functional-output/tests/playwright-api/html-report",
                                     "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-api/playwright-api-junit.xml",
@@ -369,7 +369,7 @@ withNightlyPipeline(type, product, component) {
                         stage('Playwright Integration Tests') {
                             try {
                                 withEnv(playwrightBrowsersEnv() + [
-                                    "FUNCTIONAL_TESTS_WORKERS=4",
+                                    "FUNCTIONAL_TESTS_WORKERS=6",
                                     "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-integration",
                                     "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-integration/playwright-integration-junit.xml",
                                     "PLAYWRIGHT_SKIP_INSTALL=true"
@@ -389,7 +389,7 @@ withNightlyPipeline(type, product, component) {
                         stage('Playwright Accessibility Tests') {
                             try {
                                 withEnv(playwrightBrowsersEnv() + [
-                                    "FUNCTIONAL_TESTS_WORKERS=4",
+                                    "FUNCTIONAL_TESTS_WORKERS=6",
                                     "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-a11y",
                                     "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-a11y/playwright-a11y-junit.xml",
                                     "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
@@ -410,7 +410,7 @@ withNightlyPipeline(type, product, component) {
                         stage('Playwright E2E Cross Browser') {
                             try {
                                 withEnv(playwrightBrowsersEnv() + [
-                                    "FUNCTIONAL_TESTS_WORKERS=2",
+                                    "FUNCTIONAL_TESTS_WORKERS=6",
                                     "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-e2e",
                                     "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-e2e/playwright-e2e-junit.xml",
                                     "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",

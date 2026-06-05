@@ -21,7 +21,6 @@ export const axeTestEnabled = process.env.ENABLE_AXE_TESTS === 'true';
 const smokeSpecPattern = 'playwright_tests_new/E2E/test/smoke/smokeTest.spec.ts';
 const baseUrl = process.env.TEST_URL || 'http://localhost:3000/';
 const workerCount = resolveWorkerCount(process.env);
-const apiWorkerCount = resolveWorkerCount(process.env, { localDefault: 4 });
 const outputDir = resolveOutputDir(process.env);
 
 module.exports = defineConfig({
@@ -96,7 +95,7 @@ module.exports = defineConfig({
       name: 'node-api',
       testMatch: ['playwright_tests_new/api/**/*.api.ts'],
       fullyParallel: true,
-      workers: apiWorkerCount,
+      workers: workerCount,
       retries: process.env.CI ? 2 : 0,
       timeout: 60 * 1000,
       expect: {

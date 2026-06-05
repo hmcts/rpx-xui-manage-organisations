@@ -293,6 +293,7 @@ Local Playwright workers default to computed machine parallelism, capped at 10. 
 Run the full local Playwright pack in the same order as the deployed lanes:
 
 ```bash
+yarn test:playwright:smoke
 PLAYWRIGHT_SKIP_INSTALL=true yarn test:api:pw
 PLAYWRIGHT_SKIP_INSTALL=true yarn test:playwright:integration
 PLAYWRIGHT_SKIP_INSTALL=true yarn test:a11y:playwright
@@ -303,6 +304,7 @@ PLAYWRIGHT_SKIP_INSTALL=true yarn test:crossbrowser:raw
 To mirror Jenkins worker pressure, set `FUNCTIONAL_TESTS_WORKERS=6`:
 
 ```bash
+FUNCTIONAL_TESTS_WORKERS=6 yarn test:playwright:smoke
 FUNCTIONAL_TESTS_WORKERS=6 PLAYWRIGHT_SKIP_INSTALL=true yarn test:api:pw
 FUNCTIONAL_TESTS_WORKERS=6 PLAYWRIGHT_SKIP_INSTALL=true yarn test:playwright:integration
 FUNCTIONAL_TESTS_WORKERS=6 PLAYWRIGHT_SKIP_INSTALL=true yarn test:a11y:playwright
@@ -436,20 +438,16 @@ Extended version of script below:
 
 ## Configuration Path
 
-The application should point to the configuration folder that contains the .json configuration files. There
-should only ever be two files within this folder:
+The application uses the Node `config` package. The current repo has these configuration files:
 
-custom-environmental-variables.json <- Allows configuration values to be set by the machines environmental values.
-Through the Jenkins pipelines they are overwritten by values.\*.template.yaml files for the Preview and AAT environments.
-On AKS they are only overwritten by values.yaml
-default.json <- Should contain Production configuration values.
+| File                                        | Purpose                                                                 |
+| ------------------------------------------- | ----------------------------------------------------------------------- |
+| `config/default.json`                       | Default application configuration.                                      |
+| `config/custom-environment-variables.json`  | Maps environment variables onto config keys.                            |
+| `config/local-development.json`             | Local development overrides.                                            |
+| `config/pacttesting.json`                   | Pact test configuration.                                                |
 
-Adding new files into /config should be avoided, as it increases complexity. Local needs to be setup to point
-at AAT, but this should be done by the developer on their local machine.
-
-It increases complexity if we were to add files to /config as we already have the Preview and AAT Jenkins environmental values contained within values.preview.template.yaml and values.aat.template.yaml.
-
-We should only have a default.json file within /config that has all the Production configuration values.
+Avoid adding new files under `config/` unless there is a clear environment or test-mode reason. Prefer environment variables, Helm values, or an existing config file first.
 
 ## Environment
 
@@ -505,18 +503,11 @@ which in turn uses `propertiesVolume.addTo()`
 
 ## How Application Configuration Works
 
-The application picks up the configuration from the /config .json files.
+The application reads `/config/*.json` through the Node `config` package and overlays values from environment variables declared in `config/custom-environment-variables.json`.
 
-The references within `*.json` files, for example `production.json`, are set by `/charts/xui-terms-and-conditions/values.yaml`.
-POSTGRES_SERVER_PORT is set by POSTGRES_SERVER_PORT within values.yaml. <br><br>HOWEVER if there is a
-`values.*.template.yaml` file it will override the values within the values.yaml file, BUT this only happens on the JENKINS
-pipelines, where values.\*.template.yaml are available to the build pipeline.
+Deployment values live in `charts/xui-mo-webapp/values.yaml`. Jenkins can also use `values.*.template.yaml` files while building Preview and AAT releases; AKS consumes the rendered chart values rather than those Jenkins templates directly.
 
-AKS uses a .json file in /config and the values.yaml from within charts/xui-terms-and-conditions ONLY.
-
-AKS does not use values.aat.template.yaml and values.previews.template.yaml
-
-DO NOT create a new .json file within /config as this increases the complexity of configuration.
+Do not add secrets to `/config/*.json`. Keep secrets in Key Vault and map them through chart values and mounted files.
 
 Node config selects the file within /config based on `NODE_ENV` which is always production on all environments,
 due to Reform standards, this should not change on different environments, it should always be `NODE_ENV=production`
@@ -559,7 +550,7 @@ SESSION_TIMEOUTS = [
 Note that the wildcard Reg Ex '.' pattern seen in the following sets the applications default.
 
 ```javascript
-{"idleModalDisplayTime": 6, "pattern":".", "totalIdleTime": 60
+{ "idleModalDisplayTime": 6, "pattern": ".", "totalIdleTime": 60 }
 ```
 
 Each Session Timeout object accepts a Reg Ex pattern, which sets the Session Timeout for that User group.

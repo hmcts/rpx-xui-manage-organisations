@@ -343,7 +343,7 @@ withNightlyPipeline(type, product, component) {
         stage('Nightly Functional Tests (Parallel)') {
             try {
                 parallel(
-                    failFast: true,
+                    failFast: false,
                     api: {
                         stage('API Tests') {
                             try {

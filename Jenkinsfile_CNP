@@ -22,6 +22,10 @@ def component = "mo-webapp"
 def channel   = '#xui-pipeline'
 def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 
+def playwrightBrowsersEnv = {
+    ["PLAYWRIGHT_BROWSERS_PATH=${env.WORKSPACE}/.cache/ms-playwright"]
+}
+
 def handleParallelInterruption = { Exception e ->
     def interrupted = false
     def failFastExitCodes = ['129', '137', '143']
@@ -243,7 +247,7 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                 api: {
                     stage('API Tests') {
                         try {
-                            withEnv([
+                            withEnv(playwrightBrowsersEnv() + [
                                 "FUNCTIONAL_TESTS_WORKERS=4",
                                 "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-api",
                                 "PLAYWRIGHT_HTML_OUTPUT=functional-output/tests/playwright-api/html-report",
@@ -264,10 +268,11 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                 playwrightIntegration: {
                     stage('Playwright Integration Tests') {
                         try {
-                            withEnv([
+                            withEnv(playwrightBrowsersEnv() + [
                                 "FUNCTIONAL_TESTS_WORKERS=4",
                                 "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-integration",
-                                "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-integration/playwright-integration-junit.xml"
+                                "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-integration/playwright-integration-junit.xml",
+                                "PLAYWRIGHT_SKIP_INSTALL=true"
                             ]) {
                                 yarnBuilder.yarn('test:playwright:integration')
                             }
@@ -283,7 +288,7 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                 playwrightA11y: {
                     stage('Playwright Accessibility Tests') {
                         try {
-                            withEnv([
+                            withEnv(playwrightBrowsersEnv() + [
                                 "FUNCTIONAL_TESTS_WORKERS=4",
                                 "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-a11y",
                                 "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-a11y/playwright-a11y-junit.xml",
@@ -304,7 +309,7 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                 playwrightE2E: {
                     stage('Playwright E2E') {
                         try {
-                            withEnv([
+                            withEnv(playwrightBrowsersEnv() + [
                                 "FUNCTIONAL_TESTS_WORKERS=2",
                                 "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-e2e",
                                 "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-e2e/playwright-e2e-junit.xml",
@@ -380,12 +385,15 @@ withPipeline(type, product, component) {
     afterAlways('checkout') {
         stage('Playwright Install Chromium') {
             try {
-                sh '''
-                    node .yarn/releases/yarn-4.9.2.cjs install --immutable
-                    touch .yarn_dependencies_installed
-                    node .yarn/releases/yarn-4.9.2.cjs test:setup:playwright-install-chromium
-                    node .yarn/releases/yarn-4.9.2.cjs test:setup:playwright-verify-chromium
-                '''
+                withEnv(playwrightBrowsersEnv()) {
+                    sh '''
+                        mkdir -p "$PLAYWRIGHT_BROWSERS_PATH"
+                        node .yarn/releases/yarn-4.9.2.cjs install --immutable
+                        touch .yarn_dependencies_installed
+                        node .yarn/releases/yarn-4.9.2.cjs test:setup:playwright-install-chromium
+                        node .yarn/releases/yarn-4.9.2.cjs test:setup:playwright-verify-chromium
+                    '''
+                }
             } catch (Error) {
                 error(message: "${STAGE_NAME} is unstable: " + Error.toString())
             }

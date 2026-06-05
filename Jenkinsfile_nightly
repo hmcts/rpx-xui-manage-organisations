@@ -18,6 +18,10 @@ def component = "mo-webapp"
 def channel   = '#xui-pipeline'
 def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 
+def playwrightBrowsersEnv = {
+    ["PLAYWRIGHT_BROWSERS_PATH=${env.WORKSPACE}/.cache/ms-playwright"]
+}
+
 def handleParallelInterruption = { Exception e ->
     def interrupted = false
     def failFastExitCodes = ['129', '137', '143']
@@ -267,12 +271,15 @@ withNightlyPipeline(type, product, component) {
     afterSuccess('checkout') {
         sh 'yarn cache clean'
         stage('Playwright Install All Browsers') {
-            sh '''
-                node .yarn/releases/yarn-4.9.2.cjs install --immutable
-                touch .yarn_dependencies_installed
-                node .yarn/releases/yarn-4.9.2.cjs test:setup:playwright-install-all
-                node .yarn/releases/yarn-4.9.2.cjs test:setup:playwright-verify-all
-            '''
+            withEnv(playwrightBrowsersEnv()) {
+                sh '''
+                    mkdir -p "$PLAYWRIGHT_BROWSERS_PATH"
+                    node .yarn/releases/yarn-4.9.2.cjs install --immutable
+                    touch .yarn_dependencies_installed
+                    node .yarn/releases/yarn-4.9.2.cjs test:setup:playwright-install-all
+                    node .yarn/releases/yarn-4.9.2.cjs test:setup:playwright-verify-all
+                '''
+            }
         }
     }
     afterSuccess('build') {
@@ -340,7 +347,7 @@ withNightlyPipeline(type, product, component) {
                     api: {
                         stage('API Tests') {
                             try {
-                                withEnv([
+                                withEnv(playwrightBrowsersEnv() + [
                                     "FUNCTIONAL_TESTS_WORKERS=4",
                                     "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-api",
                                     "PLAYWRIGHT_HTML_OUTPUT=functional-output/tests/playwright-api/html-report",
@@ -361,10 +368,11 @@ withNightlyPipeline(type, product, component) {
                     playwrightIntegration: {
                         stage('Playwright Integration Tests') {
                             try {
-                                withEnv([
+                                withEnv(playwrightBrowsersEnv() + [
                                     "FUNCTIONAL_TESTS_WORKERS=4",
                                     "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-integration",
-                                    "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-integration/playwright-integration-junit.xml"
+                                    "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-integration/playwright-integration-junit.xml",
+                                    "PLAYWRIGHT_SKIP_INSTALL=true"
                                 ]) {
                                     yarnBuilder.yarn('test:playwright:integration')
                                 }
@@ -380,7 +388,7 @@ withNightlyPipeline(type, product, component) {
                     playwrightA11y: {
                         stage('Playwright Accessibility Tests') {
                             try {
-                                withEnv([
+                                withEnv(playwrightBrowsersEnv() + [
                                     "FUNCTIONAL_TESTS_WORKERS=4",
                                     "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-a11y",
                                     "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-a11y/playwright-a11y-junit.xml",
@@ -401,7 +409,7 @@ withNightlyPipeline(type, product, component) {
                     playwrightE2E: {
                         stage('Playwright E2E Cross Browser') {
                             try {
-                                withEnv([
+                                withEnv(playwrightBrowsersEnv() + [
                                     "FUNCTIONAL_TESTS_WORKERS=2",
                                     "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-e2e",
                                     "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-e2e/playwright-e2e-junit.xml",

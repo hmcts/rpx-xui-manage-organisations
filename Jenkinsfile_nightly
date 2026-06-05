@@ -282,7 +282,8 @@ withNightlyPipeline(type, product, component) {
     enableMutationTest()
 
     env.TEST_URL = 'https://manage-org.aat.platform.hmcts.net/'
-    afterSuccess('checkout') {
+    afterSuccess('build') {
+        sh 'npm run build'
         sh 'yarn cache clean'
         stage('Playwright Install All Browsers') {
             installPlaywrightBrowsers(
@@ -290,9 +291,7 @@ withNightlyPipeline(type, product, component) {
                 'test:setup:playwright-verify-all'
             )
         }
-    }
-    afterSuccess('build') {
-        sh 'npm run build'
+
         stage('API Unit Coverage') {
             yarnBuilder.yarn('test:coverage:node')
         }

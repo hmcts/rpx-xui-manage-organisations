@@ -42,6 +42,7 @@ api/.nyc_output
 !.vscode/extensions.json
 
 # misc
+/.cache/
 /.playwright-cli/
 .ssr.lock/
 /.sass-cache

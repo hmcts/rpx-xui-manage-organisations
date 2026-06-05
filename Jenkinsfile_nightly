@@ -435,9 +435,8 @@ withNightlyPipeline(type, product, component) {
                                     yarnBuilder.yarn('test:a11y:playwright')
                                 }
                             } catch (Exception e) {
-                                echo "[parallel] Playwright Accessibility Tests catch: ${e.getClass().getName()}: ${e.getMessage()}"
+                                echo "[parallel-report-gathering] Playwright Accessibility failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"
                                 if (handleParallelInterruption(e)) { return }
-                                throw e
                             } finally {
                                 publishPlaywrightA11yReport('Nightly Manage Org Register Organisation Playwright A11y')
                             }

@@ -1,5 +1,17 @@
-FROM hmctsprod.azurecr.io/base/node:20-alpine as base
-LABEL maintainer = "HMCTS Expert UI <https://github.com/hmcts>"
+FROM hmctsprod.azurecr.io/base/node:20-alpine AS base
+LABEL maintainer="HMCTS Expert UI <https://github.com/hmcts>"
+
+ENV PUPPETEER_SKIP_DOWNLOAD=1 \
+  PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 \
+  CHROMEDRIVER_SKIP_DOWNLOAD=1 \
+  CYPRESS_INSTALL_BINARY=0 \
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 \
+  PLAYWRIGHT_BROWSERS_PATH=0 \
+  SENTRYCLI_SKIP_DOWNLOAD=1 \
+  NPM_CONFIG_FUND=false \
+  NPM_CONFIG_AUDIT=false \
+  NPM_CONFIG_UPDATE_NOTIFIER=false \
+  SCARF_ANALYTICS=false
 
 USER root
 RUN corepack enable
@@ -10,13 +22,13 @@ COPY --chown=hmcts:hmcts package.json yarn.lock .yarnrc.yml tsconfig.json ./
 
 RUN yarn
 
-FROM base as build
+FROM base AS build
 
 COPY --chown=hmcts:hmcts . .
 
 RUN yarn build && rm -r node_modules/ && yarn cache clean
 
-FROM base as runtime
+FROM base AS runtime
 COPY --from=build $WORKDIR ./
 USER hmcts
 EXPOSE 3000

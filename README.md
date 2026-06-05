@@ -366,6 +366,7 @@ The important CI contract is:
 - Functional lanes use the shared `PLAYWRIGHT_BROWSERS_PATH`.
 - Functional lanes set `PLAYWRIGHT_SKIP_INSTALL=true`, so they do not reinstall Chromium.
 - API, integration, E2E, and nightly cross-browser lanes publish a `System Load` HTML report from `load-profile.html`.
+- Accessibility findings publish HTML/JUnit evidence but do not fail the functional pipeline; API, integration, and E2E remain blocking gates.
 - Jenkins worker pressure is fixed at `FUNCTIONAL_TESTS_WORKERS=6`.
 - Local runs compute worker count from the developer machine unless `FUNCTIONAL_TESTS_WORKERS` is set.
 

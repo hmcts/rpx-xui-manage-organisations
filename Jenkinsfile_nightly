@@ -30,8 +30,8 @@ def playwrightBrowserEnv = { boolean skipInstall = true ->
 def installPlaywrightBrowsers = { String installScript, String verifyScript ->
     env.PLAYWRIGHT_BROWSERS_PATH = "${env.WORKSPACE}/.cache/ms-playwright"
     withEnv(playwrightBrowserEnv(false)) {
-        steps.sh "yarn ${installScript}"
-        steps.sh "yarn ${verifyScript}"
+        sh "yarn ${installScript}"
+        sh "yarn ${verifyScript}"
     }
     env.PLAYWRIGHT_SKIP_INSTALL = 'true'
 }

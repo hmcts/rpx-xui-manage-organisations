@@ -385,6 +385,7 @@ withPipeline(type, product, component) {
                     node .yarn/releases/yarn-4.9.2.cjs install --immutable
                     touch .yarn_dependencies_installed
                     node .yarn/releases/yarn-4.9.2.cjs test:setup:playwright-install-chromium
+                    node .yarn/releases/yarn-4.9.2.cjs test:setup:playwright-verify-chromium
                 '''
             } catch (Error) {
                 error(message: "${STAGE_NAME} is unstable: " + Error.toString())

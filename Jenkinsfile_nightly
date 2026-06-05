@@ -271,6 +271,7 @@ withNightlyPipeline(type, product, component) {
                 node .yarn/releases/yarn-4.9.2.cjs install --immutable
                 touch .yarn_dependencies_installed
                 node .yarn/releases/yarn-4.9.2.cjs test:setup:playwright-install-all
+                node .yarn/releases/yarn-4.9.2.cjs test:setup:playwright-verify-all
             '''
         }
     }
@@ -407,9 +408,10 @@ withNightlyPipeline(type, product, component) {
                                     "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-e2e/playwright-e2e-junit.xml",
                                     "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
                                     "PLAYWRIGHT_TAGS=@e2e",
-                                    "PLAYWRIGHT_EXCLUDE_TAGS=@a11y"
+                                    "PLAYWRIGHT_EXCLUDE_TAGS=@a11y",
+                                    "PLAYWRIGHT_SKIP_INSTALL=true"
                                 ]) {
-                                    yarnBuilder.yarn('test:crossbrowser')
+                                    yarnBuilder.yarn('test:crossbrowser:raw')
                                 }
                             } catch (Exception e) {
                                 echo "[parallel] Playwright E2E catch: ${e.getClass().getName()}: ${e.getMessage()}"

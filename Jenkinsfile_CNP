@@ -143,6 +143,68 @@ def publishPlaywrightLoadProfile = { String reportDir, String reportName ->
     )
 }
 
+def startPlaywrightLoadProfile = { String reportDir, String label, String eventsFile ->
+    steps.sh """
+        set +e
+        mkdir -p '${reportDir}'
+        rm -f '${reportDir}/stop' '${reportDir}/monitor.pid'
+        JENKINS_NODE_COOKIE=dontKillMe nohup node scripts/playwright-load-monitor.js \\
+          --output-folder '${reportDir}' \\
+          --label '${label}' \\
+          --events-file '${eventsFile}' \\
+          --stop-file '${reportDir}/stop' \\
+          > '${reportDir}/monitor.log' 2>&1 &
+        echo \$! > '${reportDir}/monitor.pid'
+    """
+}
+
+def stopPlaywrightLoadProfile = { String reportDir ->
+    steps.sh """
+        set +e
+        if [ -f '${reportDir}/monitor.pid' ]; then
+          pid=\$(cat '${reportDir}/monitor.pid')
+          touch '${reportDir}/stop'
+          for i in \$(seq 1 30); do
+            kill -0 "\${pid}" 2>/dev/null || break
+            sleep 1
+          done
+          if kill -0 "\${pid}" 2>/dev/null; then
+            kill -TERM "\${pid}" 2>/dev/null || true
+            sleep 2
+          fi
+        fi
+        if [ -f '${reportDir}/monitor.log' ]; then
+          cat '${reportDir}/monitor.log'
+        fi
+    """
+}
+
+def ciLoadProfileDir = 'functional-output/tests/playwright-integration/load-profile/ci'
+def ciLoadProfileEventsFile = 'functional-output/tests/playwright-integration/load-profile/ci-stage-events.jsonl'
+def ciLoadProfilePublished = false
+
+def recordPlaywrightLoadEvent = { String label, String eventType ->
+    try {
+        steps.sh "node scripts/playwright-load-event.js '${ciLoadProfileEventsFile}' '${label}' '${eventType}'"
+    } catch (Exception e) {
+        echo "[load-profile] failed to record ${label} ${eventType}: ${e.getMessage()}"
+    }
+}
+
+def startCiLoadProfile = {
+    startPlaywrightLoadProfile(ciLoadProfileDir, 'Manage Org Jenkins CI run', ciLoadProfileEventsFile)
+    recordPlaywrightLoadEvent('Checkout', 'finish')
+}
+
+def publishCiLoadProfile = { String reportName ->
+    if (ciLoadProfilePublished) {
+        return
+    }
+    ciLoadProfilePublished = true
+    stopPlaywrightLoadProfile(ciLoadProfileDir)
+    publishPlaywrightLoadProfile(ciLoadProfileDir, reportName)
+}
+
 def publishManageOrgEvidenceDashboard = { String reportName ->
     withEnv([
         "MANAGE_ORG_EVIDENCE_TITLE=${reportName}"
@@ -270,11 +332,13 @@ def publishPlaywrightA11yReport = { String reportName ->
 def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
     stage("${environmentName} Functional Tests (Parallel)") {
         try {
+            recordPlaywrightLoadEvent("${environmentName} functional tests", 'start')
             parallel(
                 failFast: false,
                 api: {
                     stage('API Tests') {
                         try {
+                            recordPlaywrightLoadEvent('API', 'start')
                             withEnv(playwrightBrowsersEnv() + [
                                 "FUNCTIONAL_TESTS_WORKERS=6",
                                 "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-api",
@@ -289,6 +353,7 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                             if (handleParallelInterruption(e)) { return }
                             throw e
                         } finally {
+                            recordPlaywrightLoadEvent('API', 'finish')
                             publishPlaywrightApiReport("${environmentName} Manage Org Playwright API")
                         }
                     }
@@ -296,6 +361,7 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                 playwrightIntegration: {
                     stage('Playwright Integration Tests') {
                         try {
+                            recordPlaywrightLoadEvent('Integration', 'start')
                             withEnv(playwrightBrowsersEnv() + [
                                 "FUNCTIONAL_TESTS_WORKERS=6",
                                 "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-integration",
@@ -309,6 +375,7 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                             if (handleParallelInterruption(e)) { return }
                             throw e
                         } finally {
+                            recordPlaywrightLoadEvent('Integration', 'finish')
                             publishPlaywrightIntegrationReport("${environmentName} Manage Org Playwright Integration")
                         }
                     }
@@ -316,6 +383,7 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                 playwrightA11y: {
                     stage('Playwright Accessibility Tests') {
                         try {
+                            recordPlaywrightLoadEvent('A11y', 'start')
                             withEnv(playwrightBrowsersEnv() + [
                                 "FUNCTIONAL_TESTS_WORKERS=6",
                                 "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-a11y",
@@ -329,6 +397,7 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                             echo "[parallel-report-gathering] Playwright Accessibility failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"
                             if (handleParallelInterruption(e)) { return }
                         } finally {
+                            recordPlaywrightLoadEvent('A11y', 'finish')
                             publishPlaywrightA11yReport("${environmentName} Manage Org Register Organisation Playwright A11y")
                         }
                     }
@@ -336,6 +405,7 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                 playwrightE2E: {
                     stage('Playwright E2E') {
                         try {
+                            recordPlaywrightLoadEvent('E2E', 'start')
                             withEnv(playwrightBrowsersEnv() + [
                                 "FUNCTIONAL_TESTS_WORKERS=6",
                                 "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-e2e",
@@ -352,13 +422,16 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                             if (handleParallelInterruption(e)) { return }
                             throw e
                         } finally {
+                            recordPlaywrightLoadEvent('E2E', 'finish')
                             publishPlaywrightE2EReport("${environmentName} Manage Org Playwright E2E")
                         }
                     }
                 }
             )
         } finally {
+            recordPlaywrightLoadEvent("${environmentName} functional tests", 'finish')
             publishManageOrgEvidenceDashboard("${environmentName} Manage Org Playwright Evidence")
+            publishCiLoadProfile("${environmentName} Manage Org CI System Load")
         }
     }
 }
@@ -409,26 +482,51 @@ withPipeline(type, product, component) {
      AppPipelineDsl.PactRoles.CONSUMER
 ])
 
+    afterSuccess('checkout') {
+        startCiLoadProfile()
+        stage('Yarn Install') {
+            try {
+                recordPlaywrightLoadEvent('Yarn install', 'start')
+                withEnv(playwrightBrowsersEnv()) {
+                    yarnBuilder.yarn('install --immutable')
+                    sh 'touch .yarn_dependencies_installed'
+                }
+            } finally {
+                recordPlaywrightLoadEvent('Yarn install', 'finish')
+            }
+        }
+    }
+
     afterAlways('checkout') {
         stage('Playwright Install Chromium') {
             try {
+                recordPlaywrightLoadEvent('Playwright chromium install', 'start')
                 withEnv(playwrightBrowsersEnv()) {
                     sh '''
                         mkdir -p "$PLAYWRIGHT_BROWSERS_PATH"
-                        node .yarn/releases/yarn-4.9.2.cjs install --immutable
-                        touch .yarn_dependencies_installed
+                        if [ ! -f .yarn_dependencies_installed ]; then
+                          node .yarn/releases/yarn-4.9.2.cjs install --immutable
+                          touch .yarn_dependencies_installed
+                        fi
                         node .yarn/releases/yarn-4.9.2.cjs test:setup:playwright-install-chromium
                         node .yarn/releases/yarn-4.9.2.cjs test:setup:playwright-verify-chromium
                     '''
                 }
             } catch (Error) {
                 error(message: "${STAGE_NAME} is unstable: " + Error.toString())
+            } finally {
+                recordPlaywrightLoadEvent('Playwright chromium install', 'finish')
             }
         }
     }
 
     afterSuccess('build') {
-        yarnBuilder.yarn('build')
+        try {
+            recordPlaywrightLoadEvent('Build', 'start')
+            yarnBuilder.yarn('build')
+        } finally {
+            recordPlaywrightLoadEvent('Build', 'finish')
+        }
     }
 
     afterSuccess('test') {

@@ -214,9 +214,7 @@ test.describe('Manage Org Playwright reporting scripts', { tag: '@svc-internal' 
         packageJsonPath,
         JSON.stringify({
           scripts: {
-            'lint:reporting:scripts': 'node --check scripts/retired-codecept-runner.js',
             'test:api:pw': 'playwright api',
-            'test:codeceptE2E': 'node scripts/retired-codecept-runner.js fail test:codeceptE2E',
             'test:playwrightE2E': 'playwright e2e',
             'test:smoke': 'playwright smoke'
           }
@@ -245,8 +243,8 @@ test.describe('Manage Org Playwright reporting scripts', { tag: '@svc-internal' 
       expect(html).not.toContain('user:password');
       expect(html).not.toContain('token=secret');
       expect(html).not.toContain('crumb=secret');
-      expect(html).toContain('test:codeceptE2E');
-      expect(html).not.toContain('lint:reporting:scripts');
+      expect(html).toContain('Retired aliases:</strong> removed from package.json');
+      expect(html).not.toContain('test:codeceptE2E');
       expect(html).toContain('Playwright is the authoritative Manage Organisation functional gate');
       expect(evidenceDashboard.parseArgs(['--root-dir', rootDir, '--title', 'Evidence']).title).toBe('Evidence');
     } finally {

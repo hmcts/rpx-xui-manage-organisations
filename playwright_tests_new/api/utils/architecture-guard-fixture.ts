@@ -3,20 +3,23 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
-const retiredLegacyScripts = [
+const forbiddenLegacyScripts = [
   'test:a11y:codecept',
   'test:a11yInTest',
   'test:api',
+  'test:functional',
+  'test:fullfunctional',
+  'test:mutation',
+  'test:mutation:fix',
   'test:ngIntegrationMockEnv',
   'test:codeceptE2EDebug',
   'test:codeceptE2E',
   'test:backendMock',
   'test:xuiIntegrationDebug',
   'test:xuiIntegration',
+  'testx',
   'patch:static'
 ];
-
-const legacyBridgeScripts = ['test:functional', 'test:fullfunctional'];
 
 const activePlaywrightConfigFiles = [
   'playwright.config.ts',
@@ -36,14 +39,6 @@ export const updateJsonFile = (
 export const createArchitectureGuardFixture = (): string => {
   const rootDir = fs.mkdtempSync(path.join(os.tmpdir(), 'manage-org-architecture-guard-'));
   const scripts = Object.fromEntries([
-    ...retiredLegacyScripts.map((scriptName) => [
-      scriptName,
-      `node scripts/retired-codecept-runner.js fail ${scriptName}`
-    ]),
-    ...legacyBridgeScripts.map((scriptName) => [
-      scriptName,
-      `node scripts/retired-codecept-runner.js bridge ${scriptName}`
-    ]),
     ['test:playwrightE2E', 'npx playwright test --config=playwright.e2e.config.ts'],
     ['test:playwright:integration', 'npx playwright test --config=playwright.integration.config.ts']
   ]);
@@ -100,10 +95,6 @@ export const createArchitectureGuardFixture = (): string => {
   );
 
   fs.writeFileSync(
-    path.join(rootDir, 'scripts/retired-codecept-runner.js'),
-    'if (mode === \'bridge\' && bridgeCommands.has(command)) { process.exit(0); }\n'
-  );
-  fs.writeFileSync(
     path.join(rootDir, 'scripts/run-playwright-a11y.js'),
     [
       'assertNoGrepOverrides',
@@ -116,6 +107,8 @@ export const createArchitectureGuardFixture = (): string => {
 
   return rootDir;
 };
+
+export const forbiddenPackageScripts = forbiddenLegacyScripts;
 
 export const runArchitectureGuard = (fixtureRoot: string): ReturnType<typeof spawnSync> =>
   spawnSync(process.execPath, [path.join(process.cwd(), 'scripts/check-playwright-architecture.js')], {

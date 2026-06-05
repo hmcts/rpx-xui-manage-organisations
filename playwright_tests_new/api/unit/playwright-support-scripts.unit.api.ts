@@ -20,36 +20,10 @@ let a11yRunner: {
   ) => number;
 };
 
-let retiredRunner: {
-  resolveRetiredRunnerOutcome: (mode: string, command: string) => { bridge: boolean; exitCode: number; reason: string };
-};
-
-test.describe('Manage Org Playwright retirement scripts', { tag: '@svc-internal' }, () => {
+test.describe('Manage Org Playwright support scripts', { tag: '@svc-internal' }, () => {
   test.beforeAll(async () => {
     const a11yModule = await import('../../../scripts/run-playwright-a11y.js');
     a11yRunner = (a11yModule.default ?? a11yModule) as typeof a11yRunner;
-
-    const retiredModule = await import('../../../scripts/retired-codecept-runner.js');
-    retiredRunner = (retiredModule.default ?? retiredModule) as typeof retiredRunner;
-  });
-
-  test('only permits the explicit shared functional bridge commands', () => {
-    expect(retiredRunner.resolveRetiredRunnerOutcome('bridge', 'test:functional')).toMatchObject({
-      bridge: true,
-      exitCode: 0
-    });
-    expect(retiredRunner.resolveRetiredRunnerOutcome('bridge', 'test:fullfunctional')).toMatchObject({
-      bridge: true,
-      exitCode: 0
-    });
-    expect(retiredRunner.resolveRetiredRunnerOutcome('bridge', 'test:api')).toMatchObject({
-      bridge: false,
-      exitCode: 1
-    });
-    expect(retiredRunner.resolveRetiredRunnerOutcome('fail', 'test:api')).toMatchObject({
-      bridge: false,
-      exitCode: 1
-    });
   });
 
   test('keeps the a11y runner scoped to @a11y even when caller env tags exclude it', () => {

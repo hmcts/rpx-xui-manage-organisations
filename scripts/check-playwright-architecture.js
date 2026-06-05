@@ -10,19 +10,23 @@ const allowedAssertionFiles = [
   /^playwright_tests_new\/api\/unit\/.*\.unit\.api\.ts$/,
   /^playwright_tests_new\/integration\/test\/.*\.spec\.ts$/
 ];
-const retiredLegacyScripts = [
+const forbiddenLegacyScripts = [
   'test:a11y:codecept',
   'test:a11yInTest',
   'test:api',
+  'test:functional',
+  'test:fullfunctional',
+  'test:mutation',
+  'test:mutation:fix',
   'test:ngIntegrationMockEnv',
   'test:codeceptE2EDebug',
   'test:codeceptE2E',
   'test:backendMock',
   'test:xuiIntegrationDebug',
   'test:xuiIntegration',
+  'testx',
   'patch:static'
 ];
-const legacyBridgeScripts = ['test:functional', 'test:fullfunctional'];
 const forbiddenLegacyDirectories = [
   'test_codecept',
   'playwright_tests',
@@ -218,17 +222,9 @@ for (const filePath of walk(playwrightRoot)) {
   }
 }
 
-for (const scriptName of retiredLegacyScripts) {
-  const expectedCommand = `node scripts/retired-codecept-runner.js fail ${scriptName}`;
-  if (packageJson.scripts?.[scriptName] !== expectedCommand) {
-    failures.push(`${scriptName}: legacy command must fail fast through scripts/retired-codecept-runner.js.`);
-  }
-}
-
-for (const scriptName of legacyBridgeScripts) {
-  const expectedCommand = `node scripts/retired-codecept-runner.js bridge ${scriptName}`;
-  if (packageJson.scripts?.[scriptName] !== expectedCommand) {
-    failures.push(`${scriptName}: shared Jenkins hook must remain a no-op bridge while Playwright stages own execution.`);
+for (const scriptName of forbiddenLegacyScripts) {
+  if (packageJson.scripts?.[scriptName]) {
+    failures.push(`${scriptName}: retired package script must stay removed; use the Playwright replacement lanes.`);
   }
 }
 
@@ -269,11 +265,8 @@ for (const { fileName, contracts } of requiredPipelineJunitContracts) {
   }
 }
 
-const retiredRunnerSource = readFileSync(join(root, 'scripts/retired-codecept-runner.js'), 'utf-8');
-if (!/mode\s*===\s*['"]bridge['"]\s*&&\s*bridgeCommands\.has\(command\)/.test(retiredRunnerSource)) {
-  failures.push(
-    'scripts/retired-codecept-runner.js: bridge mode must only succeed for the explicit shared Jenkins bridge commands.'
-  );
+if (existsSync(join(root, 'scripts/retired-codecept-runner.js'))) {
+  failures.push('scripts/retired-codecept-runner.js: retired compatibility runner must stay deleted.');
 }
 
 const a11yRunnerSource = readFileSync(join(root, 'scripts/run-playwright-a11y.js'), 'utf-8');

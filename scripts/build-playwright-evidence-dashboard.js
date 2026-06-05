@@ -232,17 +232,12 @@ function sanitizeDisplayUrl(value) {
 
 function buildPackageSummary(packageJsonPath) {
   const summary = {
-    retiredAliases: [],
     replacementScripts: [],
   };
 
   try {
     const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
     const scripts = packageJson.scripts || {};
-    summary.retiredAliases = Object.entries(scripts)
-      .filter(([, command]) => /retired-codecept-runner\.js\s+(fail|bridge)\b/.test(String(command)))
-      .map(([name]) => name)
-      .sort();
     summary.replacementScripts = [
       'test:smoke',
       'test:api:pw',
@@ -326,7 +321,7 @@ function buildDashboardHtml(model) {
     <h2>Retirement Position</h2>
     <p>Playwright is the authoritative Manage Organisation functional gate for smoke, API, integration, accessibility, and E2E coverage.</p>
     <p><strong>Replacement scripts:</strong> ${escapeHtml(model.packageSummary.replacementScripts.join(', ') || 'not detected')}</p>
-    <p><strong>Retired aliases guarded:</strong> ${escapeHtml(model.packageSummary.retiredAliases.join(', ') || 'not detected')}</p>
+    <p><strong>Retired aliases:</strong> removed from package.json and blocked by the architecture guard.</p>
   </body>
 </html>
 `;

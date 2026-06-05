@@ -18,8 +18,11 @@ test.describe('playwright reporting configuration', () => {
 
   test('parses configured worker count safely', () => {
     expect(resolveWorkerCount({ FUNCTIONAL_TESTS_WORKERS: '4' })).toBe(4);
-    expect(resolveWorkerCount({ FUNCTIONAL_TESTS_WORKERS: '0' })).toBe(1);
-    expect(resolveWorkerCount({ FUNCTIONAL_TESTS_WORKERS: 'invalid' })).toBe(1);
+    expect(resolveWorkerCount({ FUNCTIONAL_TESTS_WORKERS: '0' })).toBeGreaterThan(1);
+    expect(resolveWorkerCount({ FUNCTIONAL_TESTS_WORKERS: 'invalid', CI: 'true' })).toBe(1);
+    expect(resolveWorkerCount({})).toBeGreaterThan(1);
+    expect(resolveWorkerCount({})).toBeLessThanOrEqual(10);
+    expect(resolveWorkerCount({}, { localDefault: 4 })).toBeLessThanOrEqual(4);
   });
 
   test('resolves suite-specific output directories', () => {

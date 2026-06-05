@@ -284,8 +284,8 @@ for (const expectedContract of [
 
 const parameterizedPipelineSource = readFileSync(join(root, parameterizedPipelineFile), 'utf-8');
 for (const expectedEvidencePath of [
-  'functional-output/tests/playwright-a11y/integration/odhin-report',
-  'xui-playwright-a11y-integration.html',
+  'functional-output/tests/playwright-a11y/odhin-report',
+  'xui-playwright-a11y.html',
   'stagePlaywrightArtifacts',
   "sh 'yarn test:coverage:node'",
   'reports/tests/coverage/node'

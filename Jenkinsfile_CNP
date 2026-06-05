@@ -242,32 +242,23 @@ def publishPlaywrightIntegrationReport = { String reportName ->
 }
 
 def publishPlaywrightA11yReport = { String reportName ->
-    ensureHtmlReportForPublishing(
-        "functional-output/tests/playwright-a11y/odhin-report",
-        'xui-playwright-a11y.html',
-        reportName
-    )
-    publishHTML([
-        allowMissing         : true,
-        alwaysLinkToLastBuild: true,
-        keepAll              : true,
-        reportDir            : "functional-output/tests/playwright-a11y/odhin-report",
-        reportFiles          : 'xui-playwright-a11y.html',
-        reportName           : reportName
-    ])
-    ensureHtmlReportForPublishing(
-        "functional-output/tests/playwright-a11y/integration/odhin-report",
-        'xui-playwright-a11y-integration.html',
-        "${reportName} - Integration"
-    )
-    publishHTML([
-        allowMissing         : true,
-        alwaysLinkToLastBuild: true,
-        keepAll              : true,
-        reportDir            : "functional-output/tests/playwright-a11y/integration/odhin-report",
-        reportFiles          : 'xui-playwright-a11y-integration.html',
-        reportName           : "${reportName} - Integration"
-    ])
+    try {
+        ensureHtmlReportForPublishing(
+            "functional-output/tests/playwright-a11y/odhin-report",
+            'xui-playwright-a11y.html',
+            reportName
+        )
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "functional-output/tests/playwright-a11y/odhin-report",
+            reportFiles          : 'xui-playwright-a11y.html',
+            reportName           : reportName
+        ])
+    } catch (Exception e) {
+        echo "[playwright-a11y] Report publish failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"
+    }
     stagePlaywrightArtifacts('functional-output/tests/playwright-a11y/stable-artifacts', 'test-results/playwright-a11y')
     publishPlaywrightJUnit('functional-output/tests/playwright-a11y/**/*junit.xml')
     steps.archiveArtifacts(

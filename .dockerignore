@@ -6,6 +6,7 @@
 **/.angular
 .cache
 **/.cache
+**/.parcel-cache
 .DS_Store
 **/.DS_Store
 charts
@@ -44,6 +45,7 @@ mochawesome-report/
 test_codecept/
 test/
 **/test
+dummy.pdf
 *.iml
 .sessions/
 tmp

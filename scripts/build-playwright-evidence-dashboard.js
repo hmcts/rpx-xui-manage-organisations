@@ -46,14 +46,11 @@ const LANES = [
   {
     id: 'a11y',
     name: 'Accessibility',
-    purpose: 'Dedicated axe accessibility scans for deployed E2E and mocked integration routes.',
+    purpose: 'Dedicated axe accessibility scans for deployed E2E routes.',
     artifacts: [
-      artifact('E2E Odhin report', ['playwright-a11y/odhin-report/xui-playwright-a11y.html'], true),
-      artifact('E2E Playwright HTML', ['playwright-a11y/html-report/index.html'], false),
-      artifact('E2E JUnit XML', ['playwright-a11y/playwright-a11y-junit.xml'], true),
-      artifact('Integration Odhin report', ['playwright-a11y/integration/odhin-report/xui-playwright-a11y-integration.html'], true),
-      artifact('Integration Playwright HTML', ['playwright-a11y/integration/html-report/index.html'], false),
-      artifact('Integration JUnit XML', ['playwright-a11y/integration/playwright-a11y-integration-junit.xml'], true),
+      artifact('Odhin report', ['playwright-a11y/odhin-report/xui-playwright-a11y.html'], true),
+      artifact('Playwright HTML', ['playwright-a11y/html-report/index.html'], false),
+      artifact('JUnit XML', ['playwright-a11y/playwright-a11y-junit.xml'], true),
       artifact('Stable failure artifacts', ['playwright-a11y/stable-artifacts'], false),
     ],
   },

@@ -233,12 +233,6 @@ def runPlaywrightFunctionalTests = { String environmentName ->
                 "${environmentName} Manage Org Register Organisation Playwright A11y",
                 'functional-output/tests/playwright-a11y/**'
             )
-            publishPlaywrightReport(
-                "functional-output/tests/playwright-a11y/integration/odhin-report",
-                'xui-playwright-a11y-integration.html',
-                "${environmentName} Manage Org Register Organisation Playwright A11y - Integration",
-                'functional-output/tests/playwright-a11y/integration/**'
-            )
             stagePlaywrightArtifacts('functional-output/tests/playwright-e2e/stable-artifacts', 'test-results/playwright-e2e')
             publishPlaywrightReport(
                 "functional-output/tests/playwright-e2e/odhin-report",

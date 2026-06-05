@@ -128,8 +128,8 @@ test.describe('Manage Org Playwright architecture guard', { tag: '@svc-internal'
       const pipelinePath = path.join(rootDir, 'Jenkinsfile_parameterized');
       fs.writeFileSync(
         pipelinePath,
-        fs.readFileSync(pipelinePath, 'utf8').replace('xui-playwright-a11y-integration.html', '')
+        fs.readFileSync(pipelinePath, 'utf8').replaceAll('xui-playwright-a11y.html', '')
       );
-    }, /Jenkinsfile_parameterized: missing Playwright retirement evidence contract xui-playwright-a11y-integration\.html/);
+    }, /Jenkinsfile_parameterized: missing Playwright retirement evidence contract xui-playwright-a11y\.html/);
   });
 });

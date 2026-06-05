@@ -26,10 +26,11 @@ FROM base AS build
 
 COPY --chown=hmcts:hmcts . .
 
-RUN yarn build && rm -r node_modules/ && yarn cache clean
+RUN yarn build
 
 FROM base AS runtime
-COPY --from=build $WORKDIR ./
+COPY --from=build --chown=hmcts:hmcts $WORKDIR/dist ./dist
+COPY --from=build --chown=hmcts:hmcts $WORKDIR/config ./config
 USER hmcts
 EXPOSE 3000
 CMD [ "yarn", "start" ]

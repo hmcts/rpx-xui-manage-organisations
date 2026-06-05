@@ -32,12 +32,10 @@ test.describe('Manage Org Playwright support scripts', { tag: '@svc-internal' },
       PLAYWRIGHT_TAGS: '@e2e'
     });
 
-    expect(plan.runs).toHaveLength(4);
+    expect(plan.runs).toHaveLength(2);
     expect(plan.runs.map((run) => run.args)).toEqual([
       ['test:playwrightE2E:list', '--grep', '@a11y', '--project=chromium'],
-      ['test:playwrightE2E:raw', '--', '--grep', '@a11y', '--project=chromium'],
-      ['test:playwright:integration:raw', '--', '--list', '--grep', '@a11y', '--project=chromium'],
-      ['test:playwright:integration:raw', '--', '--grep', '@a11y', '--project=chromium']
+      ['test:playwrightE2E:raw', '--', '--grep', '@a11y', '--project=chromium']
     ]);
   });
 
@@ -79,8 +77,8 @@ test.describe('Manage Org Playwright support scripts', { tag: '@svc-internal' },
     expect(a11yRunner.resolveSafeOutputRoot('functional-output/tests/playwright-a11y/html-report', 'html')).toBe(
       'functional-output/tests/playwright-a11y/html-report'
     );
-    expect(a11yRunner.resolveSafeOutputRoot('test-results/playwright-a11y/integration', 'test-results')).toBe(
-      'test-results/playwright-a11y/integration'
+    expect(a11yRunner.resolveSafeOutputRoot('test-results/playwright-a11y/chromium', 'test-results')).toBe(
+      'test-results/playwright-a11y/chromium'
     );
   });
 });

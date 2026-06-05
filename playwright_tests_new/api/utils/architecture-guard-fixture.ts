@@ -87,8 +87,8 @@ export const createArchitectureGuardFixture = (): string => {
       'publishPlaywrightReport(\'functional-output/tests/playwright-a11y/odhin-report\', \'xui-playwright-a11y.html\', \'A11y\', \'functional-output/tests/playwright-a11y/**\')',
       'publishPlaywrightReport(\'functional-output/tests/playwright-e2e/odhin-report\', \'xui-playwright-e2e.html\', \'E2E\', \'functional-output/tests/playwright-e2e/**\')',
       'junit(allowEmptyResults: false, testResults: \'functional-output/tests/playwright-smoke/**/*junit.xml\')',
-      'functional-output/tests/playwright-a11y/integration/odhin-report',
-      'xui-playwright-a11y-integration.html',
+      'functional-output/tests/playwright-a11y/odhin-report',
+      'xui-playwright-a11y.html',
       'stagePlaywrightArtifacts',
       'reports/tests/coverage/node'
     ].join('\n')

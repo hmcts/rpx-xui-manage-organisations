@@ -46,14 +46,11 @@ const LANES = [
   {
     id: 'a11y',
     name: 'Accessibility',
-    purpose: 'Dedicated axe accessibility scans for deployed E2E and mocked integration routes.',
+    purpose: 'Dedicated axe accessibility scans for deployed E2E routes.',
     artifacts: [
-      artifact('E2E Odhin report', ['playwright-a11y/odhin-report/xui-playwright-a11y.html'], true),
-      artifact('E2E Playwright HTML', ['playwright-a11y/html-report/index.html'], false),
-      artifact('E2E JUnit XML', ['playwright-a11y/playwright-a11y-junit.xml'], true),
-      artifact('Integration Odhin report', ['playwright-a11y/integration/odhin-report/xui-playwright-a11y-integration.html'], true),
-      artifact('Integration Playwright HTML', ['playwright-a11y/integration/html-report/index.html'], false),
-      artifact('Integration JUnit XML', ['playwright-a11y/integration/playwright-a11y-integration-junit.xml'], true),
+      artifact('Odhin report', ['playwright-a11y/odhin-report/xui-playwright-a11y.html'], true),
+      artifact('Playwright HTML', ['playwright-a11y/html-report/index.html'], false),
+      artifact('JUnit XML', ['playwright-a11y/playwright-a11y-junit.xml'], true),
       artifact('Stable failure artifacts', ['playwright-a11y/stable-artifacts'], false),
     ],
   },
@@ -65,6 +62,7 @@ const LANES = [
       artifact('Odhin report', ['playwright-e2e/odhin-report/xui-playwright-e2e.html'], true),
       artifact('Playwright HTML', ['playwright-e2e/index.html', 'playwright-e2e/html-report/index.html'], false),
       artifact('JUnit XML', ['playwright-e2e/playwright-e2e-junit.xml'], true),
+      artifact('Load profile', ['playwright-e2e/odhin-report/load-profile/load-profile.html'], false),
       artifact('Stable failure artifacts', ['playwright-e2e/stable-artifacts'], false),
     ],
   },
@@ -232,17 +230,12 @@ function sanitizeDisplayUrl(value) {
 
 function buildPackageSummary(packageJsonPath) {
   const summary = {
-    retiredAliases: [],
     replacementScripts: [],
   };
 
   try {
     const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
     const scripts = packageJson.scripts || {};
-    summary.retiredAliases = Object.entries(scripts)
-      .filter(([, command]) => /retired-codecept-runner\.js\s+(fail|bridge)\b/.test(String(command)))
-      .map(([name]) => name)
-      .sort();
     summary.replacementScripts = [
       'test:smoke',
       'test:api:pw',
@@ -326,7 +319,7 @@ function buildDashboardHtml(model) {
     <h2>Retirement Position</h2>
     <p>Playwright is the authoritative Manage Organisation functional gate for smoke, API, integration, accessibility, and E2E coverage.</p>
     <p><strong>Replacement scripts:</strong> ${escapeHtml(model.packageSummary.replacementScripts.join(', ') || 'not detected')}</p>
-    <p><strong>Retired aliases guarded:</strong> ${escapeHtml(model.packageSummary.retiredAliases.join(', ') || 'not detected')}</p>
+    <p><strong>Retired aliases:</strong> removed from package.json and blocked by the architecture guard.</p>
   </body>
 </html>
 `;

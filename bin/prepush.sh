@@ -1,17 +1,5 @@
 #!/bin/bash
 
-yarn lint
-lint_status=$?
-
-if [ "$lint_status" -ne 0 ]; then
-  printf "Lint errors found in the listed files.\n\n" >&2
-  printf "=============================================================\n" >&2
-  printf "The following command failed: lint\n" >&2
-  printf "Fix the lint errors shown above, then push again.\n" >&2
-  printf "=============================================================\n" >&2
-  exit "$lint_status"
-fi
-
 yarn npm audit --recursive --environment production --json > yarn-audit-known-issues
 cve_suppress_status=$?
 

@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 import fs from 'node:fs';
 import path from 'node:path';
 import {
+  cnpCompatibilityScripts,
   createArchitectureGuardFixture,
   forbiddenPackageScripts,
   runArchitectureGuard,
@@ -69,6 +70,23 @@ test.describe('Manage Org Playwright architecture guard', { tag: '@svc-internal'
           };
         });
       }, new RegExp(`${scriptName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}: retired package script must stay removed`));
+    }
+  });
+
+  test('rejects CNP compatibility hooks that are not inert', () => {
+    for (const scriptName of Object.keys(cnpCompatibilityScripts)) {
+      expectGuardFailure((rootDir) => {
+        updateJsonFile(path.join(rootDir, 'package.json'), (packageJson) => {
+          const scripts = packageJson.scripts as Record<string, string>;
+          return {
+            ...packageJson,
+            scripts: {
+              ...scripts,
+              [scriptName]: 'echo legacy test command'
+            }
+          };
+        });
+      }, new RegExp(`${scriptName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}: CNP compatibility hook must remain a no-op`));
     }
   });
 

@@ -7,8 +7,6 @@ const forbiddenLegacyScripts = [
   'test:a11y:codecept',
   'test:a11yInTest',
   'test:api',
-  'test:functional',
-  'test:fullfunctional',
   'test:mutation',
   'test:mutation:fix',
   'test:ngIntegrationMockEnv',
@@ -20,6 +18,13 @@ const forbiddenLegacyScripts = [
   'testx',
   'patch:static'
 ];
+
+export const cnpCompatibilityScripts = {
+  'test:functional':
+    'echo \'CNP functionalTest hook is intentionally satisfied by Playwright lanes in Jenkinsfile_CNP\' && exit 0',
+  'test:fullfunctional':
+    'echo \'CNP fullFunctionalTest hook is intentionally satisfied by Playwright lanes in Jenkinsfile_CNP/Jenkinsfile_nightly\' && exit 0'
+};
 
 const activePlaywrightConfigFiles = [
   'playwright.config.ts',
@@ -40,7 +45,8 @@ export const createArchitectureGuardFixture = (): string => {
   const rootDir = fs.mkdtempSync(path.join(os.tmpdir(), 'manage-org-architecture-guard-'));
   const scripts = Object.fromEntries([
     ['test:playwrightE2E', 'npx playwright test --config=playwright.e2e.config.ts'],
-    ['test:playwright:integration', 'npx playwright test --config=playwright.integration.config.ts']
+    ['test:playwright:integration', 'npx playwright test --config=playwright.integration.config.ts'],
+    ...Object.entries(cnpCompatibilityScripts)
   ]);
 
   fs.mkdirSync(path.join(rootDir, 'scripts'), { recursive: true });

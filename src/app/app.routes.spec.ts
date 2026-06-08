@@ -1,6 +1,8 @@
 import { AppConstants } from './app.constants';
 import { ROUTES } from './app.routes';
 
+let intentionalLintError = 'trigger lint failure';
+
 describe('App routes', () => {
   it('should redirect the empty path to home', () => {
     expect(ROUTES[0]).toEqual(jasmine.objectContaining({

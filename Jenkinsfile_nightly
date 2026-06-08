@@ -115,28 +115,32 @@ def publishPlaywrightJUnit = { String testResults ->
 }
 
 def publishPlaywrightLoadProfile = { String reportDir, String reportName ->
-    withEnv([
-        "PW_LOAD_PROFILE_REPORT_DIR=${reportDir}",
-        "PW_LOAD_PROFILE_REPORT_NAME=${reportName}"
-    ]) {
-        steps.sh '''
-            node scripts/ensure-load-profile-report.js \
-              --report-dir "$PW_LOAD_PROFILE_REPORT_DIR" \
-              --report-name "$PW_LOAD_PROFILE_REPORT_NAME"
-        '''
+    try {
+        withEnv([
+            "PW_LOAD_PROFILE_REPORT_DIR=${reportDir}",
+            "PW_LOAD_PROFILE_REPORT_NAME=${reportName}"
+        ]) {
+            steps.sh '''
+                node scripts/ensure-load-profile-report.js \
+                  --report-dir "$PW_LOAD_PROFILE_REPORT_DIR" \
+                  --report-name "$PW_LOAD_PROFILE_REPORT_NAME"
+            '''
+        }
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : reportDir,
+            reportFiles          : 'load-profile.html',
+            reportName           : reportName
+        ])
+        steps.archiveArtifacts(
+            allowEmptyArchive: true,
+            artifacts: "${reportDir}/load-profile.html"
+        )
+    } catch (Exception e) {
+        echo "[load-profile] ${reportName} publish failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"
     }
-    publishHTML([
-        allowMissing         : true,
-        alwaysLinkToLastBuild: true,
-        keepAll              : true,
-        reportDir            : reportDir,
-        reportFiles          : 'load-profile.html',
-        reportName           : reportName
-    ])
-    steps.archiveArtifacts(
-        allowEmptyArchive: true,
-        artifacts: "${reportDir}/load-profile.html"
-    )
 }
 
 def publishManageOrgEvidenceDashboard = { String reportName ->

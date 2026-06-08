@@ -19,8 +19,9 @@ USER hmcts
 
 COPY --chown=hmcts:hmcts .yarn ./.yarn
 COPY --chown=hmcts:hmcts package.json yarn.lock .yarnrc.yml tsconfig.json ./
+COPY --chown=hmcts:hmcts api/package.json ./api/package.json
 
-RUN yarn
+RUN yarn install --immutable --mode=skip-build
 
 FROM base AS build
 

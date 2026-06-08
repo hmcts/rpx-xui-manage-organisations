@@ -1,3 +1,4 @@
 #!/bin/sh
 
-yarn lint || (yarn lint:prettier:fix && yarn lint:ng:fix && yarn lint:node:fix && yarn lint:test:fix && yarn lint)
+# Lint runs on push via bin/prepush.sh.
+exit 0

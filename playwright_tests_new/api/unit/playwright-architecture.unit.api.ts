@@ -73,6 +73,15 @@ test.describe('Manage Org Playwright architecture guard', { tag: '@svc-internal'
     }
   });
 
+  test('rejects skipped API tests', () => {
+    expectGuardFailure((rootDir) => {
+      fs.writeFileSync(
+        path.join(rootDir, 'playwright_tests_new/api/skipped-contract.api.ts'),
+        'import { test } from \'./fixtures\';\ntest.skip(\'does not run\', async () => {});\n'
+      );
+    }, /playwright_tests_new\/api\/skipped-contract\.api\.ts: API tests must not be skipped/);
+  });
+
   test('rejects CNP compatibility hooks that are not inert', () => {
     for (const scriptName of Object.keys(cnpCompatibilityScripts)) {
       expectGuardFailure((rootDir) => {

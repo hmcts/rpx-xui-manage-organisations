@@ -399,7 +399,7 @@ Playwright API, integration, accessibility, and E2E lanes are now the Manage Org
 - Retired legacy assets have been deleted from the active tree: `test_codecept/**`, old `playwright_tests/**`, legacy pa11y accessibility tests, old API-functional tests, and old local mock assets. Historical evidence is available from git history and the migration Jira trail.
 - `test/java/**` remains because Fortify still owns that Java wrapper; it is not part of the retired functional framework estate.
 - `yarn lint:playwright:architecture` fails if package scripts, Jenkinsfiles, dependencies, legacy folders, old report publishers, or old Playwright paths are reintroduced.
-- Live mutating invite, re-invite, and register-organisation API POST probes are not part of default CNP/nightly because they create persistent AAT data; use `yarn test:api:pw:mutating` only when the target environment and cleanup window are agreed.
+- Live mutating invite and register-organisation API POST probes are not part of the active API suite because they create persistent AAT data. Add cleanup-safe contracts before bringing those scenarios into the gate.
 
 ## Playwright Authentication
 
@@ -428,8 +428,6 @@ The populate script also normalises common aliases used by the app and tests, in
 
 - `MANAGE_ORG_TEST_USER_ROLE` selects the signed-in fixture user: `base` by default, or `roo`.
 - `MANAGE_ORG_STORAGE_STATE` can point to a local directory for generated worker-isolated storage-state files.
-- `MANAGE_ORG_API_ENABLE_INVITE_POST=true` enables the mutating invite / re-invite API POST test. Keep it disabled unless the target environment and test-user lifecycle are agreed.
-- `MANAGE_ORG_API_ENABLE_REGISTRATION_POST=true` enables the mutating register-organisation API POST test. Keep it disabled unless the target environment and data lifecycle are agreed.
 - Smoke/login tests stay unauthenticated by default. Only tests that request `signedInPage` load cached auth state.
 - Use `yarn test:playwrightE2E:list` to confirm the CNP Playwright E2E pack.
 - Use `yarn test:playwright:smoke:list` to list unauthenticated smoke checks, or `yarn test:playwright:smoke` to run them.

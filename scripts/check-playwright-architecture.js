@@ -17,6 +17,7 @@ const forbiddenLegacyScripts = [
   'test:mutation',
   'test:mutation:fix',
   'test:ngIntegrationMockEnv',
+  'test:api:pw:mutating',
   'test:codeceptE2EDebug',
   'test:codeceptE2E',
   'test:backendMock',
@@ -223,6 +224,10 @@ for (const filePath of walk(playwrightRoot)) {
 
   if (/\/page-objects\//.test(relativePath) && /\bexpect\b/.test(source)) {
     failures.push(`${relativePath}: page objects must not import or re-export Playwright expect.`);
+  }
+
+  if (/^playwright_tests_new\/api\/.*\.api\.ts$/.test(relativePath) && /\b(?:test|describe)\.skip\s*\(/.test(source)) {
+    failures.push(`${relativePath}: API tests must not be skipped; remove non-executable scenarios or make them pass.`);
   }
 }
 

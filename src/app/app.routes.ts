@@ -9,6 +9,8 @@ import { TermsAndConditionsRegisterOtherOrgComponent } from './components/terms-
 import { RedirectComponent } from './containers/redirect/redirect.component';
 import { TermsConditionGuard } from './guards/termsCondition.guard';
 
+var testVariable = 'testVariable';
+
 export const ROUTES: Routes = [
   {
     path: '',

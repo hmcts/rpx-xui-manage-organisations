@@ -119,28 +119,40 @@ def publishPlaywrightJUnit = { String testResults ->
 }
 
 def publishPlaywrightLoadProfile = { String reportDir, String reportName ->
-    withEnv([
-        "PW_LOAD_PROFILE_REPORT_DIR=${reportDir}",
-        "PW_LOAD_PROFILE_REPORT_NAME=${reportName}"
-    ]) {
-        steps.sh '''
-            node scripts/ensure-load-profile-report.js \
-              --report-dir "$PW_LOAD_PROFILE_REPORT_DIR" \
-              --report-name "$PW_LOAD_PROFILE_REPORT_NAME"
-        '''
+    try {
+        def safeReportName = reportName.replaceAll(/[^A-Za-z0-9._-]/, '-')
+        def slimReportDir = "functional-output/tests/playwright-published-reports/load-profile/${safeReportName}"
+        withEnv([
+            "PW_LOAD_PROFILE_REPORT_DIR=${reportDir}",
+            "PW_LOAD_PROFILE_REPORT_NAME=${reportName}",
+            "PW_LOAD_PROFILE_SLIM_REPORT_DIR=${slimReportDir}"
+        ]) {
+            steps.sh '''
+                set +e
+                node scripts/ensure-load-profile-report.js \
+                  --report-dir "$PW_LOAD_PROFILE_REPORT_DIR" \
+                  --report-name "$PW_LOAD_PROFILE_REPORT_NAME"
+                mkdir -p "$PW_LOAD_PROFILE_SLIM_REPORT_DIR"
+                if [ -f "$PW_LOAD_PROFILE_REPORT_DIR/load-profile.html" ]; then
+                  cp "$PW_LOAD_PROFILE_REPORT_DIR/load-profile.html" "$PW_LOAD_PROFILE_SLIM_REPORT_DIR/load-profile.html"
+                fi
+            '''
+        }
+        steps.archiveArtifacts(
+            allowEmptyArchive: true,
+            artifacts: "${slimReportDir}/load-profile.html"
+        )
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "${slimReportDir}/",
+            reportFiles          : 'load-profile.html',
+            reportName           : reportName
+        ])
+    } catch (Exception e) {
+        echo "[load-profile] ${reportName} publish failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"
     }
-    publishHTML([
-        allowMissing         : true,
-        alwaysLinkToLastBuild: true,
-        keepAll              : true,
-        reportDir            : reportDir,
-        reportFiles          : 'load-profile.html',
-        reportName           : reportName
-    ])
-    steps.archiveArtifacts(
-        allowEmptyArchive: true,
-        artifacts: "${reportDir}/load-profile.html"
-    )
 }
 
 def startPlaywrightLoadProfile = { String reportDir, String label, String eventsFile ->

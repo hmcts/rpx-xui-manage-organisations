@@ -365,7 +365,7 @@ The important CI contract is:
 - Browser install happens once per Jenkins workspace.
 - Functional lanes use the shared `PLAYWRIGHT_BROWSERS_PATH`.
 - Functional lanes set `PLAYWRIGHT_SKIP_INSTALL=true`, so they do not reinstall Chromium.
-- API, integration, E2E, and nightly cross-browser lanes publish a `System Load` HTML report from `load-profile.html`.
+- API, integration, E2E, and nightly cross-browser lanes publish Odhin, JUnit, HTML, and stable failure artifacts. CI system-load publishing is deliberately disabled in Manage Organisations because the extra monitor added pipeline noise without improving the release gate.
 - Accessibility findings publish HTML/JUnit evidence but do not fail the functional pipeline; API, integration, and E2E remain blocking gates.
 - Jenkins worker pressure is fixed at `FUNCTIONAL_TESTS_WORKERS=6`.
 - Local runs compute worker count from the developer machine unless `FUNCTIONAL_TESTS_WORKERS` is set.
@@ -393,7 +393,8 @@ Jenkins CNP, nightly, and parameterized E2E stages set `PLAYWRIGHT_TAGS=@e2e` an
 
 Playwright API, integration, accessibility, and E2E lanes are now the Manage Organisations functional gates.
 
-- Retired package aliases have been removed. That includes `test:functional`, `test:fullfunctional`, `test:api`, `test:codeceptE2E`, `test:a11yInTest`, `test:xuiIntegration`, `test:backendMock`, `test:ngIntegrationMockEnv`, `patch:static`, `testx`, and the placeholder mutation scripts.
+- Retired package aliases have been removed. That includes `test:api`, `test:codeceptE2E`, `test:a11yInTest`, `test:xuiIntegration`, `test:backendMock`, `test:ngIntegrationMockEnv`, `patch:static`, `testx`, and the placeholder mutation scripts.
+- `test:functional` and `test:fullfunctional` remain as no-op CNP compatibility hooks because the shared Jenkins library still invokes those script names during deploy functional-test stages. The real functional coverage is the Playwright API, integration, accessibility, E2E, and smoke lanes declared in the Jenkinsfiles.
 - `yarn test:a11y:playwright` runs the deployed E2E route scans and discovers the mocked integration case-sharing accessibility specs. Those integration specs stay skipped until the product accessibility fixes are delivered in a separate application PR.
 - Retired legacy assets have been deleted from the active tree: `test_codecept/**`, old `playwright_tests/**`, legacy pa11y accessibility tests, old API-functional tests, and old local mock assets. Historical evidence is available from git history and the migration Jira trail.
 - `test/java/**` remains because Fortify still owns that Java wrapper; it is not part of the retired functional framework estate.

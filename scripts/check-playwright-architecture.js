@@ -14,8 +14,6 @@ const forbiddenLegacyScripts = [
   'test:a11y:codecept',
   'test:a11yInTest',
   'test:api',
-  'test:functional',
-  'test:fullfunctional',
   'test:mutation',
   'test:mutation:fix',
   'test:ngIntegrationMockEnv',
@@ -27,6 +25,12 @@ const forbiddenLegacyScripts = [
   'testx',
   'patch:static'
 ];
+const cnpCompatibilityScripts = {
+  'test:functional':
+    "echo 'CNP functionalTest hook is intentionally satisfied by Playwright lanes in Jenkinsfile_CNP' && exit 0",
+  'test:fullfunctional':
+    "echo 'CNP fullFunctionalTest hook is intentionally satisfied by Playwright lanes in Jenkinsfile_CNP/Jenkinsfile_nightly' && exit 0"
+};
 const forbiddenLegacyDirectories = [
   'test_codecept',
   'playwright_tests',
@@ -225,6 +229,13 @@ for (const filePath of walk(playwrightRoot)) {
 for (const scriptName of forbiddenLegacyScripts) {
   if (packageJson.scripts?.[scriptName]) {
     failures.push(`${scriptName}: retired package script must stay removed; use the Playwright replacement lanes.`);
+  }
+}
+
+for (const [scriptName, expectedCommand] of Object.entries(cnpCompatibilityScripts)) {
+  const actualCommand = packageJson.scripts?.[scriptName];
+  if (actualCommand !== expectedCommand) {
+    failures.push(`${scriptName}: CNP compatibility hook must remain a no-op and must not execute legacy tests.`);
   }
 }
 

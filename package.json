@@ -53,6 +53,8 @@
     "test:crossbrowser": "yarn test:setup:playwright-install-all && yarn test:setup:playwright-verify-all && yarn test:crossbrowser:profile",
     "test:crossbrowser:profile": "sh -c 'if [ \"${1:-}\" = \"--\" ]; then shift; fi; PW_LOAD_PROFILE_OUTPUT=${PW_LOAD_PROFILE_OUTPUT:-functional-output/tests/playwright-e2e/odhin-report/load-profile} node scripts/playwright-load-monitor.js --report-folder functional-output/tests/playwright-e2e/odhin-report --label \"${PW_LOAD_PROFILE_LABEL:-E2E cross-browser}\" -- yarn test:crossbrowser:raw \"$@\"' --",
     "test:crossbrowser:raw": "sh -c 'if [ \"${1:-}\" = \"--\" ]; then shift; fi; PLAYWRIGHT_JUNIT_OUTPUT=\"${PLAYWRIGHT_JUNIT_OUTPUT:-functional-output/tests/playwright-e2e/playwright-e2e-junit.xml}\" npx playwright test -c playwright-nightly.config.ts \"$@\"' --",
+    "test:functional": "echo 'CNP functionalTest hook is intentionally satisfied by Playwright lanes in Jenkinsfile_CNP' && exit 0",
+    "test:fullfunctional": "echo 'CNP fullFunctionalTest hook is intentionally satisfied by Playwright lanes in Jenkinsfile_CNP/Jenkinsfile_nightly' && exit 0",
     "test:node": "cd api && yarn test",
     "test:ng": "ng test rpx-xui-manage-organisations",
     "test:node:watch": "cd api && yarn test:watch",

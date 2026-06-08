@@ -197,12 +197,16 @@ def startCiLoadProfile = {
 }
 
 def publishCiLoadProfile = { String reportName ->
-    if (ciLoadProfilePublished) {
-        return
+    try {
+        if (ciLoadProfilePublished) {
+            return
+        }
+        ciLoadProfilePublished = true
+        stopPlaywrightLoadProfile(ciLoadProfileDir)
+        publishPlaywrightLoadProfile(ciLoadProfileDir, reportName)
+    } catch (Exception e) {
+        echo "[load-profile] CI System Load publish failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"
     }
-    ciLoadProfilePublished = true
-    stopPlaywrightLoadProfile(ciLoadProfileDir)
-    publishPlaywrightLoadProfile(ciLoadProfileDir, reportName)
 }
 
 def publishManageOrgEvidenceDashboard = { String reportName ->

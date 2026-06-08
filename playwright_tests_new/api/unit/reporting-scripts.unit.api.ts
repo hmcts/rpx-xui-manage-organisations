@@ -54,6 +54,12 @@ let evidenceDashboard: {
   parseArgs: (argv: string[]) => { outputDir: string; packageJsonPath: string; rootDir: string; title: string };
 };
 
+let odhinReportEnhancer: {
+  __test__: {
+    enhanceDashboardHtml: (html: string, featureStats: unknown[]) => string;
+  };
+};
+
 const sample = (overrides: Record<string, unknown>): Record<string, unknown> => ({
   cpuPercent: 10,
   load1PerCore: 0.2,
@@ -75,6 +81,9 @@ test.describe('Manage Org Playwright reporting scripts', { tag: '@svc-internal' 
 
     const evidenceDashboardModule = await import('../../../scripts/build-playwright-evidence-dashboard.js');
     evidenceDashboard = (evidenceDashboardModule.default ?? evidenceDashboardModule) as typeof evidenceDashboard;
+
+    const odhinEnhancerModule = await import('../../common/reporters/odhin-report-enhancer.cjs');
+    odhinReportEnhancer = (odhinEnhancerModule.default ?? odhinEnhancerModule) as typeof odhinReportEnhancer;
   });
 
   test('preserves an existing Odhín report and parses Jenkins arguments', () => {
@@ -214,9 +223,7 @@ test.describe('Manage Org Playwright reporting scripts', { tag: '@svc-internal' 
         packageJsonPath,
         JSON.stringify({
           scripts: {
-            'lint:reporting:scripts': 'node --check scripts/retired-codecept-runner.js',
             'test:api:pw': 'playwright api',
-            'test:codeceptE2E': 'node scripts/retired-codecept-runner.js fail test:codeceptE2E',
             'test:playwrightE2E': 'playwright e2e',
             'test:smoke': 'playwright smoke'
           }
@@ -245,8 +252,8 @@ test.describe('Manage Org Playwright reporting scripts', { tag: '@svc-internal' 
       expect(html).not.toContain('user:password');
       expect(html).not.toContain('token=secret');
       expect(html).not.toContain('crumb=secret');
-      expect(html).toContain('test:codeceptE2E');
-      expect(html).not.toContain('lint:reporting:scripts');
+      expect(html).toContain('Retired aliases:</strong> removed from package.json');
+      expect(html).not.toContain('test:codeceptE2E');
       expect(html).toContain('Playwright is the authoritative Manage Organisation functional gate');
       expect(evidenceDashboard.parseArgs(['--root-dir', rootDir, '--title', 'Evidence']).title).toBe('Evidence');
     } finally {
@@ -263,5 +270,33 @@ test.describe('Manage Org Playwright reporting scripts', { tag: '@svc-internal' 
       }
       fs.rmSync(workspaceRoot, { recursive: true, force: true });
     }
+  });
+
+  test('defaults enhanced Odhín result tables to 100 rows', () => {
+    const html = odhinReportEnhancer.__test__.enhanceDashboardHtml(
+      `
+      <html>
+        <head></head>
+        <body>
+          <div class="dashboard-block">
+            <div class="info-box-header">Files Summary</div>
+          </div>
+          <table class="dataTable"></table>
+        </body>
+      </html>
+      `,
+      [{ name: 'api', totalTests: 101, durationMs: 1000, passed: 101 }]
+    );
+
+    expect(html).toContain('id="odhin-datatable-defaults"');
+    expect(html).toContain('var defaultPageLength = 100');
+    expect(html).toContain('pageLength: defaultPageLength');
+    expect(html).toContain('lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, \'All\']]');
+
+    const emptySuiteHtml = odhinReportEnhancer.__test__.enhanceDashboardHtml(
+      '<html><head></head><body><table class="dataTable"></table></body></html>',
+      []
+    );
+    expect(emptySuiteHtml).toContain('var defaultPageLength = 100');
   });
 });

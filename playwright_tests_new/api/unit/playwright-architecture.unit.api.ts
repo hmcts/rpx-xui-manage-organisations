@@ -2,7 +2,9 @@ import { expect, test } from '@playwright/test';
 import fs from 'node:fs';
 import path from 'node:path';
 import {
+  cnpCompatibilityScripts,
   createArchitectureGuardFixture,
+  forbiddenPackageScripts,
   runArchitectureGuard,
   updateJsonFile
 } from '../utils/architecture-guard-fixture';
@@ -54,19 +56,53 @@ test.describe('Manage Org Playwright architecture guard', { tag: '@svc-internal'
     }, /devDependencies\.codeceptjs: retired legacy test dependency must not be reintroduced/);
   });
 
-  test('rejects retired package script aliases that stop failing fast', () => {
+  test('rejects retired package script aliases', () => {
+    for (const scriptName of forbiddenPackageScripts) {
+      expectGuardFailure((rootDir) => {
+        updateJsonFile(path.join(rootDir, 'package.json'), (packageJson) => {
+          const scripts = packageJson.scripts as Record<string, string>;
+          return {
+            ...packageJson,
+            scripts: {
+              ...scripts,
+              [scriptName]: 'echo legacy test command'
+            }
+          };
+        });
+      }, new RegExp(`${scriptName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}: retired package script must stay removed`));
+    }
+  });
+
+  test('rejects skipped API tests', () => {
     expectGuardFailure((rootDir) => {
-      updateJsonFile(path.join(rootDir, 'package.json'), (packageJson) => {
-        const scripts = packageJson.scripts as Record<string, string>;
-        return {
-          ...packageJson,
-          scripts: {
-            ...scripts,
-            'test:api': 'echo legacy API tests'
-          }
-        };
-      });
-    }, /test:api: legacy command must fail fast through scripts\/retired-codecept-runner\.js/);
+      fs.writeFileSync(
+        path.join(rootDir, 'playwright_tests_new/api/skipped-contract.api.ts'),
+        'import { test } from \'./fixtures\';\ntest.skip(\'does not run\', async () => {});\n'
+      );
+    }, /playwright_tests_new\/api\/skipped-contract\.api\.ts: API tests must not be skipped/);
+  });
+
+  test('rejects CNP compatibility hooks that are not inert', () => {
+    for (const scriptName of Object.keys(cnpCompatibilityScripts)) {
+      expectGuardFailure((rootDir) => {
+        updateJsonFile(path.join(rootDir, 'package.json'), (packageJson) => {
+          const scripts = packageJson.scripts as Record<string, string>;
+          return {
+            ...packageJson,
+            scripts: {
+              ...scripts,
+              [scriptName]: 'echo legacy test command'
+            }
+          };
+        });
+      }, new RegExp(`${scriptName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}: CNP compatibility hook must remain a no-op`));
+    }
+  });
+
+  test('rejects the retired compatibility runner', () => {
+    expectGuardFailure((rootDir) => {
+      fs.writeFileSync(path.join(rootDir, 'scripts/retired-codecept-runner.js'), 'process.exit(0);\n');
+    }, /scripts\/retired-codecept-runner\.js: retired compatibility runner must stay deleted/);
   });
 
   test('rejects active configs that point at the retired Playwright tree', () => {
@@ -119,8 +155,8 @@ test.describe('Manage Org Playwright architecture guard', { tag: '@svc-internal'
       const pipelinePath = path.join(rootDir, 'Jenkinsfile_parameterized');
       fs.writeFileSync(
         pipelinePath,
-        fs.readFileSync(pipelinePath, 'utf8').replace('xui-playwright-a11y-integration.html', '')
+        fs.readFileSync(pipelinePath, 'utf8').replaceAll('xui-playwright-a11y.html', '')
       );
-    }, /Jenkinsfile_parameterized: missing Playwright retirement evidence contract xui-playwright-a11y-integration\.html/);
+    }, /Jenkinsfile_parameterized: missing Playwright retirement evidence contract xui-playwright-a11y\.html/);
   });
 });

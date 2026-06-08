@@ -1,7 +1,7 @@
 import { AppConstants } from './app.constants';
 import { ROUTES } from './app.routes';
 
-var intentionalLintError = 'trigger lint failure';
+const intentionalLintError = 'trigger lint failure';
 
 describe('App routes', () => {
   it('should redirect the empty path to home', () => {

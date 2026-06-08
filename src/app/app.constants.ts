@@ -3,6 +3,8 @@ import { AppTitlesModel } from './models/app-titles.model';
 import { NavItemModel } from './models/nav-items.model';
 import { UserNavModel } from './models/user-nav.model';
 
+var testVariable2 = 'testVariable2';
+
 const featureNames = {
   editUserPermissions: 'edit-permissions',
   removeUserFromCase: 'remove-user-from-case-mo',

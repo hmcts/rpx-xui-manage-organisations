@@ -154,14 +154,6 @@
               "tsConfig": "projects/gov-ui/tsconfig.lib.prod.json"
             }
           }
-        },
-        "testx": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/gov-ui/src/test.ts",
-            "tsConfig": "projects/gov-ui/tsconfig.spec.json",
-            "karmaConfig": "projects/gov-ui/karma.conf.js"
-          }
         }
       }
     }

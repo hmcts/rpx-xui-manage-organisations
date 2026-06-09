@@ -124,7 +124,7 @@ if (showFeature(FEATURE_REDIS_ENABLED)) {
       ...healthChecks.checks,
       ...{
         redis: healthcheck.raw(() => {
-          return app.locals.redisClient.connected ? healthcheck.up() : healthcheck.down();
+          return app.locals.redisClient.isReady ? healthcheck.up() : healthcheck.down();
         })
       }
     };

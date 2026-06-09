@@ -6279,6 +6279,59 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@redis/bloom@npm:6.0.0":
+  version: 6.0.0
+  resolution: "@redis/bloom@npm:6.0.0"
+  peerDependencies:
+    "@redis/client": ^6.0.0
+  checksum: 10/6f48065e2b583afeeb495a8724f538701702c1f9da8885f4ad176e7417123af02eae66e2d74a9914ea204bcc005b5575a48d826527db619e2eb469518f0e3c5a
+  languageName: node
+  linkType: hard
+
+"@redis/client@npm:6.0.0":
+  version: 6.0.0
+  resolution: "@redis/client@npm:6.0.0"
+  dependencies:
+    cluster-key-slot: "npm:1.1.2"
+  peerDependencies:
+    "@node-rs/xxhash": ^1.1.0
+    "@opentelemetry/api": ">=1 <2"
+  peerDependenciesMeta:
+    "@node-rs/xxhash":
+      optional: true
+    "@opentelemetry/api":
+      optional: true
+  checksum: 10/8f03d48004208a5f4871e98163d89fc1b5c8cf3df37c412b6af13df1c083988d6c766ec5aacb3e67f7a5faf6749c2651d2095412ef2ceda7414b10f6ba739acf
+  languageName: node
+  linkType: hard
+
+"@redis/json@npm:6.0.0":
+  version: 6.0.0
+  resolution: "@redis/json@npm:6.0.0"
+  peerDependencies:
+    "@redis/client": ^6.0.0
+  checksum: 10/0155e5c61c3e443e3d46c8f7231e1ac997efb29ff63058ee4e5c201eedac67268c4146085f07a88fd83190f9b2ca416bf367fef7fa271c3a08e079fb6ff8852f
+  languageName: node
+  linkType: hard
+
+"@redis/search@npm:6.0.0":
+  version: 6.0.0
+  resolution: "@redis/search@npm:6.0.0"
+  peerDependencies:
+    "@redis/client": ^6.0.0
+  checksum: 10/c189496349654f692aeb26bdb0f8085a40cba0bb12c70ea2842888481f0023645646c688f108550abe33370378465c745b1b2373e150aaf742afd4c77ea65066
+  languageName: node
+  linkType: hard
+
+"@redis/time-series@npm:6.0.0":
+  version: 6.0.0
+  resolution: "@redis/time-series@npm:6.0.0"
+  peerDependencies:
+    "@redis/client": ^6.0.0
+  checksum: 10/16c8d54fd364cdf508f53dcb85661f91a42183132d2fe4f17d5beed0e964ad323d76ea10e5bff3537d3e94c7ed770a3b9fa0a4f32b2b4d8126b52e068beae488
+  languageName: node
+  linkType: hard
+
 "@rollup/plugin-json@npm:^6.1.0":
   version: 6.1.0
   resolution: "@rollup/plugin-json@npm:6.1.0"
@@ -7732,15 +7785,6 @@ __metadata:
   version: 1.2.7
   resolution: "@types/range-parser@npm:1.2.7"
   checksum: 10/95640233b689dfbd85b8c6ee268812a732cf36d5affead89e806fe30da9a430767af8ef2cd661024fd97e19d61f3dec75af2df5e80ec3bea000019ab7028629a
-  languageName: node
-  linkType: hard
-
-"@types/redis@npm:^2.8.16":
-  version: 2.8.32
-  resolution: "@types/redis@npm:2.8.32"
-  dependencies:
-    "@types/node": "npm:*"
-  checksum: 10/3e384297625ff410a51ae1e74531022f37e812ef5a9d17b593b4c964ec974c9af1d572f26932ae5ace032808134caece73d056edb57bff1d2538698e3f4d028e
   languageName: node
   linkType: hard
 
@@ -10437,6 +10481,13 @@ __metadata:
     emitter-listener: "npm:^1.0.1"
     semver: "npm:^5.4.1"
   checksum: 10/59081fcc0f8b7ed929ac8eb0d16bd96946c82b3dd6a89213013e70874e5e7e202c09b07fc0ef0e2dd91b375c3f86d8d57b695e6a3e3bb9e6e25b20f144d712e8
+  languageName: node
+  linkType: hard
+
+"cluster-key-slot@npm:1.1.2":
+  version: 1.1.2
+  resolution: "cluster-key-slot@npm:1.1.2"
+  checksum: 10/516ed8b5e1a14d9c3a9c96c72ef6de2d70dfcdbaa0ec3a90bc7b9216c5457e39c09a5775750c272369070308542e671146120153062ab5f2f481bed5de2c925f
   languageName: node
   linkType: hard
 
@@ -20002,6 +20053,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"redis@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "redis@npm:6.0.0"
+  dependencies:
+    "@redis/bloom": "npm:6.0.0"
+    "@redis/client": "npm:6.0.0"
+    "@redis/json": "npm:6.0.0"
+    "@redis/search": "npm:6.0.0"
+    "@redis/time-series": "npm:6.0.0"
+  checksum: 10/8e1d64b7e2cbf636a259da63ee124790266a7cef08497b4f011dbaa65a45d8d3ef1216b180022687649983640ea37203039316cd407dc58af60d802d25e9a723
+  languageName: node
+  linkType: hard
+
 "reflect-metadata@npm:^0.2.0":
   version: 0.2.2
   resolution: "reflect-metadata@npm:0.2.2"
@@ -20592,7 +20656,6 @@ __metadata:
     "@types/jasmine": "npm:~4.3.5"
     "@types/mocha": "npm:^10.0.6"
     "@types/node": "npm:^20.19.0"
-    "@types/redis": "npm:^2.8.16"
     "@types/session-file-store": "npm:^1.2.1"
     "@types/sinon-chai": "npm:^3.2.4"
     "@typescript-eslint/eslint-plugin": "npm:^8.46.1"
@@ -20666,7 +20729,7 @@ __metadata:
     pegjs: "npm:^0.10.0"
     playwright-core: "npm:1.59.1"
     prettier: "npm:^3.8.0"
-    redis: "npm:^3.0.2"
+    redis: "npm:^6.0.0"
     rpx-xui-translation: "npm:1.2.0-angular-20.3.14"
     rx-polling-hmcts: "npm:^1.1.1"
     rxjs: "npm:^7.8.1"

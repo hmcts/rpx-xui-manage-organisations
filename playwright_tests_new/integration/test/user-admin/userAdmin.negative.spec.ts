@@ -8,6 +8,24 @@ import {
 } from '../../mocks/userAdmin.mock';
 import { UserAdminPage } from '../../page-objects/user-admin.po';
 
+const requiredInviteFieldCases = [
+  {
+    field: 'first name',
+    formData: { ...inviteUserFormData, firstName: '' },
+    message: 'Enter first name'
+  },
+  {
+    field: 'last name',
+    formData: { ...inviteUserFormData, lastName: '' },
+    message: 'Enter last name'
+  },
+  {
+    field: 'email',
+    formData: { ...inviteUserFormData, email: '' },
+    message: 'Enter a valid email address'
+  }
+];
+
 test.describe('User administration negative paths', {
   tag: ['@integration', '@integration-user-admin']
 }, () => {
@@ -35,6 +53,25 @@ test.describe('User administration negative paths', {
     await expect(userAdminPage.validationSummaryError('You must select at least one action')).toBeVisible();
     expect(routeState.inviteUserRequests).toHaveLength(0);
   });
+
+  for (const { field, formData, message } of requiredInviteFieldCases) {
+    test(`validates missing standard invite ${field} without posting an invite`, async ({
+      manageOrgIntegrationPage: page
+    }) => {
+      const routeState = await setupUserAdminRoutes(page);
+      const userAdminPage = new UserAdminPage(page);
+
+      await userAdminPage.openUsers();
+      await userAdminPage.openInviteUser();
+      await userAdminPage.fillInviteUser(formData);
+      await userAdminPage.selectPermissions('Manage Users');
+      await userAdminPage.submitInvite();
+
+      await expect(userAdminPage.validationSummaryError(message)).toBeVisible();
+      await expect(userAdminPage.validationSummaryError('You must select at least one action')).toHaveCount(0);
+      expect(routeState.inviteUserRequests).toHaveLength(0);
+    });
+  }
 
   test('validates malformed invite-user email without posting an invite', async ({
     manageOrgIntegrationPage: page
@@ -72,6 +109,47 @@ test.describe('User administration negative paths', {
     await expect(userAdminPage.validationSummaryError('Enter a valid email address')).toBeVisible();
     await expect(userAdminPage.validationSummaryError('Select at least one permission')).toBeVisible();
     await expect(page.getByText(/You must select at least\s+one action/)).toBeVisible();
+    expect(routeState.ogdInviteUserRequests).toHaveLength(0);
+    expect(routeState.inviteUserRequests).toHaveLength(0);
+  });
+
+  for (const { field, formData, message } of requiredInviteFieldCases) {
+    test(`validates missing OGD manage-user ${field} without posting an invite`, async ({
+      manageOrgIntegrationPage: page
+    }) => {
+      const routeState = await setupUserAdminRoutes(page, { enableOgdInviteUserFlow: true });
+      const userAdminPage = new UserAdminPage(page);
+
+      await userAdminPage.openUsers();
+      await userAdminPage.openInviteUser();
+      await userAdminPage.fillInviteUser(formData);
+      await userAdminPage.selectPermissions('Case access administrator');
+      await userAdminPage.submitInvite();
+
+      await expect(page).toHaveURL(/\/users\/manage$/);
+      await expect(userAdminPage.validationSummaryError(message)).toBeVisible();
+      await expect(userAdminPage.validationSummaryError('Select at least one permission')).toHaveCount(0);
+      expect(routeState.ogdInviteUserRequests).toHaveLength(0);
+      expect(routeState.inviteUserRequests).toHaveLength(0);
+    });
+  }
+
+  test('validates missing OGD manage-user permissions without posting an invite', async ({
+    manageOrgIntegrationPage: page
+  }) => {
+    const routeState = await setupUserAdminRoutes(page, { enableOgdInviteUserFlow: true });
+    const userAdminPage = new UserAdminPage(page);
+
+    await userAdminPage.openUsers();
+    await userAdminPage.openInviteUser();
+    await userAdminPage.fillInviteUser(inviteUserFormData);
+    await userAdminPage.submitInvite();
+
+    await expect(page).toHaveURL(/\/users\/manage$/);
+    await expect(userAdminPage.validationSummaryError('Enter first name')).toHaveCount(0);
+    await expect(userAdminPage.validationSummaryError('Enter last name')).toHaveCount(0);
+    await expect(userAdminPage.validationSummaryError('Enter a valid email address')).toHaveCount(0);
+    await expect(userAdminPage.validationSummaryError('Select at least one permission')).toBeVisible();
     expect(routeState.ogdInviteUserRequests).toHaveLength(0);
     expect(routeState.inviteUserRequests).toHaveLength(0);
   });

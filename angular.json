@@ -82,7 +82,8 @@
             "production": {
               "buildTarget": "rpx-xui-manage-organisations:build:production"
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serveTest": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -152,14 +153,6 @@
               "project": "projects/gov-ui/ng-package.prod.json",
               "tsConfig": "projects/gov-ui/tsconfig.lib.prod.json"
             }
-          }
-        },
-        "testx": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/gov-ui/src/test.ts",
-            "tsConfig": "projects/gov-ui/tsconfig.spec.json",
-            "karmaConfig": "projects/gov-ui/karma.conf.js"
           }
         }
       }

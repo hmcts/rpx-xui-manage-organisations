@@ -26,6 +26,8 @@ const requiredInviteFieldCases = [
   }
 ];
 
+const requiredInviteFieldMessages = requiredInviteFieldCases.map(({ message }) => message);
+
 test.describe('User administration negative paths', {
   tag: ['@integration', '@integration-user-admin']
 }, () => {
@@ -68,6 +70,9 @@ test.describe('User administration negative paths', {
       await userAdminPage.submitInvite();
 
       await expect(userAdminPage.validationSummaryError(message)).toBeVisible();
+      for (const otherMessage of requiredInviteFieldMessages.filter((requiredMessage) => requiredMessage !== message)) {
+        await expect(userAdminPage.validationSummaryError(otherMessage)).toHaveCount(0);
+      }
       await expect(userAdminPage.validationSummaryError('You must select at least one action')).toHaveCount(0);
       expect(routeState.inviteUserRequests).toHaveLength(0);
     });
@@ -128,6 +133,9 @@ test.describe('User administration negative paths', {
 
       await expect(page).toHaveURL(/\/users\/manage$/);
       await expect(userAdminPage.validationSummaryError(message)).toBeVisible();
+      for (const otherMessage of requiredInviteFieldMessages.filter((requiredMessage) => requiredMessage !== message)) {
+        await expect(userAdminPage.validationSummaryError(otherMessage)).toHaveCount(0);
+      }
       await expect(userAdminPage.validationSummaryError('Select at least one permission')).toHaveCount(0);
       expect(routeState.ogdInviteUserRequests).toHaveLength(0);
       expect(routeState.inviteUserRequests).toHaveLength(0);

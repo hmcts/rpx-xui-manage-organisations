@@ -1,8 +1,10 @@
 import type { ReporterDescription } from '@playwright/test';
 import { execSync } from 'node:child_process';
-import { cpus, totalmem } from 'node:os';
+import { availableParallelism, cpus, totalmem } from 'node:os';
 
 type EnvMap = NodeJS.ProcessEnv;
+
+const MAX_LOCAL_WORKERS = 10;
 
 type ReporterOptions = {
   defaultIndexFilename: string;
@@ -45,8 +47,17 @@ export const resolveDefaultReporter = (env: EnvMap = process.env): string => {
 export const resolveWorkerCount = (env: EnvMap = process.env): number => {
   const configured = env.FUNCTIONAL_TESTS_WORKERS?.trim();
   const parsed = configured ? Number.parseInt(configured, 10) : Number.NaN;
-  return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
+  if (Number.isFinite(parsed) && parsed > 0) {
+    return parsed;
+  }
+  if (env.CI) {
+    return 1;
+  }
+  return Math.max(Math.min(availableParallelism?.() ?? cpus().length, MAX_LOCAL_WORKERS), 1);
 };
+
+export const resolveOutputDir = (env: EnvMap = process.env): string =>
+  env.PLAYWRIGHT_TEST_OUTPUT_DIR || env.PLAYWRIGHT_OUTPUT_DIR || 'test-results';
 
 const escapeRegExp = (value: string): string => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 

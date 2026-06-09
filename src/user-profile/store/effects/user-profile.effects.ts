@@ -86,7 +86,7 @@ export class UserProfileEffects {
       return this.userService.editUserPermissions(reqBody).pipe(
         map((response) => {
           if (UserRolesUtil.doesRoleAdditionExist(response)) {
-            if (response.roleAdditionResponse.idamStatusCode !== '201') {
+            if (!['200', '201', '204'].includes(response.roleAdditionResponse.idamStatusCode)) {
               return new usersActions.EditUserFailure(user.id);
             }
           }

@@ -34,6 +34,7 @@ module.exports = defineConfig({
   reporter: resolveReporters(
     {
       defaultIndexFilename: 'xui-mo-playwright-integration.html',
+      defaultOutputFolder: 'functional-output/tests/playwright-integration/odhin-report',
       defaultProject: 'RPX XUI Manage Organisations - Integration',
       defaultRelease: appVersion,
       defaultTitle: 'RPX XUI Manage Organisations Playwright Integration',

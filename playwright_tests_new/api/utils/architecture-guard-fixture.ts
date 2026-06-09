@@ -3,20 +3,28 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
-const retiredLegacyScripts = [
+const forbiddenLegacyScripts = [
   'test:a11y:codecept',
   'test:a11yInTest',
   'test:api',
+  'test:mutation',
+  'test:mutation:fix',
   'test:ngIntegrationMockEnv',
   'test:codeceptE2EDebug',
   'test:codeceptE2E',
   'test:backendMock',
   'test:xuiIntegrationDebug',
   'test:xuiIntegration',
+  'testx',
   'patch:static'
 ];
 
-const legacyBridgeScripts = ['test:functional', 'test:fullfunctional'];
+export const cnpCompatibilityScripts = {
+  'test:functional':
+    'echo \'CNP functionalTest hook is intentionally satisfied by Playwright lanes in Jenkinsfile_CNP\' && exit 0',
+  'test:fullfunctional':
+    'echo \'CNP fullFunctionalTest hook is intentionally satisfied by Playwright lanes in Jenkinsfile_CNP/Jenkinsfile_nightly\' && exit 0'
+};
 
 const activePlaywrightConfigFiles = [
   'playwright.config.ts',
@@ -36,16 +44,9 @@ export const updateJsonFile = (
 export const createArchitectureGuardFixture = (): string => {
   const rootDir = fs.mkdtempSync(path.join(os.tmpdir(), 'manage-org-architecture-guard-'));
   const scripts = Object.fromEntries([
-    ...retiredLegacyScripts.map((scriptName) => [
-      scriptName,
-      `node scripts/retired-codecept-runner.js fail ${scriptName}`
-    ]),
-    ...legacyBridgeScripts.map((scriptName) => [
-      scriptName,
-      `node scripts/retired-codecept-runner.js bridge ${scriptName}`
-    ]),
     ['test:playwrightE2E', 'npx playwright test --config=playwright.e2e.config.ts'],
-    ['test:playwright:integration', 'npx playwright test --config=playwright.integration.config.ts']
+    ['test:playwright:integration', 'npx playwright test --config=playwright.integration.config.ts'],
+    ...Object.entries(cnpCompatibilityScripts)
   ]);
 
   fs.mkdirSync(path.join(rootDir, 'scripts'), { recursive: true });
@@ -92,17 +93,13 @@ export const createArchitectureGuardFixture = (): string => {
       'publishPlaywrightReport(\'functional-output/tests/playwright-a11y/odhin-report\', \'xui-playwright-a11y.html\', \'A11y\', \'functional-output/tests/playwright-a11y/**\')',
       'publishPlaywrightReport(\'functional-output/tests/playwright-e2e/odhin-report\', \'xui-playwright-e2e.html\', \'E2E\', \'functional-output/tests/playwright-e2e/**\')',
       'junit(allowEmptyResults: false, testResults: \'functional-output/tests/playwright-smoke/**/*junit.xml\')',
-      'functional-output/tests/playwright-a11y/integration/odhin-report',
-      'xui-playwright-a11y-integration.html',
+      'functional-output/tests/playwright-a11y/odhin-report',
+      'xui-playwright-a11y.html',
       'stagePlaywrightArtifacts',
       'reports/tests/coverage/node'
     ].join('\n')
   );
 
-  fs.writeFileSync(
-    path.join(rootDir, 'scripts/retired-codecept-runner.js'),
-    'if (mode === \'bridge\' && bridgeCommands.has(command)) { process.exit(0); }\n'
-  );
   fs.writeFileSync(
     path.join(rootDir, 'scripts/run-playwright-a11y.js'),
     [
@@ -116,6 +113,8 @@ export const createArchitectureGuardFixture = (): string => {
 
   return rootDir;
 };
+
+export const forbiddenPackageScripts = forbiddenLegacyScripts;
 
 export const runArchitectureGuard = (fixtureRoot: string): ReturnType<typeof spawnSync> =>
   spawnSync(process.execPath, [path.join(process.cwd(), 'scripts/check-playwright-architecture.js')], {

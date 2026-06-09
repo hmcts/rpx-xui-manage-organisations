@@ -330,6 +330,71 @@ describe('ManageUserComponent', () => {
 
       component.onSubmit();
     }));
+
+    it('should allow submit when only organisation access permission is selected', fakeAsync(() => {
+      const dispatchSpy = spyOn(mockUserStore, 'dispatch');
+
+      component.onPersonalDetailsChange({
+        email: userWithAccessTypes.email,
+        firstName: userWithAccessTypes.firstName,
+        lastName: userWithAccessTypes.lastName
+      });
+
+      component.onSelectedCaseManagamentPermissionsChange({
+        manageCases: true,
+        userAccessTypes: accessTypesUpdated
+      });
+
+      component.standardPermission.permissionsForm.setValue({
+        isCaseAccessAdmin: false,
+        isPuiFinanceManager: false,
+        isPuiOrganisationManager: false,
+        isPuiUserManager: false
+      });
+
+      component.onSubmit();
+
+      expect(component.standardPermission.errors.basicPermissions).toEqual([]);
+      expect(dispatchSpy).toHaveBeenCalled();
+    }));
+
+    it('should keep remaining selected roles when one selected permission is removed before submit', fakeAsync(() => {
+      const dispatchSpy = spyOn(mockUserStore, 'dispatch');
+
+      component.onPersonalDetailsChange({
+        email: userWithAccessTypes.email,
+        firstName: userWithAccessTypes.firstName,
+        lastName: userWithAccessTypes.lastName
+      });
+
+      component.onSelectedCaseManagamentPermissionsChange({
+        manageCases: true,
+        userAccessTypes: userWithAccessTypes.userAccessTypes
+      });
+
+      component.onStandardUserPermissionsChange({
+        isCaseAccessAdmin: false,
+        isPuiFinanceManager: true,
+        isPuiOrganisationManager: true,
+        isPuiUserManager: false
+      });
+
+      component.onStandardUserPermissionsChange({
+        isCaseAccessAdmin: false,
+        isPuiFinanceManager: true,
+        isPuiOrganisationManager: false,
+        isPuiUserManager: false
+      });
+
+      component.onSubmit();
+
+      const action = dispatchSpy.calls.mostRecent().args[0] as unknown as fromStore.EditUser;
+      expect(action.payload.rolesAdd).toEqual([{ name: 'pui-finance-manager' }]);
+      expect(action.payload.rolesDelete).toEqual([
+        { name: 'pui-user-manager' },
+        { name: 'pui-caa' }
+      ]);
+    }));
   });
 
   describe('inviteUser', () => {

@@ -21,21 +21,23 @@ test(
   }
 );
 
-test(
-  'protected deep links redirect to the IDAM login page',
-  { tag: ['@e2e-smoke'] },
-  async ({ idamPage, page }) => {
-    await page.goto('/users');
+for (const protectedRoute of ['/users', '/cases/case-filter']) {
+  test(
+    `protected deep link ${protectedRoute} redirects to the IDAM login page`,
+    { tag: ['@e2e-smoke'] },
+    async ({ idamPage, page }) => {
+      await page.goto(protectedRoute);
 
-    await expect(page).toHaveURL(/\/login\?/);
-    await expect(idamPage.heading).toBeVisible();
-    await expect(idamPage.usernameInput).toBeVisible();
-    await expect(idamPage.passwordInput).toBeVisible();
+      await expect(page).toHaveURL(/\/login\?/);
+      await expect(idamPage.heading).toBeVisible();
+      await expect(idamPage.usernameInput).toBeVisible();
+      await expect(idamPage.passwordInput).toBeVisible();
 
-    const loginUrl = new URL(page.url());
-    expect(loginUrl.pathname).toBe('/login');
-    expect(loginUrl.searchParams.get('response_type')).toBe('code');
-    expect(loginUrl.searchParams.get('client_id')).toBeTruthy();
-    expect(loginUrl.searchParams.get('redirect_uri')).toContain('/oauth2/callback');
-  }
-);
+      const loginUrl = new URL(page.url());
+      expect(loginUrl.pathname).toBe('/login');
+      expect(loginUrl.searchParams.get('response_type')).toBe('code');
+      expect(loginUrl.searchParams.get('client_id')).toBeTruthy();
+      expect(loginUrl.searchParams.get('redirect_uri')).toContain('/oauth2/callback');
+    }
+  );
+}

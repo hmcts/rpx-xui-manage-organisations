@@ -4,6 +4,7 @@ import { getConfigValue } from '../configuration';
 import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references';
 import * as log4jui from '../lib/log4jui';
 import { exists, objectContainsOnlySafeCharacters, valueOrNull } from '../lib/util';
+import { getUserListErrorLogSummary, getUserListLogSummary } from '../userList/userListLogSummary';
 
 const logger = log4jui.getLogger('user-list');
 
@@ -15,10 +16,10 @@ export async function handleAllUserListRoute(req: Request, res: Response) {
     if (!objectContainsOnlySafeCharacters(response.data)) {
       return res.send('Invalid user list details').status(400);
     }
-    logger.info('response::', response.data);
+    logger.info('User list response received', getUserListLogSummary(response.data));
     res.send(response.data);
   } catch (error) {
-    logger.error('error', error);
+    logger.error('All user list route error', getUserListErrorLogSummary(error));
     const status = exists(error, 'statusCode') ? error.statusCode : 500;
     const errReport = {
       apiError: exists(error, 'data.message') ? error.data.message : valueOrNull(error, 'statusText'),

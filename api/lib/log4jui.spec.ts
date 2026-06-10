@@ -71,6 +71,21 @@ describe('log4jui', () => {
       expect(spy).to.be.calledWith('message');
       expect(appInsights.client.trackTrace).to.be.calledWith({ message: '[INFO] testCategory - message' });
     });
+
+    it('should stringify object values and redact sensitive keys', () => {
+      const spy = sinon.spy();
+      sinon.stub(log4js, 'getLogger').returns({ category: 'testCategory', info: spy } as any);
+
+      const logger = log4jui.getLogger('test');
+      logger.info('payload', {
+        nested: {
+          token: 'secret-token'
+        },
+        value: 'visible'
+      });
+
+      expect(spy).to.be.calledWith('payload {"nested":{"token":"[REDACTED]"},"value":"visible"}');
+    });
   });
 
   describe('debug', () => {
@@ -109,6 +124,17 @@ describe('log4jui', () => {
       assert.equal(errorArg.exception.message, '[ERROR] test - message');
 
       // expect(errorStack.push).to.be.calledWith(['test', 'message'])
+    });
+
+    it('should log error stacks instead of object placeholders', () => {
+      const spy = sinon.spy();
+      sinon.stub(log4js, 'getLogger').returns({ category: 'test', error: spy } as any);
+      const error = new Error('Something failed');
+
+      const logger = log4jui.getLogger('test');
+      logger.error('message', error);
+
+      expect(spy.args[0][0]).to.contain('message Error: Something failed');
     });
   });
 

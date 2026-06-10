@@ -3,8 +3,11 @@ import { getConfigValue, showFeature } from '../configuration';
 import { FEATURE_TERMS_AND_CONDITIONS_ENABLED, SERVICES_TERMS_AND_CONDITIONS_API_PATH } from '../configuration/references';
 import { GetUserAcceptTandCResponse } from '../interfaces/userAcceptTandCResponse';
 import { application } from '../lib/config/application.config';
+import * as log4jui from '../lib/log4jui';
 import { objectContainsOnlySafeCharacters, valueOrNull } from '../lib/util';
 import { getUserTermsAndConditionsUrl } from './userTermsAndConditionsUtil';
+
+const logger = log4jui.getLogger('terms-and-conditions');
 
 /**
  * getUserTermsAndConditions
@@ -17,7 +20,7 @@ import { getUserTermsAndConditionsUrl } from './userTermsAndConditionsUtil';
  */
 async function getUserTermsAndConditions(req: Request, res: Response) {
   if (showFeature(FEATURE_TERMS_AND_CONDITIONS_ENABLED)) {
-    console.log('T&Cs is enabled.');
+    logger.info('Terms and conditions feature is enabled');
     res.setHeader('debugger', 'T&Cs is enabled.');
     let errReport: any;
     if (!req.params.userId) {
@@ -50,7 +53,7 @@ async function getUserTermsAndConditions(req: Request, res: Response) {
       res.status(error.status).send(errReport);
     }
   } else {
-    console.log('T&Cs is not enabled.');
+    logger.info('Terms and conditions feature is not enabled');
     res.setHeader('debugger', 'T&Cs is not enabled.');
     res.status(200).send(true);
   }

@@ -269,6 +269,69 @@ function injectEnhancerStyles(root) {
   );
 }
 
+function injectDataTableDefaults(root) {
+  const body = root.querySelector('body');
+  if (!body || root.querySelector('#odhin-datatable-defaults')) {
+    return;
+  }
+
+  body.appendChild(
+    parse(`
+<script id="odhin-datatable-defaults">
+  (function () {
+    var defaultPageLength = 100;
+    var maxAttempts = 30;
+    var attempt = 0;
+
+    function applyDataTableDefaults() {
+      var jq = window.jQuery || window.$;
+      if (!jq || !jq.fn || !jq.fn.dataTable) {
+        return false;
+      }
+
+      if (jq.fn.dataTable.defaults) {
+        jq.extend(true, jq.fn.dataTable.defaults, {
+          pageLength: defaultPageLength,
+          lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, 'All']]
+        });
+      }
+
+      jq('table.dataTable').each(function () {
+        if (!jq.fn.dataTable.isDataTable(this)) {
+          return;
+        }
+
+        jq(this).DataTable().page.len(defaultPageLength).draw(false);
+      });
+
+      return true;
+    }
+
+    function applyWhenReady() {
+      if (applyDataTableDefaults()) {
+        return;
+      }
+
+      var timer = window.setInterval(function () {
+        attempt += 1;
+        if (applyDataTableDefaults() || attempt >= maxAttempts) {
+          window.clearInterval(timer);
+        }
+      }, 100);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', applyWhenReady);
+    } else {
+      applyWhenReady();
+    }
+
+    window.addEventListener('load', applyDataTableDefaults);
+  })();
+</script>`)
+  );
+}
+
 function dashboardBlockTitle(column) {
   return column.querySelector('.info-box-header')?.text.trim() ?? '';
 }
@@ -440,12 +503,14 @@ function stripLegacyFileChartArtifacts(root) {
 
 function enhanceDashboardHtml(html, featureStats) {
   const normalizedStats = normalizeFeatureStats(featureStats);
-  if (!normalizedStats.length) {
-    return html;
-  }
-
   const root = parse(html);
+
   injectEnhancerStyles(root);
+  injectDataTableDefaults(root);
+
+  if (!normalizedStats.length) {
+    return root.toString();
+  }
 
   replaceDashboardBlock(root, 'Files Summary', buildFeatureOverviewBlock(normalizedStats));
   removeDuplicateFeatureStatusBlock(root);
@@ -461,17 +526,12 @@ function enhanceGeneratedReport(outputFolder, featureStats) {
     return;
   }
 
-  const normalizedStats = normalizeFeatureStats(featureStats);
-  if (!normalizedStats.length) {
-    return;
-  }
-
   const reportFiles = fs.readdirSync(outputFolder).filter((fileName) => fileName.toLowerCase().endsWith('.html'));
 
   reportFiles.forEach((fileName) => {
     const filePath = path.join(outputFolder, fileName);
     const currentHtml = fs.readFileSync(filePath, 'utf8');
-    const nextHtml = enhanceDashboardHtml(currentHtml, normalizedStats);
+    const nextHtml = enhanceDashboardHtml(currentHtml, featureStats);
     fs.writeFileSync(filePath, nextHtml, 'utf8');
   });
 }
@@ -490,6 +550,7 @@ module.exports = {
     deriveFeatureName,
     enhanceDashboardHtml,
     formatDuration,
+    injectDataTableDefaults,
     removeLegacyFileChartInitializer,
     normalizeFeatureStats,
     percentOf,

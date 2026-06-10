@@ -1,6 +1,6 @@
 <dl class="govuk-summary-list">
-  <div class="govuk-summary-list__row" [ngClass]="{'govuk-summary-list__row--no-border':hasIndividualRegulator}"
-    *ngIf="regulatorType === regulatorTypeEnum.Individual">
+  @if (regulatorType === regulatorTypeEnum.Individual) {<div class="govuk-summary-list__row"
+    [ngClass]="{'govuk-summary-list__row--no-border':hasIndividualRegulator}">
     <dt class="govuk-summary-list__key">Are you (as an individual) registered with a regulator?</dt>
     <dd class="govuk-summary-list__value">
       {{ hasIndividualRegulator ? 'Yes' : 'No'}}
@@ -11,18 +11,19 @@
         Change<span class="govuk-visually-hidden">Individual regulator</span>
       </a>
     </dd>
-  </div>
-  <div class="govuk-summary-list__row"  *ngIf="regulators?.length > 0">
+  </div>}
+  @if (regulators?.length > 0) {<div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">
-      <span *ngIf="regulatorType === regulatorTypeEnum.Individual">
+      @if (regulatorType === regulatorTypeEnum.Individual) {<span>
         What regulators are you (as an individual) registered with?
-      </span>
-      <span *ngIf="regulatorType === regulatorTypeEnum.Organisation">
+      </span>}
+      @if (regulatorType === regulatorTypeEnum.Organisation) {<span>
         Regulatory organisation type
-      </span>
+      </span>}
     </dt>
     <dd class="govuk-summary-list__value">
-  <div *ngFor="let regulator of regulators; trackBy: trackByRegulator">
+      @for(regulator of regulators; track trackByRegulator) {
+      <div>
         <ng-container [ngSwitch]="regulator.regulatorType">
           <span *ngSwitchCase="regulatoryTypeEnum.Other">
             {{regulator.regulatorType}}: {{regulator.regulatorName}} ref: {{regulator.organisationRegistrationNumber}}
@@ -36,18 +37,17 @@
           <br />
         </ng-container>
       </div>
+    }
     </dd>
     <dd class="govuk-summary-list__actions">
-      <a *ngIf="regulatorType === regulatorTypeEnum.Individual"
-        class="govuk-link"
+      @if (regulatorType === regulatorTypeEnum.Individual) {<a class="govuk-link"
         [routerLink]="['/', registerOrgNewRoute, 'individual-registered-with-regulator-details']">
         Change<span class="govuk-visually-hidden">What regulators are you (as an individual) registered with?</span>
-      </a>
-      <a *ngIf="regulatorType === regulatorTypeEnum.Organisation"
-        class="govuk-link"
+      </a>}
+      @if (regulatorType === regulatorTypeEnum.Organisation) {<a class="govuk-link"
         [routerLink]="['/', registerOrgNewRoute, 'regulatory-organisation-type']">
         Change<span class="govuk-visually-hidden">Regulatory organisation type</span>
-      </a>
+      </a>}
     </dd>
-  </div>
+  </div>}
 </dl>

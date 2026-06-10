@@ -2,7 +2,6 @@ import { test, expect } from './fixtures';
 import type { FeeAccount, OrganisationDetailsResponse } from './utils/types';
 
 const unknownPaymentAccount = 'PBA0000000';
-const allowUnseededFeeAccounts = process.env.MANAGE_ORG_API_ALLOW_UNSEEDED_FEE_ACCOUNTS === 'true';
 
 test.describe('Fee account API contracts', { tag: '@svc-fee-accounts' }, () => {
   test('returns fee account details for an organisation payment account when the fee account service recognises it', async ({
@@ -16,19 +15,14 @@ test.describe('Fee account API contracts', { tag: '@svc-fee-accounts' }, () => {
       expect.any(Array)
     );
     const paymentAccount = paymentAccounts!.find((account) => /^PBA\d+$/.test(account));
-    test.skip(!paymentAccount, 'The configured organisation has no PBA account to look up.');
+    expect(paymentAccount, 'The configured organisation should include a PBA account to look up').toBeTruthy();
 
     const response = await apiClient.get<FeeAccount[]>(`api/accounts?accountNames=${paymentAccount}`, {
       throwOnError: false
     });
-    const unseededFeeAccountMessage =
-      `The configured organisation PBA ${paymentAccount} is not recognised by the fee account service in this ` +
-      'known non-seeded environment.';
     const seededFeeAccountFailureMessage =
-      `Configured organisation PBA ${paymentAccount} should be recognised by the fee account service. ` +
-      'Set MANAGE_ORG_API_ALLOW_UNSEEDED_FEE_ACCOUNTS=true only for known non-seeded environments.';
+      `Configured organisation PBA ${paymentAccount} should be recognised by the fee account service.`;
 
-    test.skip(allowUnseededFeeAccounts && response.status === 404, unseededFeeAccountMessage);
     expect(response.status, seededFeeAccountFailureMessage).toBe(200);
     expect(response.data, 'Fee account lookup response should be an array').toEqual(expect.any(Array));
     expect(response.data.length, 'Fee account lookup should return one account result for one account request').toBe(1);

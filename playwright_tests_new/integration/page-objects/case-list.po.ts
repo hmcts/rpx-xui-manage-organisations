@@ -10,8 +10,16 @@ export class CaseListPage {
   constructor(protected readonly page: Page, heading: string) {
     this.applyFilterButton = this.page.getByRole('button', { name: 'Apply filter' });
     this.caseList = this.page.locator('ccd-case-list');
-    this.caseReferenceError = this.page.locator('#case-reference-number-error-message');
-    this.caseReferenceFilterInput = this.page.locator('#case-reference-number');
+    this.caseReferenceError = this.page.locator([
+      '#case-reference-number-error-message',
+      '#case-reference-number-error-message-unassigned',
+      '#case-reference-number-error-message-assigned'
+    ].join(', '));
+    this.caseReferenceFilterInput = this.page.locator([
+      '#case-reference-number',
+      '#case-reference-number-unassigned',
+      '#case-reference-number-assigned'
+    ].join(', '));
     this.pageHeading = this.page.getByRole('heading', { name: heading, exact: true });
   }
 

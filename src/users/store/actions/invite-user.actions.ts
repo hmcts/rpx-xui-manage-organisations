@@ -8,13 +8,14 @@ export const INVITE_USER_FAIL_WITH_404 = '[Invite User] Invite User Fail With 40
 export const INVITE_USER_FAIL_WITH_400 = '[Invite User] Invite User Fail With 400';
 export const INVITE_USER_FAIL_WITH_429 = '[Invite User] Invite User Fail With 429';
 export const INVITE_USER_FAIL_WITH_409 = '[Invite User] Invite User Fail With 409';
+export const INVITE_USER_FAIL_WITH_422 = '[Invite User] Invite User Fail With 422';
 export const INVITE_USER_FAIL_WITH_500 = '[Invite User] Invite User Fail With 500 Range';
 export const RESET = '[Invite User] Reset';
 import { UserListApiModel } from '../../models/userform.model';
 
 export class SendInviteUser implements Action {
   public readonly type = SEND_INVITE_USER;
-  constructor(public payload: UserListApiModel) {}
+  constructor(public payload: UserListApiModel, public orgProfileIds?: string[]) {}
 }
 
 export class InviteUserSuccess implements Action {
@@ -44,6 +45,10 @@ export class InviteUserFailWith429 implements Action {
 
 export class InviteUserFailWith409 implements Action {
   public readonly type = INVITE_USER_FAIL_WITH_409;
+  constructor(public payload: any) {}
+}
+export class InviteUserFailWith422 implements Action {
+  public readonly type = INVITE_USER_FAIL_WITH_422;
   constructor(public payload: any) {}
 }
 

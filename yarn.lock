@@ -11133,10 +11133,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:^2.5.4":
-  version: 2.6.12
-  resolution: "core-js@npm:2.6.12"
-  checksum: 10/7c624eb00a59c74c769d5d80f751f3bf1fc6201205b6562f27286ad5e00bbca1483f2f7eb0c2854b86f526ef5c7dc958b45f2ff536f8a31b8e9cb1a13a96efca
+"core-js@npm:^3.49.0":
+  version: 3.49.0
+  resolution: "core-js@npm:3.49.0"
+  checksum: 10/31d018f9830b0240ae40869e380595f2d06a8800709ad63299a42a438ba0c8d5805045fa02a20a78f42761d83103b0b71eca982955f5e890fb7cf6b2fe6a9ab1
   languageName: node
   linkType: hard
 
@@ -16409,7 +16409,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"katex@npm:^0.16.0":
+"katex@npm:^0.16.0, katex@npm:^0.16.22":
   version: 0.16.33
   resolution: "katex@npm:0.16.33"
   dependencies:
@@ -16417,17 +16417,6 @@ __metadata:
   bin:
     katex: cli.js
   checksum: 10/6db21ebc53316402b07a2718d038121db311ce4ccc3c196189c82c165d198f15924f34d26b1d0aaaabfc6860885a372aac1d7254416f2cb513693e94a19a7cee
-  languageName: node
-  linkType: hard
-
-"katex@npm:^0.16.25":
-  version: 0.16.45
-  resolution: "katex@npm:0.16.45"
-  dependencies:
-    commander: "npm:^8.3.0"
-  bin:
-    katex: cli.js
-  checksum: 10/8c82f9651c3615459722166a6ccb16f23ecd8323850a956568b69b1f641331a57679aa9f3ad4903c4be26089434cbbde850c0384b9b0dff022e4357b84a20ebc
   languageName: node
   linkType: hard
 
@@ -20912,7 +20901,7 @@ __metadata:
     config: "npm:^3.2.5"
     connect-redis: "npm:^4.0.4"
     cookie-parser: "npm:^1.4.4"
-    core-js: "npm:^2.5.4"
+    core-js: "npm:^3.49.0"
     cross-env: "npm:^10.0.0"
     crypto-js: "npm:^4.2.0"
     dompurify: "npm:^3.4.1"

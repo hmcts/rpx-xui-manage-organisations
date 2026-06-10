@@ -2,7 +2,13 @@ import { defineConfig, devices } from '@playwright/test';
 import { load as loadDotenv } from 'dotenv-extended';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { resolveReporters, resolveWorkerCount } from './playwright-reporting';
+import {
+  resolveOutputDir,
+  resolveReporters,
+  resolveTagGrep,
+  resolveTagGrepInvert,
+  resolveWorkerCount,
+} from './playwright-reporting';
 
 loadDotenv({
   defaults: '.env.example',
@@ -15,12 +21,19 @@ loadDotenv({
 const headlessMode = process.env.HEAD !== 'true';
 const baseUrl = process.env.TEST_URL || 'https://manage-org.aat.platform.hmcts.net/';
 const workerCount = resolveWorkerCount(process.env);
+const outputDir = resolveOutputDir(process.env);
 const { version: appVersion } = JSON.parse(readFileSync(resolve(process.cwd(), 'package.json'), 'utf-8')) as { version: string };
 
 module.exports = defineConfig({
+  outputDir,
   testDir: 'playwright_tests_new/E2E',
   testMatch: ['**/test/**/*.spec.ts'],
-  testIgnore: ['**/test/smoke/smokeTest.spec.ts'],
+  testIgnore:
+    process.env.PLAYWRIGHT_INCLUDE_A11Y === 'true'
+      ? ['**/test/smoke/smokeTest.spec.ts']
+      : ['**/test/smoke/smokeTest.spec.ts', '**/*.a11y.spec.ts'],
+  grep: resolveTagGrep(process.env),
+  grepInvert: resolveTagGrepInvert(process.env),
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,

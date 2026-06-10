@@ -3060,12 +3060,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/ccd-case-ui-toolkit@npm:7.3.48":
-  version: 7.3.48
-  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.3.48"
+"@hmcts/ccd-case-ui-toolkit@npm:7.3.55-marked-package-update":
+  version: 7.3.55-marked-package-update
+  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.3.55-marked-package-update"
   dependencies:
     tslib: "npm:^2.3.0"
-  checksum: 10/f9d4f6389b6f627d935c998c08e7877b50c8658f9161ca8108370ae9fddedc035d6811b62ca5629ebea3c6227865c8ca4df90924ae7673d521e7b7520a46e0d8
+  checksum: 10/8cb74c408c3a0dc0e654df734082382350f4fdefc306dc27c9d2a971783c23e49180956829840420e3375ce64cf11b1f0d9ea4e98bdc9675185ee6cb6b4439b6
   languageName: node
   linkType: hard
 
@@ -20553,7 +20553,7 @@ __metadata:
     "@babel/runtime": "npm:7.28.3"
     "@circlon/angular-tree-component": "npm:^11.0.4"
     "@edium/fsm": "npm:^2.1.2"
-    "@hmcts/ccd-case-ui-toolkit": "npm:7.3.48"
+    "@hmcts/ccd-case-ui-toolkit": "npm:7.3.55-marked-package-update"
     "@hmcts/ccpay-web-component": "npm:6.5.14"
     "@hmcts/frontend": "npm:0.0.50-alpha"
     "@hmcts/media-viewer": "npm:4.2.16"

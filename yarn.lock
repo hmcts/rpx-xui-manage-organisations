@@ -3060,12 +3060,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/ccd-case-ui-toolkit@npm:7.3.48":
-  version: 7.3.48
-  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.3.48"
+"@hmcts/ccd-case-ui-toolkit@npm:7.3.54-exui-1855-rc-1":
+  version: 7.3.54-exui-1855-rc-1
+  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.3.54-exui-1855-rc-1"
   dependencies:
     tslib: "npm:^2.3.0"
-  checksum: 10/f9d4f6389b6f627d935c998c08e7877b50c8658f9161ca8108370ae9fddedc035d6811b62ca5629ebea3c6227865c8ca4df90924ae7673d521e7b7520a46e0d8
+  checksum: 10/758676f7975ae80b23a1b6169254d93fa127f23420584d4853e39c2b79c964638741ac570117edc5ec0aa3b3ea35dc76e094415bee9593e6fbd769799f2f1baa
   languageName: node
   linkType: hard
 
@@ -3186,16 +3186,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-common-lib@npm:3.2.9-ga-rc2":
-  version: 3.2.9-ga-rc2
-  resolution: "@hmcts/rpx-xui-common-lib@npm:3.2.9-ga-rc2"
+"@hmcts/rpx-xui-common-lib@npm:3.2.9-exui-1855-rc-1":
+  version: 3.2.9-exui-1855-rc-1
+  resolution: "@hmcts/rpx-xui-common-lib@npm:3.2.9-exui-1855-rc-1"
   dependencies:
     tslib: "npm:^2.0.0"
   peerDependencies:
     launchdarkly-js-client-sdk: ^3.3.0
     ngx-pagination: ^3.2.1
     rpx-xui-translation: 1.1.2-CME-780-9
-  checksum: 10/d4668ef4f496d3a694b92c71da1c6e5135039ed0f86edcb7ab4e0d2bb5fa03a15d6d92bd50d0208a075648920c0f710c6f124198b680399f632e23cb44e928de
+  checksum: 10/d14ccb9d78e5984402379e76a5f704cceb85ccc4192c83794142affcbfc968dbee655e57b098ba6c85b8712bca1a5c473c591c6ae390976ec8e4ebab06fc9370
   languageName: node
   linkType: hard
 
@@ -7585,10 +7585,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jasmine@npm:~4.3.5":
-  version: 4.3.6
-  resolution: "@types/jasmine@npm:4.3.6"
-  checksum: 10/2ca3b7931d71b329b13ac753de086f97b2520d98ce3d3cb74dd2dbeaf7b336e9625dd29b425daa83e0fe485a736f3a59c85e0c57f7f8d9ad489fec79ff804d89
+"@types/jasmine@npm:~5.1.0":
+  version: 5.1.15
+  resolution: "@types/jasmine@npm:5.1.15"
+  checksum: 10/e86a962c153ff91ffe3c65a633578a5e3f6e065e58268c00e839b03dac6792b1e0a2afca216ccfa1e31647e49ef1a935332242350dca91a2940ad883643abd04
   languageName: node
   linkType: hard
 
@@ -20553,14 +20553,14 @@ __metadata:
     "@babel/runtime": "npm:7.28.3"
     "@circlon/angular-tree-component": "npm:^11.0.4"
     "@edium/fsm": "npm:^2.1.2"
-    "@hmcts/ccd-case-ui-toolkit": "npm:7.3.48"
+    "@hmcts/ccd-case-ui-toolkit": "npm:7.3.54-exui-1855-rc-1"
     "@hmcts/ccpay-web-component": "npm:6.5.14"
     "@hmcts/frontend": "npm:0.0.50-alpha"
     "@hmcts/media-viewer": "npm:4.2.16"
     "@hmcts/nodejs-healthcheck": "npm:^1.8.6"
     "@hmcts/playwright-common": "npm:^1.1.2"
     "@hmcts/properties-volume": "npm:0.0.13"
-    "@hmcts/rpx-xui-common-lib": "npm:3.2.9-ga-rc2"
+    "@hmcts/rpx-xui-common-lib": "npm:3.2.9-exui-1855-rc-1"
     "@hmcts/rpx-xui-node-lib": "npm:2.30.12"
     "@microsoft/applicationinsights-web": "npm:^3.3.9"
     "@ng-idle/core": "npm:^16.0.0"
@@ -20586,7 +20586,7 @@ __metadata:
     "@types/express": "npm:^4.17.4"
     "@types/express-session": "npm:^1.17.0"
     "@types/global-agent": "npm:^2.1.0"
-    "@types/jasmine": "npm:~4.3.5"
+    "@types/jasmine": "npm:~5.1.0"
     "@types/mocha": "npm:^10.0.6"
     "@types/node": "npm:^20.19.0"
     "@types/redis": "npm:^2.8.16"
@@ -20664,7 +20664,7 @@ __metadata:
     playwright-core: "npm:1.59.1"
     prettier: "npm:^3.8.0"
     redis: "npm:^3.0.2"
-    rpx-xui-translation: "npm:1.2.0-angular-20.3.14"
+    rpx-xui-translation: "npm:1.2.3-exui-1855-rc-1"
     rx-polling-hmcts: "npm:^1.1.1"
     rxjs: "npm:^7.8.1"
     rxjs-compat: "npm:^6.4.0"
@@ -20692,9 +20692,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"rpx-xui-translation@npm:1.2.0-angular-20.3.14":
-  version: 1.2.0-angular-20.3.14
-  resolution: "rpx-xui-translation@npm:1.2.0-angular-20.3.14"
+"rpx-xui-translation@npm:1.2.3-exui-1855-rc-1":
+  version: 1.2.3-exui-1855-rc-1
+  resolution: "rpx-xui-translation@npm:1.2.3-exui-1855-rc-1"
   dependencies:
     dexie: "npm:^3.2.2"
     luxon: "npm:^2.4.0"
@@ -20702,7 +20702,7 @@ __metadata:
   peerDependencies:
     "@angular/common": ^20.3.14
     "@angular/core": ^20.3.14
-  checksum: 10/6c66db44fdcbc1bcf95ff219db399b7b6e3db6832870247c63f402efe4c156ee8e8888b33dc2da991264d66598e2064adc9df9a8fbf1a4ede431193cfc705ec5
+  checksum: 10/c2235d1b3499fc4c1b28a6b433b109597e1312800d704d21da950433a5ffa2d39771444507ee168183385fa3ed3d1abef2f1666be78c03170383c0928aced134
   languageName: node
   linkType: hard
 

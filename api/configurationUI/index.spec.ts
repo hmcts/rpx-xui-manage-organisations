@@ -5,6 +5,7 @@ import * as sinonChai from 'sinon-chai';
 import { mockReq, mockRes } from 'sinon-express-mock';
 import * as configuration from '../configuration';
 import {
+  FEATURE_OGD_UPDATE_REFRESH_USER_ENABLED,
   FEATURE_TERMS_AND_CONDITIONS_ENABLED,
   GOOGLE_ANALYTICS_KEY,
   LAUNCH_DARKLY_CLIENT_ID,
@@ -15,13 +16,20 @@ import {
 } from '../configuration/references';
 import { configurationUIRoute } from './index';
 
-chai.use(sinonChai);
+const sinonChaiPlugin = (sinonChai as unknown as { default?: Chai.ChaiPlugin }).default ??
+  (sinonChai as unknown as Chai.ChaiPlugin);
+
+chai.use(sinonChaiPlugin);
 
 describe('configurationUI index', () => {
-  const req = mockReq();
-  const res = mockRes();
+  let req;
+  let res;
 
   beforeEach(() => {
+    req = mockReq();
+    res = mockRes();
+    delete process.env.PUI_ENV;
+    delete process.env.PREVIEW_DEPLOYMENT_ID;
     // Setup a stub for getConfigValue that returns different values based on the argument passed to it
     const stub = sinon.stub(configuration, 'getConfigValue');
     stub.withArgs(GOOGLE_ANALYTICS_KEY).returns('Google');
@@ -30,7 +38,9 @@ describe('configurationUI index', () => {
     stub.withArgs(LINKS_MANAGE_ORG_LINK).returns('/manage-org');
     stub.withArgs(PROTOCOL).returns('http');
     stub.withArgs(SERVICES_IDAM_WEB).returns('/idam-web');
-    sinon.stub(configuration, 'showFeature').withArgs(FEATURE_TERMS_AND_CONDITIONS_ENABLED).returns(true);
+    const showFeatureStub = sinon.stub(configuration, 'showFeature');
+    showFeatureStub.withArgs(FEATURE_OGD_UPDATE_REFRESH_USER_ENABLED).returns(false);
+    showFeatureStub.withArgs(FEATURE_TERMS_AND_CONDITIONS_ENABLED).returns(true);
   });
 
   afterEach(() => {
@@ -46,18 +56,59 @@ describe('configurationUI index', () => {
     expect(configuration.getConfigValue).to.be.calledWith(LINKS_MANAGE_ORG_LINK);
     expect(configuration.getConfigValue).to.be.calledWith(PROTOCOL);
     expect(configuration.getConfigValue).to.be.calledWith(SERVICES_IDAM_WEB);
+    expect(configuration.showFeature).to.be.calledWith(FEATURE_OGD_UPDATE_REFRESH_USER_ENABLED);
     expect(configuration.showFeature).to.be.calledWith(FEATURE_TERMS_AND_CONDITIONS_ENABLED);
     expect(res.status).to.be.calledWith(200);
     expect(res.send).to.be.calledWith({
+      environment: 'LOCAL',
       googleAnalyticsKey: 'Google',
       idamWeb: '/idam-web',
       launchDarklyClientId: 'abc123',
       manageCaseLink: '/manage-cases',
       manageOrgLink: '/manage-org',
+      ogdUpdateRefreshUserEnabled: false,
       protocol: 'http',
       servicesTandCPath: undefined,
-      termsAndConditionsEnabled: true,
-      envrionment: 'LOCAL'
+      termsAndConditionsEnabled: true
+    });
+  });
+
+  it('should prefer preview deployment id over PUI_ENV', async () => {
+    process.env.PUI_ENV = 'aat';
+    process.env.PREVIEW_DEPLOYMENT_ID = 'xui-mo-webapp-pr-1';
+
+    await configurationUIRoute(req, res);
+
+    expect(res.status).to.be.calledWith(200);
+    expect(res.send).to.be.calledWithMatch({
+      environment: 'preview'
+    });
+  });
+
+  it('should derive demo environment from IDAM web URL when PUI_ENV is prod', async () => {
+    process.env.PUI_ENV = 'prod';
+    (configuration.getConfigValue as sinon.SinonStub).withArgs(SERVICES_IDAM_WEB)
+      .returns('https://idam-web-public.demo.platform.hmcts.net');
+
+    await configurationUIRoute(req, res);
+
+    expect(res.status).to.be.calledWith(200);
+    expect(res.send).to.be.calledWithMatch({
+      environment: 'demo',
+      idamWeb: 'https://idam-web-public.demo.platform.hmcts.net'
+    });
+  });
+
+  it('should derive prod environment from the public IDAM web URL', async () => {
+    (configuration.getConfigValue as sinon.SinonStub).withArgs(SERVICES_IDAM_WEB)
+      .returns('https://hmcts-access.service.gov.uk');
+
+    await configurationUIRoute(req, res);
+
+    expect(res.status).to.be.calledWith(200);
+    expect(res.send).to.be.calledWithMatch({
+      environment: 'prod',
+      idamWeb: 'https://hmcts-access.service.gov.uk'
     });
   });
 });

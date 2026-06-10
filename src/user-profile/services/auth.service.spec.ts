@@ -32,6 +32,29 @@ describe('AuthService', () => {
       expect(req.request.method).toEqual('GET');
       req.flush('false');
     }));
+
+    it('should share the authentication check between subscribers', inject([HttpTestingController, AuthService], (httpMock: HttpTestingController, service: AuthService) => {
+      service.isAuthenticated().subscribe();
+      service.isAuthenticated().subscribe();
+
+      const req = httpMock.expectOne('/auth/isAuthenticated');
+      expect(req.request.method).toEqual('GET');
+      req.flush('true');
+    }));
+
+    it('should make a new authentication check after the previous check completes', inject([HttpTestingController, AuthService], (httpMock: HttpTestingController, service: AuthService) => {
+      service.isAuthenticated().subscribe();
+
+      const firstReq = httpMock.expectOne('/auth/isAuthenticated');
+      expect(firstReq.request.method).toEqual('GET');
+      firstReq.flush('true');
+
+      service.isAuthenticated().subscribe();
+
+      const secondReq = httpMock.expectOne('/auth/isAuthenticated');
+      expect(secondReq.request.method).toEqual('GET');
+      secondReq.flush('false');
+    }));
   });
 
   describe('logOut', () => {

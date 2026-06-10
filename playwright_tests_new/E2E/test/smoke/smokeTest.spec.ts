@@ -2,7 +2,7 @@ import { test, expect } from '../../fixtures';
 
 test(
   'IDAM login page is up and displays username and password fields',
-  { tag: ['@e2e', '@e2e-smoke'] },
+  { tag: ['@e2e-smoke'] },
   async ({ idamPage, page }) => {
     await page.goto('');
 
@@ -20,3 +20,24 @@ test(
     expect(loginUrl.searchParams.get('redirect_uri')).toContain('/oauth2/callback');
   }
 );
+
+for (const protectedRoute of ['/users', '/cases/case-filter']) {
+  test(
+    `protected deep link ${protectedRoute} redirects to the IDAM login page`,
+    { tag: ['@e2e-smoke'] },
+    async ({ idamPage, page }) => {
+      await page.goto(protectedRoute);
+
+      await expect(page).toHaveURL(/\/login\?/);
+      await expect(idamPage.heading).toBeVisible();
+      await expect(idamPage.usernameInput).toBeVisible();
+      await expect(idamPage.passwordInput).toBeVisible();
+
+      const loginUrl = new URL(page.url());
+      expect(loginUrl.pathname).toBe('/login');
+      expect(loginUrl.searchParams.get('response_type')).toBe('code');
+      expect(loginUrl.searchParams.get('client_id')).toBeTruthy();
+      expect(loginUrl.searchParams.get('redirect_uri')).toContain('/oauth2/callback');
+    }
+  );
+}

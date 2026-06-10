@@ -5,9 +5,10 @@ import { Router } from '@angular/router';
 import { RegisterComponent } from '../../../register-org/containers';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { ORGANISATION_TYPES_REF_DATA } from '../../__mocks__';
-import { ORGANISATION_SERVICES } from '../../constants/register-org-constants';
 import { RegulatorType, RegulatoryType } from '../../models';
 import { RegisterOrgService } from '../../services/register-org.service';
+import { organisationServices } from '../../Configuration/org-services/config';
+import { EnvironmentService } from '../../../shared/services/environment.service';
 
 @Component({
   selector: 'app-check-your-answers',
@@ -27,7 +28,8 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
 
   constructor(public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService,
-    public readonly loggerService: LoggerService
+    public readonly loggerService: LoggerService,
+    private readonly environmentService: EnvironmentService
   ) {
     super(router, registerOrgService);
   }
@@ -38,8 +40,12 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
     this.cyaFormGroup = new FormGroup({
       confirmTermsAndConditions: new FormControl(null, [Validators.required, this.getCustomValidationForTermsAndConditions()])
     });
+    const services = organisationServices(
+      this.environmentService.get('environment'),
+      this.environmentService.get('idamWeb')
+    );
     this.registrationData.services?.forEach((thisService) => {
-      const service = ORGANISATION_SERVICES.find((service) => service.key === thisService.key).value;
+      const service = services.find((service) => service.key === thisService.key).value;
       this.services.push(service);
     });
     if (this.registrationData.otherServices) {

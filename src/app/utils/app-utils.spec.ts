@@ -58,6 +58,47 @@ describe('AppUtils', () => {
     }]);
   });
 
+  it('should exclude assigned and unassigned cases nav items even when enabled', () => {
+    const navItems = [{
+      text: 'Organisation',
+      href: '/organisation',
+      active: false,
+      orderId: 1
+    },
+    {
+      text: 'Unassigned cases',
+      href: '/unassigned-cases',
+      active: false,
+      orderId: 2,
+      featureToggle: {
+        featureName: AppConstants.STATIC_FEATURE_NAMES.caaMenuItems
+      }
+    },
+    {
+      text: 'Assigned cases',
+      href: '/assigned-cases',
+      active: false,
+      orderId: 3,
+      featureToggle: {
+        featureName: AppConstants.STATIC_FEATURE_NAMES.caaMenuItems
+      }
+    }];
+
+    const featureFlag: AppFeatureFlag = {
+      isEnabled: true,
+      featureName: AppConstants.STATIC_FEATURE_NAMES.caaMenuItems
+    };
+
+    const result = AppUtils.getFeatureEnabledNavItems(navItems, [featureFlag]);
+
+    expect(result).toEqual([{
+      text: 'Organisation',
+      href: '/organisation',
+      active: false,
+      orderId: 1
+    }]);
+  });
+
   it('should set active links values', () => {
     const array = AppUtils.setActiveLink(AppConstants.NAV_ITEMS_ARRAY, router);
     expect(array).toEqual(AppConstants.NAV_ITEMS_ARRAY);

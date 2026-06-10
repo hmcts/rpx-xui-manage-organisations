@@ -1,4 +1,4 @@
-import { test as base, expect } from '@playwright/test';
+import { test as base } from '@playwright/test';
 import type { BrowserContext, Locator, Page } from '@playwright/test';
 import { existsSync, mkdirSync, readFileSync, unlinkSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -24,6 +24,7 @@ type AuthFixtures = {
 };
 
 type AuthWorkerFixtures = {
+  manageOrgUserRole: ManageOrgUserRole;
   manageOrgStorageStatePath: string;
 };
 
@@ -112,36 +113,35 @@ const isVisibleWithin = async (locator: Locator, timeout: number): Promise<boole
 
 export const test = base.extend<PageFixtures & AuthFixtures, AuthWorkerFixtures>({
   ...pageFixtures,
-  manageOrgStorageStatePath: [async ({ browserName }, use, workerInfo) => {
+  manageOrgUserRole: [resolveConfiguredUserRole(), { option: true, scope: 'worker' }],
+  manageOrgStorageStatePath: [async ({ browserName, manageOrgUserRole }, use, workerInfo) => {
     const storageStatePath = resolveStorageStatePath(
-      resolveConfiguredUserRole(),
+      manageOrgUserRole,
       browserName,
       workerInfo.workerIndex
     );
     mkdirSync(dirname(storageStatePath), { recursive: true });
     await use(storageStatePath);
   }, { scope: 'worker' }],
-  // Playwright fixture callbacks require object destructuring even when no upstream fixture is needed.
-  // eslint-disable-next-line no-empty-pattern
-  signedInUser: async ({}, use) => {
-    const { email, role } = resolveTestUser(resolveConfiguredUserRole());
+  signedInUser: async ({ manageOrgUserRole }, use) => {
+    const { email, role } = resolveTestUser(manageOrgUserRole);
     await use({ email, role });
   },
-  signedInPage: async ({ page, idamPage, manageOrgStorageStatePath }, use) => {
-    const testUser = resolveTestUser(resolveConfiguredUserRole());
+  signedInPage: async ({ page, idamPage, manageOrgStorageStatePath, manageOrgUserRole }, use) => {
+    const testUser = resolveTestUser(manageOrgUserRole);
     const organisationLink = page.getByRole('link', { name: 'Organisation', exact: true });
     await applyStoredAuthState(page, manageOrgStorageStatePath);
     await page.goto('');
-    if (!await isVisibleWithin(organisationLink, 10_000)) {
+    if (!(await isVisibleWithin(organisationLink, 10_000))) {
       await page.context().clearCookies();
       await page.goto('');
-      await expect(idamPage.heading).toBeVisible();
+      await idamPage.heading.waitFor({ state: 'visible' });
       await idamPage.signIn(testUser.email, testUser.password);
-      await expect(organisationLink).toBeVisible();
+      await organisationLink.waitFor({ state: 'visible' });
       await page.context().storageState({ path: manageOrgStorageStatePath });
     }
-    await expect(organisationLink).toBeVisible();
+    await organisationLink.waitFor({ state: 'visible' });
     await use(page);
   }
 });
-export { expect };
+export { expect } from '@playwright/test';

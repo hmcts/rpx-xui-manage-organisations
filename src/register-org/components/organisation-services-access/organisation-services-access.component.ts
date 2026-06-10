@@ -3,9 +3,10 @@ import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
 import { Router } from '@angular/router';
 import { OrganisationService, OrganisationServicesMessage } from '../../../register-org/models';
-import { ORGANISATION_SERVICES } from '../../constants/register-org-constants';
 import { RegisterComponent } from '../../containers/register/register-org.component';
 import { RegisterOrgService } from '../../services/register-org.service';
+import { organisationServices } from '../../Configuration/org-services/config';
+import { EnvironmentService } from '../../../shared/services/environment.service';
 
 @Component({
   selector: 'app-organisation-services-access',
@@ -24,7 +25,8 @@ export class OrganisationServicesAccessComponent extends RegisterComponent imple
   public showOtherServicesInput: boolean;
 
   constructor(public readonly router: Router,
-    public readonly registerOrgService: RegisterOrgService
+    public readonly registerOrgService: RegisterOrgService,
+    private readonly environmentService: EnvironmentService
   ) {
     super(router, registerOrgService);
   }
@@ -32,7 +34,10 @@ export class OrganisationServicesAccessComponent extends RegisterComponent imple
   public ngOnInit(): void {
     super.ngOnInit();
 
-    this.services = ORGANISATION_SERVICES;
+    this.services = organisationServices(
+      this.environmentService.get('environment'),
+      this.environmentService.get('idamWeb')
+    );
 
     this.servicesFormGroup = new FormGroup({
       services: new FormArray([]),

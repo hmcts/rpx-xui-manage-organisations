@@ -12426,7 +12426,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ejs@npm:^3.1.10, ejs@npm:^3.1.5":
+"ejs@npm:^3.1.5":
   version: 3.1.10
   resolution: "ejs@npm:3.1.10"
   dependencies:
@@ -12437,10 +12437,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ejs@npm:^5.0.2":
+  version: 5.0.2
+  resolution: "ejs@npm:5.0.2"
+  bin:
+    ejs: bin/cli.js
+  checksum: 10/ca0f0bde379ae0ca5b69df22533ef9fc76655677f6bf0adae5e11325783d28fca4fef0e02a2523329f6c0a6e44aeee1e7d4aa669edc3ffd3cc04706f4cd00b17
+  languageName: node
+  linkType: hard
+
 "electron-to-chromium@npm:^1.5.227":
-  version: 1.5.235
-  resolution: "electron-to-chromium@npm:1.5.235"
-  checksum: 10/fbc227d58a07dbb1b01e4a0f624a2fae03881f160a7c2e4416a68f30c83c1ca29b8f0e04056cb2851a6f493ebaf0d3b24bc2c7721d9e779cccbc9faeffef1c0e
+  version: 1.5.370
+  resolution: "electron-to-chromium@npm:1.5.370"
+  checksum: 10/c09e3384dd813cc353f4c7b643ee8473419274b160eca9612f036a2028862d42f02d2abb3d338e6db8c52ea241ce7a8b142b41c434e985ab8f1927310ffce639
   languageName: node
   linkType: hard
 
@@ -20908,7 +20917,7 @@ __metadata:
     crypto-js: "npm:^4.2.0"
     dompurify: "npm:^3.4.1"
     dotenv-extended: "npm:^2.7.0"
-    ejs: "npm:^3.1.10"
+    ejs: "npm:^5.0.2"
     eslint: "npm:^8.57.0"
     exceljs: "npm:^4.4.0"
     exception-formatter: "npm:^1.0.7"

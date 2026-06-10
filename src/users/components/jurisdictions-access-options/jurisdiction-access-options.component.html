@@ -1,0 +1,36 @@
+<div [formGroup]="jurisdictions">
+  @for (jurisdiction of jurisdictions.controls; let i = $index; track jurisdiction.value.jurisdictionId) {
+  <ng-container>
+    <div class="govuk-form-group" [formGroupName]="i">
+      <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+        <p class="govuk-heading-s">Additional access: {{ jurisdiction.value.jurisdictionName }}</p>
+        <div formArrayName="accessTypes">
+          @for (accessType of jurisdiction.value.accessTypes; let j = $index; track accessType.accessTypeId) {
+          <ng-container>
+            <div class="govuk-checkboxes__item govuk-!-margin-top-5 " [formGroupName]="j">
+              <input class="govuk-checkboxes__input" [id]="accessType.accessTypeId" [value]="accessType.accessTypeId"
+                [name]="accessType.description" [checked]="accessType.enabled" formControlName="enabled" type="checkbox"
+                [attr.aria-describedby]="
+                      accessType.accessTypeId + '-item-hint'" [attr.aria-disabled]="
+                      accessType.mandatory ? 'true' : 'false'" [title]="accessType.mandatory ? '' : ''" />
+              <label class="govuk-label govuk-checkboxes__label govuk-!-padding-top-0" [for]="accessType.accessTypeId">
+                {{ accessType.description }}
+              </label>
+              @if (accessType.mandatory) {
+              <span class="govuk-hint govuk-checkboxes__hint">
+                This checkbox is disabled because this role is mandatory.
+              </span>
+              } @else {
+              <span [id]="accessType.accessTypeId + '-item-hint'" class="govuk-hint govuk-checkboxes__hint">
+                {{ accessType.hint }} <br />
+              </span>
+              }
+            </div>
+          </ng-container>
+          }
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  }
+</div>

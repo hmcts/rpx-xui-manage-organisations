@@ -8,7 +8,7 @@ const { somethingLike } = Matchers;
 const pactSetUp = new PactTestSetup({ provider: 'referenceData_professionalExternalUsers', port: 8000 });
 
 describe('RD Professional API', () => {
-  describe('Edit UserPermssions given userId', async () => {
+  describe('Edit UserPermssions given userId', () => {
     const userId = '123456';
 
     const mockRequest = {
@@ -56,25 +56,21 @@ describe('RD Professional API', () => {
         }
       };
       // @ts-ignore
-      pactSetUp.provider.addInteraction(interaction);
+      await pactSetUp.provider.addInteraction(interaction);
+    });
+
+    after(async () => {
+      await pactSetUp.provider.finalize();
     });
 
     it('Returns the correct response', async () => {
       // call the pactUtil's method which Calls The Downstream API directly without going through the Service Class.
 
       const taskUrl: string = `${pactSetUp.provider.mockService.baseUrl}/refdata/external/v1/organisations/users/` + userId;
-      const resp = editUserPermissions(taskUrl, mockRequest as any);
-
-      resp.then((response) => {
-        const responseDto: EditUserPermissionsDto = <EditUserPermissionsDto>response.data;
-        assertResponse(responseDto);
-      }).then(() => {
-        pactSetUp.provider.verify();
-        pactSetUp.provider.finalize();
-      }).finally(() => {
-        pactSetUp.provider.verify();
-        pactSetUp.provider.finalize();
-      });
+      const response = await editUserPermissions(taskUrl, mockRequest as any);
+      const responseDto: EditUserPermissionsDto = <EditUserPermissionsDto>response.data;
+      assertResponse(responseDto);
+      await pactSetUp.provider.verify();
     });
   });
 });

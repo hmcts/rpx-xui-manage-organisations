@@ -79,6 +79,26 @@ test.describe('User administration', { tag: ['@integration', '@integration-user-
     expect(routeState.inviteUserRequests).toHaveLength(0);
   });
 
+  test('returns from pending-user re-invite with the back link without posting an invite', async ({
+    manageOrgIntegrationPage: page
+  }) => {
+    const routeState = await setupUserAdminRoutes(page);
+    const userAdminPage = new UserAdminPage(page);
+
+    await userAdminPage.openUsers();
+    await userAdminPage.openUserDetails(userAdminPendingUser.email);
+    await userAdminPage.openReinvite();
+
+    await expect(page).toHaveURL(/\/users\/invite-user$/);
+    await expect(userAdminPage.inviteUserHeading).toBeVisible();
+
+    await userAdminPage.goBack();
+
+    await expect(page).toHaveURL(new RegExp(`/users/user/${userAdminPendingUser.userIdentifier}$`));
+    await expect(userAdminPage.pendingUserDetailsHeading).toBeVisible();
+    expect(routeState.inviteUserRequests).toHaveLength(0);
+  });
+
   for (const permissions of [
     ['Manage Users'],
     ['Manage Users', 'Manage Organisation', 'Manage Cases'],
@@ -109,6 +129,26 @@ test.describe('User administration', { tag: ['@integration', '@integration-user-
       });
     });
   }
+
+  test('returns from OGD manage-user invite with the back link without posting an invite', async ({
+    manageOrgIntegrationPage: page
+  }) => {
+    const routeState = await setupUserAdminRoutes(page, { enableOgdInviteUserFlow: true });
+    const userAdminPage = new UserAdminPage(page);
+
+    await userAdminPage.openUsers();
+    await userAdminPage.openInviteUser();
+
+    await expect(page).toHaveURL(/\/users\/manage$/);
+    await expect(userAdminPage.inviteUserHeading).toBeVisible();
+
+    await userAdminPage.goBack();
+
+    await expect(page).toHaveURL(/\/users$/);
+    await expect(userAdminPage.heading).toBeVisible();
+    expect(routeState.ogdInviteUserRequests).toHaveLength(0);
+    expect(routeState.inviteUserRequests).toHaveLength(0);
+  });
 
   test('re-invites a pending user with locked identity fields and resend payload', async ({
     manageOrgIntegrationPage: page

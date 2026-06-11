@@ -2913,12 +2913,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/ccd-case-ui-toolkit@npm:7.3.39-remove-unused-deps":
-  version: 7.3.39-remove-unused-deps
-  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.3.39-remove-unused-deps"
+"@hmcts/ccd-case-ui-toolkit@npm:7.3.56":
+  version: 7.3.56
+  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.3.56"
   dependencies:
     tslib: "npm:^2.3.0"
-  checksum: 10/f61b3d15ae3493b9b607b1b22462253c6ba787b0a330e24fbc806be1806d1caec14a3fb4dc645fcde5dd365993c8aeea09705069ab9bcfacc8c2a6091bcabd6e
+  checksum: 10/f5384276662f28b93af0c9812b32ebd7fb523cf5e1d253ddcd44b91a242b2dac6605a68f8381f82b4b21c73c80868b250668edf1a53522daf5c4e627451addac
   languageName: node
   linkType: hard
 
@@ -20361,7 +20361,7 @@ __metadata:
     "@angular/router": "npm:^20.3.18"
     "@babel/runtime": "npm:7.28.3"
     "@edium/fsm": "npm:^2.1.2"
-    "@hmcts/ccd-case-ui-toolkit": "npm:7.3.39-remove-unused-deps"
+    "@hmcts/ccd-case-ui-toolkit": "npm:7.3.56"
     "@hmcts/ccpay-web-component": "npm:6.5.14"
     "@hmcts/frontend": "npm:0.0.50-alpha"
     "@hmcts/media-viewer": "npm:4.2.16"

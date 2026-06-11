@@ -30,7 +30,7 @@ async function inviteUserRoute(req: Request<{ userId: string }>, res: Response) 
   }
 }
 
-export async function ogdEditUserRoute(req: Request) {
+export async function ogdEditUserRoute(req: Request<{ userId: string }>) {
   let ogdErrReport: ErrorReport;
   if (!req.params.userId) {
     ogdErrReport = getErrorReport('UserId is missing', '400', 'User Permissions route error');

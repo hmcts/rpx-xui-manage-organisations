@@ -8,10 +8,15 @@ import { NavItemModel } from '../models/nav-items.model';
 import { AppFeatureFlag } from '../store/reducers/app.reducer';
 
 export class AppUtils {
+  private static readonly EXCLUDED_NAV_HREFS = ['/unassigned-cases', '/assigned-cases'];
+
   public static getFeatureEnabledNavItems(navItems: NavItemModel[],
     featureFlags: AppFeatureFlag[]): NavItemModel[] {
     let featureNavItems = new Array<NavItemModel>();
     navItems.forEach((navItem) => {
+      if (AppUtils.EXCLUDED_NAV_HREFS.includes(navItem.href)) {
+        return;
+      }
       if (!navItem.featureToggle) {
         featureNavItems = [...featureNavItems, navItem];
       } else {

@@ -8,7 +8,7 @@ const { somethingLike, eachLike } = Matchers;
 const pactSetUp = new PactTestSetup({ provider: 'referenceData_organisationalExternalUsers', port: 8000 });
 
 describe('Get Organisation Details from RDProfessionalAPI ', () => {
-  describe('Get Organisation Details', async () => {
+  describe('Get Organisation Details', () => {
     before(async () => {
       await pactSetUp.provider.setup();
       const interaction = {
@@ -34,24 +34,20 @@ describe('Get Organisation Details from RDProfessionalAPI ', () => {
         }
       };
       // @ts-ignore
-      pactSetUp.provider.addInteraction(interaction);
+      await pactSetUp.provider.addInteraction(interaction);
+    });
+
+    after(async () => {
+      await pactSetUp.provider.finalize();
     });
 
     it('returns the correct response', async () => {
       const taskUrl: string = `${pactSetUp.provider.mockService.baseUrl}/refdata/external/v1/organisations`;
 
-      const resp = getOrganisationDetails(taskUrl);
-
-      resp.then((response) => {
-        const responseDto: Organisation = <Organisation>response.data;
-        assertResponse(responseDto);
-      }).then(() => {
-        pactSetUp.provider.verify();
-        pactSetUp.provider.finalize();
-      }).finally(() => {
-        pactSetUp.provider.verify();
-        pactSetUp.provider.finalize();
-      });
+      const response = await getOrganisationDetails(taskUrl);
+      const responseDto: Organisation = <Organisation>response.data;
+      assertResponse(responseDto);
+      await pactSetUp.provider.verify();
     });
 
     function assertResponse(dto: Organisation): void {

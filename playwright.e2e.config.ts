@@ -28,7 +28,10 @@ module.exports = defineConfig({
   outputDir,
   testDir: 'playwright_tests_new/E2E',
   testMatch: ['**/test/**/*.spec.ts'],
-  testIgnore: ['**/test/smoke/smokeTest.spec.ts'],
+  testIgnore:
+    process.env.PLAYWRIGHT_INCLUDE_A11Y === 'true'
+      ? ['**/test/smoke/smokeTest.spec.ts']
+      : ['**/test/smoke/smokeTest.spec.ts', '**/*.a11y.spec.ts'],
   grep: resolveTagGrep(process.env),
   grepInvert: resolveTagGrepInvert(process.env),
   fullyParallel: true,

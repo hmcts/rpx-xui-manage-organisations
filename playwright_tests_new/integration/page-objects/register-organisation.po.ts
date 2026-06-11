@@ -7,6 +7,7 @@ export class RegisterOrganisationPage {
   public readonly addressLine1Input: Locator;
   public readonly addressLine2Input: Locator;
   public readonly addressLine3Input: Locator;
+  public readonly alreadyRegisteredHeading: Locator;
   public readonly checkYourAnswersHeading: Locator;
   public readonly companyHouseNumberInput: Locator;
   public readonly confirmedOrganisationAccountCheckbox: Locator;
@@ -19,6 +20,8 @@ export class RegisterOrganisationPage {
   public readonly firstNameInput: Locator;
   public readonly lastNameInput: Locator;
   public readonly manualAddressLink: Locator;
+  public readonly manageCasesLink: Locator;
+  public readonly manageOrganisationLink: Locator;
   public readonly otherServicesCheckbox: Locator;
   public readonly otherServicesInput: Locator;
   public readonly organisationNameInput: Locator;
@@ -35,6 +38,7 @@ export class RegisterOrganisationPage {
   public readonly regulatorNameInput: Locator;
   public readonly regulatorTypeSelect: Locator;
   public readonly solicitorOrganisationTypeRadio: Locator;
+  public readonly startPageHeading: Locator;
   public readonly submittedHeading: Locator;
   public readonly termsAndConditionsCheckbox: Locator;
   public readonly ukAddressNoRadio: Locator;
@@ -45,6 +49,9 @@ export class RegisterOrganisationPage {
     this.addressLine1Input = this.page.locator('#addressLine1');
     this.addressLine2Input = this.page.locator('#addressLine2');
     this.addressLine3Input = this.page.locator('#addressLine3');
+    this.alreadyRegisteredHeading = this.page.getByRole('heading', {
+      name: 'If you\'re already registered for MyHMCTS'
+    });
     this.checkYourAnswersHeading = this.page.getByRole('heading', {
       name: 'Check your answers before you register'
     });
@@ -59,6 +66,8 @@ export class RegisterOrganisationPage {
     this.firstNameInput = this.page.locator('#first-name');
     this.lastNameInput = this.page.locator('#last-name');
     this.manualAddressLink = this.page.getByRole('link', { name: 'I can\'t enter a UK postcode' });
+    this.manageCasesLink = this.page.getByRole('link', { name: 'manage your cases' });
+    this.manageOrganisationLink = this.page.getByRole('link', { name: 'manage your organisation' });
     this.otherServicesCheckbox = this.page.locator('input[data-service-label="Service not listed"]');
     this.otherServicesInput = this.page.locator('#other-services');
     this.organisationNameInput = this.page.locator('#company-name');
@@ -75,6 +84,9 @@ export class RegisterOrganisationPage {
     this.regulatorNameInput = this.page.locator('#regulator-name0');
     this.regulatorTypeSelect = this.page.locator('#regulator-type0');
     this.solicitorOrganisationTypeRadio = this.page.locator('#SolicitorOrganisation');
+    this.startPageHeading = this.page.getByRole('heading', {
+      name: 'Apply for an organisation to manage civil, family and tribunal cases'
+    });
     this.submittedHeading = this.page.getByRole('heading', { name: 'Registration details submitted' });
     this.termsAndConditionsCheckbox = this.page.locator('#confirm-terms-and-conditions');
     this.ukAddressNoRadio = this.page.locator('#no');
@@ -106,8 +118,17 @@ export class RegisterOrganisationPage {
     return this.page.locator(`#pba-number-${index}`);
   }
 
+  public serviceCheckbox(serviceLabel: string): Locator {
+    return this.page.locator(`input[data-service-label="${serviceLabel}"]`);
+  }
+
   public async openStartPage(): Promise<void> {
     await this.page.goto('/register-org-new/register');
+    await this.waitForLoader();
+  }
+
+  public async openWorkflowPage(path: string): Promise<void> {
+    await this.page.goto(`/register-org-new/${path}`);
     await this.waitForLoader();
   }
 
@@ -184,7 +205,7 @@ export class RegisterOrganisationPage {
 
   public async chooseServices(...serviceLabels: string[]): Promise<void> {
     for (const serviceLabel of serviceLabels) {
-      await this.page.locator(`input[data-service-label="${serviceLabel}"]`).check();
+      await this.serviceCheckbox(serviceLabel).check();
     }
     await this.continueWith();
   }

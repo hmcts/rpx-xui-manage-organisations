@@ -5,6 +5,7 @@ export const manageOrgIntegrationOrganisationName = 'Manage Org Integration Soli
 
 export const manageOrgRuntimeConfiguration = {
   idamWeb: 'https://idam.manage-org.integration.mock',
+  launchDarklyClientId: 'manage-org-integration-client-id',
   manageCaseLink: 'https://manage-case.manage-org.integration.mock',
   manageOrgLink: 'http://localhost:4200',
   protocol: 'http',
@@ -18,6 +19,7 @@ export const manageOrgIntegrationUserDetails = {
   roles: [
     'pui-caa',
     'pui-case-manager',
+    'pui-finance-manager',
     'pui-org-manager',
     'pui-organisation-manager',
     'pui-user-manager',
@@ -38,9 +40,26 @@ export const manageOrgIntegrationOrganisation = {
   contactInformation: [
     {
       addressLine1: '102 Petty France',
+      addressLine2: 'Government Buildings',
       townCity: 'London',
+      county: 'Greater London',
       postCode: 'SW1H 9AJ',
-      dxAddress: []
+      dxAddress: [
+        {
+          dxNumber: 'DX 123456',
+          dxExchange: 'Westminster 2'
+        }
+      ]
+    }
+  ],
+  orgType: 'SolicitorOrganisation',
+  orgAttributes: [
+    {
+      key: 'regulator.0',
+      value: JSON.stringify({
+        organisationRegistrationNumber: 'SRA123456',
+        regulatorType: 'Solicitor Regulation Authority (SRA)'
+      })
     }
   ],
   status: 'ACTIVE',
@@ -52,6 +71,7 @@ export const manageOrgIntegrationOrganisation = {
     email: manageOrgIntegrationUserDetails.email
   },
   paymentAccount: ['PBA1234567'],
+  pendingPaymentAccount: ['PBA7654321'],
   pendingAddPaymentAccount: [],
   pendingRemovePaymentAccount: []
 };

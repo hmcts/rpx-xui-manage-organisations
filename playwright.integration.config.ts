@@ -21,6 +21,7 @@ module.exports = defineConfig({
   outputDir,
   testDir: 'playwright_tests_new/integration',
   testMatch: ['**/*.spec.ts'],
+  testIgnore: process.env.PLAYWRIGHT_INCLUDE_A11Y === 'true' ? [] : ['**/*.a11y.spec.ts'],
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
@@ -33,6 +34,7 @@ module.exports = defineConfig({
   reporter: resolveReporters(
     {
       defaultIndexFilename: 'xui-mo-playwright-integration.html',
+      defaultOutputFolder: 'functional-output/tests/playwright-integration/odhin-report',
       defaultProject: 'RPX XUI Manage Organisations - Integration',
       defaultRelease: appVersion,
       defaultTitle: 'RPX XUI Manage Organisations Playwright Integration',

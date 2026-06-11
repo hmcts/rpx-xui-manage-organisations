@@ -31,7 +31,7 @@ export async function ogdInvite(req: Request, res: Response) {
   }
 }
 
-export async function ogdUpdate(req: Request, res: Response) {
+export async function ogdUpdate(req: Request<{ userId: string }>, res: Response) {
   try {
     logger.info('ogdUpdate:: Edit User Request received');
     const userPayload = req.body.userPayload;

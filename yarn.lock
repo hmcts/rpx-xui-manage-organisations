@@ -10300,10 +10300,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"class-transformer@npm:^0.3.1":
-  version: 0.3.1
-  resolution: "class-transformer@npm:0.3.1"
-  checksum: 10/36f6289d8e48bbbf3f042e1eb8d64391e9bae2465211ac0db8a4cda64fda84275325b4d0013a0cded8f28225e199ef591cc10de3612916efc9de1e6d2ced78c1
+"class-transformer@npm:^0.5.1":
+  version: 0.5.1
+  resolution: "class-transformer@npm:0.5.1"
+  checksum: 10/750327e3e9a5cf233c5234252f4caf6b06c437bf68a24acbdcfb06c8e0bfff7aa97c30428184813e38e08111b42871f20c5cf669ea4490f8ae837c09f08b31e7
   languageName: node
   linkType: hard
 
@@ -13768,16 +13768,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"form-data@npm:^4.0.4":
-  version: 4.0.4
-  resolution: "form-data@npm:4.0.4"
+"form-data@npm:^4.0.5":
+  version: 4.0.5
+  resolution: "form-data@npm:4.0.5"
   dependencies:
     asynckit: "npm:^0.4.0"
     combined-stream: "npm:^1.0.8"
     es-set-tostringtag: "npm:^2.1.0"
     hasown: "npm:^2.0.2"
     mime-types: "npm:^2.1.12"
-  checksum: 10/a4b62e21932f48702bc468cc26fb276d186e6b07b557e3dd7cc455872bdbb82db7db066844a64ad3cf40eaf3a753c830538183570462d3649fdfd705601cbcfb
+  checksum: 10/52ecd6e927c8c4e215e68a7ad5e0f7c1031397439672fd9741654b4a94722c4182e74cc815b225dcb5be3f4180f36428f67c6dd39eaa98af0dcfdd26c00c19cd
   languageName: node
   linkType: hard
 
@@ -15786,11 +15786,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsonwebtoken@npm:^9.0.0":
-  version: 9.0.2
-  resolution: "jsonwebtoken@npm:9.0.2"
+"jsonwebtoken@npm:^9.0.3":
+  version: 9.0.3
+  resolution: "jsonwebtoken@npm:9.0.3"
   dependencies:
-    jws: "npm:^3.2.2"
+    jws: "npm:^4.0.1"
     lodash.includes: "npm:^4.3.0"
     lodash.isboolean: "npm:^3.0.3"
     lodash.isinteger: "npm:^4.0.4"
@@ -15800,7 +15800,7 @@ __metadata:
     lodash.once: "npm:^4.0.0"
     ms: "npm:^2.1.1"
     semver: "npm:^7.5.4"
-  checksum: 10/6e9b6d879cec2b27f2f3a88a0c0973edc7ba956a5d9356b2626c4fddfda969e34a3832deaf79c3e1c6c9a525bc2c4f2c2447fa477f8ac660f0017c31a59ae96b
+  checksum: 10/a67a276db41fbfb458ebdc4938d5d7b01d4743e16bda0f25ac01996fe5b5819d66656153f6cfce19b4680b79ae9f9ca185965defc22e77e0abddf443573238d6
   languageName: node
   linkType: hard
 
@@ -15823,24 +15823,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jwa@npm:^1.4.1":
-  version: 1.4.2
-  resolution: "jwa@npm:1.4.2"
+"jwa@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "jwa@npm:2.0.1"
   dependencies:
     buffer-equal-constant-time: "npm:^1.0.1"
     ecdsa-sig-formatter: "npm:1.0.11"
     safe-buffer: "npm:^5.0.1"
-  checksum: 10/a46c9ddbcc226d9e85e13ef96328c7d331abddd66b5a55ec44bcf4350464a6125385ac9c1e64faa0fae8d586d90a14d6b5e96c73f0388970a3918d5252efb0f3
+  checksum: 10/b04312a1de85f912b96aa3a7211717b8336945fab5b4f7cbc7800f4c80934060c0a3111576fad8d76e41ad62887d6da4b21fd4c47e45c174197f8be7dc0c1694
   languageName: node
   linkType: hard
 
-"jws@npm:^3.2.2":
-  version: 3.2.2
-  resolution: "jws@npm:3.2.2"
+"jws@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "jws@npm:4.0.1"
   dependencies:
-    jwa: "npm:^1.4.1"
+    jwa: "npm:^2.0.1"
     safe-buffer: "npm:^5.0.1"
-  checksum: 10/70b016974af8a76d25030c80a0097b24ed5b17a9cf10f43b163c11cb4eb248d5d04a3fe48c0d724d2884c32879d878ccad7be0663720f46b464f662f7ed778fe
+  checksum: 10/75d7b157489fa9a72023712c58a7a7706c7e2b10eec27fabd3bb9cae0c9e492251ab72527d20a8a5f5726196f0508c320c643fddff7076657f6bca16d0ceeeeb
   languageName: node
   linkType: hard
 
@@ -18483,7 +18483,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"p-iteration@npm:^1.1.7":
+"p-iteration@npm:^1.1.8":
   version: 1.1.8
   resolution: "p-iteration@npm:1.1.8"
   checksum: 10/1f560dc1554eafdd52386858e0bd81eb6dee9939c98642866902d0863cc7bae457ed923727cf415a3010b56d4fe5b33b9f6423647b0cacccd55281fe889397ab
@@ -20420,7 +20420,7 @@ __metadata:
     body-parser: "npm:^1.19.0"
     chai: "npm:^4.3.10"
     chai-as-promised: "npm:7.1.1"
-    class-transformer: "npm:^0.3.1"
+    class-transformer: "npm:^0.5.1"
     codelyzer: "npm:^5.1.2"
     config: "npm:^3.2.5"
     connect-redis: "npm:^4.0.4"
@@ -20442,7 +20442,7 @@ __metadata:
     husky: "npm:^9.1.7"
     jasmine-core: "npm:~5.1.0"
     jasmine-marbles: "npm:^0.9.2"
-    jsonwebtoken: "npm:^9.0.0"
+    jsonwebtoken: "npm:^9.0.3"
     jwt-decode: "npm:^2.2.0"
     karma: "npm:~6.4.2"
     karma-chrome-launcher: "npm:~3.1.0"
@@ -20465,7 +20465,7 @@ __metadata:
     nodemon: "npm:^2.0.19"
     odhin-reports-playwright: "patch:odhin-reports-playwright@npm%3A1.1.8#./.yarn/patches/odhin-reports-playwright-npm-1.1.8-a445ed88b7.patch"
     otp: "npm:^0.1.3"
-    p-iteration: "npm:^1.1.7"
+    p-iteration: "npm:^1.1.8"
     pegjs: "npm:^0.10.0"
     playwright-core: "npm:1.59.1"
     prettier: "npm:^3.8.0"

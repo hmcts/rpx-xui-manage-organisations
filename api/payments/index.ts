@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express';
 import { getConfigValue } from '../configuration';
 import { SERVICES_FEE_AND_PAY_API_PATH } from '../configuration/references';
-import { exists, objectContainsOnlySafeCharacters, valueOrNull } from '../lib/util';
+import { objectContainsOnlySafeCharacters, valueOrNull } from '../lib/util';
 
 async function handleAddressRoute(req: Request, res: Response) {
   let errReport: any;
@@ -11,18 +11,18 @@ async function handleAddressRoute(req: Request, res: Response) {
       apiStatusCode: '400',
       message: 'Fee And Pay route error'
     };
-    res.status(errReport.apiStatusCode).send(errReport);
+    res.status(400).send(errReport);
   }
   try {
     const response = await req.http.get(
       `${getConfigValue(SERVICES_FEE_AND_PAY_API_PATH)}/pba-accounts/${req.params.account}/payments/`
     );
     if (!objectContainsOnlySafeCharacters(response.data.payments)) {
-      return res.send('Invalid payment data').status(400);
+      return res.status(400).send('Invalid payment data');
     }
     res.send(response.data.payments);
   } catch (error) {
-    const status = exists(error, 'status') ? error.status : 500;
+    const status = Number(valueOrNull(error, 'status')) || 500;
     errReport = {
       apiError: valueOrNull(error, 'data.message'),
       apiStatusCode: status,

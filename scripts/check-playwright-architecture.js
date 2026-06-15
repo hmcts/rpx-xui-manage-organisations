@@ -87,6 +87,10 @@ const requiredPipelineJunitContracts = [
         pattern: /publishPlaywrightJUnit\(['"]functional-output\/tests\/playwright-a11y\/\*\*\/\*junit\.xml['"]\)/
       },
       {
+        label: 'WAVE-like accessibility JUnit publication',
+        pattern: /publishPlaywrightJUnit\(['"]functional-output\/tests\/playwright-wave-a11y\/\*\*\/\*junit\.xml['"]\)/
+      },
+      {
         label: 'E2E JUnit publication',
         pattern: /publishPlaywrightJUnit\(['"]functional-output\/tests\/playwright-e2e\/\*\*\/\*junit\.xml['"]\)/
       },
@@ -112,6 +116,10 @@ const requiredPipelineJunitContracts = [
         pattern: /publishPlaywrightJUnit\(['"]functional-output\/tests\/playwright-a11y\/\*\*\/\*junit\.xml['"]\)/
       },
       {
+        label: 'WAVE-like accessibility JUnit publication',
+        pattern: /publishPlaywrightJUnit\(['"]functional-output\/tests\/playwright-wave-a11y\/\*\*\/\*junit\.xml['"]\)/
+      },
+      {
         label: 'E2E JUnit publication',
         pattern: /publishPlaywrightJUnit\(['"]functional-output\/tests\/playwright-e2e\/\*\*\/\*junit\.xml['"]\)/
       }
@@ -127,6 +135,7 @@ const requiredPipelineJunitContracts = [
       { label: 'API artifact root', pattern: /functional-output\/tests\/playwright-api\/\*\*/ },
       { label: 'integration artifact root', pattern: /functional-output\/tests\/playwright-integration\/\*\*/ },
       { label: 'accessibility artifact root', pattern: /functional-output\/tests\/playwright-a11y\/\*\*/ },
+      { label: 'WAVE-like accessibility artifact root', pattern: /functional-output\/tests\/playwright-wave-a11y\/\*\*/ },
       { label: 'E2E artifact root', pattern: /functional-output\/tests\/playwright-e2e\/\*\*/ },
       {
         label: 'smoke JUnit publication',
@@ -244,6 +253,15 @@ for (const [scriptName, expectedCommand] of Object.entries(cnpCompatibilityScrip
   }
 }
 
+for (const [scriptName, expectedCommand] of Object.entries({
+  'test:wave-a11y:playwright': 'node scripts/run-playwright-wave-a11y.js'
+})) {
+  const actualCommand = packageJson.scripts?.[scriptName];
+  if (actualCommand !== expectedCommand) {
+    failures.push(`${scriptName}: WAVE-like accessibility pack must keep its dedicated Playwright runner.`);
+  }
+}
+
 for (const [scriptName, command] of Object.entries(packageJson.scripts ?? {})) {
   for (const { pattern, label } of [...retiredExecutionPatterns, oldPlaywrightPathPattern]) {
     if (pattern.test(command)) {
@@ -298,10 +316,28 @@ for (const expectedContract of [
   }
 }
 
+const waveA11yRunnerSource = readFileSync(join(root, 'scripts/run-playwright-wave-a11y.js'), 'utf-8');
+for (const expectedContract of [
+  'assertNoGrepOverrides',
+  'resolveSafeOutputRoot',
+  'PLAYWRIGHT_INCLUDE_WAVE_A11Y',
+  'PLAYWRIGHT_EXCLUDE_TAGS',
+  'PLAYWRIGHT_TAGS',
+  'PW_ODHIN_FORCE_EXIT_ON_COMPLETION'
+]) {
+  if (!waveA11yRunnerSource.includes(expectedContract)) {
+    failures.push(
+      `scripts/run-playwright-wave-a11y.js: missing WAVE-like a11y runner hardening contract ${expectedContract}.`
+    );
+  }
+}
+
 const parameterizedPipelineSource = readFileSync(join(root, parameterizedPipelineFile), 'utf-8');
 for (const expectedEvidencePath of [
   'functional-output/tests/playwright-a11y/odhin-report',
   'xui-playwright-a11y.html',
+  'functional-output/tests/playwright-wave-a11y/odhin-report',
+  'xui-playwright-wave-a11y.html',
   'stagePlaywrightArtifacts',
   "sh 'yarn test:coverage:node'",
   'reports/tests/coverage/node'

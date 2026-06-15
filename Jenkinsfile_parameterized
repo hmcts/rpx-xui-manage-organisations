@@ -195,6 +195,18 @@ def runPlaywrightFunctionalTests = { String environmentName ->
                             }
                         }
                     },
+                    playwrightWaveA11y: {
+                        stage('Playwright WAVE-like Accessibility Tests') {
+                            withEnv([
+                                "FUNCTIONAL_TESTS_WORKERS=4",
+                                "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-wave-a11y",
+                                "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-wave-a11y/playwright-wave-a11y-junit.xml",
+                                "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0"
+                            ]) {
+                                sh 'yarn test:wave-a11y:playwright'
+                            }
+                        }
+                    },
                     playwrightE2E: {
                         stage('Playwright E2E') {
                             withEnv([
@@ -232,6 +244,13 @@ def runPlaywrightFunctionalTests = { String environmentName ->
                 'xui-playwright-a11y.html',
                 "${environmentName} Manage Org Register Organisation Playwright A11y",
                 'functional-output/tests/playwright-a11y/**'
+            )
+            stagePlaywrightArtifacts('functional-output/tests/playwright-wave-a11y/stable-artifacts', 'test-results/playwright-wave-a11y')
+            publishPlaywrightReport(
+                "functional-output/tests/playwright-wave-a11y/odhin-report",
+                'xui-playwright-wave-a11y.html',
+                "${environmentName} Manage Org Playwright WAVE-like A11y",
+                'functional-output/tests/playwright-wave-a11y/**'
             )
             stagePlaywrightArtifacts('functional-output/tests/playwright-e2e/stable-artifacts', 'test-results/playwright-e2e')
             publishPlaywrightReport(

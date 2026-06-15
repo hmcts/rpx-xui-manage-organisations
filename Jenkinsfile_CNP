@@ -230,6 +230,32 @@ def publishPlaywrightA11yReport = { String reportName ->
     )
 }
 
+def publishPlaywrightWaveA11yReport = { String reportName ->
+    try {
+        ensureHtmlReportForPublishing(
+            "functional-output/tests/playwright-wave-a11y/odhin-report",
+            'xui-playwright-wave-a11y.html',
+            reportName
+        )
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "functional-output/tests/playwright-wave-a11y/odhin-report",
+            reportFiles          : 'xui-playwright-wave-a11y.html',
+            reportName           : reportName
+        ])
+    } catch (Exception e) {
+        echo "[playwright-wave-a11y] Report publish failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"
+    }
+    stagePlaywrightArtifacts('functional-output/tests/playwright-wave-a11y/stable-artifacts', 'test-results/playwright-wave-a11y')
+    publishPlaywrightJUnit('functional-output/tests/playwright-wave-a11y/**/*junit.xml')
+    steps.archiveArtifacts(
+        allowEmptyArchive: true,
+        artifacts: 'functional-output/tests/playwright-wave-a11y/**'
+    )
+}
+
 def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
     stage("${environmentName} Functional Tests (Parallel)") {
         try {
@@ -293,6 +319,26 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                             if (handleParallelInterruption(e)) { return }
                         } finally {
                             publishPlaywrightA11yReport("${environmentName} Manage Org Register Organisation Playwright A11y")
+                        }
+                    }
+                },
+                playwrightWaveA11y: {
+                    stage('Playwright WAVE-like Accessibility Tests') {
+                        try {
+                            withEnv(playwrightBrowsersEnv() + [
+                                "FUNCTIONAL_TESTS_WORKERS=6",
+                                "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-wave-a11y",
+                                "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-wave-a11y/playwright-wave-a11y-junit.xml",
+                                "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
+                                "PLAYWRIGHT_SKIP_INSTALL=true"
+                            ]) {
+                                yarnBuilder.yarn('test:wave-a11y:playwright')
+                            }
+                        } catch (Exception e) {
+                            echo "[parallel-report-gathering] Playwright WAVE-like Accessibility failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"
+                            if (handleParallelInterruption(e)) { return }
+                        } finally {
+                            publishPlaywrightWaveA11yReport("${environmentName} Manage Org Playwright WAVE-like A11y")
                         }
                     }
                 },

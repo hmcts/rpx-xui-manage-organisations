@@ -55,6 +55,17 @@ const LANES = [
     ],
   },
   {
+    id: 'wave-a11y',
+    name: 'WAVE-like accessibility',
+    purpose: 'Dedicated WAVE-like structural accessibility checks for deployed routes and validation states.',
+    artifacts: [
+      artifact('Odhin report', ['playwright-wave-a11y/odhin-report/xui-playwright-wave-a11y.html'], true),
+      artifact('Playwright HTML', ['playwright-wave-a11y/html-report/index.html'], false),
+      artifact('JUnit XML', ['playwright-wave-a11y/playwright-wave-a11y-junit.xml'], true),
+      artifact('Stable failure artifacts', ['playwright-wave-a11y/stable-artifacts'], false),
+    ],
+  },
+  {
     id: 'e2e',
     name: 'E2E',
     purpose: 'Deployed browser journeys for authentication, registration, organisation, and user-admin workflows.',
@@ -241,6 +252,7 @@ function buildPackageSummary(packageJsonPath) {
       'test:api:pw',
       'test:playwright:integration',
       'test:a11y:playwright',
+      'test:wave-a11y:playwright',
       'test:playwrightE2E',
       'test:crossbrowser',
     ].filter((name) => Boolean(scripts[name]));
@@ -317,7 +329,7 @@ function buildDashboardHtml(model) {
     </table>
 
     <h2>Retirement Position</h2>
-    <p>Playwright is the authoritative Manage Organisation functional gate for smoke, API, integration, accessibility, and E2E coverage.</p>
+    <p>Playwright is the authoritative Manage Organisation functional gate for smoke, API, integration, accessibility, WAVE-like accessibility, and E2E coverage.</p>
     <p><strong>Replacement scripts:</strong> ${escapeHtml(model.packageSummary.replacementScripts.join(', ') || 'not detected')}</p>
     <p><strong>Retired aliases:</strong> removed from package.json and blocked by the architecture guard.</p>
   </body>

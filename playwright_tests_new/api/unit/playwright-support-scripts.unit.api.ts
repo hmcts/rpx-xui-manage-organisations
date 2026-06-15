@@ -96,12 +96,20 @@ test.describe('Manage Org Playwright support scripts', { tag: '@svc-internal' },
     expect(plan.testOutputRoot).toBe('test-results/playwright-wave-a11y');
     expect(plan.runs.map((run) => run.args)).toEqual([
       ['test:playwrightE2E:list', '--grep', '@wave-a11y', '--project=chromium'],
-      ['test:playwrightE2E:raw', '--', '--grep', '@wave-a11y', '--project=chromium']
+      [
+        'test:playwrightE2E:raw',
+        '--',
+        '--grep',
+        '@wave-a11y',
+        '--project=chromium',
+        '--retries=0'
+      ]
     ]);
     expect(plan.runs[1].env.PLAYWRIGHT_JUNIT_OUTPUT).toBe(
       'functional-output/tests/playwright-wave-a11y/playwright-wave-a11y-junit.xml'
     );
     expect(plan.runs[1].env.PLAYWRIGHT_REPORT_INDEX_FILENAME).toBe('xui-playwright-wave-a11y.html');
+    expect(plan.runs[1].env.PLAYWRIGHT_DISABLE_GENERIC_FAILURE_ARTIFACTS).toBe('true');
   });
 
   test('forces WAVE-like tag env when spawning WAVE-like runs', () => {

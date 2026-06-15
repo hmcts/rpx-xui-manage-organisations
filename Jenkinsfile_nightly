@@ -244,12 +244,18 @@ def publishPlaywrightWaveA11yReport = { String reportName ->
     } catch (Exception e) {
         echo "[playwright-wave-a11y] Report publish failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"
     }
-    stagePlaywrightArtifacts('functional-output/tests/playwright-wave-a11y/stable-artifacts', 'test-results/playwright-wave-a11y')
-    publishPlaywrightJUnit('functional-output/tests/playwright-wave-a11y/**/*junit.xml')
-    steps.archiveArtifacts(
-        allowEmptyArchive: true,
-        artifacts: 'functional-output/tests/playwright-wave-a11y/**'
-    )
+    try {
+        stagePlaywrightArtifacts('functional-output/tests/playwright-wave-a11y/stable-artifacts', 'test-results/playwright-wave-a11y')
+        catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
+            publishPlaywrightJUnit('functional-output/tests/playwright-wave-a11y/**/*junit.xml')
+        }
+        steps.archiveArtifacts(
+            allowEmptyArchive: true,
+            artifacts: 'functional-output/tests/playwright-wave-a11y/**'
+        )
+    } catch (Exception e) {
+        echo "[playwright-wave-a11y] Evidence publish failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"
+    }
 }
 
 def secrets = [

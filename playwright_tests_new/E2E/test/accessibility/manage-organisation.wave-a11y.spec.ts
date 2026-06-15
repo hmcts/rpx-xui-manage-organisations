@@ -1,5 +1,5 @@
 import { expect, test } from '../../fixtures';
-import { collectWaveLikeAccessibilityViolations } from '../../utils/accessibility/waveLikeAccessibility';
+import { attachWaveLikeAccessibilityEvidence, collectWaveLikeAccessibilityViolations } from '../../utils/accessibility/waveLikeAccessibility';
 import type { RegisterOrganisationPage } from '../../page-objects/pages/register-organisation.po';
 import { createRegisterOrganisationData } from '../../utils/test-setup/register-organisation-data';
 import {
@@ -30,13 +30,17 @@ type RegisterOrganisationJourneyState = {
   prepare: (registerOrganisationPage: RegisterOrganisationPage) => Promise<void>;
 };
 
-const expectWaveLikeAccessibility = async (page: Parameters<typeof collectWaveLikeAccessibilityViolations>[0]): Promise<void> => {
+const expectWaveLikeAccessibility = async (
+  page: Parameters<typeof collectWaveLikeAccessibilityViolations>[0],
+  testInfo: Parameters<typeof attachWaveLikeAccessibilityEvidence>[1]
+): Promise<void> => {
   const violations = await collectWaveLikeAccessibilityViolations(page);
+  await attachWaveLikeAccessibilityEvidence(page, testInfo, violations);
   expect(
     violations,
     [
       'WAVE-like accessibility checks found issues.',
-      'This pack complements axe-core by checking manual-review structure and naming signals.',
+      'Open the attached WAVE-like HTML/JSON and highlighted screenshot evidence.',
       `Current URL: ${page.url()}`,
       JSON.stringify(violations, null, 2)
     ].join('\n')
@@ -313,61 +317,61 @@ test.describe('Manage Organisation WAVE-like accessibility @wave-a11y', () => {
     await expect(signedInPage.getByRole('link', { name: 'Organisation', exact: true })).toBeVisible();
   });
 
-  test('organisation details page passes WAVE-like structural checks', async ({ signedInPage, organisationPage }) => {
+  test('organisation details page passes WAVE-like structural checks', async ({ signedInPage, organisationPage }, testInfo) => {
     await organisationPage.open();
     await expect(organisationPage.heading).toBeVisible();
     await expect(organisationPage.root).toBeVisible();
-    await expectWaveLikeAccessibility(signedInPage);
+    await expectWaveLikeAccessibility(signedInPage, testInfo);
   });
 
-  test('users page passes WAVE-like structural checks', async ({ signedInPage, usersPage }) => {
+  test('users page passes WAVE-like structural checks', async ({ signedInPage, usersPage }, testInfo) => {
     await usersPage.open();
     await expect(usersPage.heading).toBeVisible();
     await expect(usersPage.inviteUserButton).toBeVisible();
     await expect(usersPage.userList).toBeVisible();
-    await expectWaveLikeAccessibility(signedInPage);
+    await expectWaveLikeAccessibility(signedInPage, testInfo);
   });
 
-  test('invite user validation state passes WAVE-like structural checks', async ({ signedInPage, usersPage }) => {
+  test('invite user validation state passes WAVE-like structural checks', async ({ signedInPage, usersPage }, testInfo) => {
     await usersPage.open();
     await usersPage.openInviteUser();
     await usersPage.submitInvite();
     await expect(usersPage.validationSummaryError('Enter first name')).toBeVisible();
     await expect(usersPage.validationSummaryError('Enter last name')).toBeVisible();
     await expect(usersPage.validationSummaryError('Enter a valid email address')).toBeVisible();
-    await expectWaveLikeAccessibility(signedInPage);
+    await expectWaveLikeAccessibility(signedInPage, testInfo);
   });
 
   test('register organisation before-you-start page passes WAVE-like structural checks', async ({
     page,
     registerOrganisationPage
-  }) => {
+  }, testInfo) => {
     await registerOrganisationPage.openWorkflowPage('register');
     await expect(page).toHaveURL(/\/register-org-new\/register$/);
     await expect(page.locator('app-before-you-start')).toBeVisible();
-    await expectWaveLikeAccessibility(page);
+    await expectWaveLikeAccessibility(page, testInfo);
   });
 
   test('register organisation validation state passes WAVE-like structural checks', async ({
     page,
     registerOrganisationPage
-  }) => {
+  }, testInfo) => {
     await registerOrganisationPage.openWorkflowPage('organisation-type');
     await expect(page.locator('app-organisation-type')).toBeVisible();
     await registerOrganisationPage.continueWith();
     await expect(registerOrganisationPage.validationSummaryError('Please select an organisation')).toBeVisible();
-    await expectWaveLikeAccessibility(page);
+    await expectWaveLikeAccessibility(page, testInfo);
   });
 
   for (const registerOrganisationPageRoute of registerOrganisationPages) {
     test(
       `${registerOrganisationPageRoute.name} route passes WAVE-like structural checks`,
       { tag: ['@registration'] },
-      async ({ page, registerOrganisationPage }) => {
+      async ({ page, registerOrganisationPage }, testInfo) => {
         await registerOrganisationPage.openWorkflowPage(registerOrganisationPageRoute.path);
         await expect(page).toHaveURL(new RegExp(`/register-org-new/${registerOrganisationPageRoute.path}$`));
         await expect(page.locator(registerOrganisationPageRoute.component)).toBeVisible();
-        await expectWaveLikeAccessibility(page);
+        await expectWaveLikeAccessibility(page, testInfo);
       }
     );
   }
@@ -376,7 +380,7 @@ test.describe('Manage Organisation WAVE-like accessibility @wave-a11y', () => {
     test(
       `${validationState.name} error state passes WAVE-like structural checks`,
       { tag: ['@registration', '@validation'] },
-      async ({ page, registerOrganisationPage }) => {
+      async ({ page, registerOrganisationPage }, testInfo) => {
         await registerOrganisationPage.openWorkflowPage(validationState.path);
         await expect(page).toHaveURL(new RegExp(`/register-org-new/${validationState.path}$`));
         await expect(page.locator(validationState.component)).toBeVisible();
@@ -392,7 +396,7 @@ test.describe('Manage Organisation WAVE-like accessibility @wave-a11y', () => {
         for (const expectedError of validationState.expectedErrors) {
           await expect(registerOrganisationPage.validationSummaryError(expectedError)).toBeVisible();
         }
-        await expectWaveLikeAccessibility(page);
+        await expectWaveLikeAccessibility(page, testInfo);
       }
     );
   }
@@ -401,7 +405,7 @@ test.describe('Manage Organisation WAVE-like accessibility @wave-a11y', () => {
     test(
       `${interactiveState.name} interactive state passes WAVE-like structural checks`,
       { tag: ['@registration'] },
-      async ({ page, registerOrganisationPage }) => {
+      async ({ page, registerOrganisationPage }, testInfo) => {
         await registerOrganisationPage.openWorkflowPage(interactiveState.path);
         await expect(page).toHaveURL(new RegExp(`/register-org-new/${interactiveState.path}$`));
         await expect(page.locator(interactiveState.component)).toBeVisible();
@@ -412,7 +416,7 @@ test.describe('Manage Organisation WAVE-like accessibility @wave-a11y', () => {
         for (const expectedSelector of interactiveState.expectedSelectors) {
           await expect(page.locator(expectedSelector)).toBeVisible();
         }
-        await expectWaveLikeAccessibility(page);
+        await expectWaveLikeAccessibility(page, testInfo);
       }
     );
   }
@@ -421,7 +425,7 @@ test.describe('Manage Organisation WAVE-like accessibility @wave-a11y', () => {
     test(
       `${journeyState.name} state passes WAVE-like structural checks`,
       { tag: ['@registration'] },
-      async ({ page, registerOrganisationPage }) => {
+      async ({ page, registerOrganisationPage }, testInfo) => {
         await journeyState.prepare(registerOrganisationPage);
 
         await expect(page).toHaveURL(/\/register-org-new\/check-your-answers$/);
@@ -432,7 +436,7 @@ test.describe('Manage Organisation WAVE-like accessibility @wave-a11y', () => {
         for (const expectedError of journeyState.expectedErrors ?? []) {
           await expect(registerOrganisationPage.validationSummaryError(expectedError)).toBeVisible();
         }
-        await expectWaveLikeAccessibility(page);
+        await expectWaveLikeAccessibility(page, testInfo);
       }
     );
   }

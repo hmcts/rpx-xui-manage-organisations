@@ -76,7 +76,8 @@ const buildRunPlan = (argv = process.argv.slice(2), env = process.env) => {
     PLAYWRIGHT_REPORT_FOLDER: env.PLAYWRIGHT_REPORT_FOLDER || `${functionalOutputRoot}/odhin-report`,
     PLAYWRIGHT_REPORT_INDEX_FILENAME: env.PLAYWRIGHT_REPORT_INDEX_FILENAME || 'xui-playwright-wave-a11y.html',
     PLAYWRIGHT_REPORT_PROJECT: env.PLAYWRIGHT_REPORT_PROJECT || 'RPX XUI Manage Organisations - WAVE-like Accessibility',
-    PLAYWRIGHT_REPORT_TITLE: env.PLAYWRIGHT_REPORT_TITLE || 'RPX XUI Manage Organisations Playwright WAVE-like A11y'
+    PLAYWRIGHT_REPORT_TITLE: env.PLAYWRIGHT_REPORT_TITLE || 'RPX XUI Manage Organisations Playwright WAVE-like A11y',
+    PLAYWRIGHT_DISABLE_GENERIC_FAILURE_ARTIFACTS: 'true'
   };
 
   return {
@@ -89,7 +90,14 @@ const buildRunPlan = (argv = process.argv.slice(2), env = process.env) => {
         label: 'E2E WAVE-like a11y discovery'
       },
       {
-        args: ['test:playwrightE2E:raw', '--', '--grep', '@wave-a11y', ...passthroughArgs],
+        args: [
+          'test:playwrightE2E:raw',
+          '--',
+          '--grep',
+          '@wave-a11y',
+          ...passthroughArgs,
+          '--retries=0'
+        ],
         env: e2eEnv,
         label: 'E2E WAVE-like a11y execution'
       }

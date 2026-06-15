@@ -323,7 +323,9 @@ for (const expectedContract of [
   'PLAYWRIGHT_INCLUDE_WAVE_A11Y',
   'PLAYWRIGHT_EXCLUDE_TAGS',
   'PLAYWRIGHT_TAGS',
-  'PW_ODHIN_FORCE_EXIT_ON_COMPLETION'
+  'PW_ODHIN_FORCE_EXIT_ON_COMPLETION',
+  'PLAYWRIGHT_DISABLE_GENERIC_FAILURE_ARTIFACTS',
+  '--retries=0'
 ]) {
   if (!waveA11yRunnerSource.includes(expectedContract)) {
     failures.push(

@@ -36,6 +36,7 @@ const headlessMode = process.env.HEAD !== 'true';
 const baseUrl = process.env.TEST_URL || 'https://manage-org.aat.platform.hmcts.net/';
 const workerCount = resolveWorkerCount(process.env);
 const outputDir = resolveOutputDir(process.env);
+const disableGenericFailureArtifacts = process.env.PLAYWRIGHT_DISABLE_GENERIC_FAILURE_ARTIFACTS === 'true';
 const { version: appVersion } = JSON.parse(readFileSync(resolve(process.cwd(), 'package.json'), 'utf-8')) as { version: string };
 
 const config = defineConfig({
@@ -73,11 +74,13 @@ const config = defineConfig({
     baseURL: baseUrl,
     ignoreHTTPSErrors: true,
     headless: headlessMode,
-    trace: 'retain-on-failure',
-    screenshot: {
-      mode: 'only-on-failure',
-      fullPage: true,
-    },
+    trace: disableGenericFailureArtifacts ? 'off' : 'retain-on-failure',
+    screenshot: disableGenericFailureArtifacts
+      ? 'off'
+      : {
+          mode: 'only-on-failure',
+          fullPage: true,
+        },
     video: 'off',
   },
   projects: [

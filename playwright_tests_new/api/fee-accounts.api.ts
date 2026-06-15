@@ -32,7 +32,7 @@ test.describe('Fee account API contracts', { tag: '@svc-fee-accounts' }, () => {
     }
 
     const seededFeeAccountFailureMessage =
-      `At least one configured organisation PBA should be recognised by the fee account service. ` +
+      'At least one configured organisation PBA should be recognised by the fee account service. ' +
       `Checked: ${validPaymentAccounts.join(', ')}.`;
 
     expect(paymentAccount, seededFeeAccountFailureMessage).toBeTruthy();

@@ -7,7 +7,7 @@ const { somethingLike } = Matchers;
 const pactSetUp = new PactTestSetup({ provider: 'acc_manageCaseAssignment', port: 8000 });
 
 describe('Handle unassigned case types ', () => {
-  describe('Handles caa case types', async () => {
+  describe('Handles caa case types', () => {
     // have kept similar structure to payload in function that calls API but may be discrepancies in understanding
     const mockPayload = {
       _source: false,
@@ -83,31 +83,27 @@ describe('Handle unassigned case types ', () => {
         }
       };
       // @ts-ignore
-      pactSetUp.provider.addInteraction(interaction);
+      await pactSetUp.provider.addInteraction(interaction);
+    });
+
+    after(async () => {
+      await pactSetUp.provider.finalize();
     });
 
     it('returns the correct response', async () => {
       const caseUrl: string = `${pactSetUp.provider.mockService.baseUrl}/ccd/searchCases?ctid=MoneyClaimCase,DIVORCE,FinancialRemedyContested,FinancialRemedyMVP2,Asylum,Caveat,GrantOfRepresentation,StandingSearch,WillLodgement,CARE_SUPERVISION_EPO,Benefit,NFD`;
 
-      const resp = handleCaaCaseTypes(caseUrl, mockPayload);
-
-      resp.then((response) => {
-        const responseDto: any[] = <any>response.data;
-        assertResponse(responseDto);
-      }).then(() => {
-        pactSetUp.provider.verify();
-        pactSetUp.provider.finalize();
-      }).finally(() => {
-        pactSetUp.provider.verify();
-        pactSetUp.provider.finalize();
-      });
+      const response = await handleCaaCaseTypes(caseUrl, mockPayload);
+      const responseDto = response.data;
+      assertResponse(responseDto);
+      await pactSetUp.provider.verify();
     });
 
     function assertResponse(dto: any): void {
       expect(dto).to.be.not.null;
       expect(dto.total).to.equal(2);
       expect(dto.cases[0].case_id).to.equal('case 1');
-      expect(dto[0].case_types_results).to.equal([]);
+      expect(dto.case_types_results).to.deep.equal([]);
     }
 
     const caseResponse = {

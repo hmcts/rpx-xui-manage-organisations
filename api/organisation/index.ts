@@ -10,7 +10,7 @@ export async function handleOrganisationRoute(req: Request, res: Response, next:
     const apiUrl = `${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/refdata/external/v2/organisations`;
     const response = await req.http.get(apiUrl);
     if (!objectContainsOnlySafeCharacters(response.data)) {
-      return res.send('Invalid organisation data').status(400);
+      return res.status(400).send('Invalid organisation data');
     }
     res.send(response.data);
   } catch (error) {
@@ -31,7 +31,7 @@ export async function handleOrganisationV1Route(req: Request, res: Response, nex
       `${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/refdata/external/v1/organisations`
     );
     if (!objectContainsOnlySafeCharacters(response.data)) {
-      return res.send('Invalid organisation data').status(400);
+      return res.status(400).send('Invalid organisation data');
     }
     res.send(response.data);
   } catch (error) {

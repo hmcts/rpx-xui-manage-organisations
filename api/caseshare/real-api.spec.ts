@@ -11,7 +11,10 @@ import { SharedCase } from './models/case-share.model';
 import { UserDetails } from './models/user-details.model';
 import { assignCases } from './real-api';
 
-chai.use(sinonChai);
+const sinonChaiPlugin = (sinonChai as unknown as { default?: Chai.ChaiPlugin }).default ??
+  (sinonChai as unknown as Chai.ChaiPlugin);
+
+chai.use(sinonChaiPlugin);
 
 describe('real-api', () => {
   const sandbox = sinon.createSandbox();
@@ -115,6 +118,78 @@ describe('real-api', () => {
       expect(handleDeleteStub).not.to.have.been.called;
       expect(res.status).to.have.been.calledWith(500);
       expect(res.send).to.have.been.calledWith(['{request: {"assignee_id":"aaaa2222","case_id":"1111222233334444","case_type_id":"Test"}, response: {undefined undefined}}']);
+    });
+
+    it('should not call unshare case API if one of multiple case sharing responses is rejected', async () => {
+      const rejectedPendingShare = {
+        idamId: 'aaaa3333',
+        firstName: 'User',
+        lastName: 'Three',
+        email: 'user.three@example.com'
+      } as UserDetails;
+      const partialFailureReq = mockReq({
+        body: {
+          sharedCases: [
+            {
+              ...request.body.sharedCases[0],
+              pendingShares: [
+                request.body.sharedCases[0].pendingShares[0],
+                rejectedPendingShare
+              ]
+            }
+          ] as SharedCase[]
+        }
+      });
+      const rejectedPostResponse = {
+        data: {
+          status: 409,
+          message: 'Case share failed'
+        },
+        config: {
+          method: 'post',
+          data: '{"assignee_id":"aaaa3333","case_id":"1111222233334444","case_type_id":"Test"}'
+        }
+      } as AxiosResponse;
+
+      handlePostStub.onFirstCall().returns(Promise.resolve(mockAxiosPostResponse));
+      handlePostStub.onSecondCall().returns(Promise.reject(rejectedPostResponse));
+      handleDeleteStub.returns(Promise.resolve(mockAxiosDeleteResponse as AxiosResponse));
+
+      await assignCases(partialFailureReq, res);
+
+      expect(handlePostStub).to.have.been.calledTwice;
+      expect(handleDeleteStub).not.to.have.been.called;
+      expect(res.status).to.have.been.calledWith(201);
+      expect(res.send).to.have.been.calledWith([
+        {
+          caseId: '1111222233334444',
+          caseTitle: 'Case 1',
+          caseTypeId: 'Test',
+          sharedWith: [
+            {
+              idamId: 'aaaa1111',
+              firstName: 'User',
+              lastName: 'One',
+              email: 'user.one@example.com'
+            },
+            {
+              idamId: 'aaaa2222',
+              firstName: 'User',
+              lastName: 'Two',
+              email: 'user.two@example.com'
+            }
+          ] as UserDetails[],
+          pendingShares: [rejectedPendingShare],
+          pendingUnshares: [
+            {
+              idamId: 'aaaa1111',
+              firstName: 'User',
+              lastName: 'One',
+              email: 'user.one@example.com'
+            }
+          ] as UserDetails[]
+        }
+      ] as SharedCase[]);
     });
 
     it('should return an error if there is a rejected response for case unsharing', async () => {

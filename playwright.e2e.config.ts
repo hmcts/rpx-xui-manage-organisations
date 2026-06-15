@@ -10,6 +10,20 @@ import {
   resolveWorkerCount,
 } from './playwright-reporting';
 
+type EnvMap = NodeJS.ProcessEnv;
+
+const WAVE_LIKE_A11Y_TAG = '@wave-a11y';
+const waveLikeA11ySpecPattern = '**/*.wave-a11y.spec.ts';
+
+const splitTags = (raw: string | undefined): string[] =>
+  (raw ?? '')
+    .split(',')
+    .map((tag) => tag.trim())
+    .filter(Boolean);
+
+export const includesWaveLikeA11y = (env: EnvMap): boolean =>
+  env.PLAYWRIGHT_INCLUDE_WAVE_A11Y === 'true' || splitTags(env.PLAYWRIGHT_TAGS).includes(WAVE_LIKE_A11Y_TAG);
+
 loadDotenv({
   defaults: '.env.example',
   errorOnExtra: false,
@@ -24,14 +38,15 @@ const workerCount = resolveWorkerCount(process.env);
 const outputDir = resolveOutputDir(process.env);
 const { version: appVersion } = JSON.parse(readFileSync(resolve(process.cwd(), 'package.json'), 'utf-8')) as { version: string };
 
-module.exports = defineConfig({
+const config = defineConfig({
   outputDir,
   testDir: 'playwright_tests_new/E2E',
   testMatch: ['**/test/**/*.spec.ts'],
-  testIgnore:
-    process.env.PLAYWRIGHT_INCLUDE_A11Y === 'true'
-      ? ['**/test/smoke/smokeTest.spec.ts']
-      : ['**/test/smoke/smokeTest.spec.ts', '**/*.a11y.spec.ts'],
+  testIgnore: [
+    '**/test/smoke/smokeTest.spec.ts',
+    ...(process.env.PLAYWRIGHT_INCLUDE_A11Y === 'true' ? [] : ['**/*.a11y.spec.ts']),
+    ...(includesWaveLikeA11y(process.env) ? [] : [waveLikeA11ySpecPattern]),
+  ],
   grep: resolveTagGrep(process.env),
   grepInvert: resolveTagGrepInvert(process.env),
   fullyParallel: true,
@@ -75,3 +90,9 @@ module.exports = defineConfig({
     },
   ],
 });
+
+(config as { __test__?: unknown }).__test__ = {
+  includesWaveLikeA11y,
+};
+
+module.exports = config;

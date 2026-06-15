@@ -7,11 +7,49 @@ export type ManageOrgUser = {
   userIdentifier?: string;
 };
 
+export type CaseShareUser = {
+  caseRoles?: string[];
+  email?: string;
+  firstName?: string;
+  idamId?: string;
+  lastName?: string;
+};
+
+export type DxAddress = {
+  dxExchange?: string;
+  dxNumber?: string;
+};
+
+export type ContactInformation = {
+  addressLine1?: string;
+  addressLine2?: string;
+  dxAddress?: DxAddress[];
+  postCode?: string;
+  townCity?: string;
+};
+
 export type OrganisationDetailsResponse = {
-  contactInformation?: unknown[];
+  contactInformation?: ContactInformation[];
   name?: string;
   organisationIdentifier?: string;
+  paymentAccount?: string[];
+  sraId?: string;
+  sraRegulated?: boolean;
   status?: string;
+};
+
+export type FeeAccount = {
+  account_name?: string | null;
+  account_number?: string;
+  available_balance?: number;
+  credit_limit?: number | null;
+  effective_date?: string;
+  status?: string | null;
+};
+
+export type MutatingApiResult = {
+  code?: number;
+  message?: string;
 };
 
 export type ReferenceItem = {

@@ -9,7 +9,7 @@ const logger = log4jui.getLogger('outgoing');
 
 router.put('', inviteUserRoute);
 
-async function inviteUserRoute(req: Request, res: Response) {
+async function inviteUserRoute(req: Request<{ userId: string }>, res: Response) {
   let errReport: ErrorReport;
   if (!req.params.userId) {
     errReport = getErrorReport('UserId is missing', '400', 'User Permissions route error');
@@ -27,6 +27,26 @@ async function inviteUserRoute(req: Request, res: Response) {
     const status = error.status ? error.status : 500;
     errReport = getErrorReport(getErrorMessage(error), status, getErrorMessage(error));
     res.status(status).send(errReport);
+  }
+}
+
+export async function ogdEditUserRoute(req: Request<{ userId: string }>) {
+  let ogdErrReport: ErrorReport;
+  if (!req.params.userId) {
+    ogdErrReport = getErrorReport('UserId is missing', '400', 'User Permissions route error');
+    throw (ogdErrReport);
+  }
+  const payload = req.body;
+  try {
+    const response = await req.http.put(getEditPermissionsUrl(getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH), req.params.userId), payload);
+    logger.info('response::', response.data);
+
+    return (response.data);
+  } catch (error) {
+    logger.info('error', error);
+    const ogdEditStatus = error.status ? error.status : 500;
+    ogdErrReport = getErrorReport(getErrorMessage(error), ogdEditStatus, getErrorMessage(error));
+    throw (ogdErrReport);
   }
 }
 

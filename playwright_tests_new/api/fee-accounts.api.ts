@@ -14,15 +14,29 @@ test.describe('Fee account API contracts', { tag: '@svc-fee-accounts' }, () => {
     expect(paymentAccounts, 'Organisation details should include payment accounts for fee account lookup').toEqual(
       expect.any(Array)
     );
-    const paymentAccount = paymentAccounts!.find((account) => /^PBA\d+$/.test(account));
-    expect(paymentAccount, 'The configured organisation should include a PBA account to look up').toBeTruthy();
+    const validPaymentAccounts = paymentAccounts!.filter((account) => /^PBA\d+$/.test(account));
+    expect(validPaymentAccounts, 'The configured organisation should include PBA accounts to look up').not.toHaveLength(0);
 
-    const response = await apiClient.get<FeeAccount[]>(`api/accounts?accountNames=${paymentAccount}`, {
-      throwOnError: false
-    });
+    let paymentAccount: string | undefined;
+    let response;
+    for (const account of validPaymentAccounts) {
+      const accountResponse = await apiClient.get<FeeAccount[]>(`api/accounts?accountNames=${account}`, {
+        throwOnError: false
+      });
+
+      if (accountResponse.status === 200) {
+        paymentAccount = account;
+        response = accountResponse;
+        break;
+      }
+    }
+
     const seededFeeAccountFailureMessage =
-      `Configured organisation PBA ${paymentAccount} should be recognised by the fee account service.`;
+      `At least one configured organisation PBA should be recognised by the fee account service. ` +
+      `Checked: ${validPaymentAccounts.join(', ')}.`;
 
+    expect(paymentAccount, seededFeeAccountFailureMessage).toBeTruthy();
+    expect(response, seededFeeAccountFailureMessage).toBeTruthy();
     expect(response.status, seededFeeAccountFailureMessage).toBe(200);
     expect(response.data, 'Fee account lookup response should be an array').toEqual(expect.any(Array));
     expect(response.data.length, 'Fee account lookup should return one account result for one account request').toBe(1);

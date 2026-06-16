@@ -277,7 +277,7 @@ def publishPlaywrightWaveA11yReport = { String reportName ->
 def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
     stage("${environmentName} Functional Tests (Parallel)") {
         try {
-            parallel(
+            def functionalSuites = [
                 failFast: false,
                 api: {
                     stage('API Tests') {
@@ -320,54 +320,6 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                         }
                     }
                 },
-                playwrightA11y: {
-                    stage('Playwright Accessibility Tests') {
-                        if (!params.RUN_PLAYWRIGHT_A11Y) {
-                            echo '[playwright-a11y] Skipping on CNP by default. Set RUN_PLAYWRIGHT_A11Y=true on a manual parameterized build to run this pack.'
-                        } else {
-                            try {
-                                withEnv(playwrightBrowsersEnv() + [
-                                    "FUNCTIONAL_TESTS_WORKERS=6",
-                                    "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-a11y",
-                                    "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-a11y/playwright-a11y-junit.xml",
-                                    "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
-                                    "PLAYWRIGHT_SKIP_INSTALL=true"
-                                ]) {
-                                    yarnBuilder.yarn('test:a11y:playwright')
-                                }
-                            } catch (Exception e) {
-                                echo "[parallel-report-gathering] Playwright Accessibility failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"
-                                if (handleParallelInterruption(e)) { return }
-                            } finally {
-                                publishPlaywrightA11yReport("${environmentName} Manage Org Register Organisation Playwright A11y")
-                            }
-                        }
-                    }
-                },
-                playwrightWaveA11y: {
-                    stage('Playwright WAVE-like Accessibility Tests') {
-                        if (!params.RUN_PLAYWRIGHT_WAVE_A11Y) {
-                            echo '[playwright-wave-a11y] Skipping on CNP by default. Set RUN_PLAYWRIGHT_WAVE_A11Y=true on a manual parameterized build to run this pack.'
-                        } else {
-                            try {
-                                withEnv(playwrightBrowsersEnv() + [
-                                    "FUNCTIONAL_TESTS_WORKERS=6",
-                                    "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-wave-a11y",
-                                    "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-wave-a11y/playwright-wave-a11y-junit.xml",
-                                    "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
-                                    "PLAYWRIGHT_SKIP_INSTALL=true"
-                                ]) {
-                                    yarnBuilder.yarn('test:wave-a11y:playwright')
-                                }
-                            } catch (Exception e) {
-                                echo "[parallel-report-gathering] Playwright WAVE-like Accessibility failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"
-                                if (handleParallelInterruption(e)) { return }
-                            } finally {
-                                publishPlaywrightWaveA11yReport("${environmentName} Manage Org Playwright WAVE-like A11y")
-                            }
-                        }
-                    }
-                },
                 playwrightE2E: {
                     stage('Playwright E2E') {
                         try {
@@ -391,7 +343,59 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                         }
                     }
                 }
-            )
+            ]
+
+            if (params.RUN_PLAYWRIGHT_A11Y) {
+                functionalSuites.playwrightA11y = {
+                    stage('Playwright Accessibility Tests') {
+                        try {
+                            withEnv(playwrightBrowsersEnv() + [
+                                "FUNCTIONAL_TESTS_WORKERS=6",
+                                "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-a11y",
+                                "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-a11y/playwright-a11y-junit.xml",
+                                "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
+                                "PLAYWRIGHT_SKIP_INSTALL=true"
+                            ]) {
+                                yarnBuilder.yarn('test:a11y:playwright')
+                            }
+                        } catch (Exception e) {
+                            echo "[parallel-report-gathering] Playwright Accessibility failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"
+                            if (handleParallelInterruption(e)) { return }
+                        } finally {
+                            publishPlaywrightA11yReport("${environmentName} Manage Org Register Organisation Playwright A11y")
+                        }
+                    }
+                }
+            } else {
+                echo '[playwright-a11y] CNP stage omitted by default. Set RUN_PLAYWRIGHT_A11Y=true on a manual build to include this pack.'
+            }
+
+            if (params.RUN_PLAYWRIGHT_WAVE_A11Y) {
+                functionalSuites.playwrightWaveA11y = {
+                    stage('Playwright WAVE-like Accessibility Tests') {
+                        try {
+                            withEnv(playwrightBrowsersEnv() + [
+                                "FUNCTIONAL_TESTS_WORKERS=6",
+                                "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-wave-a11y",
+                                "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-wave-a11y/playwright-wave-a11y-junit.xml",
+                                "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
+                                "PLAYWRIGHT_SKIP_INSTALL=true"
+                            ]) {
+                                yarnBuilder.yarn('test:wave-a11y:playwright')
+                            }
+                        } catch (Exception e) {
+                            echo "[parallel-report-gathering] Playwright WAVE-like Accessibility failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"
+                            if (handleParallelInterruption(e)) { return }
+                        } finally {
+                            publishPlaywrightWaveA11yReport("${environmentName} Manage Org Playwright WAVE-like A11y")
+                        }
+                    }
+                }
+            } else {
+                echo '[playwright-wave-a11y] CNP stage omitted by default. Set RUN_PLAYWRIGHT_WAVE_A11Y=true on a manual build to include this pack.'
+            }
+
+            parallel(functionalSuites)
         } finally {
             publishManageOrgEvidenceDashboard("${environmentName} Manage Org Playwright Evidence")
         }

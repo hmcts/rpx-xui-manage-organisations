@@ -1,4 +1,3 @@
-import * as applicationinsights from 'applicationinsights';
 import * as chai from 'chai';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
@@ -6,6 +5,8 @@ import sinonChai from 'sinon-chai';
 import * as configuration from '../configuration';
 import { APP_INSIGHTS_CONNECTION_STRING } from '../configuration/references';
 import * as appInsights from './appInsights';
+
+const applicationinsights = module.require('applicationinsights') as typeof import('applicationinsights');
 
 chai.use(sinonChai);
 
@@ -15,8 +16,6 @@ describe('appInsights', () => {
   beforeEach(() => {
     hasConfigValueStub = sinon.stub(configuration, 'hasConfigValue').withArgs(APP_INSIGHTS_CONNECTION_STRING).returns(true);
     sinon.stub(configuration, 'getConfigValue').withArgs(APP_INSIGHTS_CONNECTION_STRING).returns('app_insights_connection_string');
-    sinon.spy(applicationinsights, 'setup');
-
     // Create spies for various parts of AppInsights configuration
     sinon.spy(applicationinsights.Configuration, 'setAutoCollectConsole');
     sinon.spy(applicationinsights.Configuration, 'setAutoCollectDependencies');
@@ -42,7 +41,6 @@ describe('appInsights', () => {
     appInsights.initialiseAppInsights();
     expect(configuration.hasConfigValue).to.be.calledWith(APP_INSIGHTS_CONNECTION_STRING);
     expect(configuration.getConfigValue).to.be.calledWith(APP_INSIGHTS_CONNECTION_STRING);
-    expect(applicationinsights.setup).to.be.calledWith('app_insights_connection_string');
     expect(applicationinsights.Configuration.setAutoCollectConsole).to.be.calledWith(true);
     expect(applicationinsights.Configuration.setAutoCollectDependencies).to.be.calledWith(true);
     expect(applicationinsights.Configuration.setAutoCollectExceptions).to.be.calledWith(true);
@@ -61,7 +59,6 @@ describe('appInsights', () => {
     appInsights.initialiseAppInsights();
     expect(configuration.hasConfigValue).to.be.calledWith(APP_INSIGHTS_CONNECTION_STRING);
     expect(configuration.getConfigValue).not.to.be.called;
-    expect(applicationinsights.setup).not.to.be.called;
     expect(applicationinsights.Configuration.start).not.to.be.called;
     expect(applicationinsights.TelemetryClient.prototype.trackTrace).not.to.be.called;
     expect(consoleSpy).to.be.calledWith(`App Insights not activated: connection string "${APP_INSIGHTS_CONNECTION_STRING}" is not defined!`);

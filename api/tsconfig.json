@@ -3,6 +3,7 @@
     "compilerOptions": {
         "outDir": "../dist/rpx-xui-manage-organisations/api",
         "target": "es5",
+        "esModuleInterop": true,
         "types": [
             "node",
             "mocha",

@@ -1,4 +1,4 @@
-import exceptionFormatter = require('exception-formatter');
+import exceptionFormatter from 'exception-formatter';
 import { getConfigValue } from '../configuration';
 import {
   MAX_LOG_LINE

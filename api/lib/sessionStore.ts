@@ -1,7 +1,7 @@
 import { RedisStore } from 'connect-redis';
-import * as session from 'express-session';
+import session from 'express-session';
 import { createClient, RedisClientType } from 'redis';
-import * as sessionFileStore from 'session-file-store';
+import sessionFileStore from 'session-file-store';
 import { app } from '../application';
 import { getConfigValue, showFeature } from '../configuration';
 import {

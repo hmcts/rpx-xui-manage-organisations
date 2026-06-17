@@ -21,7 +21,7 @@ app.use(express.static(path.join(__dirname, '..'), { index: false }));
 /**
  * Used on server.ts only but should be fine to lift and shift to local.ts
  */
-app.use('/*', (req, res) => {
+app.use('/{*splat}', (req, res) => {
   console.time(`GET: ${req.originalUrl}`);
   res.set('Cache-Control', 'no-store, s-maxage=0, max-age=0, must-revalidate, proxy-revalidate');
   res.render('../index', {
@@ -35,4 +35,9 @@ app.use('/*', (req, res) => {
 const port = process.env.PORT || 3000;
 
 app.use(errorHandler);
-app.listen(port, () => logger.info(`Local server up at ${port}`));
+app.listen(port, (error?: Error) => {
+  if (error) {
+    throw error;
+  }
+  logger.info(`Local server up at ${port}`);
+});

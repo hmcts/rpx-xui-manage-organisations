@@ -1,14 +1,18 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import * as log4jui from './log4jui';
 import { propsExist } from './objectUtilities';
 
 const logger = log4jui.getLogger('errorHandler');
 
 /**
- * Note that the next, NextFunction is required here.
+ * Express error-handling middleware must keep the four-argument signature.
  */
-// eslint-disable-next-line no-unused-vars, no-shadow,
-export default function errorHandler(err, req: Request, res: Response) {
+// eslint-disable-next-line no-unused-vars, no-shadow
+export default function errorHandler(err, req: Request, res: Response, next: NextFunction) {
+  if (res.headersSent) {
+    return next(err);
+  }
+
   if (propsExist(err, ['config', 'headers'])) {
     // remove any sensitive data, such as bearer token from being logged
     delete err.config.headers;

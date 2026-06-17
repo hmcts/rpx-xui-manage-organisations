@@ -3155,9 +3155,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-node-lib@npm:2.30.16":
-  version: 2.30.16
-  resolution: "@hmcts/rpx-xui-node-lib@npm:2.30.16"
+"@hmcts/rpx-xui-node-lib@npm:2.30.17-library-update":
+  version: 2.30.17-library-update
+  resolution: "@hmcts/rpx-xui-node-lib@npm:2.30.17-library-update"
   dependencies:
     "@dr.pogodin/csurf": "npm:^1.14.0"
     axios: "npm:^1.16.0"
@@ -3176,7 +3176,7 @@ __metadata:
     session-file-store: "npm:^1.5.0"
   peerDependencies:
     helmet: ^7.0.0
-  checksum: 10/54c774caffea0094ffb723045c276eab87a16ad48b423ee2cb71dbc328297b6c40ad0d77f069c9cc7e08f61a7362518d88d5706aa87b220cc2011e8919468456
+  checksum: 10/b0b3fb685385c31fcf0110104248e0f08e50a6f9434a94e4e2ac4aad506e1247507048ffa4cccbf44a8ee4bc4bbcda6fd11a5010329c065eb3a0c6fda8c44948
   languageName: node
   linkType: hard
 
@@ -7883,7 +7883,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/session-file-store@npm:^1.2.1":
+"@types/session-file-store@npm:^1.2.6":
   version: 1.2.6
   resolution: "@types/session-file-store@npm:1.2.6"
   dependencies:
@@ -19686,7 +19686,7 @@ __metadata:
     "@hmcts/playwright-common": "npm:^1.1.2"
     "@hmcts/properties-volume": "npm:0.0.13"
     "@hmcts/rpx-xui-common-lib": "npm:3.2.12"
-    "@hmcts/rpx-xui-node-lib": "npm:2.30.16"
+    "@hmcts/rpx-xui-node-lib": "npm:2.30.17-library-update"
     "@microsoft/applicationinsights-web": "npm:^3.3.9"
     "@ng-idle/core": "npm:^16.0.0"
     "@ng-idle/keepalive": "npm:^16.0.0"
@@ -19714,7 +19714,7 @@ __metadata:
     "@types/mocha": "npm:^10.0.6"
     "@types/node": "npm:^20.19.0"
     "@types/redis": "npm:^2.8.16"
-    "@types/session-file-store": "npm:^1.2.1"
+    "@types/session-file-store": "npm:^1.2.6"
     "@types/sinon-chai": "npm:^3.2.4"
     "@typescript-eslint/eslint-plugin": "npm:^8.46.1"
     "@typescript-eslint/parser": "npm:^8.46.1"
@@ -19777,7 +19777,7 @@ __metadata:
     rpx-xui-translation: "npm:1.2.0-angular-20.3.14"
     rx-polling-hmcts: "npm:^1.1.1"
     rxjs: "npm:^7.8.1"
-    session-file-store: "npm:^1.2.0"
+    session-file-store: "npm:^1.5.0"
     sinon: "npm:^7.2.3"
     sinon-chai: "npm:^3.3.0"
     sinon-express-mock: "npm:^2.1.0"
@@ -20181,7 +20181,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"session-file-store@npm:^1.2.0, session-file-store@npm:^1.5.0":
+"session-file-store@npm:^1.5.0":
   version: 1.5.0
   resolution: "session-file-store@npm:1.5.0"
   dependencies:

@@ -2,7 +2,7 @@ import * as applicationinsights from 'applicationinsights';
 import * as chai from 'chai';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
-import * as sinonChai from 'sinon-chai';
+import sinonChai from 'sinon-chai';
 import * as configuration from '../configuration';
 import { APP_INSIGHTS_CONNECTION_STRING } from '../configuration/references';
 import * as appInsights from './appInsights';

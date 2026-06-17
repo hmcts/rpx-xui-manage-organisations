@@ -1,4 +1,4 @@
-import * as exceptionFormatter from 'exception-formatter';
+import exceptionFormatter = require('exception-formatter');
 import { getConfigValue } from '../configuration';
 import { MAX_LOG_LINE } from '../configuration/references';
 import * as log4jui from './log4jui';

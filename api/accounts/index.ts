@@ -36,7 +36,7 @@ async function handleAddressRoute(req, res) {
       });
     });
   } catch (error) {
-    const status = valueOrNull(error, 'status');
+    const status = Number(valueOrNull(error, 'status')) || 500;
     errReport = {
       apiError: valueOrNull(error, 'data.message') !== null ? error.data.message : error,
       apiStatusCode: status,

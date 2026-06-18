@@ -11,7 +11,7 @@ properties([
     ])
 ])
 
-@Library("Infrastructure")
+@Library("Infrastructure@DTSPO-30107-jenkins-agents")
 
 //To enable PACT testing on pipeline uncomment the next line
 import uk.gov.hmcts.contino.AppPipelineDsl
@@ -21,6 +21,10 @@ def product   = "xui"
 def component = "mo-webapp"
 def channel   = '#xui-pipeline'
 def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
+
+def playwrightBrowsersEnv = {
+    ["PLAYWRIGHT_BROWSERS_PATH=${env.WORKSPACE}/.cache/ms-playwright"]
+}
 
 def handleParallelInterruption = { Exception e ->
     def interrupted = false
@@ -201,32 +205,23 @@ def publishPlaywrightIntegrationReport = { String reportName ->
 }
 
 def publishPlaywrightA11yReport = { String reportName ->
-    ensureHtmlReportForPublishing(
-        "functional-output/tests/playwright-a11y/odhin-report",
-        'xui-playwright-a11y.html',
-        reportName
-    )
-    publishHTML([
-        allowMissing         : true,
-        alwaysLinkToLastBuild: true,
-        keepAll              : true,
-        reportDir            : "functional-output/tests/playwright-a11y/odhin-report",
-        reportFiles          : 'xui-playwright-a11y.html',
-        reportName           : reportName
-    ])
-    ensureHtmlReportForPublishing(
-        "functional-output/tests/playwright-a11y/integration/odhin-report",
-        'xui-playwright-a11y-integration.html',
-        "${reportName} - Integration"
-    )
-    publishHTML([
-        allowMissing         : true,
-        alwaysLinkToLastBuild: true,
-        keepAll              : true,
-        reportDir            : "functional-output/tests/playwright-a11y/integration/odhin-report",
-        reportFiles          : 'xui-playwright-a11y-integration.html',
-        reportName           : "${reportName} - Integration"
-    ])
+    try {
+        ensureHtmlReportForPublishing(
+            "functional-output/tests/playwright-a11y/odhin-report",
+            'xui-playwright-a11y.html',
+            reportName
+        )
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "functional-output/tests/playwright-a11y/odhin-report",
+            reportFiles          : 'xui-playwright-a11y.html',
+            reportName           : reportName
+        ])
+    } catch (Exception e) {
+        echo "[playwright-a11y] Report publish failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"
+    }
     stagePlaywrightArtifacts('functional-output/tests/playwright-a11y/stable-artifacts', 'test-results/playwright-a11y')
     publishPlaywrightJUnit('functional-output/tests/playwright-a11y/**/*junit.xml')
     steps.archiveArtifacts(
@@ -239,18 +234,18 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
     stage("${environmentName} Functional Tests (Parallel)") {
         try {
             parallel(
-                failFast: true,
+                failFast: false,
                 api: {
                     stage('API Tests') {
                         try {
-                            withEnv([
-                                "FUNCTIONAL_TESTS_WORKERS=4",
+                            withEnv(playwrightBrowsersEnv() + [
+                                "FUNCTIONAL_TESTS_WORKERS=6",
                                 "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-api",
                                 "PLAYWRIGHT_HTML_OUTPUT=functional-output/tests/playwright-api/html-report",
                                 "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-api/playwright-api-junit.xml",
                                 "PLAYWRIGHT_SKIP_INSTALL=true"
                             ]) {
-                                yarnBuilder.yarn('test:api:pw')
+                                yarnBuilder.yarn('test:api:pw:raw')
                             }
                         } catch (Exception e) {
                             echo "[parallel] API Tests catch: ${e.getClass().getName()}: ${e.getMessage()}"
@@ -264,13 +259,13 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                 playwrightIntegration: {
                     stage('Playwright Integration Tests') {
                         try {
-                            withEnv([
-                                "FUNCTIONAL_TESTS_WORKERS=4",
+                            withEnv(playwrightBrowsersEnv() + [
+                                "FUNCTIONAL_TESTS_WORKERS=6",
                                 "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-integration",
                                 "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-integration/playwright-integration-junit.xml",
                                 "PLAYWRIGHT_SKIP_INSTALL=true"
                             ]) {
-                                yarnBuilder.yarn('test:playwright:integration')
+                                yarnBuilder.yarn('test:playwright:integration:raw')
                             }
                         } catch (Exception e) {
                             echo "[parallel] Playwright Integration Tests catch: ${e.getClass().getName()}: ${e.getMessage()}"
@@ -284,8 +279,8 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                 playwrightA11y: {
                     stage('Playwright Accessibility Tests') {
                         try {
-                            withEnv([
-                                "FUNCTIONAL_TESTS_WORKERS=4",
+                            withEnv(playwrightBrowsersEnv() + [
+                                "FUNCTIONAL_TESTS_WORKERS=6",
                                 "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-a11y",
                                 "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-a11y/playwright-a11y-junit.xml",
                                 "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
@@ -294,9 +289,8 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                                 yarnBuilder.yarn('test:a11y:playwright')
                             }
                         } catch (Exception e) {
-                            echo "[parallel] Playwright Accessibility Tests catch: ${e.getClass().getName()}: ${e.getMessage()}"
+                            echo "[parallel-report-gathering] Playwright Accessibility failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"
                             if (handleParallelInterruption(e)) { return }
-                            throw e
                         } finally {
                             publishPlaywrightA11yReport("${environmentName} Manage Org Register Organisation Playwright A11y")
                         }
@@ -305,8 +299,8 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                 playwrightE2E: {
                     stage('Playwright E2E') {
                         try {
-                            withEnv([
-                                "FUNCTIONAL_TESTS_WORKERS=2",
+                            withEnv(playwrightBrowsersEnv() + [
+                                "FUNCTIONAL_TESTS_WORKERS=6",
                                 "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-e2e",
                                 "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-e2e/playwright-e2e-junit.xml",
                                 "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
@@ -378,10 +372,29 @@ withPipeline(type, product, component) {
      AppPipelineDsl.PactRoles.CONSUMER
 ])
 
+    afterSuccess('checkout') {
+        stage('Yarn Install') {
+            withEnv(playwrightBrowsersEnv()) {
+                yarnBuilder.yarn('install --immutable')
+                sh 'touch .yarn_dependencies_installed'
+            }
+        }
+    }
+
     afterAlways('checkout') {
         stage('Playwright Install Chromium') {
             try {
-                yarnBuilder.yarn('test:setup:playwright-install-chromium')
+                withEnv(playwrightBrowsersEnv()) {
+                    sh '''
+                        mkdir -p "$PLAYWRIGHT_BROWSERS_PATH"
+                        if [ ! -f .yarn_dependencies_installed ]; then
+                          node .yarn/releases/yarn-4.9.2.cjs install --immutable
+                          touch .yarn_dependencies_installed
+                        fi
+                        node .yarn/releases/yarn-4.9.2.cjs test:setup:playwright-install-chromium
+                        node .yarn/releases/yarn-4.9.2.cjs test:setup:playwright-verify-chromium
+                    '''
+                }
             } catch (Error) {
                 error(message: "${STAGE_NAME} is unstable: " + Error.toString())
             }

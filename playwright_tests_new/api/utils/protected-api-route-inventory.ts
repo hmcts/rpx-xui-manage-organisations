@@ -60,8 +60,8 @@ export const protectedRouteInventory: ProtectedRouteInventoryEntry[] = [
   },
   {
     route: '/inviteUser',
-    coverageType: 'covered-by-suite',
-    evidence: 'Authenticated invite and re-invite API contract coverage.',
+    coverageType: 'guardrail-test',
+    evidence: 'rejects anonymous re-invite requests before invite processing',
     coverageFile: 'playwright_tests_new/api/invite-user.api.ts'
   },
   {
@@ -83,6 +83,11 @@ export const protectedRouteInventory: ProtectedRouteInventoryEntry[] = [
     coverageFile: 'playwright_tests_new/api/reference-data.api.ts'
   },
   {
+    route: '/ogd-flow',
+    coverageType: 'documented-exclusion',
+    evidence: 'OGD invite/update orchestration guardrail coverage is intentionally outside this PBA-management/API-integrity slice.'
+  },
+  {
     route: '/payments/:account',
     coverageType: 'documented-exclusion',
     evidence: 'Payment-history lookup guardrail coverage is intentionally outside this PBA-management/API-integrity slice.'
@@ -95,9 +100,18 @@ export const protectedRouteInventory: ProtectedRouteInventoryEntry[] = [
   },
   {
     route: '/register-org',
-    coverageType: 'covered-by-suite',
-    evidence: 'Authenticated registration API contract coverage.',
-    coverageFile: 'playwright_tests_new/api/register-organisation.api.ts'
+    coverageType: 'documented-exclusion',
+    evidence: 'Registration POST creates persistent AAT organisation data; add cleanup-safe coverage before enabling it in the API gate.'
+  },
+  {
+    route: '/refresh-user',
+    coverageType: 'documented-exclusion',
+    evidence: 'Role-mapping refresh guardrail coverage is intentionally outside this PBA-management/API-integrity slice.'
+  },
+  {
+    route: '/retrieve-access-types',
+    coverageType: 'documented-exclusion',
+    evidence: 'Access-type retrieval guardrail coverage is intentionally outside this PBA-management/API-integrity slice.'
   },
   {
     route: '/termsAndConditions',

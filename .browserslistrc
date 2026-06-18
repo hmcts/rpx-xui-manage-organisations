@@ -1,0 +1,6 @@
+# This file is used by Angular, Babel and autoprefixer to determine browser support.
+# Keep the Edge cap until Babel publishes compatibility data for newer Edge releases.
+> 0.5%
+Firefox ESR
+not dead
+not edge > 145

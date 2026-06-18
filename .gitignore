@@ -4,18 +4,27 @@
 /dist
 /tmp
 /out-tsc
+# Only exists if Bazel was run
+/bazel-out
 /reports
 /report_json
 api/.sessions/
 /test-results
+/playwright-report
+/functional_output
 
 # linting cache
 .eslintcache
+
+# profiling files
+chrome-profiler-events.json
+speed-measure-plugin.json
 
 # dependencies
 /node_modules
 /projects/gov-ui/node_modules
 /api/node_modules/*
+/api/.yarn
 
 # IDEs and editors
 /.idea
@@ -40,10 +49,17 @@ api/.nyc_output
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+.history/*
+.last-run.json
 
 # misc
+/.cache/
+**/.cache
+**/.parcel-cache
 /.playwright-cli/
 .ssr.lock/
+/.sonar
+/.scannerwork
 /.sass-cache
 /connect.lock
 /coverage
@@ -55,6 +71,9 @@ testem.log
 /api/test/pact/logs
 /api/test/pact/pacts
 config/.env
+package-lock.json
+*.zip
+/api/test/pacts/
 
 
 # System Files
@@ -75,6 +94,14 @@ mochawesome-report/
 stryker.log
 
 .angular/cache/
+.nx/cache/
+
+# Test credentials and auth state (HMCTS Security Policy)
+**/storage-states/**/*.json
+**/*-session*.json
+**/*-credentials*.json
+.env.test.local
+playwright/.auth/
 
 # Yarn
 .pnp.*
@@ -86,8 +113,25 @@ stryker.log
 !.yarn/sdks
 !.yarn/versions
 /api/.yarn/cache/
+.yarn/install-state.gz
 localTestEnv.sh
+env_copy
+.env_copy
+.tool-versions
+local-only-tools
+/local-only-tools
+ignore/
+.yalc/
+yalc.lock
+/infrastructure/.terraform/
+Fortify Scan/
+
+# Local agent review artefacts
+/.agents/
+/AGENTS.md
 PLAN.md
 TODO.md
 DECISIONS.md
 RESULT.md
+FINDINGS.md
+TRACEABILITY.md

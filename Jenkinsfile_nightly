@@ -10,13 +10,17 @@ properties([
     pipelineTriggers(env.BRANCH_NAME == 'master' ? [cron('H 07 * * 1-5')] : [])
 ])
 
-@Library("Infrastructure")
+@Library("Infrastructure@DTSPO-30107-jenkins-agents")
 
 def type      = "nodejs"
 def product   = "xui"
 def component = "mo-webapp"
 def channel   = '#xui-pipeline'
 def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
+
+def playwrightBrowsersEnv = {
+    ["PLAYWRIGHT_BROWSERS_PATH=${env.WORKSPACE}/.cache/ms-playwright"]
+}
 
 def handleParallelInterruption = { Exception e ->
     def interrupted = false
@@ -103,6 +107,33 @@ def stagePlaywrightArtifacts = { String stageDir, String sourceDir ->
     }
 }
 
+def publishPlaywrightJUnit = { String testResults ->
+    steps.junit(
+        allowEmptyResults: false,
+        testResults: testResults
+    )
+}
+
+def publishManageOrgEvidenceDashboard = { String reportName ->
+    withEnv([
+        "MANAGE_ORG_EVIDENCE_TITLE=${reportName}"
+    ]) {
+        steps.sh 'node scripts/build-playwright-evidence-dashboard.js --title "$MANAGE_ORG_EVIDENCE_TITLE"'
+    }
+    publishHTML([
+        allowMissing         : true,
+        alwaysLinkToLastBuild: true,
+        keepAll              : true,
+        reportDir            : "functional-output/tests/manage-org-evidence",
+        reportFiles          : 'index.html',
+        reportName           : reportName
+    ])
+    steps.archiveArtifacts(
+        allowEmptyArchive: true,
+        artifacts: 'functional-output/tests/manage-org-evidence/**'
+    )
+}
+
 def publishPlaywrightApiReport = { String reportName ->
     ensureHtmlReportForPublishing(
         "functional-output/tests/playwright-api/odhin-report",
@@ -118,6 +149,7 @@ def publishPlaywrightApiReport = { String reportName ->
         reportName           : reportName
     ])
     stagePlaywrightArtifacts('functional-output/tests/playwright-api/stable-artifacts', 'test-results/playwright-api')
+    publishPlaywrightJUnit('functional-output/tests/playwright-api/**/*junit.xml')
     steps.archiveArtifacts(
         allowEmptyArchive: true,
         artifacts: 'functional-output/tests/playwright-api/**'
@@ -139,6 +171,7 @@ def publishPlaywrightE2EReport = { String reportName ->
         reportName           : reportName
     ])
     stagePlaywrightArtifacts('functional-output/tests/playwright-e2e/stable-artifacts', 'test-results/playwright-e2e')
+    publishPlaywrightJUnit('functional-output/tests/playwright-e2e/**/*junit.xml')
     steps.archiveArtifacts(
         allowEmptyArchive: true,
         artifacts: 'functional-output/tests/playwright-e2e/**'
@@ -160,6 +193,7 @@ def publishPlaywrightIntegrationReport = { String reportName ->
         reportName           : reportName
     ])
     stagePlaywrightArtifacts('functional-output/tests/playwright-integration/stable-artifacts', 'test-results/playwright-integration')
+    publishPlaywrightJUnit('functional-output/tests/playwright-integration/**/*junit.xml')
     steps.archiveArtifacts(
         allowEmptyArchive: true,
         artifacts: 'functional-output/tests/playwright-integration/**'
@@ -167,33 +201,25 @@ def publishPlaywrightIntegrationReport = { String reportName ->
 }
 
 def publishPlaywrightA11yReport = { String reportName ->
-    ensureHtmlReportForPublishing(
-        "functional-output/tests/playwright-a11y/odhin-report",
-        'xui-playwright-a11y.html',
-        reportName
-    )
-    publishHTML([
-        allowMissing         : true,
-        alwaysLinkToLastBuild: true,
-        keepAll              : true,
-        reportDir            : "functional-output/tests/playwright-a11y/odhin-report",
-        reportFiles          : 'xui-playwright-a11y.html',
-        reportName           : reportName
-    ])
-    ensureHtmlReportForPublishing(
-        "functional-output/tests/playwright-a11y/integration/odhin-report",
-        'xui-playwright-a11y-integration.html',
-        "${reportName} - Integration"
-    )
-    publishHTML([
-        allowMissing         : true,
-        alwaysLinkToLastBuild: true,
-        keepAll              : true,
-        reportDir            : "functional-output/tests/playwright-a11y/integration/odhin-report",
-        reportFiles          : 'xui-playwright-a11y-integration.html',
-        reportName           : "${reportName} - Integration"
-    ])
+    try {
+        ensureHtmlReportForPublishing(
+            "functional-output/tests/playwright-a11y/odhin-report",
+            'xui-playwright-a11y.html',
+            reportName
+        )
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "functional-output/tests/playwright-a11y/odhin-report",
+            reportFiles          : 'xui-playwright-a11y.html',
+            reportName           : reportName
+        ])
+    } catch (Exception e) {
+        echo "[playwright-a11y] Report publish failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"
+    }
     stagePlaywrightArtifacts('functional-output/tests/playwright-a11y/stable-artifacts', 'test-results/playwright-a11y')
+    publishPlaywrightJUnit('functional-output/tests/playwright-a11y/**/*junit.xml')
     steps.archiveArtifacts(
         allowEmptyArchive: true,
         artifacts: 'functional-output/tests/playwright-a11y/**'
@@ -236,7 +262,15 @@ withNightlyPipeline(type, product, component) {
     afterSuccess('checkout') {
         sh 'yarn cache clean'
         stage('Playwright Install All Browsers') {
-            yarnBuilder.yarn('test:setup:playwright-install-all')
+            withEnv(playwrightBrowsersEnv()) {
+                sh '''
+                    mkdir -p "$PLAYWRIGHT_BROWSERS_PATH"
+                    node .yarn/releases/yarn-4.9.2.cjs install --immutable
+                    touch .yarn_dependencies_installed
+                    node .yarn/releases/yarn-4.9.2.cjs test:setup:playwright-install-all
+                    node .yarn/releases/yarn-4.9.2.cjs test:setup:playwright-verify-all
+                '''
+            }
         }
     }
     afterSuccess('build') {
@@ -298,88 +332,97 @@ withNightlyPipeline(type, product, component) {
 
     afterSuccess('fortify-scan') {
         stage('Nightly Functional Tests (Parallel)') {
-            parallel(
-                failFast: true,
-                api: {
-                    stage('API Tests') {
-                        try {
-                            withEnv([
-                                "FUNCTIONAL_TESTS_WORKERS=4",
-                                "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-api",
-                                "PLAYWRIGHT_SKIP_INSTALL=true"
-                            ]) {
-                                yarnBuilder.yarn('test:api:pw')
+            try {
+                parallel(
+                    failFast: false,
+                    api: {
+                        stage('API Tests') {
+                            try {
+                                withEnv(playwrightBrowsersEnv() + [
+                                    "FUNCTIONAL_TESTS_WORKERS=6",
+                                    "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-api",
+                                    "PLAYWRIGHT_HTML_OUTPUT=functional-output/tests/playwright-api/html-report",
+                                    "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-api/playwright-api-junit.xml",
+                                    "PLAYWRIGHT_SKIP_INSTALL=true"
+                                ]) {
+                                    yarnBuilder.yarn('test:api:pw:raw')
+                                }
+                            } catch (Exception e) {
+                                echo "[parallel] API Tests catch: ${e.getClass().getName()}: ${e.getMessage()}"
+                                if (handleParallelInterruption(e)) { return }
+                                throw e
+                            } finally {
+                                publishPlaywrightApiReport('Nightly Manage Org Playwright API')
                             }
-                        } catch (Exception e) {
-                            echo "[parallel] API Tests catch: ${e.getClass().getName()}: ${e.getMessage()}"
-                            if (handleParallelInterruption(e)) { return }
-                            throw e
-                        } finally {
-                            publishPlaywrightApiReport('Nightly Manage Org Playwright API')
+                        }
+                    },
+                    playwrightIntegration: {
+                        stage('Playwright Integration Tests') {
+                            try {
+                                withEnv(playwrightBrowsersEnv() + [
+                                    "FUNCTIONAL_TESTS_WORKERS=6",
+                                    "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-integration",
+                                    "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-integration/playwright-integration-junit.xml",
+                                    "PLAYWRIGHT_SKIP_INSTALL=true"
+                                ]) {
+                                    yarnBuilder.yarn('test:playwright:integration:raw')
+                                }
+                            } catch (Exception e) {
+                                echo "[parallel] Playwright Integration Tests catch: ${e.getClass().getName()}: ${e.getMessage()}"
+                                if (handleParallelInterruption(e)) { return }
+                                throw e
+                            } finally {
+                                publishPlaywrightIntegrationReport('Nightly Manage Org Playwright Integration')
+                            }
+                        }
+                    },
+                    playwrightA11y: {
+                        stage('Playwright Accessibility Tests') {
+                            try {
+                                withEnv(playwrightBrowsersEnv() + [
+                                    "FUNCTIONAL_TESTS_WORKERS=6",
+                                    "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-a11y",
+                                    "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-a11y/playwright-a11y-junit.xml",
+                                    "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
+                                    "PLAYWRIGHT_SKIP_INSTALL=true"
+                                ]) {
+                                    yarnBuilder.yarn('test:a11y:playwright')
+                                }
+                            } catch (Exception e) {
+                                echo "[parallel-report-gathering] Playwright Accessibility failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"
+                                if (handleParallelInterruption(e)) { return }
+                            } finally {
+                                publishPlaywrightA11yReport('Nightly Manage Org Register Organisation Playwright A11y')
+                            }
+                        }
+                    },
+                    playwrightE2E: {
+                        stage('Playwright E2E Cross Browser') {
+                            try {
+                                withEnv(playwrightBrowsersEnv() + [
+                                    "FUNCTIONAL_TESTS_WORKERS=6",
+                                    "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-e2e",
+                                    "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-e2e/playwright-e2e-junit.xml",
+                                    "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
+                                    "PLAYWRIGHT_TAGS=@e2e",
+                                    "PLAYWRIGHT_EXCLUDE_TAGS=@a11y",
+                                    "PLAYWRIGHT_SKIP_INSTALL=true"
+                                ]) {
+                                    yarnBuilder.yarn('test:crossbrowser:raw')
+                                }
+                            } catch (Exception e) {
+                                echo "[parallel] Playwright E2E catch: ${e.getClass().getName()}: ${e.getMessage()}"
+                                if (handleParallelInterruption(e)) { return }
+                                throw e
+                            } finally {
+                                publishPlaywrightE2EReport('Nightly Manage Org Playwright E2E Cross Browser')
+                            }
                         }
                     }
-                },
-                playwrightIntegration: {
-                    stage('Playwright Integration Tests') {
-                        try {
-                            withEnv([
-                                "FUNCTIONAL_TESTS_WORKERS=4",
-                                "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-integration",
-                                "PLAYWRIGHT_SKIP_INSTALL=true"
-                            ]) {
-                                yarnBuilder.yarn('test:playwright:integration')
-                            }
-                        } catch (Exception e) {
-                            echo "[parallel] Playwright Integration Tests catch: ${e.getClass().getName()}: ${e.getMessage()}"
-                            if (handleParallelInterruption(e)) { return }
-                            throw e
-                        } finally {
-                            publishPlaywrightIntegrationReport('Nightly Manage Org Playwright Integration')
-                        }
-                    }
-                },
-                playwrightA11y: {
-                    stage('Playwright Accessibility Tests') {
-                        try {
-                            withEnv([
-                                "FUNCTIONAL_TESTS_WORKERS=4",
-                                "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-a11y",
-                                "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
-                                "PLAYWRIGHT_SKIP_INSTALL=true"
-                            ]) {
-                                yarnBuilder.yarn('test:a11y:playwright')
-                            }
-                        } catch (Exception e) {
-                            echo "[parallel] Playwright Accessibility Tests catch: ${e.getClass().getName()}: ${e.getMessage()}"
-                            if (handleParallelInterruption(e)) { return }
-                            throw e
-                        } finally {
-                            publishPlaywrightA11yReport('Nightly Manage Org Register Organisation Playwright A11y')
-                        }
-                    }
-                },
-                playwrightE2E: {
-                    stage('Playwright E2E Cross Browser') {
-                        try {
-                            withEnv([
-                                "FUNCTIONAL_TESTS_WORKERS=2",
-                                "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-e2e",
-                                "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
-                                "PLAYWRIGHT_TAGS=@e2e",
-                                "PLAYWRIGHT_EXCLUDE_TAGS=@a11y"
-                            ]) {
-                                yarnBuilder.yarn('test:crossbrowser')
-                            }
-                        } catch (Exception e) {
-                            echo "[parallel] Playwright E2E catch: ${e.getClass().getName()}: ${e.getMessage()}"
-                            if (handleParallelInterruption(e)) { return }
-                            throw e
-                        } finally {
-                            publishPlaywrightE2EReport('Nightly Manage Org Playwright E2E Cross Browser')
-                        }
-                    }
-                }
-            )
+                )
+            } finally {
+                publishManageOrgEvidenceDashboard('Nightly Manage Org Playwright Evidence')
+            }
         }
     }
 }

@@ -2,13 +2,22 @@ import type { Page, Route } from '@playwright/test';
 import {
   editUserPermissionsSuccessResponse,
   userAdminActiveUser,
+  userAdminAccessTypesResponse,
   userAdminActiveUserDetails,
   userAdminJurisdictionsResponse,
+  userAdminOrganisationProfileIds,
   userAdminPendingUser,
   userAdminPendingUserDetails,
   userAdminUsersWithoutRolesResponse
 } from '../mocks/userAdmin.mock';
-import { fulfillJson } from './manageOrgBaseRoutes.helper';
+import {
+  fulfillJson,
+  routeManageOrgFeatureFlags
+} from './manageOrgBaseRoutes.helper';
+import {
+  manageOrgIntegrationOrganisation,
+  manageOrgRuntimeConfiguration
+} from '../mocks/manageOrgIntegration.mock';
 
 export interface InviteUserRequest {
   email: string;
@@ -36,6 +45,40 @@ export interface CapturedEditUserPermissionsRequest extends EditUserPermissionsR
   userId: string;
 }
 
+export interface UserAccessTypeRequest {
+  accessTypeId: string;
+  enabled: boolean;
+  jurisdictionId: string;
+  organisationProfileId: string;
+}
+
+export interface OgdInviteUserPayload extends InviteUserRequest {
+  userAccessTypes?: UserAccessTypeRequest[];
+}
+
+export interface CapturedOgdInviteUserRequest {
+  method: string;
+  orgIdsPayload: string[];
+  userPayload: OgdInviteUserPayload;
+}
+
+export interface OgdEditUserPermissionsRequest extends EditUserPermissionsRequest {
+  id: string;
+  userAccessTypes: UserAccessTypeRequest[];
+}
+
+export interface CapturedOgdEditUserPermissionsRequest {
+  method: string;
+  orgIdsPayload: string[];
+  userId: string;
+  userPayload: OgdEditUserPermissionsRequest;
+}
+
+export interface CapturedRetrieveAccessTypesRequest {
+  method: string;
+  organisationProfileIds: string[];
+}
+
 export interface CapturedSuspendUserRequest {
   method: string;
   userId: string;
@@ -51,9 +94,21 @@ export interface UserAdminRouteState {
   editUserPermissionRequests: CapturedEditUserPermissionsRequest[];
   inviteUserRequests: CapturedInviteUserRequest[];
   jurisdictionRequests: string[];
+  ogdEditUserPermissionRequests: CapturedOgdEditUserPermissionsRequest[];
+  ogdInviteUserRequests: CapturedOgdInviteUserRequest[];
+  organisationRequests: string[];
+  retrieveAccessTypeRequests: CapturedRetrieveAccessTypesRequest[];
   suspendUserRequests: CapturedSuspendUserRequest[];
   userDetailsRequests: { method: string; userId: string | null }[];
   userListRequests: string[];
+}
+
+interface SetupUserAdminRoutesOptions {
+  enableOgdInviteUserFlow?: boolean;
+  ogdInviteStatus?: number;
+  ogdInviteResponse?: unknown;
+  ogdUpdateStatus?: number;
+  ogdUpdateResponse?: unknown;
 }
 
 const rejectUnexpectedMethod = async (
@@ -81,16 +136,53 @@ const pathSegmentAfter = (requestUrl: string, segment: string): string => {
   return segmentIndex === -1 ? '' : segments[segmentIndex + 1] ?? '';
 };
 
-export const setupUserAdminRoutes = async (page: Page): Promise<UserAdminRouteState> => {
+export const setupUserAdminRoutes = async (
+  page: Page,
+  options: SetupUserAdminRoutesOptions = {}
+): Promise<UserAdminRouteState> => {
   const routeState: UserAdminRouteState = {
     allUserListRequests: [],
     editUserPermissionRequests: [],
     inviteUserRequests: [],
     jurisdictionRequests: [],
+    ogdEditUserPermissionRequests: [],
+    ogdInviteUserRequests: [],
+    organisationRequests: [],
+    retrieveAccessTypeRequests: [],
     suspendUserRequests: [],
     userDetailsRequests: [],
     userListRequests: []
   };
+
+  if (options.enableOgdInviteUserFlow) {
+    await routeManageOrgFeatureFlags(page, {
+      'mo-grant-case-access-admin': true,
+      'mo-grant-manage-fee-accounts': true,
+      'ogd-invite-user-flow': true
+    });
+
+    await page.unroute('**/external/configuration-ui/**');
+    await page.route('**/external/configuration-ui/**', async (route) =>
+      fulfillJson(route, {
+        ...manageOrgRuntimeConfiguration,
+        ogdUpdateRefreshUserEnabled: true
+      })
+    );
+
+    await page.unroute('**/api/organisation**');
+    await page.route('**/api/organisation**', async (route) => {
+      routeState.organisationRequests.push(route.request().method());
+
+      if (await rejectUnexpectedMethod(route, 'GET')) {
+        return;
+      }
+
+      await fulfillJson(route, {
+        ...manageOrgIntegrationOrganisation,
+        organisationProfileIds: userAdminOrganisationProfileIds
+      });
+    });
+  }
 
   await page.unroute('**/api/allUserListWithoutRoles**');
 
@@ -143,6 +235,22 @@ export const setupUserAdminRoutes = async (page: Page): Promise<UserAdminRouteSt
     await fulfillJson(route, userAdminJurisdictionsResponse);
   });
 
+  await page.route('**/api/retrieve-access-types', async (route) => {
+    if (await rejectUnexpectedMethod(route, 'POST')) {
+      return;
+    }
+
+    const request = route.request();
+    const retrieveAccessTypesRequest = request.postDataJSON() as { organisationProfileIds: string[] };
+
+    routeState.retrieveAccessTypeRequests.push({
+      method: request.method(),
+      organisationProfileIds: retrieveAccessTypesRequest.organisationProfileIds
+    });
+
+    await fulfillJson(route, userAdminAccessTypesResponse);
+  });
+
   await page.route('**/api/inviteUser', async (route) => {
     if (await rejectUnexpectedMethod(route, 'POST')) {
       return;
@@ -156,6 +264,25 @@ export const setupUserAdminRoutes = async (page: Page): Promise<UserAdminRouteSt
     });
 
     await fulfillJson(route, { idamId: 'invited-user-id' });
+  });
+
+  await page.route('**/api/ogd-flow/invite', async (route) => {
+    if (await rejectUnexpectedMethod(route, 'POST')) {
+      return;
+    }
+
+    const request = route.request();
+
+    routeState.ogdInviteUserRequests.push({
+      ...(request.postDataJSON() as Omit<CapturedOgdInviteUserRequest, 'method'>),
+      method: request.method()
+    });
+
+    await fulfillJson(
+      route,
+      options.ogdInviteResponse ?? { userIdentifier: 'invited-user-id' },
+      options.ogdInviteStatus ?? 200
+    );
   });
 
   await page.route('**/api/editUserPermissions/users/**', async (route) => {
@@ -173,6 +300,26 @@ export const setupUserAdminRoutes = async (page: Page): Promise<UserAdminRouteSt
     });
 
     await fulfillJson(route, editUserPermissionsSuccessResponse);
+  });
+
+  await page.route('**/api/ogd-flow/update/**', async (route) => {
+    if (await rejectUnexpectedMethod(route, 'PUT')) {
+      return;
+    }
+
+    const request = route.request();
+
+    routeState.ogdEditUserPermissionRequests.push({
+      ...(request.postDataJSON() as Omit<CapturedOgdEditUserPermissionsRequest, 'method' | 'userId'>),
+      method: request.method(),
+      userId: pathSegmentAfter(request.url(), 'update')
+    });
+
+    await fulfillJson(
+      route,
+      options.ogdUpdateResponse ?? editUserPermissionsSuccessResponse,
+      options.ogdUpdateStatus ?? 200
+    );
   });
 
   await page.route('**/api/user/*/suspend', async (route) => {

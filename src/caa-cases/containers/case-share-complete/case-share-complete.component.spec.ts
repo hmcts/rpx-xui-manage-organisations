@@ -7,10 +7,11 @@ import { Store } from '@ngrx/store';
 import { buildMockStoreProviders } from '../../../register-org/testing/mock-store-state';
 import { of } from 'rxjs';
 import { CaaCasesPageType } from '../../models/caa-cases.enum';
+import { ResetAssignedCaseSelection, ResetUnassignedCaseSelection } from '../../store';
 import { CaaCasesState } from '../../store/reducers';
 import { CaseShareCompleteComponent } from './case-share-complete.component';
 
-describe('CaseShareCompleteComponent', () => {
+describe('CaaCaseShareCompleteComponent', () => {
   let component: CaseShareCompleteComponent;
   let fixture: ComponentFixture<CaseShareCompleteComponent>;
 
@@ -139,10 +140,19 @@ describe('CaseShareCompleteComponent', () => {
     expect(component.showUserAccessBlock(case3)).toBeTruthy();
   });
 
-  xit('should tidy up shared case if complete', () => {
+  it('should reset assigned case selection when complete screen is destroyed', () => {
+    spyOn(store, 'dispatch');
     component.completeScreenMode = 'COMPLETE';
     component.ngOnDestroy();
-    expect(component.shareCases.length).toEqual(0);
+    expect(store.dispatch).toHaveBeenCalledWith(new ResetAssignedCaseSelection());
+  });
+
+  it('should reset unassigned case selection when complete screen is destroyed', () => {
+    spyOn(store, 'dispatch');
+    component.pageType = CaaCasesPageType.UnassignedCases;
+    component.completeScreenMode = 'COMPLETE';
+    component.ngOnDestroy();
+    expect(store.dispatch).toHaveBeenCalledWith(new ResetUnassignedCaseSelection());
   });
 
   it('should see add user info only from case if remove user feature is toggled off', () => {

@@ -1,11 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { finalize, shareReplay } from 'rxjs/operators';
 import { AppConstants } from '../../app/app.constants';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
 
 @Injectable()
 export class AuthService {
+  private isAuthenticatedRequest$: Observable<boolean>;
+
   constructor(
     private readonly httpService: HttpClient,
     private readonly sessionStorageService: SessionStorageService
@@ -17,7 +20,16 @@ export class AuthService {
   }
 
   public isAuthenticated(): Observable<boolean> {
-    return this.httpService.get<boolean>('/auth/isAuthenticated');
+    if (!this.isAuthenticatedRequest$) {
+      this.isAuthenticatedRequest$ = this.httpService.get<boolean>('/auth/isAuthenticated').pipe(
+        shareReplay({ bufferSize: 1, refCount: false }),
+        finalize(() => {
+          this.isAuthenticatedRequest$ = null;
+        })
+      );
+    }
+
+    return this.isAuthenticatedRequest$;
   }
 
   public signOut() {

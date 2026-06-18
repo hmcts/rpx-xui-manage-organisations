@@ -7,6 +7,14 @@ export type ManageOrgUser = {
   userIdentifier?: string;
 };
 
+export type CaseShareUser = {
+  caseRoles?: string[];
+  email?: string;
+  firstName?: string;
+  idamId?: string;
+  lastName?: string;
+};
+
 export type DxAddress = {
   dxExchange?: string;
   dxNumber?: string;
@@ -28,6 +36,15 @@ export type OrganisationDetailsResponse = {
   sraId?: string;
   sraRegulated?: boolean;
   status?: string;
+};
+
+export type FeeAccount = {
+  account_name?: string | null;
+  account_number?: string;
+  available_balance?: number;
+  credit_limit?: number | null;
+  effective_date?: string;
+  status?: string | null;
 };
 
 export type MutatingApiResult = {

@@ -10,9 +10,6 @@ import prdRouter from './register-org';
 import registerOrgRouter from './registerOrganisation';
 import addressRouter from './addresses';
 
-// TODO: Not sure if this is needed
-// process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
-
 const router = Router({ mergeParams: true });
 
 // So these routes may need the S2S token

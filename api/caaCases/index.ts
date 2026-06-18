@@ -17,7 +17,7 @@ export async function handleCaaCases(req: EnhancedRequest, res: Response, next: 
   const fromNo: number = page * size;
 
   let caaCasesFilterValue: string | string[] = req.query.caaCasesFilterValue as string;
-
+  const caseFilterType = req.query.caaCasesFilterType as string;
   try {
     if (caaCasesFilterType === CaaCasesFilterType.AssigneeName) {
       const roleAssignments = await handleRoleAssignments(req, next);
@@ -36,11 +36,11 @@ export async function handleCaaCases(req: EnhancedRequest, res: Response, next: 
       res.status(errReport.apiStatusCode).send(errReport);
     }
 
-    const payload = getRequestBody(orgId, fromNo, size, caaCasesPageType, caaCasesFilterValue);
+    const payload = getRequestBody(orgId, fromNo, size, caaCasesPageType, caseFilterType, caaCasesFilterValue);
 
     const response = await req.http.post(path, payload);
     if (!objectContainsOnlySafeCharacters(response.data)) {
-      return res.send('Invalid caa case data').status(400);
+      return res.status(400).send('Invalid caa case data');
     }
     const caaCases = mapCcdCases(caseTypeId, response.data);
     res.send(caaCases);

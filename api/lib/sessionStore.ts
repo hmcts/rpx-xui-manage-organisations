@@ -23,13 +23,14 @@ let store: session.Store = null;
 export const getRedisStore = (): connectRedis.RedisStore => {
   logger.info('using RedisStore');
 
-  const tlsOptions = {
-    prefix: getConfigValue(REDIS_KEY_PREFIX)
+  const redisOptions: redis.ClientOpts = {
+    prefix: getConfigValue<string>(REDIS_KEY_PREFIX)
   };
+  const redisCloudUrl = getConfigValue<string>(REDISCLOUD_URL);
 
   app.locals.redisClient = redis.createClient(
-    getConfigValue(REDISCLOUD_URL),
-    tlsOptions
+    redisCloudUrl,
+    redisOptions
   );
 
   app.locals.redisClient.on('ready', () => {

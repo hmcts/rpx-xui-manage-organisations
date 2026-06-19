@@ -23,7 +23,7 @@ properties([
     ])
 ])
 
-@Library("Infrastructure@2.0.0")
+@Library("Infrastructure@DTSPO-30107-jenkins-agents")
 
 //To enable PACT testing on pipeline uncomment the next line
 import uk.gov.hmcts.contino.AppPipelineDsl

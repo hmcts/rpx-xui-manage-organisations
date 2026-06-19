@@ -8,10 +8,6 @@ const path = require('node:path');
 const defaultFunctionalOutputRoot = 'functional-output/tests/playwright-accessibility';
 const defaultTestOutputRoot = 'test-results/playwright-accessibility';
 const accessibilityGrep = '(?:@a11y|@wave-a11y)';
-const ownedOutputRoots = [
-  path.resolve(defaultFunctionalOutputRoot),
-  path.resolve(defaultTestOutputRoot)
-];
 
 const normalizePassthroughArgs = (argv) => argv.filter((arg) => arg !== '--');
 
@@ -37,7 +33,11 @@ const isWithin = (root, candidate) => {
   return relative === '' || (!relative.startsWith('..') && !path.isAbsolute(relative));
 };
 
-const resolveSafeOutputRoot = (configuredPath, label) => {
+const resolveSafeOutputRoot = (
+  configuredPath,
+  label,
+  allowedRoots = [defaultFunctionalOutputRoot, defaultTestOutputRoot]
+) => {
   if (!configuredPath || configuredPath.trim() === '') {
     throw new Error(`${label} must not be empty.`);
   }
@@ -48,9 +48,10 @@ const resolveSafeOutputRoot = (configuredPath, label) => {
     throw new Error(`${label} resolves to ${resolved}; refusing to recursively delete that path.`);
   }
 
+  const ownedOutputRoots = allowedRoots.map((root) => path.resolve(root));
   if (!ownedOutputRoots.some((ownedRoot) => isWithin(ownedRoot, resolved))) {
     throw new Error(
-      `${label} must stay under ${defaultFunctionalOutputRoot} or ${defaultTestOutputRoot}; received ${configuredPath}.`
+      `${label} must stay under ${allowedRoots.join(' or ')}; received ${configuredPath}.`
     );
   }
 
@@ -59,31 +60,41 @@ const resolveSafeOutputRoot = (configuredPath, label) => {
 
 const isStrictMode = (env = process.env) => `${env.A11Y_STRICT || ''}`.toLowerCase() === 'true';
 
-const buildRunPlan = (argv = process.argv.slice(2), env = process.env) => {
+const shouldKeepNonBlocking = (run, env = process.env) => Boolean(run.reportOnly && !isStrictMode(env));
+
+const buildRunPlan = (argv = process.argv.slice(2), env = process.env, options = {}) => {
+  const functionalRoot = options.functionalOutputRoot || defaultFunctionalOutputRoot;
+  const testRoot = options.testOutputRoot || defaultTestOutputRoot;
+  const allowedRoots = [functionalRoot, testRoot];
   const passthroughArgs = normalizePassthroughArgs(argv);
   assertNoGrepOverrides(passthroughArgs);
 
   const functionalOutputRoot = resolveSafeOutputRoot(
-    env.PLAYWRIGHT_ACCESSIBILITY_OUTPUT_ROOT || defaultFunctionalOutputRoot,
-    'PLAYWRIGHT_ACCESSIBILITY_OUTPUT_ROOT'
+    env[options.functionalOutputEnv || 'PLAYWRIGHT_ACCESSIBILITY_OUTPUT_ROOT'] || functionalRoot,
+    options.functionalOutputEnv || 'PLAYWRIGHT_ACCESSIBILITY_OUTPUT_ROOT',
+    allowedRoots
   );
   const testOutputRoot = resolveSafeOutputRoot(
-    env.PLAYWRIGHT_TEST_OUTPUT_DIR || defaultTestOutputRoot,
-    'PLAYWRIGHT_TEST_OUTPUT_DIR'
+    env.PLAYWRIGHT_TEST_OUTPUT_DIR || testRoot,
+    'PLAYWRIGHT_TEST_OUTPUT_DIR',
+    allowedRoots
   );
+  const grep = options.grep || accessibilityGrep;
 
   const e2eEnv = {
     PLAYWRIGHT_TEST_OUTPUT_DIR: testOutputRoot,
     PLAYWRIGHT_HTML_OUTPUT: env.PLAYWRIGHT_HTML_OUTPUT || `${functionalOutputRoot}/html-report`,
     PLAYWRIGHT_JUNIT_OUTPUT:
-      env.PLAYWRIGHT_JUNIT_OUTPUT || `${functionalOutputRoot}/playwright-accessibility-junit.xml`,
+      env.PLAYWRIGHT_JUNIT_OUTPUT || `${functionalOutputRoot}/${options.junitFile || 'playwright-accessibility-junit.xml'}`,
     PLAYWRIGHT_REPORT_FOLDER: env.PLAYWRIGHT_REPORT_FOLDER || `${functionalOutputRoot}/odhin-report`,
     PLAYWRIGHT_REPORT_INDEX_FILENAME:
-      env.PLAYWRIGHT_REPORT_INDEX_FILENAME || 'xui-playwright-accessibility.html',
-    PLAYWRIGHT_REPORT_PROJECT: env.PLAYWRIGHT_REPORT_PROJECT || 'RPX XUI Manage Organisations - Accessibility',
+      env.PLAYWRIGHT_REPORT_INDEX_FILENAME || options.reportIndex || 'xui-playwright-accessibility.html',
+    PLAYWRIGHT_REPORT_PROJECT:
+      env.PLAYWRIGHT_REPORT_PROJECT || options.reportProject || 'RPX XUI Manage Organisations - Accessibility',
     PLAYWRIGHT_REPORT_TITLE:
-      env.PLAYWRIGHT_REPORT_TITLE || 'RPX XUI Manage Organisations Playwright Accessibility',
-    PLAYWRIGHT_DISABLE_GENERIC_FAILURE_ARTIFACTS: 'true'
+      env.PLAYWRIGHT_REPORT_TITLE || options.reportTitle || 'RPX XUI Manage Organisations Playwright Accessibility',
+    PLAYWRIGHT_DISABLE_GENERIC_FAILURE_ARTIFACTS: 'true',
+    ...(options.envOverrides || {})
   };
 
   return {
@@ -91,21 +102,23 @@ const buildRunPlan = (argv = process.argv.slice(2), env = process.env) => {
     passthroughArgs,
     runs: [
       {
-        args: ['test:playwrightE2E:list', '--grep', accessibilityGrep, ...passthroughArgs],
+        args: ['test:playwrightE2E:list', '--grep', grep, ...passthroughArgs],
         env: e2eEnv,
-        label: 'E2E accessibility discovery'
+        label: options.discoveryLabel || 'E2E accessibility discovery',
+        reportOnly: false
       },
       {
         args: [
           'test:playwrightE2E:raw',
           '--',
           '--grep',
-          accessibilityGrep,
+          grep,
           ...passthroughArgs,
           '--retries=0'
         ],
         env: e2eEnv,
-        label: 'E2E accessibility execution'
+        label: options.executionLabel || 'E2E accessibility execution',
+        reportOnly: options.reportOnlyExecution !== false
       }
     ],
     testOutputRoot
@@ -119,11 +132,11 @@ const runYarn = (label, args, envOverrides, env = process.env, spawn = spawnSync
     env: {
       ...env,
       FUNCTIONAL_TESTS_WORKERS: env.PW_ACCESSIBILITY_WORKERS || env.FUNCTIONAL_TESTS_WORKERS || '6',
-      ...envOverrides,
       PLAYWRIGHT_INCLUDE_A11Y: 'true',
       PLAYWRIGHT_INCLUDE_WAVE_A11Y: 'true',
       PLAYWRIGHT_EXCLUDE_TAGS: '',
       PLAYWRIGHT_TAGS: '',
+      ...envOverrides,
       PW_ODHIN_FORCE_EXIT_ON_COMPLETION: env.PW_ODHIN_FORCE_EXIT_ON_COMPLETION || 'true'
     },
     shell: process.platform === 'win32',
@@ -142,10 +155,10 @@ const runYarn = (label, args, envOverrides, env = process.env, spawn = spawnSync
   return result.status ?? 1;
 };
 
-const main = (argv = process.argv.slice(2), env = process.env) => {
+const runAccessibilityPack = (argv = process.argv.slice(2), env = process.env, options = {}) => {
   let plan;
   try {
-    plan = buildRunPlan(argv, env);
+    plan = buildRunPlan(argv, env, options);
   } catch (error) {
     console.error(`[playwright-accessibility] ${error.message}`);
     return 1;
@@ -157,7 +170,7 @@ const main = (argv = process.argv.slice(2), env = process.env) => {
   for (const run of plan.runs) {
     const status = runYarn(run.label, run.args, run.env, env);
     if (status !== 0) {
-      if (!isStrictMode(env)) {
+      if (shouldKeepNonBlocking(run, env)) {
         console.warn(
           `[playwright-accessibility] ${run.label} returned ${status}; report-only mode keeps this non-blocking. Set A11Y_STRICT=true to fail.`
         );
@@ -170,6 +183,8 @@ const main = (argv = process.argv.slice(2), env = process.env) => {
   return 0;
 };
 
+const main = (argv = process.argv.slice(2), env = process.env) => runAccessibilityPack(argv, env);
+
 if (require.main === module) {
   process.exit(main());
 }
@@ -178,7 +193,10 @@ module.exports = {
   assertNoGrepOverrides,
   buildRunPlan,
   isStrictMode,
+  main,
   normalizePassthroughArgs,
   resolveSafeOutputRoot,
-  runYarn
+  runAccessibilityPack,
+  runYarn,
+  shouldKeepNonBlocking
 };

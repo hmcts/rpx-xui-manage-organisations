@@ -311,7 +311,10 @@ for (const expectedContract of [
   }
 }
 
-const waveA11yRunnerSource = readFileSync(join(root, 'scripts/run-playwright-wave-a11y.js'), 'utf-8');
+const waveA11yRunnerSource = [
+  readFileSync(join(root, 'scripts/run-playwright-wave-a11y.js'), 'utf-8'),
+  readFileSync(join(root, 'scripts/run-playwright-accessibility.js'), 'utf-8')
+].join('\n');
 for (const expectedContract of [
   'assertNoGrepOverrides',
   'resolveSafeOutputRoot',

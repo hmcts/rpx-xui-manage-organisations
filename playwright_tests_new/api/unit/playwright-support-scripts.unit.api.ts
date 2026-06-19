@@ -7,10 +7,14 @@ let a11yRunner: {
     env: Record<string, string | undefined>
   ) => {
     functionalOutputRoot: string;
-    runs: Array<{ args: string[]; env: Record<string, string | undefined>; label: string }>;
+    runs: Array<{ args: string[]; env: Record<string, string | undefined>; label: string; reportOnly?: boolean }>;
     testOutputRoot: string;
   };
   resolveSafeOutputRoot: (configuredPath: string, label: string) => string;
+  shouldKeepNonBlocking?: (
+    run: { reportOnly?: boolean },
+    env: Record<string, string | undefined>
+  ) => boolean;
   runYarn: (
     label: string,
     args: string[],
@@ -118,27 +122,15 @@ test.describe('Manage Org Playwright support scripts', { tag: '@svc-internal' },
   });
 
   test('forces WAVE-like tag env when spawning WAVE-like runs', () => {
-    let capturedEnv: Record<string, string | undefined> = {};
+    const plan = waveA11yRunner.buildRunPlan([], {
+      PLAYWRIGHT_EXCLUDE_TAGS: '@wave-a11y',
+      PLAYWRIGHT_TAGS: '@e2e'
+    });
 
-    const status = waveA11yRunner.runYarn(
-      'dry run',
-      ['--version'],
-      {},
-      {
-        PLAYWRIGHT_EXCLUDE_TAGS: '@wave-a11y',
-        PLAYWRIGHT_TAGS: '@e2e'
-      },
-      (_command, _args, options) => {
-        capturedEnv = options.env;
-        return { status: 0 };
-      }
-    );
-
-    expect(status).toBe(0);
-    expect(capturedEnv.PLAYWRIGHT_EXCLUDE_TAGS).toBe('');
-    expect(capturedEnv.PLAYWRIGHT_INCLUDE_WAVE_A11Y).toBe('true');
-    expect(capturedEnv.PLAYWRIGHT_TAGS).toBe('@wave-a11y');
-    expect(capturedEnv.PW_ODHIN_FORCE_EXIT_ON_COMPLETION).toBe('true');
+    expect(plan.runs[0].env.PLAYWRIGHT_EXCLUDE_TAGS).toBe('');
+    expect(plan.runs[0].env.PLAYWRIGHT_INCLUDE_A11Y).toBe('');
+    expect(plan.runs[0].env.PLAYWRIGHT_INCLUDE_WAVE_A11Y).toBe('true');
+    expect(plan.runs[0].env.PLAYWRIGHT_TAGS).toBe('@wave-a11y');
   });
 
   test('rejects caller grep overrides that would widen WAVE-like execution', () => {
@@ -221,6 +213,14 @@ test.describe('Manage Org Playwright support scripts', { tag: '@svc-internal' },
     expect(accessibilityRunner.isStrictMode({})).toBe(false);
     expect(accessibilityRunner.isStrictMode({ A11Y_STRICT: 'false' })).toBe(false);
     expect(accessibilityRunner.isStrictMode({ A11Y_STRICT: 'true' })).toBe(true);
+  });
+
+  test('does not mask unified accessibility discovery failures as report-only', () => {
+    const plan = accessibilityRunner.buildRunPlan([], {});
+
+    expect(accessibilityRunner.shouldKeepNonBlocking?.(plan.runs[0], {})).toBe(false);
+    expect(accessibilityRunner.shouldKeepNonBlocking?.(plan.runs[1], {})).toBe(true);
+    expect(accessibilityRunner.shouldKeepNonBlocking?.(plan.runs[1], { A11Y_STRICT: 'true' })).toBe(false);
   });
 
   test('rejects caller grep overrides that would widen unified accessibility execution', () => {

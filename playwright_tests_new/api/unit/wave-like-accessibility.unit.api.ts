@@ -1,7 +1,13 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page, type TestInfo } from '@playwright/test';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
 
 import e2eConfig from '../../../playwright.e2e.config';
-import { WAVE_LIKE_A11Y_TAG } from '../../E2E/utils/accessibility/waveLikeAccessibility';
+import {
+  attachWaveLikeAccessibilityEvidence,
+  WAVE_LIKE_A11Y_TAG
+} from '../../E2E/utils/accessibility/waveLikeAccessibility';
 
 const { includesWaveLikeA11y } = (e2eConfig as {
   __test__: {
@@ -21,5 +27,45 @@ test.describe('WAVE-like accessibility tag contract', { tag: '@svc-internal' }, 
   test('allows parameterized WAVE-like accessibility runs by tag or switch', () => {
     expect(includesWaveLikeA11y({ PLAYWRIGHT_TAGS: '@wave-a11y' })).toBe(true);
     expect(includesWaveLikeA11y({ PLAYWRIGHT_INCLUDE_WAVE_A11Y: 'true' })).toBe(true);
+  });
+
+  test('captures compact WAVE-like evidence when no issues are found', async () => {
+    const previousEvidenceDir = process.env.PW_A11Y_EVIDENCE_DIR;
+    const evidenceDir = fs.mkdtempSync(path.join(os.tmpdir(), 'manage-org-wave-evidence-'));
+    const attachments: string[] = [];
+
+    try {
+      process.env.PW_A11Y_EVIDENCE_DIR = evidenceDir;
+      await attachWaveLikeAccessibilityEvidence(
+        {
+          screenshot: async () => Buffer.from('screenshot'),
+          url: () => 'https://manage-org.example.test/no-issues'
+        } as unknown as Page,
+        {
+          attach: async (name: string) => {
+            attachments.push(name);
+          },
+          title: 'no issue state'
+        } as unknown as TestInfo,
+        []
+      );
+
+      expect(attachments).toEqual([
+        'wave-accessibility-issues.json',
+        'wave-accessibility-issues.html',
+        'wave-accessibility-issues-highlighted-screenshot.png'
+      ]);
+      expect(fs.readdirSync(evidenceDir)).toContain('manifest-entry-no-issue-state-wave-accessibility-issues.json');
+      expect(fs.readFileSync(path.join(evidenceDir, 'no-issue-state-wave-accessibility-issues.html'), 'utf8')).toContain(
+        'NO WAVE-LIKE ACCESSIBILITY ISSUES FOUND'
+      );
+    } finally {
+      if (previousEvidenceDir === undefined) {
+        delete process.env.PW_A11Y_EVIDENCE_DIR;
+      } else {
+        process.env.PW_A11Y_EVIDENCE_DIR = previousEvidenceDir;
+      }
+      fs.rmSync(evidenceDir, { recursive: true, force: true });
+    }
   });
 });

@@ -84,7 +84,7 @@ const requiredPipelineJunitContracts = [
       },
       {
         label: 'unified accessibility JUnit publication',
-        pattern: /publishPlaywrightJUnit\(['"]functional-output\/tests\/playwright-accessibility\/\*\*\/\*junit\.xml['"]\)/
+        pattern: /publishPlaywrightJUnit\((['"]functional-output\/tests\/playwright-accessibility\/\*\*\/\*junit\.xml['"]|["']?\$\{playwrightAccessibilityOutputRoot\}\/\*\*\/\*junit\.xml["']?)\)/
       },
       {
         label: 'E2E JUnit publication',
@@ -109,7 +109,7 @@ const requiredPipelineJunitContracts = [
       },
       {
         label: 'unified accessibility JUnit publication',
-        pattern: /publishPlaywrightJUnit\(['"]functional-output\/tests\/playwright-accessibility\/\*\*\/\*junit\.xml['"]\)/
+        pattern: /publishPlaywrightJUnit\((['"]functional-output\/tests\/playwright-accessibility\/\*\*\/\*junit\.xml['"]|["']?\$\{playwrightAccessibilityOutputRoot\}\/\*\*\/\*junit\.xml["']?)\)/
       },
       {
         label: 'E2E JUnit publication',
@@ -126,7 +126,10 @@ const requiredPipelineJunitContracts = [
       },
       { label: 'API artifact root', pattern: /functional-output\/tests\/playwright-api\/\*\*/ },
       { label: 'integration artifact root', pattern: /functional-output\/tests\/playwright-integration\/\*\*/ },
-      { label: 'unified accessibility artifact root', pattern: /functional-output\/tests\/playwright-accessibility\/\*\*/ },
+      {
+        label: 'unified accessibility artifact root',
+        pattern: /functional-output\/tests\/playwright-accessibility\/\*\*|\$\{playwrightAccessibilityOutputRoot\}\/\*\*/
+      },
       { label: 'E2E artifact root', pattern: /functional-output\/tests\/playwright-e2e\/\*\*/ },
       {
         label: 'smoke JUnit publication',
@@ -349,7 +352,7 @@ for (const expectedContract of [
 
 const parameterizedPipelineSource = readFileSync(join(root, parameterizedPipelineFile), 'utf-8');
 for (const expectedEvidencePath of [
-  'functional-output/tests/playwright-accessibility/odhin-report',
+  'playwrightAccessibilityOutputRoot',
   'xui-playwright-accessibility.html',
   'stagePlaywrightArtifacts',
   "sh 'yarn test:coverage:node'",

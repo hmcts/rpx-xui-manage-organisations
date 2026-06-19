@@ -51,6 +51,7 @@ const LANES = [
       artifact('Odhin report', ['playwright-accessibility/odhin-report/xui-playwright-accessibility.html'], true),
       artifact('Playwright HTML', ['playwright-accessibility/html-report/index.html'], false),
       artifact('JUnit XML', ['playwright-accessibility/playwright-accessibility-junit.xml'], true),
+      artifact('WAVE-like evidence', ['playwright-accessibility/odhin-report/accessibility-evidence/index.html'], false),
       artifact('Stable failure artifacts', ['playwright-accessibility/stable-artifacts'], false),
     ],
   },
@@ -115,11 +116,92 @@ function buildPlaywrightEvidenceDashboard(options = {}) {
     resolvedOptions.outputDir = path.join(resolvedOptions.rootDir, 'manage-org-evidence');
   }
 
+  buildWaveLikeEvidenceIndex(path.resolve(resolvedOptions.rootDir || DEFAULT_ROOT_DIR));
   const model = buildEvidenceModel(resolvedOptions);
   fs.mkdirSync(resolvedOptions.outputDir, { recursive: true });
   const dashboardPath = path.join(resolvedOptions.outputDir, 'index.html');
   fs.writeFileSync(dashboardPath, buildDashboardHtml(model), 'utf8');
   return { dashboardPath, model };
+}
+
+function buildWaveLikeEvidenceIndex(rootDir) {
+  const evidenceDir = path.join(rootDir, 'playwright-accessibility/odhin-report/accessibility-evidence');
+  if (!fs.existsSync(evidenceDir)) {
+    return '';
+  }
+
+  const entries = fs
+    .readdirSync(evidenceDir)
+    .filter((fileName) => fileName.startsWith('manifest-entry-') && fileName.endsWith('.json'))
+    .map((fileName) => readWaveEvidenceEntry(path.join(evidenceDir, fileName)))
+    .filter(Boolean)
+    .sort((a, b) => a.testTitle.localeCompare(b.testTitle) || a.attachmentPrefix.localeCompare(b.attachmentPrefix));
+
+  if (entries.length === 0) {
+    return '';
+  }
+
+  const rows = entries
+    .map(
+      (entry) => `
+        <li>
+          <a class="issue-link" href="./${escapeHtml(entry.htmlFileName)}">${escapeHtml(entry.testTitle)}</a>
+          <p>${entry.violationCount} WAVE-like rule issue(s): ${escapeHtml(entry.rules.join(', ') || 'none')}</p>
+          <a href="./${escapeHtml(entry.screenshotFileName)}">screenshot</a>
+          |
+          <a href="./${escapeHtml(entry.jsonFileName)}">DOM and WAVE-like JSON</a>
+        </li>`
+    )
+    .join('\n');
+
+  const indexPath = path.join(evidenceDir, 'index.html');
+  fs.writeFileSync(
+    indexPath,
+    `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>WAVE-like Accessibility Evidence</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; color: #0b0c0c; }
+      .banner { background: #1d70b8; color: #fff; padding: 16px; margin-bottom: 24px; }
+      .issue-link { font-weight: bold; font-size: 18px; }
+      li { margin-bottom: 16px; }
+    </style>
+  </head>
+  <body>
+    <div class="banner">
+      <h1>WAVE-like Accessibility Evidence</h1>
+      <p>Open each item for rule, DOM selector, page screenshot, and JSON evidence.</p>
+    </div>
+    <ol>${rows}</ol>
+  </body>
+</html>
+`,
+    'utf8'
+  );
+  return indexPath;
+}
+
+function readWaveEvidenceEntry(filePath) {
+  try {
+    const entry = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    if (
+      entry &&
+      typeof entry.testTitle === 'string' &&
+      typeof entry.attachmentPrefix === 'string' &&
+      typeof entry.htmlFileName === 'string' &&
+      typeof entry.jsonFileName === 'string' &&
+      typeof entry.screenshotFileName === 'string' &&
+      typeof entry.violationCount === 'number' &&
+      Array.isArray(entry.rules)
+    ) {
+      return entry;
+    }
+  } catch {
+    return null;
+  }
+  return null;
 }
 
 function buildEvidenceModel(options) {
@@ -362,5 +444,6 @@ module.exports = {
   buildDashboardHtml,
   buildEvidenceModel,
   buildPlaywrightEvidenceDashboard,
+  buildWaveLikeEvidenceIndex,
   parseArgs,
 };

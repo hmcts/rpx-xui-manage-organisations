@@ -87,6 +87,7 @@ export const createArchitectureGuardFixture = (): string => {
   fs.writeFileSync(
     path.join(rootDir, 'Jenkinsfile_parameterized'),
     [
+      'def playwrightAccessibilityOutputRoot = \'functional-output/tests/playwright-accessibility\'',
       'junit(allowEmptyResults: false, testResults: artifacts.replace(\'**\', \'**/*junit.xml\'))',
       'stagePlaywrightArtifacts(\'functional-output/tests/playwright-api/stable-artifacts\', \'test-results/playwright-api\')',
       'publishPlaywrightReport(\'functional-output/tests/playwright-api/odhin-report\', \'xui-mo-playwright-api.html\', \'API\', \'functional-output/tests/playwright-api/**\')',

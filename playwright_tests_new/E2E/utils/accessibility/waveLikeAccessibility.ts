@@ -22,7 +22,6 @@ type PublishedEvidenceEntry = {
   targets: string[];
 };
 
-const EVIDENCE_MANIFEST_FILE = 'manifest.json';
 const EVIDENCE_ENTRY_PREFIX = 'manifest-entry-';
 
 export async function collectWaveLikeAccessibilityViolations(page: Page): Promise<WaveLikeViolation[]> {
@@ -204,7 +203,7 @@ export async function attachWaveLikeAccessibilityEvidence(
   violations: WaveLikeViolation[],
   attachmentPrefix = 'wave-accessibility-issues'
 ): Promise<void> {
-  if (!testInfo || violations.length === 0) {
+  if (!testInfo) {
     return;
   }
 
@@ -218,7 +217,7 @@ export async function attachWaveLikeAccessibilityEvidence(
     contentType: 'text/html'
   });
 
-  const cleanup = await markViolationsOnPage(page, violations);
+  const cleanup = violations.length > 0 ? await markViolationsOnPage(page, violations) : async () => {};
   let screenshot: Buffer;
   try {
     screenshot = await page.screenshot({ fullPage: true });
@@ -234,6 +233,7 @@ export async function attachWaveLikeAccessibilityEvidence(
 }
 
 function buildIssueSummaryHtml(url: string, violations: WaveLikeViolation[]): string {
+  const hasViolations = violations.length > 0;
   const cards = violations
     .map(
       (violation, index) => `
@@ -253,7 +253,7 @@ function buildIssueSummaryHtml(url: string, violations: WaveLikeViolation[]): st
         <title>WAVE-like Accessibility Issues</title>
         <style>
           body { font-family: Arial, sans-serif; margin: 24px; color: #0b0c0c; }
-          .banner { background: #d4351c; color: #fff; padding: 16px; margin-bottom: 24px; }
+          .banner { background: ${hasViolations ? '#d4351c' : '#00703c'}; color: #fff; padding: 16px; margin-bottom: 24px; }
           .issue { border: 4px solid #d4351c; padding: 16px; margin-bottom: 18px; }
           .issue h2 { margin-top: 0; }
           code, pre { background: #f3f2f1; padding: 4px; white-space: pre-wrap; }
@@ -261,8 +261,8 @@ function buildIssueSummaryHtml(url: string, violations: WaveLikeViolation[]): st
       </head>
       <body>
         <div class="banner">
-          <h1>WAVE-LIKE ACCESSIBILITY ISSUES FOUND</h1>
-          <p>${violations.length} issue(s) on ${escapeHtml(url)}. Match marker numbers here to the highlighted screenshot.</p>
+          <h1>${hasViolations ? 'WAVE-LIKE ACCESSIBILITY ISSUES FOUND' : 'NO WAVE-LIKE ACCESSIBILITY ISSUES FOUND'}</h1>
+          <p>${violations.length} issue(s) on ${escapeHtml(url)}.${hasViolations ? ' Match marker numbers here to the highlighted screenshot.' : ' Screenshot captured for page-state evidence.'}</p>
         </div>
         ${cards}
       </body>
@@ -368,125 +368,10 @@ async function writePublishedEvidence(
   );
   await fs.writeFile(path.join(evidenceDir, screenshotFileName), screenshot);
   await writeEvidenceEntry(evidenceDir, baseName, entry);
-  await writeEvidenceManifest(evidenceDir, entry);
-  await writeEvidenceIndex(evidenceDir);
 }
 
 async function writeEvidenceEntry(evidenceDir: string, baseName: string, entry: PublishedEvidenceEntry): Promise<void> {
   await fs.writeFile(path.join(evidenceDir, `${EVIDENCE_ENTRY_PREFIX}${baseName}.json`), JSON.stringify(entry, null, 2));
-}
-
-async function writeEvidenceManifest(evidenceDir: string, entry: PublishedEvidenceEntry): Promise<void> {
-  const manifestPath = path.join(evidenceDir, EVIDENCE_MANIFEST_FILE);
-  const existingEntries = await readEvidenceManifest(evidenceDir);
-  const retainedEntries = existingEntries.filter(
-    (existingEntry) => existingEntry.testTitle !== entry.testTitle || existingEntry.attachmentPrefix !== entry.attachmentPrefix
-  );
-
-  await fs.writeFile(manifestPath, JSON.stringify([...retainedEntries, entry], null, 2));
-}
-
-async function readEvidenceManifest(evidenceDir: string): Promise<PublishedEvidenceEntry[]> {
-  const manifestPath = path.join(evidenceDir, EVIDENCE_MANIFEST_FILE);
-  const entriesByKey = new Map<string, PublishedEvidenceEntry>();
-
-  try {
-    const manifest = JSON.parse(await fs.readFile(manifestPath, 'utf8'));
-    if (Array.isArray(manifest)) {
-      for (const entry of manifest.filter(isPublishedEvidenceEntry)) {
-        entriesByKey.set(evidenceEntryKey(entry), entry);
-      }
-    }
-  } catch {
-    // Missing or partially written aggregate manifests are tolerated; per-test entry files are the source of truth.
-  }
-
-  try {
-    const fileNames = await fs.readdir(evidenceDir);
-    await Promise.all(
-      fileNames
-        .filter((fileName) => fileName.startsWith(EVIDENCE_ENTRY_PREFIX) && fileName.endsWith('.json'))
-        .map(async (fileName) => {
-          try {
-            const entry = JSON.parse(await fs.readFile(path.join(evidenceDir, fileName), 'utf8'));
-            if (isPublishedEvidenceEntry(entry)) {
-              entriesByKey.set(evidenceEntryKey(entry), entry);
-            }
-          } catch {
-            // Ignore a single corrupt entry so one failed write does not break the whole report.
-          }
-        })
-    );
-  } catch {
-    return Array.from(entriesByKey.values());
-  }
-
-  return Array.from(entriesByKey.values());
-}
-
-function evidenceEntryKey(entry: PublishedEvidenceEntry): string {
-  return `${entry.testTitle}\u0000${entry.attachmentPrefix}`;
-}
-
-function isPublishedEvidenceEntry(value: unknown): value is PublishedEvidenceEntry {
-  if (!value || typeof value !== 'object') {
-    return false;
-  }
-
-  const candidate = value as Partial<PublishedEvidenceEntry>;
-  return (
-    typeof candidate.testTitle === 'string' &&
-    typeof candidate.attachmentPrefix === 'string' &&
-    typeof candidate.htmlFileName === 'string' &&
-    typeof candidate.jsonFileName === 'string' &&
-    typeof candidate.screenshotFileName === 'string' &&
-    typeof candidate.violationCount === 'number' &&
-    Array.isArray(candidate.rules) &&
-    Array.isArray(candidate.targets)
-  );
-}
-
-async function writeEvidenceIndex(evidenceDir: string): Promise<void> {
-  const manifestEntries = await readEvidenceManifest(evidenceDir);
-  const rows = manifestEntries
-    .sort((a, b) => a.testTitle.localeCompare(b.testTitle) || a.attachmentPrefix.localeCompare(b.attachmentPrefix))
-    .map((entry) => {
-      return `
-        <li>
-          <a class="issue-link" href="./${escapeAttribute(entry.htmlFileName)}">${escapeHtml(entry.testTitle)}</a>
-          <p>${entry.violationCount} WAVE-like rule issue(s): ${escapeHtml(entry.rules.join(', '))}</p>
-          <br />
-          <a href="./${escapeAttribute(entry.screenshotFileName)}">highlighted screenshot</a>
-          |
-          <a href="./${escapeAttribute(entry.jsonFileName)}">DOM and WAVE-like JSON</a>
-        </li>
-      `;
-    })
-    .join('');
-
-  await fs.writeFile(
-    path.join(evidenceDir, 'index.html'),
-    `
-      <html>
-        <head>
-          <title>WAVE-like Accessibility Evidence</title>
-          <style>
-            body { font-family: Arial, sans-serif; margin: 24px; color: #0b0c0c; }
-            .banner { background: #d4351c; color: #fff; padding: 16px; margin-bottom: 24px; }
-            .issue-link { font-weight: bold; font-size: 18px; }
-            li { margin-bottom: 16px; }
-          </style>
-        </head>
-        <body>
-          <div class="banner">
-            <h1>WAVE-LIKE ACCESSIBILITY EVIDENCE</h1>
-            <p>Open each item for rule, DOM selector, failing HTML, and a red highlighted screenshot.</p>
-          </div>
-          <ol>${rows}</ol>
-        </body>
-      </html>
-    `
-  );
 }
 
 function escapeHtml(value: string): string {
@@ -496,10 +381,6 @@ function escapeHtml(value: string): string {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
-}
-
-function escapeAttribute(value: string): string {
-  return escapeHtml(value).replace(/`/g, '&#96;');
 }
 
 function sanitiseFileName(value: string): string {

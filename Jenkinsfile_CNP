@@ -13,17 +13,17 @@ properties([
         booleanParam(
             name: 'RUN_PLAYWRIGHT_ACCESSIBILITY',
             defaultValue: false,
-            description: 'Manual-only: run the non-blocking unified Playwright accessibility pack on this CNP build.'
+            description: 'Primary manual switch: run the unified axe and WAVE-like Playwright accessibility pack. Report-only unless A11Y_STRICT=true.'
         ),
         booleanParam(
             name: 'RUN_PLAYWRIGHT_A11Y',
             defaultValue: false,
-            description: 'Compatibility switch: runs the unified Playwright accessibility pack.'
+            description: 'Legacy axe alias for older jobs; runs the same unified accessibility pack as RUN_PLAYWRIGHT_ACCESSIBILITY.'
         ),
         booleanParam(
             name: 'RUN_PLAYWRIGHT_WAVE_A11Y',
             defaultValue: false,
-            description: 'Compatibility switch: runs the unified Playwright accessibility pack.'
+            description: 'Legacy WAVE-like alias for older jobs; runs the same unified accessibility pack as RUN_PLAYWRIGHT_ACCESSIBILITY.'
         )
     ])
 ])
@@ -38,6 +38,7 @@ def product   = "xui"
 def component = "mo-webapp"
 def channel   = '#xui-pipeline'
 def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
+def playwrightAccessibilityOutputRoot = 'functional-output/tests/playwright-accessibility'
 
 def playwrightBrowsersEnv = {
     ["PLAYWRIGHT_BROWSERS_PATH=${env.WORKSPACE}/.cache/ms-playwright"]
@@ -224,7 +225,7 @@ def publishPlaywrightIntegrationReport = { String reportName ->
 def publishPlaywrightAccessibilityReport = { String reportName ->
     try {
         ensureHtmlReportForPublishing(
-            "functional-output/tests/playwright-accessibility/odhin-report",
+            "${playwrightAccessibilityOutputRoot}/odhin-report",
             'xui-playwright-accessibility.html',
             reportName
         )
@@ -232,7 +233,7 @@ def publishPlaywrightAccessibilityReport = { String reportName ->
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "functional-output/tests/playwright-accessibility/odhin-report",
+            reportDir            : "${playwrightAccessibilityOutputRoot}/odhin-report",
             reportFiles          : 'xui-playwright-accessibility.html',
             reportName           : reportName
         ])
@@ -240,13 +241,13 @@ def publishPlaywrightAccessibilityReport = { String reportName ->
         echo "[playwright-accessibility] Report publish failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"
     }
     try {
-        stagePlaywrightArtifacts('functional-output/tests/playwright-accessibility/stable-artifacts', 'test-results/playwright-accessibility')
+        stagePlaywrightArtifacts("${playwrightAccessibilityOutputRoot}/stable-artifacts", 'test-results/playwright-accessibility')
         catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
-            publishPlaywrightJUnit('functional-output/tests/playwright-accessibility/**/*junit.xml')
+            publishPlaywrightJUnit("${playwrightAccessibilityOutputRoot}/**/*junit.xml")
         }
         steps.archiveArtifacts(
             allowEmptyArchive: true,
-            artifacts: 'functional-output/tests/playwright-accessibility/**'
+            artifacts: "${playwrightAccessibilityOutputRoot}/**"
         )
     } catch (Exception e) {
         echo "[playwright-accessibility] Evidence publish failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"
@@ -331,7 +332,7 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                             withEnv(playwrightBrowsersEnv() + [
                                 "FUNCTIONAL_TESTS_WORKERS=6",
                                 "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-accessibility",
-                                "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-accessibility/playwright-accessibility-junit.xml",
+                                "PLAYWRIGHT_JUNIT_OUTPUT=${playwrightAccessibilityOutputRoot}/playwright-accessibility-junit.xml",
                                 "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
                                 "PLAYWRIGHT_SKIP_INSTALL=true"
                             ]) {

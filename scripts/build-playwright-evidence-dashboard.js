@@ -44,25 +44,14 @@ const LANES = [
     ],
   },
   {
-    id: 'a11y',
+    id: 'accessibility',
     name: 'Accessibility',
-    purpose: 'Dedicated axe accessibility scans for deployed E2E routes.',
+    purpose: 'Unified axe and WAVE-like accessibility evidence for deployed routes and validation states.',
     artifacts: [
-      artifact('Odhin report', ['playwright-a11y/odhin-report/xui-playwright-a11y.html'], true),
-      artifact('Playwright HTML', ['playwright-a11y/html-report/index.html'], false),
-      artifact('JUnit XML', ['playwright-a11y/playwright-a11y-junit.xml'], true),
-      artifact('Stable failure artifacts', ['playwright-a11y/stable-artifacts'], false),
-    ],
-  },
-  {
-    id: 'wave-a11y',
-    name: 'WAVE-like accessibility',
-    purpose: 'Dedicated WAVE-like structural accessibility checks for deployed routes and validation states.',
-    artifacts: [
-      artifact('Odhin report', ['playwright-wave-a11y/odhin-report/xui-playwright-wave-a11y.html'], true),
-      artifact('Playwright HTML', ['playwright-wave-a11y/html-report/index.html'], false),
-      artifact('JUnit XML', ['playwright-wave-a11y/playwright-wave-a11y-junit.xml'], true),
-      artifact('Stable failure artifacts', ['playwright-wave-a11y/stable-artifacts'], false),
+      artifact('Odhin report', ['playwright-accessibility/odhin-report/xui-playwright-accessibility.html'], true),
+      artifact('Playwright HTML', ['playwright-accessibility/html-report/index.html'], false),
+      artifact('JUnit XML', ['playwright-accessibility/playwright-accessibility-junit.xml'], true),
+      artifact('Stable failure artifacts', ['playwright-accessibility/stable-artifacts'], false),
     ],
   },
   {
@@ -251,8 +240,7 @@ function buildPackageSummary(packageJsonPath) {
       'test:smoke',
       'test:api:pw',
       'test:playwright:integration',
-      'test:a11y:playwright',
-      'test:wave-a11y:playwright',
+      'test:accessibility:playwright',
       'test:playwrightE2E',
       'test:crossbrowser',
     ].filter((name) => Boolean(scripts[name]));
@@ -329,7 +317,7 @@ function buildDashboardHtml(model) {
     </table>
 
     <h2>Retirement Position</h2>
-    <p>Playwright is the authoritative Manage Organisation functional gate for smoke, API, integration, accessibility, WAVE-like accessibility, and E2E coverage.</p>
+    <p>Playwright is the authoritative Manage Organisation functional gate for smoke, API, integration, unified accessibility, and E2E coverage.</p>
     <p><strong>Replacement scripts:</strong> ${escapeHtml(model.packageSummary.replacementScripts.join(', ') || 'not detected')}</p>
     <p><strong>Retired aliases:</strong> removed from package.json and blocked by the architecture guard.</p>
   </body>

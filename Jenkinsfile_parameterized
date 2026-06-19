@@ -12,14 +12,19 @@ properties([
     parameters([
         choice(name: 'ENVIRONMENT', choices: 'saat\nsandbox\nsprod', description: 'Environment where code should be build and deployed'),
         booleanParam(
+            name: 'RUN_PLAYWRIGHT_ACCESSIBILITY',
+            defaultValue: false,
+            description: 'Manual-only: run the non-blocking unified Playwright accessibility pack.'
+        ),
+        booleanParam(
             name: 'RUN_PLAYWRIGHT_A11Y',
             defaultValue: false,
-            description: 'Manual-only: run the non-blocking Playwright axe accessibility pack.'
+            description: 'Compatibility switch: runs the unified Playwright accessibility pack.'
         ),
         booleanParam(
             name: 'RUN_PLAYWRIGHT_WAVE_A11Y',
             defaultValue: false,
-            description: 'Manual-only: run the non-blocking Playwright WAVE-like accessibility pack.'
+            description: 'Compatibility switch: runs the unified Playwright accessibility pack.'
         )
     ])
 ])
@@ -193,42 +198,22 @@ def runPlaywrightFunctionalTests = { String environmentName ->
                             }
                         }
                     },
-                    playwrightA11y: {
+                    playwrightAccessibility: {
                         stage('Playwright Accessibility Tests') {
-                            if (!params.RUN_PLAYWRIGHT_A11Y) {
-                                echo '[playwright-a11y] Skipping by default. Set RUN_PLAYWRIGHT_A11Y=true to run this pack.'
+                            if (!(params.RUN_PLAYWRIGHT_ACCESSIBILITY || params.RUN_PLAYWRIGHT_A11Y || params.RUN_PLAYWRIGHT_WAVE_A11Y)) {
+                                echo '[playwright-accessibility] Skipping by default. Set RUN_PLAYWRIGHT_ACCESSIBILITY=true to run this pack.'
                             } else {
                                 try {
                                     withEnv([
                                         "FUNCTIONAL_TESTS_WORKERS=4",
-                                        "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-a11y",
-                                        "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-a11y/playwright-a11y-junit.xml",
+                                        "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-accessibility",
+                                        "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-accessibility/playwright-accessibility-junit.xml",
                                         "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0"
                                     ]) {
-                                        sh 'yarn test:a11y:playwright'
+                                        sh 'yarn test:accessibility:playwright'
                                     }
                                 } catch (Exception e) {
                                     echo "[parallel-report-gathering] Playwright Accessibility failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"
-                                }
-                            }
-                        }
-                    },
-                    playwrightWaveA11y: {
-                        stage('Playwright WAVE-like Accessibility Tests') {
-                            if (!params.RUN_PLAYWRIGHT_WAVE_A11Y) {
-                                echo '[playwright-wave-a11y] Skipping by default. Set RUN_PLAYWRIGHT_WAVE_A11Y=true to run this pack.'
-                            } else {
-                                try {
-                                    withEnv([
-                                        "FUNCTIONAL_TESTS_WORKERS=4",
-                                        "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-wave-a11y",
-                                        "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-wave-a11y/playwright-wave-a11y-junit.xml",
-                                        "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0"
-                                    ]) {
-                                        sh 'yarn test:wave-a11y:playwright'
-                                    }
-                                } catch (Exception e) {
-                                    echo "[parallel-report-gathering] Playwright WAVE-like Accessibility failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"
                                 }
                             }
                         }
@@ -264,32 +249,19 @@ def runPlaywrightFunctionalTests = { String environmentName ->
                 "${environmentName} Manage Org Playwright Integration",
                 'functional-output/tests/playwright-integration/**'
             )
-            if (params.RUN_PLAYWRIGHT_A11Y) {
+            if (params.RUN_PLAYWRIGHT_ACCESSIBILITY || params.RUN_PLAYWRIGHT_A11Y || params.RUN_PLAYWRIGHT_WAVE_A11Y) {
                 try {
-                    stagePlaywrightArtifacts('functional-output/tests/playwright-a11y/stable-artifacts', 'test-results/playwright-a11y')
-                    publishPlaywrightReport(
-                        "functional-output/tests/playwright-a11y/odhin-report",
-                        'xui-playwright-a11y.html',
-                        "${environmentName} Manage Org Register Organisation Playwright A11y",
-                        'functional-output/tests/playwright-a11y/**'
-                    )
-                } catch (Exception e) {
-                    echo "[playwright-a11y] Report/evidence publish failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"
-                }
-            }
-            if (params.RUN_PLAYWRIGHT_WAVE_A11Y) {
-                try {
-                    stagePlaywrightArtifacts('functional-output/tests/playwright-wave-a11y/stable-artifacts', 'test-results/playwright-wave-a11y')
+                    stagePlaywrightArtifacts('functional-output/tests/playwright-accessibility/stable-artifacts', 'test-results/playwright-accessibility')
                     catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
                         publishPlaywrightReport(
-                            "functional-output/tests/playwright-wave-a11y/odhin-report",
-                            'xui-playwright-wave-a11y.html',
-                            "${environmentName} Manage Org Playwright WAVE-like A11y",
-                            'functional-output/tests/playwright-wave-a11y/**'
+                            "functional-output/tests/playwright-accessibility/odhin-report",
+                            'xui-playwright-accessibility.html',
+                            "${environmentName} Manage Org Playwright Accessibility",
+                            'functional-output/tests/playwright-accessibility/**'
                         )
                     }
                 } catch (Exception e) {
-                    echo "[playwright-wave-a11y] Report/evidence publish failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"
+                    echo "[playwright-accessibility] Report/evidence publish failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"
                 }
             }
             stagePlaywrightArtifacts('functional-output/tests/playwright-e2e/stable-artifacts', 'test-results/playwright-e2e')

@@ -10,20 +10,45 @@ properties([
         [$class: 'GitHubPushTrigger']
     ]),
     parameters([
+        string(
+            name: 'API_PW_INCLUDE_TAGS',
+            defaultValue: '',
+            description: 'Optional comma/space separated Playwright API tags to include, for example @svc-ccd,@svc-work-allocation or @svc-auth @svc-cors'
+        ),
+        string(
+            name: 'API_PW_EXCLUDED_TAGS_OVERRIDE',
+            defaultValue: '',
+            description: 'Optional comma/space separated Playwright API tags to exclude; overrides the API tag filter. Examples: @svc-work-allocation, @svc-auth @svc-cors, @none to clear repo defaults'
+        ),
+        string(
+            name: 'E2E_PW_INCLUDE_TAGS',
+            defaultValue: '',
+            description: 'Optional comma/space separated Playwright E2E tags to include, for example @e2e-search-case or @e2e-search-case @e2e-update-case'
+        ),
+        string(
+            name: 'E2E_PW_EXCLUDED_TAGS_OVERRIDE',
+            defaultValue: '',
+            description: 'Optional comma/space separated Playwright E2E tags to exclude; overrides the E2E tag filter. Examples: @e2e-smoke, @e2e-manage-org @e2e-invite-user, @none to clear repo defaults'
+        ),
+        string(
+            name: 'INTEGRATION_PW_INCLUDE_TAGS',
+            defaultValue: '',
+            description: 'Optional comma/space separated Playwright integration tags to include, for example @integration-manage-org or @integration-invite-user'
+        ),
+        string(
+            name: 'INTEGRATION_PW_EXCLUDED_TAGS_OVERRIDE',
+            defaultValue: '',
+            description: 'Optional comma/space separated Playwright integration tags to exclude; overrides the integration tag filter. Examples: @integration-smoke, @integration-manage-org @integration-invite-user, @none to clear repo defaults'
+        ),
+        booleanParam(
+            name: 'PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES',
+            defaultValue: false,
+            description: 'Bypass Key Vault-backed Playwright global exclusions for a verification run that is fixing an excluded test.'
+        ),
         booleanParam(
             name: 'RUN_PLAYWRIGHT_ACCESSIBILITY',
             defaultValue: false,
-            description: 'Primary manual switch: run the unified axe and WAVE-like Playwright accessibility pack. Report-only unless A11Y_STRICT=true.'
-        ),
-        booleanParam(
-            name: 'RUN_PLAYWRIGHT_A11Y',
-            defaultValue: false,
-            description: 'Legacy axe alias for older jobs; runs the same unified accessibility pack as RUN_PLAYWRIGHT_ACCESSIBILITY.'
-        ),
-        booleanParam(
-            name: 'RUN_PLAYWRIGHT_WAVE_A11Y',
-            defaultValue: false,
-            description: 'Legacy WAVE-like alias for older jobs; runs the same unified accessibility pack as RUN_PLAYWRIGHT_ACCESSIBILITY.'
+            description: 'Manual-only: run only the non-blocking unified Playwright accessibility pack on this CNP build.'
         )
     ])
 ])
@@ -263,6 +288,9 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                     stage('API Tests') {
                         try {
                             withEnv(playwrightBrowsersEnv() + [
+                                "API_PW_INCLUDE_TAGS=${params.API_PW_INCLUDE_TAGS ?: ''}",
+                                "API_PW_EXCLUDED_TAGS_OVERRIDE=${params.API_PW_EXCLUDED_TAGS_OVERRIDE ?: ''}",
+                                "PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES=${params.PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES ? 'true' : 'false'}",
                                 "FUNCTIONAL_TESTS_WORKERS=6",
                                 "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-api",
                                 "PLAYWRIGHT_HTML_OUTPUT=functional-output/tests/playwright-api/html-report",
@@ -284,6 +312,9 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                     stage('Playwright Integration Tests') {
                         try {
                             withEnv(playwrightBrowsersEnv() + [
+                                "INTEGRATION_PW_INCLUDE_TAGS=${params.INTEGRATION_PW_INCLUDE_TAGS ?: ''}",
+                                "INTEGRATION_PW_EXCLUDED_TAGS_OVERRIDE=${params.INTEGRATION_PW_EXCLUDED_TAGS_OVERRIDE ?: ''}",
+                                "PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES=${params.PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES ? 'true' : 'false'}",
                                 "FUNCTIONAL_TESTS_WORKERS=6",
                                 "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-integration",
                                 "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-integration/playwright-integration-junit.xml",
@@ -308,8 +339,11 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                                 "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-e2e",
                                 "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-e2e/playwright-e2e-junit.xml",
                                 "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
-                                "PLAYWRIGHT_TAGS=@e2e",
-                                "PLAYWRIGHT_EXCLUDE_TAGS=@a11y",
+                                "PLAYWRIGHT_TAGS=${params.E2E_PW_INCLUDE_TAGS ?: '@e2e'}",
+                                "PLAYWRIGHT_EXCLUDE_TAGS=${params.E2E_PW_EXCLUDED_TAGS_OVERRIDE ?: '@a11y'}",
+                                "E2E_PW_INCLUDE_TAGS=${params.E2E_PW_INCLUDE_TAGS ?: ''}",
+                                "E2E_PW_EXCLUDED_TAGS_OVERRIDE=${params.E2E_PW_EXCLUDED_TAGS_OVERRIDE ?: ''}",
+                                "PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES=${params.PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES ? 'true' : 'false'}",
                                 "PLAYWRIGHT_SKIP_INSTALL=true"
                             ]) {
                                 yarnBuilder.yarn('test:playwrightE2E:raw')
@@ -325,7 +359,8 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                 }
             ]
 
-            if (params.RUN_PLAYWRIGHT_ACCESSIBILITY || params.RUN_PLAYWRIGHT_A11Y || params.RUN_PLAYWRIGHT_WAVE_A11Y) {
+            if (params.RUN_PLAYWRIGHT_ACCESSIBILITY) {
+                functionalSuites = [failFast: false]
                 functionalSuites.playwrightAccessibility = {
                     stage('Playwright Accessibility Tests') {
                         try {
@@ -347,7 +382,7 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                     }
                 }
             } else {
-                echo '[playwright-accessibility] CNP stage omitted by default. Set RUN_PLAYWRIGHT_ACCESSIBILITY=true on a manual build to include this pack.'
+                echo '[playwright-accessibility] CNP stage omitted by default. Set RUN_PLAYWRIGHT_ACCESSIBILITY=true on a manual build to run only this pack.'
             }
 
             parallel(functionalSuites)

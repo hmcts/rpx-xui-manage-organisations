@@ -107,10 +107,12 @@ test.describe('WAVE-like accessibility tag contract', { tag: '@svc-internal' }, 
       const json = fs.readFileSync(path.join(evidenceDir, 'issue-state-wave-accessibility-issues.json'), 'utf8');
       expect(html).toContain('Developer advice');
       expect(html).toContain('What to fix');
+      expect(html).toContain('Fix path');
+      expect(html).toContain('search selector #continue');
       expect(html).toContain('class: govuk-button');
-      expect(html).toContain('Add visible text, a label, aria-label, or aria-labelledby');
+      expect(html).toContain('Fix the template first: add visible text, a govukLabel/label');
       expect(json).toContain('"classes": "govuk-button"');
-      expect(json).toContain('"advice": "Add visible text, a label, aria-label, or aria-labelledby');
+      expect(json).toContain('"advice": "Fix the template first: add visible text, a govukLabel/label');
     } finally {
       if (previousEvidenceDir === undefined) {
         delete process.env.PW_A11Y_EVIDENCE_DIR;

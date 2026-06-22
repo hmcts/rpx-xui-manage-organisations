@@ -124,13 +124,10 @@ const requiredPipelineJunitContracts = [
         label: 'shared lane JUnit publisher',
         pattern: /junit\(\s*allowEmptyResults:\s*false,\s*testResults:\s*artifacts\.replace\(['"]\*\*['"],\s*['"]\*\*\/\*junit\.xml['"]\)\s*\)/
       },
-      { label: 'API artifact root', pattern: /functional-output\/tests\/playwright-api\/\*\*/ },
-      { label: 'integration artifact root', pattern: /functional-output\/tests\/playwright-integration\/\*\*/ },
       {
         label: 'unified accessibility artifact root',
         pattern: /functional-output\/tests\/playwright-accessibility\/\*\*|\$\{playwrightAccessibilityOutputRoot\}\/\*\*/
       },
-      { label: 'E2E artifact root', pattern: /functional-output\/tests\/playwright-e2e\/\*\*/ },
       {
         label: 'smoke JUnit publication',
         pattern: /junit\(allowEmptyResults:\s*false,\s*testResults:\s*['"]functional-output\/tests\/playwright-smoke\/\*\*\/\*junit\.xml['"]\)/

@@ -4,16 +4,15 @@ import os from 'node:os';
 import path from 'node:path';
 
 import e2eConfig from '../../../playwright.e2e.config';
-import {
-  attachWaveLikeAccessibilityEvidence,
-  WAVE_LIKE_A11Y_TAG
-} from '../../E2E/utils/accessibility/waveLikeAccessibility';
+import { attachWaveLikeAccessibilityEvidence, WAVE_LIKE_A11Y_TAG } from '../../E2E/utils/accessibility/waveLikeAccessibility';
 
-const { includesWaveLikeA11y } = (e2eConfig as {
-  __test__: {
-    includesWaveLikeA11y: (env: NodeJS.ProcessEnv) => boolean;
-  };
-}).__test__;
+const { includesWaveLikeA11y } = (
+  e2eConfig as {
+    __test__: {
+      includesWaveLikeA11y: (env: NodeJS.ProcessEnv) => boolean;
+    };
+  }
+).__test__;
 
 test.describe('WAVE-like accessibility tag contract', { tag: '@svc-internal' }, () => {
   test('uses the PR-actionable WAVE-like accessibility tag', () => {
@@ -59,6 +58,59 @@ test.describe('WAVE-like accessibility tag contract', { tag: '@svc-internal' }, 
       expect(fs.readFileSync(path.join(evidenceDir, 'no-issue-state-wave-accessibility-issues.html'), 'utf8')).toContain(
         'NO WAVE-LIKE ACCESSIBILITY ISSUES FOUND'
       );
+    } finally {
+      if (previousEvidenceDir === undefined) {
+        delete process.env.PW_A11Y_EVIDENCE_DIR;
+      } else {
+        process.env.PW_A11Y_EVIDENCE_DIR = previousEvidenceDir;
+      }
+      fs.rmSync(evidenceDir, { recursive: true, force: true });
+    }
+  });
+
+  test('includes developer code-location hints in WAVE-like evidence', async () => {
+    const previousEvidenceDir = process.env.PW_A11Y_EVIDENCE_DIR;
+    const evidenceDir = fs.mkdtempSync(path.join(os.tmpdir(), 'manage-org-wave-evidence-'));
+    const attachments: Record<string, string> = {};
+
+    try {
+      process.env.PW_A11Y_EVIDENCE_DIR = evidenceDir;
+      await attachWaveLikeAccessibilityEvidence(
+        {
+          evaluate: async () => undefined,
+          screenshot: async () => Buffer.from('screenshot'),
+          url: () => 'https://manage-org.example.test/issue'
+        } as unknown as Page,
+        {
+          attach: async (name: string, attachment: { body?: string | Buffer }) => {
+            attachments[name] = attachment.body?.toString() ?? '';
+          },
+          title: 'issue state'
+        } as unknown as TestInfo,
+        [
+          {
+            rule: 'accessible-name',
+            message: 'Interactive controls and links should expose an accessible name.',
+            selector: '#continue',
+            html: '<button id="continue" class="govuk-button"></button>',
+            codeLocation: {
+              tag: 'button',
+              id: 'continue',
+              classes: 'govuk-button',
+              nearestHeading: 'h1: Register organisation'
+            }
+          }
+        ]
+      );
+
+      const html = attachments['wave-accessibility-issues.html'];
+      const json = fs.readFileSync(path.join(evidenceDir, 'issue-state-wave-accessibility-issues.json'), 'utf8');
+      expect(html).toContain('Developer advice');
+      expect(html).toContain('What to fix');
+      expect(html).toContain('class: govuk-button');
+      expect(html).toContain('Add visible text, a label, aria-label, or aria-labelledby');
+      expect(json).toContain('"classes": "govuk-button"');
+      expect(json).toContain('"advice": "Add visible text, a label, aria-label, or aria-labelledby');
     } finally {
       if (previousEvidenceDir === undefined) {
         delete process.env.PW_A11Y_EVIDENCE_DIR;

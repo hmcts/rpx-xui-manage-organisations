@@ -292,7 +292,9 @@ function injectDataTableDefaults(root) {
       if (jq.fn.dataTable.defaults) {
         jq.extend(true, jq.fn.dataTable.defaults, {
           pageLength: defaultPageLength,
-          lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, 'All']]
+          lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, 'All']],
+          stateDuration: -1,
+          stateSave: true
         });
       }
 

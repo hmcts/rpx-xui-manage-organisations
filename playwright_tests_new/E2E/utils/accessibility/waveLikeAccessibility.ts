@@ -53,14 +53,16 @@ export async function collectWaveLikeAccessibilityViolations(page: Page): Promis
     };
 
     const text = (element: Element | null): string => element?.textContent?.replace(/\s+/g, ' ').trim() ?? '';
+    const cssString = (value: string): string => value.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
     const selectorFor = (element: Element): string => {
       const id = element.getAttribute('id');
       if (id) {
-        return `#${id}`;
+        return `#${CSS.escape(id)}`;
       }
-      const testId = element.getAttribute('data-testid') ?? element.getAttribute('data-test-id');
+      const testIdAttr = element.hasAttribute('data-testid') ? 'data-testid' : 'data-test-id';
+      const testId = element.getAttribute(testIdAttr);
       if (testId) {
-        return `[data-testid="${testId}"]`;
+        return `[${testIdAttr}="${cssString(testId)}"]`;
       }
       return element.tagName.toLowerCase();
     };

@@ -376,9 +376,9 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                                 yarnBuilder.yarn('test:accessibility:playwright')
                             }
                         } catch (Exception e) {
+                            if (handleParallelInterruption(e)) { return }
                             currentBuild.result = 'UNSTABLE'
                             echo "[parallel-report-gathering] Playwright Accessibility failed; marking build unstable so a manual accessibility-only run cannot hide missing Odhín evidence: ${e.getClass().getName()}: ${e.getMessage()}"
-                            if (handleParallelInterruption(e)) { return }
                         } finally {
                             publishPlaywrightAccessibilityReport("${environmentName} Manage Org Playwright Accessibility")
                         }

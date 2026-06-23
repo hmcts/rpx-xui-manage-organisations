@@ -105,7 +105,9 @@ test.describe('WAVE-like accessibility tag contract', { tag: '@svc-internal' }, 
 
       const html = attachments['wave-accessibility-issues.html'];
       const json = fs.readFileSync(path.join(evidenceDir, 'issue-state-wave-accessibility-issues.json'), 'utf8');
+      const odhinIndexFileName = process.env.PLAYWRIGHT_REPORT_INDEX_FILENAME || 'xui-playwright-accessibility.html';
       expect(html).toContain('Developer advice');
+      expect(html).toContain(`<a href="../${odhinIndexFileName}">Back to Odhín report</a>`);
       expect(html).toContain('What to fix');
       expect(html).toContain('Fix path');
       expect(html).toContain('search selector #continue');

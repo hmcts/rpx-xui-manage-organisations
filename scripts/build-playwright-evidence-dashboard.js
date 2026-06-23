@@ -156,11 +156,11 @@ function buildWaveLikeEvidenceIndex(rootDir) {
     .map(
       (entry) => `
         <li>
-          <a class="issue-link" href="./${escapeHtml(entry.htmlFileName)}">${escapeHtml(entry.testTitle)}</a>
+          <a class="issue-link" href="./${escapeHtml(entry.htmlFileName)}" target="_blank" rel="noopener noreferrer">${escapeHtml(entry.testTitle)}</a>
           <p>${entry.violationCount} WAVE-like rule issue(s): ${escapeHtml(entry.rules.join(', ') || 'none')}</p>
-          <a href="./${escapeHtml(entry.screenshotFileName)}">screenshot</a>
+          <a href="./${escapeHtml(entry.screenshotFileName)}" target="_blank" rel="noopener noreferrer">screenshot</a>
           |
-          <a href="./${escapeHtml(entry.jsonFileName)}">DOM and WAVE-like JSON</a>
+          <a href="./${escapeHtml(entry.jsonFileName)}" target="_blank" rel="noopener noreferrer">DOM and WAVE-like JSON</a>
         </li>`
     )
     .join('\n');

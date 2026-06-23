@@ -141,6 +141,17 @@ function buildWaveLikeEvidenceIndex(rootDir) {
     return '';
   }
 
+  const summaryRows = buildWaveIssueSummary(entries)
+    .map(
+      (item) => `
+        <tr>
+          <th scope="row">${escapeHtml(item.label)}</th>
+          <td>${item.screenCount}</td>
+          <td>${escapeHtml(item.hint)}</td>
+          <td>${escapeHtml(item.examples.join(', '))}</td>
+        </tr>`
+    )
+    .join('\n');
   const rows = entries
     .map(
       (entry) => `
@@ -167,6 +178,8 @@ function buildWaveLikeEvidenceIndex(rootDir) {
       .banner { background: #1d70b8; color: #fff; padding: 16px; margin-bottom: 24px; }
       .issue-link { font-weight: bold; font-size: 18px; }
       li { margin-bottom: 16px; }
+      table { border-collapse: collapse; margin: 24px 0; width: 100%; }
+      th, td { border-bottom: 1px solid #b1b4b6; padding: 8px; text-align: left; vertical-align: top; }
     </style>
   </head>
   <body>
@@ -174,6 +187,18 @@ function buildWaveLikeEvidenceIndex(rootDir) {
       <h1>WAVE-like Accessibility Evidence</h1>
       <p>Open each item for rule, DOM selector, page screenshot, and JSON evidence.</p>
     </div>
+    ${summaryRows ? `<h2>Issue Summary</h2>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Issue</th>
+          <th scope="col">Screens</th>
+          <th scope="col">Fix hint</th>
+          <th scope="col">Examples</th>
+        </tr>
+      </thead>
+      <tbody>${summaryRows}</tbody>
+    </table>` : ''}
     <ol>${rows}</ol>
   </body>
 </html>
@@ -181,6 +206,53 @@ function buildWaveLikeEvidenceIndex(rootDir) {
     'utf8'
   );
   return indexPath;
+}
+
+function buildWaveIssueSummary(entries) {
+  const byRule = new Map();
+  for (const entry of entries) {
+    const rules = entry.rules.length > 0 ? entry.rules : ['none'];
+    for (const rule of rules) {
+      if (!byRule.has(rule)) {
+        byRule.set(rule, { examples: new Set(), rule, screens: new Set() });
+      }
+      const item = byRule.get(rule);
+      item.screens.add(entry.testTitle);
+      item.examples.add(entry.testTitle);
+    }
+  }
+
+  return Array.from(byRule.values())
+    .map((item) => ({
+      examples: Array.from(item.examples).slice(0, 3),
+      hint: issueFixHint(item.rule, item.screens.size),
+      label: issueLabel(item.rule),
+      screenCount: item.screens.size,
+    }))
+    .sort((a, b) => b.screenCount - a.screenCount || a.label.localeCompare(b.label));
+}
+
+function issueLabel(rule) {
+  if (rule === 'none') {
+    return 'No WAVE-like issue';
+  }
+  if (/skip-link|main-landmark|h1-count|heading|fieldset|label|accessible-name/i.test(rule)) {
+    return `Screen-reader issue(s): ${rule}`;
+  }
+  return rule;
+}
+
+function issueFixHint(rule, screenCount) {
+  if (rule === 'none') {
+    return 'No fix needed';
+  }
+  if (screenCount > 1 && /skip-link|main-landmark/i.test(rule)) {
+    return 'likely shared app shell fix';
+  }
+  if (screenCount > 1) {
+    return 'likely shared component/template fix';
+  }
+  return 'inspect linked page evidence';
 }
 
 function readWaveEvidenceEntry(filePath) {

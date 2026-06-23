@@ -7,8 +7,20 @@ export const WAVE_LIKE_A11Y_TAG = '@wave-a11y';
 export type WaveLikeViolation = {
   rule: string;
   message: string;
+  advice?: string;
   selector?: string;
   html?: string;
+  codeLocation?: {
+    tag: string;
+    id?: string;
+    classes?: string;
+    role?: string;
+    testId?: string;
+    angularAttrs?: string;
+    accessibleName?: string;
+    nearestHeading?: string;
+    nearestLandmark?: string;
+  };
 };
 
 type PublishedEvidenceEntry = {
@@ -41,25 +53,20 @@ export async function collectWaveLikeAccessibilityViolations(page: Page): Promis
     };
 
     const text = (element: Element | null): string => element?.textContent?.replace(/\s+/g, ' ').trim() ?? '';
+    const cssString = (value: string): string => value.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
     const selectorFor = (element: Element): string => {
       const id = element.getAttribute('id');
       if (id) {
-        return `#${id}`;
+        return `#${CSS.escape(id)}`;
       }
-      const testId = element.getAttribute('data-testid') ?? element.getAttribute('data-test-id');
+      const testIdAttr = element.hasAttribute('data-testid') ? 'data-testid' : 'data-test-id';
+      const testId = element.getAttribute(testIdAttr);
       if (testId) {
-        return `[data-testid="${testId}"]`;
+        return `[${testIdAttr}="${cssString(testId)}"]`;
       }
       return element.tagName.toLowerCase();
     };
     const htmlFor = (element: Element): string => element.outerHTML.slice(0, 500);
-    const add = (violations: WaveLikeViolation[], rule: string, message: string, element?: Element) => {
-      violations.push({
-        rule,
-        message,
-        ...(element ? { selector: selectorFor(element), html: htmlFor(element) } : {})
-      });
-    };
     const labelledByText = (element: Element): string =>
       (element.getAttribute('aria-labelledby') ?? '')
         .split(/\s+/)
@@ -96,9 +103,7 @@ export async function collectWaveLikeAccessibilityViolations(page: Page): Promis
       const title = element.getAttribute('title')?.trim() ?? '';
       const placeholder = element.getAttribute('placeholder')?.trim() ?? '';
       const value =
-        element instanceof HTMLInputElement && ['button', 'submit', 'reset'].includes(element.type)
-          ? element.value.trim()
-          : '';
+        element instanceof HTMLInputElement && ['button', 'submit', 'reset'].includes(element.type) ? element.value.trim() : '';
       const imageAlt = Array.from(element.querySelectorAll('img'))
         .map((image) => image.getAttribute('alt')?.trim() ?? '')
         .filter(Boolean)
@@ -107,6 +112,59 @@ export async function collectWaveLikeAccessibilityViolations(page: Page): Promis
         .filter(Boolean)
         .join(' ')
         .trim();
+    };
+    const nearestHeading = (element: Element): string => {
+      const headings = Array.from(document.querySelectorAll('h1, h2, h3, h4, h5, h6')).filter(visible);
+      const previousHeading = headings
+        .reverse()
+        .find((heading) => Boolean(heading.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_FOLLOWING));
+      return previousHeading ? `${previousHeading.tagName.toLowerCase()}: ${text(previousHeading)}` : '';
+    };
+    const nearestLandmark = (element: Element): string => {
+      const landmark = element.closest(
+        'main, nav, header, footer, aside, [role="main"], [role="navigation"], [role="banner"], [role="contentinfo"], [role="complementary"]'
+      );
+      if (!landmark) {
+        return '';
+      }
+      const role = landmark.getAttribute('role');
+      const id = landmark.getAttribute('id');
+      const classes = landmark.getAttribute('class');
+      return [
+        landmark.tagName.toLowerCase(),
+        role ? `role=${role}` : '',
+        id ? `#${id}` : '',
+        classes ? `.${classes.split(/\s+/).filter(Boolean).join('.')}` : ''
+      ]
+        .filter(Boolean)
+        .join(' ');
+    };
+    const codeLocationFor = (element: Element): WaveLikeViolation['codeLocation'] => {
+      const angularAttrs = Array.from(element.attributes)
+        .map((attribute) => attribute.name)
+        .filter((name) => name.startsWith('_ng') || name.startsWith('ng-reflect-'))
+        .join(' ');
+
+      return {
+        tag: element.tagName.toLowerCase(),
+        ...(element.id ? { id: element.id } : {}),
+        ...(element.className && typeof element.className === 'string' ? { classes: element.className } : {}),
+        ...(element.getAttribute('role') ? { role: element.getAttribute('role') ?? '' } : {}),
+        ...(element.getAttribute('data-testid') || element.getAttribute('data-test-id')
+          ? { testId: element.getAttribute('data-testid') ?? element.getAttribute('data-test-id') ?? '' }
+          : {}),
+        ...(angularAttrs ? { angularAttrs } : {}),
+        ...(accessibleName(element) ? { accessibleName: accessibleName(element).slice(0, 160) } : {}),
+        ...(nearestHeading(element) ? { nearestHeading: nearestHeading(element).slice(0, 160) } : {}),
+        ...(nearestLandmark(element) ? { nearestLandmark: nearestLandmark(element).slice(0, 160) } : {})
+      };
+    };
+    const add = (violations: WaveLikeViolation[], rule: string, message: string, element?: Element) => {
+      violations.push({
+        rule,
+        message,
+        ...(element ? { selector: selectorFor(element), html: htmlFor(element), codeLocation: codeLocationFor(element) } : {})
+      });
     };
 
     const violations: WaveLikeViolation[] = [];
@@ -133,12 +191,7 @@ export async function collectWaveLikeAccessibilityViolations(page: Page): Promis
     headings.reduce((previousLevel, heading) => {
       const level = Number(heading.tagName.slice(1));
       if (previousLevel > 0 && level > previousLevel + 1) {
-        add(
-          violations,
-          'heading-order',
-          `Heading level jumps from h${previousLevel} to h${level}.`,
-          heading
-        );
+        add(violations, 'heading-order', `Heading level jumps from h${previousLevel} to h${level}.`, heading);
       }
       return level;
     }, 0);
@@ -207,17 +260,18 @@ export async function attachWaveLikeAccessibilityEvidence(
     return;
   }
 
-  const summary = { url: page.url(), violationCount: violations.length, violations };
+  const evidencedViolations = withDeveloperAdvice(violations);
+  const summary = { url: page.url(), violationCount: evidencedViolations.length, violations: evidencedViolations };
   await testInfo.attach(`${attachmentPrefix}.json`, {
     body: JSON.stringify(summary, null, 2),
     contentType: 'application/json'
   });
   await testInfo.attach(`${attachmentPrefix}.html`, {
-    body: buildIssueSummaryHtml(page.url(), violations),
+    body: buildIssueSummaryHtml(page.url(), evidencedViolations),
     contentType: 'text/html'
   });
 
-  const cleanup = violations.length > 0 ? await markViolationsOnPage(page, violations) : async () => {};
+  const cleanup = evidencedViolations.length > 0 ? await markViolationsOnPage(page, evidencedViolations) : async () => {};
   let screenshot: Buffer;
   try {
     screenshot = await page.screenshot({ fullPage: true });
@@ -229,7 +283,7 @@ export async function attachWaveLikeAccessibilityEvidence(
     await cleanup();
   }
 
-  await writePublishedEvidence(testInfo, page.url(), violations, screenshot, attachmentPrefix);
+  await writePublishedEvidence(testInfo, page.url(), evidencedViolations, screenshot, attachmentPrefix);
 }
 
 function buildIssueSummaryHtml(url: string, violations: WaveLikeViolation[]): string {
@@ -241,6 +295,7 @@ function buildIssueSummaryHtml(url: string, violations: WaveLikeViolation[]): st
           <h2>${index + 1}. ${escapeHtml(violation.rule)}</h2>
           <p><strong>${escapeHtml(violation.message)}</strong></p>
           <p><strong>Selector:</strong> <code>${escapeHtml(violation.selector ?? 'page')}</code></p>
+          ${buildDeveloperAdviceHtml(url, violation)}
           <pre>${escapeHtml(violation.html ?? '')}</pre>
         </section>
       `
@@ -256,6 +311,9 @@ function buildIssueSummaryHtml(url: string, violations: WaveLikeViolation[]): st
           .banner { background: ${hasViolations ? '#d4351c' : '#00703c'}; color: #fff; padding: 16px; margin-bottom: 24px; }
           .issue { border: 4px solid #d4351c; padding: 16px; margin-bottom: 18px; }
           .issue h2 { margin-top: 0; }
+          .advice { background: #f3f2f1; border-left: 8px solid #1d70b8; padding: 12px 16px; margin: 12px 0; }
+          .advice dt { font-weight: bold; margin-top: 8px; }
+          .advice dd { margin-left: 0; }
           code, pre { background: #f3f2f1; padding: 4px; white-space: pre-wrap; }
         </style>
       </head>
@@ -270,58 +328,147 @@ function buildIssueSummaryHtml(url: string, violations: WaveLikeViolation[]): st
   `;
 }
 
+function withDeveloperAdvice(violations: WaveLikeViolation[]): WaveLikeViolation[] {
+  return violations.map((violation) => ({
+    ...violation,
+    advice: violation.advice ?? adviceForRule(violation.rule)
+  }));
+}
+
+function buildDeveloperAdviceHtml(url: string, violation: WaveLikeViolation): string {
+  return `
+    <div class="advice">
+      <h3>Developer advice</h3>
+      <dl>
+        <dt>Where to look</dt>
+        <dd>${buildWhereToLookHtml(url, violation)}</dd>
+        <dt>What failed</dt>
+        <dd>${escapeHtml(violation.rule)}: ${escapeHtml(violation.message)}</dd>
+        <dt>What to fix</dt>
+        <dd>${escapeHtml(violation.advice ?? adviceForRule(violation.rule))}</dd>
+        <dt>Fix path</dt>
+        <dd>${buildFixPathHtml(violation)}</dd>
+        <dt>Evidence</dt>
+        <dd>Use this DOM snippet with the numbered highlighted screenshot marker for the same issue.</dd>
+      </dl>
+    </div>
+  `;
+}
+
+function buildWhereToLookHtml(url: string, violation: WaveLikeViolation): string {
+  const hint = violation.codeLocation;
+  if (!hint) {
+    return `Route/page: <code>${escapeHtml(url)}</code>; page-level issue, inspect the document shell/template.`;
+  }
+
+  const parts = [
+    `route/page: ${url}`,
+    `tag: ${hint.tag}`,
+    hint.id ? `id: #${hint.id}` : '',
+    hint.classes ? `class: ${hint.classes}` : '',
+    hint.role ? `role: ${hint.role}` : '',
+    hint.testId ? `test id: ${hint.testId}` : '',
+    hint.angularAttrs ? `angular: ${hint.angularAttrs}` : '',
+    hint.nearestHeading ? `near: ${hint.nearestHeading}` : '',
+    hint.nearestLandmark ? `landmark: ${hint.nearestLandmark}` : '',
+    hint.accessibleName ? `name: ${hint.accessibleName}` : ''
+  ].filter(Boolean);
+
+  return `<code>${escapeHtml(parts.join(' | '))}</code>`;
+}
+
+function buildFixPathHtml(violation: WaveLikeViolation): string {
+  const hints = [
+    violation.selector ? `search selector ${violation.selector}` : '',
+    violation.codeLocation?.id ? `search id ${violation.codeLocation.id}` : '',
+    violation.codeLocation?.testId ? `search test id ${violation.codeLocation.testId}` : '',
+    violation.codeLocation?.classes ? `search class ${violation.codeLocation.classes.split(/\s+/)[0]}` : '',
+    violation.codeLocation?.nearestHeading ? `check template near ${violation.codeLocation.nearestHeading}` : ''
+  ].filter(Boolean);
+
+  return escapeHtml(
+    hints.length > 0 ? hints.join('; ') : 'Start with the route component/template that renders this page state.'
+  );
+}
+
+function adviceForRule(rule: string): string {
+  const adviceByRule: Record<string, string> = {
+    'accessible-name':
+      'Fix the template first: add visible text, a govukLabel/label for the control, aria-label, or aria-labelledby. Prefer visible text or label before ARIA.',
+    'document-language': 'Set lang on the html element from the app shell; use en unless the Welsh route/state is rendered.',
+    'document-title':
+      'Set the route/page title to describe the current state, and include the error prefix when validation errors are present.',
+    'duplicate-id':
+      'Make the id unique in the template, then update label for, aria-describedby, aria-labelledby, and error-summary links.',
+    'error-summary-target':
+      'Set each error-summary href to the invalid field id, ensure the field exists once, and move focus to the summary on submit.',
+    'fieldset-legend': 'Wrap related radios/checkboxes in a fieldset with a visible legend that describes the group question.',
+    'h1-count':
+      'Keep one visible h1 for the page state; demote extra page-level headings or add the missing h1 in the main content.',
+    'heading-order': 'Do not skip heading levels. Change the heading level or add the missing section heading in the template.',
+    'image-alt': 'Add meaningful alt text for informative images; use alt="" or role="presentation" only for decorative images.',
+    'main-landmark':
+      'Render exactly one usable main element or role="main" in the app shell/page template; do not nest duplicate mains.',
+    'table-headers': 'Add th scope="col"/scope="row" or equivalent row/column header roles for data tables.'
+  };
+  return adviceByRule[rule] ?? 'Inspect the selector and DOM snippet, then apply the relevant GOV.UK accessibility pattern.';
+}
+
 async function markViolationsOnPage(page: Page, violations: WaveLikeViolation[]): Promise<() => Promise<void>> {
-  await page.evaluate((items) => {
-    const overlayRoot = document.createElement('div');
-    overlayRoot.setAttribute('data-testid', 'wave-violation-overlays');
-    overlayRoot.style.position = 'absolute';
-    overlayRoot.style.left = '0';
-    overlayRoot.style.top = '0';
-    overlayRoot.style.width = '0';
-    overlayRoot.style.height = '0';
-    overlayRoot.style.zIndex = '2147483647';
-    overlayRoot.style.pointerEvents = 'none';
-    document.body.appendChild(overlayRoot);
+  await page.evaluate(
+    (items) => {
+      const overlayRoot = document.createElement('div');
+      overlayRoot.setAttribute('data-testid', 'wave-violation-overlays');
+      overlayRoot.style.position = 'absolute';
+      overlayRoot.style.left = '0';
+      overlayRoot.style.top = '0';
+      overlayRoot.style.width = '0';
+      overlayRoot.style.height = '0';
+      overlayRoot.style.zIndex = '2147483647';
+      overlayRoot.style.pointerEvents = 'none';
+      document.body.appendChild(overlayRoot);
 
-    for (const item of items) {
-      if (!item.selector) {
-        continue;
-      }
-      let element: Element | null = null;
-      try {
-        element = document.querySelector(item.selector);
-      } catch {
-        element = null;
-      }
-      if (!element) {
-        continue;
-      }
-      const rect = element.getBoundingClientRect();
-      const marker = document.createElement('div');
-      marker.style.position = 'absolute';
-      marker.style.left = `${rect.left + window.scrollX}px`;
-      marker.style.top = `${rect.top + window.scrollY}px`;
-      marker.style.width = `${Math.max(rect.width, 2)}px`;
-      marker.style.height = `${Math.max(rect.height, 2)}px`;
-      marker.style.outline = '6px solid #d4351c';
-      marker.style.background = 'rgba(255, 221, 0, 0.24)';
-      marker.style.boxSizing = 'border-box';
+      for (const item of items) {
+        if (!item.selector) {
+          continue;
+        }
+        let element: Element | null = null;
+        try {
+          element = document.querySelector(item.selector);
+        } catch {
+          element = null;
+        }
+        if (!element) {
+          continue;
+        }
+        const rect = element.getBoundingClientRect();
+        const marker = document.createElement('div');
+        marker.style.position = 'absolute';
+        marker.style.left = `${rect.left + window.scrollX}px`;
+        marker.style.top = `${rect.top + window.scrollY}px`;
+        marker.style.width = `${Math.max(rect.width, 2)}px`;
+        marker.style.height = `${Math.max(rect.height, 2)}px`;
+        marker.style.outline = '6px solid #d4351c';
+        marker.style.background = 'rgba(255, 221, 0, 0.24)';
+        marker.style.boxSizing = 'border-box';
 
-      const label = document.createElement('div');
-      label.textContent = `${item.index + 1} ${item.rule}`;
-      label.style.position = 'absolute';
-      label.style.left = '0';
-      label.style.top = '-32px';
-      label.style.background = '#d4351c';
-      label.style.color = '#fff';
-      label.style.font = 'bold 16px Arial, sans-serif';
-      label.style.padding = '4px 8px';
-      label.style.whiteSpace = 'nowrap';
+        const label = document.createElement('div');
+        label.textContent = `${item.index + 1} ${item.rule}`;
+        label.style.position = 'absolute';
+        label.style.left = '0';
+        label.style.top = '-32px';
+        label.style.background = '#d4351c';
+        label.style.color = '#fff';
+        label.style.font = 'bold 16px Arial, sans-serif';
+        label.style.padding = '4px 8px';
+        label.style.whiteSpace = 'nowrap';
 
-      marker.appendChild(label);
-      overlayRoot.appendChild(marker);
-    }
-  }, violations.map((violation, index) => ({ ...violation, index })));
+        marker.appendChild(label);
+        overlayRoot.appendChild(marker);
+      }
+    },
+    violations.map((violation, index) => ({ ...violation, index }))
+  );
 
   return async () => {
     await page.evaluate(() => {
@@ -375,14 +522,14 @@ async function writeEvidenceEntry(evidenceDir: string, baseName: string, entry: 
 }
 
 function escapeHtml(value: string): string {
-  return value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
+  return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
 function sanitiseFileName(value: string): string {
-  return value.replace(/[^a-z0-9._-]+/gi, '-').replace(/^-+|-+$/g, '').slice(0, 120) || 'wave-accessibility';
+  return (
+    value
+      .replace(/[^a-z0-9._-]+/gi, '-')
+      .replace(/^-+|-+$/g, '')
+      .slice(0, 120) || 'wave-accessibility'
+  );
 }

@@ -285,11 +285,24 @@ test.describe('Manage Org Playwright reporting scripts', { tag: '@svc-internal' 
           attachmentPrefix: 'wave-accessibility-issues',
           htmlFileName: 'accessibility-state-wave-accessibility-issues.html',
           jsonFileName: 'accessibility-state-wave-accessibility-issues.json',
-          rules: [],
+          rules: ['skip-link'],
           screenshotFileName: 'accessibility-state-wave-accessibility-issues-highlighted-screenshot.png',
           targets: ['https://manage-org.example.test/accessibility'],
           testTitle: 'accessibility state',
-          violationCount: 0
+          violationCount: 1
+        })
+      );
+      fs.writeFileSync(
+        path.join(evidenceDir, 'manifest-entry-registration-state-wave-accessibility-issues.json'),
+        JSON.stringify({
+          attachmentPrefix: 'wave-accessibility-issues',
+          htmlFileName: 'registration-state-wave-accessibility-issues.html',
+          jsonFileName: 'registration-state-wave-accessibility-issues.json',
+          rules: ['skip-link'],
+          screenshotFileName: 'registration-state-wave-accessibility-issues-highlighted-screenshot.png',
+          targets: ['https://manage-org.example.test/register'],
+          testTitle: 'registration state',
+          violationCount: 1
         })
       );
 
@@ -297,8 +310,11 @@ test.describe('Manage Org Playwright reporting scripts', { tag: '@svc-internal' 
       const html = fs.readFileSync(indexPath, 'utf8');
 
       expect(html).toContain('WAVE-like Accessibility Evidence');
+      expect(html).toContain('Issue Summary');
+      expect(html).toContain('Screen-reader issue(s): skip-link');
+      expect(html).toContain('likely shared app shell fix');
       expect(html).toContain('accessibility state');
-      expect(html).toContain('0 WAVE-like rule issue(s): none');
+      expect(html).toContain('1 WAVE-like rule issue(s): skip-link');
       expect(html).toContain('accessibility-state-wave-accessibility-issues-highlighted-screenshot.png');
     } finally {
       fs.rmSync(rootDir, { recursive: true, force: true });

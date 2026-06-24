@@ -5,7 +5,7 @@ export const MO_CSP: Parameters<typeof csp>[0] = {
   extraScript: [
     'https://www.googletagmanager.com',
     'https://www.google-analytics.com',
-    'az416426.vo.msecnd.net',
+    'az416426.vo.msecnd.net'
   ],
 
   extraStyle: [

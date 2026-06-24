@@ -6,7 +6,6 @@ export const MO_CSP: Parameters<typeof csp>[0] = {
     'https://www.googletagmanager.com',
     'https://www.google-analytics.com',
     'az416426.vo.msecnd.net',
-    '\'unsafe-eval\''
   ],
 
   extraStyle: [

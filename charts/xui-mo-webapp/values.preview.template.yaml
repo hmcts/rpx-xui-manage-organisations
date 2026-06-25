@@ -19,6 +19,7 @@ nodejs:
     MANAGE_ORG_LINK: https://manage-org.aat.platform.hmcts.net/
     UNASSIGNED_CASE_TYPES: FT_CaseAccessGroups,true,true
     SERVICES_ROLE_ASSIGNMENT_MAPPING_API: http://am-org-role-mapping-service-aat.service.core-compute-aat.internal
+    SERVICES_HMCTS_ACCESS_API: https://hmcts-access.aat.platform.hmcts.net
     FEATURE_OGD_UPDATE_REFRESH_USER_ENABLED: false
     APPINSIGHTS_CONNECTION_STRING: ${APPINSIGHTS_CONNECTION_STRING}
     PUI_ENV: preview

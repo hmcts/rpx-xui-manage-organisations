@@ -138,6 +138,16 @@ test.describe('Manage Org Playwright architecture guard', { tag: '@svc-internal'
     }, /Jenkinsfile_CNP: missing required Playwright JUnit evidence contract E2E JUnit publication/);
   });
 
+  test('rejects nightly accessibility failures that can mark the full pipeline failed', () => {
+    expectGuardFailure((rootDir) => {
+      const pipelinePath = path.join(rootDir, 'Jenkinsfile_nightly');
+      fs.writeFileSync(
+        pipelinePath,
+        fs.readFileSync(pipelinePath, 'utf8').replace('catchError(buildResult: \'SUCCESS\', stageResult: \'UNSTABLE\')', '')
+      );
+    }, /Jenkinsfile_nightly: missing required Playwright pipeline behavior contract non-blocking nightly accessibility branch/);
+  });
+
   test('rejects missing parameterized shared JUnit publisher', () => {
     expectGuardFailure((rootDir) => {
       const pipelinePath = path.join(rootDir, 'Jenkinsfile_parameterized');

@@ -75,9 +75,35 @@ const requiredPipelineBehaviorContracts = [
     fileName: 'Jenkinsfile_nightly',
     contracts: [
       {
-        label: 'non-blocking nightly accessibility branch',
+        label: 'artifact-only non-blocking nightly accessibility branch',
         pattern:
-          /playwrightAccessibility:\s*\{[\s\S]*?stage\(['"]Playwright Accessibility Tests['"]\)\s*\{[\s\S]*?catchError\(buildResult:\s*['"]SUCCESS['"],\s*stageResult:\s*['"]UNSTABLE['"]\)\s*\{[\s\S]*?yarnBuilder\.yarn\(['"]test:accessibility:playwright['"]\)[\s\S]*?throw e[\s\S]*?publishPlaywrightAccessibilityReport\(['"]Nightly Manage Org Playwright Accessibility['"]\)/
+          /playwrightAccessibility:\s*\{[\s\S]*?stage\(['"]Playwright Accessibility Tests['"]\)\s*\{[\s\S]*?yarnBuilder\.yarn\(['"]test:accessibility:playwright['"]\)[\s\S]*?Playwright Accessibility failed but is non-blocking[\s\S]*?publishPlaywrightAccessibilityReport\(['"]Nightly Manage Org Playwright Accessibility['"]\)[\s\S]*?Report publish wrapper failed but is non-blocking/
+      },
+      {
+        label: 'nightly accessibility JUnit archive-only evidence',
+        pattern:
+          /JUnit XML is archived only; report-only accessibility failures must not create a failing Jenkins test result/
+      },
+      {
+        label: 'nightly accessibility Odhín HTML publication',
+        pattern:
+          /publishHTML\(\[[\s\S]*?reportDir\s*:\s*["']\$\{playwrightAccessibilityOutputRoot\}\/odhin-report["'][\s\S]*?reportFiles\s*:\s*['"]xui-playwright-accessibility\.html['"][\s\S]*?reportName\s*:\s*reportName[\s\S]*?\]\)/
+      },
+      {
+        label: 'nightly accessibility archived evidence',
+        pattern: /archiveArtifacts\(\s*allowEmptyArchive:\s*true,\s*artifacts:\s*["']\$\{playwrightAccessibilityOutputRoot\}\/\*\*["']\s*\)/
+      }
+    ]
+  }
+];
+const forbiddenPipelineBehaviorContracts = [
+  {
+    fileName: 'Jenkinsfile_nightly',
+    contracts: [
+      {
+        label: 'nightly accessibility JUnit publisher',
+        pattern:
+          /publishPlaywrightJUnit\(\s*(["']functional-output\/tests\/playwright-accessibility\/\*\*\/\*junit\.xml["']|["']?\$\{playwrightAccessibilityOutputRoot\}\/\*\*\/\*junit\.xml["']?)\s*\)/
       }
     ]
   }
@@ -118,10 +144,6 @@ const requiredPipelineJunitContracts = [
       {
         label: 'integration JUnit publication',
         pattern: /publishPlaywrightJUnit\(['"]functional-output\/tests\/playwright-integration\/\*\*\/\*junit\.xml['"]\)/
-      },
-      {
-        label: 'unified accessibility JUnit publication',
-        pattern: /publishPlaywrightJUnit\((['"]functional-output\/tests\/playwright-accessibility\/\*\*\/\*junit\.xml['"]|["']?\$\{playwrightAccessibilityOutputRoot\}\/\*\*\/\*junit\.xml["']?)\)/
       },
       {
         label: 'E2E JUnit publication',
@@ -311,6 +333,15 @@ for (const { fileName, contracts } of requiredPipelineBehaviorContracts) {
   for (const { pattern, label } of contracts) {
     if (!pattern.test(pipelineSource)) {
       failures.push(`${fileName}: missing required Playwright pipeline behavior contract ${label}.`);
+    }
+  }
+}
+
+for (const { fileName, contracts } of forbiddenPipelineBehaviorContracts) {
+  const pipelineSource = readFileSync(join(root, fileName), 'utf-8');
+  for (const { pattern, label } of contracts) {
+    if (pattern.test(pipelineSource)) {
+      failures.push(`${fileName}: contains forbidden Playwright pipeline behavior contract ${label}.`);
     }
   }
 }

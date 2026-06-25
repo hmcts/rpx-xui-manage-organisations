@@ -70,6 +70,18 @@ const activePipelineFiles = [
   'Jenkinsfile_parameterized'
 ];
 const parameterizedPipelineFile = 'Jenkinsfile_parameterized';
+const requiredPipelineBehaviorContracts = [
+  {
+    fileName: 'Jenkinsfile_nightly',
+    contracts: [
+      {
+        label: 'non-blocking nightly accessibility branch',
+        pattern:
+          /playwrightAccessibility:\s*\{[\s\S]*?stage\(['"]Playwright Accessibility Tests['"]\)\s*\{[\s\S]*?catchError\(buildResult:\s*['"]SUCCESS['"],\s*stageResult:\s*['"]UNSTABLE['"]\)\s*\{[\s\S]*?yarnBuilder\.yarn\(['"]test:accessibility:playwright['"]\)[\s\S]*?throw e[\s\S]*?publishPlaywrightAccessibilityReport\(['"]Nightly Manage Org Playwright Accessibility['"]\)/
+      }
+    ]
+  }
+];
 const requiredPipelineJunitContracts = [
   {
     fileName: 'Jenkinsfile_CNP',
@@ -290,6 +302,15 @@ for (const { fileName, contracts } of requiredPipelineJunitContracts) {
   for (const { pattern, label } of contracts) {
     if (!pattern.test(pipelineSource)) {
       failures.push(`${fileName}: missing required Playwright JUnit evidence contract ${label}.`);
+    }
+  }
+}
+
+for (const { fileName, contracts } of requiredPipelineBehaviorContracts) {
+  const pipelineSource = readFileSync(join(root, fileName), 'utf-8');
+  for (const { pattern, label } of contracts) {
+    if (!pattern.test(pipelineSource)) {
+      failures.push(`${fileName}: missing required Playwright pipeline behavior contract ${label}.`);
     }
   }
 }

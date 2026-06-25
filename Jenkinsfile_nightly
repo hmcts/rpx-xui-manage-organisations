@@ -374,21 +374,24 @@ withNightlyPipeline(type, product, component) {
                     },
                     playwrightAccessibility: {
                         stage('Playwright Accessibility Tests') {
-                            try {
-                                withEnv(playwrightBrowsersEnv() + [
-                                    "FUNCTIONAL_TESTS_WORKERS=6",
-                                    "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-accessibility",
-                                    "PLAYWRIGHT_JUNIT_OUTPUT=${playwrightAccessibilityOutputRoot}/playwright-accessibility-junit.xml",
-                                    "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
-                                    "PLAYWRIGHT_SKIP_INSTALL=true"
-                                ]) {
-                                    yarnBuilder.yarn('test:accessibility:playwright')
+                            catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
+                                try {
+                                    withEnv(playwrightBrowsersEnv() + [
+                                        "FUNCTIONAL_TESTS_WORKERS=6",
+                                        "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-accessibility",
+                                        "PLAYWRIGHT_JUNIT_OUTPUT=${playwrightAccessibilityOutputRoot}/playwright-accessibility-junit.xml",
+                                        "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
+                                        "PLAYWRIGHT_SKIP_INSTALL=true"
+                                    ]) {
+                                        yarnBuilder.yarn('test:accessibility:playwright')
+                                    }
+                                } catch (Exception e) {
+                                    echo "[parallel-report-gathering] Playwright Accessibility failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"
+                                    if (handleParallelInterruption(e)) { return }
+                                    throw e
+                                } finally {
+                                    publishPlaywrightAccessibilityReport('Nightly Manage Org Playwright Accessibility')
                                 }
-                            } catch (Exception e) {
-                                echo "[parallel-report-gathering] Playwright Accessibility failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"
-                                if (handleParallelInterruption(e)) { return }
-                            } finally {
-                                publishPlaywrightAccessibilityReport('Nightly Manage Org Playwright Accessibility')
                             }
                         }
                     },

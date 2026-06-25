@@ -181,6 +181,27 @@ def publishManageOrgEvidenceDashboard = { String reportName ->
     )
 }
 
+def cleanupGeneratedWorkspaceBeforeSharedStash = { String suiteName ->
+    echo "[playwright-cleanup] Removing generated ${suiteName} workspace content before shared Jenkins stash"
+    steps.sh '''
+        set +e
+        du -sh .cache node_modules functional-output test-results dist reports 2>/dev/null || true
+        rm -rf \
+          .angular \
+          .cache \
+          blob-report \
+          coverage \
+          dist \
+          functional-output \
+          node_modules \
+          playwright-report \
+          reports/tests/coverage \
+          test-results
+        du -sh . 2>/dev/null || true
+        exit 0
+    '''
+}
+
 def publishPlaywrightE2EReport = { String reportName ->
     ensureHtmlReportForPublishing(
         "functional-output/tests/playwright-e2e/odhin-report",
@@ -532,7 +553,11 @@ withPipeline(type, product, component) {
             artifacts: 'functional-output/tests/playwright-smoke/**'
         )
 
-        runPlaywrightFunctionalTestsInParallel('PREVIEW')
+        try {
+            runPlaywrightFunctionalTestsInParallel('PREVIEW')
+        } finally {
+            cleanupGeneratedWorkspaceBeforeSharedStash('PREVIEW smoke')
+        }
     }
 
     afterAlways('smoketest:aat') {
@@ -557,7 +582,11 @@ withPipeline(type, product, component) {
             artifacts: 'functional-output/tests/playwright-smoke/**'
         )
 
-        runPlaywrightFunctionalTestsInParallel('AAT')
+        try {
+            runPlaywrightFunctionalTestsInParallel('AAT')
+        } finally {
+            cleanupGeneratedWorkspaceBeforeSharedStash('AAT smoke')
+        }
     }
 
 }

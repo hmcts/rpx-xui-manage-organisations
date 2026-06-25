@@ -80,7 +80,20 @@ export const createArchitectureGuardFixture = (): string => {
       'publishPlaywrightJUnit(\'functional-output/tests/playwright-api/**/*junit.xml\')',
       'publishPlaywrightJUnit(\'functional-output/tests/playwright-integration/**/*junit.xml\')',
       'publishPlaywrightJUnit(\'functional-output/tests/playwright-accessibility/**/*junit.xml\')',
-      'publishPlaywrightJUnit(\'functional-output/tests/playwright-e2e/**/*junit.xml\')'
+      'publishPlaywrightJUnit(\'functional-output/tests/playwright-e2e/**/*junit.xml\')',
+      'playwrightAccessibility: {',
+      '  stage(\'Playwright Accessibility Tests\') {',
+      '    catchError(buildResult: \'SUCCESS\', stageResult: \'UNSTABLE\') {',
+      '      try {',
+      '        yarnBuilder.yarn(\'test:accessibility:playwright\')',
+      '      } catch (Exception e) {',
+      '        throw e',
+      '      } finally {',
+      '        publishPlaywrightAccessibilityReport(\'Nightly Manage Org Playwright Accessibility\')',
+      '      }',
+      '    }',
+      '  }',
+      '}'
     ].join('\n')
   );
 

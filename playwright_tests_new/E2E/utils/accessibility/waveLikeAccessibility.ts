@@ -288,6 +288,8 @@ export async function attachWaveLikeAccessibilityEvidence(
 
 function buildIssueSummaryHtml(url: string, violations: WaveLikeViolation[]): string {
   const hasViolations = violations.length > 0;
+  const odhinIndexFileName = process.env.PLAYWRIGHT_REPORT_INDEX_FILENAME || 'xui-playwright-accessibility.html';
+  const odhinReportHref = `../${escapeHtml(odhinIndexFileName)}`;
   const cards = violations
     .map(
       (violation, index) => `
@@ -311,6 +313,8 @@ function buildIssueSummaryHtml(url: string, violations: WaveLikeViolation[]): st
           .banner { background: ${hasViolations ? '#d4351c' : '#00703c'}; color: #fff; padding: 16px; margin-bottom: 24px; }
           .issue { border: 4px solid #d4351c; padding: 16px; margin-bottom: 18px; }
           .issue h2 { margin-top: 0; }
+          .report-nav { margin: 0 0 18px; }
+          .report-nav a { color: #1d70b8; font-weight: bold; }
           .advice { background: #f3f2f1; border-left: 8px solid #1d70b8; padding: 12px 16px; margin: 12px 0; }
           .advice dt { font-weight: bold; margin-top: 8px; }
           .advice dd { margin-left: 0; }
@@ -322,7 +326,9 @@ function buildIssueSummaryHtml(url: string, violations: WaveLikeViolation[]): st
           <h1>${hasViolations ? 'WAVE-LIKE ACCESSIBILITY ISSUES FOUND' : 'NO WAVE-LIKE ACCESSIBILITY ISSUES FOUND'}</h1>
           <p>${violations.length} issue(s) on ${escapeHtml(url)}.${hasViolations ? ' Match marker numbers here to the highlighted screenshot.' : ' Screenshot captured for page-state evidence.'}</p>
         </div>
+        <p class="report-nav"><a href="${odhinReportHref}">Back to Odhín report</a></p>
         ${cards}
+        <p class="report-nav"><a href="${odhinReportHref}">Back to Odhín report</a></p>
       </body>
     </html>
   `;

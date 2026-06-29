@@ -313,9 +313,14 @@ test.describe('Manage Org Playwright reporting scripts', { tag: '@svc-internal' 
       expect(html).toContain('Issue Summary');
       expect(html).toContain('Screen-reader issue(s): skip-link');
       expect(html).toContain('likely shared app shell fix');
+      expect(html).toContain(
+        '<a class="issue-link" href="./accessibility-state-wave-accessibility-issues.html" target="_blank" rel="noopener noreferrer">accessibility state</a>'
+      );
       expect(html).toContain('accessibility state');
       expect(html).toContain('1 WAVE-like rule issue(s): skip-link');
-      expect(html).toContain('accessibility-state-wave-accessibility-issues-highlighted-screenshot.png');
+      expect(html).toContain(
+        '<a href="./accessibility-state-wave-accessibility-issues-highlighted-screenshot.png" target="_blank" rel="noopener noreferrer">screenshot</a>'
+      );
     } finally {
       fs.rmSync(rootDir, { recursive: true, force: true });
     }
@@ -341,6 +346,8 @@ test.describe('Manage Org Playwright reporting scripts', { tag: '@svc-internal' 
     expect(html).toContain('var defaultPageLength = 100');
     expect(html).toContain('pageLength: defaultPageLength');
     expect(html).toContain('lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, \'All\']]');
+    expect(html).toContain('stateDuration: -1');
+    expect(html).toContain('stateSave: true');
 
     const emptySuiteHtml = odhinReportEnhancer.__test__.enhanceDashboardHtml(
       '<html><head></head><body><table class="dataTable"></table></body></html>',

@@ -221,13 +221,11 @@ def publishPlaywrightAccessibilityReport = { String reportName ->
     }
     try {
         stagePlaywrightArtifacts("${playwrightAccessibilityOutputRoot}/stable-artifacts", 'test-results/playwright-accessibility')
-        catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
-            publishPlaywrightJUnit("${playwrightAccessibilityOutputRoot}/**/*junit.xml")
-        }
         steps.archiveArtifacts(
             allowEmptyArchive: true,
             artifacts: "${playwrightAccessibilityOutputRoot}/**"
         )
+        echo "[playwright-accessibility] JUnit XML is archived only; report-only accessibility failures must not create a failing Jenkins test result."
     } catch (Exception e) {
         echo "[playwright-accessibility] Evidence publish failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"
     }
@@ -263,7 +261,7 @@ withNightlyPipeline(type, product, component) {
     enableFortifyScan('rpx-aat')
     //enableFullFunctionalTest(120)
     // enableSecurityScan()
-    enableMutationTest()
+    // Mutation testing is disabled until this repo restores a test:mutation script and report path.
 
     env.TEST_URL = 'https://manage-org.aat.platform.hmcts.net/'
     afterSuccess('checkout') {
@@ -313,17 +311,6 @@ withNightlyPipeline(type, product, component) {
 
     afterSuccess('fortify-scan') {
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
-    }
-
-    afterSuccess('mutationTest') {
-        publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/tests/mutation/node/",
-            reportFiles          : 'index.html',
-            reportName           : 'XUI Manage Organisation Mutation tests'
-        ])
     }
 
   afterSuccess('securityScan') {
@@ -399,7 +386,11 @@ withNightlyPipeline(type, product, component) {
                                 echo "[parallel-report-gathering] Playwright Accessibility failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"
                                 if (handleParallelInterruption(e)) { return }
                             } finally {
-                                publishPlaywrightAccessibilityReport('Nightly Manage Org Playwright Accessibility')
+                                try {
+                                    publishPlaywrightAccessibilityReport('Nightly Manage Org Playwright Accessibility')
+                                } catch (Exception publishException) {
+                                    echo "[playwright-accessibility] Report publish wrapper failed but is non-blocking: ${publishException.getClass().getName()}: ${publishException.getMessage()}"
+                                }
                             }
                         }
                     },

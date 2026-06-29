@@ -79,8 +79,29 @@ export const createArchitectureGuardFixture = (): string => {
     [
       'publishPlaywrightJUnit(\'functional-output/tests/playwright-api/**/*junit.xml\')',
       'publishPlaywrightJUnit(\'functional-output/tests/playwright-integration/**/*junit.xml\')',
-      'publishPlaywrightJUnit(\'functional-output/tests/playwright-accessibility/**/*junit.xml\')',
-      'publishPlaywrightJUnit(\'functional-output/tests/playwright-e2e/**/*junit.xml\')'
+      'publishPlaywrightJUnit(\'functional-output/tests/playwright-e2e/**/*junit.xml\')',
+      'publishHTML([',
+      '  reportDir: "${playwrightAccessibilityOutputRoot}/odhin-report",',
+      '  reportFiles: \'xui-playwright-accessibility.html\',',
+      '  reportName: reportName',
+      '])',
+      'archiveArtifacts(allowEmptyArchive: true, artifacts: "${playwrightAccessibilityOutputRoot}/**")',
+      'echo "[playwright-accessibility] JUnit XML is archived only; report-only accessibility failures must not create a failing Jenkins test result."',
+      'playwrightAccessibility: {',
+      '  stage(\'Playwright Accessibility Tests\') {',
+      '    try {',
+      '      yarnBuilder.yarn(\'test:accessibility:playwright\')',
+      '    } catch (Exception e) {',
+      '      echo "[parallel-report-gathering] Playwright Accessibility failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"',
+      '    } finally {',
+      '      try {',
+      '        publishPlaywrightAccessibilityReport(\'Nightly Manage Org Playwright Accessibility\')',
+      '      } catch (Exception publishException) {',
+      '        echo "[playwright-accessibility] Report publish wrapper failed but is non-blocking: ${publishException.getClass().getName()}: ${publishException.getMessage()}"',
+      '      }',
+      '    }',
+      '  }',
+      '}'
     ].join('\n')
   );
 

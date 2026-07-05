@@ -21,13 +21,12 @@ export class InviteUserSuccessGuard {
 
   public checkStore(): Observable<boolean> {
     return this.store.pipe(select(fromStore.getInviteUserIsUserConfirmed),
-      tap((isUserConfirmed) => {
+      tap({ next: (isUserConfirmed) => {
         if (!isUserConfirmed) {
           this.store.dispatch(new fromRoot.Go({ path: ['users/invite-user'] }));
         }
-      }),
+      } }),
       take(1)
     );
   }
 }
-

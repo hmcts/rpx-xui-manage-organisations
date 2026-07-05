@@ -24,7 +24,7 @@ export class CheckYourAnswersComponent implements OnInit, OnDestroy, AfterViewIn
   public errorMessageDetails: any;
   public errorMessageDetailsCode: any;
 
-  @Output() public submit = new EventEmitter();
+  @Output() public formSubmit = new EventEmitter();
   @Input() public set fromValues(values: FormDataValuesModel) {
     this.formDataValues = values;
     const pbaNumbers = [];
@@ -56,7 +56,7 @@ export class CheckYourAnswersComponent implements OnInit, OnDestroy, AfterViewIn
   }
 
   public onSubmitData(): void {
-    this.submit.emit();
+    this.formSubmit.emit();
   }
 
   public trackByPbaNumber(index: number, value: string): string | number {

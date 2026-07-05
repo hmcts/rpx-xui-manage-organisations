@@ -116,12 +116,12 @@
               }
             </div>
             <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-            <button class="govuk-button govuk-!-margin-right-3" (click)="onSearch()">
+            <button class="govuk-button govuk-!-margin-right-3" type="button" (click)="onSearch()">
               Apply filter
             </button>
             @if (caaCasesPageType === caaCasesPageTypeLookup.UnassignedCases) {
               <button
-                class="govuk-button govuk-button--secondary govuk-!-margin-right-3" (click)="onReset()">
+                class="govuk-button govuk-button--secondary govuk-!-margin-right-3" type="button" (click)="onReset()">
                 Reset
               </button>
             }

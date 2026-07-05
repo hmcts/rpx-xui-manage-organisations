@@ -7,6 +7,8 @@ import { buildMockStoreProviders } from '../../../register-org/testing/mock-stor
 import { of } from 'rxjs';
 import { CaaCasesState } from '../../store/reducers';
 import { CaseShareComponent } from './case-share.component';
+import { CaaCasesPageType } from '../../models/caa-cases.enum';
+import * as fromCasesFeature from '../../store';
 
 describe('CaseShareComponent', () => {
   let component: CaseShareComponent;
@@ -61,6 +63,26 @@ describe('CaseShareComponent', () => {
   it('should synchronize to store', () => {
     component.synchronizeStore(sharedCases);
     expect(dispatchSpy).toHaveBeenCalled();
+  });
+
+  it('should dispatch unassigned case share actions', () => {
+    component.pageType = CaaCasesPageType.UnassignedCases;
+
+    component.deselect(sharedCases);
+    component.synchronizeStore(sharedCases);
+
+    expect(dispatchSpy).toHaveBeenCalledWith(jasmine.any(fromCasesFeature.DeleteAShareUnassignedCase));
+    expect(dispatchSpy).toHaveBeenCalledWith(jasmine.any(fromCasesFeature.SynchronizeStateToStoreUnassignedCases));
+  });
+
+  it('should dispatch assigned case share actions', () => {
+    component.pageType = CaaCasesPageType.AssignedCases;
+
+    component.deselect(sharedCases);
+    component.synchronizeStore(sharedCases);
+
+    expect(dispatchSpy).toHaveBeenCalledWith(jasmine.any(fromCasesFeature.DeleteAShareAssignedCase));
+    expect(dispatchSpy).toHaveBeenCalledWith(jasmine.any(fromCasesFeature.SynchronizeStateToStoreAssignedCases));
   });
 
   afterEach(() => {

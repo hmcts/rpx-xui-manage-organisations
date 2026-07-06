@@ -53,7 +53,7 @@ properties([
     ])
 ])
 
-@Library("Infrastructure@2.0.0")
+@Library("Infrastructure2.4.0")
 
 //To enable PACT testing on pipeline uncomment the next line
 import uk.gov.hmcts.contino.AppPipelineDsl

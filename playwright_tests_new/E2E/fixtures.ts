@@ -135,7 +135,6 @@ export const test = base.extend<PageFixtures & AuthFixtures, AuthWorkerFixtures>
     if (!(await isVisibleWithin(organisationLink, 10_000))) {
       await page.context().clearCookies();
       await page.goto('');
-      await idamPage.heading.waitFor({ state: 'visible' });
       await idamPage.signIn(testUser.email, testUser.password);
       await organisationLink.waitFor({ state: 'visible' });
       await page.context().storageState({ path: manageOrgStorageStatePath });

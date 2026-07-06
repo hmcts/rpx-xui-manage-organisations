@@ -185,6 +185,55 @@ Playwright is split by test intent:
 | Smoke          | `playwright.config.ts`, project `smoke`    | Unauthenticated login and protected-route checks                   | `TEST_URL` or local                                   |
 | Accessibility  | `scripts/run-playwright-a11y.js`           | Dedicated `@a11y` specs across E2E and integration                 | `TEST_URL` or AAT                                     |
 
+### Running Playwright Against AAT, DEMO, ITHC and LOCAL
+
+Set `TEST_URL` to choose the target environment. If `TEST_URL` is omitted, E2E and integration runs default to AAT.
+
+| Environment | `TEST_URL` |
+| ----------- | ---------- |
+| AAT         | `https://manage-org.aat.platform.hmcts.net/` |
+| DEMO        | `https://manage-org.demo.platform.hmcts.net/` |
+| ITHC        | `https://manage-org.ithc.platform.hmcts.net/` |
+| LOCAL       | `http://localhost:3000/` |
+
+Populate and source local secrets before shared-environment runs:
+
+```bash
+# AAT
+yarn env:populate:aat
+set -a; source .env; set +a
+
+# DEMO
+yarn env:populate:demo
+set -a; source .env; set +a
+```
+
+For ITHC, export the required credentials through an approved local secret mechanism. Do not commit credentials or paste passwords into commands.
+
+Common commands:
+
+```bash
+# AAT
+yarn test:playwrightE2E
+yarn test:api:pw
+yarn test:playwright:integration
+
+# DEMO
+TEST_URL=https://manage-org.demo.platform.hmcts.net/ yarn test:playwrightE2E
+TEST_URL=https://manage-org.demo.platform.hmcts.net/ yarn test:api:pw
+TEST_URL=https://manage-org.demo.platform.hmcts.net/ yarn test:playwright:integration
+
+# ITHC
+TEST_URL=https://manage-org.ithc.platform.hmcts.net/ yarn test:playwrightE2E
+TEST_URL=https://manage-org.ithc.platform.hmcts.net/ yarn test:api:pw
+TEST_URL=https://manage-org.ithc.platform.hmcts.net/ yarn test:playwright:integration
+
+# LOCAL
+TEST_URL=http://localhost:3000/ yarn test:playwrightE2E
+TEST_URL=http://localhost:3000/ yarn test:api:pw
+TEST_URL=http://localhost:3000/ yarn test:playwright:integration
+```
+
 All Playwright configs use `playwright-reporting.ts` for worker count, reporter selection, tag filtering, and output directories.
 
 ```mermaid

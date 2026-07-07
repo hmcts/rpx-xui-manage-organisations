@@ -10,6 +10,20 @@ import {
   resolveWorkerCount,
 } from './playwright-reporting';
 
+type EnvMap = NodeJS.ProcessEnv;
+
+const WAVE_LIKE_A11Y_TAG = '@wave-a11y';
+const waveLikeA11ySpecPattern = '**/*.wave-a11y.spec.ts';
+
+const splitTags = (raw: string | undefined): string[] =>
+  (raw ?? '')
+    .split(',')
+    .map((tag) => tag.trim())
+    .filter(Boolean);
+
+export const includesWaveLikeA11y = (env: EnvMap): boolean =>
+  env.PLAYWRIGHT_INCLUDE_WAVE_A11Y === 'true' || splitTags(env.PLAYWRIGHT_TAGS).includes(WAVE_LIKE_A11Y_TAG);
+
 loadDotenv({
   defaults: '.env.example',
   errorOnExtra: false,
@@ -28,7 +42,11 @@ module.exports = defineConfig({
   outputDir,
   testDir: 'playwright_tests_new/E2E',
   testMatch: ['**/test/**/*.spec.ts'],
-  testIgnore: ['**/test/smoke/smokeTest.spec.ts', '**/*.a11y.spec.ts'],
+  testIgnore: [
+    '**/test/smoke/smokeTest.spec.ts',
+    '**/*.a11y.spec.ts',
+    ...(includesWaveLikeA11y(process.env) ? [] : [waveLikeA11ySpecPattern]),
+  ],
   grep: resolveTagGrep(process.env),
   grepInvert: resolveTagGrepInvert(process.env),
   fullyParallel: true,

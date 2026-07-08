@@ -36,6 +36,7 @@
     "ng": "ng",
     "prepare": "husky install",
     "pre-push": "yarn lint && ng build --configuration production && ng test rpx-xui-manage-organisations --code-coverage",
+    "prepush": "bash ./bin/prepush.sh",
     "report:playwright:evidence": "node scripts/build-playwright-evidence-dashboard.js",
     "publish-pact": "NODE_PATH=. LOG_LEVEL=error mocha -r ts-node/register api/test/pact/publish/*.ts --timeout 15000 --reporter spec",
     "sonar-scan": "node_modules/sonar-scanner/bin/sonar-scanner",

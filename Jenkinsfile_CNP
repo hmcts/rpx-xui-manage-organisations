@@ -8,10 +8,52 @@ properties([
     ],
     pipelineTriggers([
         [$class: 'GitHubPushTrigger']
+    ]),
+    parameters([
+        string(
+            name: 'API_PW_INCLUDE_TAGS',
+            defaultValue: '',
+            description: 'Optional comma/space separated Playwright API tags to include, for example @svc-ccd,@svc-work-allocation or @svc-auth @svc-cors'
+        ),
+        string(
+            name: 'API_PW_EXCLUDED_TAGS_OVERRIDE',
+            defaultValue: '',
+            description: 'Optional comma/space separated Playwright API tags to exclude; overrides the API tag filter. Examples: @svc-work-allocation, @svc-auth @svc-cors, @none to clear repo defaults'
+        ),
+        string(
+            name: 'E2E_PW_INCLUDE_TAGS',
+            defaultValue: '',
+            description: 'Optional comma/space separated Playwright E2E tags to include, for example @e2e-search-case or @e2e-search-case @e2e-update-case'
+        ),
+        string(
+            name: 'E2E_PW_EXCLUDED_TAGS_OVERRIDE',
+            defaultValue: '',
+            description: 'Optional comma/space separated Playwright E2E tags to exclude; overrides the E2E tag filter. Examples: @e2e-smoke, @e2e-manage-org @e2e-invite-user, @none to clear repo defaults'
+        ),
+        string(
+            name: 'INTEGRATION_PW_INCLUDE_TAGS',
+            defaultValue: '',
+            description: 'Optional comma/space separated Playwright integration tags to include, for example @integration-manage-org or @integration-invite-user'
+        ),
+        string(
+            name: 'INTEGRATION_PW_EXCLUDED_TAGS_OVERRIDE',
+            defaultValue: '',
+            description: 'Optional comma/space separated Playwright integration tags to exclude; overrides the integration tag filter. Examples: @integration-smoke, @integration-manage-org @integration-invite-user, @none to clear repo defaults'
+        ),
+        booleanParam(
+            name: 'PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES',
+            defaultValue: false,
+            description: 'Bypass Key Vault-backed Playwright global exclusions for a verification run that is fixing an excluded test.'
+        ),
+        booleanParam(
+            name: 'RUN_PLAYWRIGHT_ACCESSIBILITY',
+            defaultValue: false,
+            description: 'Manual-only: run only the non-blocking unified Playwright accessibility pack on this CNP build.'
+        )
     ])
 ])
 
-@Library("Infrastructure")
+@Library("Infrastructure@2.0.0")
 
 //To enable PACT testing on pipeline uncomment the next line
 import uk.gov.hmcts.contino.AppPipelineDsl
@@ -21,6 +63,7 @@ def product   = "xui"
 def component = "mo-webapp"
 def channel   = '#xui-pipeline'
 def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
+def playwrightAccessibilityOutputRoot = 'functional-output/tests/playwright-accessibility'
 
 def playwrightBrowsersEnv = {
     ["PLAYWRIGHT_BROWSERS_PATH=${env.WORKSPACE}/.cache/ms-playwright"]
@@ -138,6 +181,27 @@ def publishManageOrgEvidenceDashboard = { String reportName ->
     )
 }
 
+def cleanupGeneratedWorkspaceBeforeSharedStash = { String suiteName ->
+    echo "[playwright-cleanup] Removing generated ${suiteName} workspace content before shared Jenkins stash"
+    steps.sh '''
+        set +e
+        du -sh .cache node_modules functional-output test-results dist reports 2>/dev/null || true
+        rm -rf \
+          .angular \
+          .cache \
+          blob-report \
+          coverage \
+          dist \
+          functional-output \
+          node_modules \
+          playwright-report \
+          reports/tests/coverage \
+          test-results
+        du -sh . 2>/dev/null || true
+        exit 0
+    '''
+}
+
 def publishPlaywrightE2EReport = { String reportName ->
     ensureHtmlReportForPublishing(
         "functional-output/tests/playwright-e2e/odhin-report",
@@ -204,41 +268,52 @@ def publishPlaywrightIntegrationReport = { String reportName ->
     )
 }
 
-def publishPlaywrightA11yReport = { String reportName ->
+def publishPlaywrightAccessibilityReport = { String reportName ->
     try {
         ensureHtmlReportForPublishing(
-            "functional-output/tests/playwright-a11y/odhin-report",
-            'xui-playwright-a11y.html',
+            "${playwrightAccessibilityOutputRoot}/odhin-report",
+            'xui-playwright-accessibility.html',
             reportName
         )
         publishHTML([
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "functional-output/tests/playwright-a11y/odhin-report",
-            reportFiles          : 'xui-playwright-a11y.html',
+            reportDir            : "${playwrightAccessibilityOutputRoot}/odhin-report",
+            reportFiles          : 'xui-playwright-accessibility.html',
             reportName           : reportName
         ])
     } catch (Exception e) {
-        echo "[playwright-a11y] Report publish failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"
+        currentBuild.result = 'UNSTABLE'
+        echo "[playwright-accessibility] Report publish failed; marking build unstable because this pack must publish Odhín evidence: ${e.getClass().getName()}: ${e.getMessage()}"
     }
-    stagePlaywrightArtifacts('functional-output/tests/playwright-a11y/stable-artifacts', 'test-results/playwright-a11y')
-    publishPlaywrightJUnit('functional-output/tests/playwright-a11y/**/*junit.xml')
-    steps.archiveArtifacts(
-        allowEmptyArchive: true,
-        artifacts: 'functional-output/tests/playwright-a11y/**'
-    )
+    try {
+        stagePlaywrightArtifacts("${playwrightAccessibilityOutputRoot}/stable-artifacts", 'test-results/playwright-accessibility')
+        catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
+            publishPlaywrightJUnit("${playwrightAccessibilityOutputRoot}/**/*junit.xml")
+        }
+        steps.archiveArtifacts(
+            allowEmptyArchive: true,
+            artifacts: "${playwrightAccessibilityOutputRoot}/**"
+        )
+    } catch (Exception e) {
+        currentBuild.result = 'UNSTABLE'
+        echo "[playwright-accessibility] Evidence publish failed; marking build unstable because this pack must publish accessibility evidence: ${e.getClass().getName()}: ${e.getMessage()}"
+    }
 }
 
 def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
     stage("${environmentName} Functional Tests (Parallel)") {
         try {
-            parallel(
+            def functionalSuites = [
                 failFast: false,
                 api: {
                     stage('API Tests') {
                         try {
                             withEnv(playwrightBrowsersEnv() + [
+                                "API_PW_INCLUDE_TAGS=${params.API_PW_INCLUDE_TAGS ?: ''}",
+                                "API_PW_EXCLUDED_TAGS_OVERRIDE=${params.API_PW_EXCLUDED_TAGS_OVERRIDE ?: ''}",
+                                "PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES=${params.PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES ? 'true' : 'false'}",
                                 "FUNCTIONAL_TESTS_WORKERS=6",
                                 "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-api",
                                 "PLAYWRIGHT_HTML_OUTPUT=functional-output/tests/playwright-api/html-report",
@@ -260,6 +335,9 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                     stage('Playwright Integration Tests') {
                         try {
                             withEnv(playwrightBrowsersEnv() + [
+                                "INTEGRATION_PW_INCLUDE_TAGS=${params.INTEGRATION_PW_INCLUDE_TAGS ?: ''}",
+                                "INTEGRATION_PW_EXCLUDED_TAGS_OVERRIDE=${params.INTEGRATION_PW_EXCLUDED_TAGS_OVERRIDE ?: ''}",
+                                "PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES=${params.PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES ? 'true' : 'false'}",
                                 "FUNCTIONAL_TESTS_WORKERS=6",
                                 "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-integration",
                                 "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-integration/playwright-integration-junit.xml",
@@ -276,26 +354,6 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                         }
                     }
                 },
-                playwrightA11y: {
-                    stage('Playwright Accessibility Tests') {
-                        try {
-                            withEnv(playwrightBrowsersEnv() + [
-                                "FUNCTIONAL_TESTS_WORKERS=6",
-                                "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-a11y",
-                                "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-a11y/playwright-a11y-junit.xml",
-                                "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
-                                "PLAYWRIGHT_SKIP_INSTALL=true"
-                            ]) {
-                                yarnBuilder.yarn('test:a11y:playwright')
-                            }
-                        } catch (Exception e) {
-                            echo "[parallel-report-gathering] Playwright Accessibility failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"
-                            if (handleParallelInterruption(e)) { return }
-                        } finally {
-                            publishPlaywrightA11yReport("${environmentName} Manage Org Register Organisation Playwright A11y")
-                        }
-                    }
-                },
                 playwrightE2E: {
                     stage('Playwright E2E') {
                         try {
@@ -304,8 +362,11 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                                 "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-e2e",
                                 "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-e2e/playwright-e2e-junit.xml",
                                 "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
-                                "PLAYWRIGHT_TAGS=@e2e",
-                                "PLAYWRIGHT_EXCLUDE_TAGS=@a11y",
+                                "PLAYWRIGHT_TAGS=${params.E2E_PW_INCLUDE_TAGS ?: '@e2e'}",
+                                "PLAYWRIGHT_EXCLUDE_TAGS=${params.E2E_PW_EXCLUDED_TAGS_OVERRIDE ?: '@a11y'}",
+                                "E2E_PW_INCLUDE_TAGS=${params.E2E_PW_INCLUDE_TAGS ?: ''}",
+                                "E2E_PW_EXCLUDED_TAGS_OVERRIDE=${params.E2E_PW_EXCLUDED_TAGS_OVERRIDE ?: ''}",
+                                "PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES=${params.PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES ? 'true' : 'false'}",
                                 "PLAYWRIGHT_SKIP_INSTALL=true"
                             ]) {
                                 yarnBuilder.yarn('test:playwrightE2E:raw')
@@ -319,7 +380,36 @@ def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
                         }
                     }
                 }
-            )
+            ]
+
+            if (params.RUN_PLAYWRIGHT_ACCESSIBILITY) {
+                functionalSuites = [failFast: false]
+                functionalSuites.playwrightAccessibility = {
+                    stage('Playwright Accessibility Tests') {
+                        try {
+                            withEnv(playwrightBrowsersEnv() + [
+                                "FUNCTIONAL_TESTS_WORKERS=6",
+                                "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-accessibility",
+                                "PLAYWRIGHT_JUNIT_OUTPUT=${playwrightAccessibilityOutputRoot}/playwright-accessibility-junit.xml",
+                                "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
+                                "PLAYWRIGHT_SKIP_INSTALL=true"
+                            ]) {
+                                yarnBuilder.yarn('test:accessibility:playwright')
+                            }
+                        } catch (Exception e) {
+                            if (handleParallelInterruption(e)) { return }
+                            currentBuild.result = 'UNSTABLE'
+                            echo "[parallel-report-gathering] Playwright Accessibility failed; marking build unstable so a manual accessibility-only run cannot hide missing Odhín evidence: ${e.getClass().getName()}: ${e.getMessage()}"
+                        } finally {
+                            publishPlaywrightAccessibilityReport("${environmentName} Manage Org Playwright Accessibility")
+                        }
+                    }
+                }
+            } else {
+                echo '[playwright-accessibility] CNP stage omitted by default. Set RUN_PLAYWRIGHT_ACCESSIBILITY=true on a manual build to run only this pack.'
+            }
+
+            parallel(functionalSuites)
         } finally {
             publishManageOrgEvidenceDashboard("${environmentName} Manage Org Playwright Evidence")
         }
@@ -463,7 +553,11 @@ withPipeline(type, product, component) {
             artifacts: 'functional-output/tests/playwright-smoke/**'
         )
 
-        runPlaywrightFunctionalTestsInParallel('PREVIEW')
+        try {
+            runPlaywrightFunctionalTestsInParallel('PREVIEW')
+        } finally {
+            cleanupGeneratedWorkspaceBeforeSharedStash('PREVIEW smoke')
+        }
     }
 
     afterAlways('smoketest:aat') {
@@ -488,7 +582,11 @@ withPipeline(type, product, component) {
             artifacts: 'functional-output/tests/playwright-smoke/**'
         )
 
-        runPlaywrightFunctionalTestsInParallel('AAT')
+        try {
+            runPlaywrightFunctionalTestsInParallel('AAT')
+        } finally {
+            cleanupGeneratedWorkspaceBeforeSharedStash('AAT smoke')
+        }
     }
 
 }

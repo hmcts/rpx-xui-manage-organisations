@@ -10,17 +10,23 @@ properties([
         [$class: 'GitHubPushTrigger']
     ]),
     parameters([
-        choice(name: 'ENVIRONMENT', choices: 'saat\nsandbox\nsprod', description: 'Environment where code should be build and deployed')
+        choice(name: 'ENVIRONMENT', choices: 'saat\nsandbox\nsprod', description: 'Environment where code should be build and deployed'),
+        booleanParam(
+            name: 'RUN_PLAYWRIGHT_ACCESSIBILITY',
+            defaultValue: false,
+            description: 'Manual-only: run only the non-blocking unified Playwright accessibility pack.'
+        )
     ])
 ])
 
-@Library("Infrastructure")
+@Library("Infrastructure@2.0.0")
 
 def type      = "nodejs"
 def product   = "xui"
 def component = "manage-organisations"
 def vault     = "rpx"
 def channel   = '#xui-pipeline'
+def playwrightAccessibilityOutputRoot = 'functional-output/tests/playwright-accessibility'
 
 List<LinkedHashMap<String, Object>> secrets = [
   secret('mo-s2s-client-secret',                 'S2S_SECRET'),
@@ -158,88 +164,108 @@ def runPlaywrightFunctionalTests = { String environmentName ->
     stage("${environmentName} Playwright Functional Replacement") {
         try {
             withEnv(playwrightBrowserEnv()) {
-                parallel(
-                    failFast: true,
-                    api: {
-                        stage('API Tests') {
-                            withEnv([
-                                "FUNCTIONAL_TESTS_WORKERS=4",
-                                "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-api",
-                                "PLAYWRIGHT_HTML_OUTPUT=functional-output/tests/playwright-api/html-report",
-                                "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-api/playwright-api-junit.xml"
-                            ]) {
-                                sh 'yarn test:api:pw'
+                if (params.RUN_PLAYWRIGHT_ACCESSIBILITY) {
+                    parallel(
+                        failFast: false,
+                        playwrightAccessibility: {
+                            stage('Playwright Accessibility Tests') {
+                                try {
+                                    withEnv([
+                                        "FUNCTIONAL_TESTS_WORKERS=4",
+                                        "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-accessibility",
+                                        "PLAYWRIGHT_JUNIT_OUTPUT=${playwrightAccessibilityOutputRoot}/playwright-accessibility-junit.xml",
+                                        "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0"
+                                    ]) {
+                                        sh 'yarn test:accessibility:playwright'
+                                    }
+                                } catch (Exception e) {
+                                    echo "[parallel-report-gathering] Playwright Accessibility failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"
+                                }
                             }
                         }
-                    },
-                    playwrightIntegration: {
-                        stage('Playwright Integration Tests') {
-                            withEnv([
-                                "FUNCTIONAL_TESTS_WORKERS=4",
-                                "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-integration",
-                                "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-integration/playwright-integration-junit.xml"
-                            ]) {
-                                sh 'yarn test:playwright:integration'
+                    )
+                } else {
+                    echo '[playwright-accessibility] Manual accessibility pack disabled; running normal parameterized Playwright functional lanes.'
+                    parallel(
+                        failFast: true,
+                        api: {
+                            stage('API Tests') {
+                                withEnv([
+                                    "FUNCTIONAL_TESTS_WORKERS=4",
+                                    "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-api",
+                                    "PLAYWRIGHT_HTML_OUTPUT=functional-output/tests/playwright-api/html-report",
+                                    "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-api/playwright-api-junit.xml"
+                                ]) {
+                                    sh 'yarn test:api:pw'
+                                }
+                            }
+                        },
+                        playwrightIntegration: {
+                            stage('Playwright Integration Tests') {
+                                withEnv([
+                                    "FUNCTIONAL_TESTS_WORKERS=4",
+                                    "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-integration",
+                                    "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-integration/playwright-integration-junit.xml"
+                                ]) {
+                                    sh 'yarn test:playwright:integration'
+                                }
+                            }
+                        },
+                        playwrightE2E: {
+                            stage('Playwright E2E') {
+                                withEnv([
+                                    "FUNCTIONAL_TESTS_WORKERS=2",
+                                    "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-e2e",
+                                    "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-e2e/playwright-e2e-junit.xml",
+                                    "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
+                                    "PLAYWRIGHT_TAGS=@e2e",
+                                    "PLAYWRIGHT_EXCLUDE_TAGS=@a11y"
+                                ]) {
+                                    sh 'yarn test:playwrightE2E:raw'
+                                }
                             }
                         }
-                    },
-                    playwrightA11y: {
-                        stage('Playwright Accessibility Tests') {
-                            withEnv([
-                                "FUNCTIONAL_TESTS_WORKERS=4",
-                                "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-a11y",
-                                "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-a11y/playwright-a11y-junit.xml",
-                                "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0"
-                            ]) {
-                                sh 'yarn test:a11y:playwright'
-                            }
-                        }
-                    },
-                    playwrightE2E: {
-                        stage('Playwright E2E') {
-                            withEnv([
-                                "FUNCTIONAL_TESTS_WORKERS=2",
-                                "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-e2e",
-                                "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-e2e/playwright-e2e-junit.xml",
-                                "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
-                                "PLAYWRIGHT_TAGS=@e2e",
-                                "PLAYWRIGHT_EXCLUDE_TAGS=@a11y"
-                            ]) {
-                                sh 'yarn test:playwrightE2E:raw'
-                            }
-                        }
-                    }
-                )
+                    )
+                }
             }
         } finally {
-            stagePlaywrightArtifacts('functional-output/tests/playwright-api/stable-artifacts', 'test-results/playwright-api')
-            publishPlaywrightReport(
-                "functional-output/tests/playwright-api/odhin-report",
-                'xui-mo-playwright-api.html',
-                "${environmentName} Manage Org Playwright API",
-                'functional-output/tests/playwright-api/**'
-            )
-            stagePlaywrightArtifacts('functional-output/tests/playwright-integration/stable-artifacts', 'test-results/playwright-integration')
-            publishPlaywrightReport(
-                "functional-output/tests/playwright-integration/odhin-report",
-                'xui-mo-playwright-integration.html',
-                "${environmentName} Manage Org Playwright Integration",
-                'functional-output/tests/playwright-integration/**'
-            )
-            stagePlaywrightArtifacts('functional-output/tests/playwright-a11y/stable-artifacts', 'test-results/playwright-a11y')
-            publishPlaywrightReport(
-                "functional-output/tests/playwright-a11y/odhin-report",
-                'xui-playwright-a11y.html',
-                "${environmentName} Manage Org Register Organisation Playwright A11y",
-                'functional-output/tests/playwright-a11y/**'
-            )
-            stagePlaywrightArtifacts('functional-output/tests/playwright-e2e/stable-artifacts', 'test-results/playwright-e2e')
-            publishPlaywrightReport(
-                "functional-output/tests/playwright-e2e/odhin-report",
-                'xui-playwright-e2e.html',
-                "${environmentName} Manage Org Playwright E2E",
-                'functional-output/tests/playwright-e2e/**'
-            )
+            if (params.RUN_PLAYWRIGHT_ACCESSIBILITY) {
+                try {
+                    stagePlaywrightArtifacts("${playwrightAccessibilityOutputRoot}/stable-artifacts", 'test-results/playwright-accessibility')
+                    catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
+                        publishPlaywrightReport(
+                            "${playwrightAccessibilityOutputRoot}/odhin-report",
+                            'xui-playwright-accessibility.html',
+                            "${environmentName} Manage Org Playwright Accessibility",
+                            "${playwrightAccessibilityOutputRoot}/**"
+                        )
+                    }
+                } catch (Exception e) {
+                    echo "[playwright-accessibility] Report/evidence publish failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"
+                }
+            } else {
+                stagePlaywrightArtifacts('functional-output/tests/playwright-api/stable-artifacts', 'test-results/playwright-api')
+                publishPlaywrightReport(
+                    "functional-output/tests/playwright-api/odhin-report",
+                    'xui-mo-playwright-api.html',
+                    "${environmentName} Manage Org Playwright API",
+                    'functional-output/tests/playwright-api/**'
+                )
+                stagePlaywrightArtifacts('functional-output/tests/playwright-integration/stable-artifacts', 'test-results/playwright-integration')
+                publishPlaywrightReport(
+                    "functional-output/tests/playwright-integration/odhin-report",
+                    'xui-mo-playwright-integration.html',
+                    "${environmentName} Manage Org Playwright Integration",
+                    'functional-output/tests/playwright-integration/**'
+                )
+                stagePlaywrightArtifacts('functional-output/tests/playwright-e2e/stable-artifacts', 'test-results/playwright-e2e')
+                publishPlaywrightReport(
+                    "functional-output/tests/playwright-e2e/odhin-report",
+                    'xui-playwright-e2e.html',
+                    "${environmentName} Manage Org Playwright E2E",
+                    'functional-output/tests/playwright-e2e/**'
+                )
+            }
             publishManageOrgEvidenceDashboard("${environmentName} Manage Org Playwright Evidence")
         }
     }

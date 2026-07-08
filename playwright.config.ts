@@ -8,6 +8,20 @@ import {
 } from './playwright-reporting';
 const { version: appVersion } = require('./package.json');
 
+type EnvMap = NodeJS.ProcessEnv;
+
+const WAVE_LIKE_A11Y_TAG = '@wave-a11y';
+const waveLikeA11ySpecPattern = '**/*.wave-a11y.spec.ts';
+
+const splitTags = (raw: string | undefined): string[] =>
+  (raw ?? '')
+    .split(',')
+    .map((tag) => tag.trim())
+    .filter(Boolean);
+
+export const includesWaveLikeA11y = (env: EnvMap): boolean =>
+  env.PLAYWRIGHT_INCLUDE_WAVE_A11Y === 'true' || splitTags(env.PLAYWRIGHT_TAGS).includes(WAVE_LIKE_A11Y_TAG);
+
 require('dotenv-extended').load({
   defaults: '.env.example',
   errorOnExtra: false,
@@ -19,6 +33,7 @@ require('dotenv-extended').load({
 const headlessMode = process.env.HEAD !== 'true';
 export const axeTestEnabled = process.env.ENABLE_AXE_TESTS === 'true';
 const smokeSpecPattern = 'playwright_tests_new/E2E/test/smoke/smokeTest.spec.ts';
+const waveLikeA11yIgnore = includesWaveLikeA11y(process.env) ? [] : [waveLikeA11ySpecPattern];
 const baseUrl = process.env.TEST_URL || 'http://localhost:3000/';
 const workerCount = resolveWorkerCount(process.env);
 const outputDir = resolveOutputDir(process.env);
@@ -63,17 +78,17 @@ module.exports = defineConfig({
   projects: [
     {
       name: 'chromium',
-      testIgnore: [smokeSpecPattern, 'playwright_tests_new/api/**'],
+      testIgnore: [smokeSpecPattern, 'playwright_tests_new/api/**', ...waveLikeA11yIgnore],
       use: { ...devices['Desktop Chrome'], channel: 'chrome', headless: headlessMode, trace: 'on-first-retry' },
     },
     {
       name: 'firefox',
-      testIgnore: [smokeSpecPattern, 'playwright_tests_new/api/**'],
+      testIgnore: [smokeSpecPattern, 'playwright_tests_new/api/**', ...waveLikeA11yIgnore],
       use: { ...devices['Desktop Firefox'], screenshot: 'only-on-failure', headless: headlessMode, trace: 'off' },
     },
     {
       name: 'webkit',
-      testIgnore: [smokeSpecPattern, 'playwright_tests_new/api/**'],
+      testIgnore: [smokeSpecPattern, 'playwright_tests_new/api/**', ...waveLikeA11yIgnore],
       use: {
         screenshot: 'only-on-failure',
         headless: headlessMode,

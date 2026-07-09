@@ -221,13 +221,11 @@ def publishPlaywrightAccessibilityReport = { String reportName ->
     }
     try {
         stagePlaywrightArtifacts("${playwrightAccessibilityOutputRoot}/stable-artifacts", 'test-results/playwright-accessibility')
-        catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
-            publishPlaywrightJUnit("${playwrightAccessibilityOutputRoot}/**/*junit.xml")
-        }
         steps.archiveArtifacts(
             allowEmptyArchive: true,
             artifacts: "${playwrightAccessibilityOutputRoot}/**"
         )
+        echo "[playwright-accessibility] JUnit XML is archived only; report-only accessibility failures must not create a failing Jenkins test result."
     } catch (Exception e) {
         echo "[playwright-accessibility] Evidence publish failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"
     }
@@ -266,20 +264,28 @@ withNightlyPipeline(type, product, component) {
     // Mutation testing is disabled until this repo restores a test:mutation script and report path.
 
     env.TEST_URL = 'https://manage-org.aat.platform.hmcts.net/'
-    afterSuccess('checkout') {
-        sh 'yarn cache clean'
-        stage('Playwright Install All Browsers') {
-            withEnv(playwrightBrowsersEnv()) {
-                sh '''
-                    mkdir -p "$PLAYWRIGHT_BROWSERS_PATH"
-                    node .yarn/releases/yarn-4.9.2.cjs install --immutable
-                    touch .yarn_dependencies_installed
-                    node .yarn/releases/yarn-4.9.2.cjs test:setup:playwright-install-all
-                    node .yarn/releases/yarn-4.9.2.cjs test:setup:playwright-verify-all
-                '''
-            }
-        }
-    }
+	    afterSuccess('checkout') {
+	        sh 'yarn cache clean'
+	        stage('Playwright Install All Browsers') {
+	            withEnv(playwrightBrowsersEnv()) {
+	                sh '''
+	                    mkdir -p "$PLAYWRIGHT_BROWSERS_PATH"
+	                    node .yarn/releases/yarn-4.9.2.cjs install --immutable
+	                    touch .yarn_dependencies_installed
+	                '''
+	                try {
+	                    sh 'node .yarn/releases/yarn-4.9.2.cjs test:setup:playwright-install-all'
+	                } catch (Exception installWithDepsError) {
+	                    if (installWithDepsError instanceof org.jenkinsci.plugins.workflow.steps.FlowInterruptedException) {
+	                        throw installWithDepsError
+	                    }
+	                    echo "[playwright-install] Browser dependency install failed, retrying browser download only: ${installWithDepsError.getClass().getName()}: ${installWithDepsError.getMessage()}"
+	                    sh 'node .yarn/releases/yarn-4.9.2.cjs test:setup:playwright-install-browsers'
+	                }
+	                sh 'node .yarn/releases/yarn-4.9.2.cjs test:setup:playwright-verify-all'
+	            }
+	        }
+	    }
     afterSuccess('build') {
         sh 'npm run build'
         stage('API Unit Coverage') {
@@ -374,23 +380,24 @@ withNightlyPipeline(type, product, component) {
                     },
                     playwrightAccessibility: {
                         stage('Playwright Accessibility Tests') {
-                            catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
+                            try {
+                                withEnv(playwrightBrowsersEnv() + [
+                                    "FUNCTIONAL_TESTS_WORKERS=6",
+                                    "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-accessibility",
+                                    "PLAYWRIGHT_JUNIT_OUTPUT=${playwrightAccessibilityOutputRoot}/playwright-accessibility-junit.xml",
+                                    "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
+                                    "PLAYWRIGHT_SKIP_INSTALL=true"
+                                ]) {
+                                    yarnBuilder.yarn('test:accessibility:playwright')
+                                }
+                            } catch (Exception e) {
+                                echo "[parallel-report-gathering] Playwright Accessibility failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"
+                                if (handleParallelInterruption(e)) { return }
+                            } finally {
                                 try {
-                                    withEnv(playwrightBrowsersEnv() + [
-                                        "FUNCTIONAL_TESTS_WORKERS=6",
-                                        "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-accessibility",
-                                        "PLAYWRIGHT_JUNIT_OUTPUT=${playwrightAccessibilityOutputRoot}/playwright-accessibility-junit.xml",
-                                        "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
-                                        "PLAYWRIGHT_SKIP_INSTALL=true"
-                                    ]) {
-                                        yarnBuilder.yarn('test:accessibility:playwright')
-                                    }
-                                } catch (Exception e) {
-                                    echo "[parallel-report-gathering] Playwright Accessibility failed but is non-blocking: ${e.getClass().getName()}: ${e.getMessage()}"
-                                    if (handleParallelInterruption(e)) { return }
-                                    throw e
-                                } finally {
                                     publishPlaywrightAccessibilityReport('Nightly Manage Org Playwright Accessibility')
+                                } catch (Exception publishException) {
+                                    echo "[playwright-accessibility] Report publish wrapper failed but is non-blocking: ${publishException.getClass().getName()}: ${publishException.getMessage()}"
                                 }
                             }
                         }

@@ -87,12 +87,6 @@ if (showFeature(FEATURE_HELMET_ENABLED)) {
 
 app.use(cookieParser(getConfigValue(SESSION_SECRET)));
 
-tunnel.init();
-app.use(getXuiNodeMiddleware());
-
-app.use(bodyParser.json({ limit: '5mb' }));
-app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
-
 function healthcheckConfig(msUrl) {
   return healthcheck.web(`${msUrl}/health`, {
     timeout: 6000,
@@ -145,6 +139,12 @@ console.log('caseAssignmentApi', getConfigValue(SERVICES_MCA_PROXY_API_PATH));
 console.log('caseTypes', getConfigValue(CASE_TYPES));
 
 healthcheck.addTo(app, healthChecks);
+
+tunnel.init();
+app.use(getXuiNodeMiddleware());
+
+app.use(bodyParser.json({ limit: '5mb' }));
+app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
 
 app.use(attach);
 

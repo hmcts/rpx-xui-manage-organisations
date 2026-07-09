@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { caseAssignment } from './caaCases.constants';
 import { getApiPath, getRequestBody } from './caaCases.util';
-import { CaaCasesPageType } from './enums';
+import { CaaCasesFilterType, CaaCasesPageType } from './enums';
 
 describe('caaCases Util', () => {
   it('should getApiPath', () => {
@@ -10,7 +10,7 @@ describe('caaCases Util', () => {
   });
 
   it('should generate the request body for retrieving all assigned cases', () => {
-    const requestBody = getRequestBody('GCXGCY1', 0, 10, CaaCasesPageType.AssignedCases);
+    const requestBody = getRequestBody('GCXGCY1', 0, 10, CaaCasesPageType.AssignedCases, CaaCasesFilterType.None);
     // Use the "eql" assertion because the test is *not* for strict equality (which is what "equal" asserts)
     expect(requestBody).to.eql({
       from: 0,
@@ -32,6 +32,27 @@ describe('caaCases Util', () => {
                       'supplementary_data.orgs_assigned_users.GCXGCY1': {
                         gt: 0
                       }
+                    }
+                  },
+                  {
+                    bool: {
+                      should: [
+                        {
+                          bool: {
+                            must_not: {
+                              exists: {
+                                field: 'supplementary_data.new_case.GCXGCY1'
+                              }
+                            }
+                          }
+                        },
+                        {
+                          term: {
+                            'supplementary_data.new_case.GCXGCY1': false
+                          }
+                        }
+                      ],
+                      minimum_should_match: 1
                     }
                   }
                 ]
@@ -53,7 +74,7 @@ describe('caaCases Util', () => {
   });
 
   it('should generate the request body for retrieving all unassigned cases', () => {
-    const requestBody = getRequestBody('GCXGCY1', 0, 10, CaaCasesPageType.UnassignedCases);
+    const requestBody = getRequestBody('GCXGCY1', 0, 10, CaaCasesPageType.UnassignedCases, CaaCasesFilterType.None);
     // Use the "eql" assertion because the test is *not* for strict equality (which is what "equal" asserts)
     expect(requestBody).to.eql({
       from: 0,
@@ -69,12 +90,47 @@ describe('caaCases Util', () => {
             },
             {
               bool: {
-                must_not: [
+                must: [
                   {
-                    range: {
-                      'supplementary_data.orgs_assigned_users.GCXGCY1': {
-                        gt: 0
-                      }
+                    bool: {
+                      should: [
+                        {
+                          term: {
+                            'supplementary_data.orgs_assigned_users.GCXGCY1': 0
+                          }
+                        },
+                        {
+                          bool: {
+                            must_not: {
+                              exists: {
+                                field: 'supplementary_data.orgs_assigned_users.GCXGCY1'
+                              }
+                            }
+                          }
+                        }
+                      ],
+                      minimum_should_match: 1
+                    }
+                  },
+                  {
+                    bool: {
+                      should: [
+                        {
+                          bool: {
+                            must_not: {
+                              exists: {
+                                field: 'supplementary_data.new_case.GCXGCY1'
+                              }
+                            }
+                          }
+                        },
+                        {
+                          term: {
+                            'supplementary_data.new_case.GCXGCY1': false
+                          }
+                        }
+                      ],
+                      minimum_should_match: 1
                     }
                   }
                 ]
@@ -96,7 +152,7 @@ describe('caaCases Util', () => {
   });
 
   it('should generate the request body for retrieving a specific assigned case', () => {
-    const requestBody = getRequestBody('GCXGCY1', 0, 10, CaaCasesPageType.AssignedCases, '1111222233334444');
+    const requestBody = getRequestBody('GCXGCY1', 0, 10, CaaCasesPageType.AssignedCases, CaaCasesFilterType.CaseReferenceNumber, '1111222233334444');
     // Use the "eql" assertion because the test is *not* for strict equality (which is what "equal" asserts)
     expect(requestBody).to.eql({
       from: 0,
@@ -111,17 +167,7 @@ describe('caaCases Util', () => {
               }
             },
             {
-              bool: {
-                must: [
-                  {
-                    range: {
-                      'supplementary_data.orgs_assigned_users.GCXGCY1': {
-                        gt: 0
-                      }
-                    }
-                  }
-                ]
-              }
+              bool: {}
             },
             {
               bool: {
@@ -147,7 +193,7 @@ describe('caaCases Util', () => {
   });
 
   it('should generate the request body for retrieving a specific unassigned case', () => {
-    const requestBody = getRequestBody('GCXGCY1', 0, 10, CaaCasesPageType.UnassignedCases, '1111222233334444');
+    const requestBody = getRequestBody('GCXGCY1', 0, 10, CaaCasesPageType.UnassignedCases, CaaCasesFilterType.CaseReferenceNumber, '1111222233334444');
     // Use the "eql" assertion because the test is *not* for strict equality (which is what "equal" asserts)
     expect(requestBody).to.eql({
       from: 0,
@@ -162,17 +208,7 @@ describe('caaCases Util', () => {
               }
             },
             {
-              bool: {
-                must_not: [
-                  {
-                    range: {
-                      'supplementary_data.orgs_assigned_users.GCXGCY1': {
-                        gt: 0
-                      }
-                    }
-                  }
-                ]
-              }
+              bool: {}
             },
             {
               bool: {
@@ -198,7 +234,7 @@ describe('caaCases Util', () => {
   });
 
   it('should generate the request body for retrieving specific assigned cases', () => {
-    const requestBody = getRequestBody('GCXGCY1', 0, 10, CaaCasesPageType.AssignedCases, ['1111222233334444', '4444333322221111']);
+    const requestBody = getRequestBody('GCXGCY1', 0, 10, CaaCasesPageType.AssignedCases, CaaCasesFilterType.CaseReferenceNumber, ['1111222233334444', '4444333322221111']);
     // Use the "eql" assertion because the test is *not* for strict equality (which is what "equal" asserts)
     expect(requestBody).to.eql({
       from: 0,
@@ -213,17 +249,7 @@ describe('caaCases Util', () => {
               }
             },
             {
-              bool: {
-                must: [
-                  {
-                    range: {
-                      'supplementary_data.orgs_assigned_users.GCXGCY1': {
-                        gt: 0
-                      }
-                    }
-                  }
-                ]
-              }
+              bool: {}
             },
             {
               bool: {

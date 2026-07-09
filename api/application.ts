@@ -15,6 +15,7 @@ import {
   FEATURE_REDIS_ENABLED,
   FEATURE_TERMS_AND_CONDITIONS_ENABLED,
   HELMET, SERVICES_CCD_DATA_STORE_API_PATH,
+  SERVICES_CCD_DEFINITION_STORE_API_PATH,
   SERVICES_FEE_AND_PAY_API_PATH,
   SERVICES_MCA_PROXY_API_PATH,
   SERVICES_RD_PROFESSIONAL_API_PATH,
@@ -137,6 +138,8 @@ console.log('healthChecks', healthChecks);
 
 console.log('ccdData', getConfigValue(SERVICES_CCD_DATA_STORE_API_PATH));
 
+console.log('ccdDefinition', getConfigValue(SERVICES_CCD_DEFINITION_STORE_API_PATH));
+
 console.log('caseAssignmentApi', getConfigValue(SERVICES_MCA_PROXY_API_PATH));
 
 console.log('caseTypes', getConfigValue(CASE_TYPES));
@@ -173,7 +176,7 @@ app.use(
   express.static(staticRoot, { index: false })
 );
 // Catch-all handler for every URL that the static middleware didn’t serve
-app.use('/*', (req, res) => {
+app.use('/{*splat}', (req, res) => {
   const html = injectNonce(indexHtmlRaw, res.locals.cspNonce as string);
   res.type('html').set('Cache-Control', 'no-store, max-age=0').send(html);
 });

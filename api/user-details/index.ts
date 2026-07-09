@@ -14,7 +14,7 @@ export async function handleUserDetailsRoute(req: Request, res: Response) {
     logger.info('User Details API Link: ', apiUrl);
     const response = await req.http.get(apiUrl);
     if (!objectContainsOnlySafeCharacters(response.data)) {
-      return res.send('Invalid user details').status(400);
+      return res.status(400).send('Invalid user details');
     }
     res.send(response.data);
   } catch (error) {

@@ -42,7 +42,11 @@ describe('Payment API interaction for get account', () => {
         }
       };
       // @ts-ignore
-      pactSetUp.provider.addInteraction(interaction);
+      await pactSetUp.provider.addInteraction(interaction);
+    });
+
+    after(async () => {
+      await pactSetUp.provider.finalize();
     });
 
     it('returns the correct response', async () => {
@@ -50,17 +54,10 @@ describe('Payment API interaction for get account', () => {
 
       const taskUrl: string = `${pactSetUp.provider.mockService.baseUrl}/accounts/` + accountId;
 
-      const resp = getAccountFeeAndPayApi(taskUrl);
-      resp.then((response) => {
-        const responseDto: FeeAccount = <FeeAccount>response.data;
-        assertResponse(responseDto);
-      }).then(() => {
-        pactSetUp.provider.verify();
-        pactSetUp.provider.finalize();
-      }).finally(() => {
-        pactSetUp.provider.verify();
-        pactSetUp.provider.finalize();
-      });
+      const response = await getAccountFeeAndPayApi(taskUrl);
+      const responseDto: FeeAccount = <FeeAccount>response.data;
+      assertResponse(responseDto);
+      await pactSetUp.provider.verify();
     });
   });
 });

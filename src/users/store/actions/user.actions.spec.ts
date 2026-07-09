@@ -1,4 +1,6 @@
 import {
+  CHECK_USER_LIST_LOADED,
+  CheckUserListLoaded,
   EDIT_USER_FAILURE,
   EDIT_USER_FAILURE_RESET,
   EditUserFailure,
@@ -6,8 +8,10 @@ import {
   LOAD_ALL_USERS_NO_ROLE_DATA,
   LOAD_ALL_USERS_NO_ROLE_DATA_FAIL,
   LOAD_ALL_USERS_NO_ROLE_DATA_SUCCESS,
+  INVALIDATE_USER_LIST_CACHE,
   LOAD_USER_DETAILS,
   LOAD_USER_DETAILS_SUCCESS,
+  InvalidateUserListCache,
   LoadAllUsersNoRoleData,
   LoadAllUsersNoRoleDataFail,
   LoadAllUsersNoRoleDataSuccess,
@@ -54,6 +58,22 @@ describe('User actions', () => {
     const action = new LoadAllUsersNoRoleData();
     expect({ ...action }).toEqual({
       type: LOAD_ALL_USERS_NO_ROLE_DATA
+    });
+  });
+
+  it('should have a CheckUserListLoaded action, for checking the user list cache', () => {
+    const payload = { currentTime: 123 };
+    const action = new CheckUserListLoaded(payload);
+    expect({ ...action }).toEqual({
+      type: CHECK_USER_LIST_LOADED,
+      payload
+    });
+  });
+
+  it('should have an InvalidateUserListCache action, for clearing the user list cache', () => {
+    const action = new InvalidateUserListCache();
+    expect({ ...action }).toEqual({
+      type: INVALIDATE_USER_LIST_CACHE
     });
   });
 

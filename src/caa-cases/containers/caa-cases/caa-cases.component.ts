@@ -105,7 +105,7 @@ export class CaaCasesComponent implements OnInit {
     this.selectedOrganisation$ = this.organisationStore.pipe(select(fromOrganisationStore.getOrganisationSel));
 
     // Load users of selected organisation from store
-    this.userStore.dispatch(new fromUserStore.LoadAllUsersNoRoleData());
+    this.userStore.dispatch(new fromUserStore.CheckUserListLoaded());
     this.selectedOrganisationUsers$ = this.userStore.pipe(select(fromUserStore.getGetUserList));
 
     // Load cases based on page type and set table configuration

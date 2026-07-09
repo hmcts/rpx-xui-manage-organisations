@@ -3207,9 +3207,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-node-lib@npm:2.30.17-library-update":
-  version: 2.30.17-library-update
-  resolution: "@hmcts/rpx-xui-node-lib@npm:2.30.17-library-update"
+"@hmcts/rpx-xui-node-lib@npm:2.30.20":
+  version: 2.30.20
+  resolution: "@hmcts/rpx-xui-node-lib@npm:2.30.20"
   dependencies:
     "@dr.pogodin/csurf": "npm:^1.14.0"
     axios: "npm:^1.18.1"
@@ -3228,7 +3228,7 @@ __metadata:
     session-file-store: "npm:^1.5.0"
   peerDependencies:
     helmet: ^7.0.0
-  checksum: 10/b0b3fb685385c31fcf0110104248e0f08e50a6f9434a94e4e2ac4aad506e1247507048ffa4cccbf44a8ee4bc4bbcda6fd11a5010329c065eb3a0c6fda8c44948
+  checksum: 10/914c7ff778d2c7f962950cb8d565f9aedc5a90e32639ed32b585050864c3bdd663a3133276c332e2015e099c500390f08e58e21d9dfc6e92b3af334d2b51b1e3
   languageName: node
   linkType: hard
 
@@ -7905,7 +7905,7 @@ __metadata:
   dependencies:
     "@types/express": "npm:*"
     "@types/express-session": "npm:*"
-  checksum: 10/77205f83886a454071130bcc1fff1b4592558705617142623b64630db993050e5d0f112616f6ff6bd44449efcd06f3b4a19e8ac29b6a3e58ff2537bf55727277
+  checksum: 10/f5271f021e95cf6c5e55726ae9e1be43e585a388961a7fb067fb9e5a6420aa928f80c068f86099efa977e5f0ae45b807d47db8cb3152844dc3a3b677b6a87981
   languageName: node
   linkType: hard
 
@@ -19678,7 +19678,7 @@ __metadata:
     "@hmcts/playwright-common": "npm:1.1.3"
     "@hmcts/properties-volume": "npm:0.0.13"
     "@hmcts/rpx-xui-common-lib": "npm:3.2.12"
-    "@hmcts/rpx-xui-node-lib": "npm:2.30.17-library-update"
+    "@hmcts/rpx-xui-node-lib": "npm:2.30.20"
     "@microsoft/applicationinsights-web": "npm:^3.3.9"
     "@ng-idle/core": "npm:^16.0.0"
     "@ng-idle/keepalive": "npm:^16.0.0"

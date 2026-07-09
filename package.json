@@ -101,7 +101,7 @@
     "@hmcts/nodejs-healthcheck": "^1.8.6",
     "@hmcts/properties-volume": "0.0.13",
     "@hmcts/rpx-xui-common-lib": "3.2.12",
-    "@hmcts/rpx-xui-node-lib": "2.30.19",
+    "@hmcts/rpx-xui-node-lib": "2.30.20",
     "@microsoft/applicationinsights-web": "^3.3.9",
     "@ng-idle/core": "^16.0.0",
     "@ng-idle/keepalive": "^16.0.0",
@@ -146,7 +146,7 @@
     "rpx-xui-translation": "1.2.0-angular-20.3.14",
     "rx-polling-hmcts": "^1.1.1",
     "rxjs": "^7.8.1",
-    "session-file-store": "^1.2.0",
+    "session-file-store": "^1.5.0",
     "zone.js": "~0.15.1"
   },
   "devDependencies": {
@@ -168,7 +168,7 @@
     "@types/mocha": "^10.0.6",
     "@types/node": "^20.19.0",
     "@types/redis": "^2.8.16",
-    "@types/session-file-store": "^1.2.1",
+    "@types/session-file-store": "^1.2.6",
     "@types/sinon-chai": "^3.2.4",
     "@typescript-eslint/eslint-plugin": "^8.46.1",
     "@typescript-eslint/parser": "^8.46.1",

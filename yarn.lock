@@ -3013,9 +3013,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/ccd-case-ui-toolkit@npm:7.3.65-exui-4284-rc-1":
-  version: 7.3.65-exui-4284-rc-1
-  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.3.65-exui-4284-rc-1"
+"@hmcts/ccd-case-ui-toolkit@npm:7.3.74-exui-4284-rc-1":
+  version: 7.3.74-exui-4284-rc-1
+  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.3.74-exui-4284-rc-1"
   dependencies:
     "@edium/fsm": "npm:^3.0.2"
     "@hmcts/ccpay-web-component": "npm:6.5.22"
@@ -3056,7 +3056,7 @@ __metadata:
     rxjs-compat: ^6.6.7
     underscore: ^1.9.1
     zone.js: ^0.15.1
-  checksum: 10/9f5cf391c46ff5a199ae46d0f16e21c557c73cf936107e0d5d135584186c8f8c142b539a2fb436c65de2be1c5f5dbafde64ff6e4c244036624b36459bce1cbc1
+  checksum: 10/239dcf360d49d17e48135aa20de0426f6a348d0c7df4bfe124a67ddf86e392db7a5aa0e7e0c1901def2579238701b6dacb9a92ce593540eabc27328bf04a79c8
   languageName: node
   linkType: hard
 
@@ -19671,7 +19671,7 @@ __metadata:
     "@angular/platform-browser-dynamic": "npm:^20.3.18"
     "@angular/router": "npm:^20.3.18"
     "@babel/runtime": "npm:7.28.3"
-    "@hmcts/ccd-case-ui-toolkit": "npm:7.3.65-exui-4284-rc-1"
+    "@hmcts/ccd-case-ui-toolkit": "npm:7.3.74-exui-4284-rc-1"
     "@hmcts/ccpay-web-component": "npm:6.5.22"
     "@hmcts/frontend": "npm:0.0.50-alpha"
     "@hmcts/media-viewer": "npm:4.2.25"

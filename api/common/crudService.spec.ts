@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { NextFunction } from 'express';
 import 'mocha';
 import * as sinon from 'sinon';
-import * as sinonChai from 'sinon-chai';
+import sinonChai from 'sinon-chai';
 import { mockReq, mockRes } from 'sinon-express-mock';
 import { http } from '../lib/http';
 import { handleDelete, handleGet, handlePost, handlePut } from './crudService';

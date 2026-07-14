@@ -14,8 +14,8 @@ import * as fromCaaActions from '../actions/caa-cases.actions';
 @Injectable()
 export class CaaCasesEffects {
   constructor(private readonly actions$: Actions,
-              private readonly caaCasesService: CaaCasesService,
-              private readonly loggerService: LoggerService) {
+    private readonly caaCasesService: CaaCasesService,
+    private readonly loggerService: LoggerService) {
   }
 
   public loadAssignedCases$ = createEffect(() =>
@@ -63,12 +63,21 @@ export class CaaCasesEffects {
     )
   );
 
-  public static handleError(error: HttpErrorResponse, loggerService: LoggerService, caaCasesPageType: string): Observable<Action> {
+  public static handleError(
+    error: HttpErrorResponse,
+    loggerService: LoggerService,
+    caaCasesPageType: string
+  ): Observable<Action> {
     loggerService.error(error);
-    return error.status === 400
-      ? caaCasesPageType === CaaCasesPageType.UnassignedCases
-        ? of(new fromCaaActions.LoadUnassignedCasesFailure(error))
-        : of(new fromCaaActions.LoadAssignedCasesFailure(error))
-      : of(new fromRoot.Go({ path: ['/service-down'] }));
+
+    if (error.status !== 400) {
+      return of(new fromRoot.Go({ path: ['/service-down'] }));
+    }
+
+    if (caaCasesPageType === CaaCasesPageType.UnassignedCases) {
+      return of(new fromCaaActions.LoadUnassignedCasesFailure(error));
+    }
+
+    return of(new fromCaaActions.LoadAssignedCasesFailure(error));
   }
 }

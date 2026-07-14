@@ -63,7 +63,7 @@ describe('CaaCasesEffects', () => {
         type: null,
         url: null
       };
-      caaCasesServiceMock.getCaaCases.and.returnValue(throwError(error));
+      caaCasesServiceMock.getCaaCases.and.returnValue(throwError(() => error));
       const caseType = '';
       const pageNo = 1;
       const pageSize = 10;
@@ -104,7 +104,7 @@ describe('CaaCasesEffects', () => {
         type: null,
         url: null
       };
-      caaCasesServiceMock.getCaaCaseTypes.and.returnValue(throwError(error));
+      caaCasesServiceMock.getCaaCaseTypes.and.returnValue(throwError(() => error));
       const caaCasesFilterType = null;
       const caaCasesFilterValue = null;
       const payload = { caaCasesPageType: CaaCasesPageType.AssignedCases, caaCasesFilterType, caaCasesFilterValue };

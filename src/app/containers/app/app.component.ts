@@ -54,11 +54,10 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly idleService: ManageSessionServices,
     private readonly loggerService: LoggerService,
     private readonly cookieService: CookieService,
-    private titleService: Title
-  ) {}
+    private readonly titleService: Title
+  ) { }
 
   public ngOnInit(): void {
-    // TODO when we run FeeAccounts story, this will get uncommented
     // this.identityBar$ = this.store.pipe(select(fromSingleFeeAccountStore.getSingleFeeAccountData));
 
     this.pageTitle$ = this.store.pipe(select(fromRoot.getPageTitle));
@@ -78,7 +77,7 @@ export class AppComponent implements OnInit, OnDestroy {
     });
 
     this.pageTitleSubscription = this.pageTitle$.subscribe((title) => {
-      this.titleService.setTitle(title? title : 'Manage organisation');
+      this.titleService.setTitle(title ?? 'Manage organisation');
     });
 
     this.authService.isAuthenticated().subscribe((isAuthenticated) => {
@@ -136,7 +135,7 @@ export class AppComponent implements OnInit, OnDestroy {
     // Google Analytics
     this.cookieService.deleteCookieByPartialMatch('_ga');
     this.cookieService.deleteCookieByPartialMatch('_gid');
-    const domainElements = window.location.hostname.split('.');
+    const domainElements = globalThis.location.hostname.split('.');
     for (let i = 0; i < domainElements.length; i++) {
       const domainName = domainElements.slice(i).join('.');
       this.cookieService.deleteCookieByPartialMatch('_ga', '/', domainName);
@@ -183,8 +182,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   /**
    * Idle Service Event Handler
-   *
-   * TODO:
    * It shouldn't really be the common libs responsibility to tell the application whether to show and hide the modal,
    * the application should show and hide the modal. The common lib, should only throw the Idle events.
    *
@@ -197,11 +194,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
     switch (value.type) {
       case IDLE_EVENT_MODAL: {
-        this.dispatchModal(value.countdown, value.isVisible);
+        this.dispatchModal(value.isVisible, value.countdown);
         return;
       }
       case IDLE_EVENT_SIGNOUT: {
-        this.dispatchModal(undefined, false);
+        this.dispatchModal(false);
         this.store.dispatch(new fromRoot.IdleUserSignOut());
         return;
       }
@@ -214,13 +211,14 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  public dispatchModal(countdown = '0', isVisible): void {
-    const modalConfig: any = {
+  public dispatchModal(isVisible: boolean, countdown = '0'): void {
+    const modalConfig = {
       session: {
         countdown,
         isVisible
       }
     };
+
     this.store.dispatch(new fromRoot.SetModal(modalConfig));
   }
 
@@ -243,14 +241,9 @@ export class AppComponent implements OnInit, OnDestroy {
    *
    * Important note: The idleModalDisplayTime IS PART of the totalIdleTime. The idleModalDisplayTime does not get added to the end of
    * the totalIdleTime.
-   *
-   * TODO: Clean up the common lib session timeout component.
    * Note that `timeout` as specified by the common lib, uses seconds as its unit of time. Whereas `idleMilliseconds`
    * uses milliseconds. This needs to be changed in the common-lib to use minutes as discussed with the BA. But
    * for now we will do the conversion from minutes used up to this point to units required by the common-lib.
-   *
-   * TODO: keepAliveInSeconds is not required, awaiting Open Id Connect implementation before it's removal
-   *
    * @param idleModalDisplayTime - Should reach here in minutes
    * @param totalIdleTime - Should reach here in minutes
    */
@@ -280,7 +273,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public onNavigate(event): void {
     if (event === 'sign-out') {
       // Clear browser session entries
-      window.sessionStorage.clear();
+      globalThis.sessionStorage.clear();
       return this.store.dispatch(new fromRoot.Logout());
     }
   }

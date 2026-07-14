@@ -1,8 +1,9 @@
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { UsersService } from './users.service';
 
 describe('Users service', () => {
   const mockedHttpClient = jasmine.createSpyObj('mockedHttpClient', ['get', 'put']);
+  const apiError = { json: () => ({ message: 'service error' }) };
 
   it('should call getListOfUsers', () => {
     const service = new UsersService(mockedHttpClient);
@@ -38,5 +39,29 @@ describe('Users service', () => {
     mockedHttpClient.get.and.returnValue(of());
     service.getUserDetailsWithPermission(userId);
     expect(mockedHttpClient.get).toHaveBeenCalledWith(`/api/user-details?userId=${userId}`);
+  });
+
+  it('should surface getListOfUsers errors from the API json body', (done) => {
+    const service = new UsersService(mockedHttpClient);
+    mockedHttpClient.get.and.returnValue(throwError(() => apiError));
+
+    service.getListOfUsers(2).subscribe({
+      error: (error) => {
+        expect(error).toEqual({ message: 'service error' });
+        done();
+      }
+    });
+  });
+
+  it('should surface suspendUser errors from the API json body', (done) => {
+    const service = new UsersService(mockedHttpClient);
+    mockedHttpClient.put.and.returnValue(throwError(() => apiError));
+
+    service.suspendUser({ payload: { userIdentifier: 'dummy' } }).subscribe({
+      error: (error) => {
+        expect(error).toEqual({ message: 'service error' });
+        done();
+      }
+    });
   });
 });

@@ -29,7 +29,6 @@ import { AppComponent } from './containers/app/app.component';
 import { CustomSerializer, reducers } from './store/';
 import { effects } from './store/effects';
 
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 import { RpxTranslationModule } from 'rpx-xui-translation';
 import { SharedModule } from 'src/shared/shared.module';
@@ -49,73 +48,74 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
   return envConfig.launchDarklyClientId || '';
 }
 
-@NgModule({ declarations: [
-  AppComponent,
-  ...fromComponents.components,
-  ...fromContainers.containers
-],
-bootstrap: [AppComponent],
-schemas: [CUSTOM_ELEMENTS_SCHEMA], imports: [BrowserModule,
-  CookieModule.forRoot(),
-  RouterModule.forRoot(ROUTES, {
-    anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled', onSameUrlNavigation: 'reload'
-  }),
-  SharedModule,
-  StoreModule.forRoot(reducers, {
-    metaReducers,
-    runtimeChecks: !environment.production ? {
-      strictStateImmutability: true,
-      strictActionImmutability: true,
-      // Serializability checks disabled due to existing non-serializable values (e.g. router state, complex lib objects)
-      strictStateSerializability: false,
-      strictActionSerializability: false,
-      strictActionWithinNgZone: true,
-      strictActionTypeUniqueness: true
-    } : {}
-  }),
-  EffectsModule.forRoot(effects),
-  UserProfileModule,
-  OrganisationModule,
-  StoreRouterConnectingModule.forRoot(),
-  !environment.production ? StoreDevtoolsModule.instrument({ logOnly: true }) : [],
-  LoggerModule.forRoot({
-    level: NgxLoggerLevel.TRACE,
-    disableConsoleLogging: false
-  }),
-  LoaderModule,
-  GovUiModule,
-  ExuiCommonLibModule,
-  NgIdleKeepaliveModule.forRoot(),
-  NoopAnimationsModule,
-  RpxTranslationModule.forRoot({
-    baseUrl: '/api/translation',
-    debounceTimeMs: 300,
-    validity: {
-      days: 1
-    },
-    testMode: false
-  })], providers: [
-  NGXLogger,
-  CookieService,
-  GoogleAnalyticsService,
-  HealthCheckGuard,
-  HealthCheckService,
-  ManageSessionServices,
-  MonitoringService,
-  TermsConditionGuard,
-  AcceptTermsAndConditionGuard,
-  FeatureToggleEditUserGuard,
-  FeatureToggleGuard,
-  { provide: RouterStateSerializer, useClass: CustomSerializer },
-  UserService, { provide: ErrorHandler, useClass: DefaultErrorHandler },
-  JwtDecodeWrapper, LoggerService, JurisdictionService,
-  { provide: FeatureToggleService, useClass: LaunchDarklyService },
-  // Application initializer: obtain Store via DI injection utility and pass to initApplication, which returns a function we invoke.
-  provideAppInitializer(() => {
-    const store = inject(Store);
-    const initializerFn = initApplication(store);
-    return initializerFn();
-  }),
-  provideHttpClient(withInterceptorsFromDi())
-] })
-export class AppModule {}
+@NgModule({
+  declarations: [
+    AppComponent,
+    ...fromComponents.components,
+    ...fromContainers.containers
+  ],
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA], imports: [BrowserModule,
+    CookieModule.withOptions(),
+    RouterModule.forRoot(ROUTES, {
+      anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled', onSameUrlNavigation: 'reload'
+    }),
+    SharedModule,
+    StoreModule.forRoot(reducers, {
+      metaReducers,
+      runtimeChecks: environment.production ? {} : {
+        strictStateImmutability: true,
+        strictActionImmutability: true,
+        // Serializability checks disabled due to existing non-serializable values (e.g. router state, complex lib objects)
+        strictStateSerializability: false,
+        strictActionSerializability: false,
+        strictActionWithinNgZone: true,
+        strictActionTypeUniqueness: true
+      }
+    }),
+    EffectsModule.forRoot(effects),
+    UserProfileModule,
+    OrganisationModule,
+    StoreRouterConnectingModule.forRoot(),
+    environment.production ? [] : StoreDevtoolsModule.instrument({ logOnly: true }),
+    LoggerModule.forRoot({
+      level: NgxLoggerLevel.TRACE,
+      disableConsoleLogging: false
+    }),
+    LoaderModule,
+    GovUiModule,
+    ExuiCommonLibModule,
+    NgIdleKeepaliveModule.forRoot(),
+    RpxTranslationModule.forRoot({
+      baseUrl: '/api/translation',
+      debounceTimeMs: 300,
+      validity: {
+        days: 1
+      },
+      testMode: false
+    })], providers: [
+    NGXLogger,
+    CookieService,
+    GoogleAnalyticsService,
+    HealthCheckGuard,
+    HealthCheckService,
+    ManageSessionServices,
+    MonitoringService,
+    TermsConditionGuard,
+    AcceptTermsAndConditionGuard,
+    FeatureToggleEditUserGuard,
+    FeatureToggleGuard,
+    { provide: RouterStateSerializer, useClass: CustomSerializer },
+    UserService, { provide: ErrorHandler, useClass: DefaultErrorHandler },
+    JwtDecodeWrapper, LoggerService, JurisdictionService,
+    { provide: FeatureToggleService, useClass: LaunchDarklyService },
+    // Application initializer: obtain Store via DI injection utility and pass to initApplication, which returns a function we invoke.
+    provideAppInitializer(() => {
+      const store = inject(Store);
+      const initializerFn = initApplication(store);
+      return initializerFn();
+    }),
+    provideHttpClient(withInterceptorsFromDi())
+  ]
+})
+export class AppModule { }

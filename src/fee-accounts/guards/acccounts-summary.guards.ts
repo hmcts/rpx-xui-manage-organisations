@@ -28,11 +28,11 @@ export class AccountSummaryGuard {
   public checkStore(): Observable<boolean> {
     return this.store.pipe(
       select(pbaAccountSummaryLoaded),
-      tap((loaded) => {
+      tap({ next: (loaded) => {
         if (!loaded) {
           this.store.dispatch(new LoadSingleFeeAccount('2A2ABCDFFFA'));
         }
-      }),
+      } }),
       filter((loaded) => loaded),
       take(1)
     );

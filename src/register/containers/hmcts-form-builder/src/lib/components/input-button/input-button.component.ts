@@ -30,7 +30,7 @@ export class InputButtonComponent implements OnInit {
   public id: string;
 
   constructor(private readonly store: Store<fromStore.RegistrationState>,
-              private validationService: ValidationService) {}
+              private readonly validationService: ValidationService) {}
 
   public ngOnInit(): void {
     this.pages$ = this.store.pipe(select(fromStore.getRegistrationPages));
@@ -56,7 +56,7 @@ export class InputButtonComponent implements OnInit {
   }
 
   public hasValidationError(formGroup: FormGroup, control: string): boolean {
-    if (formGroup.controls[control] && formGroup.controls[control].errors) {
+    if (formGroup.controls[control]?.errors) {
       for (const key of Object.keys(formGroup.controls[control].errors)) {
         if (key === 'duplicatedPBAError') {
           this.validationError = this.validationErrors[0].text;
@@ -76,7 +76,7 @@ export class InputButtonComponent implements OnInit {
   public onBlur(event) {
     if (event.target.value && !event.target.value.toUpperCase().startsWith('PBA')) {
       this.group.controls[event.target.id].setValue(`PBA${event.target.value}`);
-    } else if (event.target.value && event.target.value.toLowerCase().startsWith('pba')) {
+    } else if (event.target.value?.toLowerCase().startsWith('pba')) {
       this.group.controls[event.target.id].setValue(event.target.value.replace(/pba/gi, 'PBA'));
     }
     this.blurCast.emit(this.group);

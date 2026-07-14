@@ -3,7 +3,7 @@ export interface SingleAccountSummary {
   account_name: string;
   credit_limit: number;
   available_balance: number;
-  status: string | 'Active';
+  status: 'Active';
   effective_date: string;
 }
 export interface SingleAccontSummaryRemapped extends SingleAccountSummary {

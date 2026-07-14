@@ -8,7 +8,7 @@ import { InviteUserComponent } from './containers/invite-user/invite-user.compon
 import { FeatureToggleEditUserGuard } from './guards/feature-toggle-edit-user.guard';
 import { InviteUserSuccessGuard } from './guards/invite-user-success.guard';
 import { UsersModule } from './users.module';
-import { featureToggleOdgInviteUserFlowGuard } from './guards/feature-toggle-ogd-invite-user-flow.guard';
+import { FeatureToggleOdgInviteUserFlowGuard } from './guards/feature-toggle-ogd-invite-user-flow.guard';
 import { ManageUserFailureComponent } from './containers/manage-user-failure/manage-user-failure.component';
 
 export const ROUTES: Routes = [
@@ -34,7 +34,7 @@ export const ROUTES: Routes = [
   {
     path: 'updated-user-success',
     component: UserUpdatedSuccessComponent,
-    canActivate: [featureToggleOdgInviteUserFlowGuard]
+    canActivate: [FeatureToggleOdgInviteUserFlowGuard]
   },
   {
     path: 'user/:userId/editpermission-failure',
@@ -52,12 +52,12 @@ export const ROUTES: Routes = [
   {
     path: 'user/:userId/manage',
     component: ManageUserComponent,
-    canActivate: [featureToggleOdgInviteUserFlowGuard]
+    canActivate: [FeatureToggleOdgInviteUserFlowGuard]
   },
   {
     path: 'manage',
     component: ManageUserComponent,
-    canActivate: [featureToggleOdgInviteUserFlowGuard]
+    canActivate: [FeatureToggleOdgInviteUserFlowGuard]
   }
 ];
 

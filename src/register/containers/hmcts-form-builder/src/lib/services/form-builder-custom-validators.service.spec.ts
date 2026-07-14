@@ -36,4 +36,28 @@ describe('CustomValidationService', () => {
 
       expect(service.validationError(validationErrorName, validationErrorMessage)).toEqual(expectedValidationError);
     }));
+
+  it('should validate exact string length',
+    inject([CustomValidatorsService], (service: CustomValidatorsService) => {
+      const validator = service.exactLengthValidator(3);
+
+      expect(validator({ value: '' } as any)).toBeNull();
+      expect(validator({ value: 'abc' } as any)).toBeNull();
+      expect(validator({ value: 'abcd' } as any)).toEqual({
+        exactLengthError: {
+          value: 'abcd'
+        }
+      });
+    }));
+
+  it('should validate PBA account number suffixes',
+    inject([CustomValidatorsService], (service: CustomValidatorsService) => {
+      const validator = service.pbaNumbersCustomValidator();
+
+      expect(validator({ value: 'PBA1234567' } as any)).toBeNull();
+      expect(validator({ value: 'PBAX234567' } as any)).toEqual({
+        error: 'Enter a valid PBA number'
+      });
+      expect(validator({ value: '' } as any)).toBeNull();
+    }));
 });

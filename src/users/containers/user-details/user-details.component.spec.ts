@@ -6,6 +6,7 @@ import * as fromOrgStore from '../../../organisation/store';
 import { Jurisdiction } from 'src/models';
 import { OrganisationState } from '../../../organisation/store';
 import { EnvironmentConfig } from '../../../models/environmentConfig.model';
+import * as fromStore from '../../store';
 
 describe('User Details Component', () => {
   let component: UserDetailsComponent;
@@ -114,11 +115,14 @@ describe('User Details Component', () => {
     it('should unsubscribe from observables when subscribed', () => {
       component.userSubscription = new Observable().subscribe();
       component.suspendSuccessSubscription = new Observable().subscribe();
+      component.suspendUserServerErrorSubscription = new Observable().subscribe();
       const componentUserSubscriptionUnsubscribeSpy = spyOn(component.userSubscription, 'unsubscribe');
       const componentSuspendSuccessSubscriptionUnsubscribeSpy = spyOn(component.suspendSuccessSubscription, 'unsubscribe');
+      const componentSuspendErrorSubscriptionUnsubscribeSpy = spyOn(component.suspendUserServerErrorSubscription, 'unsubscribe');
       component.ngOnDestroy();
       expect(componentUserSubscriptionUnsubscribeSpy).toHaveBeenCalled();
       expect(componentSuspendSuccessSubscriptionUnsubscribeSpy).toHaveBeenCalled();
+      expect(componentSuspendErrorSubscriptionUnsubscribeSpy).toHaveBeenCalled();
     });
 
     it('should not unsubscribe from observables when not subscribed', () => {
@@ -146,6 +150,42 @@ describe('User Details Component', () => {
       };
       component.suspendUser(mockUser);
       expect(userStoreSpyObject.dispatch).toHaveBeenCalled();
+    });
+  });
+
+  describe('status helpers', () => {
+    it('should identify inactive and pending users', () => {
+      expect(component.isInactive('Active')).toBeTrue();
+      expect(component.isInactive('Suspended')).toBeFalse();
+      expect(component.isInactive('Locked', ['Locked'])).toBeFalse();
+      expect(component.isPending('Pending')).toBeTrue();
+      expect(component.isPending('Active')).toBeFalse();
+    });
+  });
+
+  describe('reinviteUser', () => {
+    it('should dispatch reinvite pending user action', () => {
+      const mockUser: User = {
+        routerLink: '',
+        fullName: 'name',
+        email: 'someemail',
+        status: 'Pending',
+        resendInvite: true,
+        userIdentifier: 'user-1'
+      };
+
+      component.reinviteUser(mockUser);
+
+      expect(userStoreSpyObject.dispatch).toHaveBeenCalledWith(new fromStore.ReinvitePendingUser(mockUser));
+    });
+  });
+
+  describe('handleUserSubscription', () => {
+    it('should set resend invite when user is Pending', () => {
+      component.handleUserSubscription({ status: 'Pending' }, of(false));
+
+      expect(component.user.resendInvite).toBeTrue();
+      expect(component.actionButtons).toBeNull();
     });
   });
 });

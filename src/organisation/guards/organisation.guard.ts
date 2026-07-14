@@ -18,11 +18,11 @@ export class OrganisationGuard {
 
   public checkStore(): Observable<boolean> {
     return this.store.pipe(select(fromStore.getOrganisationSel),
-      tap((organisation) => {
+      tap({ next: (organisation) => {
         if (!organisation?.organisationIdentifier) {
           this.store.dispatch(new fromStore.LoadOrganisation());
         }
-      }),
+      } }),
       filter((organisation) => !!organisation?.organisationIdentifier),
       take(1),
       map(() => true)

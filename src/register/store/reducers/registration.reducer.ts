@@ -81,179 +81,287 @@ export const initialState: RegistrationFormState = {
   errorMessageCode: ''
 };
 
+const ORGANISATION_PBA_PAGE_ID = 'organisation-pba';
+
+function loadPageItems(state: RegistrationFormState): RegistrationFormState {
+  return {
+    ...removeEmptyPbaControls(state),
+    loading: true
+  };
+}
+
+function removeEmptyPbaControls(state: RegistrationFormState): RegistrationFormState {
+  if (!state.pages[ORGANISATION_PBA_PAGE_ID]) {
+    return state;
+  }
+  const copyPbaPage = {
+    ...state.pages[ORGANISATION_PBA_PAGE_ID]
+  };
+  const allControls = [];
+  const allPbaList = [];
+  const filledPbaList = [];
+  const emptyPbaList = [];
+  const pagesValues = state.pagesValues as { [key: string]: any };
+
+  Object.keys(pagesValues).forEach((key) => {
+    if (key.startsWith('PBANumber')) {
+      allPbaList.push(key);
+
+      if (pagesValues[key]) {
+        filledPbaList.push(key);
+      } else {
+        emptyPbaList.push(key);
+      }
+    }
+  });
+
+  state.pages[ORGANISATION_PBA_PAGE_ID].meta.groups.forEach((element, index) => {
+    if (element.inputButton && emptyPbaList.includes(element.inputButton.control)
+      && allPbaList.length > 1) {
+      if (emptyPbaList.length > 1 && filledPbaList.length === 0 && index === 0) {
+        allControls.push(element);
+        emptyPbaList.splice(index, 1);
+      }
+    } else {
+      allControls.push(element);
+    }
+  });
+
+  const nextPagesValues = Object.entries(pagesValues).filter((key) => {
+    return !(emptyPbaList.includes(key[0]) && allPbaList.length > 1);
+  }).reduce((obj, k) => {
+    obj[k[0]] = k[1];
+    return obj;
+  }, {});
+
+  copyPbaPage.meta = { ...copyPbaPage.meta, groups: allControls };
+
+  return {
+    ...state,
+    pages: {
+      ...state.pages,
+      [ORGANISATION_PBA_PAGE_ID]: copyPbaPage
+    },
+    pagesValues: nextPagesValues
+  };
+}
+
+function loadPageItemsSuccess(
+  state: RegistrationFormState,
+  action: fromRegistration.LoadPageItemsSuccess
+): RegistrationFormState {
+  const pageId = action.payload.pageId;
+  const payload = action.payload.payload;
+  const pageItems = {
+    ...payload,
+    loaded: true,
+    loading: false,
+    init: true
+  };
+
+  return {
+    ...state,
+    pages: {
+      ...state.pages,
+      [pageId]: pageItems
+    },
+    loading: false,
+    loaded: true
+  };
+}
+
+function addPbaNumber(
+  state: RegistrationFormState,
+  action: fromRegistration.AddPBANumber
+): RegistrationFormState {
+  const pageGroups = state.pages[ORGANISATION_PBA_PAGE_ID].meta.groups.slice();
+  const predicate = (element: any) => element.hasOwnProperty('inputButton');
+  const lastInputIndex = AppUtils.findLastIndex(pageGroups, predicate);
+  const newPbaIndex = getNewPbaIndex(pageGroups, lastInputIndex);
+
+  pageGroups.splice(lastInputIndex + 1, 0, newPBAElement(newPbaIndex));
+
+  return {
+    ...state,
+    pages: getPbaPages(state, pageGroups, { init: false }),
+    pagesValues: {
+      ...state.pagesValues,
+      ...action.payload
+    },
+    loading: false,
+    loaded: true
+  };
+}
+
+function getNewPbaIndex(pageGroups: any[], lastInputIndex: number): number {
+  if (lastInputIndex === -1) {
+    return 1;
+  }
+
+  const maxInputControl = pageGroups[lastInputIndex].inputButton.control;
+  const maxIndex = maxInputControl.replace(/^\D+/g, '');
+  return Number.parseInt(maxIndex, 10) + 1;
+}
+
+function removePbaNumber(
+  state: RegistrationFormState,
+  action: fromRegistration.RemovePBANumber
+): RegistrationFormState {
+  const pageGroups = state.pages[ORGANISATION_PBA_PAGE_ID].meta.groups.slice();
+  const predicate = (element: any) => element.hasOwnProperty('inputButton') && action.payload.includes(element.inputButton.control);
+  const matchIndex = pageGroups.findIndex(predicate);
+  const removeItem = action.payload.replace('remove', '');
+  const pagesValues = { ...state.pagesValues };
+
+  pageGroups.splice(matchIndex, 1);
+  delete pagesValues[removeItem];
+
+  return {
+    ...state,
+    pages: getPbaPages(state, pageGroups),
+    pagesValues,
+    loading: false,
+    loaded: true
+  };
+}
+
+function getPbaPages(state: RegistrationFormState, pageGroups: any[], pbaPageUpdates = {}) {
+  return {
+    ...state.pages,
+    [ORGANISATION_PBA_PAGE_ID]: {
+      ...state.pages[ORGANISATION_PBA_PAGE_ID],
+      ...pbaPageUpdates,
+      meta: {
+        ...state.pages[ORGANISATION_PBA_PAGE_ID].meta,
+        groups: pageGroups
+      }
+    }
+  };
+}
+
+function saveFormData(
+  state: RegistrationFormState,
+  action: fromRegistration.SaveFormData
+): RegistrationFormState {
+  return {
+    ...state,
+    pages: getSavedFormPages(state, action.payload.pageId),
+    pagesValues: {
+      ...state.pagesValues,
+      ...action.payload.value
+    },
+    nextUrl: getNextUrl(state, action.payload)
+  };
+}
+
+function getSavedFormPages(state: RegistrationFormState, pageId: string) {
+  if (pageId !== ORGANISATION_PBA_PAGE_ID) {
+    return { ...state.pages };
+  }
+
+  return {
+    ...state.pages,
+    [ORGANISATION_PBA_PAGE_ID]: {
+      ...state.pages[ORGANISATION_PBA_PAGE_ID],
+      init: false
+    }
+  };
+}
+
+function getNextUrl(state: RegistrationFormState, payload: { value: any; pageId: string }): string {
+  const partialMatchHaveKey = Object.keys(payload.value).find((key) => key.includes('have'));
+  const navigationConfig = state.navigation as { [key: string]: any };
+
+  return partialMatchHaveKey ?
+    navigationConfig[payload.pageId][payload.value[partialMatchHaveKey]] :
+    navigationConfig[payload.pageId];
+}
+
+function submitFormDataFail(
+  state: RegistrationFormState,
+  action: fromRegistration.SubmitFormDataFail
+): RegistrationFormState {
+  globalThis.scrollTo(0, 0);
+  const error = action.payload.error;
+  const apiError = error.apiError;
+  const apiMessageMapped = getApiMessageMapped(apiError, error.apiErrorDescription);
+
+  if (apiMessageMapped && apiError) {
+    return {
+      ...state,
+      submitted: false,
+      errorMessage: apiMessageMapped,
+      errorMessageCode: apiError
+    };
+  }
+
+  if (error.statusCode === 400) {
+    return {
+      ...state,
+      submitted: false,
+      errorMessage: error.apiErrorDescription,
+      errorMessageCode: ''
+    };
+  }
+
+  return {
+    ...state,
+    submitted: false,
+    errorMessage: errorMessageMappings[9],
+    errorMessageCode: ''
+  };
+}
+
+function getApiMessageMapped(apiError: string, apiErrorDescription: string): string {
+  let apiMessageMapped;
+
+  for (const key in apiErrors) {
+    if (apiError) {
+      if (apiError.includes('PBA_NUMBER Invalid or already exists')) {
+        const pbaErrorNumber = apiErrorDescription.substring(apiErrorDescription.indexOf(')=(') + 3, apiErrorDescription.indexOf(') already exists'));
+        apiMessageMapped = `This PBA number ${pbaErrorNumber} has already been used.`;
+      }
+      if (apiError.includes(apiErrors[key])) {
+        apiMessageMapped = errorMessageMappings[key];
+      }
+    }
+  }
+
+  return apiMessageMapped;
+}
+
+function resetErrorMessage(state: RegistrationFormState): RegistrationFormState {
+  return {
+    ...state,
+    submitted: false,
+    errorMessage: '',
+    errorMessageCode: ''
+  };
+}
+
 export function reducer(
   state = initialState,
   action: fromRegistration.RegistrationActions
 ): RegistrationFormState {
   switch (action.type) {
     case fromRegistration.LOAD_PAGE_ITEMS: {
-      if (state.pages['organisation-pba']) {
-        const copypbaPage = Object.assign({}, state.pages['organisation-pba']);
-        const allControls = [];
-        const allpbaList = [];
-        const filledpbaList = [];
-        const emptypbaList = [];
-
-        Object.keys(state.pagesValues).map((key) => {
-          if (key.startsWith('PBANumber')) {
-            allpbaList.push(key);
-            if (state.pagesValues[key]) {
-              filledpbaList.push(key);
-            } else {
-              emptypbaList.push(key);
-            }
-          }
-        });
-
-        state.pages['organisation-pba'].meta.groups.forEach((element, index) => {
-          if (element.inputButton && emptypbaList.includes(element.inputButton.control)
-            && allpbaList.length > 1) {
-            if (emptypbaList.length > 1 && filledpbaList.length === 0 && index === 0) {
-              allControls.push(element);
-              emptypbaList.splice(index, 1);
-            }
-          } else {
-            allControls.push(element);
-          }
-        });
-
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const allDataList = Object.entries(state.pagesValues).filter((key, value) => {
-          return !(emptypbaList.includes(key[0]) && allpbaList.length > 1);
-        }).reduce((obj, k) => {
-          obj[k[0]] = k[1];
-          return obj;
-        }, {});
-
-        copypbaPage.meta = { ...copypbaPage.meta, groups: allControls };
-        const pbaPage = { ...state.pages, 'organisation-pba': copypbaPage };
-        state = { ...state, pages: pbaPage };
-        state = { ...state, pagesValues: allDataList };
-      }
-
-      return {
-        ...state,
-        loading: true
-      };
+      return loadPageItems(state);
     }
 
     case fromRegistration.LOAD_PAGE_ITEMS_SUCCESS: {
-      const pageId = action.payload.pageId;
-      const payload = action.payload.payload;
-      const pageItems = {
-        ...payload,
-        loaded: true,
-        loading: false,
-        init: true
-      };
-
-      const pages = {
-        ...state.pages,
-        [pageId]: pageItems
-      };
-
-      return {
-        ...state,
-        pages,
-        loading: false,
-        loaded: true
-      };
+      return loadPageItemsSuccess(state, action);
     }
 
     case fromRegistration.ADD_PBA_NUMBER: {
-      const pageGroups: [] = state.pages['organisation-pba'].meta.groups.slice();
-      const predicate = (element: any) => element.hasOwnProperty('inputButton');
-      const lastInputIndex = AppUtils.findLastIndex(pageGroups, predicate);
-      if (lastInputIndex === -1) {
-        // @ts-ignore
-        pageGroups.splice(lastInputIndex + 1, 0, newPBAElement(1));
-      } else {
-        // @ts-ignore
-        const maxInputControl = pageGroups[lastInputIndex].inputButton.control;
-        const maxIndex = maxInputControl.replace(/^\D+/g, '');
-        // @ts-ignore
-        pageGroups.splice(lastInputIndex + 1, 0, newPBAElement(parseInt(maxIndex, 10) + 1));
-      }
-      const pages = {
-        ...state.pages,
-        'organisation-pba': {
-          ...state.pages['organisation-pba'],
-          meta: {
-            ...state.pages['organisation-pba'].meta,
-            groups: pageGroups
-          },
-          init: false
-        }
-      };
-      const pagesValues = {
-        ...state.pagesValues,
-        ...action.payload
-      };
-      return {
-        ...state,
-        pages,
-        pagesValues,
-        loading: false,
-        loaded: true
-      };
+      return addPbaNumber(state, action);
     }
 
     case fromRegistration.REMOVE_PBA_NUMBER: {
-      const pageGroups: [] = state.pages['organisation-pba'].meta.groups.slice();
-      const predicate = (element: any) => element.hasOwnProperty('inputButton') && action.payload.includes(element.inputButton.control);
-      const matchIndex = pageGroups.findIndex(predicate);
-      pageGroups.splice(matchIndex, 1);
-      const pages = {
-        ...state.pages,
-        'organisation-pba': {
-          ...state.pages['organisation-pba'],
-          meta: {
-            ...state.pages['organisation-pba'].meta,
-            groups: pageGroups
-          }
-        }
-      };
-      const removeItem = action.payload.replace('remove', '');
-      const pagesValues = { ...state.pagesValues };
-      delete pagesValues[removeItem];
-      return {
-        ...state,
-        pages,
-        pagesValues,
-        loading: false,
-        loaded: true
-      };
+      return removePbaNumber(state, action);
     }
 
     case fromRegistration.SAVE_FORM_DATA: {
-      let pages = { ...state.pages };
-      if (action.payload.pageId === 'organisation-pba') {
-        pages = {
-          ...state.pages,
-          'organisation-pba': {
-            ...state.pages['organisation-pba'],
-            init: false
-          }
-        };
-      }
-
-      const pagesValues = {
-        ...state.pagesValues,
-        ...action.payload.value
-      };
-
-      const partialMatchHaveKey = Object.keys(action.payload.value).find((key) => key.indexOf('have') > -1);
-
-      const nextUrl = partialMatchHaveKey ?
-        state.navigation[action.payload.pageId][action.payload.value[partialMatchHaveKey]] :
-        state.navigation[action.payload.pageId];
-
-      return {
-        ...state,
-        pages,
-        pagesValues,
-        nextUrl
-      };
+      return saveFormData(state, action);
     }
 
     /**
@@ -284,64 +392,12 @@ export function reducer(
     }
 
     case fromRegistration.SUBMIT_FORM_DATA_FAIL: {
-      window.scrollTo(0, 0);
-      const apiError = action.payload.error.apiError;
-
-      let apiMessageMapped;
-      for (const key in apiErrors) {
-        if (apiError) {
-          if (apiError.includes('PBA_NUMBER Invalid or already exists')) {
-            const errorDescription = action.payload.error.apiErrorDescription;
-            const pbaErrorNumber = errorDescription.substring(errorDescription.indexOf(')=(') + 3, errorDescription.indexOf(') already exists'));
-            apiMessageMapped = `This PBA number ${pbaErrorNumber} has already been used.`;
-          }
-          if (apiError.includes(apiErrors[key])) {
-            apiMessageMapped = errorMessageMappings[key];
-          }
-        }
-      }
-
-      if (apiMessageMapped && apiError) {
-        return {
-          ...state,
-          submitted: false,
-          errorMessage: apiMessageMapped,
-          errorMessageCode: apiError
-        };
-      } else if (action.payload.error.statusCode === 400) {
-        return {
-          ...state,
-          submitted: false,
-          errorMessage: action.payload.error.apiErrorDescription,
-          errorMessageCode: ''
-
-        };
-      }
-
-      return {
-        ...state,
-        submitted: false,
-        errorMessage: errorMessageMappings[9],
-        errorMessageCode: ''
-      };
+      return submitFormDataFail(state, action);
     }
 
-    case fromRegistration.RESET_ERROR_MESSAGE: {
-      return {
-        ...state,
-        submitted: false,
-        errorMessage: '',
-        errorMessageCode: ''
-      };
-    }
-
+    case fromRegistration.RESET_ERROR_MESSAGE:
     case fromRegistration.RESET_ERROR_MESSAGE_CODE: {
-      return {
-        ...state,
-        submitted: false,
-        errorMessage: '',
-        errorMessageCode: ''
-      };
+      return resetErrorMessage(state);
     }
 
     default:
@@ -356,4 +412,3 @@ export const getRegistrationNextUrl = (state: RegistrationFormState) => state.ne
 export const getRegistrationFromLoading = (state: RegistrationFormState) => state.loading;
 export const getRegistrationErrorMessages = (state: RegistrationFormState) => state.errorMessage;
 export const getRegistrationErrorMessagesCodes = (state: RegistrationFormState) => state.errorMessageCode;
-

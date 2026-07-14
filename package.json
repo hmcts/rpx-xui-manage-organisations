@@ -60,7 +60,7 @@
     "test:functional": "echo 'CNP functionalTest hook is intentionally satisfied by Playwright lanes in Jenkinsfile_CNP' && exit 0",
     "test:fullfunctional": "echo 'CNP fullFunctionalTest hook is intentionally satisfied by Playwright lanes in Jenkinsfile_CNP/Jenkinsfile_nightly' && exit 0",
     "test:node": "cd api && yarn test",
-    "test:ng": "ng test rpx-xui-manage-organisations",
+    "test:ng": "ng test rpx-xui-manage-organisations --watch=false",
     "test:node:watch": "cd api && yarn test:watch",
     "test:pact:run-and-publish": "yarn test-pact && yarn publish-pact",
     "test:smoke": "sh -c 'if [ \"${1:-}\" = \"--\" ]; then shift; fi; SMOKE_TEST_OUTPUT_DIR=\"${PLAYWRIGHT_TEST_OUTPUT_DIR:-test-results/playwright-smoke}\"; SMOKE_HTML_OUTPUT=\"${PLAYWRIGHT_HTML_OUTPUT:-functional-output/tests/playwright-smoke/html-report}\"; SMOKE_REPORT_FOLDER=\"${PLAYWRIGHT_REPORT_FOLDER:-functional-output/tests/playwright-smoke/odhin-report}\"; mkdir -p \"$SMOKE_TEST_OUTPUT_DIR\" \"$SMOKE_HTML_OUTPUT\" \"$SMOKE_REPORT_FOLDER\"; PLAYWRIGHT_TEST_OUTPUT_DIR=\"$SMOKE_TEST_OUTPUT_DIR\" PLAYWRIGHT_HTML_OUTPUT=\"$SMOKE_HTML_OUTPUT\" PLAYWRIGHT_JUNIT_OUTPUT=\"${PLAYWRIGHT_JUNIT_OUTPUT:-functional-output/tests/playwright-smoke/playwright-smoke-junit.xml}\" PLAYWRIGHT_REPORT_FOLDER=\"$SMOKE_REPORT_FOLDER\" PLAYWRIGHT_REPORT_INDEX_FILENAME=\"${PLAYWRIGHT_REPORT_INDEX_FILENAME:-xui-playwright-smoke.html}\" PLAYWRIGHT_REPORT_PROJECT=\"${PLAYWRIGHT_REPORT_PROJECT:-RPX XUI Manage Organisations - Smoke}\" PLAYWRIGHT_REPORT_TITLE=\"${PLAYWRIGHT_REPORT_TITLE:-RPX XUI Manage Organisations Playwright Smoke}\" npx playwright test --project=smoke \"$@\"' --",

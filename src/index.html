@@ -15,13 +15,13 @@
   <script nonce="{{cspNonce}}">
     (() => {
       const FLAG = '__style_nonce_patched_v2__';
-      if (window[FLAG]) return; window[FLAG] = true;
+      if (globalThis[FLAG]) return; globalThis[FLAG] = true;
 
       const n = document.querySelector('meta[name="csp-nonce"]')?.content;
       if (!n) return;
 
       // Help webpack style-loader / dynamic imports
-      try { Object.defineProperty(window, '__webpack_nonce__', { value: n, writable: false }); } catch { }
+      try { Object.defineProperty(globalThis, '__webpack_nonce__', { value: n, writable: false }); } catch { }
 
       /* ---------- helpers ---------- */
       const isEl = (x) => x && x.nodeType === 1;

@@ -18,7 +18,7 @@ export class HeadersService {
       TOKEN: environment.cookies.token,
       USER: environment.cookies.userId
     };
-    this.API_BASE_URL = `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
+    this.API_BASE_URL = `${globalThis.location.protocol}//${globalThis.location.hostname}:${globalThis.location.port}`;
   }
 
   public getAuthHeaders() {
@@ -46,7 +46,7 @@ export class HeadersService {
     if (jwtData === false) {
       return false;
     }
-    return jwtData.exp > Math.round(new Date().getTime() / 1000);
+    return jwtData.exp > Math.round(Date.now() / 1000);
   }
 
   public getJwt() {

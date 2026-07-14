@@ -21,7 +21,7 @@ export class FormBuilderComponent implements OnChanges {
   constructor(
     private readonly formsService: FormsService,
     private readonly validationService: ValidationService
-  ) {}
+  ) { }
 
   @Input() public pageItems: any;
   @Input() public pageValues: any;
@@ -35,21 +35,12 @@ export class FormBuilderComponent implements OnChanges {
 
   public ngOnChanges(changes: SimpleChanges): void {
     this.isLegendAvailable = false;
-    if (changes.pageItems && changes.pageItems.currentValue) {
+
+    if (changes.pageItems?.currentValue) {
       this.createForm();
     }
-    if (this.pageItems && this.pageItems.groups) {
-      for (const group of this.pageItems.groups) {
-        if (group.fieldset) {
-          for (const item of group.fieldset) {
-            if (item.legend) {
-              this.isLegendAvailable = true;
-              break;
-            }
-          }
-        }
-      }
-    }
+
+    this.isLegendAvailable = this.hasLegend(this.pageItems);
   }
 
   public createForm(): void {
@@ -79,5 +70,11 @@ export class FormBuilderComponent implements OnChanges {
   // trackBy helper for groups to avoid identity churn / duplicate empty keys
   public trackByFormGroup(index: number, group: any): string | number {
     return buildIdOrIndexKey(index, group, 'id', 'name', 'fieldId');
+  }
+
+  private hasLegend(pageItems: any): boolean {
+    return pageItems?.groups?.some((group: any) =>
+      group.fieldset?.some((item: any) => item.legend)
+    ) ?? false;
   }
 }

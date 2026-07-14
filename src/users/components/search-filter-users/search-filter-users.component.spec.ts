@@ -1,19 +1,27 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SearchFilterUserComponent } from './search-filter-users.component';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { PrdUser } from 'src/users/models/prd-users.model';
+import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
+import { RpxTranslationService } from 'rpx-xui-translation';
 
 describe('SearchFilterUserComponent', () => {
   let component: SearchFilterUserComponent;
   let fixture: ComponentFixture<SearchFilterUserComponent>;
+  const translationMockService = jasmine.createSpyObj('translationMockService', ['translate', 'getTranslation$']);
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
+        ReactiveFormsModule,
+        ExuiCommonLibModule,
         MatAutocompleteModule
       ],
-      declarations: [SearchFilterUserComponent]
+      declarations: [SearchFilterUserComponent],
+      providers: [
+        { provide: RpxTranslationService, useValue: translationMockService }
+      ]
     })
       .compileComponents();
   });

@@ -259,6 +259,7 @@ Playwright writes lane-specific evidence under `functional-output/tests`. The ma
 - Run `yarn report:playwright:evidence` locally to create the same dashboard from whatever reports are present under `functional-output/tests`.
 - `PLAYWRIGHT_TAGS` runs only matching Playwright tags, for example `PLAYWRIGHT_TAGS=@registration yarn test:playwrightE2E`.
 - `PLAYWRIGHT_EXCLUDE_TAGS` removes matching Playwright tags, for example `PLAYWRIGHT_TAGS=@e2e PLAYWRIGHT_EXCLUDE_TAGS=@e2e-smoke yarn test:playwrightE2E -- --list`.
+- Key Vault-backed emergency exclusions and the verification bypass are documented in [Playwright global exclusions](./docs/playwright-global-exclusions.md).
 
 The reporting flow is:
 

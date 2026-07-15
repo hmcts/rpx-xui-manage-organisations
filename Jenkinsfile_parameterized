@@ -15,6 +15,11 @@ properties([
             name: 'RUN_PLAYWRIGHT_ACCESSIBILITY',
             defaultValue: false,
             description: 'Manual-only: run only the non-blocking unified Playwright accessibility pack.'
+        ),
+        booleanParam(
+            name: 'PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES',
+            defaultValue: false,
+            description: 'Bypass Key Vault-backed Playwright global exclusions for a verification run that is fixing an excluded test.'
         )
     ])
 ])
@@ -39,7 +44,8 @@ List<LinkedHashMap<String, Object>> secrets = [
   secret('google-analytics-key', 'GOOGLE_ANALYTICS_KEY'),
   secret('launch-darkly-client-id', 'LAUNCH_DARKLY_CLIENT_ID'),
   secret('system-user-name', 'SYSTEM_USER_NAME'),
-  secret('system-user-password', 'SYSTEM_USER_PASSWORD')
+  secret('system-user-password', 'SYSTEM_USER_PASSWORD'),
+  secret('xui-manage-org-playwright-global-excluded-tags', 'PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS')
 ]
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
@@ -171,6 +177,7 @@ def runPlaywrightFunctionalTests = { String environmentName ->
                             stage('Playwright Accessibility Tests') {
                                 try {
                                     withEnv([
+                                        "PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES=${params.PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES ? 'true' : 'false'}",
                                         "FUNCTIONAL_TESTS_WORKERS=4",
                                         "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-accessibility",
                                         "PLAYWRIGHT_JUNIT_OUTPUT=${playwrightAccessibilityOutputRoot}/playwright-accessibility-junit.xml",
@@ -191,6 +198,7 @@ def runPlaywrightFunctionalTests = { String environmentName ->
                         api: {
                             stage('API Tests') {
                                 withEnv([
+                                    "PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES=${params.PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES ? 'true' : 'false'}",
                                     "FUNCTIONAL_TESTS_WORKERS=4",
                                     "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-api",
                                     "PLAYWRIGHT_HTML_OUTPUT=functional-output/tests/playwright-api/html-report",
@@ -203,6 +211,7 @@ def runPlaywrightFunctionalTests = { String environmentName ->
                         playwrightIntegration: {
                             stage('Playwright Integration Tests') {
                                 withEnv([
+                                    "PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES=${params.PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES ? 'true' : 'false'}",
                                     "FUNCTIONAL_TESTS_WORKERS=4",
                                     "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-integration",
                                     "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-integration/playwright-integration-junit.xml"
@@ -214,6 +223,7 @@ def runPlaywrightFunctionalTests = { String environmentName ->
                         playwrightE2E: {
                             stage('Playwright E2E') {
                                 withEnv([
+                                    "PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES=${params.PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES ? 'true' : 'false'}",
                                     "FUNCTIONAL_TESTS_WORKERS=2",
                                     "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-e2e",
                                     "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-e2e/playwright-e2e-junit.xml",

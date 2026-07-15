@@ -139,7 +139,7 @@ test.describe('Playwright global exclusion policy', { tag: '@svc-internal' }, ()
 });
 
 test.describe('Playwright global exclusion Jenkins wiring', { tag: '@svc-internal' }, () => {
-  const pipelineFiles = ['Jenkinsfile_CNP', 'Jenkinsfile_nightly', 'Jenkinsfile_parameterized'];
+  const pipelineFiles = ['Jenkinsfile_CNP', 'Jenkinsfile_nightly'];
   const expectedSecret =
     'secret(\'xui-manage-org-playwright-global-excluded-tags\', \'PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS\')';
 
@@ -155,13 +155,10 @@ test.describe('Playwright global exclusion Jenkins wiring', { tag: '@svc-interna
     });
   }
 
-  test('parameterized wiring remains covered because the repo identifies it as an active pipeline', () => {
-    const architectureGuard = fs.readFileSync(path.resolve(process.cwd(), 'scripts/check-playwright-architecture.js'), 'utf8');
+  test('legacy parameterized pipeline does not require the CNP Key Vault secret', () => {
     const parameterizedPipeline = fs.readFileSync(path.resolve(process.cwd(), 'Jenkinsfile_parameterized'), 'utf8');
 
-    expect(architectureGuard).toMatch(
-      /activePipelineFiles\s*=\s*\[[\s\S]*?'Jenkinsfile_parameterized'[\s\S]*?\]/
-    );
-    expect(parameterizedPipeline).toContain('$class: \'GitHubPushTrigger\'');
+    expect(parameterizedPipeline).not.toContain(expectedSecret);
+    expect(parameterizedPipeline).not.toContain('name: \'PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES\'');
   });
 });

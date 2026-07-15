@@ -10,7 +10,7 @@ properties([
     pipelineTriggers(env.BRANCH_NAME == 'master' ? [cron('H 07 * * 1-5')] : [])
 ])
 
-@Library("Infrastructure@2.4.0")
+@Library("Infrastructure@2.4.5")
 
 def type      = "nodejs"
 def product   = "xui"

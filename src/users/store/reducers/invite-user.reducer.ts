@@ -1,9 +1,18 @@
 import { errorMessageMappings } from '../../../register/mappings/apiErrorMappings';
 import * as fromInviteUsers from '../actions/invite-user.actions';
 
+export interface InviteUserErrorMessage {
+  messages: string[];
+  isInvalid?: boolean;
+}
+
+export interface InviteUserErrorMessages {
+  [key: string]: InviteUserErrorMessage;
+}
+
 export interface InviteUserState {
   inviteUserFormData: object;
-  errorMessages: object;
+  errorMessages: InviteUserErrorMessages;
   isFormValid: boolean;
   errorHeader: string;
   isUserConfirmed: boolean;

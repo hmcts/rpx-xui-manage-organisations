@@ -25,12 +25,11 @@ export class ValidationErrorFormGroupComponent {
     @Input() group: FormGroup;
     @Input() validationErrorId;
 
-    constructor(private validationService: ValidationService) {}
+    constructor(private readonly validationService: ValidationService) {}
 
     /**
      * Is Form Group Invalid
      *
-     * TODO : Unit Test
      *
      * // @see ValidationService
      * // @param {FormGroup} formGroup

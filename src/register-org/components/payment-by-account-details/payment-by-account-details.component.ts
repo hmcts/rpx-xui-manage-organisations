@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { RegisterOrgService } from '../../services/register-org.service';
   templateUrl: './payment-by-account-details.component.html',
   standalone: false
 })
-export class PaymentByAccountDetailsComponent extends RegisterComponent implements OnInit {
+export class PaymentByAccountDetailsComponent extends RegisterComponent implements OnInit, OnDestroy {
   public pbaDetailsFormGroup: FormGroup;
   public validationErrors: { id: string, message: string }[] = [];
   public displayErrorBanner = false;
@@ -101,7 +101,7 @@ export class PaymentByAccountDetailsComponent extends RegisterComponent implemen
 
   private getPBANumbersCustomValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } => {
-      if (control.value && isNaN(Number(control.value.substring(3)))) {
+      if (control.value && Number.isNaN(Number(control.value.substring(3)))) {
         return { error: PbaErrorMessage.GENERIC_ERROR_MESSAGE };
       }
       return null;

@@ -39,6 +39,33 @@ describe('case-converter', () => {
       expect(shareCases).toEqual(expectedShareCases);
     });
 
+    it('should convert FinancialRemedy with partial applicant and respondent names', () => {
+      const selectedCases = [{
+        case_id: '1',
+        caseType: 'FinancialRemedyContested',
+        applicantFMName: 'James',
+        appRespondentLName: 'Godard'
+      }, {
+        case_id: '2',
+        caseType: 'FinancialRemedyContested',
+        applicantLName: 'Priest',
+        respondentFMName: 'Charlotte',
+        respondentLName: 'Godard'
+      }, {
+        case_id: '3',
+        caseType: 'FinancialRemedyContested',
+        respondentLName: 'RespondentOnly'
+      }];
+
+      const shareCases: SharedCase[] = converts.toShareCaseConverter(selectedCases, 'FinancialRemedyContested');
+
+      expect(shareCases).toEqual([
+        { caseId: '1', caseTitle: 'James Vs Godard', caseTypeId: 'FinancialRemedyContested' },
+        { caseId: '2', caseTitle: 'Priest Vs Charlotte Godard', caseTypeId: 'FinancialRemedyContested' },
+        { caseId: '3', caseTitle: 'RespondentOnly', caseTypeId: 'FinancialRemedyContested' }
+      ]);
+    });
+
     it('should convert Divorce to share case - single case without title', () => {
       const selectedCases = [{
         case_id: '1',
@@ -69,6 +96,19 @@ describe('case-converter', () => {
 
       const shareCases: SharedCase[] = converts.toShareCaseConverter(selectedCases, 'DIVORCEContested');
       expect(shareCases).toEqual(expectedShareCases);
+    });
+
+    it('should fall back to provided case type when selected case has no caseType', () => {
+      const selectedCases = [{
+        case_id: '1',
+        case_title: ''
+      }];
+
+      const shareCases: SharedCase[] = converts.toShareCaseConverter(selectedCases, 'Civil');
+
+      expect(shareCases).toEqual([
+        { caseId: '1', caseTitle: '1', caseTypeId: 'Civil' }
+      ]);
     });
   });
 

@@ -24,7 +24,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   public userAccessTypes: string[] = [];
   public ogdUpdateRefreshUserEnabled = false;
 
-  private onDestroy$ = new Subject<void>();
+  private readonly onDestroy$ = new Subject<void>();
   public userSubscription: Subscription;
   public suspendUserServerErrorSubscription: Subscription;
 
@@ -45,7 +45,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     private readonly actions$: Actions,
     private readonly activeRoute: ActivatedRoute,
     @Inject(ENVIRONMENT_CONFIG) private readonly environmentConfig: EnvironmentConfig
-  ) {}
+  ) { }
 
   public ngOnInit(): void {
     this.ogdUpdateRefreshUserEnabled = !!this.environmentConfig.ogdUpdateRefreshUserEnabled;
@@ -64,7 +64,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
         this.editPermissionRouter = '';
         if (isOgdInviteUserFlowFeatureEnabled) {
           this.editPermissionRouter = 'manage';
-        } else if (isEditUserFeatureEnabled){
+        } else if (isEditUserFeatureEnabled) {
           this.editPermissionRouter = 'editpermission';
         }
       });
@@ -84,18 +84,28 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
       .subscribe(([organisationAccessTypes, user, isFeatureEnabled]) => {
         this.userAccessTypes = [];
         if (isFeatureEnabled && user?.roles?.includes('pui-case-manager')) {
-          const enabledUserAccessTypes: UserAccessType[] = user?.userAccessTypes?.filter((x: UserAccessType) => x.enabled) ?? [];
-          for (const jurisdiction of organisationAccessTypes){
-            for (const ac of jurisdiction.accessTypes){
+          const enabledUserAccessTypes: UserAccessType[] =
+            user?.userAccessTypes?.filter((x: UserAccessType) => x.enabled) ?? [];
+
+          for (const jurisdiction of organisationAccessTypes) {
+            for (const ac of jurisdiction.accessTypes) {
               if (ac.accessMandatory) {
-                this.userAccessTypes.push(`${jurisdiction.jurisdictionName} - ${ac.description}`);
+                this.userAccessTypes.push(
+                  `${jurisdiction.jurisdictionName} - ${ac.description}`
+                );
                 continue;
               }
-              if (ac.display){
-                const foundUserAc = enabledUserAccessTypes.find((x) => x.accessTypeId === ac.accessTypeId && x.organisationProfileId === ac.organisationProfileId);
-                if (foundUserAc) {
-                  this.userAccessTypes.push(`${jurisdiction.jurisdictionName} - ${ac.description}`);
-                }
+              if (
+                ac.display &&
+                enabledUserAccessTypes.some(
+                  (x) =>
+                    x.accessTypeId === ac.accessTypeId &&
+                    x.organisationProfileId === ac.organisationProfileId
+                )
+              ) {
+                this.userAccessTypes.push(
+                  `${jurisdiction.jurisdictionName} - ${ac.description}`
+                );
               }
             }
           }
@@ -143,12 +153,12 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   }
 
   public handleUserSubscription(user, isFeatureEnabled$: Observable<boolean>): void {
-    if (user && user.status) {
+    if (user?.status) {
       this.user = { ...user, resendInvite: user.status === 'Pending' };
     }
 
     isFeatureEnabled$.subscribe((isFeatureEnabled) => {
-      if (isFeatureEnabled && this.user && this.user.status === 'Active') {
+      if (isFeatureEnabled && this.user?.status === 'Active') {
         this.actionButtons = [
           {
             name: 'Suspend account',

@@ -7,6 +7,7 @@ Use it only when a tagged failing area blocks shared CI and cannot be fixed imme
 ## Runtime Contract
 
 - Key Vault secret: `xui-manage-org-playwright-global-excluded-tags`
+- Local-population tag: `e2e=MANAGE_ORG_PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS`
 - Runtime variable: `PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS`
 - No-op value: `@none`
 - Verification bypass: `PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES=true`
@@ -15,13 +16,13 @@ Values can be separated by spaces or commas when supplied locally. Store the Key
 
 Each suite applies only its own tags:
 
-| Suite | Global tags applied |
-| --- | --- |
-| API | `@svc-*` |
-| E2E and cross-browser | `@e2e`, `@e2e-*`, and the E2E domain tags declared in `playwright_tests_new/E2E/tag-filter.json` |
-| Integration | `@integration`, `@integration-*` |
+| Suite                 | Global tags applied                                                                                           |
+| --------------------- | ------------------------------------------------------------------------------------------------------------- |
+| API                   | `@svc-*`                                                                                                      |
+| E2E and cross-browser | E2E functional tags declared in `playwright_tests_new/E2E/tag-filter.json`, excluding `@e2e` and `@e2e-smoke` |
+| Integration           | `@integration-*`                                                                                              |
 
-An unknown tag in the current suite's namespace fails config loading. Tags belonging to another suite are ignored by that config.
+Every global value is validated against the combined API, E2E and integration catalogs before suite filtering. Unknown values fail config loading; known tags belonging to another suite are ignored by that config. Whole-suite tags such as `@e2e`, `@e2e-smoke` and `@integration` are rejected as global exclusions because they would leave a supported Playwright command with no tests. They remain valid include tags.
 
 Suite-specific exclusions remain replacement-style:
 
@@ -34,12 +35,11 @@ The global exclusions are deduplicated and added after those defaults or overrid
 
 ## Key Vault Commands
 
-Set the target vault and the tag to change. The examples use `rpx-aat` and `@registration`.
+Set the target vault. The examples use `rpx-aat`.
 
 ```bash
 VAULT_NAME=rpx-aat
 SECRET_NAME=xui-manage-org-playwright-global-excluded-tags
-TAG=@registration
 ```
 
 View the current value before every update:
@@ -52,36 +52,36 @@ az keyvault secret show \
   --output tsv
 ```
 
-Add one tag while preserving all current exclusions, removing `@none`, and storing a space-separated deduplicated value:
+View the complete current metadata before every update:
 
 ```bash
-CURRENT_VALUE="$(az keyvault secret show --vault-name "$VAULT_NAME" --name "$SECRET_NAME" --query value --output tsv)"
-UPDATED_VALUE="$(
-  printf '%s\n' "$CURRENT_VALUE $TAG" |
-    tr ',' ' ' |
-    awk '{ for (i = 1; i <= NF; i++) if ($i != "@none" && !seen[$i]++) values = values (values ? " " : "") $i } END { print values ? values : "@none" }'
-)"
-az keyvault secret set \
+az keyvault secret show \
   --vault-name "$VAULT_NAME" \
   --name "$SECRET_NAME" \
-  --value "$UPDATED_VALUE" \
-  --tags e2e=PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS purpose=playwright-global-exclusions
+  --query tags \
+  --output json
 ```
 
-Remove one specific tag while preserving every other exclusion:
+The add and remove values below are complete examples. Replace each value with the complete current exclusion list, preserving all current exclusions except the tag being deliberately added or removed.
+
+Add `@registration` to an existing `@svc-user-admin` exclusion:
 
 ```bash
-CURRENT_VALUE="$(az keyvault secret show --vault-name "$VAULT_NAME" --name "$SECRET_NAME" --query value --output tsv)"
-UPDATED_VALUE="$(
-  printf '%s\n' "$CURRENT_VALUE" |
-    tr ',' ' ' |
-    awk -v remove="$TAG" '{ for (i = 1; i <= NF; i++) if ($i != "@none" && $i != remove && !seen[$i]++) values = values (values ? " " : "") $i } END { print values ? values : "@none" }'
-)"
 az keyvault secret set \
   --vault-name "$VAULT_NAME" \
   --name "$SECRET_NAME" \
-  --value "$UPDATED_VALUE" \
-  --tags e2e=PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS purpose=playwright-global-exclusions
+  --value '@svc-user-admin @registration' \
+  --tags e2e=MANAGE_ORG_PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS file-encoding=utf-8 purpose=playwright-global-exclusions jira=EXUI-4971
+```
+
+Remove `@registration` while keeping `@svc-user-admin` by setting the remaining value explicitly:
+
+```bash
+az keyvault secret set \
+  --vault-name "$VAULT_NAME" \
+  --name "$SECRET_NAME" \
+  --value '@svc-user-admin' \
+  --tags e2e=MANAGE_ORG_PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS file-encoding=utf-8 purpose=playwright-global-exclusions jira=EXUI-4971
 ```
 
 Remove all global exclusions:
@@ -91,10 +91,10 @@ az keyvault secret set \
   --vault-name "$VAULT_NAME" \
   --name "$SECRET_NAME" \
   --value '@none' \
-  --tags e2e=PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS purpose=playwright-global-exclusions
+  --tags e2e=MANAGE_ORG_PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS file-encoding=utf-8 purpose=playwright-global-exclusions jira=EXUI-4971
 ```
 
-The `e2e=PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS` tag is used by local Key Vault environment population. Extra metadata such as a Jira key is optional.
+Always view the current value and metadata first. Preserve every exclusion that should remain and pass the complete live metadata set to `--tags`. Store values with spaces, not commas. `az keyvault secret set --tags` replaces the complete tag set. The `jira=EXUI-4971` tag shown above is optional; preserve the current Jira metadata when present. The MO-specific `e2e` tag distinguishes this secret's metadata, and the local script reads the exact MO secret name before writing the shared runtime variable. It does not accept a Manage Case or Approve Organisation value found through an ambiguous tag.
 
 ## Verification Runs
 

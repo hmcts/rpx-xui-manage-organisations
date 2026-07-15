@@ -32,6 +32,21 @@ type ResolveTagFiltersOptions = {
 
 const GLOBAL_EXCLUDED_TAGS_ENV_VAR = 'PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS';
 const IGNORE_GLOBAL_EXCLUDES_ENV_VAR = 'PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES';
+const GLOBAL_TAG_CATALOGS = [
+  {
+    configPathEnvVar: 'API_PW_TAG_FILTER_CONFIG',
+    defaultConfigPath: 'playwright_tests_new/api/tag-filter.json',
+  },
+  {
+    configPathEnvVar: 'E2E_PW_TAG_FILTER_CONFIG',
+    defaultConfigPath: 'playwright_tests_new/E2E/tag-filter.json',
+  },
+  {
+    configPathEnvVar: 'INTEGRATION_PW_TAG_FILTER_CONFIG',
+    defaultConfigPath: 'playwright_tests_new/integration/tag-filter.json',
+  },
+] as const;
+const WHOLE_SUITE_GLOBAL_EXCLUSIONS = new Set(['@e2e', '@e2e-smoke', '@integration']);
 
 const ensureTagPrefix = (value: string): string => {
   const normalized = value.trim();
@@ -42,29 +57,14 @@ const ensureTagPrefix = (value: string): string => {
 };
 
 export const splitTagInput = (raw?: string): string[] => {
-  const seen = new Set<string>();
-  const tags: string[] = [];
-  for (const value of (raw ?? '').split(/[\s,]+/)) {
-    const tag = ensureTagPrefix(value);
-    if (tag && !seen.has(tag)) {
-      seen.add(tag);
-      tags.push(tag);
-    }
-  }
-  return tags;
+  const tags = (raw ?? '')
+    .split(/[\s,]+/)
+    .map(ensureTagPrefix)
+    .filter(Boolean);
+  return Array.from(new Set(tags));
 };
 
-const mergeTags = (...tagGroups: string[][]): string[] => {
-  const seen = new Set<string>();
-  const tags: string[] = [];
-  for (const tag of tagGroups.flat()) {
-    if (!seen.has(tag)) {
-      seen.add(tag);
-      tags.push(tag);
-    }
-  }
-  return tags;
-};
+const mergeTags = (...tagGroups: string[][]): string[] => Array.from(new Set(tagGroups.flat()));
 
 const escapeRegExp = (value: string): string => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
@@ -107,6 +107,27 @@ const validateKnownTags = (tags: string[], availableTags: Set<string>, source: s
   }
 };
 
+const validateGlobalExcludedTags = (env: EnvMap, tags: string[]): void => {
+  if (!tags.length) {
+    return;
+  }
+
+  const availableTags = new Set(
+    GLOBAL_TAG_CATALOGS.flatMap(({ configPathEnvVar, defaultConfigPath }) =>
+      splitTagInput(readTagCatalog(env, configPathEnvVar, defaultConfigPath).availableTags.join(' '))
+    )
+  );
+  validateKnownTags(tags, availableTags, GLOBAL_EXCLUDED_TAGS_ENV_VAR);
+
+  const wholeSuiteTags = tags.filter((tag) => WHOLE_SUITE_GLOBAL_EXCLUSIONS.has(tag));
+  if (wholeSuiteTags.length) {
+    throw new Error(
+      `${GLOBAL_EXCLUDED_TAGS_ENV_VAR} cannot exclude whole-suite tag(s): ${wholeSuiteTags.join(', ')}. ` +
+        'Use a narrower functional tag to avoid Playwright "No tests found".'
+    );
+  }
+};
+
 const matchesSuite = (tag: string, pattern: RegExp): boolean => {
   pattern.lastIndex = 0;
   return pattern.test(tag);
@@ -144,8 +165,11 @@ export const resolveTagFilters = ({
   const suiteExcludedTags = hasSuiteOverride ? parsedSuiteOverride.filter((tag) => tag !== '@none') : defaultExcludedTags;
 
   const configuredGlobalTags = splitTagInput(env[GLOBAL_EXCLUDED_TAGS_ENV_VAR]).filter((tag) => tag !== '@none');
-  const inScopeGlobalTags = configuredGlobalTags.filter((tag) => matchesSuite(tag, globalExcludedTagsPattern));
   const ignoreGlobalExcludes = resolveBooleanFlag(env[IGNORE_GLOBAL_EXCLUDES_ENV_VAR]);
+  if (!ignoreGlobalExcludes) {
+    validateGlobalExcludedTags(env, configuredGlobalTags);
+  }
+  const inScopeGlobalTags = configuredGlobalTags.filter((tag) => matchesSuite(tag, globalExcludedTagsPattern));
   const globalExcludedTags = ignoreGlobalExcludes ? [] : inScopeGlobalTags;
   const ignoredGlobalExcludedTags = ignoreGlobalExcludes
     ? configuredGlobalTags
@@ -154,9 +178,6 @@ export const resolveTagFilters = ({
   validateKnownTags(defaultExcludedTags, availableTagSet, 'Tag catalog excludedTags');
   validateKnownTags(includeTags, availableTagSet, includeTagsEnvVar);
   validateKnownTags(suiteExcludedTags, availableTagSet, excludedTagsEnvVar);
-  if (!ignoreGlobalExcludes) {
-    validateKnownTags(inScopeGlobalTags, availableTagSet, GLOBAL_EXCLUDED_TAGS_ENV_VAR);
-  }
 
   const excludedTags = mergeTags(suiteExcludedTags, globalExcludedTags);
   return {

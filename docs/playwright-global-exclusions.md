@@ -19,10 +19,10 @@ Each suite applies only its own tags:
 | Suite                 | Global tags applied                                                                                           |
 | --------------------- | ------------------------------------------------------------------------------------------------------------- |
 | API                   | `@svc-*`                                                                                                      |
-| E2E and cross-browser | E2E functional tags declared in `playwright_tests_new/E2E/tag-filter.json`, excluding `@e2e` and `@e2e-smoke` |
+| E2E and cross-browser | E2E functional tags declared in `playwright_tests_new/E2E/tag-filter.json`, excluding `@e2e`                    |
 | Integration           | `@integration-*`                                                                                              |
 
-Every global value is validated against the combined API, E2E and integration catalogs before suite filtering. Unknown values fail config loading; known tags belonging to another suite are ignored by that config. Whole-suite tags such as `@e2e`, `@e2e-smoke` and `@integration` are rejected as global exclusions because they would leave a supported Playwright command with no tests. They remain valid include tags.
+Every global value is validated against the combined API, E2E and integration catalogs before suite filtering. Unknown values fail config loading; known tags belonging to another suite are ignored by that config. Whole-suite tags such as `@e2e` and `@integration` are rejected as global exclusions because they would leave a supported Playwright command with no tests. The smoke-only `@e2e-smoke` tag is supported because `yarn test:smoke` uses Playwright's no-tests pass flag when that global exclusion is active.
 
 Suite-specific exclusions remain replacement-style:
 
@@ -107,6 +107,7 @@ PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS='@svc-user-admin @registration' yarn test:api:pw
 PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS='@svc-user-admin @registration' yarn test:playwrightE2E -- --list
 PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS='@integration-user-admin' yarn test:playwright:integration -- --list
 PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS='@registration' yarn test:crossbrowser:raw -- --list
+PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS='@e2e-smoke' yarn test:smoke -- --list
 PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS='@registration' PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES=true yarn test:playwrightE2E -- --list
 ```
 

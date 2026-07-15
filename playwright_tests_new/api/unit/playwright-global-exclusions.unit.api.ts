@@ -10,7 +10,16 @@ import {
   splitTagInput
 } from '../../../playwright-tag-filter';
 
+let smokeRunner: {
+  buildSmokePlaywrightArgs: (env?: NodeJS.ProcessEnv, extraArgs?: string[]) => string[];
+};
+
 test.describe('Playwright global exclusion policy', { tag: '@svc-internal' }, () => {
+  test.beforeAll(async () => {
+    const smokeModule = await import('../../../scripts/run-playwright-smoke.cjs');
+    smokeRunner = (smokeModule.default ?? smokeModule) as typeof smokeRunner;
+  });
+
   test('parses spaces and commas, normalises prefixes and deduplicates in order', () => {
     expect(splitTagInput('svc-user-admin, @svc-user-session  svc-user-admin')).toEqual(['@svc-user-admin', '@svc-user-session']);
   });
@@ -173,7 +182,7 @@ test.describe('Playwright global exclusion policy', { tag: '@svc-internal' }, ()
   });
 
   test('rejects whole-suite global exclusions but preserves include tags', () => {
-    for (const tag of ['@e2e', '@e2e-smoke', '@integration']) {
+    for (const tag of ['@e2e', '@integration']) {
       expect(() => resolveE2eTagFilters({ PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS: tag })).toThrow(
         new RegExp(`cannot exclude whole-suite tag\\(s\\): ${tag}`)
       );
@@ -181,6 +190,31 @@ test.describe('Playwright global exclusion policy', { tag: '@svc-internal' }, ()
 
     expect(resolveE2eTagFilters({ E2E_PW_INCLUDE_TAGS: '@e2e-smoke' }).includeTags).toEqual(['@e2e-smoke']);
     expect(resolveIntegrationTagFilters({ INTEGRATION_PW_INCLUDE_TAGS: '@integration' }).includeTags).toEqual(['@integration']);
+  });
+
+  test('allows the smoke project to be globally excluded through its safe package runner', () => {
+    const filters = resolveE2eTagFilters({ PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS: '@e2e-smoke' });
+
+    expect(filters.globalExcludedTags).toEqual(['@e2e-smoke']);
+    expect(filters.grepInvert?.test('journey @e2e-smoke')).toBe(true);
+    expect(smokeRunner.buildSmokePlaywrightArgs({ PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS: '@e2e-smoke' })).toEqual([
+      'test',
+      '--project=smoke',
+      '--pass-with-no-tests',
+      '--reporter=list'
+    ]);
+    expect(
+      smokeRunner.buildSmokePlaywrightArgs({
+        PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS: '@e2e-smoke',
+        PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES: 'true'
+      })
+    ).toEqual(['test', '--project=smoke']);
+    expect(
+      smokeRunner.buildSmokePlaywrightArgs(
+        { PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS: 'e2e-smoke' },
+        ['--reporter=null', '--list']
+      )
+    ).toEqual(['test', '--project=smoke', '--reporter=null', '--list', '--pass-with-no-tests']);
   });
 });
 

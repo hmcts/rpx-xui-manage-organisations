@@ -46,7 +46,7 @@ const GLOBAL_TAG_CATALOGS = [
     defaultConfigPath: 'playwright_tests_new/integration/tag-filter.json',
   },
 ] as const;
-const WHOLE_SUITE_GLOBAL_EXCLUSIONS = new Set(['@e2e', '@e2e-smoke', '@integration']);
+const WHOLE_SUITE_GLOBAL_EXCLUSIONS = new Set(['@e2e', '@integration']);
 
 const ensureTagPrefix = (value: string): string => {
   const normalized = value.trim();

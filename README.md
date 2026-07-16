@@ -410,7 +410,7 @@ Populate local Playwright credentials from Key Vault, or provide secure local va
 yarn env:populate:aat
 ```
 
-This reads `.env.example`, pulls tagged secrets from the `rpx-aat` Key Vault, and writes `.env`. Use `yarn env:populate:demo` for demo, or pass explicit files when you need a custom output:
+This reads `.env.example`, pulls tagged secrets from the `rpx-aat` Key Vault, and writes `.env`. The final `PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS` value is then replaced from the exact `xui-manage-org-playwright-global-excluded-tags` secret, or set to `@none` if that exact value is unavailable. Use `yarn env:populate:demo` for demo, or pass explicit files when you need a custom output:
 
 ```bash
 bash ./scripts/populate-env-from-keyvault.sh aat .env .env.example

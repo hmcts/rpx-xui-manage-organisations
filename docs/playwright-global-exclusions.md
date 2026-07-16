@@ -7,12 +7,12 @@ Use it only when a tagged failing area blocks shared CI and cannot be fixed imme
 ## Runtime Contract
 
 - Key Vault secret: `xui-manage-org-playwright-global-excluded-tags`
-- Local-population tag: `e2e=MANAGE_ORG_PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS`
+- Inventory metadata: `e2e=MANAGE_ORG_PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS`
 - Runtime variable: `PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS`
 - No-op value: `@none`
 - Verification bypass: `PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES=true`
 
-Values can be separated by spaces or commas when supplied locally. Store the Key Vault value with spaces.
+Use spaces between values locally and in Key Vault.
 
 Each suite applies only its own tags:
 

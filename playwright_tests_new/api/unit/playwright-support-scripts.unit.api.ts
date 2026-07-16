@@ -60,7 +60,10 @@ test.describe('Manage Org Playwright support scripts', { tag: '@svc-internal' },
       ['--version'],
       {},
       {
+        E2E_PW_EXCLUDED_TAGS_OVERRIDE: '@registration',
+        E2E_PW_INCLUDE_TAGS: '@registration',
         PLAYWRIGHT_EXCLUDE_TAGS: '@a11y',
+        PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS: '@registration @e2e',
         PLAYWRIGHT_TAGS: '@e2e'
       },
       (_command, _args, options) => {
@@ -70,7 +73,10 @@ test.describe('Manage Org Playwright support scripts', { tag: '@svc-internal' },
     );
 
     expect(status).toBe(0);
+    expect(capturedEnv.E2E_PW_EXCLUDED_TAGS_OVERRIDE).toBe('');
+    expect(capturedEnv.E2E_PW_INCLUDE_TAGS).toBe('');
     expect(capturedEnv.PLAYWRIGHT_EXCLUDE_TAGS).toBe('');
+    expect(capturedEnv.PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS).toBe('@none');
     expect(capturedEnv.PLAYWRIGHT_INCLUDE_A11Y).toBe('true');
     expect(capturedEnv.PLAYWRIGHT_TAGS).toBe('');
     expect(capturedEnv.PW_ODHIN_FORCE_EXIT_ON_COMPLETION).toBe('true');
@@ -190,7 +196,10 @@ test.describe('Manage Org Playwright support scripts', { tag: '@svc-internal' },
       ['--version'],
       {},
       {
+        E2E_PW_EXCLUDED_TAGS_OVERRIDE: '@wave-a11y',
+        E2E_PW_INCLUDE_TAGS: '@registration',
         PLAYWRIGHT_EXCLUDE_TAGS: '@wave-a11y',
+        PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS: '@registration @e2e',
         PLAYWRIGHT_TAGS: '@e2e',
         PW_ACCESSIBILITY_WORKERS: '15'
       },
@@ -201,8 +210,11 @@ test.describe('Manage Org Playwright support scripts', { tag: '@svc-internal' },
     );
 
     expect(status).toBe(0);
+    expect(capturedEnv.E2E_PW_EXCLUDED_TAGS_OVERRIDE).toBe('');
+    expect(capturedEnv.E2E_PW_INCLUDE_TAGS).toBe('');
     expect(capturedEnv.FUNCTIONAL_TESTS_WORKERS).toBe('15');
     expect(capturedEnv.PLAYWRIGHT_EXCLUDE_TAGS).toBe('');
+    expect(capturedEnv.PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS).toBe('@none');
     expect(capturedEnv.PLAYWRIGHT_INCLUDE_A11Y).toBe('true');
     expect(capturedEnv.PLAYWRIGHT_INCLUDE_WAVE_A11Y).toBe('true');
     expect(capturedEnv.PLAYWRIGHT_TAGS).toBe('');

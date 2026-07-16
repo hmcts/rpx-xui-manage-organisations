@@ -13,32 +13,32 @@ properties([
         string(
             name: 'API_PW_INCLUDE_TAGS',
             defaultValue: '',
-            description: 'Optional comma/space separated Playwright API tags to include, for example @svc-ccd,@svc-work-allocation or @svc-auth @svc-cors'
+            description: 'Optional comma/space separated Playwright API tags to include, for example @svc-manage-org,@svc-user-admin or @svc-reference-data @svc-user-session'
         ),
         string(
             name: 'API_PW_EXCLUDED_TAGS_OVERRIDE',
             defaultValue: '',
-            description: 'Optional comma/space separated Playwright API tags to exclude; overrides the API tag filter. Examples: @svc-work-allocation, @svc-auth @svc-cors, @none to clear repo defaults'
+            description: 'Optional comma/space separated Playwright API tags to exclude; overrides the API tag filter. Examples: @svc-user-admin, @svc-reference-data @svc-user-session, @none to clear repo defaults'
         ),
         string(
             name: 'E2E_PW_INCLUDE_TAGS',
             defaultValue: '',
-            description: 'Optional comma/space separated Playwright E2E tags to include, for example @e2e-search-case or @e2e-search-case @e2e-update-case'
+            description: 'Optional comma/space separated Playwright E2E tags to include, for example @registration or @organisation @user-admin'
         ),
         string(
             name: 'E2E_PW_EXCLUDED_TAGS_OVERRIDE',
             defaultValue: '',
-            description: 'Optional comma/space separated Playwright E2E tags to exclude; overrides the E2E tag filter. Examples: @e2e-smoke, @e2e-manage-org @e2e-invite-user, @none to clear repo defaults'
+            description: 'Optional comma/space separated Playwright E2E tags to exclude; overrides the E2E tag filter. Examples: @e2e-smoke, @registration @user-admin, @none to clear repo defaults'
         ),
         string(
             name: 'INTEGRATION_PW_INCLUDE_TAGS',
             defaultValue: '',
-            description: 'Optional comma/space separated Playwright integration tags to include, for example @integration-manage-org or @integration-invite-user'
+            description: 'Optional comma/space separated Playwright integration tags to include, for example @integration-organisation or @integration-user-admin'
         ),
         string(
             name: 'INTEGRATION_PW_EXCLUDED_TAGS_OVERRIDE',
             defaultValue: '',
-            description: 'Optional comma/space separated Playwright integration tags to exclude; overrides the integration tag filter. Examples: @integration-smoke, @integration-manage-org @integration-invite-user, @none to clear repo defaults'
+            description: 'Optional comma/space separated Playwright integration tags to exclude; overrides the integration tag filter. Examples: @integration-user-admin, @integration-organisation @integration-terms, @none to clear repo defaults'
         ),
         booleanParam(
             name: 'PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES',
@@ -53,7 +53,7 @@ properties([
     ])
 ])
 
-@Library("Infrastructure@2.4.4")
+@Library("Infrastructure@2.4.5")
 
 //To enable PACT testing on pipeline uncomment the next line
 import uk.gov.hmcts.contino.AppPipelineDsl
@@ -436,6 +436,7 @@ def secrets = [
     secret('system-user-name', 'SYSTEM_USER_NAME'),
     secret('system-user-password', 'SYSTEM_USER_PASSWORD'),
     secret('mo-webapp-redis6-connection-string', 'REDISCLOUD_URL'),
+    secret('xui-manage-org-playwright-global-excluded-tags', 'PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS'),
 
   ],
 ]

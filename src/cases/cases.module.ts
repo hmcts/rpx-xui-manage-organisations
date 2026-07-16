@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { MatLegacyAutocompleteModule as MatAutocompleteModule } from '@angular/material/legacy-autocomplete';
-import { MatLegacyTabsModule as MatTabsModule } from '@angular/material/legacy-tabs';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatTabsModule } from '@angular/material/tabs';
 import { CaseListModule } from '@hmcts/ccd-case-ui-toolkit';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { EffectsModule } from '@ngrx/effects';
@@ -24,7 +24,6 @@ import { effects, reducers } from './store';
   imports: [
     CommonModule,
     ExuiCommonLibModule,
-    HttpClientModule,
     SharedModule,
     casesRouting,
     StoreModule.forFeature('org', orgReducers),
@@ -39,7 +38,15 @@ import { effects, reducers } from './store';
   ],
   exports: [...fromContainers.containers, ...fromComponents.components],
   declarations: [...fromContainers.containers, ...fromComponents.components],
-  providers: [...fromServices.services, OrganisationService, PBAService, UsersService, InviteUserService, FeatureToggleAccountGuard, RoleGuard],
+  providers: [...fromServices.services,
+    OrganisationService,
+    PBAService,
+    UsersService,
+    InviteUserService,
+    FeatureToggleAccountGuard,
+    RoleGuard,
+    provideHttpClient()
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 

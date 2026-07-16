@@ -15,7 +15,6 @@ import { Jurisdiction, OrganisationDetails } from 'src/models';
 import { AppConstants } from '../../../app/app.constants';
 import { GlobalError } from '../../../app/store/reducers/app.reducer';
 import { StandardUserPermissionsComponent, UserPersonalDetailsComponent } from 'src/users/components';
-import { InviteUserService } from 'src/users/services';
 
 import { UserRolesUtil } from '../utils/user-roles-util';
 import { editUserFailureSelector } from '../../store';
@@ -52,7 +51,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   private user$: Observable<User>;
   private organisation$: Observable<OrganisationDetails>;
   public updatedUser: User;
-  private onDestroy$ = new Subject<void>();
+  private readonly onDestroy$ = new Subject<void>();
   private readonly standardPermissionRoleNames = [
     'pui-user-manager',
     'pui-finance-manager',
@@ -63,8 +62,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   constructor(private readonly actions$: Actions,
     private readonly routerStore: Store<fromRoot.State>,
     private readonly userStore: Store<fromStore.UserState>,
-    private readonly orgStore: Store<fromOrgStore.OrganisationState>,
-    private inviteUserSvc: InviteUserService) {}
+    private readonly orgStore: Store<fromOrgStore.OrganisationState>) {}
 
   ngOnInit(): void {
     this.userStore.dispatch(new fromStore.CheckUserListLoaded());
@@ -273,7 +271,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   }
 
   private getBackurl(userId: string): string {
-    return !!userId ? `/users/user/${userId}` : '/users';
+    return userId ? `/users/user/${userId}` : '/users';
   }
 
   public handleError(store: Store<any>, errorNumber: number): void {

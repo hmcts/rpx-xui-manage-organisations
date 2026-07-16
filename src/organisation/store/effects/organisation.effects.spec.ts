@@ -105,7 +105,7 @@ describe('Organisation Effects', () => {
   describe('loadOrganisation$ error', () => {
     it('should return LoadOrganisationFail', waitForAsync(() => {
       mockFeatureService.getValue.and.returnValue(of(true));
-      organisationServiceMock.fetchOrganisation.and.returnValue(throwError(new Error()));
+      organisationServiceMock.fetchOrganisation.and.returnValue(throwError(() => new Error()));
       const action = new LoadOrganisation();
       const completion = new LoadOrganisationFail(new Error());
       actions$ = hot('-a', { a: action });

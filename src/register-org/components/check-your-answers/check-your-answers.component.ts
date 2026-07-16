@@ -63,18 +63,33 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
 
   public onSubmitData(): void {
     if (this.validateForm()) {
-      this.registerOrgService.postRegistration().subscribe((response) => {
-        this.loggerService.info(`New Organisation Submitted: ${response?.organisationIdentifier}`);
-        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registration-submitted']);
-      },
-      ((errorResponse) => {
-        const returnedError = { id: 'confirm-terms-and-conditions', message: this.apiErrorMessage };
-        if (errorResponse?.status === 400 && errorResponse.error?.errorDescription) {
-          returnedError.message = errorResponse.error.errorDescription;
+      this.registerOrgService.postRegistration().subscribe({
+        next: (response) => {
+          this.loggerService.info(
+            `New Organisation Submitted: ${response?.organisationIdentifier}`
+          );
+
+          this.router.navigate([
+            this.registerOrgService.REGISTER_ORG_NEW_ROUTE,
+            'registration-submitted'
+          ]);
+        },
+        error: (errorResponse) => {
+          const returnedError = {
+            id: 'confirm-terms-and-conditions',
+            message: this.apiErrorMessage
+          };
+
+          if (errorResponse?.status === 400 && errorResponse.error?.errorDescription) {
+            returnedError.message = errorResponse.error.errorDescription;
+          }
+
+          this.validationErrors.push(returnedError);
+          this.mainContentElement.nativeElement.scrollIntoView({
+            behavior: 'smooth'
+          });
         }
-        this.validationErrors.push(returnedError);
-        this.mainContentElement.nativeElement.scrollIntoView({ behavior: 'smooth' });
-      }));
+      });
     }
   }
 

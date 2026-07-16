@@ -41,6 +41,24 @@ describe('CaaCasesUtil', () => {
     expect(results[3].total).toEqual(4);
   });
 
+  it('getCaaNavItems should ignore empty and zero-total case type results', () => {
+    expect(CaaCasesUtil.getCaaNavItems({ case_types_results: null } as any)).toEqual([]);
+
+    const results = CaaCasesUtil.getCaaNavItems({
+      case_types_results: [
+        { total: 0, case_type_id: 'HiddenCaseType' },
+        { total: 2, case_type_id: 'VisibleCaseType' }
+      ]
+    } as any);
+
+    expect(results).toEqual([{
+      text: 'VisibleCaseType',
+      href: 'VisibleCaseType',
+      active: false,
+      total: 2
+    }]);
+  });
+
   it('should fail caseReference validation if input is less than 16 digits after removing separators', () => {
     control.setValue('1234 12-- -34-1234  123-');
     const caseReferenceValidator = CaaCasesUtil.caseReferenceValidator();
@@ -111,5 +129,25 @@ describe('CaaCasesUtil', () => {
     control.setValue('test string');
     const assigneeNameValidator = CaaCasesUtil.assigneeNameValidator();
     expect(assigneeNameValidator(control)).toEqual({ assigneeName: true });
+  });
+
+  it('should fail assigneeName validation if string contains only one expected delimiter', () => {
+    const assigneeNameValidator = CaaCasesUtil.assigneeNameValidator();
+    control.setValue('Lindsey Johnson - no-email');
+    expect(assigneeNameValidator(control)).toEqual({ assigneeName: true });
+    control.setValue('Lindsey Johnson user@test.com');
+    expect(assigneeNameValidator(control)).toEqual({ assigneeName: true });
+  });
+
+  it('should validate free text assignee names for assigneeNameValidator2', () => {
+    const assigneeNameValidator = CaaCasesUtil.assigneeNameValidator2();
+    control.setValue('');
+    expect(assigneeNameValidator(control)).toEqual({ assigneeName: true });
+    control.setValue({ fullName: 'Lindsey Johnson' });
+    expect(assigneeNameValidator(control)).toEqual({ assigneeName: true });
+    control.setValue('Lindsey Johnson - user@test.com');
+    expect(assigneeNameValidator(control)).toEqual({ assigneeName: true });
+    control.setValue('Lindsey Johnson');
+    expect(assigneeNameValidator(control)).toBeNull();
   });
 });

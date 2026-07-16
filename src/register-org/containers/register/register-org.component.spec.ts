@@ -79,14 +79,14 @@ describe('RegisterComponent', () => {
 
   it('should not invoke persist registration data when component is unloaded due to cancellation of registration journey', () => {
     mockRegisterOrgService.persistRegistrationData.calls.reset();
-    spyOn(window, 'confirm').and.returnValue(true);
+    spyOn(globalThis, 'confirm').and.returnValue(true);
     component.cancelRegistrationJourney();
     component.ngOnDestroy();
     expect(mockRegisterOrgService.persistRegistrationData).not.toHaveBeenCalled();
   });
 
   it('should cancelRegistrationJourney confirmed by the user', () => {
-    spyOn(window, 'confirm').and.returnValue(true);
+    spyOn(globalThis, 'confirm').and.returnValue(true);
     component.cancelRegistrationJourney();
     expect(mockRegisterOrgService.removeRegistrationData).toHaveBeenCalled();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'register']);
@@ -94,7 +94,7 @@ describe('RegisterComponent', () => {
 
   it('should cancelRegistrationJourney not confirmed by the user', () => {
     mockRouter.navigate.calls.reset();
-    spyOn(window, 'confirm').and.returnValue(false);
+    spyOn(globalThis, 'confirm').and.returnValue(false);
     component.cancelRegistrationJourney();
     expect(mockRouter.navigate).not.toHaveBeenCalled();
   });

@@ -5,8 +5,8 @@ import { CaaCases, CaaCasesSessionState, CaaCasesSessionStateValue } from '../mo
 
 @Injectable()
 export class CaaCasesService {
-  public static caaCasesUrl: string = '/api/caaCases';
-  public static caaCaseTypesUrl: string = '/api/caaCaseTypes';
+  public static readonly caaCasesUrl: string = '/api/caaCases';
+  public static readonly caaCaseTypesUrl: string = '/api/caaCaseTypes';
 
   constructor(private readonly http: HttpClient) {
   }
@@ -27,15 +27,15 @@ export class CaaCasesService {
   }
 
   public storeSessionState(sessionState: CaaCasesSessionState): void {
-    window.sessionStorage.setItem(sessionState.key, JSON.stringify(sessionState.value));
+    globalThis.sessionStorage.setItem(sessionState.key, JSON.stringify(sessionState.value));
   }
 
   public retrieveSessionState(key: string): CaaCasesSessionStateValue {
-    return window.sessionStorage.getItem(key) ? JSON.parse(window.sessionStorage.getItem(key)) : null;
+    return globalThis.sessionStorage.getItem(key) ? JSON.parse(globalThis.sessionStorage.getItem(key)) : null;
   }
 
   public removeSessionState(key: string): void {
-    window.sessionStorage.removeItem(key);
+    globalThis.sessionStorage.removeItem(key);
   }
 
   private getFilterType(caaCasesFilterType: string | null): string {

@@ -17,6 +17,11 @@ import { CaseShareCompletePage } from '../../page-objects/case-share-complete.po
 import { CaseShareConfirmPage } from '../../page-objects/case-share-confirm.po';
 import { CaseSharingPage } from '../../page-objects/case-sharing.po';
 
+const isAssignedCaseShareUrl = (url: URL): boolean =>
+  url.pathname.endsWith('/cases/case-share') &&
+  url.searchParams.get('init') === 'true' &&
+  url.searchParams.get('pageType') === 'assigned-cases';
+
 test.describe('Assigned cases', { tag: ['@integration', '@integration-assigned-cases', '@integration-case-sharing'] }, () => {
   test('validates assigned case filters, tabs and manage-sharing submission', async ({
     manageOrgIntegrationPage: page
@@ -166,11 +171,17 @@ test.describe('Assigned cases', { tag: ['@integration', '@integration-assigned-c
 
     await test.step('Select an assigned case and open manage-sharing', async () => {
       await assignedCasesPage.openCaseTypeTab(immigrationCaseType);
+
+      await expect(page.getByText('Showing 1 to 1 of 1 Immigration cases', { exact: true })).toBeVisible();
+      await expect(assignedCasesPage.caseList).toContainText(assignedImmigrationCase.caseReference);
+
       await assignedCasesPage.selectCase(assignedImmigrationCase.caseReference);
 
-      await assignedCasesPage.startCaseSharing();
+      await expect(assignedCasesPage.manageCaseSharingButton).toBeEnabled();
 
-      await expect(page).toHaveURL(/\/cases\/case-share\?init=true&pageType=assigned-cases$/);
+      await assignedCasesPage.startCaseSharing();
+      await expect(page).toHaveURL(isAssignedCaseShareUrl);
+
       await expect(page.getByRole('heading', { name: 'Manage shared access to a case' })).toBeVisible();
       await expect.poll(() => routeState.loadedShareCaseIds.length).toBe(1);
       await expect(routeState.loadedShareCaseIds[0]).toEqual([assignedImmigrationCase.caseReference]);
@@ -292,7 +303,7 @@ test.describe('Assigned cases', { tag: ['@integration', '@integration-assigned-c
       await assignedCasesPage.selectCase(confirmedCaseId);
       await assignedCasesPage.startCaseSharing();
 
-      await expect(page).toHaveURL(/\/cases\/case-share\?init=true&pageType=assigned-cases$/);
+      await expect(page).toHaveURL(isAssignedCaseShareUrl);
       await expect(page.getByRole('heading', { name: 'Manage shared access to a case' })).toBeVisible();
       await expect.poll(() => routeState.loadedShareCaseIds.length).toBe(1);
       await expect(routeState.loadedShareCaseIds[0]).toEqual(sameTabAssignedCaseIds);

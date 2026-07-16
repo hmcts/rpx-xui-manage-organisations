@@ -44,6 +44,7 @@ TEST_USER1_EMAIL_VALUE="$(read_secret test-user1-email)"
 TEST_USER1_PASSWORD_VALUE="$(read_secret test-user1-password)"
 TEST_ROO_USERNAME="$(read_secret test-roo-username)"
 TEST_ROO_PASSWORD_VALUE="$(read_secret test-roo-password)"
+PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS_VALUE="$(read_secret xui-manage-org-playwright-global-excluded-tags)"
 
 ORG_ASSIGNMENT_UI_USER="${ORG_ASSIGNMENT_UI_USER}" \
 ORG_ASSIGNMENT_USERNAME="${ORG_ASSIGNMENT_USERNAME}" \
@@ -53,6 +54,7 @@ TEST_USER1_EMAIL_VALUE="${TEST_USER1_EMAIL_VALUE}" \
 TEST_USER1_PASSWORD_VALUE="${TEST_USER1_PASSWORD_VALUE}" \
 TEST_ROO_USERNAME="${TEST_ROO_USERNAME}" \
 TEST_ROO_PASSWORD_VALUE="${TEST_ROO_PASSWORD_VALUE}" \
+PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS_VALUE="${PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS_VALUE}" \
 node - "${OUT_FILE}" "${ENVIRONMENT}" <<'NODE'
 const fs = require('fs');
 
@@ -119,6 +121,10 @@ setValue('TEST_ROO_PASSWORD', firstNonEmpty(
   env.TEST_ROO_PASSWORD,
   process.env.TEST_ROO_PASSWORD_VALUE
 ));
+env.PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS = firstNonEmpty(
+  process.env.PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS_VALUE,
+  '@none'
+);
 
 const manageOrgUrl = environment === 'demo'
   ? 'https://manage-org.demo.platform.hmcts.net/'

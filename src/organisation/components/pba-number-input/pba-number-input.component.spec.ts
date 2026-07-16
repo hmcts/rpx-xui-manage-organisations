@@ -66,16 +66,15 @@ describe('PbaNumberInputComponent', () => {
     ];
 
     testCases.forEach((testCase) => {
-      it(`should convert "${testCase.input}" into "${testCase.expected}"`, () => {
+      it(`should convert "${testCase.input}" into "${testCase.expected}"`, async () => {
         const inputElement = fixture.nativeElement.querySelector('input');
         inputElement.value = testCase.input;
         inputElement.dispatchEvent(new Event('input'));
 
         fixture.detectChanges();
 
-        fixture.whenStable().then(() => {
-          expect(inputElement.value).toBe(testCase.expected);
-        });
+        await fixture.whenStable();
+        expect(inputElement.value).toBe(testCase.expected);
       });
     });
   });
@@ -91,16 +90,15 @@ describe('PbaNumberInputComponent', () => {
     ];
 
     testCases.forEach((testCase) => {
-      it(`should show "${testCase.expected}" error, when input "${testCase.input}"`, () => {
+      it(`should show "${testCase.expected}" error, when input "${testCase.input}"`, async () => {
         const inputElement = fixture.nativeElement.querySelector('input');
         inputElement.value = testCase.input;
         inputElement.dispatchEvent(new Event('input'));
 
         fixture.detectChanges();
 
-        fixture.whenStable().then(() => {
-          expect(component.errorMessages.messages).toEqual(testCase.expected);
-        });
+        await fixture.whenStable();
+        expect(component.errorMessages.messages).toEqual(testCase.expected);
       });
     });
   });

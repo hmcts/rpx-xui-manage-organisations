@@ -278,7 +278,7 @@ describe('ManageUserComponent', () => {
 
       component.onSubmit();
       expect(dispatchSpy).toHaveBeenCalledWith(
-        new fromStore.EditUser(userWithUpdatedRoles)
+        new fromStore.EditUser(userWithUpdatedRoles, [AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE])
       );
     }));
 
@@ -305,7 +305,7 @@ describe('ManageUserComponent', () => {
 
       component.onSubmit();
       expect(dispatchSpy).toHaveBeenCalledWith(
-        new fromStore.EditUser(userWithUpdatedAccessTypes)
+        new fromStore.EditUser(userWithUpdatedAccessTypes, [AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE])
       );
     }));
 

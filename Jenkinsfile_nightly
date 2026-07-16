@@ -7,10 +7,17 @@ properties([
         projectUrlStr: 'https://github.com/hmcts/rpx-xui-manage-organisations'
     ],
     // Keep master scheduled, but leave nightly-dev and PR branches manual-only.
-    pipelineTriggers(env.BRANCH_NAME == 'master' ? [cron('H 07 * * 1-5')] : [])
+    pipelineTriggers(env.BRANCH_NAME == 'master' ? [cron('H 07 * * 1-5')] : []),
+    parameters([
+        booleanParam(
+            name: 'PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES',
+            defaultValue: false,
+            description: 'Bypass Key Vault-backed Playwright global exclusions for a verification run that is fixing an excluded test.'
+        )
+    ])
 ])
 
-@Library("Infrastructure@DTSPO-30107-jenkins-agents")
+@Library("Infrastructure@2.4.5")
 
 def type      = "nodejs"
 def product   = "xui"
@@ -242,7 +249,8 @@ def secrets = [
     secret('test-townley-email', 'TEST_TOWNLEY_EMAIL'),
     secret('test-townley-password', 'TEST_TOWNLEY_PASSWORD'),
     secret('test-api-email', 'TEST_API_EMAIL'),
-    secret('test-api-password', 'TEST_API_PASSWORD')
+    secret('test-api-password', 'TEST_API_PASSWORD'),
+    secret('xui-manage-org-playwright-global-excluded-tags', 'PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS')
   ],
 ]
 
@@ -341,6 +349,7 @@ withNightlyPipeline(type, product, component) {
                         stage('API Tests') {
                             try {
                                 withEnv(playwrightBrowsersEnv() + [
+                                    "PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES=${params.PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES ? 'true' : 'false'}",
                                     "FUNCTIONAL_TESTS_WORKERS=6",
                                     "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-api",
                                     "PLAYWRIGHT_HTML_OUTPUT=functional-output/tests/playwright-api/html-report",
@@ -362,6 +371,7 @@ withNightlyPipeline(type, product, component) {
                         stage('Playwright Integration Tests') {
                             try {
                                 withEnv(playwrightBrowsersEnv() + [
+                                    "PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES=${params.PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES ? 'true' : 'false'}",
                                     "FUNCTIONAL_TESTS_WORKERS=6",
                                     "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-integration",
                                     "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-integration/playwright-integration-junit.xml",
@@ -382,6 +392,7 @@ withNightlyPipeline(type, product, component) {
                         stage('Playwright Accessibility Tests') {
                             try {
                                 withEnv(playwrightBrowsersEnv() + [
+                                    "PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES=${params.PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES ? 'true' : 'false'}",
                                     "FUNCTIONAL_TESTS_WORKERS=6",
                                     "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-accessibility",
                                     "PLAYWRIGHT_JUNIT_OUTPUT=${playwrightAccessibilityOutputRoot}/playwright-accessibility-junit.xml",
@@ -406,6 +417,7 @@ withNightlyPipeline(type, product, component) {
                         stage('Playwright E2E Cross Browser') {
                             try {
                                 withEnv(playwrightBrowsersEnv() + [
+                                    "PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES=${params.PLAYWRIGHT_IGNORE_GLOBAL_EXCLUDES ? 'true' : 'false'}",
                                     "FUNCTIONAL_TESTS_WORKERS=6",
                                     "PLAYWRIGHT_TEST_OUTPUT_DIR=test-results/playwright-e2e",
                                     "PLAYWRIGHT_JUNIT_OUTPUT=functional-output/tests/playwright-e2e/playwright-e2e-junit.xml",

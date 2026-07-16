@@ -2,7 +2,7 @@ import { AxiosResponse } from 'axios';
 import * as chai from 'chai';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
-import * as sinonChai from 'sinon-chai';
+import sinonChai from 'sinon-chai';
 import { mockReq, mockRes } from 'sinon-express-mock';
 import * as crudService from '../common/crudService';
 import * as configuration from '../configuration';
@@ -11,10 +11,7 @@ import { SharedCase } from './models/case-share.model';
 import { UserDetails } from './models/user-details.model';
 import { assignCases } from './real-api';
 
-const sinonChaiPlugin = (sinonChai as unknown as { default?: Chai.ChaiPlugin }).default ??
-  (sinonChai as unknown as Chai.ChaiPlugin);
-
-chai.use(sinonChaiPlugin);
+chai.use(sinonChai);
 
 describe('real-api', () => {
   const sandbox = sinon.createSandbox();

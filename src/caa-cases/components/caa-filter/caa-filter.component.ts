@@ -78,11 +78,11 @@ export class CaaFilterComponent implements OnInit, OnChanges, OnDestroy {
       });
       // Subscribe to assignee person form control to filter and display users based on user input
       this.assigneePersonFormControlSubscription = this.caaFormGroup.get(this.assigneePersonFormControl).valueChanges.pipe(
-        tap(() => this.showAutocomplete = false),
-        tap(() => this.filteredAndGroupedUsers = null),
+        tap({ next: () => this.showAutocomplete = false }),
+        tap({ next: () => this.filteredAndGroupedUsers = null }),
         debounceTime(300),
         switchMap((searchTerm: any) => this.filterSelectedOrganisationUsers(searchTerm).pipe(
-          tap(() => this.showAutocomplete = true),
+          tap({ next: () => this.showAutocomplete = true }),
           catchError(() => this.filteredAndGroupedUsers = null)
         ))
       ).subscribe((filteredAndGroupedUsers: Map<string, User[]>) => {
@@ -92,9 +92,8 @@ export class CaaFilterComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.selectedOrganisationUsers &&
-        changes.selectedOrganisationUsers.currentValue &&
-        changes.selectedOrganisationUsers.currentValue.length > 0) {
+    if (changes.selectedOrganisationUsers?.currentValue &&
+      changes.selectedOrganisationUsers.currentValue.length > 0) {
       this.filterSelectedOrganisationUsers().subscribe((filteredAndGroupedUsers) => {
         this.filteredAndGroupedUsers = filteredAndGroupedUsers;
       });
@@ -110,7 +109,7 @@ export class CaaFilterComponent implements OnInit, OnChanges, OnDestroy {
       // Set the assignee name input box value if present in session state
       if (this.caaCasesPageType === CaaCasesPageType.AssignedCases) {
         const assigneeName = this.sessionStateValue.assigneeName && this.sessionStateValue.assigneeName;
-        const selectedOrganisationUser = this.selectedOrganisationUsers && this.selectedOrganisationUsers.find(
+        const selectedOrganisationUser = this.selectedOrganisationUsers?.find(
           (user) => user.userIdentifier === assigneeName);
         if (selectedOrganisationUser) {
           const formattedOrganisationUser = this.getDisplayName(selectedOrganisationUser);
@@ -122,22 +121,44 @@ export class CaaFilterComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  public filterSelectedOrganisationUsers(searchTerm?: string | User): Observable<Map<string, User[]>> {
-    const filteredUsers = searchTerm && searchTerm.length > 0
-      ? typeof(searchTerm) === 'string'
-        ? this.selectedOrganisationUsers.filter((user) => this.getDisplayName(user).toLowerCase().includes(searchTerm.toLowerCase()))
-        : this.selectedOrganisationUsers.filter((user) => this.getDisplayName(user).toLowerCase().includes(this.getDisplayName(searchTerm).toLowerCase()))
-      : this.selectedOrganisationUsers;
-    const activeUsers = filteredUsers.filter((user) => user.status.toLowerCase() === this.ACTIVE_USER_STATUS);
-    const inactiveUsers = filteredUsers.filter((user) => user.status.toLowerCase() !== this.ACTIVE_USER_STATUS);
+  public filterSelectedOrganisationUsers(
+    searchTerm?: string | User
+  ): Observable<Map<string, User[]>> {
+    let filteredUsers = this.selectedOrganisationUsers;
+
+    if (searchTerm) {
+      const searchText =
+        typeof searchTerm === 'string'
+          ? searchTerm
+          : this.getDisplayName(searchTerm);
+
+      if (searchText.length > 0) {
+        const normalizedSearchText = searchText.toLowerCase();
+
+        filteredUsers = this.selectedOrganisationUsers.filter((user) =>
+          this.getDisplayName(user)
+            .toLowerCase()
+            .includes(normalizedSearchText)
+        );
+      }
+    }
+
+    const activeUsers = filteredUsers.filter(
+      (user) => user.status.toLowerCase() === this.ACTIVE_USER_STATUS
+    );
+
+    const inactiveUsers = filteredUsers.filter(
+      (user) => user.status.toLowerCase() !== this.ACTIVE_USER_STATUS
+    );
+
     const groupedUsers = new Map<string, User[]>();
     groupedUsers.set(this.ACTIVE_USER_GROUP_HEADING, activeUsers);
     groupedUsers.set(this.INACTIVE_USER_GROUP_HEADING, inactiveUsers);
+
     return of(groupedUsers);
   }
 
   public selectFilterOption(caaCasesFilterType: string): void {
-    console.log('selectFilterOption - caaCasesFilterType:', caaCasesFilterType);
     this.selectedFilterType = caaCasesFilterType;
     // Update the form control value to match the selected radio button
     this.caaFormGroup.get(this.caaFilterFormControl)?.setValue(caaCasesFilterType);
@@ -145,30 +166,34 @@ export class CaaFilterComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public onSearch(): void {
-    // Validate form
-    console.log('onSearch - selectedFilterType:', this.selectedFilterType);
-    console.log('onSearch - caaCasesPageType:', this.caaCasesPageType);
     if (this.validateForm()) {
       let selectedFilterValue: string;
+
       if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases) {
         selectedFilterValue = this.caaFormGroup.get(this.caseRefFormControl).value;
       } else if (this.caaCasesPageType === CaaCasesPageType.AssignedCases) {
         switch (this.selectedFilterType) {
-          case CaaCasesFilterType.AssigneeName:
+          case CaaCasesFilterType.AssigneeName: {
             const selectedUser = this.caaFormGroup.get(this.assigneePersonFormControl).value;
-            const fullName = selectedUser.split(' - ')[0];
-            const email = selectedUser.split(' - ')[1];
-            selectedFilterValue = this.selectedOrganisationUsers && this.selectedOrganisationUsers.find(
-              (user) => user.fullName === fullName && user.email === email).userIdentifier;
+            const [fullName, email] = selectedUser.split(' - ');
+
+            selectedFilterValue = this.selectedOrganisationUsers?.find(
+              (user) => user.fullName === fullName && user.email === email
+            )?.userIdentifier;
+
             break;
+          }
+
           case CaaCasesFilterType.CaseReferenceNumber:
             selectedFilterValue = this.caaFormGroup.get(this.caseRefFormControl).value;
             break;
+
           default:
             selectedFilterValue = null;
             break;
         }
       }
+
       this.emitSelectedFilterValue.emit(selectedFilterValue);
     }
   }

@@ -1,5 +1,4 @@
-import { SharedCase } from '@hmcts/rpx-xui-common-lib';
-import { UserDetails } from '@hmcts/rpx-xui-common-lib';
+import { UserDetails, SharedCase } from '@hmcts/rpx-xui-common-lib';
 import * as ShareCasesActions from '../actions/share-case.action';
 
 export interface ShareCasesState {
@@ -18,113 +17,124 @@ export const initialSharedCasesState: ShareCasesState = {
 
 export function shareCasesReducer(
   state: ShareCasesState = initialSharedCasesState,
-  action: ShareCasesActions.Actions): ShareCasesState {
+  action: ShareCasesActions.Actions
+): ShareCasesState {
   switch (action.type) {
     case ShareCasesActions.NAVIGATE_TO_SHARE_CASES:
-      const navigateToShareCases = state.shareCases.slice();
-      for (const aCase of action.payload) {
-        if (!navigateToShareCases.some((hasACase) => hasACase.caseId === aCase.caseId)) {
-          navigateToShareCases.push(aCase);
-        }
-      }
       return {
         ...state,
-        shareCases: navigateToShareCases
+        shareCases: addUniqueCases(state.shareCases, action.payload)
       };
+
     case ShareCasesActions.LOAD_SHARE_CASES:
       return {
         ...state,
         loading: true
       };
+
     case ShareCasesActions.LOAD_SHARE_CASES_SUCCESS:
-      const casesInStore = state.shareCases.slice();
-      const casesFromNode: SharedCase[] = sortedUserInCases(action.payload);
-      const casesWithTypes = [];
-      for (const aCase of casesInStore) {
-        const intersectionCase = casesFromNode.find((nodeCase) => nodeCase.caseId === aCase.caseId);
-        if (intersectionCase && intersectionCase.caseId) {
-          const caseTypeId = aCase.caseTypeId ? aCase.caseTypeId : null;
-          const caseTitle = aCase.caseTitle ? aCase.caseTitle : null;
-          const newCase: SharedCase = {
-            ...intersectionCase,
-            caseTypeId,
-            caseTitle
-          };
-          casesWithTypes.push(newCase);
-        } else {
-          casesWithTypes.push(aCase);
-        }
-      }
       return {
         ...state,
-        shareCases: casesWithTypes,
+        shareCases: mergeCasesWithTypes(
+          state.shareCases,
+          sortedUserInCases(action.payload)
+        ),
         loading: false
       };
+
     case ShareCasesActions.LOAD_SHARE_CASES_FAILURE:
       return {
         ...state,
         error: action.payload,
         loading: false
       };
+
     case ShareCasesActions.ADD_SHARE_CASES:
-      const addShareCases = state.shareCases.slice();
-      for (const aCase of action.payload.sharedCases) {
-        if (!addShareCases.some((hasACase) => hasACase.caseId === aCase.caseId)) {
-          addShareCases.push(aCase);
-        }
-      }
-      return {
-        ...state,
-        shareCases: addShareCases
-      };
     case ShareCasesActions.ADD_SHARE_CASES_GO:
-      const addShareCasesGo = state.shareCases.slice();
-      for (const aCase of action.payload.sharedCases) {
-        if (!addShareCasesGo.some((hasACase) => hasACase.caseId === aCase.caseId)) {
-          addShareCasesGo.push(aCase);
-        }
-      }
       return {
         ...state,
-        shareCases: addShareCasesGo
+        shareCases: addUniqueCases(
+          state.shareCases,
+          action.payload.sharedCases
+        )
       };
+
     case ShareCasesActions.DELETE_A_SHARE_CASE:
-      const caseInStore4Delete = state.shareCases.slice();
-      for (let i = 0, l = caseInStore4Delete.length; i < l; i++) {
-        if (caseInStore4Delete[i].caseId === action.payload.caseId) {
-          caseInStore4Delete.splice(i, 1);
-          break;
-        }
-      }
       return {
         ...state,
-        shareCases: caseInStore4Delete
+        shareCases: removeCaseById(state.shareCases, action.payload.caseId)
       };
+
     case ShareCasesActions.SYNCHRONIZE_STATE_TO_STORE_CASES:
       return {
         ...state,
         shareCases: action.payload
       };
+
     case ShareCasesActions.ASSIGN_USERS_TO_CASE_SUCCESS:
       return {
         ...state,
         shareCases: action.payload,
         loading: true
       };
+
     case ShareCasesActions.RESET_CASE_SELECTION:
       return {
         ...state,
         shareCases: [],
         loading: false
       };
+
     case ShareCasesActions.LOAD_USERS_FROM_ORG_FOR_CASE_SUCCESS:
       return {
         ...state,
         users: action.payload
       };
+
     default:
       return state;
   }
+}
+
+function addUniqueCases(
+  currentCases: SharedCase[],
+  newCases: SharedCase[]
+): SharedCase[] {
+  return newCases.reduce(
+    (cases, aCase) =>
+      cases.some((existingCase) => existingCase.caseId === aCase.caseId)
+        ? cases
+        : [...cases, aCase],
+    [...currentCases]
+  );
+}
+
+function removeCaseById(
+  cases: SharedCase[],
+  caseId: string
+): SharedCase[] {
+  return cases.filter((aCase) => aCase.caseId !== caseId);
+}
+
+function mergeCasesWithTypes(
+  casesInStore: SharedCase[],
+  casesFromNode: SharedCase[]
+): SharedCase[] {
+  return casesInStore.map((aCase) => {
+    const intersectionCase = casesFromNode.find(
+      (nodeCase) => nodeCase.caseId === aCase.caseId
+    );
+
+    if (!intersectionCase?.caseId) {
+      return aCase;
+    }
+
+    return {
+      ...intersectionCase,
+      caseTypeId: aCase.caseTypeId ?? null,
+      caseTitle: aCase.caseTitle ?? null
+    };
+  });
 }
 
 export function sortedUserInCases(pendingSortedCases: SharedCase[]): SharedCase[] {
@@ -132,7 +142,15 @@ export function sortedUserInCases(pendingSortedCases: SharedCase[]): SharedCase[
   for (const aCase of pendingSortedCases) {
     if (aCase.sharedWith) {
       const sortedUsers: UserDetails[] = aCase.sharedWith.slice().sort((user1, user2) => {
-        return user1.firstName > user2.firstName ? 1 : (user2.firstName > user1.firstName ? -1 : 0);
+        if (user1.firstName > user2.firstName) {
+          return 1;
+        }
+
+        if (user1.firstName < user2.firstName) {
+          return -1;
+        }
+
+        return 0;
       });
       const caseWithSortedUser = {
         ...aCase,

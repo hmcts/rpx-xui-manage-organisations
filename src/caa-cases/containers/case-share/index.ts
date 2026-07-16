@@ -37,9 +37,6 @@ export const getRouterStateUrl = createSelector(
 
 export const isSomeIdParamValid = createSelector(getRouterState, (routerS) => {
   return (
-    routerS &&
-    routerS.state &&
-    routerS.state.params &&
-    routerS.state.params.someId
+    routerS?.state?.params?.someId
   );
 });

@@ -58,7 +58,7 @@ export class OrganisationServicesAccessComponent extends RegisterComponent imple
       const serviceIndex = this.selectedServices.findIndex((service) => service.key === event.target.value);
       this.selectedServices.splice(serviceIndex, 1);
     }
-    this.showOtherServicesInput = this.selectedServices.filter((service) => service.key === 'NONE').length > 0;
+    this.showOtherServicesInput = this.selectedServices.some((service) => service.key === 'NONE');
   }
 
   public onContinue(): void {
@@ -91,7 +91,9 @@ export class OrganisationServicesAccessComponent extends RegisterComponent imple
   private setFormControlValues(): void {
     this.selectedServices = this.registrationData.services;
     this.services.forEach((service) => {
-      service.selected = this.selectedServices.find((thisService) => thisService.key === service.key) !== undefined;
+      service.selected = this.selectedServices.some(
+        (thisService) => thisService.key === service.key
+      );
     });
     if (this.registrationData.otherServices) {
       this.showOtherServicesInput = true;

@@ -109,7 +109,6 @@
     "@ngrx/router-store": "^20.0.0",
     "@ngrx/store": "^20.0.0",
     "@ngrx/store-devtools": "^20.0.0",
-    "@nicky-lenaers/ngx-scroll-to": "^14.0.0",
     "@rxweb/reactive-form-validators": "13.0.1",
     "applicationinsights": "^3.14.0",
     "axios": "^1.18.1",

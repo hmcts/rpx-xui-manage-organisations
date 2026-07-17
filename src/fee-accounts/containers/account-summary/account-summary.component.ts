@@ -41,7 +41,7 @@ export class AccountSummaryComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromFeeAccountsStore.LoadFeeAccounts([this.activeRoute.snapshot.params.id]));
     this.accounts$ = this.store.pipe(select(fromFeeAccountsStore.feeAccounts));
     this.subscription = this.accounts$.subscribe((acc) => {
-      if (acc && acc[0]) {
+      if (acc?.[0]) {
         this.accountName$ = of(acc[0].account_name);
       }
     });

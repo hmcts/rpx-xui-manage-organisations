@@ -14,7 +14,7 @@ export const http = (req: Request) => {
       headers['Authorization'] = req.headers.Authorization;
     }
 
-    if (req.headers['user-roles'] && req.headers['user-roles'].length) {
+    if (req.headers['user-roles']?.length) {
       headers['user-roles'] = req.headers['user-roles'];
     }
 

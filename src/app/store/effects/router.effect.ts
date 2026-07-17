@@ -16,18 +16,18 @@ export class RouterEffects {
   public navigate$ = createEffect(() => this.actions$.pipe(
     ofType(RouterActions.GO),
     map((action: RouterActions.Go) => action.payload),
-    tap(({ path, query: queryParams, extras }) => {
+    tap({ next: ({ path, query: queryParams, extras }) => {
       this.router.navigate(path, { queryParams, ...extras });
-    })
+    } })
   ), { dispatch: false });
 
   public navigateBack$ = createEffect(() => this.actions$.pipe(
     ofType(RouterActions.BACK),
-    tap(() => this.location.back())
+    tap({ next: () => this.location.back() })
   ), { dispatch: false });
 
   public navigateForward$ = createEffect(() => this.actions$.pipe(
     ofType(RouterActions.FORWARD),
-    tap(() => this.location.forward())
+    tap({ next: () => this.location.forward() })
   ), { dispatch: false });
 }

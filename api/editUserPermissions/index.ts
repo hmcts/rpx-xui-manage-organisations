@@ -51,7 +51,7 @@ export async function ogdEditUserRoute(req: Request<{ userId: string }>) {
 }
 
 function getErrorMessage(error: any): string {
-  return error && error.data ? error.data.message : '';
+  return error?.data ? error.data.message : '';
 }
 function getErrorReport(apiError: string, apiStatusCode: string = '500', message: string = ''): ErrorReport {
   return {

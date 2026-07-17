@@ -71,7 +71,7 @@ describe('Single fee account Effects', () => {
 
   describe('loadSingleFeeAccount$ error', () => {
     it('should return LoadSingleFeeAccountFail', waitForAsync(() => {
-      singleFeeAccountServiceMock.fetchSingleFeeAccount.and.returnValue(throwError(new Error()));
+      singleFeeAccountServiceMock.fetchSingleFeeAccount.and.returnValue(throwError(() => new Error()));
       const action = new LoadSingleFeeAccount({});
       const completion = new LoadSingleFeeAccountFail(new Error());
       actions$ = hot('-a', { a: action });
@@ -96,7 +96,7 @@ describe('Single fee account Effects', () => {
 
   describe('loadSingleFeeAccountTransactions$ error', () => {
     it('should return loadSingleFeeAccountTransactionsFail', waitForAsync(() => {
-      singleFeeAccountServiceMock.fetchPbAAccountTransactions.and.returnValue(throwError(new Error()));
+      singleFeeAccountServiceMock.fetchPbAAccountTransactions.and.returnValue(throwError(() => new Error()));
       const action = new LoadSingleFeeAccountTransactions({});
       const completion = new LoadSingleFeeAccountTransactionsFail(new Error());
       actions$ = hot('-a', { a: action });

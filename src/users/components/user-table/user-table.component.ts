@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Pagination, User } from '@hmcts/rpx-xui-common-lib';
 
 export interface FilterValues {
@@ -13,7 +13,7 @@ export interface FilterValues {
   standalone: false
 })
 
-export class UserTableComponent implements OnInit {
+export class UserTableComponent implements OnChanges, OnInit {
     @Input() users: User[] = [];
     @Input() moreItems: boolean;
     @Input() firstRecord: number;

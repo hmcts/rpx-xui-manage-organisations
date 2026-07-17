@@ -13,7 +13,7 @@ export const ROUTES: Routes = [
   {
     path: 'register/:pageId',
     component: RegisterComponent
-    // canActivate: [HealthCheckGuard] // TODO decide do we need this
+    // canActivate: [HealthCheckGuard]
   },
   {
     path: 'confirmation',

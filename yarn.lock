@@ -3276,9 +3276,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/ccd-case-ui-toolkit@npm:7.3.74":
-  version: 7.3.74
-  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.3.74"
+"@hmcts/ccd-case-ui-toolkit@npm:7.3.74-unsafe-eval-removal":
+  version: 7.3.74-unsafe-eval-removal
+  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.3.74-unsafe-eval-removal"
   dependencies:
     "@edium/fsm": "npm:^3.0.2"
     "@hmcts/ccpay-web-component": "npm:6.5.22"
@@ -3287,7 +3287,6 @@ __metadata:
     govuk-frontend: "npm:^4.9.0"
     lz-string: "npm:^1.5.0"
     marked: "npm:^17.0.3"
-    pegjs: "npm:^0.10.0"
     tslib: "npm:^2.3.0"
     yargs: "npm:17.7.2"
     yargs-parser: "npm:^21.1.1"
@@ -3320,7 +3319,7 @@ __metadata:
     rxjs-compat: ^6.6.7
     underscore: ^1.9.1
     zone.js: ^0.15.1
-  checksum: 10/df9c8f621d1cb975d03cda059858c62e942f1c0ce16099dced3951a9e8cc9059de8b41e59ffd00bd15953a98237f07708553e3f137c96748bb82996c33663747
+  checksum: 10/8717ad916fdcda9b9a6b5da8d744105b4c31644574c270d8b0cac5db907ebd51e2553a783d399df11759f18ab5339d16f5326a75c3477c5435a60a83a67ff595
   languageName: node
   linkType: hard
 
@@ -20883,7 +20882,7 @@ __metadata:
     "@angular/platform-browser-dynamic": "npm:^20.3.18"
     "@angular/router": "npm:^20.3.18"
     "@babel/runtime": "npm:7.28.3"
-    "@hmcts/ccd-case-ui-toolkit": "npm:7.3.74"
+    "@hmcts/ccd-case-ui-toolkit": "npm:7.3.74-unsafe-eval-removal"
     "@hmcts/ccpay-web-component": "npm:6.5.22"
     "@hmcts/frontend": "npm:0.0.50-alpha"
     "@hmcts/media-viewer": "npm:4.2.25"

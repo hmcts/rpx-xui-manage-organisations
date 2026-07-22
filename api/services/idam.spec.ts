@@ -4,7 +4,7 @@ import { AxiosResponse } from 'axios';
 import * as chai from 'chai';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
-import * as sinonChai from 'sinon-chai';
+import sinonChai from 'sinon-chai';
 import * as http from '../lib/http';
 import * as idam from './idam';
 

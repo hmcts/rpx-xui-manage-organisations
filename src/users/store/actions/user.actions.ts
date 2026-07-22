@@ -33,6 +33,17 @@ export interface CheckUserListLoadedPayload {
   currentTime: number;
 }
 
+export interface UsersPayload {
+  users: PrdUser[];
+}
+
+export interface UserDetailsPayload {
+  [key: string]: unknown;
+  idamStatus?: string;
+  roles?: string[];
+  status?: string;
+}
+
 export class CheckUserListLoaded implements Action {
   public readonly type = CHECK_USER_LIST_LOADED;
   constructor(public payload: CheckUserListLoadedPayload = { currentTime: Date.now() }) {}
@@ -49,7 +60,7 @@ export class LoadUsers {
 
 export class LoadUsersSuccess implements Action {
   public readonly type = LOAD_USERS_SUCCESS;
-  constructor(public payload: any) {} // TODO add type list of users
+  constructor(public payload: UsersPayload) {}
 }
 
 export class LoadUsersFail implements Action {
@@ -114,7 +125,7 @@ export class LoadUserDetails {
 
 export class LoadUserDetailsSuccess implements Action {
   public readonly type = LOAD_USER_DETAILS_SUCCESS;
-  constructor(public payload: any) {} // TODO add type list of users
+  constructor(public payload: UserDetailsPayload) {}
 }
 
 export class SuspendUser {

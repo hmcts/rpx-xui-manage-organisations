@@ -42,16 +42,16 @@ const pbaInputFeed = [
 ];
 
 export class OrgManagerConstants {
-  public static PBA_INPUT_FEED = pbaInputFeed;
-  public static PBA_MESSAGE_PLACEHOLDER = errorMessagePlaceHolder;
-  public static PBA_ERROR_MESSAGES = pbaErrorMessages;
-  public static PBA_ERROR_MESSAGE = pbaErrorMessage;
-  public static PBA_ERROR_ALREADY_USED_MESSAGES = pbaErrorAlreadyUsedMessages;
-  public static PBA_ERROR_ALREADY_USED_HEADER_MESSAGES = pbaErrorAlreadyUsedHeaderMessages;
-  public static STATUS_CODES = statusCodes;
-  public static PBA_SERVER_ERROR_MESSAGE = pbaServerErrorMessages;
-  public static PBA_ERROR_ENTERED_MORE_THAN_ONCE_MESSAGE = pbaErrorEnteredMoreThanOnceMessage;
-  public static PBA_ERROR_ENTERED_MORE_THAN_ONCE_HEADER_MESSAGE = pbaErroEnteredMoreThanOnceHeaderMessages;
+  public static readonly PBA_INPUT_FEED = pbaInputFeed;
+  public static readonly PBA_MESSAGE_PLACEHOLDER = errorMessagePlaceHolder;
+  public static readonly PBA_ERROR_MESSAGES = pbaErrorMessages;
+  public static readonly PBA_ERROR_MESSAGE = pbaErrorMessage;
+  public static readonly PBA_ERROR_ALREADY_USED_MESSAGES = pbaErrorAlreadyUsedMessages;
+  public static readonly PBA_ERROR_ALREADY_USED_HEADER_MESSAGES = pbaErrorAlreadyUsedHeaderMessages;
+  public static readonly STATUS_CODES = statusCodes;
+  public static readonly PBA_SERVER_ERROR_MESSAGE = pbaServerErrorMessages;
+  public static readonly PBA_ERROR_ENTERED_MORE_THAN_ONCE_MESSAGE = pbaErrorEnteredMoreThanOnceMessage;
+  public static readonly PBA_ERROR_ENTERED_MORE_THAN_ONCE_HEADER_MESSAGE = pbaErroEnteredMoreThanOnceHeaderMessages;
 }
 
 export class ErrorMessage {

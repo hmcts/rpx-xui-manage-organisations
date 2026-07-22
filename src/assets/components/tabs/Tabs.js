@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 
-if (typeof window.matchMedia === 'function') {
+if (typeof globalThis.matchMedia === 'function') {
   const Tabs = function(container) {
     this.container = container;
     this.keys = { left: 37, right: 39, up: 38, down: 40 };
@@ -11,7 +11,7 @@ if (typeof window.matchMedia === 'function') {
   };
 
   Tabs.prototype.setupResponsiveChecks = function() {
-    this.mql = window.matchMedia('(min-width: 40.0625em)');
+    this.mql = globalThis.matchMedia('(min-width: 40.0625em)');
     this.mql.addListener($.proxy(this, 'checkMode'));
     this.checkMode(this.mql);
   };
@@ -28,7 +28,7 @@ if (typeof window.matchMedia === 'function') {
     if (this.events) {
       this.container.off('click', '[role=tab]', this.events.onTabClick);
       this.container.off('keydown', '[role=tab]', this.events.onTabKeydown);
-      $(window).off('hashchange', this.events.onHashChange);
+      $(globalThis).off('hashchange', this.events.onHashChange);
     }
     this.teardownHtml();
     this.events = null;
@@ -42,12 +42,12 @@ if (typeof window.matchMedia === 'function') {
     };
     this.container.on('click', '[role=tab]', this.events.onTabClick);
     this.container.on('keydown', '[role=tab]', this.events.onTabKeydown);
-    $(window).on('hashchange', this.events.onHashChange);
+    $(globalThis).on('hashchange', this.events.onHashChange);
     this.setupHtml();
   };
 
   Tabs.prototype.onHashChange = function () {
-    const hash = window.location.hash;
+    const hash = globalThis.location.hash;
     if (!this.hasTab(hash)) {
       return;
     }
@@ -55,7 +55,7 @@ if (typeof window.matchMedia === 'function') {
       this.changingHash = false;
       return;
     }
-    const tab = this.getTab(window.location.hash);
+    const tab = this.getTab(globalThis.location.hash);
     const currentTab = this.getCurrentTab();
     if (tab.length) {
       this.hideTab(currentTab);
@@ -106,7 +106,7 @@ if (typeof window.matchMedia === 'function') {
     this.panels.addClass(this.cssHide);
 
     // if there's a tab that matches the hash
-    const tab = this.getTab(window.location.hash);
+    const tab = this.getTab(globalThis.location.hash);
     if (tab.length) {
       this.highlightTab(tab);
       this.showPanel(tab);
@@ -149,7 +149,7 @@ if (typeof window.matchMedia === 'function') {
     const id = panel.id;
     panel.id = '';
     this.changingHash = true;
-    window.location.hash = this.getHref(tab).slice(1);
+    globalThis.location.hash = this.getHref(tab).slice(1);
     panel.id = id;
   };
 

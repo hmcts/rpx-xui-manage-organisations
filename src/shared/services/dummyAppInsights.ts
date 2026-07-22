@@ -1,5 +1,17 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 
+export interface DependencyTelemetry {
+  id: string;
+  method: string;
+  absoluteUrl: string;
+  pathName: string;
+  totalTime: number;
+  success: boolean;
+  resultCode: number;
+  properties?: Record<string, string>;
+  measurements?: Record<string, number>;
+}
+
+/* eslint-disable @typescript-eslint/no-unused-vars */
 export class DummyAppInsights implements Microsoft.ApplicationInsights.IAppInsights {
   public config: Microsoft.ApplicationInsights.IConfig; public context: Microsoft.ApplicationInsights.ITelemetryContext;
   public queue: (() => void)[];
@@ -28,7 +40,7 @@ export class DummyAppInsights implements Microsoft.ApplicationInsights.IAppInsig
     throw new Error('Method not implemented.');
   }
 
-  public trackDependency(id: string, method: string, absoluteUrl: string, pathName: string, totalTime: number, success: boolean, resultCode: number, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }) {
+  public trackDependency(dependency: DependencyTelemetry) {
     throw new Error('Method not implemented.');
   }
 

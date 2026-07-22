@@ -18,7 +18,7 @@ export class InputsComponent {
   name;
   id;
 
-  constructor(private validationService: ValidationService) {}
+  constructor(private readonly validationService: ValidationService) {}
 
   /**
    * showValidationAndIsControlValid

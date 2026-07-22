@@ -70,6 +70,44 @@ const activePipelineFiles = [
   'Jenkinsfile_parameterized'
 ];
 const parameterizedPipelineFile = 'Jenkinsfile_parameterized';
+const requiredPipelineBehaviorContracts = [
+  {
+    fileName: 'Jenkinsfile_nightly',
+    contracts: [
+      {
+        label: 'artifact-only non-blocking nightly accessibility branch',
+        pattern:
+          /playwrightAccessibility:\s*\{[\s\S]*?stage\(['"]Playwright Accessibility Tests['"]\)\s*\{[\s\S]*?yarnBuilder\.yarn\(['"]test:accessibility:playwright['"]\)[\s\S]*?Playwright Accessibility failed but is non-blocking[\s\S]*?publishPlaywrightAccessibilityReport\(['"]Nightly Manage Org Playwright Accessibility['"]\)[\s\S]*?Report publish wrapper failed but is non-blocking/
+      },
+      {
+        label: 'nightly accessibility JUnit archive-only evidence',
+        pattern:
+          /JUnit XML is archived only; report-only accessibility failures must not create a failing Jenkins test result/
+      },
+      {
+        label: 'nightly accessibility Odhín HTML publication',
+        pattern:
+          /publishHTML\(\[[\s\S]*?reportDir\s*:\s*["']\$\{playwrightAccessibilityOutputRoot\}\/odhin-report["'][\s\S]*?reportFiles\s*:\s*['"]xui-playwright-accessibility\.html['"][\s\S]*?reportName\s*:\s*reportName[\s\S]*?\]\)/
+      },
+      {
+        label: 'nightly accessibility archived evidence',
+        pattern: /archiveArtifacts\(\s*allowEmptyArchive:\s*true,\s*artifacts:\s*["']\$\{playwrightAccessibilityOutputRoot\}\/\*\*["']\s*\)/
+      }
+    ]
+  }
+];
+const forbiddenPipelineBehaviorContracts = [
+  {
+    fileName: 'Jenkinsfile_nightly',
+    contracts: [
+      {
+        label: 'nightly accessibility JUnit publisher',
+        pattern:
+          /publishPlaywrightJUnit\(\s*(["']functional-output\/tests\/playwright-accessibility\/\*\*\/\*junit\.xml["']|["']?\$\{playwrightAccessibilityOutputRoot\}\/\*\*\/\*junit\.xml["']?)\s*\)/
+      }
+    ]
+  }
+];
 const requiredPipelineJunitContracts = [
   {
     fileName: 'Jenkinsfile_CNP',
@@ -83,8 +121,8 @@ const requiredPipelineJunitContracts = [
         pattern: /publishPlaywrightJUnit\(['"]functional-output\/tests\/playwright-integration\/\*\*\/\*junit\.xml['"]\)/
       },
       {
-        label: 'accessibility JUnit publication',
-        pattern: /publishPlaywrightJUnit\(['"]functional-output\/tests\/playwright-a11y\/\*\*\/\*junit\.xml['"]\)/
+        label: 'unified accessibility JUnit publication',
+        pattern: /publishPlaywrightJUnit\((['"]functional-output\/tests\/playwright-accessibility\/\*\*\/\*junit\.xml['"]|["']?\$\{playwrightAccessibilityOutputRoot\}\/\*\*\/\*junit\.xml["']?)\)/
       },
       {
         label: 'E2E JUnit publication',
@@ -108,10 +146,6 @@ const requiredPipelineJunitContracts = [
         pattern: /publishPlaywrightJUnit\(['"]functional-output\/tests\/playwright-integration\/\*\*\/\*junit\.xml['"]\)/
       },
       {
-        label: 'accessibility JUnit publication',
-        pattern: /publishPlaywrightJUnit\(['"]functional-output\/tests\/playwright-a11y\/\*\*\/\*junit\.xml['"]\)/
-      },
-      {
         label: 'E2E JUnit publication',
         pattern: /publishPlaywrightJUnit\(['"]functional-output\/tests\/playwright-e2e\/\*\*\/\*junit\.xml['"]\)/
       }
@@ -126,7 +160,10 @@ const requiredPipelineJunitContracts = [
       },
       { label: 'API artifact root', pattern: /functional-output\/tests\/playwright-api\/\*\*/ },
       { label: 'integration artifact root', pattern: /functional-output\/tests\/playwright-integration\/\*\*/ },
-      { label: 'accessibility artifact root', pattern: /functional-output\/tests\/playwright-a11y\/\*\*/ },
+      {
+        label: 'unified accessibility artifact root',
+        pattern: /functional-output\/tests\/playwright-accessibility\/\*\*|\$\{playwrightAccessibilityOutputRoot\}\/\*\*/
+      },
       { label: 'E2E artifact root', pattern: /functional-output\/tests\/playwright-e2e\/\*\*/ },
       {
         label: 'smoke JUnit publication',
@@ -244,6 +281,16 @@ for (const [scriptName, expectedCommand] of Object.entries(cnpCompatibilityScrip
   }
 }
 
+for (const [scriptName, expectedCommand] of Object.entries({
+  'test:accessibility:playwright': 'node scripts/run-playwright-accessibility.js',
+  'test:wave-a11y:playwright': 'node scripts/run-playwright-wave-a11y.js'
+})) {
+  const actualCommand = packageJson.scripts?.[scriptName];
+  if (actualCommand !== expectedCommand) {
+    failures.push(`${scriptName}: accessibility pack must keep its dedicated Playwright runner.`);
+  }
+}
+
 for (const [scriptName, command] of Object.entries(packageJson.scripts ?? {})) {
   for (const { pattern, label } of [...retiredExecutionPatterns, oldPlaywrightPathPattern]) {
     if (pattern.test(command)) {
@@ -281,6 +328,24 @@ for (const { fileName, contracts } of requiredPipelineJunitContracts) {
   }
 }
 
+for (const { fileName, contracts } of requiredPipelineBehaviorContracts) {
+  const pipelineSource = readFileSync(join(root, fileName), 'utf-8');
+  for (const { pattern, label } of contracts) {
+    if (!pattern.test(pipelineSource)) {
+      failures.push(`${fileName}: missing required Playwright pipeline behavior contract ${label}.`);
+    }
+  }
+}
+
+for (const { fileName, contracts } of forbiddenPipelineBehaviorContracts) {
+  const pipelineSource = readFileSync(join(root, fileName), 'utf-8');
+  for (const { pattern, label } of contracts) {
+    if (pattern.test(pipelineSource)) {
+      failures.push(`${fileName}: contains forbidden Playwright pipeline behavior contract ${label}.`);
+    }
+  }
+}
+
 if (existsSync(join(root, 'scripts/retired-codecept-runner.js'))) {
   failures.push('scripts/retired-codecept-runner.js: retired compatibility runner must stay deleted.');
 }
@@ -298,10 +363,52 @@ for (const expectedContract of [
   }
 }
 
+const waveA11yRunnerSource = [
+  readFileSync(join(root, 'scripts/run-playwright-wave-a11y.js'), 'utf-8'),
+  readFileSync(join(root, 'scripts/run-playwright-accessibility.js'), 'utf-8')
+].join('\n');
+for (const expectedContract of [
+  'assertNoGrepOverrides',
+  'resolveSafeOutputRoot',
+  'PLAYWRIGHT_INCLUDE_WAVE_A11Y',
+  'PLAYWRIGHT_EXCLUDE_TAGS',
+  'PLAYWRIGHT_TAGS',
+  'PW_ODHIN_FORCE_EXIT_ON_COMPLETION',
+  'PLAYWRIGHT_DISABLE_GENERIC_FAILURE_ARTIFACTS',
+  '--retries=0'
+]) {
+  if (!waveA11yRunnerSource.includes(expectedContract)) {
+    failures.push(
+      `scripts/run-playwright-wave-a11y.js: missing WAVE-like a11y runner hardening contract ${expectedContract}.`
+    );
+  }
+}
+
+const accessibilityRunnerSource = readFileSync(join(root, 'scripts/run-playwright-accessibility.js'), 'utf-8');
+for (const expectedContract of [
+  'assertNoGrepOverrides',
+  'resolveSafeOutputRoot',
+  'PLAYWRIGHT_INCLUDE_A11Y',
+  'PLAYWRIGHT_INCLUDE_WAVE_A11Y',
+  'PLAYWRIGHT_EXCLUDE_TAGS',
+  'PLAYWRIGHT_TAGS',
+  'PW_ODHIN_FORCE_EXIT_ON_COMPLETION',
+  'PLAYWRIGHT_DISABLE_GENERIC_FAILURE_ARTIFACTS',
+  'A11Y_STRICT',
+  '--retries=0',
+  '@a11y|@wave-a11y'
+]) {
+  if (!accessibilityRunnerSource.includes(expectedContract)) {
+    failures.push(
+      `scripts/run-playwright-accessibility.js: missing unified accessibility runner hardening contract ${expectedContract}.`
+    );
+  }
+}
+
 const parameterizedPipelineSource = readFileSync(join(root, parameterizedPipelineFile), 'utf-8');
 for (const expectedEvidencePath of [
-  'functional-output/tests/playwright-a11y/odhin-report',
-  'xui-playwright-a11y.html',
+  'playwrightAccessibilityOutputRoot',
+  'xui-playwright-accessibility.html',
   'stagePlaywrightArtifacts',
   "sh 'yarn test:coverage:node'",
   'reports/tests/coverage/node'

@@ -1,0 +1,16 @@
+{
+  "excludedTags": [],
+  "availableTags": [
+    "@svc-auth-guards",
+    "@svc-case-sharing",
+    "@svc-fee-accounts",
+    "@svc-internal",
+    "@svc-manage-org",
+    "@svc-mutating-api",
+    "@svc-reference-data",
+    "@svc-route-coverage",
+    "@svc-terms",
+    "@svc-user-admin",
+    "@svc-user-session"
+  ]
+}

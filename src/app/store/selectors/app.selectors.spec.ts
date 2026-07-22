@@ -1,11 +1,22 @@
 import { TestBed } from '@angular/core/testing';
+import { routerNavigationAction } from '@ngrx/router-store';
 import { combineReducers, select, Store, StoreModule } from '@ngrx/store';
+import { AppConstants } from '../../app.constants';
 import * as fromRoot from '../../../app/store/';
 import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
 import { AppFeatureFlag } from '../reducers/app.reducer';
 import * as fromSelectors from '../selectors/app.selectors';
 import { take } from 'rxjs';
+
+function setRouterUrl(store: Store<fromReducers.State>, url: string): void {
+  store.dispatch(routerNavigationAction({
+    payload: {
+      routerState: { url, queryParams: {}, params: {} } as any,
+      event: { id: 1 } as any
+    }
+  }));
+}
 
 describe('App Selectors', () => {
   let store: Store<fromReducers.State>;
@@ -44,11 +55,11 @@ describe('App Selectors', () => {
     it('should return heading titles', () => {
       let result;
 
+      setRouterUrl(store, '/organisation');
       store.pipe(select(fromSelectors.getHeaderTitle))
         .subscribe((value) => (result = value));
 
-      store.dispatch(new fromRoot.Go({ path: ['/organisation'] }));
-      expect(result).toEqual(undefined);
+      expect(result).toEqual(AppConstants.MANAGE_ORG_TITLE);
     });
   });
 
@@ -67,10 +78,11 @@ describe('App Selectors', () => {
     it('should return user navigation items', () => {
       let result;
 
+      setRouterUrl(store, '/organisation');
       store.pipe(select(fromSelectors.getUserNav))
         .subscribe((value) => (result = value));
 
-      expect(result).toEqual([]);
+      expect(result).toEqual(AppConstants.USER_NAV);
     });
   });
 

@@ -26,5 +26,5 @@ const formBuilderTemplates = {
  */
 
 export class RegistrationConstants {
-  public static FORM_BUILDER_TEMPLATES = formBuilderTemplates;
+  public static readonly FORM_BUILDER_TEMPLATES = formBuilderTemplates;
 }

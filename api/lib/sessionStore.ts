@@ -1,7 +1,7 @@
-import * as connectRedis from 'connect-redis';
-import * as session from 'express-session';
-import * as redis from 'redis';
-import * as sessionFileStore from 'session-file-store';
+import { RedisStore } from 'connect-redis';
+import session from 'express-session';
+import { createClient, RedisClientType } from 'redis';
+import sessionFileStore from 'session-file-store';
 import { app } from '../application';
 import { getConfigValue, showFeature } from '../configuration';
 import {
@@ -15,23 +15,18 @@ import * as log4jui from './log4jui';
 
 export const logger = log4jui.getLogger('sessionStore');
 
-const redisStore = connectRedis(session);
 const fileStore = sessionFileStore(session);
 
 let store: session.Store = null;
 
-export const getRedisStore = (): connectRedis.RedisStore => {
+export const getRedisStore = (): RedisStore => {
   logger.info('using RedisStore');
 
-  const redisOptions: redis.ClientOpts = {
-    prefix: getConfigValue<string>(REDIS_KEY_PREFIX)
-  };
   const redisCloudUrl = getConfigValue<string>(REDISCLOUD_URL);
 
-  app.locals.redisClient = redis.createClient(
-    redisCloudUrl,
-    redisOptions
-  );
+  app.locals.redisClient = createClient({
+    url: redisCloudUrl
+  }) as RedisClientType;
 
   app.locals.redisClient.on('ready', () => {
     logger.info('redis client connected successfully');
@@ -41,8 +36,13 @@ export const getRedisStore = (): connectRedis.RedisStore => {
     logger.error(error);
   });
 
-  return new redisStore({
+  app.locals.redisClient.connect().catch((error: Error) => {
+    logger.error(error);
+  });
+
+  return new RedisStore({
     client: app.locals.redisClient,
+    prefix: getConfigValue<string>(REDIS_KEY_PREFIX),
     ttl: getConfigValue(REDIS_TTL)
   });
 };

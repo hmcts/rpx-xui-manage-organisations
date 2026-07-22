@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import * as otp from 'otp';
+import otp from 'otp';
 import { getConfigValue } from '../configuration';
 import { MICROSERVICE, S2S_SECRET } from '../configuration/references';
 import { http } from './http';

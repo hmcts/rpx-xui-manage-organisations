@@ -86,6 +86,7 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
     GovUiModule,
     ExuiCommonLibModule,
     NgIdleKeepaliveModule.forRoot(),
+    NoopAnimationsModule,
     RpxTranslationModule.forRoot({
       baseUrl: '/api/translation',
       debounceTimeMs: 300,

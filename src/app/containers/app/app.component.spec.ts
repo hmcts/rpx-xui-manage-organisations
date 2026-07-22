@@ -3,6 +3,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CookieService, FeatureToggleService, GoogleAnalyticsService, ManageSessionServices, windowToken } from '@hmcts/rpx-xui-common-lib';
+import { routerNavigationAction } from '@ngrx/router-store';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { addMatchers, cold, initTestScheduler } from 'jasmine-marbles';
 import { CookieModule } from 'ngx-cookie';
@@ -12,6 +13,8 @@ import { LoggerService } from '../../../shared/services/logger.service';
 import { AuthService } from '../../../user-profile/services/auth.service';
 import { UserService } from '../../../user-profile/services/user.service';
 import * as fromAuth from '../../../user-profile/store';
+import { AppConstants } from '../../app.constants';
+import * as fromRoot from '../../store';
 import { Logout, reducers } from '../../store';
 import { HeaderComponent } from '../header/header.component';
 import { AppComponent } from './app.component';
@@ -30,6 +33,8 @@ const featureMock: FeatureToggleService = {
 };
 
 const idleServiceMock = {
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  init: () => {},
   appStateChanges: () => of({
     countdown: 3,
     isVisible: true,
@@ -49,6 +54,15 @@ const userServiceMock = {
   })
 };
 
+function setRouterUrl(store: Store<fromAuth.AuthState>, url: string): void {
+  store.dispatch(routerNavigationAction({
+    payload: {
+      routerState: { url, queryParams: {}, params: {} } as any,
+      event: { id: 1 } as any
+    }
+  }));
+}
+
 describe('AppComponent', () => {
   let store: Store<fromAuth.AuthState>;
   let googleAnalyticsService: any;
@@ -58,6 +72,26 @@ describe('AppComponent', () => {
   let cookieService: any;
 
   beforeEach(waitForAsync(() => {
+    [
+      fromRoot.getRootAppState,
+      fromRoot.getRouterState,
+      fromRoot.getAppState,
+      fromRoot.getPageTitle,
+      fromRoot.getHeaderTitles,
+      fromRoot.getHeaderTitle,
+      fromRoot.getNav,
+      fromRoot.getFeatureFlag,
+      fromRoot.getFeatureEnabledNav,
+      fromRoot.getNavItems,
+      fromRoot.getUserNav,
+      fromRoot.getModalSessionData,
+      fromAuth.getAuthState,
+      fromAuth.authState,
+      fromAuth.getUser,
+      fromAuth.getUid,
+      fromAuth.userLoaded,
+      fromAuth.getHasUserSelectedTC
+    ].forEach((selector) => selector.release?.());
     cookieService = jasmine.createSpyObj('CookieService', ['deleteCookieByPartialMatch']);
     loggerService = jasmine.createSpyObj('LoggerService', ['enableCookies']);
     googleAnalyticsService = jasmine.createSpyObj('googleAnalyticsService', ['init']);
@@ -73,7 +107,7 @@ describe('AppComponent', () => {
           ...reducers,
           userProfile: combineReducers(fromAuth.reducer)
         }),
-        CookieModule.forRoot()],
+        CookieModule.withOptions()],
       providers: [
         {
           provide: windowToken,
@@ -126,33 +160,41 @@ describe('AppComponent', () => {
     fixture.detectChanges();
   }));
 
+  afterEach(() => {
+    fixture.destroy();
+  });
+
   it('should have pageTitle$ Observable the app', waitForAsync(() => {
-    const expected = cold('a', { a: '' });
+    store.dispatch(new fromRoot.SetPageTitle('/organisation'));
+    const expected = cold('a', { a: 'Manage organisation - Organisation details - GOV.UK' });
     expect(app.pageTitle$).toBeObservable(expected);
   }));
 
   it('should have appHeaderTitle$ Observable the app', waitForAsync(() => {
-    const expected = cold('a', { a: undefined });
+    setRouterUrl(store, '/organisation');
+    const expected = cold('a', { a: AppConstants.MANAGE_ORG_TITLE });
     expect(app.appHeaderTitle$).toBeObservable(expected);
   }));
 
   it('should have userNav$ Observable the app', waitForAsync(() => {
-    const expected = cold('a', { a: [] });
+    setRouterUrl(store, '/organisation');
+    const expected = cold('a', { a: AppConstants.USER_NAV });
     expect(app.userNav$).toBeObservable(expected);
   }));
 
   it('should have navItems$ Observable the app', waitForAsync(() => {
+    setRouterUrl(store, '/organisation');
     const expected = cold('a', { a: { navItems: [] } });
     expect(app.navItems$).toBeObservable(expected);
   }));
 
   it('should dispatch a logout action', waitForAsync(() => {
-    spyOn(window.sessionStorage, 'clear').and.callThrough();
+    spyOn(globalThis.sessionStorage, 'clear').and.callThrough();
     app.onNavigate('sign-out');
     fixture.detectChanges();
 
     expect(store.dispatch).toHaveBeenCalledWith(new Logout());
-    expect(window.sessionStorage.clear).toHaveBeenCalled();
+    expect(globalThis.sessionStorage.clear).toHaveBeenCalled();
   }));
 
   describe('cookie actions', () => {

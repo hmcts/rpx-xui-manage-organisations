@@ -33,7 +33,7 @@ export const getIsUserCaaAdmin = createSelector(
 
 export const getIsUserPuiFinanceManager = createSelector(
   getUser,
-  (user) => user?.roles ? user.roles.indexOf('pui-finance-manager') !== -1 : false
+  (user) => user?.roles?.includes('pui-finance-manager') ?? false
 );
 
 export const getUid = createSelector(

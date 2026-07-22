@@ -94,47 +94,54 @@ export function reducer(
         organisationDetails: orgDetails
       };
     }
-
-    case fromOrganisation.ORGANISATION_UPDATE_PBA_RESPONSE:
-      let organisationDetailWithResponse = { ...state.organisationDetails };
-      console.log('action', action);
-      if (action.payload) {
-        let existingPaymentAccount = state.organisationDetails.paymentAccount.slice();
-        const existingPendingPaymentAccount = state.organisationDetails.pendingPaymentAccount.slice();
-        const existingPendingAddPaymentAccount = state.organisationDetails.pendingAddPaymentAccount.slice();
-        const existingPendingRemovePaymentAccount = state.organisationDetails.pendingRemovePaymentAccount.slice();
-        existingPaymentAccount = [...existingPaymentAccount, ...existingPendingAddPaymentAccount];
-        const updatePaymentAccount =
-          existingPaymentAccount
-            .filter((paymentAccounts) => !existingPendingRemovePaymentAccount.includes(paymentAccounts))
-            .filter((filtered) => !filtered.status);
-
-        const updatedPendingPaymentAccount = existingPendingAddPaymentAccount
-          .map((addPaymentAccount) => addPaymentAccount.pbaNumber);
-
-        console.log('exitingPendingAddPaymentAccount', existingPendingAddPaymentAccount);
-        console.log('exitingPendingRemovePaymentAccount', existingPendingRemovePaymentAccount);
-        console.log('existingPendingPaymentAccount', existingPendingPaymentAccount);
-        console.log('updatePaymentAccount', updatePaymentAccount);
-        console.log('updatedPendingPaymentAccount', updatedPendingPaymentAccount);
-
-        console.log([...updatedPendingPaymentAccount, ...existingPendingPaymentAccount]);
-
-        organisationDetailWithResponse = {
-          ...state.organisationDetails,
-          response: action.payload,
-          paymentAccount: updatePaymentAccount,
-          pendingPaymentAccount: [...updatedPendingPaymentAccount, ...existingPendingPaymentAccount],
-          pendingAddPaymentAccount: [],
-          pendingRemovePaymentAccount: []
+    case fromOrganisation.ORGANISATION_UPDATE_PBA_RESPONSE: {
+      if (!action.payload) {
+        return {
+          ...state,
+          organisationDetails: { ...state.organisationDetails }
         };
       }
+
+      const existingPaymentAccount = [
+        ...state.organisationDetails.paymentAccount,
+        ...state.organisationDetails.pendingAddPaymentAccount
+      ];
+
+      const existingPendingPaymentAccount =
+        state.organisationDetails.pendingPaymentAccount.slice();
+
+      const existingPendingRemovePaymentAccount = new Set(
+        state.organisationDetails.pendingRemovePaymentAccount
+      );
+
+      const updatePaymentAccount = existingPaymentAccount
+        .filter((paymentAccount) =>
+          !existingPendingRemovePaymentAccount.has(paymentAccount)
+        )
+        .filter((paymentAccount) => !paymentAccount.status);
+
+      const updatedPendingPaymentAccount =
+        state.organisationDetails.pendingAddPaymentAccount.map(
+          (addPaymentAccount) => addPaymentAccount.pbaNumber
+        );
+
+      const organisationDetailWithResponse = {
+        ...state.organisationDetails,
+        response: action.payload,
+        paymentAccount: updatePaymentAccount,
+        pendingPaymentAccount: [
+          ...updatedPendingPaymentAccount,
+          ...existingPendingPaymentAccount
+        ],
+        pendingAddPaymentAccount: [],
+        pendingRemovePaymentAccount: []
+      };
 
       return {
         ...state,
         organisationDetails: organisationDetailWithResponse
       };
-
+    }
     case fromOrganisation.ORGANISATION_UPDATE_PBA_ERROR:
       return {
         ...state,
@@ -147,14 +154,14 @@ export function reducer(
       }
       return state;
 
-    case fromOrganisation.ORGANISATION_UPDATE_PROFILE_IDS:
-      let profileIds: string[] = [];
-      if (state.organisationDetails?.organisationProfileIds){
-        profileIds = state.organisationDetails?.organisationProfileIds ?? [];
-      }
-      if (action.payload){
-        profileIds = [...new Set([...profileIds ?? [], ...action.payload])];
-      }
+    case fromOrganisation.ORGANISATION_UPDATE_PROFILE_IDS: {
+      const existingProfileIds =
+        state.organisationDetails?.organisationProfileIds ?? [];
+
+      const profileIds = action.payload
+        ? [...new Set([...existingProfileIds, ...action.payload])]
+        : existingProfileIds;
+
       return {
         ...state,
         organisationDetails: {
@@ -162,6 +169,7 @@ export function reducer(
           organisationProfileIds: profileIds
         }
       };
+    }
 
     default:
       return state;

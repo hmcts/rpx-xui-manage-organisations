@@ -1,19 +1,20 @@
-import * as applicationinsights from 'applicationinsights';
 import * as assert from 'assert';
 import * as chai from 'chai';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
-import * as sinonChai from 'sinon-chai';
+import sinonChai from 'sinon-chai';
 
 chai.use(sinonChai);
 
-import * as log4js from 'log4js';
+import log4js from 'log4js';
 import * as configuration from '../configuration';
 import { APP_INSIGHTS_CONNECTION_STRING, LOGGING } from '../configuration/references';
 import * as log4jui from '../lib/log4jui';
 import { isJUILogger } from '../lib/models';
 import * as appInsights from './appInsights';
 import * as errorStack from './errorStack';
+
+const applicationinsights = module.require('applicationinsights') as typeof import('applicationinsights');
 
 describe('log4jui', () => {
   let getConfigValueStub: sinon.SinonStub;

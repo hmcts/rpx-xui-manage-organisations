@@ -5,7 +5,7 @@ import * as fromOrganisation from '../reducers/organisation.reducer';
 
 export const getOrganisationState = createSelector(
   fromFeature.getRootOrgState,
-  (state: fromFeature.OrganisationState) => state.organisation
+  (state: fromFeature.OrganisationState) => state?.organisation ?? fromOrganisation.initialState
 );
 
 export const getOrganisationSel = createSelector(
@@ -27,4 +27,3 @@ export const getAccessTypes = createSelector(
   getOrganisationState,
   fromOrganisation.getOrganisationAccessTypes
 );
-

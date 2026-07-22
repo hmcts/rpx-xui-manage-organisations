@@ -4,7 +4,7 @@ import { AxiosResponse } from 'axios';
 import * as chai from 'chai';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
-import * as sinonChai from 'sinon-chai';
+import sinonChai from 'sinon-chai';
 import { mockReq, mockRes } from 'sinon-express-mock';
 import * as configuration from '../configuration';
 import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references';

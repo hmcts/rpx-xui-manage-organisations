@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from '@hmcts/rpx-xui-common-lib';
 import { Observable, of, Subject } from 'rxjs';
@@ -16,7 +16,7 @@ import { ENVIRONMENT_CONFIG, EnvironmentConfig } from '../../../models/environme
   styleUrls: ['./cases-filter.component.scss'],
   standalone: false
 })
-export class CasesFilterComponent implements OnInit, OnChanges {
+export class CasesFilterComponent implements OnInit, OnChanges, OnDestroy {
   @Input() public selectedOrganisationUsers: User[];
   @Input() public sessionStateValue: CaaCasesSessionStateValue;
 
@@ -39,14 +39,14 @@ export class CasesFilterComponent implements OnInit, OnChanges {
   public filterApplied: boolean = false;
   public ogdUpdateRefreshUserEnabled = false;
 
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
   private hasAppliedSessionState = false;
   private lastSearchTerm: string = '';
 
   public constructor(
-    private formBuilder: FormBuilder,
+    private readonly formBuilder: FormBuilder,
     @Inject(ENVIRONMENT_CONFIG) private readonly environmentConfig: EnvironmentConfig
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.ogdUpdateRefreshUserEnabled = !!this.environmentConfig.ogdUpdateRefreshUserEnabled;
@@ -54,8 +54,7 @@ export class CasesFilterComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.selectedOrganisationUsers &&
-      changes.selectedOrganisationUsers.currentValue &&
+    if (changes.selectedOrganisationUsers?.currentValue &&
       changes.selectedOrganisationUsers.currentValue.length > 0) {
       this.filterSelectedOrganisationUsers().pipe(takeUntil(this.destroy$)).subscribe((filteredAndGroupedUsers) => {
         this.filteredAndGroupedUsers = filteredAndGroupedUsers;
@@ -91,7 +90,7 @@ export class CasesFilterComponent implements OnInit, OnChanges {
         this.showAutocomplete = false;
         this.filteredAndGroupedUsers = null;
         return this.filterSelectedOrganisationUsers(searchTerm).pipe(
-          tap(() => this.showAutocomplete = true),
+          tap({ next: () => this.showAutocomplete = true }),
           catchError(() => {
             this.filteredAndGroupedUsers = null;
             return of(new Map<string, User[]>());
@@ -106,7 +105,6 @@ export class CasesFilterComponent implements OnInit, OnChanges {
 
   public populateFormFromSessionState(emitSearch = true): void {
     if (this.sessionStateValue && this.form) {
-      console.log('Populating form from session state:', this.sessionStateValue);
       const filterOptionValue = this.getAvailableFilterType(this.sessionStateValue.filterType as CaaCasesFilterType);
       this.form.controls.filterOption.setValue(filterOptionValue, { emitEvent: false, onlySelf: true });
 
@@ -133,17 +131,41 @@ export class CasesFilterComponent implements OnInit, OnChanges {
     }
   }
 
-  public filterSelectedOrganisationUsers(searchTerm?: string | User): Observable<Map<string, User[]>> {
-    const filteredUsers = searchTerm && searchTerm.length > 0
-      ? typeof(searchTerm) === 'string'
-        ? this.selectedOrganisationUsers.filter((user) => this.getDisplayName(user).toLowerCase().includes(searchTerm.toLowerCase()))
-        : this.selectedOrganisationUsers.filter((user) => this.getDisplayName(user).toLowerCase().includes(this.getDisplayName(searchTerm).toLowerCase()))
-      : this.selectedOrganisationUsers;
-    const activeUsers = filteredUsers.filter((user) => user.status.toLowerCase() === this.ACTIVE_USER_STATUS);
-    const inactiveUsers = filteredUsers.filter((user) => user.status.toLowerCase() !== this.ACTIVE_USER_STATUS);
+  public filterSelectedOrganisationUsers(
+    searchTerm?: string | User
+  ): Observable<Map<string, User[]>> {
+    const selectedOrganisationUsers = this.selectedOrganisationUsers ?? [];
+    let filteredUsers = selectedOrganisationUsers;
+
+    if (searchTerm) {
+      const searchText =
+        typeof searchTerm === 'string'
+          ? searchTerm
+          : this.getDisplayName(searchTerm);
+
+      if (searchText.length > 0) {
+        const normalizedSearchText = searchText.toLowerCase();
+
+        filteredUsers = selectedOrganisationUsers.filter((user) =>
+          this.getDisplayName(user)
+            .toLowerCase()
+            .includes(normalizedSearchText)
+        );
+      }
+    }
+
+    const activeUsers = filteredUsers.filter(
+      (user) => user.status.toLowerCase() === this.ACTIVE_USER_STATUS
+    );
+
+    const inactiveUsers = filteredUsers.filter(
+      (user) => user.status.toLowerCase() !== this.ACTIVE_USER_STATUS
+    );
+
     const groupedUsers = new Map<string, User[]>();
     groupedUsers.set(this.ACTIVE_USER_GROUP_HEADING, activeUsers);
     groupedUsers.set(this.INACTIVE_USER_GROUP_HEADING, inactiveUsers);
+
     return of(groupedUsers);
   }
 
@@ -164,7 +186,7 @@ export class CasesFilterComponent implements OnInit, OnChanges {
       if (this.form.controls.filterOption.value === CaaCasesFilterType.CasesAssignedToAUser) {
         const selectedUser = this.form.controls.assigneePerson.value;
         const [fullName, email] = selectedUser.split(' - ');
-        filterValue = this.selectedOrganisationUsers && this.selectedOrganisationUsers.find(
+        filterValue = this.selectedOrganisationUsers?.find(
           (user) => user.fullName === fullName && user.email === email)?.userIdentifier;
       }
       const selectedFilter: SelectedCaseFilter = {

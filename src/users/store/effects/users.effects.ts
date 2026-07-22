@@ -54,9 +54,7 @@ export class UsersEffects {
               user.userAccessTypes = user?.userAccessTypes || [];
               organisationProfileIds = [
                 ...organisationProfileIds,
-                ...user.userAccessTypes.map(
-                  (accessType) => accessType.organisationProfileId
-                )
+                ...UsersEffects.getOrganisationProfileIds(user)
               ];
             });
 
@@ -213,4 +211,10 @@ export class UsersEffects {
       })
     )
   );
+
+  private static getOrganisationProfileIds(user: PrdUser): string[] {
+    return user.userAccessTypes.map(
+      (accessType) => accessType.organisationProfileId
+    );
+  }
 }

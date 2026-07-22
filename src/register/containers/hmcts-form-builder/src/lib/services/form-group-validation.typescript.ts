@@ -23,12 +23,12 @@ export interface FormGroupValidator {
   controls: Array<string>;
 }
 
-export interface controlsisTextAreaValidWhenCheckboxChecked {
+export interface ControlsisTextAreaValidWhenCheckboxChecked {
   checkboxControl: string,
   textareaControl: string
 }
 
-export interface controlsRadioConditionalModel {
+export interface ControlsRadioConditionalModel {
   radioControl: string,
   selectedOptions: [
     {

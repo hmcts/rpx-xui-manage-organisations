@@ -21,7 +21,7 @@ export async function handleCaaCases(req: EnhancedRequest, res: Response, next: 
   try {
     if (caaCasesFilterType === CaaCasesFilterType.AssigneeName) {
       const roleAssignments = await handleRoleAssignments(req, next);
-      const roleAssignmentResponse: RoleAssignmentResponse[] = roleAssignments && roleAssignments.data && roleAssignments.data.roleAssignmentResponse;
+      const roleAssignmentResponse: RoleAssignmentResponse[] = roleAssignments?.data?.roleAssignmentResponse;
       caaCasesFilterValue = roleAssignmentResponse.map((x) => x.attributes.caseId);
     }
 

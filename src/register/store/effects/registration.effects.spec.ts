@@ -10,6 +10,10 @@ import { LoadPageItems, LoadPageItemsFail, SubmitFormData, SubmitFormDataFail, S
 import { RegistrationEffects } from './registration.effects';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
+function createError(): Error {
+  return new Error();
+}
+
 describe('Registration Effects', () => {
   let actions$;
   let effects: RegistrationEffects;
@@ -62,7 +66,7 @@ describe('Registration Effects', () => {
   describe('loadRegistrationForm$ error', () => {
     it('should return LoadOrganisationFail', waitForAsync(() => {
       const pageId = 'something';
-      mockedRegistrationFormService.getRegistrationForm.and.returnValue(throwError(new Error()));
+      mockedRegistrationFormService.getRegistrationForm.and.returnValue(throwError(createError));
       const action = new LoadPageItems(pageId);
       const completion = new LoadPageItemsFail(new Error());
       actions$ = hot('-a', { a: action });
@@ -84,7 +88,7 @@ describe('Registration Effects', () => {
 
     describe('postRegistrationFormData$ error', () => {
       it('should submit form data after and call LoadPageItemsFail', waitForAsync(() => {
-        mockedRegistrationFormService.submitRegistrationForm.and.returnValue(throwError(new Error()));
+        mockedRegistrationFormService.submitRegistrationForm.and.returnValue(throwError(createError));
         const action = new SubmitFormData({ somedata: 'string' });
         const completion = new SubmitFormDataFail(new Error());
         actions$ = hot('-a', { a: action });

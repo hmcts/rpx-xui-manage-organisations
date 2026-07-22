@@ -23,7 +23,7 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly store: Store<fromStore.RegistrationState>,
     private readonly environmentService: EnvironmentService) {}
 
-  public pageItems: any; // todo add the type
+  public pageItems: any;
   public pageValues: FormDataValuesModel;
   public $routeSubscription: Subscription;
   public $pageItemsSubscription: Subscription;
@@ -97,7 +97,7 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public subscribeToRoute(): void {
     this.$routeSubscription = this.store.pipe(select(fromStore.getCurrentPage)).subscribe((routeParams) => {
-      if (routeParams.pageId && routeParams.pageId !== this.pageId) { // TODO see why double call.
+      if (routeParams.pageId && routeParams.pageId !== this.pageId) {
         this.pageId = routeParams.pageId;
         this.instantiatePageItems();
       }
@@ -122,7 +122,7 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
         if (this.pageId && formData.pageItems && formData.pageValues) {
           this.pageValues = formData.pageValues;
           this.pageItems = formData.pageItems ? formData.pageItems.meta : undefined;
-          if (formData && formData.pageItems && formData.pageItems.meta) {
+          if (formData?.pageItems?.meta) {
             this.init[formData.pageItems.meta.name] = formData.pageItems.init;
           }
           this.nextUrl = formData.nextUrl;
@@ -145,14 +145,14 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
       if (this.pageItems && !!this.pageItems.validationHeaderErrorMessages && this.pageItems.validationHeaderErrorMessages.length > 0) {
         setTimeout(() => {
           const debugElement = document.getElementsByTagName('app-validation-header')[0];
-          if (!!debugElement) {
+          if (debugElement) {
             debugElement.setAttribute('tabindex', '0');
             (debugElement as HTMLElement).focus();
           }
         }, 200);
       }
       this.showFormValidation(true);
-      window.scrollTo(0, 0);
+      globalThis.scrollTo(0, 0);
     } else {
       this.showFormValidation(false);
       const { value } = formDraft;

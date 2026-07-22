@@ -9,7 +9,7 @@ import * as fromAuthStore from '../../user-profile/store/index';
 
 @Injectable()
 export class UserRoleGuard {
-  constructor(private readonly store: Store<fromAuthStore.AuthState>) {}
+  constructor(private readonly store: Store<fromAuthStore.AuthState>) { }
 
   public canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
     const role = route.data.role as string;
@@ -32,9 +32,7 @@ export class UserRoleGuard {
   public checkRole(role: string): Observable<boolean> {
     return this.store.pipe(select(fromAuthStore.getUser)).pipe(
       map((user: UserModel) => {
-        const result = user.roles.indexOf(role) !== -1;
-
-        return result;
+        return user.roles.includes(role);
       })
     );
   }

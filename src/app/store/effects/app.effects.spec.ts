@@ -124,7 +124,7 @@ describe('App Effects', () => {
     });
 
     it('should dispatch error', () => {
-      mockJurisdictionService.getJurisdictions.and.returnValue(throwError(new Error()));
+      mockJurisdictionService.getJurisdictions.and.returnValue(throwError(() => new Error()));
       const action = new appActions.LoadJurisdictions();
       const completion = new appActions.LoadJurisdictionsFail(new Error());
       actions$ = hot('-a', { a: action });

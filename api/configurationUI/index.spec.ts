@@ -1,7 +1,7 @@
 import * as chai from 'chai';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
-import * as sinonChai from 'sinon-chai';
+import sinonChai from 'sinon-chai';
 import { mockReq, mockRes } from 'sinon-express-mock';
 import * as configuration from '../configuration';
 import {
@@ -16,10 +16,7 @@ import {
 } from '../configuration/references';
 import { configurationUIRoute } from './index';
 
-const sinonChaiPlugin = (sinonChai as unknown as { default?: Chai.ChaiPlugin }).default ??
-  (sinonChai as unknown as Chai.ChaiPlugin);
-
-chai.use(sinonChaiPlugin);
+chai.use(sinonChai);
 
 describe('configurationUI index', () => {
   let req;

@@ -27,9 +27,13 @@ export function caaCasesReducer(state = initialState, action: fromCaaActions.Caa
     case fromCaaActions.LOAD_CASE_TYPES_SUCCESS:
       return { ...state, caseTypes: action.payload, casesWithSupplementary: action.suppData };
     case fromCaaActions.UPDATE_SELECTION_FOR_CASE_TYPE:
-      const selectedCases: SelectedCases = { ...state.selectedCases };
-      selectedCases[action.payload.casetype] = action.payload.cases;
-      return { ...state, selectedCases };
+      return {
+        ...state,
+        selectedCases: {
+          ...state.selectedCases,
+          [action.payload.casetype]: action.payload.cases
+        }
+      };
     default:
       return state;
   }

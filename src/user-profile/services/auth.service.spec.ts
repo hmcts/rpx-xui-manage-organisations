@@ -89,6 +89,16 @@ describe('AuthService', () => {
     }));
   });
 
+  describe('loginRedirect', () => {
+    it('should redirect to login', inject([AuthService], (service: AuthService) => {
+      const locationSpy = spyOn(service, 'setWindowLocationHref');
+
+      service.loginRedirect();
+
+      expect(locationSpy).toHaveBeenCalledWith('/auth/login');
+    }));
+  });
+
   describe('logOutAndRedirect', () => {
     it('should work', inject([AuthService], async (service: AuthService) => {
       const spyOnSetWindowLocation = spyOn(service, 'setWindowLocationHref');

@@ -7,7 +7,7 @@ import { ENVIRONMENT_CONFIG, EnvironmentConfig } from '../../models/environmentC
   providedIn: 'root'
 })
 export class EnvironmentService {
-  private data: EnvironmentConfig;
+  private readonly data: EnvironmentConfig;
 
   public readonly config$: Observable<EnvironmentConfig>;
 

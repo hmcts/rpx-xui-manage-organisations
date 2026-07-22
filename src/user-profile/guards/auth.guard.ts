@@ -35,11 +35,11 @@ export class AuthGuard {
 
   public checkUserStore(): Observable<boolean> {
     return this.store.pipe(select(fromStore.userLoaded),
-      tap((loaded) => {
+      tap({ next: (loaded) => {
         if (!loaded) {
           this.store.dispatch(new fromStore.GetUserDetails());
         }
-      }),
+      } }),
       filter((loaded) => loaded),
       take(1)
     );

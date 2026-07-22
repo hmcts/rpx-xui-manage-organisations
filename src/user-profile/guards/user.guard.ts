@@ -28,11 +28,11 @@ export class UserGuard {
   public checkStore(): Observable<boolean> {
     return this.store.pipe(
       select(userLoaded),
-      tap((loaded) => {
+      tap({ next: (loaded) => {
         if (!loaded) {
           this.store.dispatch(new GetUserDetails());
         }
-      }),
+      } }),
       filter((loaded) => loaded),
       take(1)
     );

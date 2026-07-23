@@ -14,7 +14,9 @@ import {
   FEATURE_HELMET_ENABLED,
   FEATURE_REDIS_ENABLED,
   FEATURE_TERMS_AND_CONDITIONS_ENABLED,
-  HELMET, SERVICES_CCD_DATA_STORE_API_PATH,
+  HELMET,
+  HMCTS_ACCESS_API,
+  SERVICES_CCD_DATA_STORE_API_PATH,
   SERVICES_CCD_DEFINITION_STORE_API_PATH,
   SERVICES_FEE_AND_PAY_API_PATH,
   SERVICES_MCA_PROXY_API_PATH,
@@ -103,6 +105,7 @@ function healthcheckConfig(msUrl) {
 const healthChecks = {
   checks: {
     feeAndPayApi: healthcheckConfig(getConfigValue(SERVICES_FEE_AND_PAY_API_PATH)),
+    hmctsAccess: healthcheckConfig(getConfigValue(HMCTS_ACCESS_API)),
     rdProfessionalApi: healthcheckConfig(getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH))
   }
 };

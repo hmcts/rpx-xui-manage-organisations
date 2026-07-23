@@ -18,7 +18,6 @@ RUN corepack enable
 USER hmcts
 
 COPY --chown=hmcts:hmcts .yarn ./.yarn
-COPY --chown=hmcts:hmcts vendor ./vendor
 COPY --chown=hmcts:hmcts package.json yarn.lock .yarnrc.yml tsconfig.json ./
 COPY --chown=hmcts:hmcts api/package.json ./api/package.json
 

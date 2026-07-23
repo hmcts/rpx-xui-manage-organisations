@@ -146,7 +146,7 @@
     "rx-polling-hmcts": "^1.1.1",
     "rxjs": "^7.8.1",
     "session-file-store": "^1.5.0",
-    "zone.js": "~0.15.1"
+    "zone.js": "~0.16.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^20.3.18",

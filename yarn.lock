@@ -3529,6 +3529,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@hmcts/ccpay-web-component@npm:6.5.24":
+  version: 6.5.24
+  resolution: "@hmcts/ccpay-web-component@npm:6.5.24"
+  dependencies:
+    exceljs: "npm:^4.4.0"
+    file-saver: "npm:^2.0.2"
+    tslib: "npm:^2.3.0"
+  peerDependencies:
+    "@angular/common": ^20.3.1
+    "@angular/core": ~20.3.1
+  checksum: 10/3b3771ad87c88888c185cb22272bd855b809ee859dd7c6c26af88178f24bdbc5f8b9b690be412016d7691147f754777fed7110cf6450a51a58a592ac610a3593
+  languageName: node
+  linkType: hard
+
 "@hmcts/frontend@npm:0.0.50-alpha":
   version: 0.0.50-alpha
   resolution: "@hmcts/frontend@npm:0.0.50-alpha"
@@ -21634,7 +21648,7 @@ __metadata:
     "@babel/runtime": "npm:7.28.3"
     "@edium/fsm": "npm:^2.1.2"
     "@hmcts/ccd-case-ui-toolkit": "npm:7.3.75"
-    "@hmcts/ccpay-web-component": "npm:6.5.22"
+    "@hmcts/ccpay-web-component": "npm:6.5.24"
     "@hmcts/frontend": "npm:0.0.50-alpha"
     "@hmcts/media-viewer": "npm:4.2.25"
     "@hmcts/nodejs-healthcheck": "npm:^1.8.6"

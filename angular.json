@@ -24,7 +24,7 @@
             "aot": true,
             "outputPath": {
               "base": "dist/rpx-xui-manage-organisations",
-              "browser": ""
+              "browser": "."
             },
             "index": "src/index.html",
             "polyfills": [

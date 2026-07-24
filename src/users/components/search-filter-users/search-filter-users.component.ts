@@ -17,7 +17,7 @@ interface User {
   styleUrls: ['./search-filter-users.component.scss'],
   standalone: false
 })
-export class SearchFilterUserComponent implements OnInit, OnDestroy{
+export class SearchFilterUserComponent implements OnInit, OnDestroy {
   @Output() filterValues = new EventEmitter<{ name: string; email: string; status: string }>();
   @Input() usersList: User[] = [];
 
@@ -48,10 +48,10 @@ export class SearchFilterUserComponent implements OnInit, OnDestroy{
       this.nameFilterControl.valueChanges.pipe(
         startWith(''),
         debounceTime(300),
-        tap((searchTerm: string) => {
+        tap({ next: (searchTerm: string) => {
           this.searchTerm = searchTerm;
           this.showAutocomplete = searchTerm.length >= this.minSearchCharacters;
-        }),
+        } }),
         filter((searchTerm) => searchTerm.length >= this.minSearchCharacters)
       ),
       this.statusFilterControl.valueChanges.pipe(
@@ -61,12 +61,12 @@ export class SearchFilterUserComponent implements OnInit, OnDestroy{
     ]).pipe(
       takeUntil(this.subscriptions$),
       switchMap(([searchTerm]) => this.filterJudicialUsers(searchTerm).pipe(
-        tap((judicialUsers) => {
+        tap({ next: (judicialUsers) => {
           this.noResults = judicialUsers.length === 0;
           if (searchTerm.length >= this.minSearchCharacters) {
             this.showAutocomplete = true;
           }
-        })
+        } })
       ))
     );
 
@@ -88,12 +88,12 @@ export class SearchFilterUserComponent implements OnInit, OnDestroy{
     const filterParams = {
       name,
       email,
-      status: statusFilterValue !== 'all' ? statusFilterValue : ''
+      status: statusFilterValue === 'all' ? '' : statusFilterValue
     };
     this.filterValues.emit(filterParams);
   }
 
-  public initialiseSearchFilters(){
+  public initialiseSearchFilters() {
     return {
       group: this.searchFilterUserForm,
       config: {
@@ -129,9 +129,15 @@ export class SearchFilterUserComponent implements OnInit, OnDestroy{
   }
 
   public displayJudicialUser(user?: any): string | undefined {
-    return user
-      ? `${user.firstName ? user.firstName : ''} ${user.lastName ? user.lastName : ''} ${user.email ? ` (${user.email})` : ''}`
-      : undefined;
+    if (!user) {
+      return undefined;
+    }
+
+    const name = [user.firstName, user.lastName]
+      .filter(Boolean)
+      .join(' ');
+
+    return user.email ? `${name} (${user.email})` : name;
   }
 
   public filterJudicialUsers(searchTerm: string): Observable<Array<any>> {
@@ -141,9 +147,9 @@ export class SearchFilterUserComponent implements OnInit, OnDestroy{
       const statusOption = this.statusFilterControl.value.toUpperCase();
 
       const isSearchMatch = item.email.toLowerCase().includes(searchStr) ||
-                            item.firstName.toLowerCase().includes(searchStr) ||
-                            item.lastName.toLowerCase().includes(searchStr) ||
-                            fullName.includes(searchStr);
+        item.firstName.toLowerCase().includes(searchStr) ||
+        item.lastName.toLowerCase().includes(searchStr) ||
+        fullName.includes(searchStr);
 
       const isStatusMatch = statusOption === 'ALL' || item.idamStatus === statusOption;
 
@@ -159,7 +165,7 @@ export class SearchFilterUserComponent implements OnInit, OnDestroy{
   }
 
   public onSelectionChange(event) {
-    if (event.isUserInput){
+    if (event.isUserInput) {
       this.judicialUserSelected = true;
       this.searchFilterUserForm.get('nameFilter').setValue(event.source.value);
       this.formatFiltersAndEmit();

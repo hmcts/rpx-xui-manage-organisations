@@ -1,7 +1,7 @@
 /**
  * Utility helpers for building stable, unique Angular `@for` / *ngFor trackBy keys.
  */
-export function buildCompositeTrackKey(index: number, ...rawParts: Array<any | any[]>): string | number {
+export function buildCompositeTrackKey(index: number, ...rawParts: any[]): string | number {
   // Manually flatten one level to avoid relying on Array.prototype.flat (ensures compatibility with older TS lib targets)
   const flattened: any[] = [];
   for (const part of rawParts) {

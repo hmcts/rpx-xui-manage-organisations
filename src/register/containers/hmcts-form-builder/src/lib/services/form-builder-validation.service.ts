@@ -1,21 +1,19 @@
 import { Injectable } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { Validators, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { Validators, ValidationErrors, ValidatorFn, FormGroup } from '@angular/forms';
 import { DatePipe } from '@angular/common';
-import { controlsisTextAreaValidWhenCheckboxChecked, FormGroupValidator } from './form-group-validation.typescript';
+import { ControlsisTextAreaValidWhenCheckboxChecked, FormGroupValidator } from './form-group-validation.typescript';
 import { CustomValidatorsService } from './form-builder-custom-validators.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ValidationService {
-  constructor(private datePipe: DatePipe, private customValidatorService: CustomValidatorsService) {}
+  constructor(private readonly datePipe: DatePipe, private readonly customValidatorService: CustomValidatorsService) { }
 
   // FOR SINGLE CONTROLS - formGroup.control level validation
   /**
    * Custom validators can be added to this.
    *
-   * TODO : Define interface for array.
    *
    * @see https://angular.io/guide/form-validation#custom-validators
    */
@@ -61,7 +59,6 @@ export class ValidationService {
   /**
    * Returns a map of how we've mapped simple names to Ng Validators, and in the future custom validators.
    *
-   * TODO: Check return in Unit test.
    *
    * // @returnArray
    */
@@ -79,7 +76,6 @@ export class ValidationService {
    *
    * Note: Validators.minLength requires Validators.required
    *
-   * TODO: Unit test.
    *
    * @see state_meta
    * // @param validators - ie. ['required', 'email']
@@ -107,7 +103,6 @@ export class ValidationService {
    *  validators: ['required']
    * }
    *
-   * TODO: Unit test.
    *
    * //@param {Array} validators - ['required']
    * //@return {boolean}
@@ -122,7 +117,6 @@ export class ValidationService {
    * Returns a boolean, based on if the control which is part
    * of a form group is valid or not.
    *
-   * TODO: Unit test.
    *
    * // @param {FormGroup} formGroup
    * // @param {String} control - 'informationNeeded'
@@ -154,7 +148,7 @@ export class ValidationService {
    * @return boolean - Whether the formGroup is invalid or not.
    */
   isFormGroupInvalid(formGroup: any, validationErrorId: string): boolean {
-    if (formGroup.errors && formGroup.errors.hasOwnProperty(validationErrorId)) {
+    if (formGroup.errors?.hasOwnProperty(validationErrorId)) {
       return formGroup.errors[validationErrorId];
     }
     return null;
@@ -234,89 +228,81 @@ export class ValidationService {
    *
    */
 
-  isValidDateValidationFn(controls: FormGroup, fields: Array<string>, validationIdentifier) {
-    if (controls !== null && fields !== null) {
-      const dateValueArray = [];
-
-      for (const field of fields) {
-        if (!controls.get(field).value) {
-          return {
-            [validationIdentifier]: true
-          };
-        }
-
-        // Form have valid values and we can create date
-        // Check is form controls matching the right length and then create array contained date
-
-        if (controls.get(field).value.length <= 2) {
-          dateValueArray.push(controls.get(field).value);
-        } else if (controls.get(field).value.length === 4) {
-          dateValueArray.push(controls.get(field).value);
-        } else {
-          return {
-            [validationIdentifier]: true
-          };
-        }
-
-        // Check if array is ready and convert to string
-        if (dateValueArray.length === 3) {
-          // Return error if not numbers
-          for (const element of dateValueArray) {
-            // eslint-disable-next-line eqeqeq
-            if (element != Number(element)) {
-              return {
-                [validationIdentifier]: true
-              };
-            }
-          }
-
-          // Convert user entered day and month to numbers
-          dateValueArray[1] = Number(dateValueArray[1]);
-          dateValueArray[2] = Number(dateValueArray[2]);
-
-          // Return error if user entered months less than 0 and more than 12
-          if (dateValueArray[1] <= 0 || dateValueArray[1] >= 12) {
-            return {
-              [validationIdentifier]: true
-            };
-          }
-          // Return error if user entered months less than 0 and more than 31
-          if (dateValueArray[2] <= 0 || dateValueArray[2] >= 31) {
-            return {
-              [validationIdentifier]: true
-            };
-          }
-
-          // Here value might me invalid
-
-          // Adding zeros in front if less than 10
-          if (dateValueArray[1] < 10) {
-            dateValueArray[1] = ('0' + (dateValueArray[1]).toString().slice(-2));
-          }
-          if (dateValueArray[2] < 10) {
-            dateValueArray[2] = ('0' + (dateValueArray[2]).toString().slice(-2));
-          }
-
-          // Get proper date format by create Date object and convert it back to string for comparison with what the user entered
-
-          const dateStr = dateValueArray.toString();
-
-          const dateObj = new Date(dateStr);
-          const checkDateStr = dateObj.toISOString().slice(0, 10).replace(/-/g, ',').replace('T', ' ');
-
-          // Return null if valid date
-          if (checkDateStr === dateStr) {
-            return null;
-          }
-
-          return {
-            [validationIdentifier]: true
-          };
-        }
-      }
+  isValidDateValidationFn(
+    controls: FormGroup,
+    fields: string[],
+    validationIdentifier: string
+  ): { [key: string]: boolean } | null {
+    if (!controls || !fields) {
+      return null;
     }
 
-    return null;
+    const dateValues = this.getDateValues(controls, fields);
+
+    if (!dateValues || !this.isValidDateParts(dateValues)) {
+      return {
+        [validationIdentifier]: true
+      };
+    }
+
+    return this.isRealDate(dateValues)
+      ? null
+      : { [validationIdentifier]: true };
+  }
+
+  private getDateValues(
+    controls: FormGroup,
+    fields: string[]
+  ): string[] | null {
+    const dateValues: string[] = [];
+
+    for (const field of fields) {
+      const value = controls.get(field)?.value;
+
+      if (!value || !this.hasValidDatePartLength(value)) {
+        return null;
+      }
+
+      dateValues.push(value);
+    }
+
+    return dateValues.length === 3 ? dateValues : null;
+  }
+
+  private hasValidDatePartLength(value: string): boolean {
+    return value.length <= 2 || value.length === 4;
+  }
+
+  private isValidDateParts(dateValues: string[]): boolean {
+    const [year, month, day] = dateValues;
+
+    return this.isNumeric(year)
+      && this.isNumeric(month)
+      && this.isNumeric(day)
+      && Number(month) > 0
+      && Number(month) <= 12
+      && Number(day) > 0
+      && Number(day) <= 31;
+  }
+
+  private isNumeric(value: string): boolean {
+    return !Number.isNaN(Number(value));
+  }
+
+  private isRealDate(dateValues: string[]): boolean {
+    const [year, month, day] = dateValues;
+    const formattedDate = `${year},${this.padDatePart(month)},${this.padDatePart(day)}`;
+    const dateObj = new Date(formattedDate);
+    const checkDateStr = dateObj
+      .toISOString()
+      .slice(0, 10)
+      .replace(/-/g, ',');
+
+    return checkDateStr === formattedDate;
+  }
+
+  private padDatePart(value: string): string {
+    return Number(value) < 10 ? `0${Number(value)}` : value;
   }
 
   isValidDate(formGroup: FormGroup, fields: Array<string>, validationIdentifier: string): ValidatorFn | null {
@@ -335,7 +321,7 @@ export class ValidationService {
    * //@return {any}
    */
 
-  isTextAreaValidWhenCheckboxChecked(formGroup: FormGroup, controls: controlsisTextAreaValidWhenCheckboxChecked, validationIdentifier: string) {
+  isTextAreaValidWhenCheckboxChecked(formGroup: FormGroup, controls: ControlsisTextAreaValidWhenCheckboxChecked, validationIdentifier: string) {
     const isTextAreaValidWhenCheckboxChecked: ValidatorFn = (formControls: FormGroup): ValidationErrors | null => {
       if (!formControls.get(controls.checkboxControl).value) {
         return null;
@@ -462,44 +448,86 @@ export class ValidationService {
     };
   }
 
-  public duplicatedPBAValidatorFn(formGroup: FormGroup, controlName: string, validationIdentifier: string) {
-    const originalControls = {};
-    const duplicatedControls = {};
-    if (formGroup && controlName) {
-      for (const key of Object.keys(formGroup.controls)) {
-        if (key.startsWith(controlName) && key.includes(controlName) && formGroup.controls[key].value) {
-          originalControls[key] = formGroup.controls[key].value;
-        }
-      }
-      const controlsToCompare = { ...originalControls };
-      for (const key of Object.keys(originalControls)) {
-        for (const keyToCompare of Object.keys(controlsToCompare)) {
-          if (key !== keyToCompare && originalControls[key] === controlsToCompare[keyToCompare]) {
-            duplicatedControls[key] = originalControls[key];
-            duplicatedControls[keyToCompare] = controlsToCompare[keyToCompare];
-          }
-        }
-      }
-      if (Object.keys(duplicatedControls).length > 0) {
-        // return Object.keys(duplicatedControls);
-        for (const key of Object.keys(duplicatedControls)) {
-          if (formGroup.controls.hasOwnProperty(key)) {
-            formGroup.controls[key].setErrors({
-              [validationIdentifier]: true
-            });
-          }
-        }
-        return {
-          [validationIdentifier]: true
-        };
-      }
-      for (const key of Object.keys(formGroup.controls)) {
-        if (key.includes(controlName) && formGroup.controls[key]
-            && formGroup.controls[key].errors && formGroup.controls[key].errors.hasOwnProperty('duplicatedPBAError')) {
-          formGroup.controls[key].setErrors(null);
-        }
-      }
+  public duplicatedPBAValidatorFn(
+    formGroup: FormGroup,
+    controlName: string,
+    validationIdentifier: string
+  ): { [key: string]: boolean } | null {
+    if (!formGroup || !controlName) {
+      return null;
     }
+
+    const originalControls = this.getControlsWithValues(formGroup, controlName);
+    const duplicatedControls = this.getDuplicatedControls(originalControls);
+
+    if (Object.keys(duplicatedControls).length > 0) {
+      this.setDuplicateErrors(formGroup, duplicatedControls, validationIdentifier);
+
+      return {
+        [validationIdentifier]: true
+      };
+    }
+
+    this.clearDuplicateErrors(formGroup, controlName, validationIdentifier);
     return null;
+  }
+
+  private getControlsWithValues(
+    formGroup: FormGroup,
+    controlName: string
+  ): Record<string, unknown> {
+    return Object.keys(formGroup.controls)
+      .filter((key) => key.startsWith(controlName))
+      .filter((key) => Boolean(formGroup.controls[key].value))
+      .reduce((controls, key) => {
+        controls[key] = formGroup.controls[key].value;
+        return controls;
+      }, {} as Record<string, unknown>);
+  }
+
+  private getDuplicatedControls(
+    controls: Record<string, unknown>
+  ): Record<string, unknown> {
+    const duplicatedControls: Record<string, unknown> = {};
+    const keys = Object.keys(controls);
+
+    keys.forEach((key, index) => {
+      keys.slice(index + 1).forEach((keyToCompare) => {
+        if (controls[key] === controls[keyToCompare]) {
+          duplicatedControls[key] = controls[key];
+          duplicatedControls[keyToCompare] = controls[keyToCompare];
+        }
+      });
+    });
+
+    return duplicatedControls;
+  }
+
+  private setDuplicateErrors(
+    formGroup: FormGroup,
+    duplicatedControls: Record<string, unknown>,
+    validationIdentifier: string
+  ): void {
+    Object.keys(duplicatedControls).forEach((key) => {
+      formGroup.controls[key]?.setErrors({
+        [validationIdentifier]: true
+      });
+    });
+  }
+
+  private clearDuplicateErrors(
+    formGroup: FormGroup,
+    controlName: string,
+    validationIdentifier: string
+  ): void {
+    Object.keys(formGroup.controls)
+      .filter((key) => key.includes(controlName))
+      .forEach((key) => {
+        const control = formGroup.controls[key];
+
+        if (control?.errors?.[validationIdentifier]) {
+          control.setErrors(null);
+        }
+      });
   }
 }

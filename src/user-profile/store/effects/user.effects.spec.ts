@@ -97,7 +97,7 @@ describe('User Profile Effects', () => {
 
   describe('getUser$ error', () => {
     it('should return GetUserDetailsFailure', waitForAsync(() => {
-      userServiceMock.getUserDetails.and.returnValue(throwError(new HttpErrorResponse({})));
+      userServiceMock.getUserDetails.and.returnValue(throwError(() => new HttpErrorResponse({})));
       const action = new GetUserDetails();
       const completion = new GetUserDetailsFailure(new HttpErrorResponse({}));
       actions$ = hot('-a', { a: action });
@@ -121,7 +121,7 @@ describe('User Profile Effects', () => {
 
   describe('loadHasAccepted$ error', () => {
     it('should return LoadHasAcceptedFail', waitForAsync(() => {
-      acceptTandCSrviceMock.getHasUserAccepted.and.returnValue(throwError(new HttpErrorResponse({})));
+      acceptTandCSrviceMock.getHasUserAccepted.and.returnValue(throwError(() => new HttpErrorResponse({})));
       const action = new LoadHasAcceptedTC('1234');
       const completion = new LoadHasAcceptedTCFail(new HttpErrorResponse({}));
       actions$ = hot('-a', { a: action });
@@ -132,7 +132,7 @@ describe('User Profile Effects', () => {
 
   describe('getUser$ error', () => {
     it('should return GetUserDetailsFailure', waitForAsync(() => {
-      userServiceMock.getUserDetails.and.returnValue(throwError(new HttpErrorResponse({})));
+      userServiceMock.getUserDetails.and.returnValue(throwError(() => new HttpErrorResponse({})));
       const action = new GetUserDetails();
       const completion = new GetUserDetailsFailure(new HttpErrorResponse({}));
       actions$ = hot('-a', { a: action });
@@ -176,7 +176,7 @@ describe('User Profile Effects', () => {
 
     it('should return AcceptTandCFail on error', waitForAsync(() => {
       const error = new HttpErrorResponse({});
-      acceptTandCSrviceMock.acceptTandC.and.returnValue(throwError(error));
+      acceptTandCSrviceMock.acceptTandC.and.returnValue(throwError(() => error));
       const action = new AcceptTandC({ userId: '1234' } as any);
       const completion = new AcceptTandCFail(error);
       actions$ = hot('-a', { a: action });
@@ -257,6 +257,67 @@ describe('User Profile Effects', () => {
       const expected = cold('-b', { b: completion });
 
       expect(effects.editUser$).toBeObservable(expected);
+    }));
+
+    it('should wrap the request body when organisation profile ids are provided', waitForAsync(() => {
+      const payload = {
+        id: 'user-1',
+        email: 'user@test.com',
+        firstName: 'Test',
+        lastName: 'User'
+      };
+      userServiceMock.editUserPermissions.and.returnValue(of({
+        roleAdditionResponse: {
+          idamStatusCode: '204'
+        },
+        statusUpdateResponse: null
+      }));
+      const action = new usersActions.EditUser(payload as any, ['ORG-1']);
+      const completion = new usersActions.EditUserSuccess('user-1');
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(effects.editUser$).toBeObservable(expected);
+      expect(userServiceMock.editUserPermissions).toHaveBeenCalledWith({
+        userPayload: payload,
+        orgIdsPayload: ['ORG-1']
+      });
+    }));
+
+    it('should return EditUserFailure when the role addition response fails', waitForAsync(() => {
+      const payload = {
+        id: 'user-1',
+        email: 'user@test.com',
+        rolesAdd: [{ name: 'pui-user-manager' }]
+      };
+      userServiceMock.editUserPermissions.and.returnValue(of({
+        roleAdditionResponse: {
+          idamStatusCode: '500'
+        },
+        statusUpdateResponse: null
+      }));
+      const action = new usersActions.EditUser(payload as any);
+      const completion = new usersActions.EditUserFailure('user-1');
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(effects.editUser$).toBeObservable(expected);
+    }));
+
+    it('should return EditUserServerError when editing user permissions errors', waitForAsync(() => {
+      const payload = {
+        id: 'user-1',
+        email: 'user@test.com'
+      };
+      const error = { apiStatusCode: '500' };
+      userServiceMock.editUserPermissions.and.returnValue(throwError(() => error));
+      const action = new usersActions.EditUser(payload as any);
+      const completion = new usersActions.EditUserServerError({ userId: 'user-1', errorCode: '500' });
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(effects.editUser$).toBeObservable(expected);
+      expect(loggerService.error).toHaveBeenCalledWith(error);
     }));
   });
 

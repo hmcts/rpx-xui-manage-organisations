@@ -37,54 +37,52 @@ export const getFeatureFlag = createSelector(
 
 export const getFeeAndPayFeature = createSelector(
   getFeatureFlag,
-  (featureFlags) => featureFlags && featureFlags.find((flag) => flag.featureName === AppConstants.STATIC_FEATURE_NAMES.feeAccount)
+  (featureFlags) => featureFlags?.find((flag) => flag.featureName === AppConstants.STATIC_FEATURE_NAMES.feeAccount)
 );
 
 export const getFeeAndPayFeatureIsEnabled = createSelector(
   getFeeAndPayFeature,
-  (featureFlag) => featureFlag && featureFlag.isEnabled
+  (featureFlag) => featureFlag?.isEnabled
 );
 
 export const getCaaMenuItemsFeature = createSelector(
   getFeatureFlag,
-  (featureFlags) => featureFlags && featureFlags.find((flag) => flag.featureName === AppConstants.STATIC_FEATURE_NAMES.caaMenuItems)
+  (featureFlags) => featureFlags?.find((flag) => flag.featureName === AppConstants.STATIC_FEATURE_NAMES.caaMenuItems)
 );
 
 export const getCaaMenuItemsFeatureIsEnabled = createSelector(
   getCaaMenuItemsFeature,
-  (featureFlag) => featureFlag && featureFlag.isEnabled
+  (featureFlag) => featureFlag?.isEnabled
 );
 
 export const getCaaNewCasesMenuItemsFeature = createSelector(
   getFeatureFlag,
   (featureFlags) =>
-    featureFlags &&
-    featureFlags.find(
+    featureFlags?.find(
       (flag) => flag.featureName === AppConstants.FEATURE_NAMES.newCasesItems
     )
 );
 
 export const getCaaNewCasesMenuItemsFeatureIsEnabled = createSelector(
   getCaaNewCasesMenuItemsFeature,
-  (featureFlag) => featureFlag && featureFlag.isEnabled
+  (featureFlag) => featureFlag?.isEnabled
 );
 
 export const getOgdInviteUserFlowFeature = createSelector(
   getFeatureFlag,
   (featureFlags) =>
-    featureFlags && featureFlags.find((flag) => flag.featureName === AppConstants.FEATURE_NAMES.ogdInviteUserFlow)
+    featureFlags?.find((flag) => flag.featureName === AppConstants.FEATURE_NAMES.ogdInviteUserFlow)
 );
 
 export const getOgdInviteUserFlowFeatureIsEnabled = createSelector(
   getOgdInviteUserFlowFeature,
-  (featureFlag) => featureFlag && featureFlag.isEnabled
+  (featureFlag) => featureFlag?.isEnabled
 );
 
 export const getEditUserFeature = createSelector(
   getFeatureFlag,
   (featureFlags) =>
-    featureFlags &&
-    featureFlags.find(
+    featureFlags?.find(
       (flag) =>
         flag.featureName === AppConstants.FEATURE_NAMES.editUserPermissions
     )
@@ -92,7 +90,7 @@ export const getEditUserFeature = createSelector(
 
 export const getEditUserFeatureIsEnabled = createSelector(
   getEditUserFeature,
-  (featureFlag) => featureFlag && featureFlag.isEnabled
+  (featureFlag) => featureFlag?.isEnabled
 );
 
 export const getFeatureEnabledNav = createSelector(

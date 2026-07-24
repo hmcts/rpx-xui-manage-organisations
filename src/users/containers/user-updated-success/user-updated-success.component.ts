@@ -11,7 +11,7 @@ import * as userStore from '../../store';
 })
 export class UserUpdatedSuccessComponent implements OnInit, OnDestroy {
   public user$: Observable<User>;
-  constructor(private userStore: Store<userStore.UserState>) {
+  constructor(private readonly userStore: Store<userStore.UserState>) {
   }
 
   ngOnInit(): void {

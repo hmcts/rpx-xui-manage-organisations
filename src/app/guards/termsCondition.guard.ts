@@ -25,10 +25,10 @@ export class TermsConditionGuard {
 
   public checkStore(store: Store<fromRoot.State>) {
     return store.pipe(select(fromUserProfile.getHasUserSelectedTC),
-      tap((tcConfirmed) => {
+      tap({ next: (tcConfirmed) => {
         this.loadTandCIfNotLoaded(tcConfirmed, store);
         this.dispatchGoIfUserHasNotAccepted(tcConfirmed, store, '/accept-terms-and-conditions');
-      }),
+      } }),
       filter((tcConfirmed) => tcConfirmed.loaded),
       take(1)
     );

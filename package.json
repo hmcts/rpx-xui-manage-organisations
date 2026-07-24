@@ -231,7 +231,8 @@
     "qs": "6.15.2",
     "semver": "^7.6.0",
     "html-encoding-sniffer": "^6.0.0",
-    "jsdom": "^27.0.1"
+    "jsdom": "^27.0.1",
+    "ws": "^8.21.1"
   },
   "packageManager": "yarn@4.9.2"
 }

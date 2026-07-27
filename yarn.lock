@@ -8938,6 +8938,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:24.13.3":
+  version: 24.13.3
+  resolution: "@types/node@npm:24.13.3"
+  dependencies:
+    undici-types: "npm:~7.18.0"
+  checksum: 10/cfa6ed1e16c4624d1e83b09aeb72a2f50a7e17d837bf5a1259a52e346f33a693afd289402d3b6118ce3abea7aff35f2a4f13a0284b96bc5807a50f0e22e1ec77
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:>=13.7.0":
   version: 26.1.1
   resolution: "@types/node@npm:26.1.1"
@@ -8951,15 +8960,6 @@ __metadata:
   version: 14.18.63
   resolution: "@types/node@npm:14.18.63"
   checksum: 10/82a7775898c2ea6db0b610a463512206fb2c7adc1af482c7eb44b99d94375fff51c74f67ae75a63c5532971159f30c866a4d308000624ef02fd9a7175e277019
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:^20.19.0":
-  version: 20.19.22
-  resolution: "@types/node@npm:20.19.22"
-  dependencies:
-    undici-types: "npm:~6.21.0"
-  checksum: 10/4a356321c7759dfafb5c1bce4a9731044c7c447c32f02fda1b0798438bef77dea47673b3e71f0ac028206b741754a1f19b3acd89d517d18bd56064352cf67741
   languageName: node
   linkType: hard
 
@@ -21660,7 +21660,7 @@ __metadata:
     "@types/global-agent": "npm:^2.1.0"
     "@types/jasmine": "npm:~4.3.5"
     "@types/mocha": "npm:^10.0.6"
-    "@types/node": "npm:^20.19.0"
+    "@types/node": "npm:24.13.3"
     "@types/session-file-store": "npm:^1.2.6"
     "@types/sinon-chai": "npm:^3.2.4"
     "@typescript-eslint/eslint-plugin": "npm:^8.46.1"
@@ -23833,10 +23833,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici-types@npm:~6.21.0":
-  version: 6.21.0
-  resolution: "undici-types@npm:6.21.0"
-  checksum: 10/ec8f41aa4359d50f9b59fa61fe3efce3477cc681908c8f84354d8567bb3701fafdddf36ef6bff307024d3feb42c837cf6f670314ba37fc8145e219560e473d14
+"undici-types@npm:~7.18.0":
+  version: 7.18.2
+  resolution: "undici-types@npm:7.18.2"
+  checksum: 10/e61a5918f624d68420c3ca9d301e9f15b61cba6e97be39fe2ce266dd6151e4afe424d679372638826cb506be33952774e0424141200111a9857e464216c009af
   languageName: node
   linkType: hard
 

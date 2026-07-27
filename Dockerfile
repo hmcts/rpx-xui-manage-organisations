@@ -1,4 +1,4 @@
-FROM hmctsprod.azurecr.io/base/node:20-alpine AS base
+FROM hmctsprod.azurecr.io/base/node:24-alpine AS base
 LABEL maintainer="HMCTS Expert UI <https://github.com/hmcts>"
 
 ENV PUPPETEER_SKIP_DOWNLOAD=1 \

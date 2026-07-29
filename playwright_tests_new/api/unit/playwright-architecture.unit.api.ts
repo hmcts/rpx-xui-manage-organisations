@@ -138,6 +138,36 @@ test.describe('Manage Org Playwright architecture guard', { tag: '@svc-internal'
     }, /Jenkinsfile_CNP: missing required Playwright JUnit evidence contract E2E JUnit publication/);
   });
 
+  test('rejects nightly accessibility failures published as Jenkins test results', () => {
+    expectGuardFailure((rootDir) => {
+      const pipelinePath = path.join(rootDir, 'Jenkinsfile_nightly');
+      fs.writeFileSync(
+        pipelinePath,
+        `${fs.readFileSync(pipelinePath, 'utf8')}\npublishPlaywrightJUnit('${'${playwrightAccessibilityOutputRoot}'}/**/*junit.xml')\n`
+      );
+    }, /Jenkinsfile_nightly: contains forbidden Playwright pipeline behavior contract nightly accessibility JUnit publisher/);
+  });
+
+  test('rejects nightly accessibility evidence that is not archived', () => {
+    expectGuardFailure((rootDir) => {
+      const pipelinePath = path.join(rootDir, 'Jenkinsfile_nightly');
+      fs.writeFileSync(
+        pipelinePath,
+        fs.readFileSync(pipelinePath, 'utf8').replace('JUnit XML is archived only', 'JUnit XML is published')
+      );
+    }, /Jenkinsfile_nightly: missing required Playwright pipeline behavior contract nightly accessibility JUnit archive-only evidence/);
+  });
+
+  test('rejects nightly accessibility Odhín publishing being removed', () => {
+    expectGuardFailure((rootDir) => {
+      const pipelinePath = path.join(rootDir, 'Jenkinsfile_nightly');
+      fs.writeFileSync(
+        pipelinePath,
+        fs.readFileSync(pipelinePath, 'utf8').replace('xui-playwright-accessibility.html', 'missing-accessibility.html')
+      );
+    }, /Jenkinsfile_nightly: missing required Playwright pipeline behavior contract nightly accessibility Odhín HTML publication/);
+  });
+
   test('rejects missing parameterized shared JUnit publisher', () => {
     expectGuardFailure((rootDir) => {
       const pipelinePath = path.join(rootDir, 'Jenkinsfile_parameterized');
@@ -155,8 +185,8 @@ test.describe('Manage Org Playwright architecture guard', { tag: '@svc-internal'
       const pipelinePath = path.join(rootDir, 'Jenkinsfile_parameterized');
       fs.writeFileSync(
         pipelinePath,
-        fs.readFileSync(pipelinePath, 'utf8').replaceAll('xui-playwright-a11y.html', '')
+        fs.readFileSync(pipelinePath, 'utf8').replaceAll('xui-playwright-accessibility.html', '')
       );
-    }, /Jenkinsfile_parameterized: missing Playwright retirement evidence contract xui-playwright-a11y\.html/);
+    }, /Jenkinsfile_parameterized: missing Playwright retirement evidence contract xui-playwright-accessibility\.html/);
   });
 });

@@ -114,23 +114,23 @@ export class EditUserPermissionComponent implements OnInit, OnDestroy {
   }
 
   public getIsPuiCaseManager(user: any): boolean {
-    return user && user.manageCases === 'Yes';
+    return user?.manageCases === 'Yes';
   }
 
   public getIsPuiOrganisationManager(user: any): boolean {
-    return user && user.manageOrganisations === 'Yes';
+    return user?.manageOrganisations === 'Yes';
   }
 
   public getIsPuiUserManager(user: any): boolean {
-    return user && user.manageUsers === 'Yes';
+    return user?.manageUsers === 'Yes';
   }
 
   public getIsCaseAccessAdmin(user: any): boolean {
-    return user && user.roles && user.roles.includes('pui-caa');
+    return user?.roles?.includes('pui-caa');
   }
 
   public getIsPuiFinanceManager(user: any): boolean {
-    return user && user.managePayments === 'Yes';
+    return user?.managePayments === 'Yes';
   }
 
   public unsubscribe(subscription: Subscription): void {

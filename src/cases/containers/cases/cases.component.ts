@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { CaaCasesService } from 'src/cases/services';
 
 import * as organisationStore from '../../../organisation/store';
@@ -25,9 +25,8 @@ import { ENVIRONMENT_CONFIG, EnvironmentConfig } from '../../../models/environme
   styleUrls: ['./cases.component.scss'],
   standalone: false
 })
-export class CasesComponent implements OnInit {
-  // private caaCasesPageType = 'all-cases-filter'; // todo: this will be all cases since it's a merge of both assigned and unassigned cases
-  private caaCasesPageType = CaaCasesPageType.UnassignedCases; // todo: this will be all cases since it's a merge of both assigned and unassigned cases
+export class CasesComponent implements OnInit, OnDestroy {
+  private caaCasesPageType = CaaCasesPageType.UnassignedCases;
 
   public selectedOrganisation$: Observable<OrganisationDetails>;
   public selectedOrganisationUsers$: Observable<User[]>;
@@ -96,7 +95,7 @@ export class CasesComponent implements OnInit {
     private readonly router: Router,
     private readonly service: CaaCasesService,
     private readonly loaderService: LoaderService,
-    private cdr: ChangeDetectorRef,
+    private readonly cdr: ChangeDetectorRef,
     @Inject(ENVIRONMENT_CONFIG) private readonly environmentConfig: EnvironmentConfig) {
   }
 
@@ -149,7 +148,7 @@ export class CasesComponent implements OnInit {
     ).subscribe((items) => {
       if (items) {
         this.cases = items;
-        if (this.selectedFilterType === CaaCasesFilterType.CaseReferenceNumber){
+        if (this.selectedFilterType === CaaCasesFilterType.CaseReferenceNumber) {
           this.checkShareButtonText();
         }
       }
@@ -166,7 +165,7 @@ export class CasesComponent implements OnInit {
       if (this.allCaseTypes && this.caaCasesPageType === CaaCasesPageType.NewCases) {
         // if the casetype does not have a caseConfig or new_cases is false, then filter it out
         this.allCaseTypes = this.allCaseTypes.filter(
-          (caseType) => caseType.caseConfig && caseType.caseConfig.new_cases
+          (caseType) => caseType.caseConfig?.new_cases
         );
       }
       if (this.allCaseTypes && this.allCaseTypes.length > 0) {
@@ -229,7 +228,7 @@ export class CasesComponent implements OnInit {
   /**
    * This will load cases (i.e. unassigned or assigned) from the API with the selected filter type and value
    */
-  public loadCaseData(){
+  public loadCaseData() {
     if (this.allCaseTypes && this.allCaseTypes.length > 0) {
       this.casesLoaded$.next(false);
       this.caaCasesStore.dispatch(new caaCasesStore.LoadCases({
@@ -434,7 +433,6 @@ export class CasesComponent implements OnInit {
     console.log(this.selectedCaseType, this.selectedFilterType, this.selectedCases, newCasesEnabled, groupAccessEnabled);
     // load cases types based on filter and value
     if (this.selectedFilterType === CaaCasesFilterType.CaseReferenceNumber) {
-      // TODO: need to handle the `new_case` flag
       // if returning new case then go to add recipient page
       // else if returning non-new case then go to manage case assignments
       this.caaCasesStore.dispatch(new caaCasesStore.AddShareCases({
@@ -443,7 +441,6 @@ export class CasesComponent implements OnInit {
       }));
     }
     if (this.selectedFilterType === CaaCasesFilterType.CasesAssignedToAUser) {
-      // todo: go to manage case assignments
       this.caaCasesStore.dispatch(new caaCasesStore.AddShareCases({
         sharedCases: converters.toShareCaseConverter(this.selectedCases, this.selectedCaseType),
         caaPageType: this.caaCasesPageType

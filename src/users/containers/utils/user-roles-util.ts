@@ -10,7 +10,7 @@ export class UserRolesUtil {
   public static getRolesAdded(user: any, permissions: string[]): any[] {
     const roles = [];
     permissions.forEach((permission) => {
-      if (!user.roles || !user.roles.includes(permission)) {
+      if (!user.roles?.includes(permission)) {
         roles.push({
           name: permission
         });
@@ -126,7 +126,7 @@ export class UserRolesUtil {
       return deleteResponse.idamStatusCode !== '204';
     });
 
-    return !(deleteFailures.length > 0);
+    return deleteFailures.length === 0;
   }
 
   public static GetRemovableRolesForUser(user: any, roles: string[]): any[] {

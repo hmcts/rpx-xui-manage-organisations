@@ -5,7 +5,7 @@ import * as fromInviteUsers from '../reducers/invite-user.reducer';
 
 export const getInviteUserState = createSelector(
   fromFeature.getRootUserState,
-  (state: fromFeature.UserState) => state && state.inviteUser ? state.inviteUser : {}
+  (state: fromFeature.UserState) => state?.inviteUser ?? fromInviteUsers.initialState
 );
 
 export const getInviteUserErrorMessage = createSelector(

@@ -7,8 +7,8 @@ import { AppUtils } from '../../utils/app-utils';
 import * as fromAction from '../actions';
 
 export interface AppFeatureFlag {
- featureName: string;
- isEnabled: boolean;
+  featureName: string;
+  isEnabled: boolean;
 }
 export interface ErrorMessage {
   bodyText: string;
@@ -19,20 +19,20 @@ export interface ErrorMessage {
 
 export interface GlobalError {
   header: string;
-  errors: ErrorMessage [];
+  errors: ErrorMessage[];
 }
 
 export interface AppState {
-  allNavItems: {[id: string]: object};
+  allNavItems: { [id: string]: object };
   pageTitle: string;
   navItems: NavItemModel[];
   userNav: UserNavModel;
-  headerTitle: {regOrg: AppTitlesModel; manageOrg: AppTitlesModel};
+  headerTitle: { regOrg: AppTitlesModel; manageOrg: AppTitlesModel };
   jurisdictions: any[];
   termsAndConditions: TCDocument;
   featureFlags: AppFeatureFlag[];
   globalError: GlobalError;
-  modal: {[id: string]: {isVisible?: boolean; countdown?: string}};
+  modal: { [id: string]: { isVisible?: boolean; countdown?: string } };
 }
 
 export const initialState: AppState = {
@@ -73,6 +73,7 @@ export function reducer(
   switch (action.type) {
     case fromAction.LOAD_JURISDICTIONS_GLOBAL_SUCCESS:
       const jurisdictions = action.payload;
+
       return {
         ...state,
         jurisdictions
@@ -88,8 +89,8 @@ export function reducer(
 
     case fromAction.SET_PAGE_TITLE_ERRORS: {
       const EXISTS = -1;
-      const pageTitle = (state.pageTitle.indexOf('Error') !== EXISTS) ?
-        state.pageTitle : `Error: ${state.pageTitle}`;
+      const pageTitle = (state.pageTitle.indexOf('Error') === EXISTS) ?
+        `Error: ${state.pageTitle}` : state.pageTitle;
       return {
         ...state,
         pageTitle
@@ -108,7 +109,17 @@ export function reducer(
           ];
         }
       });
-      navItems = navItems.sort((a, b) => (a.orderId > b.orderId) ? 1 : ((b.orderId > a.orderId) ? -1 : 0));
+      navItems = navItems.sort((a, b) => {
+        if (a.orderId > b.orderId) {
+          return 1;
+        }
+
+        if (a.orderId < b.orderId) {
+          return -1;
+        }
+
+        return 0;
+      });
       return {
         ...state,
         navItems

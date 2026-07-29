@@ -259,6 +259,7 @@ Playwright writes lane-specific evidence under `functional-output/tests`. The ma
 - Run `yarn report:playwright:evidence` locally to create the same dashboard from whatever reports are present under `functional-output/tests`.
 - `PLAYWRIGHT_TAGS` runs only matching Playwright tags, for example `PLAYWRIGHT_TAGS=@registration yarn test:playwrightE2E`.
 - `PLAYWRIGHT_EXCLUDE_TAGS` removes matching Playwright tags, for example `PLAYWRIGHT_TAGS=@e2e PLAYWRIGHT_EXCLUDE_TAGS=@e2e-smoke yarn test:playwrightE2E -- --list`.
+- Key Vault-backed emergency exclusions and the verification bypass are documented in [Playwright global exclusions](./docs/playwright-global-exclusions.md).
 
 The reporting flow is:
 
@@ -409,7 +410,7 @@ Populate local Playwright credentials from Key Vault, or provide secure local va
 yarn env:populate:aat
 ```
 
-This reads `.env.example`, pulls tagged secrets from the `rpx-aat` Key Vault, and writes `.env`. Use `yarn env:populate:demo` for demo, or pass explicit files when you need a custom output:
+This reads `.env.example`, pulls tagged secrets from the `rpx-aat` Key Vault, and writes `.env`. The final `PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS` value is then replaced from the exact `xui-manage-org-playwright-global-excluded-tags` secret, or set to `@none` if that exact value is unavailable. Use `yarn env:populate:demo` for demo, or pass explicit files when you need a custom output:
 
 ```bash
 bash ./scripts/populate-env-from-keyvault.sh aat .env .env.example

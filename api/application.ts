@@ -124,7 +124,7 @@ if (showFeature(FEATURE_REDIS_ENABLED)) {
       ...healthChecks.checks,
       ...{
         redis: healthcheck.raw(() => {
-          return app.locals.redisClient.connected ? healthcheck.up() : healthcheck.down();
+          return app.locals.redisClient.isReady ? healthcheck.up() : healthcheck.down();
         })
       }
     };
@@ -176,7 +176,7 @@ app.use(
   express.static(staticRoot, { index: false })
 );
 // Catch-all handler for every URL that the static middleware didn’t serve
-app.use('/*', (req, res) => {
+app.use('/{*splat}', (req, res) => {
   const html = injectNonce(indexHtmlRaw, res.locals.cspNonce as string);
   res.type('html').set('Cache-Control', 'no-store, max-age=0').send(html);
 });

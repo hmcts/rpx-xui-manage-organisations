@@ -65,5 +65,32 @@ describe('User Profile Reducer', () => {
     const state = fromAuth.reducer(initialState, action);
     expect(state.tAndC).toEqual({ hasUserAccepted: 'true', loaded: true });
   });
-});
 
+  it('ACCEPT_T_AND_C_SUCCESS should set accepted terms state', () => {
+    const action = new fromAuthActions.AcceptTandCSuccess(true);
+    const state = fromAuth.reducer(fromAuth.initialState, action);
+
+    expect(state.tAndC).toEqual({ hasUserAccepted: 'true', loaded: true });
+  });
+
+  it('should expose accepted terms state through the selector helper', () => {
+    const state: fromAuth.AuthState = {
+      ...fromAuth.initialState,
+      tAndC: { hasUserAccepted: 'true', loaded: true }
+    };
+
+    expect(fromAuth.gethasUserAcceptedTC(state)).toEqual({ hasUserAccepted: 'true', loaded: true });
+  });
+
+  it('should construct login actions with their payloads', () => {
+    const loginPayload = { redirect: '/profile' };
+    const error = new Error('login failed') as any;
+    const loginAction = new fromAuthActions.LogIn(loginPayload);
+    const loginFailureAction = new fromAuthActions.LogInFailure(error);
+
+    expect(loginAction.type).toEqual(fromAuthActions.AuthActionTypes.LOGIN);
+    expect(loginAction.payload).toEqual(loginPayload);
+    expect(loginFailureAction.type).toEqual(fromAuthActions.AuthActionTypes.LOGIN_FAILURE);
+    expect(loginFailureAction.payload).toEqual(error);
+  });
+});

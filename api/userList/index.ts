@@ -22,7 +22,7 @@ export async function handleUserListRoute(req: Request, res: Response) {
     const response = await req.http.get(apiUrl);
     logger.info('response:', response.data);
     if (!objectContainsOnlySafeCharacters(response.data)) {
-      return res.send('Invalid user list details').status(400);
+      return res.status(400).send('Invalid user list details');
     }
     res.send(response.data);
   } catch (error) {

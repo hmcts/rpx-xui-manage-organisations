@@ -13,7 +13,7 @@ import { Payment } from '../../models/pba-transactions';
   standalone: false
 })
 export class TransactionsComponent implements OnChanges {
-  @Input() public transactions = Array<Payment>();
+  @Input() public transactions = new Array<Payment>();
 
   public columnConfig: GovukTableColumnConfig[];
 

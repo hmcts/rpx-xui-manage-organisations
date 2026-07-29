@@ -1,8 +1,7 @@
-/* eslint-disable */
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/1.0/config/configuration-file.html
 
-module.exports = function (config) {
+module.exports = function configureKarma(config) {
   config.set({
     basePath: '',
     frameworks: ['jasmine', '@angular-devkit/build-angular'],
@@ -17,7 +16,7 @@ module.exports = function (config) {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, '../reports/tests/coverage/ng'),
+      dir: require('node:path').join(__dirname, '../reports/tests/coverage/ng'),
       subdir: '.',
       reporters: [
         { type: 'html', subdir: 'html-report' },
@@ -29,7 +28,7 @@ module.exports = function (config) {
     port: 9876,
     colors: true,
     logLevel: config.LOG_WARN,
-    autoWatch: true,
+    autoWatch: false,
     browsers: ['ChromeHeadless'],
     singleRun: true
   });

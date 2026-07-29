@@ -60,4 +60,24 @@ describe('User service', () => {
       userId: 'user-1'
     });
   });
+
+  it('should clear the cached user details request when the request errors', () => {
+    userService.getUserDetails().subscribe({
+      error: (error) => expect(error.status).toBe(500)
+    });
+
+    const failedReq = httpTestingController.expectOne('/api/user/details');
+    expect(failedReq.request.method).toEqual('GET');
+    failedReq.flush('failed', { status: 500, statusText: 'Server Error' });
+
+    userService.getUserDetails().subscribe();
+
+    const retryReq = httpTestingController.expectOne('/api/user/details');
+    expect(retryReq.request.method).toEqual('GET');
+    retryReq.flush({
+      orgId: 'org-1',
+      roles: ['pui-organisation-manager'],
+      userId: 'user-1'
+    });
+  });
 });

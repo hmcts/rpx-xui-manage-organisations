@@ -38,6 +38,23 @@ describe('RegisterOrgService', () => {
     expect(mockSessionStorageService.getItem).toHaveBeenCalled();
   });
 
+  it('should return default registration data when session storage is empty', () => {
+    mockSessionStorageService.getItem.and.returnValue(undefined);
+    const service = new RegisterOrgService(mockSessionStorageService, mockHttpService);
+    const registrationDataResult = service.getRegistrationData();
+    expect(registrationDataResult.companyName).toEqual('');
+    expect(registrationDataResult.companyHouseNumber).toBeNull();
+    expect(registrationDataResult.services).toEqual([]);
+    expect(registrationDataResult.regulators).toEqual([]);
+    expect(registrationDataResult.pbaNumbers).toEqual([]);
+  });
+
+  it('should return default registration data when session storage contains undefined string', () => {
+    mockSessionStorageService.getItem.and.returnValue('undefined');
+    const service = new RegisterOrgService(mockSessionStorageService, mockHttpService);
+    expect(service.getRegistrationData().contactDetails).toBeNull();
+  });
+
   it('should persist registration data', () => {
     mockSessionStorageService.setItem.and.callThrough();
     const service = new RegisterOrgService(mockSessionStorageService, mockHttpService);
@@ -50,5 +67,12 @@ describe('RegisterOrgService', () => {
     const service = new RegisterOrgService(mockSessionStorageService, mockHttpService);
     service.removeRegistrationData();
     expect(mockSessionStorageService.removeItem).toHaveBeenCalled();
+  });
+
+  it('should post registration data', () => {
+    mockSessionStorageService.getItem.and.returnValue(JSON.stringify(registrationData));
+    const service = new RegisterOrgService(mockSessionStorageService, mockHttpService);
+    service.postRegistration().subscribe();
+    expect(mockHttpService.post).toHaveBeenCalledWith('/external/register-org-new/register', registrationData);
   });
 });

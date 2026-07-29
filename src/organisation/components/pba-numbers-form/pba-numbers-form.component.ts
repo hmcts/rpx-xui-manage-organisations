@@ -33,7 +33,7 @@ export class PbaNumbersFormComponent implements OnInit {
     private readonly router: Router,
     private readonly orgStore: Store<fromStore.OrganisationState>,
     private readonly fb: FormBuilder
-  ) {}
+  ) { }
 
   public ngOnInit(): void {
     this.getOrganisationDetailsFromStore();
@@ -103,7 +103,7 @@ export class PbaNumbersFormComponent implements OnInit {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    this.router.navigate(['/organisation/update-pba-numbers-check']).then(() => {});
+    this.router.navigate(['/organisation/update-pba-numbers-check']).then(() => { });
   }
 
   private initialiseForm(): void {
@@ -184,7 +184,7 @@ export class PbaNumbersFormComponent implements OnInit {
           message
         };
       })
-      .filter((i) => i);
+      .filter(Boolean);
 
     if (items.length === 0) {
       this.clearSummaryErrorMessage();
@@ -238,7 +238,7 @@ export class PbaNumbersFormComponent implements OnInit {
 
   private getPBANumbersCustomValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } => {
-      if (control.value && isNaN(Number(control.value.substring(3)))) {
+      if (control.value && Number.isNaN(Number(control.value.substring(3)))) {
         return { error: 'Enter a valid PBA number' };
       }
       return null;

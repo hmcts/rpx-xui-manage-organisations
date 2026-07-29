@@ -16,11 +16,11 @@ export class FormComponent implements OnInit {
   }
 
   public errors: string[];
-  public checkboxes; // TODO: Add type.
-  public contactPreference; // TODO: Add type.
-  public sortBySelect; // TODO: Add type.
-  public moreDetail; // TODO: Add type.
-  public formConstModel; // TODO: Add type.
+  public checkboxes;
+  public contactPreference;
+  public sortBySelect;
+  public moreDetail;
+  public formConstModel;
 
   public ngOnInit(): void {
     this.formConstModel = CONST.STG_FORM_MODEL;

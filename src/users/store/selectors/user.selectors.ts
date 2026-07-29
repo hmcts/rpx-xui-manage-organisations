@@ -5,7 +5,7 @@ import * as fromUsers from '../reducers/users.reducer';
 
 export const getUserState = createSelector(
   fromFeature.getRootUserState,
-  (state: fromFeature.UserState) => state.invitedUsers
+  (state: fromFeature.UserState) => state?.invitedUsers ?? fromUsers.initialState
 );
 
 export const getGetUserList = createSelector(
@@ -25,7 +25,7 @@ export const getGetUserLoading = createSelector(
 
 export const getGetSingleUser = createSelector(
   fromFeature.getRootUserState,
-  (state: fromFeature.UserState) => state.invitedUsers.userDetails
+  (state: fromFeature.UserState) => (state?.invitedUsers ?? fromUsers.initialState).userDetails
 );
 
 export const getGetReinvitePendingUser = createSelector(

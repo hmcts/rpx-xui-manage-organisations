@@ -1,6 +1,7 @@
-import * as applicationinsights from 'applicationinsights';
 import { getConfigValue, hasConfigValue, showFeature } from '../configuration';
 import { APP_INSIGHTS_CONNECTION_STRING, FEATURE_APP_INSIGHTS_ENABLED } from '../configuration/references';
+
+const applicationinsights = module.require('applicationinsights') as typeof import('applicationinsights');
 
 export let client;
 

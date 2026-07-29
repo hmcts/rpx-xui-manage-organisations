@@ -1,7 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
-import { SharedCase } from '@hmcts/rpx-xui-common-lib';
-import { UserDetails } from '@hmcts/rpx-xui-common-lib';
+import { FeatureToggleService, SharedCase, UserDetails } from '@hmcts/rpx-xui-common-lib';
 import { RouterReducerState } from '@ngrx/router-store';
 import { select, Store } from '@ngrx/store';
 import { initAll } from 'govuk-frontend';
@@ -18,7 +16,7 @@ import * as fromCaseList from '../../store/reducers';
   standalone: false
 })
 export class CaseShareComponent implements OnInit, OnDestroy {
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
   public routerState$: Observable<RouterReducerState<RouterStateUrl>>;
   public init: boolean;
   public pageType: string;
@@ -36,7 +34,7 @@ export class CaseShareComponent implements OnInit, OnDestroy {
   constructor(
     public store: Store<fromCaseList.CaaCasesState>,
     public featureToggleService: FeatureToggleService
-  ) {}
+  ) { }
 
   public ngOnInit(): void {
     this.routerState$ = this.store.pipe(select(getRouterState));

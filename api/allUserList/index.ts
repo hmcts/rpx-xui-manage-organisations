@@ -13,7 +13,7 @@ export async function handleAllUserListRoute(req: Request, res: Response) {
     const apiUrl = getRefdataUserCommonUrlUtil(rdProfessionalApiPath);
     const response = await req.http.get(apiUrl);
     if (!objectContainsOnlySafeCharacters(response.data)) {
-      return res.send('Invalid user list details').status(400);
+      return res.status(400).send('Invalid user list details');
     }
     logger.info('response::', response.data);
     res.send(response.data);

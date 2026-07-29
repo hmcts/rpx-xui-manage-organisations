@@ -51,4 +51,19 @@ describe('CaseShareService', () => {
       expect(mockHttp.get).toHaveBeenCalledWith('api/caseshare/cases', expectedOptions);
     });
   });
+
+  describe('assignUsersWithCases()', () => {
+    it('should post shared case assignments', () => {
+      const cases: SharedCase[] = [
+        { caseId: '1', caseTitle: 'Case 1' }
+      ];
+
+      const mockHttp = jasmine.createSpyObj('http', ['post']);
+      mockHttp.post.and.returnValue(of({}));
+      const service = new CaseShareService(mockHttp);
+      service.assignUsersWithCases(cases);
+
+      expect(mockHttp.post).toHaveBeenCalledWith('api/caseshare/case-assignments', { sharedCases: cases });
+    });
+  });
 });

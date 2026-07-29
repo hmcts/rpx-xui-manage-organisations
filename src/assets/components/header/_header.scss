@@ -3,17 +3,17 @@
    ========================================================================== */
 
    .jui-header {
-    @include govuk-clearfix;
     background-color: govuk-colour("black");
     padding-top: govuk-spacing(3);
     padding-bottom: govuk-spacing(3);
+    @include govuk-clearfix;
   }
 
 
   .jui-header__service {
-    @include govuk-font($size: 24, $weight: bold);
     display: block;
 
+    @include govuk-font($size: 24, $weight: bold);
     a:link,
     a:active,
     a:visited {
@@ -28,7 +28,7 @@
   }
 
 
-  @include mq($from: tablet) {
+  @include govuk-media-query($from: tablet) {
 
     .jui-header__service {
       float: left;

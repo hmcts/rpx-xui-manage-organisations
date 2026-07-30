@@ -28,7 +28,7 @@
   }
 
 
-  @include mq($from: tablet) {
+  @include govuk-media-query($from: tablet) {
 
     .jui-header__service {
       float: left;

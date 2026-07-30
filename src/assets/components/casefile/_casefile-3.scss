@@ -4,7 +4,7 @@
 
     .jui-cf__document-pages {
 
-      @include mq($from: desktop) {
+      @include govuk-media-query($from: desktop) {
         margin-right: 417px;
         margin-left: auto;
       }
@@ -174,7 +174,7 @@
   max-width: 803px;
   margin-bottom: 30px;
 
-  @include mq($from: desktop) {
+  @include govuk-media-query($from: desktop) {
     margin-left: 417px;
   }
 
@@ -216,7 +216,7 @@
 .jui-cf__document-comments {
   margin-bottom: 30px;
 
-  @include mq($from: desktop) {
+  @include govuk-media-query($from: desktop) {
     float: right;
     padding-left: 30px;
     width: 386px;
@@ -227,7 +227,7 @@
 
 .jui-cf__files {
 
-  @include mq($from: desktop) {
+  @include govuk-media-query($from: desktop) {
     position: sticky;
     position: -webkit-sticky;
     top: 75px; left: 0;
@@ -250,7 +250,7 @@
   box-shadow: 0 1px 3px 0 rgba(0,0,0,0.30), inset 0 -1px 0 0 #DDDDDD;
   padding: 20px 20px 0;
 
-  @include mq($from: desktop) {
+  @include govuk-media-query($from: desktop) {
     position: relative; top: 578px;
   }
 

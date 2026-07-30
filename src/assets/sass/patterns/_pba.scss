@@ -262,13 +262,13 @@ mark.comment {
 
   @include govuk-font($size: 19);
 
-  @include mq($from: desktop) {
+  @include govuk-media-query($from: desktop) {
     display: table;
   }
 }
 
 .govuk-check-your-answers--pba-overview {
-  @include mq($from: desktop) {
+  @include govuk-media-query($from: desktop) {
     // to make focusOn of q&a line up horizontally (unless there is just one focusOn)
     width: 100%;
     // recommended for mostly short questions

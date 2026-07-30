@@ -35,7 +35,7 @@
 // JavaScript enabled
 .js-tabs-enabled .govuk-tabs {
 
-  @include mq($from: tablet) {
+  @include govuk-media-query($from: tablet) {
 
     .govuk-tabs__list {
       @include govuk-clearfix;

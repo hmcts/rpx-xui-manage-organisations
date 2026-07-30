@@ -36,7 +36,7 @@
   color: $govuk-secondary-text-colour;
   margin-bottom: 0;
 
-  @include mq($from: tablet) {
+  @include govuk-media-query($from: tablet) {
     margin-top: govuk-spacing(1);
   }
 
@@ -53,11 +53,11 @@
   margin-bottom: 0;
   padding-left: 30px;
 
-  @include mq($until: tablet) {
+  @include govuk-media-query($until: tablet) {
     margin-top: govuk-spacing(2);
   }
 
-  @include mq($from: tablet) {
+  @include govuk-media-query($from: tablet) {
     position: absolute; top: 20px; right: 0;
     margin-top: 2px;
   }
@@ -73,7 +73,7 @@
   color: $govuk-secondary-text-colour;
   margin-top: 0;
 
-  @include mq($from: tablet) {
+  @include govuk-media-query($from: tablet) {
     margin-bottom: govuk-spacing(4);
   }
 

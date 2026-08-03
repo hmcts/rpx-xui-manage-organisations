@@ -58,7 +58,7 @@ module "managed_redis" {
   public_network_access   = "Disabled"
   create_private_endpoint = true
   subnet_id               = data.azurerm_subnet.core_infra_redis_subnet.id
-  private_dns_zone_ids    = [
+  private_dns_zone_ids = [
     "/subscriptions/${var.private_dns_subscription_id}/resourceGroups/core-infra-intsvc-rg/providers/Microsoft.Network/privateDnsZones/privatelink.redis.azure.net"
   ]
 

@@ -14,6 +14,11 @@ variable "shared_product_name" {
 
 variable "subscription" {}
 
+variable "private_dns_subscription_id" {
+  default     = "1baf5470-1c3e-40d3-a6f7-74bfbce4b348"
+  description = "Subscription containing the shared HMCTS private DNS zones."
+}
+
 variable "common_tags" {
   type = map(string)
 }
@@ -37,5 +42,4 @@ variable "redis_capacity" {
   default     = "1"
   description = "The size of the Redis cache to deploy. Valid values are 1, 2, 3, 4, 5"
 }
-
 

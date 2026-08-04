@@ -1,0 +1,15 @@
+{
+  "excludedTags": [],
+  "availableTags": [
+    "@a11y",
+    "@auth",
+    "@e2e",
+    "@e2e-smoke",
+    "@organisation",
+    "@registration",
+    "@terms",
+    "@user-admin",
+    "@validation",
+    "@wave-a11y"
+  ]
+}

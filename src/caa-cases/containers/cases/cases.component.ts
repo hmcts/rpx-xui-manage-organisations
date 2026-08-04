@@ -23,8 +23,7 @@ import * as converters from '../../converters/case-converter';
   standalone: false
 })
 export class CasesComponent implements OnInit {
-  // private caaCasesPageType = 'all-cases-filter'; // todo: this will be all cases since it's a merge of both assigned and unassigned cases
-  private caaCasesPageType = CaaCasesPageType.UnassignedCases; // todo: this will be all cases since it's a merge of both assigned and unassigned cases
+  private caaCasesPageType = CaaCasesPageType.UnassignedCases;
 
   public selectedOrganisation$: Observable<OrganisationDetails>;
   public selectedOrganisationUsers$: Observable<User[]>;
@@ -70,8 +69,6 @@ export class CasesComponent implements OnInit {
     // Load users of selected organisation from store
     this.userStore.dispatch(new userStore.CheckUserListLoaded());
     this.selectedOrganisationUsers$ = this.userStore.pipe(select(userStore.getGetUserList));
-
-    // TODO: clean this up to get all cases
     this.caaCasesStore.pipe(select(caaCasesStore.getAllUnassignedCases)).subscribe((config: CaaCases) => {
       if (config){
         this.casesConfig = config;
@@ -225,7 +222,6 @@ export class CasesComponent implements OnInit {
     console.log($event);
     // load cases types based on filter and value
     if (this.selectedFilterType === CaaCasesFilterType.CaseReferenceNumber) {
-      // TODO: need to handle the `new_case` flag
       // if returning new case then go to add recipient page
       // else if returning non-new case then go to manage case assignments
       this.caaCasesStore.dispatch(new caaCasesStore.AddShareAssignedCases({
@@ -233,7 +229,6 @@ export class CasesComponent implements OnInit {
       }));
     }
     if (this.selectedFilterType === CaaCasesFilterType.AssigneeName) {
-      // todo: go to manage case assignments
       this.caaCasesStore.dispatch(new caaCasesStore.AddShareAssignedCases({
         sharedCases: converters.toShareCaseConverter(this.selectedCases, this.selectedCaseType)
       }

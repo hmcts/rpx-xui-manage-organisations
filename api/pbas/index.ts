@@ -17,7 +17,7 @@ export async function addDeletePBA(req: EnhancedRequest, res: Response, next: Ne
     };
     // do add PBAs
     const fullPath: string = `${url}/${ORGANISATION_REFDATA_PATH}/pba`;
-    if (pendingPaymentAccount.pendingAddPaymentAccount && pendingPaymentAccount.pendingAddPaymentAccount.length) {
+    if (pendingPaymentAccount.pendingAddPaymentAccount?.length) {
       pendingAddPBAs = {
         paymentAccounts: pendingPaymentAccount.pendingAddPaymentAccount
       };
@@ -25,7 +25,7 @@ export async function addDeletePBA(req: EnhancedRequest, res: Response, next: Ne
       allPromises.push(addPBAPromise);
     }
     // do delete PBAs
-    if (pendingPaymentAccount.pendingRemovePaymentAccount && pendingPaymentAccount.pendingRemovePaymentAccount.length) {
+    if (pendingPaymentAccount.pendingRemovePaymentAccount?.length) {
       const pendingRemovePBAs = {
         paymentAccounts: pendingPaymentAccount.pendingRemovePaymentAccount
       };

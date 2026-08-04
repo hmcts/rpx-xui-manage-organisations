@@ -7,10 +7,18 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class DateFormatAtTimePipe implements PipeTransform {
   public transform(date: Date, is24Hour: boolean): string {
-    return `${formatDate(date, 'dd MMM yyyy', 'en-UK')} at ${this.formatTime(date, is24Hour)}`;
+    const time = is24Hour
+      ? this.format24HourTime(date)
+      : this.format12HourTime(date);
+
+    return `${formatDate(date, 'dd MMM yyyy', 'en-UK')} at ${time}`;
   }
 
-  private formatTime(date: Date, is24Hour: boolean): string {
-    return is24Hour ? formatDate(date, 'HH:mm', 'en-UK') : formatDate(date, 'h:mm a', 'en-UK').toLowerCase();
+  private format24HourTime(date: Date): string {
+    return formatDate(date, 'HH:mm', 'en-UK');
+  }
+
+  private format12HourTime(date: Date): string {
+    return formatDate(date, 'h:mm a', 'en-UK').toLowerCase();
   }
 }

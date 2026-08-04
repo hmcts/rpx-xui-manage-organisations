@@ -8,7 +8,7 @@ import { ValidationService } from './form-builder-validation.service';
 export class FormsService {
   public formControls = [];
 
-  constructor(private validationService: ValidationService) {}
+  constructor(private readonly validationService: ValidationService) { }
 
   /**
    * Creation of FormControls for a FormGroup.
@@ -19,50 +19,84 @@ export class FormsService {
    * Here is where the validation is applied to each of the controls of the form, based on the validators that
    * have been plaed into the state_meta.js.
    *
-   * TODO: Name this something totally different, as create doesn't really explain what it does,
    * also there it's quite hard to work out.
    *
    * @param someJson - The JSON template to be rendered as form control
    * @param someData - The default data value of the form control
    */
-  public create(someJson, someData) {
-    if (someJson && typeof someJson === 'object') {
-      for (const prop of Object.keys(someJson)) {
-        if (prop === 'control') {
-          if (someJson.radioGroup !== undefined) {
-            // RadioButton Logic
-            if (Object.keys(someData).length !== 0) {
-              for (const radioEl of someJson.radioGroup) {
-                if (radioEl.value === someData[someJson.control]) {
-                  this.formControls[someJson.control] = new FormControl(radioEl.value);
-                  break;
-                } else {
-                  this.createFormControl(null, someJson.control, someJson.validators);
-                }
-              }
-            } else {
-              this.formControls[someJson.control] = new FormControl();
-            }
-          } else {
-            if (someData[someJson.control]) {
-              this.createFormControl(someData[someJson.control], someJson.control, someJson.validators);
-            } else {
-              if (someJson.type === 'inputButton') {
-                this.createFormControl(someJson.value, someJson.control, someJson.validators, true);
-              } else {
-                this.createFormControl(someJson.value, someJson.control, someJson.validators);
-              }
-            }
-          }
-        }
-        this.create(someJson[prop], someData);
-      }
+  public create(someJson: any, someData: any): void {
+    if (this.isObject(someJson)) {
+      this.createFromObject(someJson, someData);
     }
-    if (someJson !== undefined && someJson.isArray) {
-      for (const item of someJson) {
-        this.create(someJson[item], someData);
-      }
+
+    if (Array.isArray(someJson)) {
+      this.createFromArray(someJson, someData);
     }
+  }
+
+  private createFromObject(someJson: any, someData: any): void {
+    Object.keys(someJson).forEach((prop) => {
+      if (prop === 'control') {
+        this.createControl(someJson, someData);
+      }
+
+      this.create(someJson[prop], someData);
+    });
+  }
+
+  private createFromArray(someJson: any[], someData: any): void {
+    someJson.forEach((item) => {
+      this.create(item, someData);
+    });
+  }
+
+  private createControl(someJson: any, someData: any): void {
+    if (someJson.radioGroup !== undefined) {
+      this.createRadioControl(someJson, someData);
+      return;
+    }
+
+    this.createStandardControl(someJson, someData);
+  }
+
+  private createRadioControl(someJson: any, someData: any): void {
+    if (Object.keys(someData).length === 0) {
+      this.formControls[someJson.control] = new FormControl();
+      return;
+    }
+
+    const selectedRadio = someJson.radioGroup.find(
+      (radioEl) => radioEl.value === someData[someJson.control]
+    );
+
+    if (selectedRadio) {
+      this.formControls[someJson.control] = new FormControl(selectedRadio.value);
+      return;
+    }
+
+    this.createFormControl(null, someJson.control, someJson.validators);
+  }
+
+  private createStandardControl(someJson: any, someData: any): void {
+    const controlValue = someData[someJson.control];
+
+    if (controlValue) {
+      this.createFormControl(controlValue, someJson.control, someJson.validators);
+      return;
+    }
+
+    const isInputButton = someJson.type === 'inputButton';
+
+    this.createFormControl(
+      someJson.value,
+      someJson.control,
+      someJson.validators,
+      isInputButton
+    );
+  }
+
+  private isObject(value: any): boolean {
+    return value !== null && typeof value === 'object' && !Array.isArray(value);
   }
 
   /**

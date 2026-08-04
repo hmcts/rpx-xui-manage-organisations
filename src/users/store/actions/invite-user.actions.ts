@@ -20,7 +20,7 @@ export class SendInviteUser implements Action {
 
 export class InviteUserSuccess implements Action {
   public readonly type = INVITE_USER_SUCCESS;
-  constructor(public payload: any) {} // TODO add type list of users
+  constructor(public payload: any) {}
 }
 
 export class InviteUserFail implements Action {

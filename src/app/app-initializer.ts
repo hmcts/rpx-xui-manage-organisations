@@ -4,7 +4,7 @@ import { AppConstants } from './app.constants';
 import * as fromApp from './store';
 import * as fromSelectors from './store/selectors/app.selectors';
 
-export function initApplication(store: Store<fromApp.State>): VoidFunction {
+export function initApplication(store: Store<fromApp.State>): () => Promise<boolean> {
   return () => new Promise((resolve) => {
     store.dispatch(new fromApp.StartAppInitilizer());
     store.dispatch(new fromApp.LoadFeatureToggleConfig([

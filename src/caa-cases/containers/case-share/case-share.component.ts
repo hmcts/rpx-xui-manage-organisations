@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
-import { SharedCase } from '@hmcts/rpx-xui-common-lib';
-import { UserDetails } from '@hmcts/rpx-xui-common-lib';
+import { UserDetails, SharedCase, FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { RouterReducerState } from '@ngrx/router-store';
 import { select, Store } from '@ngrx/store';
 import { initAll } from 'govuk-frontend';
@@ -36,7 +34,7 @@ export class CaseShareComponent implements OnInit {
   constructor(
     public store: Store<fromCaseList.CaaCasesState>,
     public featureToggleService: FeatureToggleService
-  ) {}
+  ) { }
 
   public ngOnInit(): void {
     this.routerState$ = this.store.pipe(select(getRouterState));

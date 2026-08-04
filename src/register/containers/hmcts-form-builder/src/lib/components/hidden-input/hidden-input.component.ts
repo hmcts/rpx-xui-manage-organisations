@@ -13,7 +13,7 @@ export class HiddenInputComponent implements OnInit{
     classes: Array<string>
   };
 
-  @Input() public value; // TODO: Add type.
+  @Input() public value;
   public componentClasses: string;
 
   public ngOnInit(): void {

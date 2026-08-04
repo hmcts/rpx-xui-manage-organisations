@@ -10,10 +10,20 @@ export const ENVIRONMENT = {
 
 @Injectable()
 export class OrganisationService {
-  constructor(private readonly http: HttpClient) {}
+  constructor(private readonly http: HttpClient) { }
 
   public fetchOrganisation(registerOrgFeature: boolean): Observable<any> {
-    return registerOrgFeature ? this.http.get<any>(`${ENVIRONMENT.orgUri}`) : this.http.get<any>(`${ENVIRONMENT.orgUri}/v1`);
+    return registerOrgFeature
+      ? this.fetchOrganisationLatest()
+      : this.fetchOrganisationV1();
+  }
+
+  private fetchOrganisationLatest(): Observable<any> {
+    return this.http.get<any>(ENVIRONMENT.orgUri);
+  }
+
+  private fetchOrganisationV1(): Observable<any> {
+    return this.http.get<any>(`${ENVIRONMENT.orgUri}/v1`);
   }
 
   private handleError(error: HttpErrorResponse) {
@@ -28,13 +38,12 @@ export class OrganisationService {
         'body was:', error.error);
     }
     // return an observable with a user-facing error message
-    return throwError(
-      'error please try again later.');
+    return throwError(() => 'error please try again later.');
   }
 
   public retrieveAccessType(organisationProfileIds: string[]): Observable<JurisdictionResponse> {
     return this.http
       .post<JurisdictionResponse>('/api/retrieve-access-types', { organisationProfileIds: organisationProfileIds })
-      .pipe(catchError((error: any) => throwError(error.json())));
+      .pipe(catchError((error: any) => throwError(() => error.json())));
   }
 }

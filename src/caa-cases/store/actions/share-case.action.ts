@@ -1,6 +1,5 @@
 import { NavigationExtras } from '@angular/router';
-import { SharedCase } from '@hmcts/rpx-xui-common-lib';
-import { UserDetails } from '@hmcts/rpx-xui-common-lib';
+import { UserDetails, SharedCase } from '@hmcts/rpx-xui-common-lib';
 import { Action } from '@ngrx/store';
 
 // Assigned cases actions
@@ -34,52 +33,52 @@ export const SYNCHRONIZE_STATE_TO_STORE_UNASSIGNED_CASES = '[ShareCase] Synchron
 
 export class NavigateToShareAssignedCases implements Action {
   public readonly type = NAVIGATE_TO_SHARE_ASSIGNED_CASES;
-  constructor(public payload: SharedCase[]) {}
+  constructor(public payload: SharedCase[]) { }
 }
 
 export class NavigateToShareUnassignedCases implements Action {
   public readonly type = NAVIGATE_TO_SHARE_UNASSIGNED_CASES;
-  constructor(public payload: SharedCase[]) {}
+  constructor(public payload: SharedCase[]) { }
 }
 
 export class SynchronizeStateToStoreAssignedCases implements Action {
   public readonly type = SYNCHRONIZE_STATE_TO_STORE_ASSIGNED_CASES;
-  constructor(public payload: SharedCase[]) {}
+  constructor(public payload: SharedCase[]) { }
 }
 
 export class SynchronizeStateToStoreUnassignedCases implements Action {
   public readonly type = SYNCHRONIZE_STATE_TO_STORE_UNASSIGNED_CASES;
-  constructor(public payload: SharedCase[]) {}
+  constructor(public payload: SharedCase[]) { }
 }
 
 export class LoadShareAssignedCases implements Action {
   public readonly type = LOAD_SHARE_ASSIGNED_CASES;
-  constructor(public payload: SharedCase[]) {}
+  constructor(public payload: SharedCase[]) { }
 }
 
 export class LoadShareAssignedCasesSuccess implements Action {
   public readonly type = LOAD_SHARE_ASSIGNED_CASES_SUCCESS;
-  constructor(public payload: SharedCase[]) {}
+  constructor(public payload: SharedCase[]) { }
 }
 
 export class LoadShareAssignedCaseFailure implements Action {
   public readonly type = LOAD_SHARE_ASSIGNED_CASES_FAILURE;
-  constructor(public payload: Error) {}
+  constructor(public payload: Error) { }
 }
 
 export class LoadShareUnassignedCases implements Action {
   public readonly type = LOAD_SHARE_UNASSIGNED_CASES;
-  constructor(public payload: SharedCase[]) {}
+  constructor(public payload: SharedCase[]) { }
 }
 
 export class LoadShareUnassignedCasesSuccess implements Action {
   public readonly type = LOAD_SHARE_UNASSIGNED_CASES_SUCCESS;
-  constructor(public payload: SharedCase[]) {}
+  constructor(public payload: SharedCase[]) { }
 }
 
 export class LoadShareUnassignedCaseFailure implements Action {
   public readonly type = LOAD_SHARE_UNASSIGNED_CASES_FAILURE;
-  constructor(public payload: Error) {}
+  constructor(public payload: Error) { }
 }
 
 export class AddShareAssignedCases implements Action {
@@ -89,7 +88,7 @@ export class AddShareAssignedCases implements Action {
     query?: object;
     extras?: NavigationExtras;
     sharedCases: SharedCase[]
-  }) {}
+  }) { }
 }
 
 export class AddShareAssignedCaseGo implements Action {
@@ -101,7 +100,7 @@ export class AddShareAssignedCaseGo implements Action {
       extras?: NavigationExtras;
       sharedCases: SharedCase[]
     }
-  ) {}
+  ) { }
 }
 
 export class AddShareUnassignedCases implements Action {
@@ -111,7 +110,7 @@ export class AddShareUnassignedCases implements Action {
     query?: object;
     extras?: NavigationExtras;
     sharedCases: SharedCase[]
-  }) {}
+  }) { }
 }
 
 export class AddShareUnassignedCaseGo implements Action {
@@ -123,7 +122,7 @@ export class AddShareUnassignedCaseGo implements Action {
       extras?: NavigationExtras;
       sharedCases: SharedCase[]
     }
-  ) {}
+  ) { }
 }
 
 export class DeleteAShareAssignedCase implements Action {
@@ -132,7 +131,7 @@ export class DeleteAShareAssignedCase implements Action {
     public payload: {
       caseId: string;
     }
-  ) {}
+  ) { }
 }
 
 export class DeleteAShareUnassignedCase implements Action {
@@ -141,27 +140,27 @@ export class DeleteAShareUnassignedCase implements Action {
     public payload: {
       caseId: string;
     }
-  ) {}
+  ) { }
 }
 
 export class AssignUsersToAssignedCase implements Action {
   public readonly type = ASSIGN_USERS_TO_ASSIGNED_CASE;
-  constructor(public payload: SharedCase[]) {}
+  constructor(public payload: SharedCase[]) { }
 }
 
 export class AssignUsersToAssignedCaseSuccess implements Action {
   public readonly type = ASSIGN_USERS_TO_ASSIGNED_CASE_SUCCESS;
-  constructor(public payload: SharedCase[]) {}
+  constructor(public payload: SharedCase[]) { }
 }
 
 export class AssignUsersToUnassignedCase implements Action {
   public readonly type = ASSIGN_USERS_TO_UNASSIGNED_CASE;
-  constructor(public payload: SharedCase[]) {}
+  constructor(public payload: SharedCase[]) { }
 }
 
 export class AssignUsersToUnassignedCaseSuccess implements Action {
   public readonly type = ASSIGN_USERS_TO_UNASSIGNED_CASE_SUCCESS;
-  constructor(public payload: SharedCase[]) {}
+  constructor(public payload: SharedCase[]) { }
 }
 
 export class ResetAssignedCaseSelection implements Action {
@@ -178,11 +177,11 @@ export class LoadUserFromOrgForCase implements Action {
 
 export class LoadUserFromOrgForCaseSuccess implements Action {
   public readonly type = LOAD_USERS_FROM_ORG_FOR_CASE_SUCCESS;
-  constructor(public payload: UserDetails[]) {}
+  constructor(public payload: UserDetails[]) { }
 }
 
 export type Actions =
-    NavigateToShareAssignedCases
+  NavigateToShareAssignedCases
   | NavigateToShareUnassignedCases
   | SynchronizeStateToStoreAssignedCases
   | SynchronizeStateToStoreUnassignedCases

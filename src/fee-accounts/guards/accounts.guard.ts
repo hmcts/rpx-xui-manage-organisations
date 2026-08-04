@@ -18,11 +18,11 @@ export class AccountsGuard {
 
   public checkStore(): Observable<boolean> {
     return this.store.pipe(select(fromStore.getOrganisationLoaded),
-      tap((loaded) => {
+      tap({ next: (loaded) => {
         if (!loaded) {
           this.store.dispatch(new fromStore.LoadOrganisation());
         }
-      }),
+      } }),
       filter((loaded) => loaded),
       take(1)
     );

@@ -8,10 +8,13 @@ export function toShareCaseConverter(selectedCases: any[], theCaseTypeId: string
   const sharedCases: SharedCase[] = [];
   for (const selectCase of selectedCases) {
     const caseTypeId = getValueByPropertyName(selectCase, 'caseType') ? getValueByPropertyName(selectCase, 'caseType') : theCaseTypeId;
-    const caseTitle = getValueByPropertyName(selectCase, 'case_title');
+    let caseTitle = getValueByPropertyName(selectCase, 'case_title');
+    if (!caseTitle) {
+      caseTitle = combineCaseTitleByCaseType(caseTypeId, selectCase);
+    }
     const shareCase = {
       caseId: selectCase.case_id,
-      caseTitle: caseTitle ? caseTitle : combineCaseTitleByCaseType(caseTypeId, selectCase),
+      caseTitle,
       caseTypeId
     };
     sharedCases.push(shareCase);
@@ -50,20 +53,46 @@ function combineCaseTitleByCaseType(caseTypeId: string, selectCase: SearchResult
 }
 
 function getApplicantName(selectCase: SearchResultViewItem) {
-  return getValueByPropertyName(selectCase, 'applicantFMName') && getValueByPropertyName(selectCase, 'applicantLName') ?
-    getValueByPropertyName(selectCase, 'applicantFMName') + BLANK_SPACE + getValueByPropertyName(selectCase, 'applicantLName') :
-    getValueByPropertyName(selectCase, 'applicantLName') ? getValueByPropertyName(selectCase, 'applicantLName') : EMPTY_SPACE;
+  const firstName = getValueByPropertyName(selectCase, 'applicantFMName');
+  const lastName = getValueByPropertyName(selectCase, 'applicantLName');
+  if (firstName && lastName) {
+    return `${firstName}${BLANK_SPACE}${lastName}`;
+  }
+
+  if (firstName) {
+    return firstName;
+  }
+
+  if (lastName) {
+    return lastName;
+  }
+
+  return EMPTY_SPACE;
 }
 
-function getRespondentName(selectCase: SearchResultViewItem) {
-  let respondentName = getValueByPropertyName(selectCase, 'appRespondentFMName') && getValueByPropertyName(selectCase, 'appRespondentLName') ?
-    getValueByPropertyName(selectCase, 'appRespondentFMName') + BLANK_SPACE + getValueByPropertyName(selectCase, 'appRespondentLName') :
-    getValueByPropertyName(selectCase, 'appRespondentLName') ? getValueByPropertyName(selectCase, 'appRespondentLName') : EMPTY_SPACE;
-  if (!respondentName) {
-    respondentName = getValueByPropertyName(selectCase, 'respondentFMName') && getValueByPropertyName(selectCase, 'respondentLName') ?
-      getValueByPropertyName(selectCase, 'respondentFMName') + BLANK_SPACE + getValueByPropertyName(selectCase, 'respondentLName') :
-      getValueByPropertyName(selectCase, 'respondentLName') ? getValueByPropertyName(selectCase, 'respondentLName') : EMPTY_SPACE;
+function getRespondentName(selectCase: SearchResultViewItem): string {
+  const appFirstName = getValueByPropertyName(selectCase, 'appRespondentFMName');
+  const appLastName = getValueByPropertyName(selectCase, 'appRespondentLName');
+
+  let respondentName = EMPTY_SPACE;
+
+  if (appFirstName && appLastName) {
+    respondentName = `${appFirstName}${BLANK_SPACE}${appLastName}`;
+  } else if (appLastName) {
+    respondentName = appLastName;
   }
+
+  if (!respondentName) {
+    const firstName = getValueByPropertyName(selectCase, 'respondentFMName');
+    const lastName = getValueByPropertyName(selectCase, 'respondentLName');
+
+    if (firstName && lastName) {
+      respondentName = `${firstName}${BLANK_SPACE}${lastName}`;
+    } else if (lastName) {
+      respondentName = lastName;
+    }
+  }
+
   return respondentName;
 }
 

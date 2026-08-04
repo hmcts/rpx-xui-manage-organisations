@@ -458,6 +458,7 @@ withPipeline(type, product, component) {
     loadVaultSecrets(secrets)
     enableAksStagingDeployment()
     syncBranchesWithMaster(branchesToSync)
+    disableWorkspaceStashForStages('functionalTest')
 
    enablePactAs([
      AppPipelineDsl.PactRoles.CONSUMER

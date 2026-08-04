@@ -1,7 +1,7 @@
-import * as session from 'express-session';
+import session from 'express-session';
 import { RedisStore } from 'connect-redis';
 import { createClient, RedisClientType } from 'redis';
-import * as sessionFileStore from 'session-file-store';
+import sessionFileStore from 'session-file-store';
 import { app } from '../application';
 import { getConfigValue, showFeature } from '../configuration';
 import {
@@ -17,7 +17,7 @@ export const logger = log4jui.getLogger('sessionStore');
 
 const fileStore = sessionFileStore(session);
 
-let store: session.Store = null;
+let store: session.Store | null = null;
 
 export const getRedisStore = (): RedisStore => {
   logger.info('using RedisStore');

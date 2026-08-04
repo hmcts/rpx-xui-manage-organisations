@@ -1,6 +1,5 @@
 import { NavigationExtras } from '@angular/router';
-import { SharedCase } from '@hmcts/rpx-xui-common-lib';
-import { UserDetails } from '@hmcts/rpx-xui-common-lib';
+import { UserDetails, SharedCase } from '@hmcts/rpx-xui-common-lib';
 import { Action } from '@ngrx/store';
 
 // cases actions
@@ -21,27 +20,27 @@ export const SYNCHRONIZE_STATE_TO_STORE_CASES = '[ShareCase] Synchronize State T
 
 export class NavigateToShareCases implements Action {
   public readonly type = NAVIGATE_TO_SHARE_CASES;
-  constructor(public payload: SharedCase[]) {}
+  constructor(public payload: SharedCase[]) { }
 }
 
 export class SynchronizeStateToStoreCases implements Action {
   public readonly type = SYNCHRONIZE_STATE_TO_STORE_CASES;
-  constructor(public payload: SharedCase[]) {}
+  constructor(public payload: SharedCase[]) { }
 }
 
 export class LoadShareCases implements Action {
   public readonly type = LOAD_SHARE_CASES;
-  constructor(public payload: SharedCase[]) {}
+  constructor(public payload: SharedCase[]) { }
 }
 
 export class LoadShareCasesSuccess implements Action {
   public readonly type = LOAD_SHARE_CASES_SUCCESS;
-  constructor(public payload: SharedCase[]) {}
+  constructor(public payload: SharedCase[]) { }
 }
 
 export class LoadShareCaseFailure implements Action {
   public readonly type = LOAD_SHARE_CASES_FAILURE;
-  constructor(public payload: Error) {}
+  constructor(public payload: Error) { }
 }
 
 export class AddShareCases implements Action {
@@ -54,7 +53,7 @@ export class AddShareCases implements Action {
     group_access?: boolean,
     caaPageType?: string;
     caseTypeId?: string;
-  }) {}
+  }) { }
 }
 
 export class AddShareCaseGo implements Action {
@@ -68,7 +67,7 @@ export class AddShareCaseGo implements Action {
       caaPageType?: string;
       caseTypeId?: string;
     }
-  ) {}
+  ) { }
 }
 export class DeleteAShareCase implements Action {
   public readonly type = DELETE_A_SHARE_CASE;
@@ -76,16 +75,16 @@ export class DeleteAShareCase implements Action {
     public payload: {
       caseId: string;
     }
-  ) {}
+  ) { }
 }
 export class AssignUsersToCase implements Action {
   public readonly type = ASSIGN_USERS_TO_CASE;
-  constructor(public payload: SharedCase[], public pageType?: string, public orgIdentifier?: string) {}
+  constructor(public payload: SharedCase[], public pageType?: string, public orgIdentifier?: string) { }
 }
 
 export class AssignUsersToCaseSuccess implements Action {
   public readonly type = ASSIGN_USERS_TO_CASE_SUCCESS;
-  constructor(public payload: SharedCase[]) {}
+  constructor(public payload: SharedCase[]) { }
 }
 
 export class ResetCaseSelection implements Action {
@@ -98,11 +97,11 @@ export class LoadUserFromOrgForCase implements Action {
 
 export class LoadUserFromOrgForCaseSuccess implements Action {
   public readonly type = LOAD_USERS_FROM_ORG_FOR_CASE_SUCCESS;
-  constructor(public payload: UserDetails[]) {}
+  constructor(public payload: UserDetails[]) { }
 }
 
 export type Actions =
-    NavigateToShareCases
+  NavigateToShareCases
   | SynchronizeStateToStoreCases
   | LoadShareCases
   | LoadShareCasesSuccess

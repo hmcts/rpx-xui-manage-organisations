@@ -26,12 +26,17 @@ export class CaaCasesUtil {
    * https://github.com/hmcts/rpx-xui-webapp/blob/feature/global-search/src/search/utils/search-validators.ts)
    * @returns `ValidationErrors` object if validation fails; `null` if it passes
    */
+
   public static caseReferenceValidator(): ValidatorFn {
+    const caseReferenceRegex = /^\d{16}$/;
+
     return (control: AbstractControl): ValidationErrors | null => {
-      // Use template literal to coerce control.value to a string in case it is null
-      if (!(`${control.value}`).replace(/[\s-]/g, '').match(/^\d{16}$/)) {
+      const value = `${control.value}`.replace(/[\s-]/g, '');
+
+      if (!caseReferenceRegex.exec(value)) {
         return { caseReference: true };
       }
+
       return null;
     };
   }

@@ -5,7 +5,7 @@ import { CanActivate } from '@angular/router';
 import { catchError, filter, first, Observable, of, timeout, TimeoutError } from 'rxjs';
 
 @Injectable()
-export class featureToggleOdgInviteUserFlowGuard implements CanActivate {
+export class FeatureToggleOdgInviteUserFlowGuard implements CanActivate {
   constructor(private readonly appStore: Store<fromRoot.State>) {}
 
   public canActivate(): Observable<boolean> {

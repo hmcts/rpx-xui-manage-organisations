@@ -1,7 +1,6 @@
 /* eslint-disable semi */
 import { Injectable } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
-import { ValidationErrors, ValidatorFn } from '@angular/forms';
+import { ValidationErrors, ValidatorFn, AbstractControl } from '@angular/forms';
 
 export default interface ICustomValidatorsService {
   exactLengthValidator(length: number): ValidatorFn;
@@ -34,7 +33,7 @@ export class CustomValidatorsService implements ICustomValidatorsService {
 
   pbaNumbersCustomValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } => {
-      if (control.value && isNaN(Number(control.value.substring(3)))) {
+      if (control.value && Number.isNaN(Number(control.value.substring(3)))) {
         return { error: 'Enter a valid PBA number' };
       }
       return null;

@@ -18,11 +18,9 @@ export class ValidationHeaderComponent {
     @Input() formGroup: FormGroup;
     @Input() controlId;
 
-    // TODO : deprecate as not needed?
     @Input() idPrefix = 'ta';
     @Input() name = 'ta';
 
-    // TODO : Move to constants file.
     FORM_CONTROL = 'formControl';
     FORM_GROUP = 'formGroup';
 
@@ -42,7 +40,7 @@ export class ValidationHeaderComponent {
      */
     @Input() validationHeaderErrorMessages;
 
-    constructor(private validationService: ValidationService) {}
+    constructor(private readonly validationService: ValidationService) {}
 
     /**
      * Checks if this control is valid.

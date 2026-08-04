@@ -25,7 +25,7 @@ export class CasesResultsTableComponent {
   }
 
   @Input() set casesConfig(value: CaaCases) {
-    if (value){
+    if (value) {
       this.tableConfig = value;
       this.setTableConfig(this.tableConfig);
     }
@@ -36,7 +36,7 @@ export class CasesResultsTableComponent {
   }
 
   @Input() set cases(value: any) {
-    if (value){
+    if (value) {
       this._cases = value;
     }
   }
@@ -72,8 +72,8 @@ export class CasesResultsTableComponent {
 
   }
 
-  public tabChanged(event: { tab: { textLabel: string }}): void {
-    this.totalCases = this.navItems.find((data) => data.text === event.tab.textLabel)
+  public tabChanged(event: { tab: { textLabel: string } }): void {
+    this.totalCases = this.navItems.some((data) => data.text === event.tab.textLabel)
       ? this.navItems.find((data) => data.text === event.tab.textLabel).total
       : 0;
     this.setTabItems(event.tab.textLabel, true);
@@ -92,8 +92,17 @@ export class CasesResultsTableComponent {
   }
 
   public getLastResult(): number {
-    const count = ((this.currentPageNo) * this.paginationPageSize);
-    return count >= this.totalCases ? this.totalCases : count < this.totalCases ? count : 1;
+    const count = this.currentPageNo * this.paginationPageSize;
+
+    if (count >= this.totalCases) {
+      return this.totalCases;
+    }
+
+    if (count < this.totalCases) {
+      return count;
+    }
+
+    return 1;
   }
 
   public getTotalResults(): number {
@@ -123,7 +132,6 @@ export class CasesResultsTableComponent {
     // this.store.dispatch(new fromStore.AddShareUnassignedCases({
     //   sharedCases: converters.toShareCaseConverter(this.selectedUnassignedCases, this.currentCaseType)
     // }));
-    // TODO: emit this action
     this.shareButtonClicked.emit();
   }
 

@@ -145,6 +145,83 @@ describe('RegisteredAddressComponent', () => {
     expect(mockRouter.navigate).toHaveBeenCalled();
   });
 
+  it('should set postcode to null when a valid international address has an empty postcode', () => {
+    component.addressChosen = false;
+    component.startedInternational = true;
+    component.isInternational = true;
+    (component as any).setFormGroup({
+      addressLine1: 'street',
+      postTown: 'city',
+      country: 'France',
+      postCode: ''
+    });
+
+    component.onContinue();
+
+    expect(component.registrationData.address.postCode).toBeNull();
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'document-exchange-reference']);
+  });
+
+  it('should set selection error when continuing without selecting an address', () => {
+    component.addressChosen = false;
+    component.startedInternational = false;
+    component.onAddressSelectable(true);
+
+    component.onContinue();
+
+    expect(component.addressErrors).toEqual([{
+      id: 'selectAddress',
+      message: AddressMessageEnum.SELECT_ADDRESS
+    }]);
+    expect(component.submissionAttempted).toBe(true);
+  });
+
+  it('should set form control errors for an invalid UK address', () => {
+    component.addressChosen = true;
+    component.startedInternational = false;
+    component.isInternational = false;
+    (component as any).setFormGroup({
+      addressLine1: '',
+      postTown: '',
+      country: 'UK',
+      postCode: 'NOTAPOSTCODE'
+    });
+
+    component.onContinue();
+
+    expect(component.addressErrors).toContain({
+      id: 'addressLine1',
+      message: AddressMessageEnum.NO_STREET_SELECTED
+    });
+    expect(component.addressErrors).toContain({
+      id: 'postTown',
+      message: AddressMessageEnum.NO_CITY_SELECTED
+    });
+    expect(component.addressErrors).toContain({
+      id: 'postCode',
+      message: AddressMessageEnum.INVALID_POSTCODE
+    });
+  });
+
+  it('should set country error for an invalid international address', () => {
+    component.addressChosen = false;
+    component.startedInternational = true;
+    component.isInternational = true;
+    (component as any).setFormGroup({
+      addressLine1: 'street',
+      postTown: 'city',
+      country: '',
+      postCode: null
+    });
+
+    component.onContinue();
+
+    expect(component.addressErrors).toContain({
+      id: 'country',
+      message: AddressMessageEnum.NO_COUNTRY_SELECTED
+    });
+  });
+
   it('should set international or non-international when option selected', () => {
     const mockRegData = {
       address: {
@@ -165,6 +242,58 @@ describe('RegisteredAddressComponent', () => {
     expect(component.isInternational).toBeTruthy();
     expect(component.submissionAttempted).toBeFalsy();
     expect(component.formGroup.get('address').get('country').value).toBe('');
+  });
+
+  it('should set UK postcode validators when non-international option is selected', () => {
+    component.onPostcodeOptionSelected();
+
+    component.onOptionSelected(false);
+
+    expect(component.isInternational).toBe(false);
+    expect(component.formGroup.get('address').get('country').value).toBe('UK');
+    expect(component.formGroup.get('address').get('postCode').valid).toBe(false);
+  });
+
+  it('should keep the existing address when postcode option is selected with a postcode', () => {
+    (component as any).setFormGroup({
+      addressLine1: 'existing street',
+      postTown: 'existing city',
+      country: 'UK',
+      postCode: 'SW1A 1AA'
+    });
+
+    component.onPostcodeOptionSelected();
+
+    expect(component.formGroup.get('address').get('addressLine1').value).toBe('existing street');
+  });
+
+  it('should reset the address form when postcode option is selected without a postcode', () => {
+    (component as any).setFormGroup({
+      addressLine1: 'existing street',
+      postTown: 'existing city',
+      country: 'UK',
+      postCode: ''
+    });
+
+    component.onPostcodeOptionSelected();
+
+    expect(component.formGroup.get('address').get('addressLine1').value).toBeNull();
+  });
+
+  it('should restore existing address when international mode starts with persisted data', () => {
+    component.registrationData.address = {
+      addressLine1: 'stored street',
+      postTown: 'stored city',
+      country: 'France',
+      postCode: null
+    } as any;
+    component.registrationData.inInternationalMode = true;
+
+    component.onInternationalModeStart();
+
+    expect(component.formGroup.get('address').get('addressLine1').value).toBe('stored street');
+    expect(component.startedInternational).toBe(true);
+    expect(component.headingText).toBe(INTERNATIONAL_HEADING);
   });
 
   it('should invoke the cancel registration journey when clicked on cancel link', () => {

@@ -11,7 +11,7 @@ export class AcceptTcService {
   public getHasUserAccepted(userId: string): Observable<any> {
     return this.http
       .get<any>(`/api/userTermsAndConditions/${userId}`)
-      .pipe(catchError((error: any) => throwError(error.json())));
+      .pipe(catchError((error: any) => throwError(() => error.json())));
   }
 
   public acceptTandC(userId): Observable<any> {

@@ -1,11 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
-import {
-  resolveOutputDir,
-  resolveReporters,
-  resolveTagGrep,
-  resolveTagGrepInvert,
-  resolveWorkerCount,
-} from './playwright-reporting';
+import { resolveOutputDir, resolveReporters, resolveWorkerCount } from './playwright-reporting';
+import { logResolvedTagFilters, resolveApiTagFilters, resolveE2eTagFilters } from './playwright-tag-filter';
 const { version: appVersion } = require('./package.json');
 
 type EnvMap = NodeJS.ProcessEnv;
@@ -15,7 +10,7 @@ const waveLikeA11ySpecPattern = '**/*.wave-a11y.spec.ts';
 
 const splitTags = (raw: string | undefined): string[] =>
   (raw ?? '')
-    .split(',')
+    .split(/[\s,]+/)
     .map((tag) => tag.trim())
     .filter(Boolean);
 
@@ -37,6 +32,10 @@ const waveLikeA11yIgnore = includesWaveLikeA11y(process.env) ? [] : [waveLikeA11
 const baseUrl = process.env.TEST_URL || 'http://localhost:3000/';
 const workerCount = resolveWorkerCount(process.env);
 const outputDir = resolveOutputDir(process.env);
+const apiTagFilters = resolveApiTagFilters(process.env);
+const e2eTagFilters = resolveE2eTagFilters(process.env);
+logResolvedTagFilters('API', apiTagFilters);
+logResolvedTagFilters('E2E smoke and browsers', e2eTagFilters);
 
 module.exports = defineConfig({
   outputDir,
@@ -45,8 +44,6 @@ module.exports = defineConfig({
   },
   testDir: '.',
   testMatch: ['playwright_tests_new/E2E/**/*.spec.ts', 'playwright_tests_new/api/**/*.api.ts'],
-  grep: resolveTagGrep(process.env),
-  grepInvert: resolveTagGrepInvert(process.env),
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -78,16 +75,22 @@ module.exports = defineConfig({
   projects: [
     {
       name: 'chromium',
+      grep: e2eTagFilters.grep,
+      grepInvert: e2eTagFilters.grepInvert,
       testIgnore: [smokeSpecPattern, 'playwright_tests_new/api/**', ...waveLikeA11yIgnore],
       use: { ...devices['Desktop Chrome'], channel: 'chrome', headless: headlessMode, trace: 'on-first-retry' },
     },
     {
       name: 'firefox',
+      grep: e2eTagFilters.grep,
+      grepInvert: e2eTagFilters.grepInvert,
       testIgnore: [smokeSpecPattern, 'playwright_tests_new/api/**', ...waveLikeA11yIgnore],
       use: { ...devices['Desktop Firefox'], screenshot: 'only-on-failure', headless: headlessMode, trace: 'off' },
     },
     {
       name: 'webkit',
+      grep: e2eTagFilters.grep,
+      grepInvert: e2eTagFilters.grepInvert,
       testIgnore: [smokeSpecPattern, 'playwright_tests_new/api/**', ...waveLikeA11yIgnore],
       use: {
         screenshot: 'only-on-failure',
@@ -97,6 +100,8 @@ module.exports = defineConfig({
     },
     {
       name: 'smoke',
+      grep: e2eTagFilters.grep,
+      grepInvert: e2eTagFilters.grepInvert,
       testMatch: [smokeSpecPattern],
       use: {
         ...devices['Desktop Chrome'],
@@ -108,6 +113,8 @@ module.exports = defineConfig({
     },
     {
       name: 'node-api',
+      grep: apiTagFilters.grep,
+      grepInvert: apiTagFilters.grepInvert,
       testMatch: ['playwright_tests_new/api/**/*.api.ts'],
       fullyParallel: true,
       workers: workerCount,

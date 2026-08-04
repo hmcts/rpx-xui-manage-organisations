@@ -1,4 +1,4 @@
-import type { Locator, Page } from '@playwright/test';
+import { type Locator, type Page } from '@playwright/test';
 
 export class CaseListPage {
   public readonly applyFilterButton: Locator;
@@ -44,7 +44,22 @@ export class CaseListPage {
   }
 
   public async selectCase(caseId: string): Promise<void> {
-    await this.caseCheckbox(caseId).check();
+    const checkbox = this.caseCheckbox(caseId);
+
+    await checkbox.waitFor({ state: 'visible' });
+    await checkbox.evaluate((element: HTMLElement) => {
+      element.scrollIntoView({ block: 'center', inline: 'nearest' });
+    });
+
+    try {
+      await checkbox.check({ timeout: 5000 });
+    } catch {
+      await checkbox.evaluate((element: HTMLInputElement) => {
+        if (!element.checked) {
+          element.click();
+        }
+      });
+    }
   }
 
   public async selectCases(caseIds: string[]): Promise<void> {
@@ -63,5 +78,23 @@ export class CaseListPage {
 
   public async selectCaseReferenceFilter(): Promise<void> {
     await this.filterRadio('case-reference-number').check();
+  }
+
+  protected async clickVisibleControl(control: Locator): Promise<void> {
+    await control.waitFor({ state: 'visible' });
+    await control.evaluate((element: HTMLElement) => {
+      element.scrollIntoView({ block: 'center', inline: 'nearest' });
+    });
+
+    try {
+      await control.click({ timeout: 5000 });
+    } catch {
+      await control.evaluate((element: HTMLElement) => {
+        if (element instanceof HTMLButtonElement && element.disabled) {
+          throw new Error('Cannot click disabled control');
+        }
+        element.click();
+      });
+    }
   }
 }

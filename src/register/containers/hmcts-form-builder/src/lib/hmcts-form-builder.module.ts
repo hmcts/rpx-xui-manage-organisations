@@ -64,5 +64,5 @@ const SERVICES = [
     ...SERVICES
   ]
 })
-// TODO remove this module and make it part of te compoent.
+
 export class HmctsFormBuilderModule {}

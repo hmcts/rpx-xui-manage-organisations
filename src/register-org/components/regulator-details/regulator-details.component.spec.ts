@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -13,6 +13,8 @@ import {
 } from '../../../register-org/models';
 import { LovRefDataService } from '../../../shared/services/lov-ref-data.service';
 import { RegulatorDetailsComponent } from './regulator-details.component';
+import { buildMockStoreProviders } from '../../testing/mock-store-state';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('RegulatorDetailsComponent', () => {
   let component: RegulatorDetailsComponent;
@@ -60,15 +62,18 @@ describe('RegulatorDetailsComponent', () => {
     mockLovRefDataService.getRegulatoryOrganisationTypes.and.returnValue(of(organisationTypes));
     await TestBed.configureTestingModule({
       declarations: [RegulatorDetailsComponent],
-      imports: [HttpClientTestingModule, ReactiveFormsModule, RouterTestingModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [ReactiveFormsModule, RouterTestingModule],
       providers: [
         {
           provide: ActivatedRoute, useValue: mockRoute
         },
         {
           provide: LovRefDataService, useValue: mockLovRefDataService
-        }
+        },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+        ...buildMockStoreProviders()
       ]
     })
       .compileComponents();
@@ -533,5 +538,28 @@ describe('RegulatorDetailsComponent', () => {
     component.previousUrl = 'check-your-answers';
     component.onBack();
     expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
+  });
+
+  describe('isSRARegulated', () => {
+    it('returns true when an SRA regulator with a registration number is present', () => {
+      const regulators: any[] = [
+        { regulatorType: RegulatorDetailsComponent.SRA_REG_TYPE, organisationRegistrationNumber: 'SRA123' },
+        { regulatorType: 'Other', regulatorName: 'Test', organisationRegistrationNumber: '999' }
+      ];
+      expect((component as any).isSRARegulated(regulators)).toBeTrue();
+    });
+
+    it('returns false when SRA regulator is missing or has no registration number', () => {
+      const regulatorsWrongType: any[] = [
+        // Note: missing "(SRA)" suffix, should be false
+        { regulatorType: 'Solicitor Regulation Authority', organisationRegistrationNumber: 'SRA123' }
+      ];
+      const regulatorsNoNumber: any[] = [
+        { regulatorType: RegulatorDetailsComponent.SRA_REG_TYPE, organisationRegistrationNumber: '' }
+      ];
+
+      expect((component as any).isSRARegulated(regulatorsWrongType)).toBeFalse();
+      expect((component as any).isSRARegulated(regulatorsNoNumber)).toBeFalse();
+    });
   });
 });

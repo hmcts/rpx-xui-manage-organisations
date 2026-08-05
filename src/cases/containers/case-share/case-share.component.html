@@ -1,0 +1,17 @@
+@if (backLink) {
+  <a [routerLink]="backLink" class="govuk-back-link">Back</a>
+}
+<xuilib-share-case
+  [shareCases$] = "shareCases$"
+  [users]="orgUsers$ | async"
+  [removeUserFromCaseToggleOn]="removeUserFromCaseToggleOn$ | async"
+  (unselect)="deselect($event)"
+  (synchronizeStore)="synchronizeStore($event)"
+  [confirmLink]="confirmLink"
+  [cancelLink]="backLink"
+  [addUserLabel]="addUserLabel"
+  [showRemoveUsers]="showRemoveUsers"
+  [fnTitle]="fnTitle"
+  [title]="title"
+>
+</xuilib-share-case>

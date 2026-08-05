@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -10,6 +10,8 @@ import { LoggerService } from '../../../shared/services/logger.service';
 import { OrganisationService } from '../../services';
 import { LoadOrganisation, LoadOrganisationFail, LoadOrganisationSuccess } from '../actions';
 import * as fromOrganisationEffects from './organisation.effects';
+import { AppConstants } from '../../../app/app.constants';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('Organisation Effects', () => {
   let actions$;
@@ -28,7 +30,7 @@ describe('Organisation Effects', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         {
           provide: OrganisationService,
@@ -43,7 +45,9 @@ describe('Organisation Effects', () => {
           useValue: mockFeatureService
         },
         fromOrganisationEffects.OrganisationEffects,
-        provideMockActions(() => actions$)
+        provideMockActions(() => actions$),
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
       ]
     });
 
@@ -61,7 +65,7 @@ describe('Organisation Effects', () => {
         name: 'a@b.com',
         organisationIdentifier: 'A111111',
         organisationProfileIds: [
-          'SOLICITOR_PROFILE'
+          AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE
         ],
         contactInformation: [{
           addressLine1: '10  oxford street',
@@ -101,7 +105,7 @@ describe('Organisation Effects', () => {
   describe('loadOrganisation$ error', () => {
     it('should return LoadOrganisationFail', waitForAsync(() => {
       mockFeatureService.getValue.and.returnValue(of(true));
-      organisationServiceMock.fetchOrganisation.and.returnValue(throwError(new Error()));
+      organisationServiceMock.fetchOrganisation.and.returnValue(throwError(() => new Error()));
       const action = new LoadOrganisation();
       const completion = new LoadOrganisationFail(new Error());
       actions$ = hot('-a', { a: action });

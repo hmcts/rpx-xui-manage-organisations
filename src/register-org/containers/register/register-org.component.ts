@@ -5,20 +5,20 @@ import { RegisterOrgService } from '../../services/index';
 
 @Component({
   selector: 'app-prd-register-component',
-  templateUrl: './register-org.component.html'
+  templateUrl: './register-org.component.html',
+  standalone: false
 })
 
 export class RegisterComponent implements OnInit, OnDestroy {
   private isRegistrationJourneyCancelled = false;
-  private routerCurrentNavigation: Navigation;
+  private routerCurrentNavigation: Navigation | null;
   public registrationData: RegistrationData;
-
   constructor(public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService) {
-    this.routerCurrentNavigation = this.router.getCurrentNavigation();
+    this.routerCurrentNavigation = this.router.currentNavigation?.();
   }
 
-  public get currentNavigation(): Navigation {
+  public get currentNavigation(): Navigation | null {
     return this.routerCurrentNavigation;
   }
 
@@ -37,7 +37,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   public cancelRegistrationJourney(): void {
-    const confirmed = window.confirm('Cancel will erase all the data you have entered and exit from the registration journey. Are you sure you want to continue?');
+    const confirmed = globalThis.confirm('Cancel will erase all the data you have entered and exit from the registration journey. Are you sure you want to continue?');
     if (confirmed) {
       this.isRegistrationJourneyCancelled = true;
       this.registerOrgService.removeRegistrationData();

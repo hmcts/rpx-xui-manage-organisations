@@ -19,27 +19,27 @@ describe('AppReducer', () => {
     action = new fromAppActions.SetPageTitle('invite-user');
     state = fromApp.reducer(initialState, action);
 
-    expect(state.pageTitle).toEqual('Invite user - Manage organisation');
+    expect(state.pageTitle).toEqual('Manage organisation - Invite user - GOV.UK');
 
     action = new fromAppActions.SetPageTitle('organisation');
     state = fromApp.reducer(initialState, action);
 
-    expect(state.pageTitle).toEqual('Organisation details - Manage organisation');
+    expect(state.pageTitle).toEqual('Manage organisation - Organisation details - GOV.UK');
 
     action = new fromAppActions.SetPageTitle('profile');
     state = fromApp.reducer(initialState, action);
 
-    expect(state.pageTitle).toEqual('Profile - Manage organisation');
+    expect(state.pageTitle).toEqual('Manage organisation - Profile - GOV.UK');
 
     action = new fromAppActions.SetPageTitle('users');
     state = fromApp.reducer(initialState, action);
 
-    expect(state.pageTitle).toEqual('Users - Manage organisation');
+    expect(state.pageTitle).toEqual('Manage organisation - Users - GOV.UK');
 
     action = new fromAppActions.SetPageTitle('dummy');
     state = fromApp.reducer(initialState, action);
 
-    expect(state.pageTitle).toEqual('Manage organisation');
+    expect(state.pageTitle).toEqual('Manage organisation - GOV.UK');
   });
 
   it('setTitleError action should return correct state', () => {
@@ -79,7 +79,7 @@ describe('AppReducer', () => {
         active: false,
         orderId: 3,
         featureToggle: {
-          featureName: AppConstants.FEATURE_NAMES.feeAccount
+          featureName: AppConstants.STATIC_FEATURE_NAMES.feeAccount
         }
       },
       {
@@ -88,7 +88,7 @@ describe('AppReducer', () => {
         active: false,
         orderId: 4,
         featureToggle: {
-          featureName: AppConstants.FEATURE_NAMES.caaMenuItems
+          featureName: AppConstants.STATIC_FEATURE_NAMES.caaMenuItems
         }
       },
       {
@@ -97,7 +97,16 @@ describe('AppReducer', () => {
         active: false,
         orderId: 5,
         featureToggle: {
-          featureName: AppConstants.FEATURE_NAMES.caaMenuItems
+          featureName: AppConstants.STATIC_FEATURE_NAMES.caaMenuItems
+        }
+      },
+      {
+        text: 'Cases',
+        href: '/cases',
+        orderId: 6,
+        active: false,
+        featureToggle: {
+          featureName: AppConstants.FEATURE_NAMES.newCasesItems
         }
       }
     ];

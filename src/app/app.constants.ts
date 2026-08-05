@@ -4,12 +4,27 @@ import { NavItemModel } from './models/nav-items.model';
 import { UserNavModel } from './models/user-nav.model';
 
 const featureNames = {
-  feeAccount: 'fee-and-accounts',
   editUserPermissions: 'edit-permissions',
   removeUserFromCase: 'remove-user-from-case-mo',
   caaMenuItems: 'mo-caa-menu-items',
-  newRegisterOrg: 'mo-new-register-org'
+  newCasesItems: 'mo-new-cases',
+  newRegisterOrg: 'mo-new-register-org',
+  ogdInviteUserFlow: 'ogd-invite-user-flow'
 };
+
+/**
+ * Static (code-driven) features — not controlled by LaunchDarkly.
+ * Export these so other files (nav, initializer) can import them.
+ */
+const STATIC_FEATURE_NAMES = {
+  feeAccount: 'fee-and-accounts',
+  caaMenuItems: 'mo-caa-menu-items'
+};
+
+export const STATIC_FEATURE_FLAGS = [
+  { featureName: STATIC_FEATURE_NAMES.feeAccount, isEnabled: false },
+  { featureName: STATIC_FEATURE_NAMES.caaMenuItems, isEnabled: true }
+];
 
 const navItemsArray: NavItemModel[] = [
   {
@@ -30,7 +45,7 @@ const navItemsArray: NavItemModel[] = [
     active: false,
     orderId: 3,
     featureToggle: {
-      featureName: featureNames.feeAccount
+      featureName: STATIC_FEATURE_NAMES.feeAccount
     }
   },
   {
@@ -39,7 +54,7 @@ const navItemsArray: NavItemModel[] = [
     orderId: 4,
     active: false,
     featureToggle: {
-      featureName: featureNames.caaMenuItems
+      featureName: STATIC_FEATURE_NAMES.caaMenuItems
     }
   },
   {
@@ -48,7 +63,16 @@ const navItemsArray: NavItemModel[] = [
     orderId: 5,
     active: false,
     featureToggle: {
-      featureName: featureNames.caaMenuItems
+      featureName: STATIC_FEATURE_NAMES.caaMenuItems
+    }
+  },
+  {
+    text: 'Cases',
+    href: '/cases',
+    orderId: 6,
+    active: false,
+    featureToggle: {
+      featureName: featureNames.newCasesItems
     }
   }
 ];
@@ -57,7 +81,7 @@ const roleBasedNav = {
   'pui-organisation-manager': navItemsArray[0],
   'pui-user-manager': navItemsArray[1],
   'pui-finance-manager': navItemsArray[2],
-  'pui-caa': [navItemsArray[3], navItemsArray[4]]
+  'pui-caa': [navItemsArray[3], navItemsArray[4], navItemsArray[5]]
 };
 
 const userNav: UserNavModel = {
@@ -110,26 +134,41 @@ const getHelpDetailsData: ContactDetailsDataModel[] = [
     badgeColour: BadgeColour.BADGE_BLUE,
     email: 'contactprobate@justice.gov.uk',
     phone: '0300 303 0648',
-    openingTimes: 'Monday to Friday, 9:30am to 5pm (excluding public holidays)'
+    openingTimes: 'Monday to Friday, 9am to 1pm (excluding public holidays)',
+    contactDetails: {
+      name: 'Webchat',
+      contactLink: 'https://www.apply-for-probate.service.gov.uk/contact-us'
+    }
   },
   {
     title: 'Divorce',
     badgeColour: BadgeColour.BADGE_BLUE,
-    email: 'divorcecase@justice.gov.uk',
+    contactDetails: {
+      name: 'Contact us about applying to end a civil partnership',
+      contactLink: 'https://contact-us-about-applying-to-end-a-civil-partnership.form.service.justice.gov.uk/'
+    },
+    email: 'contactdivorce@justice.gov.uk',
     phone: '0300 303 0642',
-    openingTimes: 'Monday to Friday, 9:30am to 5pm (excluding public holidays)'
+    openingTimes: 'Monday to Friday, 10am to 5:30pm (excluding public holidays)'
   },
   {
-    title: 'Financial Remedy',
+    title: 'Financial Remedy Consent',
     badgeColour: BadgeColour.BADGE_RED,
     email: 'contactfinancialremedy@justice.gov.uk',
     phone: '0300 303 0642',
-    openingTimes: 'Monday to Friday, 9:30am to 5pm (excluding public holidays)'
+    openingTimes: 'Monday to Friday, 10am to 5:30pm (excluding public holidays)'
+  },
+  {
+    title: 'Financial Remedy Contested',
+    badgeColour: BadgeColour.BADGE_RED,
+    email: 'HMCTSFinancialRemedy@justice.gov.uk',
+    phone: '0300 123 5577',
+    openingTimes: 'Monday to Friday, 8:30am to 5pm (excluding public holidays)'
   },
   {
     title: 'Immigration and Asylum',
     badgeColour: BadgeColour.BADGE_RED,
-    email: 'customer.service@justice.gov.uk',
+    email: 'contactia@justice.gov.uk',
     phone: '0300 123 1711',
     openingTimes: 'Monday to Friday, 9am to 5pm (excluding public holidays)'
   },
@@ -144,11 +183,39 @@ const getHelpDetailsData: ContactDetailsDataModel[] = [
     title: 'Employment Tribunal',
     badgeColour: BadgeColour.BADGE_RED,
     contactDetails: {
-      name: 'Employment Tribunals Offices and Venues - GOV.UK',
-      contactLink: 'https://www.gov.uk/guidance/employment-tribunal-offices-and-venues'
+      name: 'Find a Court or Tribunal Service - GOV.UK',
+      contactLink: 'https://www.find-court-tribunal.service.gov.uk/'
     },
-    phone: 'England and Wales: 0300 123 1024, Scotland: 0300 790 6234',
-    openingTimes: 'Monday to Friday, 9am to 5pm (excluding public holidays)'
+    phone: 'England and Wales: 0300 323 0196, Scotland: 0300 790 6234',
+    openingTimes: 'Monday to Friday, 8:30am to 5pm (excluding public holidays)'
+  },
+  {
+    title: 'Damages Claims (online with DC in the claim number)',
+    badgeColour: BadgeColour.BADGE_RED,
+    email: 'damagesclaims@justice.gov.uk',
+    phone: '0300 123 7050',
+    openingTimes: 'Monday to Friday, 8:30am to 5pm (excluding public holidays)'
+  },
+  {
+    title: 'Online Civil Money Claims (with MC in the claim number)',
+    badgeColour: BadgeColour.BADGE_RED,
+    email: 'contactocmc@justice.gov.uk',
+    phone: '0300 123 7050',
+    openingTimes: 'Monday to Friday, 8:30am to 5pm (excluding public holidays)'
+  },
+  {
+    title: 'N1 paper claims',
+    badgeColour: BadgeColour.BADGE_RED,
+    phone: '0300 123 1056',
+    openingTimes: 'Monday to Friday, 8:30am to 5pm (excluding public holidays)'
+  },
+  {
+    title: 'Damages Claims (that have dropped offline)',
+    badgeColour: BadgeColour.BADGE_RED,
+    contactDetails: {
+      name: 'Email us based on the stage of your claim',
+      contactLink: 'https://www.find-court-tribunal.service.gov.uk/courts/civil-national-business-centre-cnbc'
+    }
   }
 ];
 
@@ -190,7 +257,9 @@ const ccdRoles = [
   'caseworker-employment',
   'caseworker-employment-legalrep-solicitor',
   'caseworker-privatelaw',
-  'caseworker-privatelaw-solicitor'
+  'caseworker-privatelaw-solicitor',
+  'caseworker-pcs',
+  'caseworker-pcs-solicitor'
 ];
 
 const redirectUrl = {
@@ -212,6 +281,16 @@ const environmentNames = {
 
 const serviceMessagesFeatureToggleKey: string = 'mo-service-messages-dates';
 const serviceMessageCookie: string = 'mo_service_messages';
+
+const ogdProfileTypes = {
+  OGD_DWP_PROFILE: 'OGD_DWP_PROFILE',
+  SOLICITOR_PROFILE: 'SOLICITOR_PROFILE',
+  OGD_HO_PROFILE: 'OGD_HO_PROFILE',
+  OGD_HMRC_PROFILE: 'OGD_HMRC_PROFILE',
+  OGD_CICA_PROFILE: 'OGD_CICA_PROFILE',
+  OGD_CAFCASS_PROFILE_ENGLAND: 'OGD_CAFCASS_PROFILE_ENGLAND',
+  OGD_CAFCASS_PROFILE_CYMRU: 'OGD_CAFCASS_PROFILE_CYMRU'
+};
 
 /**
  * Place to keep app constants.
@@ -235,4 +314,8 @@ export class AppConstants {
   public static FEATURE_NAMES = featureNames;
   public static SERVICE_MESSAGES_FEATURE_TOGGLE_KEY = serviceMessagesFeatureToggleKey;
   public static SERVICE_MESSAGE_COOKIE = serviceMessageCookie;
+  public static OGD_PROFILE_TYPES = ogdProfileTypes;
+  // expose static flags too (so your initializer/selectors can import from a single place)
+  public static STATIC_FEATURE_NAMES = STATIC_FEATURE_NAMES;
+  public static STATIC_FEATURE_FLAGS = STATIC_FEATURE_FLAGS;
 }

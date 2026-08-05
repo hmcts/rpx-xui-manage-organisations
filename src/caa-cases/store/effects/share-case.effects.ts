@@ -52,12 +52,14 @@ export class ShareCaseEffects {
     this.actions$.pipe(
       ofType(shareCaseActions.ADD_SHARE_ASSIGNED_CASES_GO),
       map((action: shareCaseActions.AddShareAssignedCaseGo) => action.payload),
-      tap(({ path, query: queryParams, extras, sharedCases }) => {
-        const thatSharedCases = sharedCases;
-        queryParams = { init: true, pageType: CaaCasesPageType.AssignedCases };
-        return this.router.navigate(path, { queryParams, ...extras }).then(() => {
-          this.store.dispatch(new shareCaseActions.NavigateToShareAssignedCases(thatSharedCases));
-        });
+      tap({
+        next: ({ path, query, extras, sharedCases }) => {
+          const thatSharedCases = sharedCases;
+          const queryParams = { ...query, init: true, pageType: CaaCasesPageType.AssignedCases };
+          return this.router.navigate(path, { queryParams, ...extras }).then(() => {
+            this.store.dispatch(new shareCaseActions.NavigateToShareAssignedCases(thatSharedCases));
+          });
+        }
       })
     ),
   { dispatch: false }
@@ -67,12 +69,14 @@ export class ShareCaseEffects {
     this.actions$.pipe(
       ofType(shareCaseActions.ADD_SHARE_UNASSIGNED_CASES_GO),
       map((action: shareCaseActions.AddShareUnassignedCaseGo) => action.payload),
-      tap(({ path, query: queryParams, extras, sharedCases }) => {
-        const thatSharedCases = sharedCases;
-        queryParams = { init: true, pageType: CaaCasesPageType.UnassignedCases };
-        return this.router.navigate(path, { queryParams, ...extras }).then(() => {
-          this.store.dispatch(new shareCaseActions.NavigateToShareUnassignedCases(thatSharedCases));
-        });
+      tap({
+        next: ({ path, query, extras, sharedCases }) => {
+          const thatSharedCases = sharedCases;
+          const queryParams = { ...query, init: true, pageType: CaaCasesPageType.UnassignedCases };
+          return this.router.navigate(path, { queryParams, ...extras }).then(() => {
+            this.store.dispatch(new shareCaseActions.NavigateToShareUnassignedCases(thatSharedCases));
+          });
+        }
       })
     ),
   { dispatch: false }

@@ -1,4 +1,6 @@
-<ng-container *ngIf="group" [formGroup]="group">
+@if (group) {
+  <ng-container [formGroup]="group">
     <input id="{{control}}" [class]="classes" [type]="typeBtn" [formControlName]="control" [value]="value"
-         (click)="onClick($event)">
-</ng-container>
+      (click)="onClick($event)">
+  </ng-container>
+}

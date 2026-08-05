@@ -1,12 +1,21 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
+import { RegisterOrgModule } from '../../register-org.module';
+import { buildMockStoreProviders } from '../../testing/mock-store-state';
 import { throwError } from 'rxjs';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { RegistrationData } from '../../models/registration-data.model';
 import { RegisterOrgService } from '../../services';
 import { CheckYourAnswersComponent } from './check-your-answers.component';
+import { EnvironmentService } from '../../../shared/services/environment.service';
+import { ENVIRONMENT_CONFIG } from '../../../models';
+import { mockEnvironmentConfig } from '../../../shared/services/environment.service.spec';
+// provideHttpClient imported above
 
 describe('CheckYourAnswersComponent', () => {
   let component: CheckYourAnswersComponent;
@@ -49,13 +58,16 @@ describe('CheckYourAnswersComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CheckYourAnswersComponent],
-      imports: [
-        HttpClientTestingModule,
-        RouterTestingModule
-      ],
+      declarations: [],
+      // RegisterOrgModule declares CheckYourAnswersComponent and dependent components (e.g. RegulatorListComponent)
+      imports: [RouterTestingModule, ReactiveFormsModule, ExuiCommonLibModule, RegisterOrgModule],
       providers: [
-        { provide: LoggerService, useValue: mockLoggerService }
+        { provide: LoggerService, useValue: mockLoggerService },
+        EnvironmentService,
+        { provide: ENVIRONMENT_CONFIG, useValue: mockEnvironmentConfig },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+        ...buildMockStoreProviders()
       ]
     }).compileComponents();
   });
@@ -84,7 +96,7 @@ describe('CheckYourAnswersComponent', () => {
   });
 
   it('should display error message banner for api error', () => {
-    spyOn(registerOrgService, 'postRegistration').and.returnValue(throwError('error'));
+    spyOn(registerOrgService, 'postRegistration').and.returnValue(throwError(() => 'error'));
     component.cyaFormGroup.get('confirmTermsAndConditions').setValue(true);
     component.onSubmitData();
     expect(component.validationErrors).toEqual([{ id: 'confirm-terms-and-conditions', message: 'Sorry, there is a problem with the service. Try again later' }]);

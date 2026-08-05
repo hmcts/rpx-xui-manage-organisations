@@ -1,7 +1,7 @@
 import * as chai from 'chai';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
-import * as sinonChai from 'sinon-chai';
+import sinonChai from 'sinon-chai';
 import { mockRes } from 'sinon-express-mock';
 import * as log4jui from './log4jui';
 
@@ -169,11 +169,8 @@ describe('util', () => {
       const logger = log4jui.getLogger('util');
       const result = await asyncReturnOrError(promise, 'string', res, logger, false);
       expect(logger.error).to.have.been.calledWith('string');
-      // eslint-disable-next-line no-unused-expressions
       expect(res.status).not.to.be.called;
-      // eslint-disable-next-line no-unused-expressions
       expect(res.send).not.to.be.called;
-      // eslint-disable-next-line no-unused-expressions
       expect(result).to.be.null;
     });
 
@@ -187,7 +184,6 @@ describe('util', () => {
       expect(logger.error).to.have.been.calledWith('string');
       expect(res.status).to.be.calledWith(403);
       expect(res.send).to.be.calledWith('string');
-      // eslint-disable-next-line no-unused-expressions
       expect(result).to.be.null;
     });
 
@@ -200,7 +196,6 @@ describe('util', () => {
       expect(logger.error).to.have.been.calledWith('string');
       expect(res.status).to.be.calledWith(500);
       expect(res.send).to.be.calledWith('string');
-      // eslint-disable-next-line no-unused-expressions
       expect(result).to.be.null;
     });
   });

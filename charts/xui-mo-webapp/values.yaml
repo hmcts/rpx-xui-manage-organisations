@@ -6,6 +6,14 @@ redis:
       enabled: false
   auth:
     enabled: false
+  image:
+    registry: hmctsprod.azurecr.io
+    repository: imported/bitnami/redis
+  
+  global:
+    security:
+      allowInsecureImages: true
+
 
 nodejs:
   applicationPort: 3000
@@ -63,15 +71,20 @@ nodejs:
     IDAM_API_SERVICE: https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net
     IDAM_WEB_SERVICE: https://idam-web-public.{{ .Values.global.environment }}.platform.hmcts.net
     RD_PROFESSIONAL_API_SERVICE: http://rd-professional-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+    SERVICES_PRD_COMMONDATA_API: http://rd-commondata-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     S2S_SERVICE: http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     FEE_AND_PAY_API: http://payment-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     SERVICES_TERMS_AND_CONDITIONS_API_SERVICE: http://xui-terms-and-conditions-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     MANAGE_CASE_LINK: https://manage-case.{{ .Values.global.environment }}.platform.hmcts.net/cases
     MANAGE_ORG_LINK: https://manage-org.{{ .Values.global.environment }}.platform.hmcts.net
     SERVICES_CCD_DATA_STORE_API: http://ccd-data-store-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+    SERVICES_CCD_DEFINITION_STORE_API: http://ccd-definition-store-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     SERVICES_MCA_PROXY_API: http://aac-manage-case-assignment-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     SERVICES_IDAM_ISS_URL: https://forgerock-am.service.core-compute-idam-{{ .Values.global.environment }}2.internal:8443/openam/oauth2/realms/root/realms/hmcts
     SERVICES_ROLE_ASSIGNMENT_API: http://am-role-assignment-service-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+    SERVICES_ROLE_ASSIGNMENT_MAPPING_API: http://am-org-role-mapping-service-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+    # Pub Sub API fpr Content Security Policy
+    WEBPUBSUB_URL: wss://em-icp-webpubsub.{{ .Values.global.environment }}.platform.hmcts.net
 
   keyVaults:
     rpx:
@@ -79,13 +92,14 @@ nodejs:
       secrets:
         - mo-s2s-client-secret
         - xui-oauth2-token
-        - appinsights-instrumentationkey-mo
+        - appinsights-connection-string-mo
         - google-analytics-key
         - name: mo-webapp-redis6-connection-string
           alias: mo-webapp-redis-connection-string
         - launch-darkly-client-id
         - system-user-name
         - system-user-password
+        - mo-session-secret
   # Don't modify below here
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}

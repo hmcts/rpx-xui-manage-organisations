@@ -1,20 +1,20 @@
 
-  <app-hmcts-sub-navigation [label]="" [items]="navItems"></app-hmcts-sub-navigation>
-  <div class="hmcts-page-heading">
-    <div class="hmcts-page-heading__title-wrapper">
-      <h1 class="govuk-body govuk-!-font-size-48 govuk-!-font-weight-bold">
-        <span class="govuk-caption-xl">{{ accountName$ | async }}</span>
-        Transactions
-      </h1>
-    </div>
-    <div class="hmcts-page-heading__actions-wrapper"></div>
+<app-hmcts-sub-navigation [label]="" [items]="navItems"></app-hmcts-sub-navigation>
+<div class="hmcts-page-heading">
+  <div class="hmcts-page-heading__title-wrapper">
+    <h1 class="govuk-body govuk-!-font-size-48 govuk-!-font-weight-bold">
+      <span class="govuk-caption-xl">{{ accountName$ | async }}</span>
+      Transactions
+    </h1>
   </div>
-  <p>Last updated on {{accounts && accounts[0] ? (accounts[0].effective_date | dateFormatAtTime) : ''}}</p>
+  <div class="hmcts-page-heading__actions-wrapper"></div>
+</div>
+<p>Last updated on {{accounts && accounts[0] ? (accounts[0].effective_date | dateFormatAtTime) : ''}}</p>
+@if (!(loading$ | async)) {
   <app-govuk-table
-    *ngIf="!(loading$ | async) else loading"
     [columnConfig]="columnConfig" [rows]="accountTransactions$ | async" [firstCellIsHeader]="false" [caption]="''"
   ></app-govuk-table>
-  <ng-template #loading>
-    <div>Loading...</div>
-  </ng-template>
+} @else {
+  <div>Loading...</div>
+}
 

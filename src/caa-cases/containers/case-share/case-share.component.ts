@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
-import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
-import { UserDetails } from '@hmcts/rpx-xui-common-lib/lib/models/user-details.model';
+import { UserDetails, SharedCase, FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { RouterReducerState } from '@ngrx/router-store';
 import { select, Store } from '@ngrx/store';
 import { initAll } from 'govuk-frontend';
@@ -15,7 +13,8 @@ import * as fromCaseList from '../../store/reducers';
 @Component({
   selector: 'app-exui-case-share',
   templateUrl: './case-share.component.html',
-  styleUrls: ['./case-share.component.scss']
+  styleUrls: ['./case-share.component.scss'],
+  standalone: false
 })
 export class CaseShareComponent implements OnInit {
   public routerState$: Observable<RouterReducerState<RouterStateUrl>>;
@@ -35,11 +34,12 @@ export class CaseShareComponent implements OnInit {
   constructor(
     public store: Store<fromCaseList.CaaCasesState>,
     public featureToggleService: FeatureToggleService
-  ) {}
+  ) { }
 
   public ngOnInit(): void {
     this.routerState$ = this.store.pipe(select(getRouterState));
     this.routerState$.subscribe((router) => {
+      console.log(router.state);
       this.init = router.state.queryParams.init;
       this.pageType = router.state.queryParams.pageType;
       // Set backLink, fnTitle, title, confirmLink, addUserLabel, and showRemoveUsers depending on whether navigation

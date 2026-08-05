@@ -1,10 +1,10 @@
 import * as assert from 'assert';
 import * as chai from 'chai';
 import { expect } from 'chai';
-import * as log4js from 'log4js';
+import log4js from 'log4js';
 import { Logger } from 'log4js';
 import * as sinon from 'sinon';
-import * as sinonChai from 'sinon-chai';
+import sinonChai from 'sinon-chai';
 import * as configuration from '../configuration';
 import { FEATURE_PROXY_ENABLED, LOGGING } from '../configuration/references';
 import * as tunnel from './tunnel';
@@ -41,7 +41,6 @@ describe('tunnel', () => {
   it('should not setup the proxy', () => {
     showFeatureStub.withArgs(FEATURE_PROXY_ENABLED).returns(false);
     tunnel.init();
-    // eslint-disable-next-line no-unused-expressions
     expect(spiedLogger.info).not.to.be.called;
   });
 

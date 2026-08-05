@@ -13,7 +13,11 @@ export function getAccount(accountNumber: string, url: string, req: Request): Pr
         resolve(account);
       })
       .catch((err) => {
-        valueOrNull(err, 'status') === 404 ? resolve({ data: getMissingFeeAccount(accountNumber), status: 404 }) : reject(err);
+        if (valueOrNull(err, 'status') === 404) {
+          resolve({ data: getMissingFeeAccount(accountNumber), status: 404 });
+        } else {
+          reject(err);
+        }
       });
   });
 }

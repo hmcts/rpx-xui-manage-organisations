@@ -4,7 +4,8 @@ import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-privacy-policy',
-  templateUrl: './privacy-policy.component.html'
+  templateUrl: './privacy-policy.component.html',
+  standalone: false
 })
 export class PrivacyPolicyComponent implements OnInit {
   constructor(private readonly route: ActivatedRoute) {}
@@ -16,7 +17,7 @@ export class PrivacyPolicyComponent implements OnInit {
       try {
         document.querySelector(`#${fragment}`).scrollIntoView();
         // eslint-disable-next-line no-empty
-      } catch (e) {}
+      } catch {}
     });
   }
 
@@ -29,7 +30,7 @@ export class PrivacyPolicyComponent implements OnInit {
       try {
         document.querySelector(`#${fragment}`).scrollIntoView();
         // eslint-disable-next-line no-empty
-      } catch (e) {}
+      } catch {}
     });
   }
 }

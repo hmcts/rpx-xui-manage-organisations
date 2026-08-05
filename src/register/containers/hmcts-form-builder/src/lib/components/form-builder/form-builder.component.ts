@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 
 import { ValidationService } from '../../services/form-builder-validation.service';
 import { FormsService } from '../../services/form-builder.service';
+import { buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
 
 /**
  * Form Builder Wrapper
@@ -12,14 +13,15 @@ import { FormsService } from '../../services/form-builder.service';
 
 @Component({
   selector: 'app-form-builder',
-  templateUrl: './form-builder.component.html'
+  templateUrl: './form-builder.component.html',
+  standalone: false
 })
 
 export class FormBuilderComponent implements OnChanges {
   constructor(
     private readonly formsService: FormsService,
     private readonly validationService: ValidationService
-  ) {}
+  ) { }
 
   @Input() public pageItems: any;
   @Input() public pageValues: any;
@@ -33,21 +35,12 @@ export class FormBuilderComponent implements OnChanges {
 
   public ngOnChanges(changes: SimpleChanges): void {
     this.isLegendAvailable = false;
-    if (changes.pageItems && changes.pageItems.currentValue) {
+
+    if (changes.pageItems?.currentValue) {
       this.createForm();
     }
-    if (this.pageItems && this.pageItems.groups) {
-      for (const group of this.pageItems.groups) {
-        if (group.fieldset) {
-          for (const item of group.fieldset) {
-            if (item.legend) {
-              this.isLegendAvailable = true;
-              break;
-            }
-          }
-        }
-      }
-    }
+
+    this.isLegendAvailable = this.hasLegend(this.pageItems);
   }
 
   public createForm(): void {
@@ -72,5 +65,16 @@ export class FormBuilderComponent implements OnChanges {
 
   public onBlur(eventId) {
     this.blurCast.emit(eventId);
+  }
+
+  // trackBy helper for groups to avoid identity churn / duplicate empty keys
+  public trackByFormGroup(index: number, group: any): string | number {
+    return buildIdOrIndexKey(index, group, 'id', 'name', 'fieldId');
+  }
+
+  private hasLegend(pageItems: any): boolean {
+    return pageItems?.groups?.some((group: any) =>
+      group.fieldset?.some((item: any) => item.legend)
+    ) ?? false;
   }
 }

@@ -4,7 +4,7 @@ export const organisationTypes = [
   { name: 'Institute of Charted Accountants in England and Wales', id: 'ICA' },
   { name: 'Charted Institute of Legal Executives', id: 'CILE' },
   { name: 'Certification by the Bar Standards Board', id: 'CFBSS' },
-  { name: 'Office of the Immigration Services Commissioner (OISC)', id: 'OISC' },
+  { name: 'Immigration Advice Authority (IAA)', id: 'OISC' },
   { name: 'Law Society of England and Wales', id: 'LSEW' },
   { name: 'Law Society of Scotland', id: 'LSS' },
   { name: 'Other', id: 'Other' },

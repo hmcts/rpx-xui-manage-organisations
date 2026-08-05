@@ -1,12 +1,15 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
-import { provideMockStore } from '@ngrx/store/testing';
+import { buildMockStoreProviders } from '../../../register-org/testing/mock-store-state';
 import { of } from 'rxjs';
 import { RegisterComponent } from './register.component';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { ENVIRONMENT_CONFIG } from '../../../models/environmentConfig.model';
+import { mockEnvironmentConfig } from '../../../shared/services/environment.service.spec';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -20,10 +23,13 @@ describe('RegisterComponent', () => {
     TestBed.configureTestingModule({
       declarations: [RegisterComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [
-        RouterTestingModule.withRoutes([]),
-        HttpClientTestingModule],
-      providers: [provideMockStore()]
+      imports: [RouterTestingModule.withRoutes([])],
+      providers: [
+        ...buildMockStoreProviders(),
+        { provide: ENVIRONMENT_CONFIG, useValue: mockEnvironmentConfig },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+      ]
     })
       .compileComponents();
     mockStore = TestBed.inject(Store);

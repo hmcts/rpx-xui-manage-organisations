@@ -4,7 +4,8 @@ import { ValidationService } from '../../services/form-builder-validation.servic
 
 @Component({
   selector: 'app-textareas',
-  templateUrl: './textareas.component.html'
+  templateUrl: './textareas.component.html',
+  standalone: false
 })
 /**
  * TextareasComponent
@@ -27,10 +28,10 @@ export class TextareasComponent {
     @Input() items;
     @Input() validationError;
 
-    constructor(private validationService: ValidationService) {}
+    constructor(private readonly validationService: ValidationService) {}
 
     isGroupInvalidAndShowValidation (formGroup: FormGroup, showValidation: boolean) {
-      if (formGroup.errors && formGroup.errors[this.control] && showValidation) {
+      if (formGroup.errors?.[this.control] && showValidation) {
         return true;
       }
 

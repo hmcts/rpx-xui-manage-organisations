@@ -6,14 +6,15 @@ import { RegisterOrgService } from '../../services/register-org.service';
 
 @Component({
   selector: 'app-individual-registered-with-regulator',
-  templateUrl: './individual-registered-with-regulator.component.html'
+  templateUrl: './individual-registered-with-regulator.component.html',
+  standalone: false
 })
 export class IndividualRegisteredWithRegulatorComponent extends RegisterComponent implements OnInit, OnDestroy {
   public registeredWithRegulatorFormGroup: FormGroup;
   public validationErrors: { id: string, message: string }[] = [];
 
   constructor(public readonly router: Router,
-    public readonly registerOrgService: RegisterOrgService,
+    public readonly registerOrgService: RegisterOrgService
   ) {
     super(router, registerOrgService);
   }

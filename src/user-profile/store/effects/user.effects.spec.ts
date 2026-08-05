@@ -1,5 +1,5 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpErrorResponse, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { addMatchers, cold, hot, initTestScheduler } from 'jasmine-marbles';
@@ -8,6 +8,9 @@ import { AcceptTcService } from '../../../accept-tc/services/accept-tc.service';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { UserService } from '../../services/user.service';
 import {
+  AcceptTandC,
+  AcceptTandCFail,
+  AcceptTandCSuccess,
   GetUserDetails,
   GetUserDetailsFailure,
   GetUserDetailsSuccess,
@@ -16,6 +19,7 @@ import {
 } from '../actions';
 import * as fromUserEffects from './user-profile.effects';
 import { SessionStorageService } from '../../../shared/services/session-storage.service';
+import * as usersActions from '../../../users/store/actions/user.actions';
 
 describe('User Profile Effects', () => {
   let actions$;
@@ -23,7 +27,8 @@ describe('User Profile Effects', () => {
   let loggerService: LoggerService;
 
   const userServiceMock = jasmine.createSpyObj('UserService', [
-    'getUserDetails'
+    'getUserDetails',
+    'editUserPermissions'
   ]);
   const acceptTandCSrviceMock = jasmine.createSpyObj('AcceptTcService', [
     'getHasUserAccepted',
@@ -35,7 +40,7 @@ describe('User Profile Effects', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         {
           provide: UserService,
@@ -54,7 +59,9 @@ describe('User Profile Effects', () => {
           useValue: mockedSessionStorageService
         },
         fromUserEffects.UserProfileEffects,
-        provideMockActions(() => actions$)
+        provideMockActions(() => actions$),
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
       ]
     });
 
@@ -90,7 +97,7 @@ describe('User Profile Effects', () => {
 
   describe('getUser$ error', () => {
     it('should return GetUserDetailsFailure', waitForAsync(() => {
-      userServiceMock.getUserDetails.and.returnValue(throwError(new HttpErrorResponse({})));
+      userServiceMock.getUserDetails.and.returnValue(throwError(() => new HttpErrorResponse({})));
       const action = new GetUserDetails();
       const completion = new GetUserDetailsFailure(new HttpErrorResponse({}));
       actions$ = hot('-a', { a: action });
@@ -114,7 +121,7 @@ describe('User Profile Effects', () => {
 
   describe('loadHasAccepted$ error', () => {
     it('should return LoadHasAcceptedFail', waitForAsync(() => {
-      acceptTandCSrviceMock.getHasUserAccepted.and.returnValue(throwError(new HttpErrorResponse({})));
+      acceptTandCSrviceMock.getHasUserAccepted.and.returnValue(throwError(() => new HttpErrorResponse({})));
       const action = new LoadHasAcceptedTC('1234');
       const completion = new LoadHasAcceptedTCFail(new HttpErrorResponse({}));
       actions$ = hot('-a', { a: action });
@@ -125,7 +132,7 @@ describe('User Profile Effects', () => {
 
   describe('getUser$ error', () => {
     it('should return GetUserDetailsFailure', waitForAsync(() => {
-      userServiceMock.getUserDetails.and.returnValue(throwError(new HttpErrorResponse({})));
+      userServiceMock.getUserDetails.and.returnValue(throwError(() => new HttpErrorResponse({})));
       const action = new GetUserDetails();
       const completion = new GetUserDetailsFailure(new HttpErrorResponse({}));
       actions$ = hot('-a', { a: action });
@@ -152,6 +159,176 @@ describe('User Profile Effects', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(effects.getUserFail$).toBeObservable(expected);
+    }));
+  });
+
+  describe('acceptTandC$', () => {
+    it('should return AcceptTandCSuccess', waitForAsync(() => {
+      const returnValue = { accepted: true };
+      acceptTandCSrviceMock.acceptTandC.and.returnValue(of(returnValue));
+      const action = new AcceptTandC({ userId: '1234' } as any);
+      const completion = new AcceptTandCSuccess(returnValue as any);
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(effects.acceptTandC$).toBeObservable(expected);
+    }));
+
+    it('should return AcceptTandCFail on error', waitForAsync(() => {
+      const error = new HttpErrorResponse({});
+      acceptTandCSrviceMock.acceptTandC.and.returnValue(throwError(() => error));
+      const action = new AcceptTandC({ userId: '1234' } as any);
+      const completion = new AcceptTandCFail(error);
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(effects.acceptTandC$).toBeObservable(expected);
+    }));
+  });
+
+  describe('editUser$', () => {
+    it('should return EditUserSuccess when the user update succeeds', waitForAsync(() => {
+      const payload = {
+        id: 'user-1',
+        email: 'user@test.com',
+        firstName: 'Test',
+        lastName: 'User',
+        rolesAdd: [{ name: 'pui-user-manager' }],
+        rolesDelete: []
+      };
+      userServiceMock.editUserPermissions.and.returnValue(of({
+        roleAdditionResponse: {
+          idamStatusCode: '201'
+        },
+        statusUpdateResponse: null
+      }));
+      const action = new usersActions.EditUser(payload as any);
+      const completion = new usersActions.EditUserSuccess('user-1');
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(effects.editUser$).toBeObservable(expected);
+    }));
+
+    it('should return EditUserSuccess when the user update returns a 200 role addition response', waitForAsync(() => {
+      const payload = {
+        id: 'user-1',
+        email: 'user@test.com',
+        firstName: 'Test',
+        lastName: 'User',
+        rolesAdd: [{ name: 'pui-finance-manager' }],
+        rolesDelete: [{ name: 'pui-user-manager' }]
+      };
+      userServiceMock.editUserPermissions.and.returnValue(of({
+        roleAdditionResponse: {
+          idamStatusCode: '200'
+        },
+        roleDeletionResponse: [
+          {
+            idamStatusCode: '204'
+          }
+        ],
+        statusUpdateResponse: null
+      }));
+      const action = new usersActions.EditUser(payload as any);
+      const completion = new usersActions.EditUserSuccess('user-1');
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(effects.editUser$).toBeObservable(expected);
+    }));
+
+    it('should return EditUserFailure when the status update response fails', waitForAsync(() => {
+      const payload = {
+        id: 'user-1',
+        email: 'user@test.com'
+      };
+      userServiceMock.editUserPermissions.and.returnValue(of({
+        roleAdditionResponse: {
+          idamStatusCode: '201'
+        },
+        statusUpdateResponse: {
+          idamStatusCode: '500'
+        }
+      }));
+      const action = new usersActions.EditUser(payload as any);
+      const completion = new usersActions.EditUserFailure('user-1');
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(effects.editUser$).toBeObservable(expected);
+    }));
+
+    it('should wrap the request body when organisation profile ids are provided', waitForAsync(() => {
+      const payload = {
+        id: 'user-1',
+        email: 'user@test.com',
+        firstName: 'Test',
+        lastName: 'User'
+      };
+      userServiceMock.editUserPermissions.and.returnValue(of({
+        roleAdditionResponse: {
+          idamStatusCode: '204'
+        },
+        statusUpdateResponse: null
+      }));
+      const action = new usersActions.EditUser(payload as any, ['ORG-1']);
+      const completion = new usersActions.EditUserSuccess('user-1');
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(effects.editUser$).toBeObservable(expected);
+      expect(userServiceMock.editUserPermissions).toHaveBeenCalledWith({
+        userPayload: payload,
+        orgIdsPayload: ['ORG-1']
+      });
+    }));
+
+    it('should return EditUserFailure when the role addition response fails', waitForAsync(() => {
+      const payload = {
+        id: 'user-1',
+        email: 'user@test.com',
+        rolesAdd: [{ name: 'pui-user-manager' }]
+      };
+      userServiceMock.editUserPermissions.and.returnValue(of({
+        roleAdditionResponse: {
+          idamStatusCode: '500'
+        },
+        statusUpdateResponse: null
+      }));
+      const action = new usersActions.EditUser(payload as any);
+      const completion = new usersActions.EditUserFailure('user-1');
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(effects.editUser$).toBeObservable(expected);
+    }));
+
+    it('should return EditUserServerError when editing user permissions errors', waitForAsync(() => {
+      const payload = {
+        id: 'user-1',
+        email: 'user@test.com'
+      };
+      const error = { apiStatusCode: '500' };
+      userServiceMock.editUserPermissions.and.returnValue(throwError(() => error));
+      const action = new usersActions.EditUser(payload as any);
+      const completion = new usersActions.EditUserServerError({ userId: 'user-1', errorCode: '500' });
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(effects.editUser$).toBeObservable(expected);
+      expect(loggerService.error).toHaveBeenCalledWith(error);
+    }));
+  });
+
+  describe('confirmEditUser$', () => {
+    it('should load all users after edit user success', waitForAsync(() => {
+      const action = new usersActions.EditUserSuccess('user-1');
+      const completion = new usersActions.LoadAllUsers();
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(b)', { b: completion });
+
+      expect(effects.confirmEditUser$).toBeObservable(expected);
     }));
   });
 });

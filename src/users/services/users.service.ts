@@ -16,21 +16,21 @@ export class UsersService {
   public getAllUsersListwithReturnRoles(): Observable<RawPrdUsersList> {
     return this.http
       .get<RawPrdUsersList>('/api/allUserList')
-      .pipe(catchError((error: any) => throwError(error.json())));
+      .pipe(catchError((error: any) => throwError(() => error.json())));
   }
 
   // returnRoles true with pageNumber
   public getListOfUsers(pageNumber: number): Observable<RawPrdUsersList> {
     return this.http
       .get<RawPrdUsersList>(`/api/userList?pageNumber=${pageNumber}`)
-      .pipe(catchError((error: any) => throwError(error.json())));
+      .pipe(catchError((error: any) => throwError(() => error.json())));
   }
 
   // get all users with returnRoles false
   public getAllUsersList(): Observable<RawPrdUserListWithoutRoles> {
     return this.http
       .get<RawPrdUserListWithoutRoles>('/api/allUserListWithoutRoles')
-      .pipe(catchError((error: any) => throwError(error.json())));
+      .pipe(catchError((error: any) => throwError(() => error.json())));
   }
 
   public suspendUser(param): Observable<any> {
@@ -41,12 +41,12 @@ export class UsersService {
     };
     return this.http
       .put<any>(`/api/user/${user.userIdentifier}/suspend`, user)
-      .pipe(catchError((error: any) => throwError(error.json())));
+      .pipe(catchError((error: any) => throwError(() => error.json())));
   }
 
   getUserDetailsWithPermission(userId: string): Observable<any> {
     return this.http
       .get<any>(`/api/user-details?userId=${userId}`)
-      .pipe(catchError((error: any) => throwError(error.json())));
+      .pipe(catchError((error: any) => throwError(() => error.json())));
   }
 }

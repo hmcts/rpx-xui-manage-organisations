@@ -1,16 +1,19 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RegisterComponent } from '../../../register-org/containers';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { ORGANISATION_TYPES_REF_DATA } from '../../__mocks__';
-import { ORGANISATION_SERVICES } from '../../constants/register-org-constants';
 import { RegulatorType, RegulatoryType } from '../../models';
 import { RegisterOrgService } from '../../services/register-org.service';
+import { organisationServices } from '../../Configuration/org-services/config';
+import { EnvironmentService } from '../../../shared/services/environment.service';
 
 @Component({
   selector: 'app-check-your-answers',
-  templateUrl: './check-your-answers.component.html'
+  templateUrl: './check-your-answers.component.html',
+  standalone: false
 })
 export class CheckYourAnswersComponent extends RegisterComponent implements OnInit {
   @ViewChild('mainContent') public mainContentElement: ElementRef;
@@ -25,7 +28,8 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
 
   constructor(public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService,
-    public readonly loggerService: LoggerService
+    public readonly loggerService: LoggerService,
+    private readonly environmentService: EnvironmentService
   ) {
     super(router, registerOrgService);
   }
@@ -36,8 +40,12 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
     this.cyaFormGroup = new FormGroup({
       confirmTermsAndConditions: new FormControl(null, [Validators.required, this.getCustomValidationForTermsAndConditions()])
     });
+    const services = organisationServices(
+      this.environmentService.get('environment'),
+      this.environmentService.get('idamWeb')
+    );
     this.registrationData.services?.forEach((thisService) => {
-      const service = ORGANISATION_SERVICES.find((service) => service.key === thisService.key).value;
+      const service = services.find((service) => service.key === thisService.key).value;
       this.services.push(service);
     });
     if (this.registrationData.otherServices) {
@@ -46,25 +54,42 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
   }
 
   public onBack(): void {
-    this.registrationData.hasIndividualRegisteredWithRegulator
-      ? this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator-details', true])
-      : this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator']);
+    if (this.registrationData.hasIndividualRegisteredWithRegulator) {
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator-details', true]);
+    } else {
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator']);
+    }
   }
 
   public onSubmitData(): void {
     if (this.validateForm()) {
-      this.registerOrgService.postRegistration().subscribe((response) => {
-        this.loggerService.info(`New Organisation Submitted: ${response?.organisationIdentifier}`);
-        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registration-submitted']);
-      },
-      ((errorResponse) => {
-        const returnedError = { id: 'confirm-terms-and-conditions', message: this.apiErrorMessage };
-        if (errorResponse?.status === 400 && errorResponse.error?.errorDescription) {
-          returnedError.message = errorResponse.error.errorDescription;
+      this.registerOrgService.postRegistration().subscribe({
+        next: (response) => {
+          this.loggerService.info(
+            `New Organisation Submitted: ${response?.organisationIdentifier}`
+          );
+
+          this.router.navigate([
+            this.registerOrgService.REGISTER_ORG_NEW_ROUTE,
+            'registration-submitted'
+          ]);
+        },
+        error: (errorResponse) => {
+          const returnedError = {
+            id: 'confirm-terms-and-conditions',
+            message: this.apiErrorMessage
+          };
+
+          if (errorResponse?.status === 400 && errorResponse.error?.errorDescription) {
+            returnedError.message = errorResponse.error.errorDescription;
+          }
+
+          this.validationErrors.push(returnedError);
+          this.mainContentElement.nativeElement.scrollIntoView({
+            behavior: 'smooth'
+          });
         }
-        this.validationErrors.push(returnedError);
-        this.mainContentElement.nativeElement.scrollIntoView({ behavior: 'smooth' });
-      }));
+      });
     }
   }
 
@@ -96,5 +121,13 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
       }
       return null;
     };
+  }
+
+  public trackByService(index: number, service: string): string | number {
+    return buildIdOrIndexKey(index, { value: service } as any, 'value');
+  }
+
+  public trackByOrgPba(index: number, pba: string): string | number {
+    return buildIdOrIndexKey(index, { value: pba } as any, 'value');
   }
 }

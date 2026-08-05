@@ -1,5 +1,5 @@
-import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
-import { UserDetails } from '@hmcts/rpx-xui-common-lib/lib/models/user-details.model';
+import { SharedCase } from '@hmcts/rpx-xui-common-lib';
+import { UserDetails } from '@hmcts/rpx-xui-common-lib';
 import { plainToClass } from 'class-transformer';
 import { Request, Response } from 'express';
 import { DataBaseModel } from './models/data-base.model';
@@ -26,7 +26,7 @@ export function getOrgs(req: Request, res: Response) {
   return res.send(orgs);
 }
 
-export function getUsersByOrgId(req: Request, res: Response) {
+export function getUsersByOrgId(req: Request<{ orgId: string }>, res: Response) {
   const org = getOrgById(req.params.orgId);
   if (!org) {
     return res.status(404).send('{"errorMessage": "Organisation is not found}"');
@@ -38,7 +38,7 @@ export function getUsersByOrgId(req: Request, res: Response) {
   return res.send(users);
 }
 
-export function getUserByOrgAndUserId(req: Request, res: Response) {
+export function getUserByOrgAndUserId(req: Request<{ orgId: string; uid: string }>, res: Response) {
   const org = getOrgById(req.params.orgId);
   if (!org) {
     return res.status(404).send('{"errorMessage": "Organisation is not found}"');

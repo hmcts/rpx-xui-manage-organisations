@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { buildCompositeTrackKey, buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { Store, select } from '@ngrx/store';
 import { iif, Observable, of, Subject, Subscription } from 'rxjs';
-import { map, switchMap, takeUntil } from 'rxjs/operators';
+import { map, shareReplay, switchMap, takeUntil } from 'rxjs/operators';
 import { AppConstants } from '../../../app/app.constants';
 import { DxAddress, OrganisationContactInformation, OrganisationDetails, PBANumberModel } from '../../../models';
 import { Regulator, RegulatorType, RegulatoryType } from '../../../register-org/models';
@@ -14,7 +15,8 @@ import { utils } from '../../utils';
 
 @Component({
   selector: 'app-prd-organisation-component',
-  templateUrl: './organisation.component.html'
+  templateUrl: './organisation.component.html',
+  standalone: false
 })
 export class OrganisationComponent implements OnInit, OnDestroy {
   public readonly CATEGORY_ORGANISATION_TYPE = 'OrgType';
@@ -57,7 +59,8 @@ export class OrganisationComponent implements OnInit, OnDestroy {
           })
         ),
         of(newRegisterOrg));
-      })
+      }),
+      shareReplay({ bufferSize: 1, refCount: true })
     );
   }
 
@@ -101,5 +104,18 @@ export class OrganisationComponent implements OnInit, OnDestroy {
   private getOrgTypeOther(): string {
     const otherOrgTypes = this.orgTypes.find((orgType) => orgType.key === 'OTHER');
     return otherOrgTypes.child_nodes.find((orgType) => orgType.key === this.organisationType).value_en;
+  }
+
+  // trackBy helpers to stabilise DOM identity and remove NG0956 warnings
+  public trackByPba(_index: number, pba: PBANumberModel): string {
+    return String(buildIdOrIndexKey(_index, pba as any, 'pbaNumber'));
+  }
+
+  public trackByString(_index: number, value: string): string {
+    return String(buildIdOrIndexKey(_index, { value } as any, 'value'));
+  }
+
+  public trackByRegulator(_index: number, reg: Regulator): string {
+    return String(buildCompositeTrackKey(_index, reg?.regulatorType, reg?.organisationRegistrationNumber, reg?.regulatorName));
   }
 }

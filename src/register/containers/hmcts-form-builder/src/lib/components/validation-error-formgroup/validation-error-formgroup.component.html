@@ -1,5 +1,7 @@
-<ng-container [formGroup]="group" *ngIf="isFormGroupInvalid(group, validationErrorId)" >
+@if (isFormGroupInvalid(group, validationErrorId)) {
+  <ng-container [formGroup]="group" >
     <span id="directions-error" class="govuk-error-message">
-        <ng-content></ng-content>
+      <ng-content></ng-content>
     </span>
-</ng-container>
+  </ng-container>
+}

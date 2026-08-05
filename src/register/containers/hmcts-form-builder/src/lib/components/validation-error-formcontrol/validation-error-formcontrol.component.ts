@@ -4,7 +4,8 @@ import { ValidationService } from '../../services/form-builder-validation.servic
 
 @Component({
   selector: 'app-validation-error-formcontrol',
-  templateUrl: './validation-error-formcontrol.component.html'
+  templateUrl: './validation-error-formcontrol.component.html',
+  standalone: false
 })
 
 /**

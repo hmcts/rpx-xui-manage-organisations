@@ -47,22 +47,19 @@ describe('RD Professional API', () => {
         }
       };
       // @ts-ignore
-      pactSetUp.provider.addInteraction(interaction);
+      await pactSetUp.provider.addInteraction(interaction);
+    });
+
+    after(async () => {
+      await pactSetUp.provider.finalize();
     });
 
     it('returns the correct response', async () => {
       const taskUrl: string = `${pactSetUp.provider.mockService.baseUrl}/refdata/external/v1/organisations/users/`;
-      const resp = inviteUser(taskUrl, mockRequest as any);
-      resp.then((response) => {
-        const responseDto: InviteUserResponse = <InviteUserResponse>response.data;
-        assertResponse(responseDto);
-      }).then(() => {
-        pactSetUp.provider.verify();
-        pactSetUp.provider.finalize();
-      }).finally(() => {
-        pactSetUp.provider.verify();
-        pactSetUp.provider.finalize();
-      });
+      const response = await inviteUser(taskUrl, mockRequest as any);
+      const responseDto: InviteUserResponse = <InviteUserResponse>response.data;
+      assertResponse(responseDto);
+      await pactSetUp.provider.verify();
     });
   });
 });

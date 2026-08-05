@@ -34,6 +34,7 @@ const mockUserListState: UsersListState = {
   userList,
   loaded: true,
   loading: false,
+  userListLastLoaded: 1000,
   reinvitePendingUser: null,
   editUserFailure: false,
   userDetails

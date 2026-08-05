@@ -1,9 +1,14 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { EnvironmentService } from '../../../shared/services/environment.service';
+import { ENVIRONMENT_CONFIG } from '../../../models/environmentConfig.model';
 import { BeforeYouStartComponent } from './before-you-start.component';
+import { mockEnvironmentConfig } from '../../../shared/services/environment.service.spec';
 
 describe('BeforeYouStartComponent', () => {
   let component: BeforeYouStartComponent;
@@ -17,13 +22,13 @@ describe('BeforeYouStartComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [BeforeYouStartComponent],
-      imports: [
-        HttpClientTestingModule,
-        RouterTestingModule
-      ],
+      imports: [RouterTestingModule, ReactiveFormsModule, ExuiCommonLibModule],
       providers: [
         EnvironmentService,
-        { provide: Router, useValue: mockRouter }
+        { provide: ENVIRONMENT_CONFIG, useValue: mockEnvironmentConfig },
+        { provide: Router, useValue: mockRouter },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
       ]
     })
       .compileComponents();

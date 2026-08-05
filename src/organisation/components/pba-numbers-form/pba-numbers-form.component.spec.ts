@@ -10,6 +10,7 @@ import { of } from 'rxjs';
 
 import { OrganisationDetails } from '../../../models/organisation.model';
 import { PbaNumbersFormComponent } from './pba-numbers-form.component';
+import { AppConstants } from '../../../app/app.constants';
 
 const storeMock = {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -18,16 +19,14 @@ const storeMock = {
   dispatch: () => { }
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let pipeSpy: jasmine.Spy;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let dispatchSpy: jasmine.Spy;
 
 const mockOrganisationDetails: OrganisationDetails = {
   name: 'A Firm',
   organisationIdentifier: 'A111111',
   organisationProfileIds: [
-    'SOLICITOR_PROFILE'
+    AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE
   ],
   contactInformation: [{
     addressLine1: '123 Street',

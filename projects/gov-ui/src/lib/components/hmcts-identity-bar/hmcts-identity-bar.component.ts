@@ -3,7 +3,8 @@ import { Component, Input, OnInit } from '@angular/core';
 @Component({
     selector: 'app-hmcts-identity-bar',
     templateUrl: './hmcts-identity-bar.component.html',
-    styleUrls: ['./hmcts-identity-bar.component.scss']
+    styleUrls: ['./hmcts-identity-bar.component.scss'],
+    standalone: false
 })
 export class HmctsIdentityBarComponent {
 

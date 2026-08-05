@@ -1,3 +1,4 @@
+import { AppConstants } from '../../../app/app.constants';
 import { OrganisationDetails } from '../../../models';
 import {
   LoadOrganisation,
@@ -21,7 +22,7 @@ describe('LoadOrganisationSuccess', () => {
       name: 'a@b.com',
       organisationIdentifier: 'A111111',
       organisationProfileIds: [
-        'SOLICITOR_PROFILE'
+        AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE
       ],
       contactInformation: [{
         addressLine1: '10  oxford street',

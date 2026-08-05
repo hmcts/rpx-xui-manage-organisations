@@ -3,10 +3,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { Store } from '@ngrx/store';
-import { provideMockStore } from '@ngrx/store/testing';
+import { buildMockStoreProviders } from '../../../register-org/testing/mock-store-state';
 import { of } from 'rxjs';
 import { CaaCasesState } from '../../store/reducers';
 import { CaseShareComponent } from './case-share.component';
+import { CaaCasesPageType } from '../../models/caa-cases.enum';
+import * as fromCasesFeature from '../../store';
 
 describe('CaseShareComponent', () => {
   let component: CaseShareComponent;
@@ -34,7 +36,7 @@ describe('CaseShareComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [CaseShareComponent],
       providers: [
-        provideMockStore(),
+        ...buildMockStoreProviders(),
         {
           provide: FeatureToggleService,
           useValue: mockFeatureToggleService
@@ -61,6 +63,26 @@ describe('CaseShareComponent', () => {
   it('should synchronize to store', () => {
     component.synchronizeStore(sharedCases);
     expect(dispatchSpy).toHaveBeenCalled();
+  });
+
+  it('should dispatch unassigned case share actions', () => {
+    component.pageType = CaaCasesPageType.UnassignedCases;
+
+    component.deselect(sharedCases);
+    component.synchronizeStore(sharedCases);
+
+    expect(dispatchSpy).toHaveBeenCalledWith(jasmine.any(fromCasesFeature.DeleteAShareUnassignedCase));
+    expect(dispatchSpy).toHaveBeenCalledWith(jasmine.any(fromCasesFeature.SynchronizeStateToStoreUnassignedCases));
+  });
+
+  it('should dispatch assigned case share actions', () => {
+    component.pageType = CaaCasesPageType.AssignedCases;
+
+    component.deselect(sharedCases);
+    component.synchronizeStore(sharedCases);
+
+    expect(dispatchSpy).toHaveBeenCalledWith(jasmine.any(fromCasesFeature.DeleteAShareAssignedCase));
+    expect(dispatchSpy).toHaveBeenCalledWith(jasmine.any(fromCasesFeature.SynchronizeStateToStoreAssignedCases));
   });
 
   afterEach(() => {

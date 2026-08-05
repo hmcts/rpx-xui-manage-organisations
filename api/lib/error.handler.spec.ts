@@ -2,7 +2,7 @@ import * as chai from 'chai';
 import { expect } from 'chai';
 import 'mocha';
 import * as sinon from 'sinon';
-import * as sinonChai from 'sinon-chai';
+import sinonChai from 'sinon-chai';
 import { mockReq, mockRes } from 'sinon-express-mock';
 import { propsExist } from './objectUtilities';
 
@@ -11,15 +11,16 @@ chai.use(sinonChai);
 import * as errorHandler from './error.handler';
 
 describe('errorHandler', () => {
-  let next;
   let sandbox;
   let req;
   let res;
+  let next;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    next = sandbox.spy();
     res = mockRes();
+    res.headersSent = false;
+    next = sandbox.spy();
     req = mockReq({
       cookies: [],
       headers: [],
@@ -44,7 +45,6 @@ describe('errorHandler', () => {
       }
     };
     errorHandler.default(err, req, res, next);
-    // eslint-disable-next-line no-unused-expressions
     expect(propsExist(err, ['config', 'headers'])).to.be.false;
   });
 
@@ -75,7 +75,19 @@ describe('errorHandler', () => {
       }
     };
     errorHandler.default(err, req, res, next);
-    // eslint-disable-next-line no-unused-expressions
     expect(propsExist(err, ['request', '_header'])).to.be.false;
+  });
+
+  it('should delegate when headers have already been sent', () => {
+    const err = {
+      status: 500
+    };
+    res.headersSent = true;
+
+    errorHandler.default(err, req, res, next);
+
+    expect(next).to.have.been.calledWith(err);
+    expect(res.status).not.to.have.been.called;
+    expect(res.send).not.to.have.been.called;
   });
 });

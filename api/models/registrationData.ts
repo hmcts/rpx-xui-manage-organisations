@@ -37,6 +37,7 @@ export type RegistrationData = {
     hasIndividualRegisteredWithRegulator: boolean;
     individualRegulators?: Regulator[];
     pbaNumbers: string[];
+    sraRegulated?: boolean;
 }
 
 export type RegistrationRequest = {
@@ -44,7 +45,7 @@ export type RegistrationRequest = {
     status?: string,
     statusMessage?: string,
     sraId?: string,
-    sraRegulated?: string,
+    sraRegulated?: boolean,
     companyNumber?: string,
     companyUrl?: string,
     superUser: {

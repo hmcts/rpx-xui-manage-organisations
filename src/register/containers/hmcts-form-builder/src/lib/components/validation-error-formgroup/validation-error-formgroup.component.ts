@@ -4,7 +4,8 @@ import { ValidationService } from '../../services/form-builder-validation.servic
 
 @Component({
   selector: 'app-validation-error-formgroup',
-  templateUrl: './validation-error-formgroup.component.html'
+  templateUrl: './validation-error-formgroup.component.html',
+  standalone: false
 })
 
 /**
@@ -24,12 +25,11 @@ export class ValidationErrorFormGroupComponent {
     @Input() group: FormGroup;
     @Input() validationErrorId;
 
-    constructor(private validationService: ValidationService) {}
+    constructor(private readonly validationService: ValidationService) {}
 
     /**
      * Is Form Group Invalid
      *
-     * TODO : Unit Test
      *
      * // @see ValidationService
      * // @param {FormGroup} formGroup

@@ -1,11 +1,11 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpErrorResponse, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TableConfig } from '@hmcts/ccd-case-ui-toolkit';
-import { Store, StoreModule } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import * as fromOrganisationStore from '../../../organisation/store';
 import {
@@ -19,13 +19,13 @@ import { CaaCasesSessionState, CaaCasesSessionStateValue } from '../../models/ca
 import { CaaCasesService } from '../../services';
 import * as fromStore from '../../store';
 import { CaaCasesComponent } from './caa-cases.component';
+import { buildMockStoreProviders } from '../../../register-org/testing/mock-store-state';
 import { ROUTES as AppRoutes } from 'src/app/app.routes';
 
 describe('CaaCasesComponent', () => {
   let component: CaaCasesComponent;
   let fixture: ComponentFixture<CaaCasesComponent>;
   let store: Store<fromStore.CaaCasesState>;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let organisationStore: Store<fromOrganisationStore.OrganisationState>;
   let router: Router;
   let caaCasesService: jasmine.SpyObj<CaaCasesService>;
@@ -51,15 +51,16 @@ describe('CaaCasesComponent', () => {
       ]
     );
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-        RouterTestingModule.withRoutes(AppRoutes),
-        HttpClientTestingModule
-      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [CaaCasesComponent],
+      imports: [
+        RouterTestingModule.withRoutes(AppRoutes)
+      ],
       providers: [
-        { provide: CaaCasesService, useValue: caaCasesService }
+        { provide: CaaCasesService, useValue: caaCasesService },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+        ...buildMockStoreProviders()
       ]
     }).compileComponents();
   }));
@@ -122,6 +123,7 @@ describe('CaaCasesComponent', () => {
     const storeDispatchMock = spyOn(store, 'dispatch');
     const storePipeMock = spyOn(store, 'pipe');
     const storeSelectMock = spyOn(store, 'select');
+    storeDispatchMock.and.returnValue(null);
     storePipeMock.and.returnValue(of({}));
     storeSelectMock.and.returnValue(of({}));
     component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
@@ -146,6 +148,7 @@ describe('CaaCasesComponent', () => {
   it('should load case data only when case type is set', () => {
     const storeDispatchMock = spyOn(store, 'dispatch');
     const storePipeMock = spyOn(store, 'pipe');
+    storeDispatchMock.and.returnValue(null);
     storePipeMock.and.returnValue(of({}));
     component.currentCaseType = 'FinancialRemedyConsented';
     component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
@@ -157,6 +160,7 @@ describe('CaaCasesComponent', () => {
   it('should not load case data only when case type is not set', () => {
     const storeDispatchMock = spyOn(store, 'dispatch');
     const storePipeMock = spyOn(store, 'pipe');
+    storeDispatchMock.and.returnValue(null);
     storePipeMock.and.returnValue(of({}));
     component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
     component.loadDataFromStore();
@@ -249,5 +253,152 @@ describe('CaaCasesComponent', () => {
     caaCasesService.retrieveSessionState.and.returnValue(sessionState.value);
     component.storeSessionState();
     expect(caaCasesService.storeSessionState).toHaveBeenCalled();
+  });
+
+  it('should submit assigned and unassigned share cases', () => {
+    const storeDispatchMock = spyOn(store, 'dispatch');
+    component.currentCaseType = 'Asylum';
+    component.selectedAssignedCases = [{ case_id: '1', case_title: 'Assigned case' }];
+    component.selectedUnassignedCases = [{ case_id: '2', case_title: 'Unassigned case' }];
+
+    component.shareAssignedCaseSubmit();
+    component.shareUnassignedCaseSubmit();
+
+    expect(storeDispatchMock).toHaveBeenCalledWith(jasmine.any(fromStore.AddShareAssignedCases));
+    expect(storeDispatchMock).toHaveBeenCalledWith(jasmine.any(fromStore.AddShareUnassignedCases));
+  });
+
+  it('should synchronize selected cases for assigned and unassigned pages', () => {
+    const storeDispatchMock = spyOn(store, 'dispatch');
+    const selectedCases = [{ case_id: '1', case_title: 'Selected case' }];
+    component.currentCaseType = 'Asylum';
+
+    component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
+    component.onCaseSelection(selectedCases);
+    expect(component.selectedUnassignedCases).toEqual(selectedCases);
+    expect(storeDispatchMock).toHaveBeenCalledWith(jasmine.any(fromStore.SynchronizeStateToStoreUnassignedCases));
+
+    component.caaCasesPageType = CaaCasesPageType.AssignedCases;
+    component.onCaseSelection(selectedCases);
+    expect(component.selectedAssignedCases).toEqual(selectedCases);
+    expect(storeDispatchMock).toHaveBeenCalledWith(jasmine.any(fromStore.SynchronizeStateToStoreAssignedCases));
+  });
+
+  it('should update tab and pagination state', () => {
+    spyOn(component as any, 'setTabItems');
+    component.navItems = [
+      { text: 'Asylum', total: 7 },
+      { text: 'Civil', total: 3 }
+    ];
+
+    component.tabChanged({ tab: { textLabel: 'Civil' } });
+    expect(component.totalCases).toEqual(3);
+    expect((component as any).setTabItems).toHaveBeenCalledWith('Civil', true);
+
+    component.tabChanged({ tab: { textLabel: 'Unknown' } });
+    expect(component.totalCases).toEqual(0);
+
+    spyOn(component, 'loadDataFromStore');
+    component.onPaginationHandler(4);
+    expect(component.currentPageNo).toEqual(4);
+    expect(component.loadDataFromStore).toHaveBeenCalled();
+  });
+
+  it('should return result counts and pagination bounds', () => {
+    component.totalCases = 51;
+    component.currentPageNo = 2;
+    component.paginationPageSize = 25;
+
+    expect(component.hasResults()).toEqual(51);
+    expect(component.getFirstResult()).toEqual(26);
+    expect(component.getLastResult()).toEqual(50);
+    expect(component.getTotalResults()).toEqual(51);
+
+    component.currentPageNo = 3;
+    expect(component.getLastResult()).toEqual(51);
+  });
+
+  it('should toggle filter text for unassigned and assigned pages', () => {
+    component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
+    component.caaShowHideFilterButtonText = CaaCasesShowHideFilterButtonText.UnassignedCasesShow;
+    component.toggleFilterSection();
+    expect(component.caaShowHideFilterButtonText).toEqual(CaaCasesShowHideFilterButtonText.UnassignedCasesHide);
+    component.toggleFilterSection();
+    expect(component.caaShowHideFilterButtonText).toEqual(CaaCasesShowHideFilterButtonText.UnassignedCasesShow);
+
+    component.caaCasesPageType = CaaCasesPageType.AssignedCases;
+    component.caaShowHideFilterButtonText = CaaCasesShowHideFilterButtonText.AssignedCasesShow;
+    component.toggleFilterSection();
+    expect(component.caaShowHideFilterButtonText).toEqual(CaaCasesShowHideFilterButtonText.AssignedCasesHide);
+    component.toggleFilterSection();
+    expect(component.caaShowHideFilterButtonText).toEqual(CaaCasesShowHideFilterButtonText.AssignedCasesShow);
+  });
+
+  it('should load assigned case data from store', () => {
+    const storeDispatchMock = spyOn(store, 'dispatch');
+    spyOn(store, 'pipe').and.returnValue(of([]));
+    const routerUrlPropertySpy = spyOnProperty(router, 'url', 'get').and.returnValue('/assigned-cases');
+    component.currentCaseType = 'Asylum';
+    component.caaCasesPageType = CaaCasesPageType.AssignedCases;
+
+    component.loadDataFromStore();
+
+    expect(storeDispatchMock).toHaveBeenCalledWith(jasmine.any(fromStore.LoadAssignedCases));
+    expect(component.noCasesFoundMessage).toEqual(component.getNoCasesFoundMessage());
+    routerUrlPropertySpy.and.callThrough();
+  });
+
+  it('should handle empty case types and reset current tab', () => {
+    spyOn(component, 'loadDataFromStore');
+    component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
+    component.tabGroup = { selectedIndex: 2 } as any;
+
+    (component as any).fixCurrentTab([]);
+    expect(component.totalCases).toEqual(0);
+    expect(component.noCasesFoundMessage).toEqual(component.getNoCasesFoundMessage());
+
+    (component as any).fixCurrentTab([{ text: 'Asylum', total: 4 }]);
+    expect(component.totalCases).toEqual(4);
+    expect(component.currentCaseType).toEqual('Asylum');
+    expect(component.tabGroup.selectedIndex).toEqual(0);
+    expect(component.loadDataFromStore).toHaveBeenCalled();
+  });
+
+  it('should handle session state edge cases and selected filter values', () => {
+    spyOn(component, 'toggleFilterSection');
+    component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
+    caaCasesService.retrieveSessionState.and.returnValue(null);
+    component.retrieveSessionState();
+    expect(component.toggleFilterSection).not.toHaveBeenCalled();
+
+    caaCasesService.retrieveSessionState.and.returnValue({ filterType: null } as any);
+    component.retrieveSessionState();
+    expect(component.selectedFilterType).toBeNull();
+
+    caaCasesService.retrieveSessionState.and.returnValue({
+      filterType: CaaCasesFilterType.CaseReferenceNumber,
+      caseReferenceNumber: '1234567812345678',
+      assigneeName: null
+    });
+    component.retrieveSessionState();
+    expect(component.selectedFilterValue).toEqual('1234567812345678');
+
+    component.caaCasesPageType = CaaCasesPageType.AssignedCases;
+    caaCasesService.retrieveSessionState.and.returnValue({
+      filterType: CaaCasesFilterType.CaseReferenceNumber,
+      caseReferenceNumber: '8765432187654321',
+      assigneeName: null
+    });
+    component.retrieveSessionState();
+    expect(component.selectedFilterValue).toEqual('8765432187654321');
+  });
+
+  it('should set errors and track repeated display items', () => {
+    const errors = [{ title: '', description: 'Problem', fieldId: 'field' }];
+    component.onErrorMessages(errors);
+    expect(component.errorMessages).toEqual(errors);
+    expect(component.isAnyError()).toBe(true);
+    expect(component.trackByCaaErrorMessage(0, errors[0])).toEqual('field|Problem#0');
+    expect(component.trackByNavItem(1, { id: 'tab-id', text: 'Asylum' })).toEqual('tab-id|Asylum#1');
   });
 });

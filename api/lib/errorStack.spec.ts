@@ -1,7 +1,7 @@
 import * as chai from 'chai';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
-import * as sinonChai from 'sinon-chai';
+import sinonChai from 'sinon-chai';
 import { mockReq, mockRes } from 'sinon-express-mock';
 import * as errorStack from './errorStack';
 
@@ -28,7 +28,6 @@ describe('errorStack', () => {
     // Check for deep equality rather than strict;
     // it would fail strict equality because the returned object is not the same instance, though identical
     expect(req.session.errorStack).to.deep.equal([]);
-    // eslint-disable-next-line no-unused-expressions
     expect(next).to.be.called;
   });
 

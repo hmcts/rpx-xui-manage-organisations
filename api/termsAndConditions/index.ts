@@ -3,29 +3,29 @@ import { getConfigValue } from '../configuration';
 import { SERVICES_TERMS_AND_CONDITIONS_API_PATH } from '../configuration/references';
 import { application } from '../lib/config/application.config';
 import { getTermsAndConditionsUrl } from './termsAndConditionsUtil';
-import { objectContainsOnlySafeCharacters } from '../lib/util';
+import { objectContainsOnlySafeCharacters, valueOrNull } from '../lib/util';
 
 async function getTermsAndConditions(req: Request, res: Response) {
   let errReport: any;
   try {
     const apiUrl = getTermsAndConditionsUrl(getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH), application.idamClient);
     const response = await req.http.get(apiUrl);
-    const responseData = response.data;
-    if (!objectContainsOnlySafeCharacters(responseData)) {
-      return res.send('Invalid terms and condition data').status(400);
+    if (!objectContainsOnlySafeCharacters(response.data)) {
+      return res.status(400).send('Invalid terms and condition data');
     }
-    res.send(responseData);
+    res.send(response.data);
   } catch (error) {
-    if (error.status === 404) {
+    const status = Number(valueOrNull(error, 'status')) || 500;
+    if (status === 404) {
       res.send(null);
       return;
     }
     errReport = {
-      apiError: error.data.message,
-      apiStatusCode: error.status,
+      apiError: valueOrNull(error, 'data.message'),
+      apiStatusCode: status,
       message: 'Terms and Conditions route error'
     };
-    res.status(error.status).send(errReport);
+    res.status(status).send(errReport);
   }
 }
 

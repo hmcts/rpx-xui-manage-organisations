@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 
-const Tree = function(container) {
+const Tree = function (container) {
   this.container = container;
   this.items = container.find('.jui-tree__item');
   this.links = container.find('.jui-tree__doc-link');
@@ -26,67 +26,80 @@ const Tree = function(container) {
   this.container.on('click', '[role=treeitem]', $.proxy(this, 'onTreeItemClick'));
 };
 
-Tree.prototype.onTreeItemKeydown = function(e) {
+Tree.prototype.onTreeItemKeydown = function (e) {
   const item = $(e.currentTarget);
-  let newItem;
 
   switch (e.keyCode) {
     case this.keys.enter:
     case this.keys.space:
-      if (item.hasClass('jui-tree__item')) {
-        if (item.hasClass('jui-tree__item--open')) {
-          item.removeClass('jui-tree__item--open');
-        } else {
-          item.addClass('jui-tree__item--open');
-        }
-        e.preventDefault();
-      } else {
-        e.stopPropagation(); // We don’t want clicking on a child to fire on the parent
-      }
+      this.toggleTreeItem(item, e);
       break;
+
     case this.keys.right:
-      if (item.hasClass('jui-tree__item')) {
-        item.addClass('jui-tree__item--open');
-      }
-      e.preventDefault();
-      e.stopPropagation(); // We don’t want clicking on a child to fire on the parent
+      this.openTreeItem(item, e);
       break;
+
     case this.keys.left:
-      if (item.hasClass('jui-tree__item')) {
-        item.removeClass('jui-tree__item--open');
-      } else {
-        const parent = item.parents('[role=treeitem]');
-        parent.attr('tabindex', '0');
-        parent.focus();
-        item.attr('tabindex', '-1');
-        e.stopPropagation(); // We don’t want clicking on a child to fire on the parent
-      }
-      e.preventDefault();
+      this.closeOrFocusParent(item, e);
       break;
+
     case this.keys.down:
-      newItem = this.getNextItem();
-      if (newItem[0]) {
-        item.attr('tabindex', '-1');
-        newItem.attr('tabindex', '0');
-        newItem.focus();
-        e.stopPropagation(); // We don’t want clicking on a child to fire on the parent
-      }
-      e.preventDefault();
+      this.focusTreeItem(item, this.getNextItem(), e);
       break;
+
     case this.keys.up:
-      newItem = this.getPreviousItem();
-      if (newItem[0]) {
-        item.attr('tabindex', '-1');
-        newItem.attr('tabindex', '0');
-        newItem.focus();
-        e.stopPropagation(); // We don’t want clicking on a child to fire on the parent
-      }
-      e.preventDefault();
+      this.focusTreeItem(item, this.getPreviousItem(), e);
       break;
   }
 };
 
-Tree.prototype.onTreeItemClick = function(e) {
+Tree.prototype.toggleTreeItem = function (item, e) {
+  if (!item.hasClass('jui-tree__item')) {
+    e.stopPropagation();
+    return;
+  }
+
+  item.toggleClass('jui-tree__item--open');
+  e.preventDefault();
+};
+
+Tree.prototype.openTreeItem = function (item, e) {
+  if (item.hasClass('jui-tree__item')) {
+    item.addClass('jui-tree__item--open');
+  }
+
+  e.preventDefault();
+  e.stopPropagation();
+};
+
+Tree.prototype.closeOrFocusParent = function (item, e) {
+  if (item.hasClass('jui-tree__item')) {
+    item.removeClass('jui-tree__item--open');
+  } else {
+    const parent = item.parents('[role=treeitem]');
+    parent.attr('tabindex', '0');
+    parent.focus();
+    item.attr('tabindex', '-1');
+    e.stopPropagation();
+  }
+
+  e.preventDefault();
+};
+
+Tree.prototype.focusTreeItem = function (item, newItem, e) {
+  if (!newItem[0]) {
+    e.preventDefault();
+    return;
+  }
+
+  item.attr('tabindex', '-1');
+  newItem.attr('tabindex', '0');
+  newItem.focus();
+  e.stopPropagation();
+  e.preventDefault();
+};
+
+Tree.prototype.onTreeItemClick = function (e) {
   const current = this.container.find('[tabindex="0"]');
   const item = $(e.currentTarget);
 
@@ -103,7 +116,7 @@ Tree.prototype.onTreeItemClick = function(e) {
   item.attr('tabindex', '0');
 };
 
-Tree.prototype.getNextItem = function() {
+Tree.prototype.getNextItem = function () {
   const current = this.container.find('[tabindex="0"]');
   let next = null;
   if (current.hasClass('jui-tree__item')) {
@@ -124,7 +137,7 @@ Tree.prototype.getNextItem = function() {
   return next;
 };
 
-Tree.prototype.getPreviousItem = function() {
+Tree.prototype.getPreviousItem = function () {
   const current = this.container.find('[tabindex="0"]');
   let prev = null;
 
@@ -139,7 +152,7 @@ Tree.prototype.getPreviousItem = function() {
         prev = previousFolder;
       }
     }
-  // Child
+    // Child
   } else {
     prev = current.parent('.jui-tree__doc').prev('.jui-tree__doc').find('[role=treeitem]');
     if (!prev[0]) {
@@ -149,12 +162,12 @@ Tree.prototype.getPreviousItem = function() {
   return prev;
 };
 
-Tree.prototype.show = function(item) {
+Tree.prototype.show = function (item) {
   item.addClass('jui-tree__item--open');
   item.attr('aria-expanded', 'true');
 };
 
-Tree.prototype.hide = function(item) {
+Tree.prototype.hide = function (item) {
   item.removeClass('jui-tree__item--open');
   item.attr('aria-expanded', 'false');
 };

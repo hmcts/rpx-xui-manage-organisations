@@ -3,22 +3,28 @@ import { AppConstants } from '../../../app/app.constants';
 import { AppUtils } from '../../../app/utils/app-utils';
 import * as fromUsers from '../actions/user.actions';
 
+export const USER_LIST_CACHE_DURATION_MS = 5 * 60 * 1000;
+
 export interface UsersListState {
   userList: User[];
   loaded: boolean;
   loading: boolean;
+  userListLastLoaded: number;
   reinvitePendingUser: User;
   editUserFailure: boolean;
   userDetails: User;
+  loadUserListNeeded?: boolean;
 }
 
 export const initialState: UsersListState = {
   userList: [] as User[],
   loaded: false,
   loading: false,
+  userListLastLoaded: 0,
   reinvitePendingUser: null,
   editUserFailure: false,
-  userDetails: null
+  userDetails: null,
+  loadUserListNeeded: false
 };
 
 export function reducer(
@@ -26,8 +32,26 @@ export function reducer(
   action: fromUsers.UserActions
 ): UsersListState {
   switch (action.type) {
-    case fromUsers.LOAD_USERS:
-    case fromUsers.LOAD_ALL_USERS_NO_ROLE_DATA: {
+    case fromUsers.CHECK_USER_LIST_LOADED: {
+      const cacheExpired = state.loaded && state.userListLastLoaded > 0 &&
+        action.payload.currentTime - state.userListLastLoaded >= USER_LIST_CACHE_DURATION_MS;
+      const hasNoCachedUserList = !state.loaded || state.userListLastLoaded === 0;
+      return {
+        ...state,
+        loadUserListNeeded: !state.loading && (hasNoCachedUserList || cacheExpired)
+      };
+    }
+
+    case fromUsers.INVALIDATE_USER_LIST_CACHE: {
+      return {
+        ...state,
+        loaded: false,
+        userListLastLoaded: 0,
+        loadUserListNeeded: true
+      };
+    }
+
+    case fromUsers.LOAD_USERS: {
       const userList = [];
       return {
         ...state,
@@ -36,8 +60,17 @@ export function reducer(
       };
     }
 
+    case fromUsers.LOAD_ALL_USERS_NO_ROLE_DATA: {
+      return {
+        ...state,
+        loading: true,
+        loadUserListNeeded: false
+      };
+    }
+
     case fromUsers.LOAD_USERS_SUCCESS:
     case fromUsers.LOAD_ALL_USERS_NO_ROLE_DATA_SUCCESS: {
+      const shouldCacheUserList = action.type === fromUsers.LOAD_ALL_USERS_NO_ROLE_DATA_SUCCESS;
       const payload = action.payload ? action.payload.users : null;
 
       const userListPayload = payload.map((item) => {
@@ -66,16 +99,25 @@ export function reducer(
         ...state,
         userList,
         loaded: true,
-        loading: false
+        loading: false,
+        userListLastLoaded: shouldCacheUserList ? Date.now() : state.userListLastLoaded,
+        loadUserListNeeded: shouldCacheUserList ? false : state.loadUserListNeeded
       };
     }
 
-    case fromUsers.LOAD_USERS_FAIL:
-    case fromUsers.LOAD_ALL_USERS_NO_ROLE_DATA_FAIL: {
+    case fromUsers.LOAD_USERS_FAIL: {
       return {
         ...state,
         loading: false,
         loaded: false
+      };
+    }
+
+    case fromUsers.LOAD_ALL_USERS_NO_ROLE_DATA_FAIL: {
+      return {
+        ...state,
+        loading: false,
+        loaded: state.loaded
       };
     }
 
@@ -113,7 +155,8 @@ export function reducer(
     case fromUsers.INVITE_NEW_USER: {
       return {
         ...state,
-        reinvitePendingUser: null
+        reinvitePendingUser: null,
+        userDetails: null
       };
     }
 
@@ -187,3 +230,4 @@ export const getUsersLoaded = (state: UsersListState) => state.loaded;
 export const getReinvitePendingUser = (state: UsersListState) => state.reinvitePendingUser;
 export const getEditUserFailure = (state: UsersListState) => state.editUserFailure;
 export const getUserDetails = (state: UsersListState) => state.userDetails;
+export const getLoadUserListNeeded = (state: UsersListState) => state.loadUserListNeeded;

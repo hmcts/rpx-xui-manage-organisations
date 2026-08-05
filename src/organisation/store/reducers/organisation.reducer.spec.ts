@@ -37,6 +37,44 @@ describe('OrganisationReducer', () => {
     });
   });
 
+  describe('LOAD_ORGANISATION_SUCCESS action', () => {
+    it('should populate organisation details and mark the state as loaded', () => {
+      const previousState = {
+        ...fromOrganisation.initialState,
+        organisationDetails: {
+          organisationProfileIds: ['old-profile']
+        } as any
+      };
+      const action = new fromActions.LoadOrganisationSuccess({
+        organisationIdentifier: 'ORG1',
+        name: 'Test Org',
+        paymentAccount: ['PBA1234567']
+      } as any);
+
+      const state = fromOrganisation.reducer(previousState, action);
+
+      expect(state.loaded).toBeTrue();
+      expect(state.organisationDetails.organisationProfileIds).toEqual(['old-profile']);
+      expect(state.organisationDetails.paymentAccount).toEqual([{ pbaNumber: 'PBA1234567' }]);
+    });
+  });
+
+  describe('ORGANISATION_UPDATE_PROFILE_IDS action', () => {
+    it('should merge and de-duplicate organisation profile ids', () => {
+      const previousState = {
+        ...fromOrganisation.initialState,
+        organisationDetails: {
+          organisationProfileIds: ['A', 'B']
+        } as any
+      };
+      const action = new fromActions.OrganisationUpdateUpdateProfileIds(['B', 'C']);
+
+      const state = fromOrganisation.reducer(previousState, action);
+
+      expect(state.organisationDetails.organisationProfileIds).toEqual(['A', 'B', 'C']);
+    });
+  });
+
   /* TO DO - fix the unit test
   // success
   describe('LOAD_ORGANISATION_SUCCESS action', () => {

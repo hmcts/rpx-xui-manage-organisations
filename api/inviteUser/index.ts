@@ -31,4 +31,25 @@ export async function inviteUserRoute(req: Request, res: Response) {
     res.status(status).send(errReport);
   }
 }
+
+export async function inviteUserRouteOGD(req: Request) {
+  const payload = req.body.userPayload;
+  try {
+    const rdProfessionalApiPath = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH);
+    const reqUrl = getRefdataUserCommonUrlUtil(rdProfessionalApiPath);
+    logger.info('INVITE USER OGD: request URL:: ', reqUrl);
+    const response = await req.http.post(reqUrl, payload);
+    logger.info('response::', response.data);
+    return (response.data);
+  } catch (error) {
+    logger.error('error', error);
+    const ogdStatus = exists(error, 'status') ? error.status : 500;
+    const ogdErrReport = {
+      apiError: valueOrNull(error, 'data.errorMessage'),
+      apiStatusCode: ogdStatus,
+      message: valueOrNull(error, 'data.errorDescription')
+    };
+    throw (ogdErrReport);
+  }
+}
 export default router;

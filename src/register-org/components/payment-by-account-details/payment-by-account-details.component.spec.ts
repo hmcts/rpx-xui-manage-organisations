@@ -1,10 +1,16 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EnvironmentService } from '../../../shared/services/environment.service';
+import { ENVIRONMENT_CONFIG } from '../../../models/environmentConfig.model';
 import { PaymentByAccountDetailsComponent } from './payment-by-account-details.component';
+import { buildMockStoreProviders } from '../../testing/mock-store-state';
+import { mockEnvironmentConfig } from '../../../shared/services/environment.service.spec';
+// provideHttpClient imported above
 
 describe('PaymentByAccountDetailsComponent', () => {
   let component: PaymentByAccountDetailsComponent;
@@ -18,14 +24,14 @@ describe('PaymentByAccountDetailsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [PaymentByAccountDetailsComponent],
-      imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-        ReactiveFormsModule
-      ],
+      imports: [RouterTestingModule, ReactiveFormsModule, ExuiCommonLibModule],
       providers: [
         EnvironmentService,
-        { provide: Router, useValue: mockRouter }
+        { provide: ENVIRONMENT_CONFIG, useValue: mockEnvironmentConfig },
+        { provide: Router, useValue: mockRouter },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+        ...buildMockStoreProviders()
       ]
     })
       .compileComponents();
@@ -69,6 +75,47 @@ describe('PaymentByAccountDetailsComponent', () => {
     component.onContinue();
     const actualErrors = component.validationErrors.filter((item) => item.message !== '');
     expect(actualErrors.length).toEqual(4);
+  });
+
+  it('should hydrate existing pending PBA numbers', () => {
+    component.registrationData.pbaNumbers = ['PBA1234567'];
+    component.pbaNumbers.clear();
+
+    (component as any).hydratePbaFormFromExistingPendingAddPbas();
+
+    expect(component.pbaNumbers.length).toEqual(1);
+    expect(component.pbaNumbers.controls[0].get('pbaNumber').value).toEqual('PBA1234567');
+  });
+
+  it('should format and save valid pba numbers on continue', () => {
+    component.pbaNumbers.controls[0].get('pbaNumber').setValue('1234567');
+    component.onAddNewPBANumber();
+    component.pbaNumbers.controls[1].get('pbaNumber').setValue('');
+
+    component.onContinue();
+
+    expect(component.registrationData.pbaNumbers).toEqual(['PBA1234567']);
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'contact-details']);
+  });
+
+  it('should return existing pba error when noneOf validation error is present', () => {
+    const pbaControl = component.pbaNumbers.controls[0].get('pbaNumber');
+    pbaControl.setErrors({ noneOf: true });
+
+    expect((component as any).getValidationError(component.pbaNumbers.controls[0])).toEqual('This PBA number is already associated to your organisation');
+  });
+
+  it('should return no validation error for a valid control', () => {
+    component.pbaNumbers.controls[0].get('pbaNumber').setValue('PBA1234567');
+
+    expect((component as any).getValidationError(component.pbaNumbers.controls[0])).toEqual('');
+  });
+
+  it('should track pba controls by current value and fall back to index', () => {
+    component.pbaNumbers.controls[0].get('pbaNumber').setValue('PBA1234567');
+
+    expect(component.trackByPbaControl(0, component.pbaNumbers.controls[0])).toEqual('PBA1234567#0');
+    expect(component.trackByPbaControl(1, null)).toEqual(1);
   });
 
   it('should back link navigate to the check your answers page', () => {

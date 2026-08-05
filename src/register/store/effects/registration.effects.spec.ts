@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { addMatchers, cold, hot, initTestScheduler } from 'jasmine-marbles';
@@ -8,6 +8,11 @@ import { RegistrationFormService } from '../../services/registration-form.servic
 import { LoadPageItemsSuccess } from '../actions';
 import { LoadPageItems, LoadPageItemsFail, SubmitFormData, SubmitFormDataFail, SubmitFormDataSuccess } from '../actions/registration.actions';
 import { RegistrationEffects } from './registration.effects';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+
+function createError(): Error {
+  return new Error();
+}
 
 describe('Registration Effects', () => {
   let actions$;
@@ -22,7 +27,7 @@ describe('Registration Effects', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         {
           provide: RegistrationFormService,
@@ -33,7 +38,9 @@ describe('Registration Effects', () => {
           useValue: mockedLoggerService
         },
         RegistrationEffects,
-        provideMockActions(() => actions$)
+        provideMockActions(() => actions$),
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
       ]
     });
 
@@ -59,7 +66,7 @@ describe('Registration Effects', () => {
   describe('loadRegistrationForm$ error', () => {
     it('should return LoadOrganisationFail', waitForAsync(() => {
       const pageId = 'something';
-      mockedRegistrationFormService.getRegistrationForm.and.returnValue(throwError(new Error()));
+      mockedRegistrationFormService.getRegistrationForm.and.returnValue(throwError(createError));
       const action = new LoadPageItems(pageId);
       const completion = new LoadPageItemsFail(new Error());
       actions$ = hot('-a', { a: action });
@@ -81,7 +88,7 @@ describe('Registration Effects', () => {
 
     describe('postRegistrationFormData$ error', () => {
       it('should submit form data after and call LoadPageItemsFail', waitForAsync(() => {
-        mockedRegistrationFormService.submitRegistrationForm.and.returnValue(throwError(new Error()));
+        mockedRegistrationFormService.submitRegistrationForm.and.returnValue(throwError(createError));
         const action = new SubmitFormData({ somedata: 'string' });
         const completion = new SubmitFormDataFail(new Error());
         actions$ = hot('-a', { a: action });

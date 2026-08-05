@@ -6,19 +6,18 @@ import { FooterComponent } from './footer.component';
 describe('FooterComponent', () => {
   @Component({
     selector: 'app-host-dummy-component',
-    template: '<app-footer></app-footer>'
+    template: '<app-footer></app-footer>',
+    standalone: false
   })
   class TestDummyHostComponent {
     @ViewChild(FooterComponent, { static: true })
     public footerComponent: FooterComponent;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let testHostComponent: TestDummyHostComponent;
   let testHostFixture: ComponentFixture<TestDummyHostComponent>;
   let component: FooterComponent;
   let fixture: ComponentFixture<FooterComponent>;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let element: DebugElement;
 
   beforeEach(waitForAsync(() => {

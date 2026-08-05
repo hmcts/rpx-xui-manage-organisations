@@ -1,14 +1,17 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
 import { Router } from '@angular/router';
 import { OrganisationService, OrganisationServicesMessage } from '../../../register-org/models';
-import { ORGANISATION_SERVICES } from '../../constants/register-org-constants';
 import { RegisterComponent } from '../../containers/register/register-org.component';
 import { RegisterOrgService } from '../../services/register-org.service';
+import { organisationServices } from '../../Configuration/org-services/config';
+import { EnvironmentService } from '../../../shared/services/environment.service';
 
 @Component({
   selector: 'app-organisation-services-access',
-  templateUrl: './organisation-services-access.component.html'
+  templateUrl: './organisation-services-access.component.html',
+  standalone: false
 })
 export class OrganisationServicesAccessComponent extends RegisterComponent implements OnInit, OnDestroy {
   public readonly CATEGORY_SERVICE_ACCESS = 'Service';
@@ -22,7 +25,8 @@ export class OrganisationServicesAccessComponent extends RegisterComponent imple
   public showOtherServicesInput: boolean;
 
   constructor(public readonly router: Router,
-    public readonly registerOrgService: RegisterOrgService
+    public readonly registerOrgService: RegisterOrgService,
+    private readonly environmentService: EnvironmentService
   ) {
     super(router, registerOrgService);
   }
@@ -30,7 +34,10 @@ export class OrganisationServicesAccessComponent extends RegisterComponent imple
   public ngOnInit(): void {
     super.ngOnInit();
 
-    this.services = ORGANISATION_SERVICES;
+    this.services = organisationServices(
+      this.environmentService.get('environment'),
+      this.environmentService.get('idamWeb')
+    );
 
     this.servicesFormGroup = new FormGroup({
       services: new FormArray([]),
@@ -51,7 +58,7 @@ export class OrganisationServicesAccessComponent extends RegisterComponent imple
       const serviceIndex = this.selectedServices.findIndex((service) => service.key === event.target.value);
       this.selectedServices.splice(serviceIndex, 1);
     }
-    this.showOtherServicesInput = this.selectedServices.filter((service) => service.key === 'NONE').length > 0;
+    this.showOtherServicesInput = this.selectedServices.some((service) => service.key === 'NONE');
   }
 
   public onContinue(): void {
@@ -84,7 +91,9 @@ export class OrganisationServicesAccessComponent extends RegisterComponent imple
   private setFormControlValues(): void {
     this.selectedServices = this.registrationData.services;
     this.services.forEach((service) => {
-      service.selected = this.selectedServices.find((thisService) => thisService.key === service.key) !== undefined;
+      service.selected = this.selectedServices.some(
+        (thisService) => thisService.key === service.key
+      );
     });
     if (this.registrationData.otherServices) {
       this.showOtherServicesInput = true;
@@ -113,5 +122,10 @@ export class OrganisationServicesAccessComponent extends RegisterComponent imple
       this.otherServicesError = OrganisationServicesMessage.OTHER_SERVICES;
     }
     return this.validationErrors.length === 0;
+  }
+
+  // trackBy helper for services list
+  public trackByOrgService(index: number, service: OrganisationService): string | number {
+    return buildIdOrIndexKey(index, service as any, 'key', 'value');
   }
 }

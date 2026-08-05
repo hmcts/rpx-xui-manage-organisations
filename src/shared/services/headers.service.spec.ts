@@ -19,7 +19,6 @@ const cookieService = {
   removeAll: () => {}
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let deleteCookiesSpy;
 
 describe('HeadersService', () => {

@@ -6,18 +6,21 @@ import { Directive, ElementRef, OnInit } from '@angular/core';
 * sometimes needed because of CSS dependencies
 * */
 @Directive({
-  selector: '[appRemoveHost]'
+  selector: '[appRemoveHost]',
+  standalone: false
 })
 export class RemoveHostDirective implements OnInit {
-  constructor(private readonly el: ElementRef) {}
+  constructor(private readonly el: ElementRef) { }
 
   public ngOnInit(): void {
     const nativeElement: HTMLElement = this.el.nativeElement;
     const parentElement: HTMLElement = nativeElement.parentElement;
-    // move all children out of the element
+
+    // Move all children out of the element
     while (nativeElement.firstChild) {
       parentElement.insertBefore(nativeElement.firstChild, nativeElement);
     }
-    parentElement.removeChild(nativeElement);
+
+    nativeElement.remove();
   }
 }

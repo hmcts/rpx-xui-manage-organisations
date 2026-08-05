@@ -1,62 +1,82 @@
 <app-hmcts-main-wrapper [backLink]="'/organisation/update-pba-numbers'" [title]="title">
-  <div *ngIf="errors.length" class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
-    data-module="govuk-error-summary">
-    <h2 class="govuk-error-summary__title" id="error-summary-title">There is a problem</h2>
-    <div class="govuk-error-summary__body">
-      <ul class="govuk-list govuk-error-summary__list">
-        <li *ngFor="let error of errors">
-          <a routerLink="." [fragment]="'heading'"> {{error.headerError}}</a>
-        </li>
-      </ul>
+  @if (errors.length) {
+    <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
+      data-module="govuk-error-summary">
+      <h2 class="govuk-error-summary__title" id="error-summary-title">There is a problem</h2>
+      <div class="govuk-error-summary__body">
+        <ul class="govuk-list govuk-error-summary__list">
+          @for (error of errors; track trackByPbaError($index, error)) {
+            <li>
+              <a routerLink="." [fragment]="'heading'"> {{error.headerError}}</a>
+            </li>
+          }
+        </ul>
+      </div>
     </div>
-  </div>
+  }
   <table class="govuk-table">
     <tbody class="govuk-table__body">
       <!-- Accounts to be added -->
-      <tr class="govuk-table__row" *ngIf="organisationDetails.pendingAddPaymentAccount.length > 0">
-        <th class="govuk-table__header nowrap">Accounts to be added</th>
-        <td class="govuk-table__cell">
-          <div *ngFor="let pba of organisationDetails.pendingAddPaymentAccount">{{pba.pbaNumber}}
-            <div *ngIf="getError(pba)" style="color:red">
-                {{ getError(pba) }}
-            </div>
-          </div>
-          <div class="already-used-pba" *ngIf="alreadyUsedError">{{alreadyUsedError}}
-            <br />You should check that the PBA has been entered correctly.
-            If you're still having problems, contact HMCTS.
-          </div>
-        </td>
-        <td class="govuk-table__cell">
-          <a class="govuk-link fright" routerLink="/organisation/update-pba-numbers"
+      @if (organisationDetails.pendingAddPaymentAccount.length > 0) {
+        <tr class="govuk-table__row">
+          <th class="govuk-table__header nowrap">Accounts to be added</th>
+          <td class="govuk-table__cell">
+            @for (pba of organisationDetails.pendingAddPaymentAccount; track trackByPendingAddPba($index, pba)) {
+              <div>{{pba.pbaNumber}}
+                @if (getError(pba)) {
+                  <div style="color:red">
+                    {{ getError(pba) }}
+                  </div>
+                }
+              </div>
+            }
+            @if (alreadyUsedError) {
+              <div class="already-used-pba">{{alreadyUsedError}}
+                <br />You should check that the PBA has been entered correctly.
+                If you're still having problems, contact HMCTS.
+              </div>
+            }
+          </td>
+          <td class="govuk-table__cell">
+            <a class="govuk-link fright" routerLink="/organisation/update-pba-numbers"
             id="change-pending-add-pba-numbers__link" aria-label="Change PBA account numbers">Change</a>
-        </td>
-      </tr>
+          </td>
+        </tr>
+      }
 
       <!-- Accounts to be remove -->
-      <tr class="govuk-table__row" *ngIf="organisationDetails.pendingRemovePaymentAccount.length > 0">
-        <th class="govuk-table__header" scope="row">Accounts to be removed</th>
-        <td class="govuk-table__cell">
-          <div *ngFor="let pba of organisationDetails.pendingRemovePaymentAccount">{{pba.pbaNumber}}
-            <div *ngIf="getError(pba)" style="color:red">
-                {{ getError(pba) }}
-            </div>
-          </div>
-        </td>
-        <td class="govuk-table__cell">
-          <a class="govuk-link fright" routerLink="/organisation/update-pba-numbers"
+      @if (organisationDetails.pendingRemovePaymentAccount.length > 0) {
+        <tr class="govuk-table__row">
+          <th class="govuk-table__header" scope="row">Accounts to be removed</th>
+          <td class="govuk-table__cell">
+            @for (pba of organisationDetails.pendingRemovePaymentAccount; track trackByPendingRemovePba($index, pba)) {
+              <div>{{pba.pbaNumber}}
+                @if (getError(pba)) {
+                  <div style="color:red">
+                    {{ getError(pba) }}
+                  </div>
+                }
+              </div>
+            }
+          </td>
+          <td class="govuk-table__cell">
+            <a class="govuk-link fright" routerLink="/organisation/update-pba-numbers"
             id="change-pending-remove-pba-numbers__link" aria-label="Change PBA account numbers">Change</a>
-        </td>
-      </tr>
+          </td>
+        </tr>
+      }
     </tbody>
   </table>
 
-  <div class="govuk-warning-text" *ngIf="organisationDetails.pendingRemovePaymentAccount.length > 0">
-    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-    <strong class="govuk-warning-text__text">
-      <span class="govuk-warning-text__assistive">Warning</span>
-      You won't be able to use removed PBA accounts, unless they are verified again.
-    </strong>
-  </div>
+  @if (organisationDetails.pendingRemovePaymentAccount.length > 0) {
+    <div class="govuk-warning-text">
+      <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+      <strong class="govuk-warning-text__text">
+        <span class="govuk-warning-text__assistive">Warning</span>
+        You won't be able to use removed PBA accounts, unless they are verified again.
+      </strong>
+    </div>
+  }
 
   <div>
     <button type="submit" class="govuk-button" (click)="onSubmitClicked()">

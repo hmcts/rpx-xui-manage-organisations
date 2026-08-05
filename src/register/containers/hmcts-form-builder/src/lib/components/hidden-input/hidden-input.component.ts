@@ -3,7 +3,8 @@ import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-hidden-input',
-  templateUrl: './hidden-input.component.html'
+  templateUrl: './hidden-input.component.html',
+  standalone: false
 })
 export class HiddenInputComponent implements OnInit{
   @Input() public group: FormGroup;
@@ -12,7 +13,7 @@ export class HiddenInputComponent implements OnInit{
     classes: Array<string>
   };
 
-  @Input() public value; // TODO: Add type.
+  @Input() public value;
   public componentClasses: string;
 
   public ngOnInit(): void {

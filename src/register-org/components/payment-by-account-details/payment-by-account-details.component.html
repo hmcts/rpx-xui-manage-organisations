@@ -1,47 +1,55 @@
 <main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <a class="govuk-back-link" href="javascript:void(0)" (click)="onBack()">Back</a>
-      <xuilib-hmcts-error-summary *ngIf="displayErrorBanner" [errorMessages]="validationErrors" [header]="'There is a problem'">
-      </xuilib-hmcts-error-summary>
+      <button class="govuk-js-back-link xui-back-button-margin" (click)="onBack()">Back</button>
+      @if (displayErrorBanner) {
+        <xuilib-hmcts-error-summary [errorMessages]="validationErrors" [header]="'There is a problem'">
+        </xuilib-hmcts-error-summary>
+      }
       <span class="govuk-caption-xl">Register an organisation</span>
       <h1 class="govuk-heading-xl">
         What PBA numbers does your organisation use?
       </h1>
       <hr>
-      <form [formGroup]="pbaDetailsFormGroup">
-        <div class="govuk-!-margin-top-4" id="pba-numbers-container" formArrayName="pbaNumbers">
-          <div *ngFor="let pbaNumberCtrl of pbaNumbers.controls; let i = index">
-            <div [ngClass]="{'govuk-form-group--error': validationErrors[i]?.message?.length > 0}">
-              <div class="govuk-!-margin-bottom-6" [formGroupName]="i">
-                <label class="govuk-label govuk-!-font-weight-bold" for="pba-number-{{i}}">
-                  PBA number (Optional)
-                </label>
-                <p class="govuk-error-message" *ngIf="validationErrors[i]?.message?.length > 0">
-                  <span class="govuk-visually-hidden">Error:</span>{{validationErrors[i]?.message}}
-                </p>
-                <input class="govuk-input govuk-input--width-20" id="pba-number-{{i}}" type="text"
-                  name="pbaNumber" formControlName="pbaNumber">
-                <button *ngIf="pbaNumbers.controls.length > 1" (click)="onRemovePBANumber(i)"
-                  class="govuk-button govuk-button--secondary govuk-!-margin-left-4 govuk-!-margin-bottom-0">
-                  Remove
-                </button>
+        <form [formGroup]="pbaDetailsFormGroup">
+          <div class="govuk-!-margin-top-4" id="pba-numbers-container" formArrayName="pbaNumbers">
+            @for (pbaNumberCtrl of pbaNumbers.controls; track trackByPbaControl($index, pbaNumberCtrl); let i = $index) {
+              <div>
+                <div [ngClass]="{'govuk-form-group--error': validationErrors[i]?.message?.length > 0}">
+                  <div class="govuk-!-margin-bottom-6" [formGroupName]="i">
+                    <label class="govuk-label govuk-!-font-weight-bold" for="pba-number-{{i}}">
+                      PBA number (Optional)
+                    </label>
+                    @if (validationErrors[i]?.message?.length > 0) {
+                      <p class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span>{{validationErrors[i]?.message}}
+                      </p>
+                    }
+                    <input class="govuk-input govuk-input--width-20" id="pba-number-{{i}}" type="text"
+                      name="pbaNumber" formControlName="pbaNumber">
+                    @if (pbaNumbers.controls.length > 1) {
+                      <button (click)="onRemovePBANumber(i)"
+                        class="govuk-button govuk-button--secondary govuk-!-margin-left-4 govuk-!-margin-bottom-0">
+                        Remove
+                      </button>
+                    }
+                  </div>
+                </div>
               </div>
+            }
+            <div>
+              <button class="govuk-button govuk-button--secondary" (click)="onAddNewPBANumber()">
+                Add another PBA number
+              </button>
             </div>
           </div>
-          <div>
-            <button class="govuk-button govuk-button--secondary" (click)="onAddNewPBANumber()">
-              Add another PBA number
+          <div class="govuk-button-group">
+            <button class="govuk-button govuk-button--primary" data-module="govuk-button" (click)="onContinue()">
+              Continue
             </button>
+            <button class="govuk-js-link" (click)="onCancel()">Cancel</button>
           </div>
-        </div>
-        <div class="govuk-button-group">
-          <button class="govuk-button govuk-button--primary" data-module="govuk-button" (click)="onContinue()">
-            Continue
-          </button>
-          <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
-  </div>
-</main>
+  </main>

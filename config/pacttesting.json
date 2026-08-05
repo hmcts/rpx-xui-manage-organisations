@@ -1,6 +1,6 @@
 {
   "environment": "DEFAULT ENVIRONMENT",
-  "appInsightsInstrumentationKey": "AAA",
+  "appInsightsConnectionString": "AAA",
   "indexUrl": "/",
   "logging": "trace",
   "maxLogLine": 80,
@@ -19,7 +19,11 @@
     "s2s": "http://rpe-service-auth-provider-prod.service.core-compute-prod.internal",
     "termsAndConditions": "http://localhost:8995"
   },
-  "sessionSecret": ["mo-topSecret1","secretSauce"],
+  "secrets": {
+    "rpx": {
+      "mo-session-secret": "secretSauce"
+    }
+  },
   "jurisdictions": [ "SSCS", "AUTOTEST1", "DIVORCE", "PROBATE", "PUBLICLAW", "bulkscan", "BULKSCAN","IA", "EMPLOYMENT", "CMC" ],
   "feature": {
     "appInsightsEnabled": true,
@@ -28,6 +32,7 @@
     "termsAndConditionsEnabled": false,
     "helmetEnabled": true,
     "redisEnabled": false,
-    "oidcEnabled": false
+    "oidcEnabled": false,
+    "ogdUpdateRefreshUserEnabled": false
   }
 }

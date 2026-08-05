@@ -1,21 +1,36 @@
-<div *ngIf="!showWarningMessage" id="errorSummary" class="govuk-error-summary"
-  aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="error-summary">
-  <h2 class="govuk-error-summary__title" id="error-summary-title">{{header}}</h2>
-  <div class="govuk-error-summary__body">
-    <ul class="govuk-list govuk-error-summary__list">
-      <li *ngFor="let message of messages">
-        <a *ngIf="hasElement(message['id'])" [routerLink]="" [fragment]="message['id']"
-          (click)="scrollTo(message['id'])">{{message['message']}}</a>
-        <span *ngIf="!hasElement(message['id'])">{{message['message']}}</span>
-      </li>
-    </ul>
+@if (!showWarningMessage) {
+  <div id="errorSummary" class="govuk-error-summary"
+    aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="error-summary">
+    <h2 class="govuk-error-summary__title" id="error-summary-title">{{header}}</h2>
+    <div class="govuk-error-summary__body">
+      <ul class="govuk-list govuk-error-summary__list">
+  @for (message of messages; track trackByMessage($index, message)) {
+          <li>
+            @if (hasElement(message['id'])) {
+              <a [routerLink]="" [fragment]="message['id']"
+              (click)="scrollTo(message['id'])">{{message['message']}}</a>
+            }
+            @if (!hasElement(message['id'])) {
+              <span>{{message['message']}}</span>
+            }
+          </li>
+        }
+      </ul>
+    </div>
   </div>
-</div>
+}
 
-<div *ngIf="showWarningMessage" class="hmcts-banner hmcts-banner--warning">
-  <app-hmcts-warning-icon></app-hmcts-warning-icon>
-  <div class="hmcts-banner__message">
-    <span class="hmcts-banner__assistive">Warning</span>
-    <p class="govuk-body" *ngFor="let message of messages">{{ message['message'] }}</p>
+@if (showWarningMessage) {
+  <div class="hmcts-banner hmcts-banner--warning">
+    <app-hmcts-warning-icon></app-hmcts-warning-icon>
+    <div class="hmcts-banner__message">
+      <span class="hmcts-banner__assistive">Warning</span>
+  @for (message of messages; track trackByMessage($index, message)) {
+        <p class="govuk-body">
+          <span class="govuk-visually-hidden">Warning</span>
+          {{ message['message'] }}
+        </p>
+      }
+    </div>
   </div>
-</div>
+}

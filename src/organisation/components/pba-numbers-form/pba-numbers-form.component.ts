@@ -5,11 +5,13 @@ import { select, Store } from '@ngrx/store';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 
 import { OrganisationDetails, PBANumberModel } from '../../../models';
+import { buildIdOrIndexKey } from '../../../shared/utils/track-by.util';
 import * as fromStore from '../../store';
 
 @Component({
   selector: 'app-prd-pba-numbers-form-component',
-  templateUrl: './pba-numbers-form.component.html'
+  templateUrl: './pba-numbers-form.component.html',
+  standalone: false
 })
 export class PbaNumbersFormComponent implements OnInit {
   public readonly title = 'Add or remove PBA accounts';
@@ -31,7 +33,7 @@ export class PbaNumbersFormComponent implements OnInit {
     private readonly router: Router,
     private readonly orgStore: Store<fromStore.OrganisationState>,
     private readonly fb: FormBuilder
-  ) {}
+  ) { }
 
   public ngOnInit(): void {
     this.getOrganisationDetailsFromStore();
@@ -101,7 +103,7 @@ export class PbaNumbersFormComponent implements OnInit {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    this.router.navigate(['/organisation/update-pba-numbers-check']).then(() => {});
+    this.router.navigate(['/organisation/update-pba-numbers-check']).then(() => { });
   }
 
   private initialiseForm(): void {
@@ -182,7 +184,7 @@ export class PbaNumbersFormComponent implements OnInit {
           message
         };
       })
-      .filter((i) => i);
+      .filter(Boolean);
 
     if (items.length === 0) {
       this.clearSummaryErrorMessage();
@@ -236,10 +238,28 @@ export class PbaNumbersFormComponent implements OnInit {
 
   private getPBANumbersCustomValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } => {
-      if (control.value && isNaN(Number(control.value.substring(3)))) {
+      if (control.value && Number.isNaN(Number(control.value.substring(3)))) {
         return { error: 'Enter a valid PBA number' };
       }
       return null;
     };
+  }
+
+  // Track functions to avoid NG0956 repeated DOM churn
+  public trackByExistingPba(index: number, pba: PBANumberModel): string | number {
+    return buildIdOrIndexKey(index, pba as any, 'pbaNumber');
+  }
+
+  public trackByPendingRemovePba(index: number, pba: PBANumberModel): string | number {
+    return buildIdOrIndexKey(index, pba as any, 'pbaNumber');
+  }
+
+  public trackByPbaControl(index: number, ctrl: AbstractControl): string {
+    // Attach a stable key if not present
+    const anyCtrl = ctrl as any;
+    if (!anyCtrl.__trackKey) {
+      anyCtrl.__trackKey = `pbaCtrl_${Date.now()}_${index}`;
+    }
+    return anyCtrl.__trackKey;
   }
 }

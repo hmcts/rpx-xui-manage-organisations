@@ -1,6 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
+import { RegisterOrgModule } from '../../register-org.module';
+import { buildMockStoreProviders } from '../../testing/mock-store-state';
 import { RegistrationData } from '../../models/registration-data.model';
 import { RegisterOrgService } from '../../services/register-org.service';
 import { IndividualRegisteredWithRegulatorComponent } from './individual-registered-with-regulator.component';
@@ -42,11 +46,13 @@ describe('IndividualRegisteredWithRegulatorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [IndividualRegisteredWithRegulatorComponent],
-      imports: [RouterTestingModule],
+      // RegisterOrgModule already declares IndividualRegisteredWithRegulatorComponent and related dependencies
+      declarations: [],
+      imports: [RouterTestingModule, ReactiveFormsModule, ExuiCommonLibModule, RegisterOrgModule],
       providers: [
         { provide: Router, useValue: mockRouter },
-        { provide: RegisterOrgService, useValue: service }
+        { provide: RegisterOrgService, useValue: service },
+        ...buildMockStoreProviders()
       ]
     }).compileComponents();
   });

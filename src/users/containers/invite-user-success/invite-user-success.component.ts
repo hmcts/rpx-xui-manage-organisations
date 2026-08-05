@@ -6,7 +6,8 @@ import * as fromStore from '../../store';
 
 @Component({
   selector: 'app-invite-user-success',
-  templateUrl: './invite-user-success.component.html'
+  templateUrl: './invite-user-success.component.html',
+  standalone: false
 })
 export class InviteUserSuccessComponent implements OnInit, OnDestroy {
   public userEmail$: Observable<string>;

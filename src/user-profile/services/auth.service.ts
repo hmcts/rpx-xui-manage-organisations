@@ -1,11 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { finalize, shareReplay } from 'rxjs/operators';
 import { AppConstants } from '../../app/app.constants';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
 
 @Injectable()
 export class AuthService {
+  private isAuthenticatedRequest$: Observable<boolean>;
+
   constructor(
     private readonly httpService: HttpClient,
     private readonly sessionStorageService: SessionStorageService
@@ -17,17 +20,26 @@ export class AuthService {
   }
 
   public isAuthenticated(): Observable<boolean> {
-    return this.httpService.get<boolean>('/auth/isAuthenticated');
+    if (!this.isAuthenticatedRequest$) {
+      this.isAuthenticatedRequest$ = this.httpService.get<boolean>('/auth/isAuthenticated').pipe(
+        shareReplay({ bufferSize: 1, refCount: false }),
+        finalize(() => {
+          this.isAuthenticatedRequest$ = null;
+        })
+      );
+    }
+
+    return this.isAuthenticatedRequest$;
   }
 
   public signOut() {
     const href = '/auth/logout';
-    this.sessionStorageService.removeItem(AppConstants.SERVICE_MESSAGE_COOKIE);
+    this.clearServiceMessageCookie();
     this.setWindowLocationHref(href);
   }
 
   public logOut(): Observable<any> {
-    this.sessionStorageService.removeItem(AppConstants.SERVICE_MESSAGE_COOKIE);
+    this.clearServiceMessageCookie();
     return this.httpService.get('/auth/logout?noredirect=true');
   }
 
@@ -38,6 +50,10 @@ export class AuthService {
   }
 
   public setWindowLocationHref(href: string) {
-    window.location.href = href;
+    globalThis.location.href = href;
+  }
+
+  private clearServiceMessageCookie(): void {
+    document.cookie = `${AppConstants.SERVICE_MESSAGE_COOKIE}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
   }
 }

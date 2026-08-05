@@ -8,7 +8,6 @@ import { AcceptTermsAndConditionGuard } from 'src/accept-tc/guards/acceptTermsAn
 import { FeatureToggleEditUserGuard } from 'src/users/guards/feature-toggle-edit-user.guard';
 
 import { TermsConditionGuard } from '../app/guards/termsCondition.guard';
-import { AbstractAppInsights, AppInsightsWrapper } from '../shared/services/appInsightsWrapper';
 import { HmctsErrorSummaryComponent } from './components/hmcts-error-summary/hmcts-error-summary.component';
 import { HmctsMainWrapperComponent } from './components/hmcts-main-wrapper/hmcts-main-wrapper.component';
 import { SuccessIconComponent } from './components/icons/success-icon.component';
@@ -23,6 +22,7 @@ import { HeadersService } from './services/headers.service';
 import { HealthCheckService } from './services/health-check.service';
 import { HttpIntercepterServer } from './services/http-interceptor.service';
 import { MonitoringService } from './services/monitoring.service';
+import { RpxTranslationModule } from 'rpx-xui-translation';
 
 @NgModule({
   declarations: [
@@ -38,7 +38,8 @@ import { MonitoringService } from './services/monitoring.service';
     RouterModule,
     CommonModule,
     GovUiModule,
-    LoaderModule
+    LoaderModule,
+    RpxTranslationModule.forChild()
   ],
   exports: [
     GovUiModule,
@@ -62,7 +63,6 @@ import { MonitoringService } from './services/monitoring.service';
       multi: true
     },
     HeadersService,
-    { provide: AbstractAppInsights, useClass: AppInsightsWrapper },
     MonitoringService,
     UserRoleGuard,
     HealthCheckGuard,

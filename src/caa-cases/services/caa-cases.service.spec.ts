@@ -1,9 +1,10 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { CaaCasesFilterType, CaaCasesPageType } from '../models/caa-cases.enum';
 import { CaaCasesSessionState, CaaCasesSessionStateValue } from '../models/caa-cases.model';
 import { CaaCasesService } from './caa-cases.service';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('CaaCasesService', () => {
   let service: CaaCasesService;
@@ -30,8 +31,8 @@ describe('CaaCasesService', () => {
       }
     };
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [CaaCasesService]
+      imports: [],
+      providers: [CaaCasesService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
     });
     mockHttp = jasmine.createSpyObj('http', ['post']);
     mockHttp.post.and.returnValue(of({}));
@@ -79,23 +80,23 @@ describe('CaaCasesService', () => {
   });
 
   it('should store session state', () => {
-    spyOn(window.sessionStorage, 'setItem');
+    spyOn(globalThis.sessionStorage, 'setItem');
     service.storeSessionState(sessionState);
-    expect(window.sessionStorage.setItem).toHaveBeenCalledWith('assigned-cases', JSON.stringify(sessionState.value));
+    expect(globalThis.sessionStorage.setItem).toHaveBeenCalledWith('assigned-cases', JSON.stringify(sessionState.value));
   });
 
   it('should retrieve session state', () => {
     mockSessionStorage.setItem('assigned-cases', JSON.stringify(sessionState.value));
-    spyOn(window.sessionStorage, 'getItem').and.callFake(mockSessionStorage.getItem);
+    spyOn(globalThis.sessionStorage, 'getItem').and.callFake(mockSessionStorage.getItem);
     const assignedCasesSessionStateValue = service.retrieveSessionState('assigned-cases');
     expect(assignedCasesSessionStateValue).toEqual(sessionState.value);
-    expect(window.sessionStorage.getItem).toHaveBeenCalledWith('assigned-cases');
+    expect(globalThis.sessionStorage.getItem).toHaveBeenCalledWith('assigned-cases');
   });
 
   it('should remove session state', () => {
-    spyOn(window.sessionStorage, 'removeItem');
+    spyOn(globalThis.sessionStorage, 'removeItem');
     mockSessionStorage.setItem(sessionState.key, sessionState.value);
     service.removeSessionState('assigned-cases');
-    expect(window.sessionStorage.removeItem).toHaveBeenCalledWith('assigned-cases');
+    expect(globalThis.sessionStorage.removeItem).toHaveBeenCalledWith('assigned-cases');
   });
 });

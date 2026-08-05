@@ -1,0 +1,40 @@
+<ng-container [formGroup]="searchFilterUserForm">
+      <div class="govuk-grid-column-two-thirds govuk-!-padding-0">
+
+            <div class="govuk-form-group">
+                  <h1 class="govuk-label-wrapper">
+                        <label class="govuk-label govuk-label--l" for="event-name">
+                              Filter by name
+                        </label>
+                  </h1>
+                  <div id="event-name-hint" class="govuk-hint">
+                        Enter at least 3 characters to begin filtering by name or email address
+                  </div>
+                  <input class="govuk-input" formControlName="nameFilter" [matAutocomplete]="autoComplete"
+                        (blur)="onBlur($event)" aria-label="Filter by name">
+                  <mat-autocomplete #autoComplete="matAutocomplete" [displayWith]="displayJudicialUser"
+                        [hidden]="searchTerm.length < 3">
+                        <div [ngClass]="{'hide-autocomplete': !showAutocomplete}">
+                              @for (judicialUser of filteredJudicialUsers$ | async; track judicialUser.email) {
+                              <mat-option class="govuk-body" [value]="judicialUser"
+                                    (onSelectionChange)="onSelectionChange($event)" id="{{judicialUser.email}}">
+                                    {{judicialUser?.firstName ? judicialUser.firstName : ''}} {{judicialUser?.lastName ?
+                                    judicialUser.lastName : ''}} {{judicialUser?.email ? ' (' + judicialUser.email + ')'
+                                    : ''}}
+                              </mat-option>
+                              }
+                              @if (noResults && searchTerm && searchTerm.length >= minSearchCharacters &&
+                              showAutocomplete) {
+                              <mat-option class="govuk-body" disabled>
+                                    No results found
+                              </mat-option>
+                              }
+                        </div>
+                  </mat-autocomplete>
+            </div>
+
+            <xuilib-gov-select [group]="searchFilterUserForm" [config]="statusFilterConfig.config"
+                  [items]="statusFilterConfig.items">
+            </xuilib-gov-select>
+      </div>
+</ng-container>

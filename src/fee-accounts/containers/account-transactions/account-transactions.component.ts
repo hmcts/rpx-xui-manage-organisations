@@ -10,7 +10,8 @@ import * as fromfeatureStore from '../../store';
 @Component({
   selector: 'app-account-transactions',
   templateUrl: './account-transactions.component.html',
-  styleUrls: ['./account-transactions.component.scss']
+  styleUrls: ['./account-transactions.component.scss'],
+  standalone: false
 })
 export class AccountTransactionsComponent implements OnInit, OnDestroy {
   public backUrl: string;
@@ -66,7 +67,7 @@ export class AccountTransactionsComponent implements OnInit, OnDestroy {
 
   public subscribeAccounts(accounts$: Observable<FeeAccount[]>): Subscription {
     return accounts$.subscribe((acc) => {
-      if (acc && acc[0]) {
+      if (acc?.[0]) {
         this.accounts = acc;
         this.accountName$ = of(acc[0].account_name);
       }

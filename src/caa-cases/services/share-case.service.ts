@@ -1,12 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
-import { UserDetails } from '@hmcts/rpx-xui-common-lib/lib/models/user-details.model';
+import { UserDetails, SharedCase } from '@hmcts/rpx-xui-common-lib';
 import { Observable } from 'rxjs';
 
 @Injectable()
 export class CaseShareService {
-  constructor(private readonly http: HttpClient) {}
+  constructor(private readonly http: HttpClient) { }
 
   public getUsersFromOrg(): Observable<UserDetails[]> {
     return this.http.get<UserDetails[]>('api/caseshare/users');

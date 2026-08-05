@@ -1,10 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ValidationService } from '../../services/form-builder-validation.service';
+import { buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
 
 @Component({
   selector: 'app-validation-header',
-  templateUrl: './validation-header.component.html'
+  templateUrl: './validation-header.component.html',
+  standalone: false
 })
 /**
  * ValidationHeaderComponent
@@ -16,11 +18,9 @@ export class ValidationHeaderComponent {
     @Input() formGroup: FormGroup;
     @Input() controlId;
 
-    // TODO : deprecate as not needed?
     @Input() idPrefix = 'ta';
     @Input() name = 'ta';
 
-    // TODO : Move to constants file.
     FORM_CONTROL = 'formControl';
     FORM_GROUP = 'formGroup';
 
@@ -40,7 +40,7 @@ export class ValidationHeaderComponent {
      */
     @Input() validationHeaderErrorMessages;
 
-    constructor(private validationService: ValidationService) {}
+    constructor(private readonly validationService: ValidationService) {}
 
     /**
      * Checks if this control is valid.
@@ -87,5 +87,9 @@ export class ValidationHeaderComponent {
       const el = document.getElementById(id);
       el.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
       return false;
+    }
+
+    public trackByValidationError(index: number, msg: any): string | number {
+      return buildIdOrIndexKey(index, msg, 'controlId', 'validationErrorId', 'text');
     }
 }

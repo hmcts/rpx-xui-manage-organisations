@@ -1,20 +1,19 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 import { FeeAccountsService } from '.';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let feeAccountsService: FeeAccountsService;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let httpMock: HttpTestingController;
 
 describe('FeeAccountsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule
-      ],
+      imports: [],
       providers: [
-        FeeAccountsService
+        FeeAccountsService,
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
       ]
     });
 

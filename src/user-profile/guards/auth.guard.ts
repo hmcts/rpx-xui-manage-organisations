@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { catchError, filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
 import * as fromStore from '../store';
 
@@ -26,16 +26,20 @@ export class AuthGuard {
         return false;
       }
       return true;
+    }),
+    catchError(() => {
+      this.authService.loginRedirect();
+      return of(false);
     }));
   }
 
   public checkUserStore(): Observable<boolean> {
     return this.store.pipe(select(fromStore.userLoaded),
-      tap((loaded) => {
+      tap({ next: (loaded) => {
         if (!loaded) {
           this.store.dispatch(new fromStore.GetUserDetails());
         }
-      }),
+      } }),
       filter((loaded) => loaded),
       take(1)
     );

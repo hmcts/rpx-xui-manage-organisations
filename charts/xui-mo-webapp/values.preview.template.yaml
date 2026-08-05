@@ -5,7 +5,6 @@ nodejs:
     # deprecate
     #IDAM_URL: https://idam-api.aat.platform.hmcts.net
     #S2S_URL: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
-    NODE_TLS_REJECT_UNAUTHORIZED: 0
     S2S_SECRET: ${S2S_SECRET}
     IDAM_SECRET: ${IDAM_SECRET}
     SERVICES_CCD_COMPONENT_API: https://gateway-ccd.aat.platform.hmcts.net
@@ -18,26 +17,29 @@ nodejs:
     SERVICES_PRD_COMMONDATA_API: http://rd-commondata-api-aat.service.core-compute-aat.internal
     MANAGE_CASE_LINK: https://manage-case.aat.platform.hmcts.net/cases
     MANAGE_ORG_LINK: https://manage-org.aat.platform.hmcts.net/
-
-    APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
+    UNASSIGNED_CASE_TYPES: FT_CaseAccessGroups,true,true
+    SERVICES_ROLE_ASSIGNMENT_MAPPING_API: http://am-org-role-mapping-service-aat.service.core-compute-aat.internal
+    FEATURE_OGD_UPDATE_REFRESH_USER_ENABLED: false
+    APPINSIGHTS_CONNECTION_STRING: ${APPINSIGHTS_CONNECTION_STRING}
     PUI_ENV: preview
-    FEATURE_SECURE_COOKIE_ENABLED: false
+    FEATURE_SECURE_COOKIE_ENABLED: true
     FEATURE_TERMS_AND_CONDITIONS_ENABLED: false
     FEATURE_OIDC_ENABLED: true
     REDISCLOUD_URL: redis://${SERVICE_NAME}-redis-master:6379
     DEBUG: xuiNode:*,-xuiNode:auth:s2s
-    CASE_TYPES: CIVIL,MoneyClaimCase,DIVORCE,FinancialRemedyContested,FinancialRemedyMVP2,Asylum,Caveat,GrantOfRepresentation,StandingSearch,WillLodgement,CARE_SUPERVISION_EPO,Benefit,NFD,ET_EnglandWales,ET_Scotland,ET_EnglandWales_Multiple,ET_Scotland_Multiple
+    CASE_TYPES: CIVIL,GENERALAPPLICATION,MoneyClaimCase,DIVORCE,FinancialRemedyContested,FinancialRemedyMVP2,Asylum,Caveat,GrantOfRepresentation,StandingSearch,WillLodgement,CARE_SUPERVISION_EPO,Benefit,NFD,ET_EnglandWales,ET_Scotland,ET_EnglandWales_Multiple,ET_Scotland_Multiple
   keyVaults:
     rpx:
       secrets:
         - mo-s2s-client-secret
         - xui-oauth2-token
-        - appinsights-instrumentationkey-mo
+        - appinsights-connection-string-mo
         - google-analytics-key
         - name: launch-darkly-client-id-preview
           alias: launch-darkly-client-id
         - system-user-name
         - system-user-password
+        - mo-session-secret
   autoscaling:
     enabled: false
 redis:

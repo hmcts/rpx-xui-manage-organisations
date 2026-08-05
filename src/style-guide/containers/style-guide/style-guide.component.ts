@@ -16,7 +16,8 @@ import * as fromStore from '../../store';
 
 @Component({
   selector: 'app-prd-user-form-component',
-  templateUrl: './style-guide.component.html'
+  templateUrl: './style-guide.component.html',
+  standalone: false
 })
 export class StyleGuideComponent implements OnInit {
   public styleGuideForm: FormGroup;
@@ -42,7 +43,6 @@ export class StyleGuideComponent implements OnInit {
   public ngOnInit(): void {
     this.formValidationErrors$ = this.store.pipe(select(fromStore.getStyleGuideErrorMessage));
     this.formValidationErrorsArray$ = this.store.pipe(select(fromStore.getGetStyleGuideErrorsArray));
-    // TODO add type
     this.styleGuideForm = this.fb.group({
       [CONST.STG_FORM_MODEL.input]: new FormControl('', [Validators.required, Validators.email]),
       [CONST.STG_FORM_MODEL.checkboxes]: new FormGroup({ // checkboxes
@@ -80,27 +80,21 @@ export class StyleGuideComponent implements OnInit {
     const formValidationData = {
       isInvalid: {
         [CONST.STG_FORM_MODEL.input]: [
-          (this.f[CONST.STG_FORM_MODEL.input].errors && this.f[CONST.STG_FORM_MODEL.input].errors.required),
-          (this.f[CONST.STG_FORM_MODEL.input].errors && this.f[CONST.STG_FORM_MODEL.input].errors.email)
+          (this.f[CONST.STG_FORM_MODEL.input].errors?.required),
+          (this.f[CONST.STG_FORM_MODEL.input].errors?.email)
         ],
 
-        [CONST.STG_FORM_MODEL.checkboxes]: [(this.f[CONST.STG_FORM_MODEL.checkboxes].errors &&
-          this.f[CONST.STG_FORM_MODEL.checkboxes].errors.requireOneCheckboxToBeChecked)],
+        [CONST.STG_FORM_MODEL.checkboxes]: [(this.f[CONST.STG_FORM_MODEL.checkboxes].errors?.requireOneCheckboxToBeChecked)],
 
-        [CONST.STG_FORM_MODEL.passport]: [(this.f[CONST.STG_FORM_MODEL.passport].errors &&
-          this.f[CONST.STG_FORM_MODEL.passport].errors.dateIsInvalid)],
+        [CONST.STG_FORM_MODEL.passport]: [(this.f[CONST.STG_FORM_MODEL.passport].errors?.dateIsInvalid)],
 
-        [CONST.STG_FORM_MODEL.contactPreference]: [(this.f[CONST.STG_FORM_MODEL.contactPreference].errors &&
-          this.f[CONST.STG_FORM_MODEL.contactPreference].errors.required)],
+        [CONST.STG_FORM_MODEL.contactPreference]: [(this.f[CONST.STG_FORM_MODEL.contactPreference].errors?.required)],
 
-        [CONST.STG_FORM_MODEL.sortBy]: [(this.f[CONST.STG_FORM_MODEL.sortBy].errors &&
-          this.f[CONST.STG_FORM_MODEL.sortBy].errors.required)],
+        [CONST.STG_FORM_MODEL.sortBy]: [(this.f[CONST.STG_FORM_MODEL.sortBy].errors?.required)],
 
-        [CONST.STG_FORM_MODEL.moreDetails]: [(this.f[CONST.STG_FORM_MODEL.moreDetails].errors &&
-          this.f[CONST.STG_FORM_MODEL.moreDetails].errors.required)],
+        [CONST.STG_FORM_MODEL.moreDetails]: [(this.f[CONST.STG_FORM_MODEL.moreDetails].errors?.required)],
 
-        [CONST.STG_FORM_MODEL.fileUpload]: [(this.f[CONST.STG_FORM_MODEL.fileUpload].errors &&
-          this.f[CONST.STG_FORM_MODEL.fileUpload].errors.required)]
+        [CONST.STG_FORM_MODEL.fileUpload]: [(this.f[CONST.STG_FORM_MODEL.fileUpload].errors?.required)]
       },
       errorMessages: this.errorMessages,
       isSubmitted: true

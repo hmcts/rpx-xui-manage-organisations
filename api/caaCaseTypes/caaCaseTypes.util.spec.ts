@@ -28,9 +28,33 @@ describe('caaCaseTypes Util', () => {
             {
               bool: {
                 must: [
-                  { range: { 'supplementary_data.orgs_assigned_users.GCXGCY1': { gt: 0 } } }
+                  { range: { 'supplementary_data.orgs_assigned_users.GCXGCY1': { gt: 0 } } },
+                  {
+                    bool: {
+                      should: [
+                        {
+                          bool: {
+                            must_not: {
+                              exists: {
+                                field: 'supplementary_data.new_case.GCXGCY1'
+                              }
+                            }
+                          }
+                        },
+                        {
+                          term: {
+                            'supplementary_data.new_case.GCXGCY1': false
+                          }
+                        }
+                      ],
+                      minimum_should_match: 1
+                    }
+                  }
                 ]
               }
+            },
+            {
+              bool: {}
             }
           ]
         }
@@ -62,10 +86,54 @@ describe('caaCaseTypes Util', () => {
             },
             {
               bool: {
-                must_not: [
-                  { range: { 'supplementary_data.orgs_assigned_users.GCXGCY1': { gt: 0 } } }
+                must: [
+                  {
+                    bool: {
+                      should: [
+                        {
+                          term: {
+                            'supplementary_data.orgs_assigned_users.GCXGCY1': 0
+                          }
+                        },
+                        {
+                          bool: {
+                            must_not: {
+                              exists: {
+                                field: 'supplementary_data.orgs_assigned_users.GCXGCY1'
+                              }
+                            }
+                          }
+                        }
+                      ],
+                      minimum_should_match: 1
+                    }
+                  },
+                  {
+                    bool: {
+                      should: [
+                        {
+                          term: {
+                            'supplementary_data.new_case.GCXGCY1': false
+                          }
+                        },
+                        {
+                          bool: {
+                            must_not: {
+                              exists: {
+                                field: 'supplementary_data.new_case.GCXGCY1'
+                              }
+                            }
+                          }
+                        }
+                      ],
+                      minimum_should_match: 1
+                    }
+                  }
                 ]
               }
+            },
+            {
+              bool: {}
             }
           ]
         }
@@ -96,20 +164,18 @@ describe('caaCaseTypes Util', () => {
               }
             },
             {
-              bool: {
-                must: [
-                  { range: { 'supplementary_data.orgs_assigned_users.GCXGCY1': { gt: 0 } } }
-                ]
-              }
+              bool: {}
             },
             {
-              must: [
-                {
-                  match: {
-                    'reference.keyword': '1111222233334444'
+              bool: {
+                must: [
+                  {
+                    match: {
+                      'reference.keyword': '1111222233334444'
+                    }
                   }
-                }
-              ]
+                ]
+              }
             }
           ]
         }
@@ -140,20 +206,18 @@ describe('caaCaseTypes Util', () => {
               }
             },
             {
-              bool: {
-                must_not: [
-                  { range: { 'supplementary_data.orgs_assigned_users.GCXGCY1': { gt: 0 } } }
-                ]
-              }
+              bool: {}
             },
             {
-              must: [
-                {
-                  match: {
-                    'reference.keyword': '1111222233334444'
+              bool: {
+                must: [
+                  {
+                    match: {
+                      'reference.keyword': '1111222233334444'
+                    }
                   }
-                }
-              ]
+                ]
+              }
             }
           ]
         }
@@ -184,11 +248,7 @@ describe('caaCaseTypes Util', () => {
               }
             },
             {
-              bool: {
-                must: [
-                  { range: { 'supplementary_data.orgs_assigned_users.GCXGCY1': { gt: 0 } } }
-                ]
-              }
+              bool: {}
             },
             {
               bool: {

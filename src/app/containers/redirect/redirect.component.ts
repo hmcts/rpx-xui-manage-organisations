@@ -10,7 +10,8 @@ import * as fromRoot from '../../store';
  */
 @Component({
   selector: 'app-redirect',
-  template: ''
+  template: '',
+  standalone: false
 })
 export class RedirectComponent implements OnInit, OnDestroy {
   public redirected = false;
@@ -20,7 +21,7 @@ export class RedirectComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.$navigationSubscription = this.store.pipe(select(fromRoot.getNavItems)).subscribe((nav) => {
-      if (nav && nav.navItems.length && !this.redirected) {
+      if (nav?.navItems.length && !this.redirected) {
         this.store.dispatch(new fromRoot.Go({ path: [nav.navItems[0].href] }));
         this.redirected = true;
       }

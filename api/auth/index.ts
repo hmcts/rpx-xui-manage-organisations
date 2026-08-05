@@ -19,18 +19,39 @@ import {
   SERVICES_CCD_COMPONENT_API_PATH,
   SERVICES_IDAM_API_PATH,
   SERVICES_IDAM_ISS_URL,
-  SERVICES_IDAM_WEB, SERVICES_RD_PROFESSIONAL_API_PATH,
+  SERVICES_IDAM_WEB,
+  SERVICES_RD_PROFESSIONAL_API_PATH,
   SERVICE_S2S_PATH,
   SESSION_SECRET,
   SYSTEM_USER_NAME,
   SYSTEM_USER_PASSWORD
 } from '../configuration/references';
+import { client } from '../lib/appInsights';
 import { http } from '../lib/http';
 import * as log4jui from '../lib/log4jui';
 import { EnhancedRequest } from '../models/enhanced-request.interface';
 import { getOrganisationDetails } from '../organisation';
 
 const logger = log4jui.getLogger('auth');
+const POST_AUTH_ROLE_DENIED_EVENT = 'ManageOrganisationsPostAuthRoleDenied';
+
+interface AccessDeniedDetails {
+  allowRolesRegex?: string;
+  roles?: string[];
+  userinfo?: {
+    roleCategory?: string;
+    roles?: string[];
+  };
+}
+
+const getUserRoles = (details?: AccessDeniedDetails): string[] => details?.roles || details?.userinfo?.roles || [];
+
+const isCitizenUser = (details?: AccessDeniedDetails): boolean => {
+  const roleCategory = details?.userinfo?.roleCategory?.toLowerCase();
+  const roles = getUserRoles(details);
+
+  return roleCategory === 'citizen' || roles.some((role) => role.toLowerCase() === 'citizen');
+};
 
 export const successCallback = async (req: EnhancedRequest, res: Response, next: NextFunction) => {
   const { accessToken } = req.session.passport.user.tokenset;
@@ -39,6 +60,7 @@ export const successCallback = async (req: EnhancedRequest, res: Response, next:
   logger.info('Setting session and cookies');
   const cookieOptions: CookieOptions = {
     sameSite: 'none',
+    httpOnly: true,
     secure: true
   };
   // set browser cookie
@@ -64,7 +86,10 @@ export const successCallback = async (req: EnhancedRequest, res: Response, next:
     };
 
     try {
-      const orgDetails = await getOrganisationDetails(authRequest as unknown as Request, getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH));
+      const orgDetails = await getOrganisationDetails(
+        authRequest as unknown as Request,
+        getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)
+      );
       auth.orgId = orgDetails.data.organisationIdentifier;
     } catch (e) {
       console.log(e);
@@ -79,7 +104,30 @@ export const successCallback = async (req: EnhancedRequest, res: Response, next:
   next();
 };
 
+export const accessDeniedCallback = (
+  _req: EnhancedRequest,
+  _res: Response,
+  _next: NextFunction,
+  details?: AccessDeniedDetails
+) => {
+  const requiredRoleMatcher = details?.allowRolesRegex || '';
+
+  logger.warn(`Post-auth role denied: user has no role matching ${requiredRoleMatcher}`);
+
+  if (client) {
+    client.trackEvent({
+      name: POST_AUTH_ROLE_DENIED_EVENT,
+      properties: {
+        isCitizen: isCitizenUser(details),
+        requiredRoleMatcher,
+        roles: getUserRoles(details).join(',')
+      }
+    });
+  }
+};
+
 xuiNode.on(AUTH.EVENT.AUTHENTICATE_SUCCESS, successCallback);
+xuiNode.on(AUTH.EVENT.AUTHENTICATE_ACCESS_DENIED, accessDeniedCallback);
 
 export const getXuiNodeMiddleware = () => {
   const idamWebUrl = getConfigValue(SERVICES_IDAM_WEB);
@@ -97,10 +145,7 @@ export const getXuiNodeMiddleware = () => {
 
   const routeCredential = {
     password,
-    routes: [
-      '/external/addresses',
-      '/external/getLovRefData'
-    ],
+    routes: ['/external/addresses', '/external/getLovRefData'],
     scope: 'openid profile roles manage-user create-user',
     userName
   };
@@ -121,7 +166,8 @@ export const getXuiNodeMiddleware = () => {
     sessionKey: 'xui-mo-webapp',
     tokenEndpointAuthMethod: 'client_secret_post',
     tokenURL: tokenUrl,
-    useRoutes: true
+    useRoutes: true,
+    ssoLogoutURL: `${idamWebUrl}/o/endSession`
   };
 
   const baseStoreOptions = {
@@ -140,7 +186,8 @@ export const getXuiNodeMiddleware = () => {
 
   const redisStoreOptions = {
     redisStore: {
-      ...baseStoreOptions, ...{
+      ...baseStoreOptions,
+      ...{
         redisStoreOptions: {
           redisCloudUrl: getConfigValue(REDISCLOUD_URL),
           redisKeyPrefix: getConfigValue(REDIS_KEY_PREFIX),
@@ -152,7 +199,8 @@ export const getXuiNodeMiddleware = () => {
 
   const fileStoreOptions = {
     fileStore: {
-      ...baseStoreOptions, ...{
+      ...baseStoreOptions,
+      ...{
         fileStoreOptions: {
           filePath: getConfigValue(NOW) ? '/tmp/sessions' : '.sessions'
         }

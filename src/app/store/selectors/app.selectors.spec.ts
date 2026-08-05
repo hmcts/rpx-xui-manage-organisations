@@ -1,10 +1,22 @@
 import { TestBed } from '@angular/core/testing';
+import { routerNavigationAction } from '@ngrx/router-store';
 import { combineReducers, select, Store, StoreModule } from '@ngrx/store';
+import { AppConstants } from '../../app.constants';
 import * as fromRoot from '../../../app/store/';
 import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
 import { AppFeatureFlag } from '../reducers/app.reducer';
 import * as fromSelectors from '../selectors/app.selectors';
+import { take } from 'rxjs';
+
+function setRouterUrl(store: Store<fromReducers.State>, url: string): void {
+  store.dispatch(routerNavigationAction({
+    payload: {
+      routerState: { url, queryParams: {}, params: {} } as any,
+      event: { id: 1 } as any
+    }
+  }));
+}
 
 describe('App Selectors', () => {
   let store: Store<fromReducers.State>;
@@ -35,7 +47,7 @@ describe('App Selectors', () => {
 
       store.dispatch(new fromActions.SetPageTitle('/organisation'));
 
-      expect(result).toEqual('Organisation details - Manage organisation');
+      expect(result).toEqual('Manage organisation - Organisation details - GOV.UK');
     });
   });
 
@@ -43,11 +55,11 @@ describe('App Selectors', () => {
     it('should return heading titles', () => {
       let result;
 
+      setRouterUrl(store, '/organisation');
       store.pipe(select(fromSelectors.getHeaderTitle))
         .subscribe((value) => (result = value));
 
-      store.dispatch(new fromRoot.Go({ path: ['/organisation'] }));
-      expect(result).toEqual(undefined);
+      expect(result).toEqual(AppConstants.MANAGE_ORG_TITLE);
     });
   });
 
@@ -66,49 +78,86 @@ describe('App Selectors', () => {
     it('should return user navigation items', () => {
       let result;
 
+      setRouterUrl(store, '/organisation');
       store.pipe(select(fromSelectors.getUserNav))
         .subscribe((value) => (result = value));
 
-      expect(result).toEqual([]);
+      expect(result).toEqual(AppConstants.USER_NAV);
     });
   });
 
   describe('getFeeAndPayFeature', () => {
-    it('should get fee and pay feature', () => {
+    it('should get fee and pay feature', (done) => {
       const featureFlags: AppFeatureFlag[] = [
         { featureName: 'fee-and-accounts', isEnabled: true },
-        { featureName: 'fee-and-accounts', isEnabled: false }
+        { featureName: 'some-other-flag', isEnabled: false }
       ];
-      let result;
+
       store.dispatch(new fromActions.LoadFeatureToggleConfigSuccess(featureFlags));
-      store.pipe(select(fromSelectors.getFeeAndPayFeature)).subscribe((value) => (result = value));
-      expect(result.featureName).toBe('fee-and-accounts');
+
+      store.pipe(
+        select(fromSelectors.getFeeAndPayFeature),
+        take(1)
+      ).subscribe((value) => {
+        expect(value).toEqual({ featureName: 'fee-and-accounts', isEnabled: true });
+        done();
+      });
     });
 
-    it('should get fee and pay is enabled to be true', () => {
-      const featureFlags: AppFeatureFlag = { featureName: 'fee-and-accounts', isEnabled: false };
-      let result;
-      store.dispatch(new fromActions.LoadFeatureToggleConfig(featureFlags));
-      store.pipe(select(fromSelectors.getFeeAndPayFeatureIsEnabled)).subscribe((value) => (result = value));
-      expect(result).toBeUndefined();
+    it('should get fee and pay is enabled to be true', (done) => {
+      const featureFlags: AppFeatureFlag[] = [
+        { featureName: 'fee-and-accounts', isEnabled: true }
+      ];
+
+      store.dispatch(new fromActions.LoadFeatureToggleConfigSuccess(featureFlags));
+
+      store.pipe(
+        select(fromSelectors.getFeeAndPayFeatureIsEnabled),
+        take(1)
+      ).subscribe((value) => {
+        expect(value).toBe(true);
+        done();
+      });
     });
 
-    it('should get CAA assigned/unassigned cases feature', () => {
+    it('should get CAA assigned/unassigned cases feature', (done) => {
       const featureFlags: AppFeatureFlag[] = [
         { featureName: 'mo-caa-menu-items', isEnabled: true },
-        { featureName: 'mo-caa-menu-items', isEnabled: false }
+        { featureName: 'some-other-flag', isEnabled: false }
       ];
-      let result;
+
       store.dispatch(new fromActions.LoadFeatureToggleConfigSuccess(featureFlags));
-      store.pipe(select(fromSelectors.getCaaMenuItemsFeature)).subscribe((value) => (result = value));
-      expect(result.featureName).toBe('mo-caa-menu-items');
+
+      store.pipe(
+        select(fromSelectors.getCaaMenuItemsFeature),
+        take(1)
+      ).subscribe((value) => {
+        expect(value).toEqual({ featureName: 'mo-caa-menu-items', isEnabled: true });
+        done();
+      });
     });
 
-    it('should get CAA assigned/unassigned cases feature is enabled', () => {
-      const featureFlag: AppFeatureFlag = { featureName: 'unassigned-cases', isEnabled: true };
+    it('should get CAA assigned/unassigned cases feature is enabled', (done) => {
+      const featureFlags: AppFeatureFlag[] = [
+        { featureName: 'mo-caa-menu-items', isEnabled: true }
+      ];
+
+      store.dispatch(new fromActions.LoadFeatureToggleConfigSuccess(featureFlags));
+
+      store.pipe(
+        select(fromSelectors.getCaaMenuItemsFeatureIsEnabled),
+        take(1)
+      ).subscribe((value) => {
+        expect(value).toBe(true); // if your selector returns boolean
+        done();
+      });
+    });
+
+    it('should get CAA new cases feature is enabled', () => {
+      const featureFlag: AppFeatureFlag = { featureName: 'mo-new-cases', isEnabled: true };
       let result;
       store.dispatch(new fromActions.LoadFeatureToggleConfig(featureFlag));
-      store.pipe(select(fromSelectors.getCaaMenuItemsFeatureIsEnabled)).subscribe((value) => (result = value));
+      store.pipe(select(fromSelectors.getCaaNewCasesMenuItemsFeatureIsEnabled)).subscribe((value) => (result = value));
       expect(result).toBeUndefined();
     });
 

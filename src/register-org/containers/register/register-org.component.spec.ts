@@ -1,10 +1,11 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RegistrationData } from '../../models/registration-data.model';
 import { RegisterOrgService } from '../../services';
 import { RegisterComponent } from './register-org.component';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -44,13 +45,12 @@ describe('RegisterComponent', () => {
     mockRegisterOrgService.getRegistrationData.and.returnValue(registrationData);
     await TestBed.configureTestingModule({
       declarations: [RegisterComponent],
-      imports: [
-        HttpClientTestingModule,
-        RouterTestingModule
-      ],
+      imports: [RouterTestingModule],
       providers: [
         { provide: Router, useValue: mockRouter },
-        { provide: RegisterOrgService, useValue: mockRegisterOrgService }
+        { provide: RegisterOrgService, useValue: mockRegisterOrgService },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
       ]
     })
       .compileComponents();
@@ -79,14 +79,14 @@ describe('RegisterComponent', () => {
 
   it('should not invoke persist registration data when component is unloaded due to cancellation of registration journey', () => {
     mockRegisterOrgService.persistRegistrationData.calls.reset();
-    spyOn(window, 'confirm').and.returnValue(true);
+    spyOn(globalThis, 'confirm').and.returnValue(true);
     component.cancelRegistrationJourney();
     component.ngOnDestroy();
     expect(mockRegisterOrgService.persistRegistrationData).not.toHaveBeenCalled();
   });
 
   it('should cancelRegistrationJourney confirmed by the user', () => {
-    spyOn(window, 'confirm').and.returnValue(true);
+    spyOn(globalThis, 'confirm').and.returnValue(true);
     component.cancelRegistrationJourney();
     expect(mockRegisterOrgService.removeRegistrationData).toHaveBeenCalled();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'register']);
@@ -94,7 +94,7 @@ describe('RegisterComponent', () => {
 
   it('should cancelRegistrationJourney not confirmed by the user', () => {
     mockRouter.navigate.calls.reset();
-    spyOn(window, 'confirm').and.returnValue(false);
+    spyOn(globalThis, 'confirm').and.returnValue(false);
     component.cancelRegistrationJourney();
     expect(mockRouter.navigate).not.toHaveBeenCalled();
   });

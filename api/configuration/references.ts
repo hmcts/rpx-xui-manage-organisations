@@ -9,7 +9,7 @@
  * This file should be representative of the .yaml files in /config, and not
  * contain any additional constants. They are grouped as a representation of the .yaml structure.
  */
-export const APP_INSIGHTS_KEY = 'secrets.rpx.appinsights-instrumentationkey-mo';
+export const APP_INSIGHTS_CONNECTION_STRING = 'secrets.rpx.appinsights-connection-string-mo';
 export const S2S_SECRET = 'secrets.rpx.mo-s2s-client-secret';
 export const IDAM_SECRET = 'secrets.rpx.xui-oauth2-token';
 export const GOOGLE_ANALYTICS_KEY = 'secrets.rpx.google-analytics-key';
@@ -39,11 +39,13 @@ export const SERVICES_RD_PROFESSIONAL_API_PATH = 'services.rdProfessionalApi';
 export const SERVICES_FEE_AND_PAY_API_PATH = 'services.feeAndPayApi';
 export const SERVICES_TERMS_AND_CONDITIONS_API_PATH = 'services.termsAndConditions';
 
+export const SERVICES_CCD_DEFINITION_STORE_API_PATH = 'services.ccdDefinitionApi';
 export const SERVICES_CCD_DATA_STORE_API_PATH = 'services.ccdDataApi';
 export const SERVICES_MCA_PROXY_API_PATH = 'services.caseAssignmentApi';
 export const SERVICES_IDAM_ISS_URL = 'iss';
 
 export const SERVICES_ROLE_ASSIGNMENT_API_PATH = 'services.role_assignment.roleApi';
+export const SERVICES_ROLE_ASSIGNMENT_MAPPING_API_PATH = 'services.role_assignment.roleMappingApi';
 
 export const SERVICES_PRD_COMMONDATA_API = 'services.prd.commondataApi';
 
@@ -51,7 +53,7 @@ export const CASE_SHARE_PERMISSIONS = 'pui-case-manager';
 
 export const LOGIN_ROLE_MATCHER = 'loginRoleMatcher';
 
-export const SESSION_SECRET = 'sessionSecret';
+export const SESSION_SECRET = 'secrets.rpx.mo-session-secret';
 
 export const LOGGING = 'logging';
 export const JURISDICTIONS = 'jurisdictions';
@@ -65,6 +67,7 @@ export const FEATURE_TERMS_AND_CONDITIONS_ENABLED = 'termsAndConditionsEnabled';
 export const FEATURE_HELMET_ENABLED = 'helmetEnabled';
 export const FEATURE_REDIS_ENABLED = 'redisEnabled';
 export const FEATURE_OIDC_ENABLED = 'oidcEnabled';
+export const FEATURE_OGD_UPDATE_REFRESH_USER_ENABLED = 'ogdUpdateRefreshUserEnabled';
 
 export const LINKS_MANAGE_CASES_LINK = 'links.manageCaseLink';
 export const LINKS_MANAGE_ORG_LINK = 'links.manageOrgLink';
@@ -77,6 +80,7 @@ export const REDIS_KEY_PREFIX = 'redis.prefix';
 export const SESSION_TIMEOUTS = 'sessionTimeouts';
 
 export const CASE_TYPES = 'caseTypes';
+export const UNASSIGNED_CASE_TYPES = 'unassignedCaseTypes';
 
 // PACT
 export const PACT_BROKER_URL = 'pact.brokerUrl';

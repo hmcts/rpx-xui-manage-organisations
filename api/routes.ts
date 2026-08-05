@@ -14,6 +14,7 @@ import inviteUser from './inviteUser';
 import getJurisdictions from './jurisdictions';
 import authInterceptor from './lib/middleware/auth';
 import organisationRouter from './organisation';
+import organisationTypesRouter from './organisationTypesRouter';
 import payments from './payments';
 import { router as pbaRouter } from './pbas/routes';
 import postUserTermsAndConditions from './postUserTermsAndConditions';
@@ -23,6 +24,9 @@ import getTermsAndConditions from './termsAndConditions';
 import userDetailsRouter from './user';
 import getUserDetails from './user-details';
 import getUserList from './userList';
+import refreshUser from './refresh-user';
+import retriveAccessTypes from './retrieveAccessTypes';
+import ogdInvite from './ogd';
 
 const router = Router({ mergeParams: true });
 
@@ -36,10 +40,12 @@ router.use(authInterceptor);
 
 router.use(xuiNode.authenticate);
 router.use('/organisation', organisationRouter);
+router.use('/organisationTypes', organisationTypesRouter);
 router.use('/accounts', accountsRouter);
 router.use('/user', userDetailsRouter);
 router.use('/healthCheck', healthCheck);
 router.use('/inviteUser', inviteUser);
+router.use('/refresh-user', refreshUser);
 router.use('/allUserList', getAllUserList);
 router.use('/allUserListWithoutRoles', getAllUserListWithoutRoles);
 router.use('/userList', getUserList);
@@ -57,4 +63,6 @@ router.use('/caseshare', caseShareRouter);
 router.use('/pba', pbaRouter);
 router.use('/register-org', registerRouter);
 router.use('/user-details', getUserDetails);
+router.use('/retrieve-access-types', retriveAccessTypes);
+router.use('/ogd-flow', ogdInvite);
 export default router;

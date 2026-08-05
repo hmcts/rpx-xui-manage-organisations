@@ -2,7 +2,7 @@ import { AxiosResponse } from 'axios';
 import { NextFunction, Response } from 'express';
 import { handleDelete, handleGet, handlePost } from '../common/crudService';
 import { getConfigValue } from '../configuration';
-import { SERVICES_MCA_PROXY_API_PATH, SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references';
+import { SERVICES_CCD_DATA_STORE_API_PATH, SERVICES_MCA_PROXY_API_PATH, SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references';
 import { EnhancedRequest } from '../models/enhanced-request.interface';
 import { ccdToUserDetails, prdToUserDetails } from './dtos/user-dto';
 import { CaseAssigneeMappingModel } from './models/case-assignee-mapping.model';
@@ -13,6 +13,7 @@ import { UserDetails } from './models/user-details.model';
 
 const prdUrl: string = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH);
 const ccdUrl: string = getConfigValue(SERVICES_MCA_PROXY_API_PATH);
+const ccdDsUrl: string = getConfigValue(SERVICES_CCD_DATA_STORE_API_PATH);
 
 export async function getUsers(req: EnhancedRequest, res: Response, next: NextFunction): Promise<Response> {
   try {
@@ -44,6 +45,33 @@ export async function getCases(req: EnhancedRequest, res: Response, next: NextFu
     return res.status(status).send(sharedCases);
   } catch (error) {
     next(error);
+  }
+}
+
+export async function acceptNewCases(req: EnhancedRequest, res: Response): Promise<Response> {
+  const casesToAccept = req.body.sharedCases;
+  const orgIdentifier = req.body.orgIdentifier;
+  const caseIdsToAccept: string[] = [];
+  for (const sharedCase of casesToAccept) {
+    if (sharedCase.caseId) {
+      caseIdsToAccept.push(sharedCase.caseId);
+    }
+  }
+  const path = `${ccdDsUrl}/cases/supplementary-data`;
+  const postData = {
+    'cases': caseIdsToAccept,
+    'supplementary_data_updates': {
+      '$set': {
+        [`new_case.${orgIdentifier}`]: false
+      }
+    }
+  };
+  try {
+    const { status, data }: {status: number, data: any} = await handlePost(path, postData, req);
+    return res.status(status).send(data);
+  } catch (err) {
+    console.log(err);
+    res.status(500);
   }
 }
 
@@ -88,7 +116,7 @@ export async function assignCases(req: EnhancedRequest, res: Response): Promise<
   // when none of the apis returned successfully
   if (shareCasePromises.length > 0 && shareCasePromises.length === shareCaseRejections.rejectedCount) {
     return res.status(500).send(shareCaseRejections.updatedErrorMessages);
-  } else if (unshareCaseRejection && unshareCaseRejection.rejectedCount === 1) {
+  } else if (unshareCaseRejection?.rejectedCount === 1) {
     // Should be a count of only 1 because it's a single Promise
     return res.status(500).send(unshareCaseRejection.updatedErrorMessages);
   }
@@ -100,7 +128,7 @@ function doShareCase(req: EnhancedRequest, shareCases: SharedCase[]): Promise<Ax
   const promises: Promise<AxiosResponse>[] = [];
   // @ts-ignore
   shareCases.flatMap((sharedCase) => {
-    if (sharedCase && sharedCase.pendingShares && sharedCase.pendingShares.length > 0) {
+    if (sharedCase?.pendingShares?.length > 0) {
       sharedCase.pendingShares.flatMap((pendingShare) => {
         const caseAssigneeMappingModel: CaseAssigneeMappingModel = {
           assignee_id: pendingShare.idamId,

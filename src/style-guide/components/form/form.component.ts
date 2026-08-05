@@ -5,7 +5,8 @@ import { StyleGuideFormConstants as CONST } from '../../constants/style-guide-fo
 
 @Component({
   selector: 'app-form',
-  templateUrl: './form.component.html'
+  templateUrl: './form.component.html',
+  standalone: false
 })
 export class FormComponent implements OnInit {
   @Output() public submitForm = new EventEmitter();
@@ -15,11 +16,11 @@ export class FormComponent implements OnInit {
   }
 
   public errors: string[];
-  public checkboxes; // TODO: Add type.
-  public contactPreference; // TODO: Add type.
-  public sortBySelect; // TODO: Add type.
-  public moreDetail; // TODO: Add type.
-  public formConstModel; // TODO: Add type.
+  public checkboxes;
+  public contactPreference;
+  public sortBySelect;
+  public moreDetail;
+  public formConstModel;
 
   public ngOnInit(): void {
     this.formConstModel = CONST.STG_FORM_MODEL;

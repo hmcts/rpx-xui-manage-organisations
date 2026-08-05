@@ -27,7 +27,6 @@ export async function handleRegisterOrgRoute(req: Request, res: Response) {
     /**
      * We use the S2S token to set the headers.
      */
-    console.log(s2sToken);
     const url = `${rdProfessionalPath}/refdata/internal/v1/organisations`;
     const options = {
       headers: { ServiceAuthorization: `Bearer ${s2sToken}` }

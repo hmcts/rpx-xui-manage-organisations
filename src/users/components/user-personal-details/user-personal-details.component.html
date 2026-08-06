@@ -1,13 +1,10 @@
-<h1 class="govuk-heading-m">User Details</h1>
+<h2 class="govuk-heading-m">User Details</h2>
 
 @if (inviteMode) {
 <p class="govuk-caption-m">Add details of the user you want to invite</p>
 <ng-container>
   @if (personalDetailForm) {
   <form [formGroup]="personalDetailForm">
-    <xuilib-gov-uk-form-group-wrapper [group]="'personalDetailForm'" [config]="{
-        key: 'firstName'
-      }">
       <xuilib-gov-uk-input [config]="{
           label: 'First name',
           hint: 'Include all middle names',
@@ -19,11 +16,7 @@
           messages: errors.firstName
         }">
       </xuilib-gov-uk-input>
-    </xuilib-gov-uk-form-group-wrapper>
 
-    <xuilib-gov-uk-form-group-wrapper [group]="'personalDetailForm'" [config]="{
-        key: 'lastName'
-      }">
       <xuilib-gov-uk-input [config]="{
           label: 'Last name',
           name: 'lastName',
@@ -34,11 +27,7 @@
           messages: errors.lastName
         }">
       </xuilib-gov-uk-input>
-    </xuilib-gov-uk-form-group-wrapper>
 
-    <xuilib-gov-uk-form-group-wrapper [group]="'personalDetailForm'" [config]="{
-        key: 'email'
-      }">
       <xuilib-gov-uk-input [config]="{
           label: 'Email address',
           hint: 'Only use work / business addresses',
@@ -50,7 +39,6 @@
           messages: errors.email
         }">
       </xuilib-gov-uk-input>
-    </xuilib-gov-uk-form-group-wrapper>
   </form>
   }
 </ng-container>

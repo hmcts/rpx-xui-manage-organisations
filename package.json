@@ -112,7 +112,7 @@
     "@rxweb/reactive-form-validators": "13.0.1",
     "applicationinsights": "^3.14.0",
     "axios": "^1.18.1",
-    "body-parser": "^2.2.2",
+    "body-parser": "^2.3.0",
     "class-transformer": "^0.5.1",
     "config": "^4.4.1",
     "connect-redis": "^9.0.0",
@@ -231,7 +231,8 @@
     "qs": "6.15.2",
     "semver": "^7.6.0",
     "html-encoding-sniffer": "^6.0.0",
-    "jsdom": "^27.0.1"
+    "jsdom": "^27.0.1",
+    "body-parser": "^2.3.0"
   },
   "packageManager": "yarn@4.9.2"
 }

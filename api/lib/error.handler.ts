@@ -7,7 +7,6 @@ const logger = log4jui.getLogger('errorHandler');
 /**
  * Express error-handling middleware must keep the four-argument signature.
  */
-// eslint-disable-next-line no-unused-vars, no-shadow
 export default function errorHandler(err, req: Request, res: Response, next: NextFunction) {
   if (res.headersSent) {
     return next(err);

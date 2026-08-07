@@ -68,7 +68,7 @@ export class CasesResultsTableComponent {
   /**
    *
    */
-  constructor(private readonly store: Store<fromStore.CaaCasesState>,) {
+  constructor(private readonly store: Store<fromStore.CaaCasesState>) {
 
   }
 

@@ -3310,9 +3310,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/ccd-case-ui-toolkit@npm:7.3.80-minimatch":
-  version: 7.3.80-minimatch
-  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.3.80-minimatch"
+"@hmcts/ccd-case-ui-toolkit@npm:7.3.81-minimatch":
+  version: 7.3.81-minimatch
+  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.3.81-minimatch"
   dependencies:
     "@edium/fsm": "npm:^3.0.2"
     "@hmcts/ccpay-web-component": "npm:6.5.22"
@@ -3352,7 +3352,7 @@ __metadata:
     rxjs-compat: ^6.6.7
     underscore: ^1.9.1
     zone.js: ^0.15.1
-  checksum: 10/6bcf2635162dd53bdcdd725f9e8926fbf2f5e55ae6bc5b8d618ca68195dcd40719dca265c7089094202372c74ba6ea117a9694de991206dac2130d92a8234bbe
+  checksum: 10/b9856d42f8158f22143cb2e5974cd517efe9790bd982186237e7d492e117bc2abc98aff285a595ce22dffbbf16d95d8f6f20777cfafaf62ba11dbf0c12821b04
   languageName: node
   linkType: hard
 
@@ -3529,9 +3529,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-node-lib@npm:2.30.22":
-  version: 2.30.22
-  resolution: "@hmcts/rpx-xui-node-lib@npm:2.30.22"
+"@hmcts/rpx-xui-node-lib@npm:2.30.23-minimatch":
+  version: 2.30.23-minimatch
+  resolution: "@hmcts/rpx-xui-node-lib@npm:2.30.23-minimatch"
   dependencies:
     "@dr.pogodin/csurf": "npm:^1.17.1"
     axios: "npm:^1.18.1"
@@ -3550,7 +3550,7 @@ __metadata:
     session-file-store: "npm:^1.5.0"
   peerDependencies:
     helmet: ^7.0.0
-  checksum: 10/f1cdbe342e2256a9b3d7f63f18b7b5f526f0596dceb06beee2c6261568c475996d62e5c6641089c6ab2a97c11454d3e9c33b4d47779d76fc151bf86362e780cf
+  checksum: 10/73fca8a7a5a5356cb49ed91cbf74c78889e1676fd4271a7900a8756d175bd49882fe9924db165f7cd299c8ebf8682fb8d7397ead169fbc65f8f9d36e4c5588d9
   languageName: node
   linkType: hard
 
@@ -20960,7 +20960,7 @@ __metadata:
     "@angular/router": "npm:^20.3.18"
     "@babel/runtime": "npm:7.28.3"
     "@edium/fsm": "npm:^2.1.2"
-    "@hmcts/ccd-case-ui-toolkit": "npm:7.3.80-minimatch"
+    "@hmcts/ccd-case-ui-toolkit": "npm:7.3.81-minimatch"
     "@hmcts/ccpay-web-component": "npm:6.5.22"
     "@hmcts/frontend": "npm:0.0.50-alpha"
     "@hmcts/media-viewer": "npm:4.2.25"
@@ -20968,7 +20968,7 @@ __metadata:
     "@hmcts/playwright-common": "npm:1.1.3"
     "@hmcts/properties-volume": "npm:^1.4.0"
     "@hmcts/rpx-xui-common-lib": "npm:3.2.13"
-    "@hmcts/rpx-xui-node-lib": "npm:2.30.22"
+    "@hmcts/rpx-xui-node-lib": "npm:2.30.23-minimatch"
     "@microsoft/applicationinsights-web": "npm:^3.4.1"
     "@ng-idle/core": "npm:^16.0.0"
     "@ng-idle/keepalive": "npm:^16.0.0"

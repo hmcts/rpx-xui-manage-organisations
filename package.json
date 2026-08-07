@@ -176,7 +176,7 @@
     "chai-as-promised": "7.1.1",
     "codelyzer": "^5.1.2",
     "cross-env": "^10.0.0",
-    "eslint": "^10.8.0",
+    "eslint": "^9.39.2",
     "git-rev-sync": "^2.0.0",
     "husky": "^9.1.7",
     "jasmine-core": "~5.1.0",

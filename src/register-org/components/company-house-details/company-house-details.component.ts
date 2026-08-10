@@ -27,7 +27,7 @@ export class CompanyHouseDetailsComponent extends RegisterComponent implements O
     this.companyHouseFormGroup = new FormGroup({
       companyName: new FormControl(this.registrationData.companyName, Validators.required),
       companyHouseNumber: new FormControl(this.registrationData.companyHouseNumber,
-        Validators.pattern(/^(((AC|ZC|FC|GE|LP|OC|SE|SA|SZ|SF|GS|SL|SO|SC|ES|NA|NZ|NF|GN|NL|NC|R0|NI|EN|\d{2}|SG|FE)\d{5}(\d|C|R))|((RS|SO)\d{3}(\d{3}|\d{2}[WSRCZF]|\d(FI|RS|SA|IP|US|EN|AS)|CUS))|((NI|SL)\d{5}[\dA])|(OC(([\dP]{5}[CWERTB])|([\dP]{4}(OC|CU)))))$/)
+        Validators.pattern(/^((RS\d{5})|((AC|ZC|FC|GE|LP|OC|SE|SA|SZ|SF|GS|SL|SO|SC|ES|NA|NZ|NF|GN|NL|NC|R0|NI|EN|\d{2}|SG|FE|BR|OE|RS)\d{5}(\d|C|R))|((RS|SO)\d{3}(\d{3}|\d{2}[WSRCZF]|\d(FI|RS|SA|IP|US|EN|AS)|CUS))|((NI|SL)\d{5}[\dA])|(OC(([\dP]{5}[CWERTB])|([\dP]{4}(OC|CU)))))$/)
       )
     });
   }

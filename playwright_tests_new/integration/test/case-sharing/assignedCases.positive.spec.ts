@@ -1,5 +1,8 @@
 import { expect, test } from '../../fixtures';
-import { setupAssignedCaseShareRoutes } from '../../helpers';
+import {
+  setupAssignedCaseShareRoutes,
+  setupUnassignedCaseListRoutes
+} from '../../helpers';
 import {
   assignedAsylumCase,
   assignedImmigrationCase,
@@ -9,6 +12,9 @@ import {
   manageOrgIntegrationOrganisationName,
   petSolicitorOne,
   petSolicitorTwo,
+  unassignedAsylumCase,
+  unassignedImmigrationCase,
+  unassignedSecondAsylumCase,
   buildRecipientName,
   buildRecipientOptionName
 } from '../../mocks/caseSharing.mock';
@@ -23,6 +29,65 @@ const isAssignedCaseShareUrl = (url: URL): boolean =>
   url.searchParams.get('pageType') === 'assigned-cases';
 
 test.describe('Assigned cases', { tag: ['@integration', '@integration-assigned-cases', '@integration-case-sharing'] }, () => {
+  test('renders Cases page rows after switching between multiple default case-type tabs', async ({
+    manageOrgIntegrationPage: page
+  }) => {
+    const routeState = await setupUnassignedCaseListRoutes(page);
+    const assignedCasesPage = new AssignedCasesPage(page);
+
+    await page.goto('/');
+    await page.getByRole('link', { name: 'Cases', exact: true }).click();
+
+    await expect(page).toHaveURL(/\/cases$/);
+    await expect(assignedCasesPage.pageHeading).toBeVisible();
+    await expect(page.getByText(manageOrgIntegrationOrganisationName)).toBeVisible();
+    await expect(assignedCasesPage.caseTypeTab(asylumCaseType)).toBeVisible();
+    await expect(assignedCasesPage.caseTypeTab(immigrationCaseType)).toBeVisible();
+    await expect(page.getByText('Showing 1 to 2 of 2 Asylum cases', { exact: true })).toBeVisible();
+    await expect(assignedCasesPage.caseList).toContainText(unassignedAsylumCase.caseReference);
+    await expect(assignedCasesPage.caseList).toContainText(unassignedSecondAsylumCase.caseReference);
+    await expect(assignedCasesPage.caseList).not.toContainText(unassignedImmigrationCase.caseReference);
+    await expect.poll(() =>
+      routeState.caseListRequests.some((request) =>
+        request.caaCasesFilterType === 'unassigned-cases' &&
+        request.caaCasesFilterValue === null &&
+        request.caaCasesPageType === 'unassigned-cases' &&
+        request.caseTypeId === asylumCaseType &&
+        request.method === 'POST' &&
+        request.pageNo === '1' &&
+        request.pageSize === '25'
+      )
+    ).toBe(true);
+
+    await assignedCasesPage.openCaseTypeTab(immigrationCaseType);
+
+    await expect(assignedCasesPage.caseTypeTab(immigrationCaseType)).toHaveAttribute('aria-selected', 'true');
+    await expect(page.getByText('Showing 1 to 1 of 1 Immigration cases', { exact: true })).toBeVisible();
+    await expect(assignedCasesPage.caseList).toContainText(unassignedImmigrationCase.caseReference);
+    await expect(assignedCasesPage.caseList).toContainText(unassignedImmigrationCase.caseNumber);
+    await expect(assignedCasesPage.caseList).not.toContainText(unassignedAsylumCase.caseReference);
+    await expect(assignedCasesPage.caseList).not.toContainText(unassignedSecondAsylumCase.caseReference);
+    await expect.poll(() =>
+      routeState.caseListRequests.some((request) =>
+        request.caaCasesFilterType === 'unassigned-cases' &&
+        request.caaCasesFilterValue === null &&
+        request.caaCasesPageType === 'unassigned-cases' &&
+        request.caseTypeId === immigrationCaseType &&
+        request.method === 'POST' &&
+        request.pageNo === '1' &&
+        request.pageSize === '25'
+      )
+    ).toBe(true);
+
+    await assignedCasesPage.openCaseTypeTab(asylumCaseType);
+
+    await expect(assignedCasesPage.caseTypeTab(asylumCaseType)).toHaveAttribute('aria-selected', 'true');
+    await expect(page.getByText('Showing 1 to 2 of 2 Asylum cases', { exact: true })).toBeVisible();
+    await expect(assignedCasesPage.caseList).toContainText(unassignedAsylumCase.caseReference);
+    await expect(assignedCasesPage.caseList).toContainText(unassignedSecondAsylumCase.caseReference);
+    await expect(assignedCasesPage.caseList).not.toContainText(unassignedImmigrationCase.caseReference);
+  });
+
   test('validates assigned case filters, tabs and manage-sharing submission', async ({
     manageOrgIntegrationPage: page
   }) => {

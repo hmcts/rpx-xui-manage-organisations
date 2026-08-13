@@ -7,11 +7,11 @@ $path: "";
 $jui-assets-path : "";
 
 $govuk-global-styles: true;
-@import "./assets/sass/application";
-@import '../node_modules/@angular/material/prebuilt-themes/indigo-pink.css';
+@use "./assets/sass/application" as *;
+@use '../node_modules/@angular/material/prebuilt-themes/indigo-pink.css';
 
 $govuk-compatibility-govukfrontendtoolkit: true;
-@import "../node_modules/govuk-frontend/govuk/all";
+@use "../node_modules/govuk-frontend/govuk/all" as *;
 
 
 

@@ -15,16 +15,16 @@ $hmcts-page-width: 1220px;
 //@import "@hmcts/frontend/all";
 
 // Patterns that aren’t in Frontend
-@import "patterns/check-your-answers";
-@import "patterns/task-list";
-@import "patterns/related-items";
+@use "patterns/check-your-answers" as *;
+@use "patterns/task-list" as *;
+@use "patterns/related-items" as *;
 
 // Components that aren’t in Frontend
 //@import "components/cookie-banner";
 
 
 // JUI styles
-@import "jui/all";
+@use "jui/all" as *;
 
 html {
   background-color: govuk-colour("light-grey");

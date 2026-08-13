@@ -1,5 +1,5 @@
-@import "settings/manifest";
-@import "objects/manifest";
+@use "settings/manifest" as *;
+@use "objects/manifest" as *;
 
 // Reference to all components
 //@import "../../components/all";

@@ -10,21 +10,21 @@ $govuk-global-styles: true;
 $hmcts-page-width: 1220px;
 
 // Import GOV.UK Frontend
-@import "govuk-frontend/govuk/all";
-@import "@hmcts/frontend/all";
+@use "govuk-frontend/govuk/all" as *;
+@use "@hmcts/frontend/all" as *;
 
 // Patterns that aren’t in Frontend
-@import "patterns/check-your-answers";
-@import "patterns/task-list";
-@import "patterns/related-items";
-@import "patterns/pba";
+@use "patterns/check-your-answers" as *;
+@use "patterns/task-list" as *;
+@use "patterns/related-items" as *;
+@use "patterns/pba" as *;
 
 // Components that aren’t in Frontend
-@import "components/cookie-banner";
+@use "components/cookie-banner" as *;
 
 
 // JUI styles
-@import "jui/all";
+@use "jui/all" as *;
 
 html {
   background-color: govuk-colour("light-grey");

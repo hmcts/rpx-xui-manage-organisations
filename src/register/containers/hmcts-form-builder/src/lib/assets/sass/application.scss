@@ -1,23 +1,8 @@
-@use "govuk-frontend/dist/govuk/base" as govuk;
-
-// Path to assets for use with the file-url function
-// in the govuk frontend toolkit"s url-helpers partial
-$path: "/public/images/";
-
-// Width of main container
-$hmcts-page-width: 1220px;
-
-// Patterns that aren’t in Frontend
-@import "patterns/check-your-answers";
-@import "patterns/task-list";
-@import "patterns/related-items";
-
-// Components that aren’t in Frontend
-//@import "components/cookie-banner";
-
-
-// JUI styles
-@import "jui/all";
+@use "govuk-frontend/dist/govuk" as govuk;
+@use "patterns/check-your-answers";
+@use "patterns/task-list";
+@use "patterns/related-items";
+@use "jui/all";
 
 html {
   background-color: govuk.govuk-colour("black", $variant: "tint-95");

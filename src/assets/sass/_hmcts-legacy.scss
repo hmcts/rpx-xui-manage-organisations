@@ -1,0 +1,6 @@
+@use "govuk-frontend/dist/govuk";
+
+// Adapter for @hmcts/frontend until it supports the Sass module system.
+@import "govuk-frontend-compatibility";
+$hmcts-page-width: 1220px;
+@import "@hmcts/frontend/all";

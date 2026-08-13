@@ -2,6 +2,8 @@
   $govuk-global-styles: true
 );
 
+@use "./assets/sass/application";
+
 /* You can add global styles to this file, and also import other style files */
 
 // Path to assets for use with the file-url function
@@ -9,7 +11,6 @@
 $path: "";
 $jui-assets-path : "";
 
-@import "./assets/sass/application";
 @import '../node_modules/@angular/material/prebuilt-themes/indigo-pink.css';
 
 div.govuk-prose-scope,
@@ -214,4 +215,9 @@ div.hmcts-header__logo {
     /* GOV.UK yellow focus ring */
     outline-offset: 0;
   }
+}
+
+// Extend in the entry module so the editor retains the GOV.UK textarea styles.
+.jui-editor__content {
+  @extend .govuk-textarea;
 }

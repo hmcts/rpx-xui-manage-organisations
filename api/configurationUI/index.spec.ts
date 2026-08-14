@@ -91,7 +91,7 @@ describe('configurationUI index', () => {
 
     expect(res.status).to.be.calledWith(200);
     expect(res.send).to.be.calledWithMatch({
-      environment: 'demo',
+      environment: 'demo-4606-test',
       idamWeb: 'https://idam-web-public.demo.platform.hmcts.net'
     });
   });

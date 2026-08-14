@@ -52,7 +52,7 @@
     "test:wave-a11y:playwright": "node scripts/run-playwright-wave-a11y.js",
     "test:can-i-deploy:consumer": "export VERSION=$(git rev-parse --short HEAD) && SSL_CERT_FILE=api/test/pact/cer/ca-bundle.crt pact-broker can-i-deploy --pacticipant 'xui_manageOrg' --version ${VERSION} --broker-base-url https://pact-broker.platform.hmcts.net",
     "test:coverage": "yarn test:ng",
-    "test:coverage:ng": "ng test rpx-xui-manage-organisations --code-coverage --watch",
+    "test:coverage:ng": "ng test rpx-xui-manage-organisations --code-coverage --watch=false",
     "test:coverage:node": "cd api && yarn coverage",
     "test:crossbrowser": "yarn test:setup:playwright-install-all && yarn test:setup:playwright-verify-all && yarn test:crossbrowser:profile",
     "test:crossbrowser:profile": "sh -c 'if [ \"${1:-}\" = \"--\" ]; then shift; fi; PW_LOAD_PROFILE_OUTPUT=${PW_LOAD_PROFILE_OUTPUT:-functional-output/tests/playwright-e2e/odhin-report/load-profile} node scripts/playwright-load-monitor.js --report-folder functional-output/tests/playwright-e2e/odhin-report --label \"${PW_LOAD_PROFILE_LABEL:-E2E cross-browser}\" -- yarn test:crossbrowser:raw \"$@\"' --",

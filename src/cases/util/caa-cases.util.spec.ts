@@ -54,7 +54,7 @@ describe('CaaCasesUtil', () => {
     expect(results[0].text).toEqual('FT_MasterCaseType');
     expect(results[1].text).toEqual('FT_ComplexCollectionComplex');
     expect(results[2].text).toEqual('FT_Conditionals');
-    expect(results[3].text).toEqual('FT_ComplexOrganisation-4606-test');
+    expect(results[3].text).toEqual('FT_ComplexOrganisation');
     expect(results[3].total).toEqual(4);
     expect(results[2].caseConfig).toEqual({
       new_cases: true,

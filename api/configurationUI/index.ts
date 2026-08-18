@@ -42,8 +42,8 @@ export async function configurationUIRoute(req, res): Promise<void> {
 export default router;
 
 function getRuntimeEnvironment(): string {
-  const previewDeploymentId = process && process.env && process.env.PREVIEW_DEPLOYMENT_ID;
-  const puiEnv = process && process.env && process.env.PUI_ENV;
+  const previewDeploymentId = process?.env?.PREVIEW_DEPLOYMENT_ID;
+  const puiEnv = process?.env?.PUI_ENV;
   const idamWeb = getConfigValue(SERVICES_IDAM_WEB);
 
   if (previewDeploymentId) {

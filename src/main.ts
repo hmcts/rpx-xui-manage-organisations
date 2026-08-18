@@ -1,5 +1,5 @@
 import { enableProdMode, CSP_NONCE } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { platformBrowser } from '@angular/platform-browser';
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 import { ENVIRONMENT_CONFIG } from './models/environmentConfig.model';
@@ -17,7 +17,7 @@ if (environment.production) {
 fetch('/external/configuration-ui/')
   .then(async (res) => (await res.json()) || {})
   .then((config) =>
-    platformBrowserDynamic([
+    platformBrowser([
       { provide: ENVIRONMENT_CONFIG, useValue: config },
       { provide: CSP_NONCE, useValue: nonce }
     ]).bootstrapModule(AppModule)

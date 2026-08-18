@@ -1,4 +1,4 @@
-import * as jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { getConfigValue } from '../configuration';
 import { MICROSERVICE } from '../configuration/references';
 import * as log4jui from '../lib/log4jui';

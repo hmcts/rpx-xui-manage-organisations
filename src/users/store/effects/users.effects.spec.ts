@@ -158,7 +158,7 @@ describe('Users Effects', () => {
 
   describe('loadUsers$ error', () => {
     it('should return LoadUsersFail', waitForAsync(() => {
-      usersServiceMock.getListOfUsers.and.returnValue(throwError(new Error()));
+      usersServiceMock.getListOfUsers.and.returnValue(throwError(() => new Error()));
       const action = new LoadUsers();
       const completion = new LoadUsersFail(new Error());
       actions$ = hot('-a', { a: action });
@@ -194,7 +194,7 @@ describe('Users Effects', () => {
 
   describe('suspendUser$ error', () => {
     it('should return SuspendUserFail', waitForAsync(() => {
-      usersServiceMock.suspendUser.and.returnValue(throwError(new Error()));
+      usersServiceMock.suspendUser.and.returnValue(throwError(() => new Error()));
       const action = new SuspendUser({});
       const completion = new SuspendUserFail(new Error());
       actions$ = hot('-a', { a: action });
@@ -389,7 +389,7 @@ describe('Users Effects', () => {
 
   describe('loadAllUsersNoRoleData$ error', () => {
     it('should return LoadAllUsersNoRoleDataFail', waitForAsync(() => {
-      usersServiceMock.getAllUsersList.and.returnValue(throwError(new Error()));
+      usersServiceMock.getAllUsersList.and.returnValue(throwError(() => new Error()));
       const action = new LoadAllUsersNoRoleData();
       const completion = new LoadAllUsersNoRoleDataFail(new Error());
       actions$ = hot('-a', { a: action });

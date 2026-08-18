@@ -1,10 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatLegacyTabGroup as MatTabGroup } from '@angular/material/legacy-tabs';
+import { MatTabGroup } from '@angular/material/tabs';
 import { Router } from '@angular/router';
 import { TableConfig } from '@hmcts/ccd-case-ui-toolkit';
-import { User } from '@hmcts/rpx-xui-common-lib';
-import { SharedCase } from '@hmcts/rpx-xui-common-lib';
+import { SharedCase, User } from '@hmcts/rpx-xui-common-lib';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { CaaCasesService } from '../../../caa-cases/services';
@@ -63,10 +62,10 @@ export class CaaCasesComponent implements OnInit {
   @ViewChild('tabGroup') public tabGroup: MatTabGroup;
 
   constructor(private readonly store: Store<fromStore.CaaCasesState>,
-              private readonly organisationStore: Store<fromOrganisationStore.OrganisationState>,
-              private readonly userStore: Store<fromUserStore.UserState>,
-              private readonly router: Router,
-              private readonly service: CaaCasesService) {
+    private readonly organisationStore: Store<fromOrganisationStore.OrganisationState>,
+    private readonly userStore: Store<fromUserStore.UserState>,
+    private readonly router: Router,
+    private readonly service: CaaCasesService) {
   }
 
   public ngOnInit(): void {
@@ -207,8 +206,8 @@ export class CaaCasesComponent implements OnInit {
     }
   }
 
-  public tabChanged(event: { tab: { textLabel: string }}): void {
-    this.totalCases = this.navItems.find((data) => data.text === event.tab.textLabel)
+  public tabChanged(event: { tab: { textLabel: string } }): void {
+    this.totalCases = this.navItems.some((data) => data.text === event.tab.textLabel)
       ? this.navItems.find((data) => data.text === event.tab.textLabel).total
       : 0;
     this.setTabItems(event.tab.textLabel, true);
@@ -272,13 +271,31 @@ export class CaaCasesComponent implements OnInit {
   }
 
   public toggleFilterSection(): void {
-    this.caaShowHideFilterButtonText = this.caaCasesPageType === CaaCasesPageType.UnassignedCases
-      ? this.caaShowHideFilterButtonText === CaaCasesShowHideFilterButtonText.UnassignedCasesShow
-        ? CaaCasesShowHideFilterButtonText.UnassignedCasesHide
-        : CaaCasesShowHideFilterButtonText.UnassignedCasesShow
-      : this.caaShowHideFilterButtonText === CaaCasesShowHideFilterButtonText.AssignedCasesShow
-        ? CaaCasesShowHideFilterButtonText.AssignedCasesHide
-        : CaaCasesShowHideFilterButtonText.AssignedCasesShow;
+    if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases) {
+      if (
+        this.caaShowHideFilterButtonText ===
+        CaaCasesShowHideFilterButtonText.UnassignedCasesShow
+      ) {
+        this.caaShowHideFilterButtonText =
+          CaaCasesShowHideFilterButtonText.UnassignedCasesHide;
+      } else {
+        this.caaShowHideFilterButtonText =
+          CaaCasesShowHideFilterButtonText.UnassignedCasesShow;
+      }
+
+      return;
+    }
+
+    if (
+      this.caaShowHideFilterButtonText ===
+      CaaCasesShowHideFilterButtonText.AssignedCasesShow
+    ) {
+      this.caaShowHideFilterButtonText =
+        CaaCasesShowHideFilterButtonText.AssignedCasesHide;
+    } else {
+      this.caaShowHideFilterButtonText =
+        CaaCasesShowHideFilterButtonText.AssignedCasesShow;
+    }
   }
 
   public onSelectedFilterTypeChanged(selectedFilterType: string): void {
@@ -309,29 +326,57 @@ export class CaaCasesComponent implements OnInit {
 
   public retrieveSessionState(): void {
     this.sessionStateValue = this.service.retrieveSessionState(this.caaCasesPageType);
-    if (this.sessionStateValue) {
-      this.selectedFilterType = this.sessionStateValue.filterType ? this.sessionStateValue.filterType : null;
-      if (this.selectedFilterType) {
-        const caseReferenceNumber = this.sessionStateValue.caseReferenceNumber && this.sessionStateValue.caseReferenceNumber;
-        const assigneeName = this.sessionStateValue.assigneeName && this.sessionStateValue.assigneeName;
-        if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases && caseReferenceNumber) {
-          this.selectedFilterValue = caseReferenceNumber;
-        } else if (this.caaCasesPageType === CaaCasesPageType.AssignedCases) {
-          if (this.selectedFilterType === CaaCasesFilterType.AssigneeName && assigneeName) {
-            this.selectedFilterValue = assigneeName;
-          } else if (this.selectedFilterType === CaaCasesFilterType.CaseReferenceNumber && caseReferenceNumber) {
-            this.selectedFilterValue = caseReferenceNumber;
-          }
-        }
-        this.toggleFilterSection();
-      }
+
+    if (!this.sessionStateValue) {
+      return;
     }
+
+    this.selectedFilterType = this.sessionStateValue.filterType ?? null;
+
+    if (!this.selectedFilterType) {
+      return;
+    }
+
+    this.selectedFilterValue = this.getSelectedFilterValueFromSession();
+    this.toggleFilterSection();
+  }
+
+  private getSelectedFilterValueFromSession(): string | null {
+    const caseReferenceNumber = this.sessionStateValue.caseReferenceNumber;
+    const assigneeName = this.sessionStateValue.assigneeName;
+
+    if (
+      this.caaCasesPageType === CaaCasesPageType.UnassignedCases &&
+      caseReferenceNumber
+    ) {
+      return caseReferenceNumber;
+    }
+
+    if (this.caaCasesPageType !== CaaCasesPageType.AssignedCases) {
+      return null;
+    }
+
+    if (
+      this.selectedFilterType === CaaCasesFilterType.AssigneeName &&
+      assigneeName
+    ) {
+      return assigneeName;
+    }
+
+    if (
+      this.selectedFilterType === CaaCasesFilterType.CaseReferenceNumber &&
+      caseReferenceNumber
+    ) {
+      return caseReferenceNumber;
+    }
+
+    return null;
   }
 
   public storeSessionState(): void {
     const sessionStateValue = this.service.retrieveSessionState(this.caaCasesPageType);
-    const caseReferenceNumber = sessionStateValue && sessionStateValue.caseReferenceNumber && sessionStateValue.caseReferenceNumber;
-    const assigneeName = sessionStateValue && sessionStateValue.assigneeName && sessionStateValue.assigneeName;
+    const caseReferenceNumber = sessionStateValue?.caseReferenceNumber;
+    const assigneeName = sessionStateValue?.assigneeName;
     const sessionStateToUpdate: CaaCasesSessionState = {
       key: this.caaCasesPageType,
       value: {

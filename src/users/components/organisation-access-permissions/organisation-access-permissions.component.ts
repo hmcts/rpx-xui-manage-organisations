@@ -1,8 +1,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Inject, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User, UserAccessType } from '@hmcts/rpx-xui-common-lib';
-import { Observable, Subject, map, shareReplay, takeUntil } from 'rxjs';
-import { Subscription } from 'rxjs';
+import { Observable, Subject, map, shareReplay, takeUntil, Subscription } from 'rxjs';
 import { CaseManagementPermissions } from '../../models/case-management-permissions.model';
 import { Jurisdiction } from 'src/models';
 import { AppConstants } from '../../../app/app.constants';
@@ -33,10 +32,10 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnChanges
   public orgProfileType: string;
 
   private userAccessTypes: UserAccessType[];
-  private onDestroy$ = new Subject<void>();
+  private readonly onDestroy$ = new Subject<void>();
   private formChangesSubscription = new Subscription();
 
-  private accordianConfig = {
+  private readonly accordianConfig = {
     i18n: {
       showSection: 'See additional types of access',
       hideSection: 'Hide additional types of access'
@@ -45,11 +44,11 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnChanges
   };
 
   constructor(
-    private fb: FormBuilder,
-    private cdRef: ChangeDetectorRef,
-    private orgProfileService: OrganisationProfileService,
+    private readonly fb: FormBuilder,
+    private readonly cdRef: ChangeDetectorRef,
+    private readonly orgProfileService: OrganisationProfileService,
     @Inject(ENVIRONMENT_CONFIG) private readonly environmentConfig: EnvironmentConfig
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.ogdUpdateRefreshUserEnabled = !!this.environmentConfig.ogdUpdateRefreshUserEnabled;
@@ -81,18 +80,18 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnChanges
     this.onDestroy$.complete();
   }
 
-  ngAfterViewInit(): void{
+  ngAfterViewInit(): void {
     this.initAccordion();
   }
 
-  initAccordion(){
+  initAccordion() {
     if (!this.shouldShowCaseManagementContent) {
       return;
     }
     const accordion1 = document.getElementById('org-access-accordion');
-    if (accordion1 && !accordion1.hasAttribute('data-codex-initialized')) {
+    if (accordion1 && !accordion1.dataset.codexInitialized) {
       new Accordion(accordion1, this.accordianConfig).init();
-      accordion1.setAttribute('data-codex-initialized', 'true');
+      accordion1.dataset.codexInitialized = 'true';
     }
   }
 
@@ -106,8 +105,8 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnChanges
     return this.jurisdictionPermissionsForm.controls.jurisdictions;
   }
 
-  public createPermissionsViewModel() : JurisdictionPermissionViewModel[] {
-    if (!this.jurisdictions){
+  public createPermissionsViewModel(): JurisdictionPermissionViewModel[] {
+    if (!this.jurisdictions) {
       return [];
     }
     return this.jurisdictions.map((jurisdiction) => {
@@ -116,7 +115,7 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnChanges
         .sort((a, b) => a.displayOrder - b.displayOrder)
         .filter((accessType) => accessType.display)
         .map((accessType) => {
-          const accessTypePermissionViewModel:AccessTypePermissionViewModel = {
+          const accessTypePermissionViewModel: AccessTypePermissionViewModel = {
             accessTypeId: accessType.accessTypeId,
             enabled: accessType.accessDefault,
             display: accessType.display,
@@ -132,7 +131,7 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnChanges
           return accessTypePermissionViewModel;
         });
 
-      const permission:JurisdictionPermissionViewModel = {
+      const permission: JurisdictionPermissionViewModel = {
         jurisdictionId: jurisdiction.jurisdictionId,
         jurisdictionName: jurisdiction.jurisdictionName,
         accessTypes: accessTypes
@@ -142,7 +141,7 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnChanges
   }
 
   public mapPermissionsToUserAccessTypes() {
-    if (!this.enableCaseManagement){
+    if (!this.enableCaseManagement) {
       return [];
     }
     const accessTypes = this.permissions.reduce((acc, permission) => {
@@ -197,7 +196,7 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnChanges
     });
   }
 
-  private createPermissionChangeObservableForGroup(jurisdictionGroup: FormGroup<JurisdictionPermissionViewModelForm>): Observable<JurisdictionPermissionViewModel[]>{
+  private createPermissionChangeObservableForGroup(jurisdictionGroup: FormGroup<JurisdictionPermissionViewModelForm>): Observable<JurisdictionPermissionViewModel[]> {
     return jurisdictionGroup.controls.accessTypes.valueChanges.pipe(
       map((value) => {
         const jurisdictionId = jurisdictionGroup.controls.jurisdictionId.value;
@@ -216,7 +215,7 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnChanges
       if (permissionAccessType) {
         permissionAccessType.enabled = enabled;
       }
-      if (permissionAccessType.accessMandatory){
+      if (permissionAccessType.accessMandatory) {
         permissionAccessType.enabled = true;
       }
     }
@@ -279,13 +278,13 @@ interface AccessForm {
   jurisdictions: FormArray<FormGroup<JurisdictionPermissionViewModelForm>>;
 }
 
-interface JurisdictionPermissionViewModelForm{
+interface JurisdictionPermissionViewModelForm {
   jurisdictionId: FormControl<string>;
   jurisdictionName: FormControl<string>;
   accessTypes: FormArray<FormGroup<AccessTypePermissionViewModelForm>>;
 }
 
-interface AccessTypePermissionViewModelForm{
+interface AccessTypePermissionViewModelForm {
   accessTypeId: FormControl<string>;
   enabled: FormControl<boolean>;
   display: FormControl<boolean>;

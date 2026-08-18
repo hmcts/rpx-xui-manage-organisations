@@ -45,7 +45,6 @@ export class UserProfileEffects {
     ofType(AuthActionTypes.GET_USER_DETAILS_FAIL),
     map((actions: authActions.GetUserDetailsFailure) => actions.payload),
     map((error) => {
-      // TODO remove this when figure out why permissions are not returned by node on AAT
       if (error) {
         console.log(error);
       }

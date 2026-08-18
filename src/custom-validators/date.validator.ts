@@ -3,13 +3,13 @@ import { FormGroup, ValidatorFn } from '@angular/forms';
 export function dateValidator(): ValidatorFn {
   return function validate(formGroup: FormGroup) {
     const d = new Date(
-      parseInt(formGroup.controls.day.value, 10),
-      parseInt(formGroup.controls.month.value, 10) - 1,
-      parseInt(formGroup.controls.year.value, 10) - 1
+      Number.parseInt(formGroup.controls.day.value, 10),
+      Number.parseInt(formGroup.controls.month.value, 10) - 1,
+      Number.parseInt(formGroup.controls.year.value, 10) - 1
     );
 
     function isValidDate(val: any) {
-      return val instanceof Date && !isNaN(+d);
+      return val instanceof Date && !Number.isNaN(+d);
     }
 
     if (!isValidDate(d)) {

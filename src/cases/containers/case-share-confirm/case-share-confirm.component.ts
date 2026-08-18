@@ -25,7 +25,7 @@ export class CaseShareConfirmComponent implements OnInit, OnDestroy {
   public acceptCases: boolean = false;
   private readonly acceptLinks = '/cases/accept-cases';
   private readonly caseShareLinks = '/cases/case-share';
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
   constructor(private readonly store: Store<fromCaseList.CaaCasesState>,
               private readonly route: ActivatedRoute,

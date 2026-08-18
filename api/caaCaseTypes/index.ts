@@ -16,7 +16,7 @@ export async function handleCaaCaseTypes(req: EnhancedRequest, res: Response, ne
   try {
     if (caaCasesPageType === CaaCasesPageType.AssignedCases && caaCasesFilterType === CaaCasesFilterType.AssigneeName) {
       const roleAssignments = await handleRoleAssignments(req, next);
-      const roleAssignmentResponse: RoleAssignmentResponse[] = roleAssignments && roleAssignments.data && roleAssignments.data.roleAssignmentResponse;
+      const roleAssignmentResponse: RoleAssignmentResponse[] = roleAssignments?.data?.roleAssignmentResponse;
       // in the unliekely event that no role assignments are found, set an array with an empty string
       if (!roleAssignmentResponse || roleAssignmentResponse.length === 0) {
         caaCasesFilterValue = [''];

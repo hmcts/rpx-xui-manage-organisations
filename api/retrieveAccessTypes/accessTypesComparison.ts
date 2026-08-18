@@ -13,7 +13,7 @@ export function processAccessTypes(currentOrganisationAccessTypes, userAccessTyp
     const key = `${userAccessType.jurisdictionId}-${userAccessType.organisationProfileId}-${userAccessType.accessTypeId}`;
     const accessType = accessTypesMap.get(key);
 
-    if (accessType && accessType.display) {
+    if (accessType?.display) {
       if (accessType.accessMandatory && accessType.accessDefault) {
         // If access type is mandatory and default is true, set it to true
         processedAccessTypes.push({

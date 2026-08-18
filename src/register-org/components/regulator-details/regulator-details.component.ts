@@ -36,7 +36,7 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
 
   constructor(
     private readonly lovRefDataService: LovRefDataService,
-    private route: ActivatedRoute,
+    private readonly route: ActivatedRoute,
     public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService
   ) {
@@ -173,28 +173,18 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
       // Back link clicked on CYA page
       // Navigate to individual regulators yes or no screen
       this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator']);
+    } else if (this.previousUrl?.includes(this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE)) {
+      // Change link clicked on CYA page
+      // Navigate to CYA page
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);
+    } else if (this.regulatorType === RegulatorType.Individual) {
+      // Currently displayed screen is individual regulator details
+      // Navigate to individual regulators yes or no screen
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator']);
+    } else if (this.registrationData.hasDxReference) {
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference-details']);
     } else {
-      if (this.previousUrl?.includes(this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE)) {
-        // Change link clicked on CYA page
-        // Navigate to CYA page
-        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);
-      } else {
-        // Normal registration journey
-        if (this.regulatorType === RegulatorType.Individual) {
-          // Currently displayed screen is individual regulator details
-          // Navigate to individual regulators yes or no screen
-          this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator']);
-        } else {
-          // Currently displayed screen is organisation regulator details
-          // Navigate to document exchange reference details screen if document exchange details were already entered
-          // Else, navigate to document exchange reference yes or no screen
-          if (this.registrationData.hasDxReference) {
-            this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference-details']);
-          } else {
-            this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference']);
-          }
-        }
-      }
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference']);
     }
   }
 
@@ -226,7 +216,9 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
     const regulators = this.regulators.value as Regulator[];
     // Remove duplicate "Not Applicable" regulatory type entries
     const filteredRegulators = regulators.filter((regulator) => regulator.regulatorType !== RegulatoryType.NotApplicable);
-    if (regulators.findIndex((regulator) => regulator.regulatorType === RegulatoryType.NotApplicable) > -1) {
+    if (regulators.some(
+      (regulator) => regulator.regulatorType === RegulatoryType.NotApplicable
+    )) {
       filteredRegulators.push({ regulatorType: RegulatoryType.NotApplicable });
     }
     // Set corresponding registration data
@@ -259,13 +251,13 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
           message: RegulatoryOrganisationTypeMessage.NO_REGULATORY_ORG_SELECTED
         });
       }
-      if (formGroup.get('regulatorName') && formGroup.get('regulatorName').errors) {
+      if (formGroup.get('regulatorName')?.errors) {
         this.validationErrors.push({
           id: `regulator-name${index}`,
           message: RegulatoryOrganisationTypeMessage.NO_REGULATOR_NAME
         });
       }
-      if (formGroup.get('organisationRegistrationNumber') && formGroup.get('organisationRegistrationNumber').errors) {
+      if (formGroup.get('organisationRegistrationNumber')?.errors) {
         this.validationErrors.push({
           id: `organisation-registration-number${index}`,
           message: RegulatoryOrganisationTypeMessage.NO_REGISTRATION_REFERENCE
@@ -316,8 +308,8 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
   }
 
   private isSRARegulated(regulators: Regulator[]): boolean {
-    const sraRegulatorFound = regulators.find((regulator) => regulator.regulatorType === RegulatorDetailsComponent.SRA_REG_TYPE && regulator.organisationRegistrationNumber);
-    return sraRegulatorFound ? true : false;
+    const sraRegulatorFound = regulators.some((regulator) => regulator.regulatorType === RegulatorDetailsComponent.SRA_REG_TYPE && regulator.organisationRegistrationNumber);
+    return sraRegulatorFound;
   }
 
   // trackBy helpers

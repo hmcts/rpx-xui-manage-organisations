@@ -4,7 +4,7 @@ import { AxiosResponse } from 'axios';
 import * as chai from 'chai';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
-import * as sinonChai from 'sinon-chai';
+import sinonChai from 'sinon-chai';
 import { mockReq, mockRes } from 'sinon-express-mock';
 import * as configuration from '../configuration';
 import { SERVICE_S2S_PATH, SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references';
@@ -58,6 +58,7 @@ describe('register-org index', () => {
 
   it('should post the Register Organisation request and send the returned data in an HTTP response', async () => {
     sinon.stub(s2sTokenGeneration, 'generateS2sToken').resolves('abc123');
+    const consoleLog = sinon.stub(console, 'log');
 
     // Stub the fakeAxiosInstance.post call to return a mock response
     sinon.stub(fakeAxiosInstance, 'post').resolves({ data: 'test' } as AxiosResponse);
@@ -75,6 +76,7 @@ describe('register-org index', () => {
     expect(fakeAxiosInstance.post).to.be.calledWith('apiPath/refdata/internal/v1/organisations',
       { name: 'Test organisation' }, options);
     expect(res.send).to.be.calledWith('test');
+    expect(consoleLog).not.to.have.been.calledWith('abc123');
   });
 
   it('should return an HTTP 500 error response if there is an error generating the S2S token', async () => {

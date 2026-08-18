@@ -3,8 +3,6 @@ import { ContactDetails } from './contact-details.model';
 import { OrganisationService } from './organisation-service.model';
 import { Regulator } from './regulator.model';
 
-// TODO: Reference Address model from CommonLib once it is available
-
 export type RegistrationData = {
   companyName: string;
   companyHouseNumber?: string;

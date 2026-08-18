@@ -22,6 +22,6 @@ export class UnassignedCasesPage extends CaseListPage {
   }
 
   public async startCaseSharing(): Promise<void> {
-    await this.shareCaseButton.click();
+    await this.clickVisibleControl(this.shareCaseButton);
   }
 }

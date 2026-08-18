@@ -8,7 +8,7 @@ import { Accordion } from 'govuk-frontend';
   standalone: false
 })
 export class SolicitorProfileContentComponent implements AfterViewInit {
-  private accordianConfig = {
+  private readonly accordianConfig = {
     i18n: {
       showSection: 'Read more',
       hideSection: 'Read less'

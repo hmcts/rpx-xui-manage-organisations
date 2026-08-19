@@ -10,9 +10,6 @@ $govuk-global-styles: true;
 @import "./assets/sass/application";
 @import '../node_modules/@angular/material/prebuilt-themes/indigo-pink.css';
 
-
-
-
 div.govuk-prose-scope,
 p {
   white-space: pre-wrap;

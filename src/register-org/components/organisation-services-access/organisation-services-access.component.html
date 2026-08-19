@@ -8,7 +8,9 @@
         <div class="govuk-form-group">
           <fieldset class="govuk-fieldset" aria-describedby="service-selection-hint">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
-              Which services will your organisation need to access?
+              <h1 class="govuk-fieldset__heading">
+                Which services will your organisation need to access?
+              </h1>
             </legend>
             <hr class="govuk-!-margin-top-0">
             <div class="govuk-label govuk-!-font-weight-bold govuk-!-margin-top-4">
@@ -27,7 +29,7 @@
                 @for (service of services; track trackByOrgService($index, service)) {
                   <div class="govuk-checkboxes__item">
                     <!-- id uses stable key; data-service-label exposed for readable test selectors -->
-                    <input class="govuk-checkboxes__input" [id]="service.value" [attr.data-service-label]="service.value" type="checkbox" [value]="service.key" aria-label="service.key"
+                    <input class="govuk-checkboxes__input" [id]="service.key" [attr.data-service-label]="service.value" type="checkbox" [value]="service.key"
                       name="services" formArrayName="services" [checked]="service.selected" (change)="onServicesSelectionChange($event)">
                     <label class="govuk-label govuk-checkboxes__label" [for]="service.key">
                       {{service.value}}

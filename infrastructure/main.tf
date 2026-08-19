@@ -3,6 +3,9 @@ locals {
   ase_name          = "core-compute-${var.env}"
   local_env         = (var.env == "preview" || var.env == "spreview") ? (var.env == "preview") ? "aat" : "saat" : var.env
   shared_vault_name = "${var.shared_product_name}-${local.local_env}"
+
+  managed_redis_environments = ["demo"]
+  managed_redis_enabled_envs = contains(local.managed_redis_environments, var.env) ? toset([var.env]) : toset([])
 }
 
 data "azurerm_key_vault" "key_vault" {
@@ -37,6 +40,38 @@ module "redis6-cache" {
   family                        = var.redis_family
   capacity                      = var.redis_capacity
   sku_name                      = var.redis_sku_name
+}
+
+module "managed_redis" {
+  for_each = local.managed_redis_enabled_envs
+
+  source = "git@github.com:hmcts/terraform-module-azure-managed-redis?ref=main"
+
+  product     = var.product
+  component   = var.component
+  env         = var.env
+  location    = var.location
+  common_tags = var.common_tags
+
+  sku_name = "Balanced_B1"
+
+  public_network_access   = "Disabled"
+  create_private_endpoint = true
+  subnet_id               = data.azurerm_subnet.core_infra_redis_subnet.id
+  private_dns_zone_ids = [
+    "/subscriptions/${var.private_dns_subscription_id}/resourceGroups/core-infra-intsvc-rg/providers/Microsoft.Network/privateDnsZones/privatelink.redis.azure.net"
+  ]
+
+  access_keys_authentication_enabled = true
+  persistence_rdb_backup_frequency   = "6h"
+}
+
+resource "azurerm_key_vault_secret" "managed_redis_connection_string" {
+  for_each = module.managed_redis
+
+  name         = "${var.component}-managed-redis-connection-string"
+  value        = "rediss://:${urlencode(each.value.primary_access_key)}@${each.value.hostname}:${each.value.port}?tls=true"
+  key_vault_id = data.azurerm_key_vault.key_vault.id
 }
 
 module "application_insights" {

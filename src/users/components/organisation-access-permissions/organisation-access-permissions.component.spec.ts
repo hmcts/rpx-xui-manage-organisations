@@ -8,12 +8,6 @@ import { CaseManagementPermissions } from '../../models/case-management-permissi
 import {
   StandardUserPermissionsComponent,
   SolicitorProfileContentComponent,
-  OgdDwpProfileContentComponent,
-  OgdHoProfileContentComponent,
-  OgdHmrcProfileContentComponent,
-  OgdCicaProfileContentComponent,
-  OgdCafcassEnProfileContentComponent,
-  OgdCafcassCyProfileContentComponent,
   JurisdictionAccessOptionsComponent
 } from '../../components';
 import { AppConstants } from '../../../app/app.constants';
@@ -101,15 +95,10 @@ describe('OrganisationAccessPermissionsComponent', () => {
   };
 
   beforeEach(async () => {
+    document.body.classList.add('govuk-frontend-supported');
     await TestBed.configureTestingModule({
       declarations: [OrganisationAccessPermissionsComponent, StandardUserPermissionsComponent,
         SolicitorProfileContentComponent,
-        OgdDwpProfileContentComponent,
-        OgdHoProfileContentComponent,
-        OgdHmrcProfileContentComponent,
-        OgdCicaProfileContentComponent,
-        OgdCafcassEnProfileContentComponent,
-        OgdCafcassCyProfileContentComponent,
         JurisdictionAccessOptionsComponent],
       imports: [ReactiveFormsModule, ExuiCommonLibModule],
       providers: [
@@ -125,6 +114,7 @@ describe('OrganisationAccessPermissionsComponent', () => {
 
   afterEach(() => {
     component.ngOnDestroy();
+    document.body.classList.remove('govuk-frontend-supported');
   });
 
   describe('User with case manager role', () => {

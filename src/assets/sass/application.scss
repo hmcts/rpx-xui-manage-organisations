@@ -12,7 +12,22 @@ $hmcts-page-width: 1220px;
 // Import GOV.UK Frontend
 @import "govuk-frontend/dist/govuk/index";
 
-@import "hmcts-frontend";
+// The current @hmcts/frontend package still references this removed IE8 mixin.
+// Its IE8-only declarations must not be emitted with GOV.UK Frontend 5.
+@mixin govuk-if-ie8 {
+  @if false {
+    @content;
+  }
+}
+
+// HMCTS and local styles still use sass-mq's former name for this mixin.
+@mixin mq($from: null, $until: null, $and: null) {
+  @include govuk-media-query($from: $from, $until: $until, $and: $and) {
+    @content;
+  }
+}
+
+@import "@hmcts/frontend/all";
 
 // Patterns that aren’t in Frontend
 @import "patterns/check-your-answers";

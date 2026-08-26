@@ -61,7 +61,7 @@ describe('Fee accounts Effects', () => {
 
   describe('loadFeeAccounts$ error', () => {
     it('should return LoadFeeAccountsFail', () => {
-      feeAccountsServiceMock.fetchFeeAccounts.and.returnValue(throwError(new Error()));
+      feeAccountsServiceMock.fetchFeeAccounts.and.returnValue(throwError(() => new Error()));
       const action = new LoadFeeAccounts(['account1', 'account2']);
       const completion = new LoadFeeAccountsFail(new Error());
       actions$ = hot('-a', { a: action });

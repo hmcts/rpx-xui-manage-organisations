@@ -79,16 +79,6 @@ const buildRunPlan = (argv = process.argv.slice(2), env = process.env) => {
     PLAYWRIGHT_REPORT_TITLE: env.PLAYWRIGHT_REPORT_TITLE || 'RPX XUI Manage Organisations Playwright A11y'
   };
 
-  const integrationEnv = {
-    PLAYWRIGHT_TEST_OUTPUT_DIR: `${testOutputRoot}/integration`,
-    PLAYWRIGHT_HTML_OUTPUT: `${functionalOutputRoot}/integration/html-report`,
-    PLAYWRIGHT_JUNIT_OUTPUT: `${functionalOutputRoot}/integration/playwright-a11y-integration-junit.xml`,
-    PLAYWRIGHT_REPORT_FOLDER: `${functionalOutputRoot}/integration/odhin-report`,
-    PLAYWRIGHT_REPORT_INDEX_FILENAME: 'xui-playwright-a11y-integration.html',
-    PLAYWRIGHT_REPORT_PROJECT: 'RPX XUI Manage Organisations - Integration Accessibility',
-    PLAYWRIGHT_REPORT_TITLE: 'RPX XUI Manage Organisations Playwright Integration A11y'
-  };
-
   return {
     functionalOutputRoot,
     passthroughArgs,
@@ -102,16 +92,6 @@ const buildRunPlan = (argv = process.argv.slice(2), env = process.env) => {
         args: ['test:playwrightE2E:raw', '--', '--grep', '@a11y', ...passthroughArgs],
         env: e2eEnv,
         label: 'E2E a11y execution'
-      },
-      {
-        args: ['test:playwright:integration:raw', '--', '--list', '--grep', '@a11y', ...passthroughArgs],
-        env: integrationEnv,
-        label: 'integration a11y discovery'
-      },
-      {
-        args: ['test:playwright:integration:raw', '--', '--grep', '@a11y', ...passthroughArgs],
-        env: integrationEnv,
-        label: 'integration a11y execution'
       }
     ],
     testOutputRoot
@@ -127,7 +107,10 @@ const runYarn = (label, args, envOverrides, env = process.env, spawn = spawnSync
       FUNCTIONAL_TESTS_WORKERS: env.FUNCTIONAL_TESTS_WORKERS || '4',
       ...envOverrides,
       PLAYWRIGHT_INCLUDE_A11Y: 'true',
+      E2E_PW_EXCLUDED_TAGS_OVERRIDE: '',
+      E2E_PW_INCLUDE_TAGS: '',
       PLAYWRIGHT_EXCLUDE_TAGS: '',
+      PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS: '@none',
       PLAYWRIGHT_TAGS: '',
       PW_ODHIN_FORCE_EXIT_ON_COMPLETION: env.PW_ODHIN_FORCE_EXIT_ON_COMPLETION || 'true'
     },

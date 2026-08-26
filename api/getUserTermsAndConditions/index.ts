@@ -18,7 +18,7 @@ const logger = log4jui.getLogger('terms-and-conditions');
  * @param req
  * @param res
  */
-async function getUserTermsAndConditions(req: Request, res: Response) {
+async function getUserTermsAndConditions(req: Request<{ userId: string }>, res: Response) {
   if (showFeature(FEATURE_TERMS_AND_CONDITIONS_ENABLED)) {
     logger.info('Terms and conditions feature is enabled');
     res.setHeader('debugger', 'T&Cs is enabled.');
@@ -36,21 +36,22 @@ async function getUserTermsAndConditions(req: Request, res: Response) {
       const response = await req.http.get(apiUrl);
       const userTandCResponse = response.data as GetUserAcceptTandCResponse;
       if (!objectContainsOnlySafeCharacters(response.data)) {
-        return res.send('Invalid terms and condition data').status(400);
+        return res.status(400).send('Invalid terms and condition data');
       }
       res.send(userTandCResponse.accepted);
     } catch (error) {
+      const status = Number(valueOrNull(error, 'status')) || 500;
       // we get a 404 if the user has not agreed to Terms and conditions
-      if (valueOrNull(error, 'status') === 404) {
+      if (status === 404) {
         res.send(true);
         return;
       }
       errReport = {
         apiError: valueOrNull(error, 'data.message'),
-        apiStatusCode: valueOrNull(error, 'status'),
+        apiStatusCode: status,
         message: 'User Terms and Conditions route error'
       };
-      res.status(error.status).send(errReport);
+      res.status(status).send(errReport);
     }
   } else {
     logger.info('Terms and conditions feature is not enabled');

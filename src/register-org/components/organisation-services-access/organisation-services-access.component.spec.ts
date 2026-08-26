@@ -81,6 +81,45 @@ describe('OrganisationServicesAccessComponent', () => {
     expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'payment-by-account']);
   });
 
+  it('should remove a service when the checkbox is unchecked', () => {
+    component.selectedServices = [{ key: 'DIVORCE', value: 'Divorce' }];
+
+    component.onServicesSelectionChange({
+      target: {
+        checked: false,
+        value: 'DIVORCE',
+        id: 'Divorce'
+      }
+    });
+
+    expect(component.selectedServices).toEqual([]);
+    expect(component.showOtherServicesInput).toBe(false);
+  });
+
+  it('should persist other service details when service is not listed is selected', () => {
+    component.selectedServices = [{ key: 'NONE', value: '' }];
+    component.showOtherServicesInput = true;
+    component.servicesFormGroup.get('otherServices').setValue('Probate');
+
+    component.onContinue();
+
+    expect(component.registrationData.services).toEqual([]);
+    expect(component.registrationData.otherServices).toEqual('Probate');
+    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'payment-by-account']);
+  });
+
+  it('should hydrate other service details from registration data', () => {
+    component.registrationData.services = [];
+    component.registrationData.otherServices = 'Probate';
+
+    (component as any).setFormControlValues();
+
+    expect(component.showOtherServicesInput).toBe(true);
+    expect(component.selectedServices).toContain({ key: 'NONE', value: '' });
+    expect(component.servicesFormGroup.get('otherServices').value).toEqual('Probate');
+    expect(component.services.find((service) => service.key === 'NONE').selected).toBe(true);
+  });
+
   it('should set the error message and stay on the page', () => {
     component.selectedServices = [];
     component.showOtherServicesInput = false;
@@ -90,6 +129,24 @@ describe('OrganisationServicesAccessComponent', () => {
     expect(component.noServicesError).toEqual(OrganisationServicesMessage.NO_ORG_SERVICES);
     expect(component.validationErrors.length).toEqual(1);
     expect(router.navigate).not.toHaveBeenCalled();
+  });
+
+  it('should set other services error when service not listed has no detail', () => {
+    component.selectedServices = [{ key: 'NONE', value: '' }];
+    component.showOtherServicesInput = true;
+    component.servicesFormGroup.get('otherServices').setValue('');
+
+    component.onContinue();
+
+    expect(component.otherServicesError).toEqual(OrganisationServicesMessage.OTHER_SERVICES);
+    expect(component.validationErrors).toContain({
+      id: 'other-services',
+      message: OrganisationServicesMessage.OTHER_SERVICES
+    });
+  });
+
+  it('should track services by stable key', () => {
+    expect(component.trackByOrgService(0, { key: 'DIVORCE', value: 'Divorce' })).toEqual('DIVORCE#0');
   });
 
   it('should invoke the cancel registration journey when clicked on cancel link', () => {

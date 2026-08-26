@@ -5,4 +5,9 @@ const port = process.env.PORT || 3001;
 
 logger.info('Starting local runtime');
 app.use(errorHandler);
-app.listen(port, () => logger.info(`Local server up at ${port}`));
+app.listen(port, (error?: Error) => {
+  if (error) {
+    throw error;
+  }
+  logger.info(`Local server up at ${port}`);
+});

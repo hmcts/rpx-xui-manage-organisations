@@ -39,15 +39,14 @@ export class CasesFilterComponent implements OnInit, OnChanges{
   public showAutocomplete: boolean = false;
   public filterApplied: boolean = false;
 
-  public constructor(private formBuilder: FormBuilder) {}
+  public constructor(private readonly formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
     this.createForm();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.selectedOrganisationUsers &&
-      changes.selectedOrganisationUsers.currentValue &&
+    if (changes.selectedOrganisationUsers?.currentValue &&
       changes.selectedOrganisationUsers.currentValue.length > 0) {
       this.filterSelectedOrganisationUsers().subscribe((filteredAndGroupedUsers) => {
         this.filteredAndGroupedUsers = filteredAndGroupedUsers;
@@ -69,13 +68,13 @@ export class CasesFilterComponent implements OnInit, OnChanges{
     });
 
     this.form.controls.assigneePerson.valueChanges.pipe(
-      tap(() => {
+      tap({ next: () => {
         this.showAutocomplete = false;
         this.filteredAndGroupedUsers = null;
-      },
-      debounceTime(300)),
+      } }),
+      debounceTime(300),
       switchMap((searchTerm: any) => this.filterSelectedOrganisationUsers(searchTerm).pipe(
-        tap(() => this.showAutocomplete = true),
+        tap({ next: () => this.showAutocomplete = true }),
         catchError(() => this.filteredAndGroupedUsers = null)
       ))
     ).subscribe((filteredAndGroupedUsers: Map<string, User[]>) => {
@@ -108,11 +107,12 @@ export class CasesFilterComponent implements OnInit, OnChanges{
   }
 
   public filterSelectedOrganisationUsers(searchTerm?: string | User): Observable<Map<string, User[]>> {
+    const selectedOrganisationUsers = this.selectedOrganisationUsers ?? [];
     const filteredUsers = searchTerm && searchTerm.length > 0
       ? typeof(searchTerm) === 'string'
-        ? this.selectedOrganisationUsers.filter((user) => this.getDisplayName(user).toLowerCase().includes(searchTerm.toLowerCase()))
-        : this.selectedOrganisationUsers.filter((user) => this.getDisplayName(user).toLowerCase().includes(this.getDisplayName(searchTerm).toLowerCase()))
-      : this.selectedOrganisationUsers;
+        ? selectedOrganisationUsers.filter((user) => this.getDisplayName(user).toLowerCase().includes(searchTerm.toLowerCase()))
+        : selectedOrganisationUsers.filter((user) => this.getDisplayName(user).toLowerCase().includes(this.getDisplayName(searchTerm).toLowerCase()))
+      : selectedOrganisationUsers;
     const activeUsers = filteredUsers.filter((user) => user.status.toLowerCase() === this.ACTIVE_USER_STATUS);
     const inactiveUsers = filteredUsers.filter((user) => user.status.toLowerCase() !== this.ACTIVE_USER_STATUS);
     const groupedUsers = new Map<string, User[]>();
@@ -136,7 +136,7 @@ export class CasesFilterComponent implements OnInit, OnChanges{
         const selectedUser = this.form.controls.assigneePerson.value;
         const fullName = selectedUser.split(' - ')[0];
         const email = selectedUser.split(' - ')[1];
-        filterValue = this.selectedOrganisationUsers && this.selectedOrganisationUsers.find(
+        filterValue = this.selectedOrganisationUsers?.find(
           (user) => user.fullName === fullName && user.email === email).userIdentifier;
       }
       const selectedFilter: SelectedCaseFilter = {

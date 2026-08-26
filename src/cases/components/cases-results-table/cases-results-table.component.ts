@@ -26,7 +26,7 @@ export class CasesResultsTableComponent {
   }
 
   @Input() set casesConfig(value: CaaCases) {
-    if (value){
+    if (value) {
       this.tableConfig = value;
       this.setTableConfig(this.tableConfig);
     }
@@ -37,7 +37,7 @@ export class CasesResultsTableComponent {
   }
 
   @Input() set cases(value: any) {
-    if (value){
+    if (value) {
       this._cases = value;
     }
   }
@@ -75,12 +75,12 @@ export class CasesResultsTableComponent {
 
   }
 
-  public tabChanged(event: { tab: { textLabel: string }}): void {
+  public tabChanged(event: { tab: { textLabel: string } }): void {
     const tabName = event.tab.textLabel;
     if (tabName === this.currentCaseType) {
       return;
     }
-    this.totalCases = this.navItems.find((data) => data.text === tabName)
+    this.totalCases = this.navItems.some((data) => data.text === tabName)
       ? this.navItems.find((data) => data.text === tabName).total
       : 0;
     this.noCasesFoundMessage = this.getNoCasesFoundMessage();
@@ -100,8 +100,15 @@ export class CasesResultsTableComponent {
   }
 
   public getLastResult(): number {
-    const count = ((this.currentPageNo) * this.paginationPageSize);
-    return count >= this.totalCases ? this.totalCases : count < this.totalCases ? count : 1;
+    const count = this.currentPageNo * this.paginationPageSize;
+
+    if (count >= this.totalCases) {
+      return this.totalCases;
+    }
+    if (count < this.totalCases) {
+      return count;
+    }
+    return 1;
   }
 
   public getTotalResults(): number {
@@ -153,7 +160,7 @@ export class CasesResultsTableComponent {
   }
 
   public getNoCasesFoundMessage(): string {
-    switch (this.selectedFilterType){
+    switch (this.selectedFilterType) {
       case 'all-assignees':
         return CaaCasesNoDataMessage.NoAssignedCases;
       case 'unassigned-cases':

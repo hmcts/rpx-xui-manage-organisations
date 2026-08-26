@@ -41,7 +41,7 @@ export class ShareCaseEffects {
     this.actions$.pipe(
       ofType(shareCaseActions.ADD_SHARE_CASES_GO),
       map((action: shareCaseActions.AddShareCaseGo) => action.payload),
-      tap(({ path, query: queryParams, extras, sharedCases, caaPageType, caseTypeId }) => {
+      tap({ next: ({ path, query: queryParams, extras, sharedCases, caaPageType, caseTypeId }) => {
         const thatSharedCases = sharedCases;
         const currentPageType = caaPageType === CaaCasesPageType.UnassignedCases ? CaaCasesPageType.UnassignedCases : CaaCasesPageType.AssignedCases;
         queryParams = { init: true, pageType: currentPageType };
@@ -51,7 +51,7 @@ export class ShareCaseEffects {
         return this.router.navigate(path, { queryParams, ...extras }).then(() => {
           this.store.dispatch(new shareCaseActions.NavigateToShareCases(thatSharedCases));
         });
-      })
+      } })
     ),
   { dispatch: false }
   );

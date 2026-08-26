@@ -5,7 +5,7 @@ import { AppConstants } from 'src/app/app.constants';
   providedIn: 'root'
 })
 export class OrganisationProfileService {
-  private ogdProfileTypes = AppConstants.OGD_PROFILE_TYPES;
+  private readonly ogdProfileTypes = AppConstants.OGD_PROFILE_TYPES;
 
   public getOrganisationProfileType(organisationProfileIds: string[]) {
     for (const key of Object.keys(this.ogdProfileTypes)) {

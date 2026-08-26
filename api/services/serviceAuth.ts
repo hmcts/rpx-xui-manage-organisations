@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 import { Request } from 'express';
-import * as otp from 'otp';
+import otp from 'otp';
 
 import { getConfigValue } from '../configuration';
 import {

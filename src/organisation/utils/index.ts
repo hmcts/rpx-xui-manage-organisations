@@ -33,15 +33,22 @@ const utils = {
     return null;
   },
   // note: this does not get invdividual regulators as no display requirement for them
-  getRegulators: (organisationDetails: Partial<OrganisationDetails>): Regulator[] => {
-    if (containsItems(organisationDetails, 'orgAttributes') && organisationDetails.orgAttributes.find((orgAttribute) => orgAttribute.key.includes('regulator'))) {
-      const regulatorAttributes = organisationDetails.orgAttributes.filter((orgAttribute) => orgAttribute.key.includes('regulator'));
-      const regulators = [];
-      regulatorAttributes.map((regAttribute) => {
-        regulators.push(JSON.parse(regAttribute.value));
-      });
-      return regulators;
+  getRegulators: (organisationDetails: Partial<OrganisationDetails>): Regulator[] | null => {
+    if (
+      containsItems(organisationDetails, 'orgAttributes') &&
+      organisationDetails.orgAttributes.some((orgAttribute) =>
+        orgAttribute.key.includes('regulator')
+      )
+    ) {
+      const regulatorAttributes = organisationDetails.orgAttributes.filter(
+        (orgAttribute) => orgAttribute.key.includes('regulator')
+      );
+
+      return regulatorAttributes.map((regAttribute) =>
+        JSON.parse(regAttribute.value) as Regulator
+      );
     }
+
     return null;
   },
   getPaymentAccount: (organisationDetails: Partial<OrganisationDetails>): PBANumberModel[] => {

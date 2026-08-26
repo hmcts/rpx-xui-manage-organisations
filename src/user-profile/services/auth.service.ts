@@ -50,7 +50,7 @@ export class AuthService {
   }
 
   public setWindowLocationHref(href: string) {
-    window.location.href = href;
+    globalThis.location.href = href;
   }
 
   private clearServiceMessageCookie(): void {

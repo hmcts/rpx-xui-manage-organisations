@@ -32,6 +32,14 @@ describe('App routes', () => {
     });
   });
 
+  it('should expose the access denied route', () => {
+    const accessDeniedRoute = ROUTES.find((route) => route.path === 'access-denied');
+
+    expect(accessDeniedRoute).toEqual(jasmine.objectContaining({
+      path: 'access-denied'
+    }));
+  });
+
   it('should redirect unknown paths to home', () => {
     const wildcardRoute = ROUTES[ROUTES.length - 1];
 

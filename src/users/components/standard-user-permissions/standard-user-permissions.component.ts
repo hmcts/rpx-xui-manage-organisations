@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidationErrors } from '@angular/forms';
-import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
+import { FeatureToggleService, User } from '@hmcts/rpx-xui-common-lib';
 import { Observable, Subject } from 'rxjs';
-import { User } from '@hmcts/rpx-xui-common-lib';
 import { BasicAccessTypes } from '../../models/basic-access-types.model';
 
 @Component({
@@ -19,19 +18,19 @@ export class StandardUserPermissionsComponent implements OnInit, OnDestroy {
 
   public permissionsForm: FormGroup<AccessForm>;
   public permissions: BasicAccessTypes;
-  public errors: {basicPermissions: string[]} = {
+  public errors: { basicPermissions: string[] } = {
     basicPermissions: []
   };
 
   public grantCaseAccessAdmin$: Observable<boolean>;
   public grantFinanceManager$: Observable<boolean>;
 
-  private onDestroy$ = new Subject<void>();
+  private readonly onDestroy$ = new Subject<void>();
 
   constructor(
-    private fb: FormBuilder,
+    private readonly fb: FormBuilder,
     public readonly featureToggleService: FeatureToggleService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.grantCaseAccessAdmin$ = this.featureToggleService.getValue(
@@ -62,8 +61,8 @@ export class StandardUserPermissionsComponent implements OnInit, OnDestroy {
     }, { validators: atLeastOneTrueValidator });
   }
 
-  updateCurrentErrors(){
-    if (!this.hasOrganisationAccessPermission && this.permissionsForm?.errors?.atLeastOneTrue){
+  updateCurrentErrors() {
+    if (!this.hasOrganisationAccessPermission && this.permissionsForm?.errors?.atLeastOneTrue) {
       this.errors.basicPermissions = ['Select at least one permission'];
     } else {
       this.errors.basicPermissions = [];

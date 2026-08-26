@@ -32,7 +32,7 @@ function handleUserRoute(req, res) {
       userId
     });
     if (!objectContainsOnlySafeCharacters(userDetails)) {
-      return res.send('Invalid user data').status(400);
+      return res.status(400).send('Invalid user data');
     }
     res.send(userDetails);
   } catch (error) {

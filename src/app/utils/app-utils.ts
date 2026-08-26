@@ -21,7 +21,7 @@ export class AppUtils {
         featureNavItems = [...featureNavItems, navItem];
       } else {
         const currentFeature = featureFlags.filter((flag) => flag.featureName === navItem.featureToggle.featureName)[0];
-        if (currentFeature && currentFeature.isEnabled) {
+        if (currentFeature?.isEnabled) {
           featureNavItems = [...featureNavItems, navItem];
         }
       }
@@ -42,13 +42,13 @@ export class AppUtils {
   }
 
   public static titleSwitcher(router, title) {
-    if (router && router.state) {
+    if (router?.state) {
       return router.state.url.indexOf('register') !== -1 ? title.regOrg : title.manageOrg;
     }
   }
 
   public static returnNavs(router, nav) {
-    if (router && router.state && router.state.url) {
+    if (router?.state?.url) {
       const url = router.state.url;
       const isRegisterJourney = url.includes('register-org') || url.includes('register-org-new');
       return {
@@ -62,7 +62,7 @@ export class AppUtils {
     /**
      * it manages user nav array based on the app that is running (register or otherwise)
      */
-    if (state && state.userNav && routes && routes.state.url) {
+    if (state?.userNav && routes?.state.url) {
       const isRegister = routes.state.url.indexOf('register') === -1;
       return isRegister ? state.userNav : [];
     }
@@ -187,7 +187,7 @@ export class AppUtils {
     const regex = 'pr-|localhost|aat|demo|ithc|perf-test';
     const matched = url.match(regex);
 
-    if (matched && matched[0]) {
+    if (matched?.[0]) {
       switch (matched[0]) {
         case AppConstants.ENVIRONMENT_NAMES.aat:
         case AppConstants.ENVIRONMENT_NAMES.localhost:
@@ -205,7 +205,7 @@ export class AppUtils {
   }
 
   public static showSubHeaderItems(isAuth: boolean, router: any) {
-    return isAuth && router && router.state && router.state.url.indexOf('accept-terms-and-conditions') <= 0;
+    return isAuth && router?.state && router.state.url.indexOf('accept-terms-and-conditions') <= 0;
   }
 
   /**
@@ -217,7 +217,7 @@ export class AppUtils {
    */
   public static propsExist(object, nestedProps) {
     for (const nestedProperty of nestedProps) {
-      if (!object || !object.hasOwnProperty(nestedProperty)) {
+      if (!object?.hasOwnProperty(nestedProperty)) {
         return false;
       }
       object = object[nestedProperty];

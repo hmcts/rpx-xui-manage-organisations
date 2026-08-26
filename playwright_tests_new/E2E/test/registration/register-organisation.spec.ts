@@ -45,7 +45,7 @@ test(
     await registerOrganisationPage.startRegistration();
     await registerOrganisationPage.chooseSolicitorOrganisationType();
     await registerOrganisationPage.enterOrganisationName(data.organisationName);
-    const selectedAddress = await registerOrganisationPage.selectRegisteredAddress(data.lookupPostcode);
+    await registerOrganisationPage.enterManualUkAddress(data.manualUkAddress);
     await registerOrganisationPage.enterDocumentExchangeReference(data.dxNumber, data.dxExchange);
     await registerOrganisationPage.enterOrganisationRegulator(data.regulatorNumber);
     await registerOrganisationPage.chooseDivorceService();
@@ -55,7 +55,7 @@ test(
 
     await expect(registerOrganisationPage.checkYourAnswersHeading).toBeVisible();
     await expect(registerOrganisationPage.summaryValue('Organisation name')).toContainText(data.organisationName);
-    await expect(registerOrganisationPage.summaryValue('Organisation address')).toContainText(selectedAddress.split(',')[0]);
+    await expect(registerOrganisationPage.summaryValue('Organisation address')).toContainText(data.manualUkAddress.line1);
     await expect(registerOrganisationPage.summaryValue(
       'Do you have a document exchange reference for your main office?'
     )).toContainText('Yes');

@@ -91,4 +91,13 @@ describe('RegulatorListComponent', () => {
     const columnValueElement = nativeElement.querySelector('.govuk-summary-list__value') as HTMLElement;
     expect(columnValueElement.innerText).toContain('No');
   });
+
+  it('should track regulators by regulator type and registration number', () => {
+    expect(component.trackByRegulator(0, organisationRegulators[0])).toEqual('SRA:12334565433');
+  });
+
+  it('should fall back to index when tracking missing regulator data', () => {
+    expect(component.trackByRegulator(2, null)).toEqual(2);
+    expect(component.trackByRegulator(3, { regulatorType: null, organisationRegistrationNumber: null })).toEqual(':3');
+  });
 });

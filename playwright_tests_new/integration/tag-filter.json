@@ -1,0 +1,15 @@
+{
+  "excludedTags": [],
+  "availableTags": [
+    "@a11y",
+    "@integration",
+    "@integration-assigned-cases",
+    "@integration-case-sharing",
+    "@integration-organisation",
+    "@integration-pba-management",
+    "@integration-register-organisation",
+    "@integration-runtime-config",
+    "@integration-terms",
+    "@integration-user-admin"
+  ]
+}

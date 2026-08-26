@@ -199,7 +199,7 @@ describe('Invite User Effects', () => {
 
   xdescribe('saveUser$ error', () => {
     it('should return InviteUserFail', waitForAsync(() => {
-      inviteUsersServiceMock.inviteUser.and.returnValue(throwError(new Error()));
+      inviteUsersServiceMock.inviteUser.and.returnValue(throwError(() => new Error()));
       const requestPayload = {
         firstName: 'Captain',
         lastName: 'Caveman',

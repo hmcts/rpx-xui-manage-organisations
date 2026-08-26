@@ -1,5 +1,5 @@
 import { createGlobalProxyAgent } from 'global-agent';
-import * as log4js from 'log4js';
+import log4js from 'log4js';
 
 import { getConfigValue, showFeature } from '../configuration';
 import { FEATURE_PROXY_ENABLED, LOGGING } from '../configuration/references';

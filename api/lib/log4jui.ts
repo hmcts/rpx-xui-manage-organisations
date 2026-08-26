@@ -1,4 +1,4 @@
-import * as log4js from 'log4js';
+import log4js from 'log4js';
 import { getConfigValue } from '../configuration';
 import { LOGGING } from '../configuration/references';
 import { client } from './appInsights';

@@ -1,3 +1,4 @@
+import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { AccessibilityComponent } from './accessibility/accessibility.component';
 import { CookiePolicyComponent } from './cookie-policy/cookie-policy.component';
 import { GetHelpComponent } from './get-help/get-help.component';
@@ -10,6 +11,7 @@ import { TermsAndConditionsRegisterOtherOrgComponent } from './terms-and-conditi
 import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
 
 export const components: any[] = [
+  AccessDeniedComponent,
   HmctsGlobalHeaderComponent,
   HmctsGlobalFooterComponent,
   CookiePolicyComponent,
@@ -23,6 +25,7 @@ export const components: any[] = [
 ];
 
 export * from '../../../projects/gov-ui/src/lib/components/hmcts-primary-navigation/hmcts-primary-navigation.component';
+export * from './access-denied/access-denied.component';
 export * from './accessibility/accessibility.component';
 export * from './cookie-policy/cookie-policy.component';
 export * from './get-help/get-help.component';
@@ -32,4 +35,3 @@ export * from './privacy-policy/privacy-policy.component';
 export * from './service-down/service-down.component';
 export * from './signed-out/signed-out.component';
 export * from './terms-and-conditions/terms-and-conditions.component';
-

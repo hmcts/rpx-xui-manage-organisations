@@ -60,8 +60,8 @@ export const protectedRouteInventory: ProtectedRouteInventoryEntry[] = [
   },
   {
     route: '/inviteUser',
-    coverageType: 'covered-by-suite',
-    evidence: 'Authenticated invite and re-invite API contract coverage.',
+    coverageType: 'guardrail-test',
+    evidence: 'rejects anonymous re-invite requests before invite processing',
     coverageFile: 'playwright_tests_new/api/invite-user.api.ts'
   },
   {
@@ -100,9 +100,8 @@ export const protectedRouteInventory: ProtectedRouteInventoryEntry[] = [
   },
   {
     route: '/register-org',
-    coverageType: 'covered-by-suite',
-    evidence: 'Authenticated registration API contract coverage.',
-    coverageFile: 'playwright_tests_new/api/register-organisation.api.ts'
+    coverageType: 'documented-exclusion',
+    evidence: 'Registration POST creates persistent AAT organisation data; add cleanup-safe coverage before enabling it in the API gate.'
   },
   {
     route: '/refresh-user',

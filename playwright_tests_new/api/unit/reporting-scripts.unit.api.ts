@@ -51,7 +51,14 @@ let evidenceDashboard: {
       lanes: Array<{ id: string; status: string }>;
     };
   };
+  buildWaveLikeEvidenceIndex: (rootDir: string) => string;
   parseArgs: (argv: string[]) => { outputDir: string; packageJsonPath: string; rootDir: string; title: string };
+};
+
+let odhinReportEnhancer: {
+  __test__: {
+    enhanceDashboardHtml: (html: string, featureStats: unknown[]) => string;
+  };
 };
 
 const sample = (overrides: Record<string, unknown>): Record<string, unknown> => ({
@@ -75,6 +82,9 @@ test.describe('Manage Org Playwright reporting scripts', { tag: '@svc-internal' 
 
     const evidenceDashboardModule = await import('../../../scripts/build-playwright-evidence-dashboard.js');
     evidenceDashboard = (evidenceDashboardModule.default ?? evidenceDashboardModule) as typeof evidenceDashboard;
+
+    const odhinEnhancerModule = await import('../../common/reporters/odhin-report-enhancer.cjs');
+    odhinReportEnhancer = (odhinEnhancerModule.default ?? odhinEnhancerModule) as typeof odhinReportEnhancer;
   });
 
   test('preserves an existing Odhín report and parses Jenkins arguments', () => {
@@ -214,9 +224,7 @@ test.describe('Manage Org Playwright reporting scripts', { tag: '@svc-internal' 
         packageJsonPath,
         JSON.stringify({
           scripts: {
-            'lint:reporting:scripts': 'node --check scripts/retired-codecept-runner.js',
             'test:api:pw': 'playwright api',
-            'test:codeceptE2E': 'node scripts/retired-codecept-runner.js fail test:codeceptE2E',
             'test:playwrightE2E': 'playwright e2e',
             'test:smoke': 'playwright smoke'
           }
@@ -245,8 +253,8 @@ test.describe('Manage Org Playwright reporting scripts', { tag: '@svc-internal' 
       expect(html).not.toContain('user:password');
       expect(html).not.toContain('token=secret');
       expect(html).not.toContain('crumb=secret');
-      expect(html).toContain('test:codeceptE2E');
-      expect(html).not.toContain('lint:reporting:scripts');
+      expect(html).toContain('Retired aliases:</strong> removed from package.json');
+      expect(html).not.toContain('test:codeceptE2E');
       expect(html).toContain('Playwright is the authoritative Manage Organisation functional gate');
       expect(evidenceDashboard.parseArgs(['--root-dir', rootDir, '--title', 'Evidence']).title).toBe('Evidence');
     } finally {
@@ -263,5 +271,88 @@ test.describe('Manage Org Playwright reporting scripts', { tag: '@svc-internal' 
       }
       fs.rmSync(workspaceRoot, { recursive: true, force: true });
     }
+  });
+
+  test('builds WAVE-like evidence index from per-test entries after the suite', () => {
+    const rootDir = fs.mkdtempSync(path.join(os.tmpdir(), 'manage-org-wave-index-'));
+    const evidenceDir = path.join(rootDir, 'playwright-accessibility/odhin-report/accessibility-evidence');
+
+    try {
+      fs.mkdirSync(evidenceDir, { recursive: true });
+      fs.writeFileSync(
+        path.join(evidenceDir, 'manifest-entry-accessibility-state-wave-accessibility-issues.json'),
+        JSON.stringify({
+          attachmentPrefix: 'wave-accessibility-issues',
+          htmlFileName: 'accessibility-state-wave-accessibility-issues.html',
+          jsonFileName: 'accessibility-state-wave-accessibility-issues.json',
+          rules: ['skip-link'],
+          screenshotFileName: 'accessibility-state-wave-accessibility-issues-highlighted-screenshot.png',
+          targets: ['https://manage-org.example.test/accessibility'],
+          testTitle: 'accessibility state',
+          violationCount: 1
+        })
+      );
+      fs.writeFileSync(
+        path.join(evidenceDir, 'manifest-entry-registration-state-wave-accessibility-issues.json'),
+        JSON.stringify({
+          attachmentPrefix: 'wave-accessibility-issues',
+          htmlFileName: 'registration-state-wave-accessibility-issues.html',
+          jsonFileName: 'registration-state-wave-accessibility-issues.json',
+          rules: ['skip-link'],
+          screenshotFileName: 'registration-state-wave-accessibility-issues-highlighted-screenshot.png',
+          targets: ['https://manage-org.example.test/register'],
+          testTitle: 'registration state',
+          violationCount: 1
+        })
+      );
+
+      const indexPath = evidenceDashboard.buildWaveLikeEvidenceIndex(rootDir);
+      const html = fs.readFileSync(indexPath, 'utf8');
+
+      expect(html).toContain('WAVE-like Accessibility Evidence');
+      expect(html).toContain('Issue Summary');
+      expect(html).toContain('Screen-reader issue(s): skip-link');
+      expect(html).toContain('likely shared app shell fix');
+      expect(html).toContain(
+        '<a class="issue-link" href="./accessibility-state-wave-accessibility-issues.html" target="_blank" rel="noopener noreferrer">accessibility state</a>'
+      );
+      expect(html).toContain('accessibility state');
+      expect(html).toContain('1 WAVE-like rule issue(s): skip-link');
+      expect(html).toContain(
+        '<a href="./accessibility-state-wave-accessibility-issues-highlighted-screenshot.png" target="_blank" rel="noopener noreferrer">screenshot</a>'
+      );
+    } finally {
+      fs.rmSync(rootDir, { recursive: true, force: true });
+    }
+  });
+
+  test('defaults enhanced Odhín result tables to 100 rows', () => {
+    const html = odhinReportEnhancer.__test__.enhanceDashboardHtml(
+      `
+      <html>
+        <head></head>
+        <body>
+          <div class="dashboard-block">
+            <div class="info-box-header">Files Summary</div>
+          </div>
+          <table class="dataTable"></table>
+        </body>
+      </html>
+      `,
+      [{ name: 'api', totalTests: 101, durationMs: 1000, passed: 101 }]
+    );
+
+    expect(html).toContain('id="odhin-datatable-defaults"');
+    expect(html).toContain('var defaultPageLength = 100');
+    expect(html).toContain('pageLength: defaultPageLength');
+    expect(html).toContain('lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, \'All\']]');
+    expect(html).toContain('stateDuration: -1');
+    expect(html).toContain('stateSave: true');
+
+    const emptySuiteHtml = odhinReportEnhancer.__test__.enhanceDashboardHtml(
+      '<html><head></head><body><table class="dataTable"></table></body></html>',
+      []
+    );
+    expect(emptySuiteHtml).toContain('var defaultPageLength = 100');
   });
 });

@@ -96,7 +96,7 @@ describe('CheckYourAnswersComponent', () => {
   });
 
   it('should display error message banner for api error', () => {
-    spyOn(registerOrgService, 'postRegistration').and.returnValue(throwError('error'));
+    spyOn(registerOrgService, 'postRegistration').and.returnValue(throwError(() => 'error'));
     component.cyaFormGroup.get('confirmTermsAndConditions').setValue(true);
     component.onSubmitData();
     expect(component.validationErrors).toEqual([{ id: 'confirm-terms-and-conditions', message: 'Sorry, there is a problem with the service. Try again later' }]);

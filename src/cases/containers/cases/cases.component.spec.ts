@@ -1,3 +1,4 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CasesComponent } from './cases.component';
@@ -41,6 +42,7 @@ describe('CasesComponent', () => {
     mockEnvironmentConfig = { ogdUpdateRefreshUserEnabled: false };
     await TestBed.configureTestingModule({
       declarations: [CasesComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [provideMockStore(),
         { provide: CaaCasesService, useValue: caaCasesService },
         { provide: ENVIRONMENT_CONFIG, useValue: mockEnvironmentConfig }
@@ -178,5 +180,201 @@ describe('CasesComponent', () => {
 
     expect(component.casesWarningText[0]).toContain('new cases');
     expect(component.casesWarningText[1]).toContain('accept cases');
+  });
+
+  it('should load case types and case data', () => {
+    store.overrideSelector(organisationStore.getOrganisationSel, null);
+    createComponent();
+    dispatchSpy.calls.reset();
+    component.allCaseTypes = [{ text: 'Asylum' } as any];
+    component.selectedCaseType = 'Asylum';
+
+    component.loadCaseTypes();
+    component.loadCaseData();
+
+    expect(dispatchSpy).toHaveBeenCalledWith(jasmine.any(caaCasesStore.LoadCaseTypes));
+    expect(dispatchSpy).toHaveBeenCalledWith(jasmine.any(caaCasesStore.LoadCases));
+  });
+
+  it('should update selected case type when tabs change', () => {
+    store.overrideSelector(organisationStore.getOrganisationSel, null);
+    createComponent();
+    spyOn(component, 'loadCaseData');
+    spyOn(component, 'checkShareButtonText');
+    component.currentPageNo = 4;
+
+    component.onTabChanged('Civil');
+
+    expect(component.selectedCaseType).toEqual('Civil');
+    expect(component.currentPageNo).toEqual(1);
+    expect(component.loadCaseData).toHaveBeenCalled();
+    expect(component.checkShareButtonText).toHaveBeenCalled();
+  });
+
+  it('should get selected case type config', () => {
+    store.overrideSelector(organisationStore.getOrganisationSel, null);
+    createComponent();
+    component.selectedCaseType = 'Civil';
+    component.allCaseTypes = [
+      { text: 'Asylum', caseConfig: { new_cases: false } },
+      { text: 'Civil', caseConfig: { new_cases: true } }
+    ] as any;
+
+    expect(component.getCaseType()).toEqual({ text: 'Civil', caseConfig: { new_cases: true } } as any);
+  });
+
+  it('should update share button text for case reference results', () => {
+    store.overrideSelector(organisationStore.getOrganisationSel, {
+      organisationIdentifier: 'org-id'
+    } as any);
+    createComponent();
+    component.cases = [{ case_id: '1' }];
+    component.allCaseTypes = [{ text: 'Asylum' } as any];
+    component.selectedFilterType = CaaCasesFilterType.CaseReferenceNumber;
+    component.orgIdentifier = 'org-id';
+
+    component.caseDataWithSupplementary = [{
+      supplementary_data: {
+        new_case: { 'org-id': true },
+        orgs_assigned_users: { 'org-id': 0 }
+      }
+    }];
+    component.checkShareButtonText();
+    expect(component.caseResultsTableShareButtonText).toEqual('Accept cases');
+    expect((component as any).caaCasesPageType).toEqual(CaaCasesPageType.NewCases);
+
+    component.selectedFilterType = CaaCasesFilterType.CaseReferenceNumber;
+    component.caseDataWithSupplementary = [{
+      supplementary_data: {
+        new_case: { 'org-id': false },
+        orgs_assigned_users: { 'org-id': 2 }
+      }
+    }];
+    component.checkShareButtonText();
+    expect(component.caseResultsTableShareButtonText).toEqual('Manage case sharing');
+    expect((component as any).caaCasesPageType).toEqual(CaaCasesPageType.AssignedCases);
+
+    component.selectedFilterType = CaaCasesFilterType.CaseReferenceNumber;
+    component.caseDataWithSupplementary = [{
+      supplementary_data: {
+        new_case: { 'org-id': false },
+        orgs_assigned_users: { 'org-id': 0 }
+      }
+    }];
+    component.checkShareButtonText();
+    expect(component.caseResultsTableShareButtonText).toEqual('Share Case');
+    expect((component as any).caaCasesPageType).toEqual(CaaCasesPageType.UnassignedCases);
+  });
+
+  it('should update page type and button text for filter selections', () => {
+    store.overrideSelector(organisationStore.getOrganisationSel, null);
+    createComponent();
+    spyOn(component, 'loadCaseTypes');
+
+    component.onSelectedFilter({ filterType: CaaCasesFilterType.CaseReferenceNumber, filterValue: '1234567812345678' });
+    expect(component.caseResultsTableShareButtonText).toEqual('Accept cases');
+
+    component.onSelectedFilter({ filterType: CaaCasesFilterType.CasesAssignedToAUser, filterValue: 'user-id' });
+    expect(component.caseResultsTableShareButtonText).toEqual('Manage cases');
+    expect((component as any).caaCasesPageType).toEqual(CaaCasesPageType.AssignedCases);
+
+    component.onSelectedFilter({ filterType: CaaCasesFilterType.NewCasesToAccept, filterValue: null });
+    expect(component.caseResultsTableShareButtonText).toEqual('Accept cases');
+    expect((component as any).caaCasesPageType).toEqual(CaaCasesPageType.NewCases);
+
+    component.onSelectedFilter({ filterType: CaaCasesFilterType.UnassignedCases, filterValue: null });
+    expect(component.caseResultsTableShareButtonText).toEqual('Share Case');
+    expect((component as any).caaCasesPageType).toEqual(CaaCasesPageType.UnassignedCases);
+  });
+
+  it('should manage errors, filter visibility and session state', () => {
+    store.overrideSelector(organisationStore.getOrganisationSel, null);
+    createComponent();
+    const errors = [{ title: '', description: 'Invalid', fieldId: 'field' }];
+
+    component.onErrorMessages(errors);
+    expect(component.errorMessages).toEqual(errors);
+    expect(component.isAnyError()).toBe(true);
+
+    component.toggleFilterSection();
+    expect(component.showFilterSection).toBe(true);
+
+    component.removeSessionState('casesPage');
+    expect(caaCasesService.removeSessionState).toHaveBeenCalledWith('casesPage');
+
+    component.storeSessionState({ filterType: CaaCasesFilterType.CasesAssignedToAUser, filterValue: 'user-id' });
+    expect(caaCasesService.storeSessionState).toHaveBeenCalledWith({
+      key: 'casesPage',
+      value: {
+        filterType: CaaCasesFilterType.CasesAssignedToAUser,
+        caseReferenceNumber: null,
+        assigneeName: 'user-id'
+      }
+    });
+  });
+
+  it('should retrieve existing session state and toggle filter section', () => {
+    store.overrideSelector(organisationStore.getOrganisationSel, null);
+    caaCasesService.retrieveSessionState.and.returnValue({
+      filterType: CaaCasesFilterType.CaseReferenceNumber,
+      caseReferenceNumber: '1234567812345678',
+      assigneeName: null
+    });
+    createComponent();
+
+    expect(component.sessionStateValue.caseReferenceNumber).toEqual('1234567812345678');
+    expect(component.showFilterSection).toBe(true);
+  });
+
+  it('should synchronize selected cases and page changes', () => {
+    store.overrideSelector(organisationStore.getOrganisationSel, null);
+    createComponent();
+    dispatchSpy.calls.reset();
+    spyOn(component, 'loadCaseData');
+    const selectedCases = [{ case_id: '1', case_title: 'Selected case' }];
+
+    component.onCaseSelected(selectedCases);
+    expect(component.selectedCases).toEqual(selectedCases);
+    expect(dispatchSpy).toHaveBeenCalledWith(jasmine.any(caaCasesStore.SynchronizeStateToStoreCases));
+
+    component.onPageChanged(3);
+    expect(component.currentPageNo).toEqual(3);
+    expect(component.loadCaseData).toHaveBeenCalled();
+  });
+
+  it('should dispatch share actions for each filter type', () => {
+    store.overrideSelector(organisationStore.getOrganisationSel, null);
+    createComponent();
+    dispatchSpy.calls.reset();
+    component.selectedCases = [{ case_id: '1', case_title: 'Selected case' }];
+    component.selectedCaseType = 'Asylum';
+    component.allCaseTypes = [{ text: 'Asylum', caseConfig: { new_cases: true, group_access: true } }] as any;
+
+    [
+      CaaCasesFilterType.CaseReferenceNumber,
+      CaaCasesFilterType.CasesAssignedToAUser,
+      CaaCasesFilterType.AllAssignedCases,
+      CaaCasesFilterType.NewCasesToAccept,
+      CaaCasesFilterType.UnassignedCases
+    ].forEach((filterType) => {
+      component.selectedFilterType = filterType;
+      component.onShareButtonClicked('Asylum');
+    });
+
+    const addShareCasesCount = dispatchSpy.calls.allArgs()
+      .filter(([action]) => action instanceof caaCasesStore.AddShareCases).length;
+    expect(addShareCasesCount).toEqual(5);
+  });
+
+  it('should complete destroy subject on destroy', () => {
+    store.overrideSelector(organisationStore.getOrganisationSel, null);
+    createComponent();
+    spyOn((component as any).destroy$, 'next');
+    spyOn((component as any).destroy$, 'complete');
+
+    component.ngOnDestroy();
+
+    expect((component as any).destroy$.next).toHaveBeenCalled();
+    expect((component as any).destroy$.complete).toHaveBeenCalled();
   });
 });

@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
-import { SharedCase } from '@hmcts/rpx-xui-common-lib';
+import { SharedCase, FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil, first } from 'rxjs/operators';
@@ -18,7 +17,7 @@ import { CaaCasesPageType } from 'src/cases/models/caa-cases.enum';
   standalone: false
 })
 export class CaseShareCompleteComponent implements OnInit, OnDestroy {
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
   public shareCases$: Observable<SharedCase[]>;
   public shareCases: SharedCase[];
   public newShareCases$: Observable<SharedCase[]>;

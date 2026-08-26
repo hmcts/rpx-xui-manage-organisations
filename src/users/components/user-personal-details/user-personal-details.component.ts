@@ -34,8 +34,8 @@ export class UserPersonalDetailsComponent implements OnInit, OnDestroy {
 
   private _existingUser: UserDetails;
 
-  private onDestroy$ = new Subject<void>();
-  constructor(private fb: FormBuilder) {
+  private readonly onDestroy$ = new Subject<void>();
+  constructor(private readonly fb: FormBuilder) {
   }
 
   ngOnInit(): void {

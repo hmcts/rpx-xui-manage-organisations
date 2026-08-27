@@ -46,8 +46,8 @@
       "commondataApi": "http://rd-commondata-api-prod.service.core-compute-prod.internal"
     }
   },
-  "jurisdictions": ["SSCS", "DIVORCE", "PROBATE", "PUBLICLAW", "IA", "EMPLOYMENT","PCS"],
-  "caseTypes": "CIVIL,DIVORCE,GENERALAPPLICATION,FinancialRemedyContested,FinancialRemedyMVP2,Asylum,Caveat,GrantOfRepresentation,StandingSearch,WillLodgement,CARE_SUPERVISION_EPO,Benefit,NFD,ET_EnglandWales,ET_Scotland,PRLAPPS,PCS",
+  "jurisdictions": ["SSCS", "DIVORCE", "PROBATE", "PUBLICLAW", "IA", "EMPLOYMENT"],
+  "caseTypes": "CIVIL,DIVORCE,GENERALAPPLICATION,FinancialRemedyContested,FinancialRemedyMVP2,Asylum,Caveat,GrantOfRepresentation,StandingSearch,WillLodgement,CARE_SUPERVISION_EPO,Benefit,NFD,ET_EnglandWales,ET_Scotland,PRLAPPS",
   "unassignedCaseTypes": "FT_CaseAccessGroups,true,true",
   "feature": {
     "appInsightsEnabled": true,
@@ -57,7 +57,7 @@
     "helmetEnabled": true,
     "redisEnabled": false,
     "oidcEnabled": false,
-    "ogdUpdateRefreshUserEnabled": true
+    "ogdUpdateRefreshUserEnabled": false
   },
   "helmet": {
     "referrerPolicy": {

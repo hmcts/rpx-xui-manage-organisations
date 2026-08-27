@@ -46,7 +46,7 @@ export async function shiftStack(req, variables): Promise<any> {
       const key = Object.keys(currentItem)[0];
       if (Object.keys(currentItem).length) {
         // item is an object with variable to evaluate
-        console.log('key:', key, variables[key]);
+        logger.info('Evaluating stack variable', { key, value: variables[key] });
         matching = variables[key] ? currentItem[key] : null;
         currentItem = currentItem[key];
       }

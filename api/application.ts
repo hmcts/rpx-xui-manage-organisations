@@ -118,7 +118,7 @@ if (showFeature(FEATURE_TERMS_AND_CONDITIONS_ENABLED)) {
 
 if (showFeature(FEATURE_REDIS_ENABLED)) {
   xuiNode.on(SESSION.EVENT.REDIS_CLIENT_READY, (redisClient: any) => {
-    console.log('REDIS EVENT FIRED!!');
+    logger.info('Redis client ready');
     app.locals.redisClient = redisClient;
     healthChecks.checks = {
       ...healthChecks.checks,
@@ -130,19 +130,15 @@ if (showFeature(FEATURE_REDIS_ENABLED)) {
     };
   });
   xuiNode.on(SESSION.EVENT.REDIS_CLIENT_ERROR, (error: any) => {
-    logger.error('redis Client error is', error);
+    logger.error('Redis client error', error);
   });
 }
 
-console.log('healthChecks', healthChecks);
-
-console.log('ccdData', getConfigValue(SERVICES_CCD_DATA_STORE_API_PATH));
-
-console.log('ccdDefinition', getConfigValue(SERVICES_CCD_DEFINITION_STORE_API_PATH));
-
-console.log('caseAssignmentApi', getConfigValue(SERVICES_MCA_PROXY_API_PATH));
-
-console.log('caseTypes', getConfigValue(CASE_TYPES));
+logger.info('Health checks configured', healthChecks);
+logger.info('CCD data store API path configured', getConfigValue(SERVICES_CCD_DATA_STORE_API_PATH));
+logger.info('CCD definition store API path configured', getConfigValue(SERVICES_CCD_DEFINITION_STORE_API_PATH));
+logger.info('Case assignment API path configured', getConfigValue(SERVICES_MCA_PROXY_API_PATH));
+logger.info('Configured case types', getConfigValue(CASE_TYPES));
 
 healthcheck.addTo(app, healthChecks);
 

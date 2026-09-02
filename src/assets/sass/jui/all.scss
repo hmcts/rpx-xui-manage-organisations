@@ -1,20 +1,20 @@
-@import "settings/manifest";
-@import "objects/manifest";
+@use "settings/manifest" as *;
+@use "objects/manifest" as *;
 
 // Reference to all components
-@import "../../components/all";
+@use "../../components/all" as *;
 
 
 // TODO REMOVE THIS WHEN UX VERSION GETS BUMPED UP OR WHEN MENU COMPONENT IS DONE INSTEAD
 // DOTO NEEDS TO BE REMOVED
 .hmcts-page-heading__title-wrapper {
-    @include mq($from: tablet) {
+    @include govuk-media-query($from: tablet) {
         float: left;
     }
 }
 
 .hmcts-page-heading__actions-wrapper {
-    @include mq($from: tablet) {
+    @include govuk-media-query($from: tablet) {
         float: right;
     }
 }

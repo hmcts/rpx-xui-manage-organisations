@@ -1,27 +1,30 @@
+@use "govuk-frontend/dist/govuk/base" as govuk;
+
 @use "sass:color";
 @use "govuk-frontend/dist/govuk/base" as *;
 @use "govuk-frontend/dist/govuk/objects/width-container" as width-container;
 .app-cookie-banner {
+  @include govuk.govuk-font(16);
+  color: govuk.govuk-functional-colour("text");
+
   box-sizing: border-box;
   width: 100%;
 
-  padding-top: govuk-spacing(3);
-  padding-right: govuk-spacing(3);
-  padding-bottom: govuk-spacing(3);
-  padding-left: govuk-spacing(3);
+  padding-top: govuk.govuk-spacing(3);
+  padding-right: govuk.govuk-spacing(3);
+  padding-bottom: govuk.govuk-spacing(3);
+  padding-left: govuk.govuk-spacing(3);
   // Replaced deprecated lighten() & desaturate() with color.adjust (Sass modern API)
   // Original intent: slightly desaturate and lighten the light-blue
-  background-color: color.adjust(govuk-colour("light-blue"), $lightness: 42.55%, $saturation: -8.46%);
-  @include govuk-font(16);
-  @include govuk-text-colour;
+  background-color: color.adjust(govuk.govuk-colour("blue", $variant: "tint-25"), $lightness: 42.55%, $saturation: -8.46%);
 }
 
 .app-cookie-banner__message {
   margin: 0;
-  @include width-container.govuk-width-container;
+  @include govuk.govuk-width-container;
 }
 
-@include govuk-media-query($media-type: print) {
+@include govuk.govuk-media-query($media-type: print) {
   .app-cookie-banner {
     display: none !important;
   }

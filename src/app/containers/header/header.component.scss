@@ -9,6 +9,19 @@ app-phase-banner {
     width: 100%;
 }
 
+.govuk-phase-banner {
+    padding-top: 0;
+
+    &::before {
+        border-top: 1px solid var(--govuk-link-colour, #1a65a6);
+        content: "";
+        display: block;
+        margin-bottom: 8px;
+        margin-left: calc(50% - 50vw);
+        width: 100vw;
+    }
+}
+
 .hmcts-phase-banner__tag {
     color: #ffffff;
     background-color: #1d70b8;

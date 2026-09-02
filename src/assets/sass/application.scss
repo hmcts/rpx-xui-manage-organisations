@@ -1,9 +1,10 @@
+@use "govuk-frontend/dist/govuk/base" as govuk;
+
 // Path to assets for use with the file-url function
 // in the govuk frontend toolkit"s url-helpers partial
-@use "govuk-frontend/dist/govuk/index" as * with (
-$govuk-global-styles: true,
-$govuk-page-width: 1220px
-);
+$path: "/public/images/";
+
+// Width of main container
 $hmcts-page-width: 1220px;
 @use "patterns/check-your-answers" as *;
 @use "patterns/task-list" as *;
@@ -12,29 +13,13 @@ $hmcts-page-width: 1220px;
 @use "components/cookie-banner" as *;
 @use "jui/all" as *;
 
-// The current @hmcts/frontend package still references this removed IE8 mixin.
-// Its IE8-only declarations must not be emitted with GOV.UK Frontend 5.
-@mixin govuk-if-ie8 {
-  @if false {
-    @content;
-  }
-}
-
-// HMCTS and local styles still use sass-mq's former name for this mixin.
-@mixin mq($from: null, $until: null, $and: null) {
-  @include govuk-media-query($from: $from, $until: $until, $and: $and) {
-    @content;
-  }
-}
+// Import GOV.UK Frontend
+@import "govuk-frontend-compatibility";
 @import "@hmcts/frontend/all";
 
 .jui-editor__content {
   @extend .govuk-textarea;
 }
-
-$path: "/public/images/";
-
-// Width of main container
 
 // Import GOV.UK Frontend
 
@@ -46,7 +31,7 @@ $path: "/public/images/";
 // JUI styles
 
 html {
-  background-color: govuk-colour("light-grey");
+  background-color: govuk.govuk-colour("black", $variant: "tint-95");
 }
 
 .js-enabled .js-hidden {
@@ -68,10 +53,10 @@ html {
 
 
 .jui-case-action-alert {
-  background-color: govuk-colour("blue");
-  color: govuk-colour("white");
-  margin-bottom: govuk-spacing(6);
-  padding: govuk-spacing(4);
+  background-color: govuk.govuk-colour("blue");
+  color: govuk.govuk-colour("white");
+  margin-bottom: govuk.govuk-spacing(6);
+  padding: govuk.govuk-spacing(4);
 }
 
 .jui-case-action-alert__heading {
@@ -89,23 +74,23 @@ html {
 
 .jui-case-action-alert__link:link,
 .jui-case-action-alert__link:visited {
-  color: govuk-colour("white");
+  color: govuk.govuk-colour("white");
 }
 
 
 // Case action alert
 
 .jui-case-action-alert {
-  background-color: govuk-colour("blue");
-  color: govuk-colour("white");
-  margin-bottom: govuk-spacing(6);
-  padding: govuk-spacing(4);
+  background-color: govuk.govuk-colour("blue");
+  color: govuk.govuk-colour("white");
+  margin-bottom: govuk.govuk-spacing(6);
+  padding: govuk.govuk-spacing(4);
 }
 
 
 .jui-case-action-alert__heading {
   color: inherit;
-  margin-bottom: govuk-spacing(2);
+  margin-bottom: govuk.govuk-spacing(2);
   margin-top: 0;
   @include govuk-font($size: 24,
     $weight: bold);
@@ -123,17 +108,17 @@ html {
 
 
 .jui-case-action-alert__link:link {
-  color: govuk-colour("white");
+  color: govuk.govuk-colour("white");
 }
 
 
 .jui-case-action-alert__link:focus {
-  color: govuk-colour("black");
+  color: govuk.govuk-colour("black");
 }
 
 
 
-@include govuk-media-query($from: tablet) {
+@include govuk.govuk-media-query($from: tablet) {
 
   .hmcts-page-heading {
     text-align: justify;
@@ -153,7 +138,7 @@ html {
 
     .hmcts-page-heading__title {
       text-align: left;
-      margin-right: govuk-spacing(4);
+      margin-right: govuk.govuk-spacing(4);
     }
 
   }
@@ -169,8 +154,8 @@ html {
   }
 
   .hmcts-page-heading__button {
-    margin-left: govuk-spacing(4);
-    margin-top: govuk-spacing(1);
+    margin-left: govuk.govuk-spacing(4);
+    margin-top: govuk.govuk-spacing(1);
   }
 
 }
@@ -182,7 +167,7 @@ html {
 // Panel (temp)
 
 .panel {
-  padding: govuk-spacing(6);
+  padding: govuk.govuk-spacing(6);
 
   p:last-child {
     margin-bottom: 0;

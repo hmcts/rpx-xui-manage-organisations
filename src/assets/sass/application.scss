@@ -10,7 +10,8 @@ $govuk-global-styles: true;
 $hmcts-page-width: 1220px;
 
 // Import GOV.UK Frontend
-@import "govuk-frontend/govuk/all";
+@import "govuk-frontend/dist/govuk/index";
+@import "govuk-frontend-compatibility";
 @import "@hmcts/frontend/all";
 
 // Patterns that aren’t in Frontend

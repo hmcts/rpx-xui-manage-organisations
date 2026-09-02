@@ -10,11 +10,6 @@ $govuk-global-styles: true;
 @import "./assets/sass/application";
 @import '../node_modules/@angular/material/prebuilt-themes/indigo-pink.css';
 
-$govuk-compatibility-govukfrontendtoolkit: true;
-@import "../node_modules/govuk-frontend/govuk/all";
-
-
-
 div.govuk-prose-scope,
 p {
   white-space: pre-wrap;
@@ -33,6 +28,65 @@ td.govuk-table__cell {
 div.govuk-header__logo,
 div.hmcts-header__logo {
   width: 23.33%;
+}
+
+// Preserve the pre-GOV.UK Frontend 6 MyHMCTS header layout. These legacy
+// header class names are still used by the HMCTS header component.
+.hmcts-header {
+  .govuk-header__logo {
+    box-sizing: border-box;
+    padding-top: 0;
+    padding-right: govuk-spacing(8);
+    padding-bottom: govuk-spacing(2);
+
+    @include govuk-media-query($from: desktop) {
+      float: left;
+      padding-right: govuk-spacing(3);
+      vertical-align: top;
+    }
+  }
+
+  .govuk-header__link--homepage {
+    @include govuk-font($size: false, $weight: bold);
+
+    display: inline-block;
+    margin-right: govuk-spacing(2);
+    color: govuk-colour("white");
+    font-size: 30px;
+    line-height: 1;
+    text-decoration: none;
+
+    &:link,
+    &:visited {
+      color: govuk-colour("white");
+      text-decoration: none;
+    }
+
+    &:hover,
+    &:active {
+      margin-bottom: -3px;
+      border-bottom: 3px solid;
+      color: govuk-colour("white");
+    }
+
+    &:focus {
+      @include govuk-focused-text;
+
+      margin-bottom: 0;
+      border-bottom: 0;
+    }
+
+    @include govuk-media-query($from: tablet) {
+      display: inline;
+    }
+  }
+
+  .govuk-header__logotype {
+    top: auto;
+    margin-right: 0;
+    margin-bottom: 0;
+    vertical-align: baseline;
+  }
 }
 
 .my_hmcts_application_name {

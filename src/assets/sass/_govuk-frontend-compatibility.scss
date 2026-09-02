@@ -1,0 +1,28 @@
+@use "govuk-frontend/dist/govuk" as govuk;
+
+// TODO: Remove these adapters when @hmcts/frontend supports GOV.UK Frontend 6.
+@function govuk-colour($colour, $legacy: null) {
+  @return govuk.govuk-colour($colour);
+}
+
+@mixin govuk-if-ie8 {
+  // GOV.UK Frontend 6 no longer supports IE8.
+  @if false {
+    @content;
+  }
+}
+
+@mixin mq($from: null, $until: null, $and: null, $media-type: "all") {
+  @include govuk.govuk-media-query($from, $until, $and, $media-type) {
+    @content;
+  }
+}
+
+@mixin govuk-font($size, $weight: regular, $tabular: false, $line-height: false) {
+  @if $size == 14 {
+    font-size: 14px;
+    line-height: 1.42857;
+  }
+
+  @include govuk.govuk-font(if($size == 14, false, $size), $weight, $tabular, $line-height);
+}

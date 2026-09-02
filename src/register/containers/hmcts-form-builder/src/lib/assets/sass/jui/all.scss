@@ -1,6 +1,7 @@
-@use "govuk-frontend/dist/govuk/base" as *;
-@use "settings/manifest" as *;
-@use "objects/manifest" as *;
+@use "govuk-frontend/dist/govuk/base" as govuk;
+
+@import "settings/manifest";
+@import "objects/manifest";
 
 // Reference to all components
 //@import "../../components/all";
@@ -9,13 +10,13 @@
 // TODO REMOVE THIS WHEN UX VERSION GETS BUMPED UP OR WHEN MENU COMPONENT IS DONE INSTEAD
 // DOTO NEEDS TO BE REMOVED
 .hmcts-page-heading__title-wrapper {
-    @include govuk-media-query($from: tablet) {
+    @include govuk.govuk-media-query($from: tablet) {
         float: left;
     }
 }
 
 .hmcts-page-heading__actions-wrapper {
-    @include govuk-media-query($from: tablet) {
+    @include govuk.govuk-media-query($from: tablet) {
         float: right;
     }
 }

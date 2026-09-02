@@ -92,7 +92,7 @@ export const successCallback = async (req: EnhancedRequest, res: Response, next:
       );
       auth.orgId = orgDetails.data.organisationIdentifier;
     } catch (e) {
-      console.log(e);
+      logger.error('Failed to resolve organisation details during auth callback', e);
     }
 
     req.session.auth = auth;
@@ -157,7 +157,7 @@ export const getXuiNodeMiddleware = () => {
     callbackURL: getConfigValue(OAUTH_CALLBACK_URL),
     clientID: idamClient,
     clientSecret: secret,
-    discoveryEndpoint: `${idamWebUrl}/o`,
+    discoveryEndpoint: `${idamWebUrl}/o/.well-known/openid-configuration`,
     issuerURL: issuerUrl,
     logoutURL: idamApiPath,
     responseTypes: ['code'],

@@ -3,11 +3,13 @@ import { Request, Response, Router } from 'express';
 import { getConfigValue } from '../configuration';
 import { SERVICE_S2S_PATH, SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references';
 import { http } from '../lib/http';
+import * as log4jui from '../lib/log4jui';
 import { makeOrganisationPayload } from '../lib/payloadBuilder';
 import { generateS2sToken } from '../lib/s2sTokenGeneration';
 import { exists, valueOrNull } from '../lib/util';
 
 export const router = Router({ mergeParams: true });
+const logger = log4jui.getLogger('register-org');
 
 export async function handleRegisterOrgRoute(req: Request, res: Response) {
   // TODO: Should be in common constants
@@ -27,8 +29,8 @@ export async function handleRegisterOrgRoute(req: Request, res: Response) {
     /**
      * We use the S2S token to set the headers.
      */
-    console.log(s2sToken);
     const url = `${rdProfessionalPath}/refdata/internal/v1/organisations`;
+    logger.info('Registering organisation', { url });
     const options = {
       headers: { ServiceAuthorization: `Bearer ${s2sToken}` }
     };
@@ -36,6 +38,7 @@ export async function handleRegisterOrgRoute(req: Request, res: Response) {
     const response = await axiosInstance.post(url, registerPayload, options);
     res.send(response.data);
   } catch (error) {
+    logger.error('Register organisation failed', error);
     /**
      * If there is a error generating the S2S token then we flag it to the UI.
      */

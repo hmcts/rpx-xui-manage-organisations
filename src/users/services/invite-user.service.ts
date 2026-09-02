@@ -10,7 +10,7 @@ import { UserListApiModel } from '../models/userform.model';
 export class InviteUserService {
   constructor(
     private readonly http: HttpClient,
-    private readonly rootStore: Store<fromRoot.State>,
+    private readonly rootStore: Store<fromRoot.State>
   ) {}
 
   public inviteUser(data): Observable<UserListApiModel> {

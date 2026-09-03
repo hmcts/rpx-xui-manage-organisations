@@ -1,12 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
+@use "govuk-frontend/dist/govuk" as govuk with (
+  $govuk-global-styles: true
+);
 
+/* You can add global styles to this file, and also import other style files */
 
 // Path to assets for use with the file-url function
 // in the govuk frontend toolkit"s url-helpers partial
 $path: "";
 $jui-assets-path : "";
 
-$govuk-global-styles: true;
 @import "./assets/sass/application";
 @import '../node_modules/@angular/material/prebuilt-themes/indigo-pink.css';
 
@@ -36,29 +38,29 @@ div.hmcts-header__logo {
   .govuk-header__logo {
     box-sizing: border-box;
     padding-top: 0;
-    padding-right: govuk-spacing(8);
-    padding-bottom: govuk-spacing(2);
+    padding-right: govuk.govuk-spacing(8);
+    padding-bottom: govuk.govuk-spacing(2);
 
-    @include govuk-media-query($from: desktop) {
+    @include govuk.govuk-media-query($from: desktop) {
       float: left;
-      padding-right: govuk-spacing(3);
+      padding-right: govuk.govuk-spacing(3);
       vertical-align: top;
     }
   }
 
   .govuk-header__link--homepage {
-    @include govuk-font($size: false, $weight: bold);
+    @include govuk.govuk-font($size: false, $weight: bold);
 
     display: inline-block;
-    margin-right: govuk-spacing(2);
-    color: govuk-colour("white");
+    margin-right: govuk.govuk-spacing(2);
+    color: govuk.govuk-colour("white");
     font-size: 30px;
     line-height: 1;
     text-decoration: none;
 
     &:link,
     &:visited {
-      color: govuk-colour("white");
+      color: govuk.govuk-colour("white");
       text-decoration: none;
     }
 
@@ -66,17 +68,17 @@ div.hmcts-header__logo {
     &:active {
       margin-bottom: -3px;
       border-bottom: 3px solid;
-      color: govuk-colour("white");
+      color: govuk.govuk-colour("white");
     }
 
     &:focus {
-      @include govuk-focused-text;
+      @include govuk.govuk-focused-text;
 
       margin-bottom: 0;
       border-bottom: 0;
     }
 
-    @include govuk-media-query($from: tablet) {
+    @include govuk.govuk-media-query($from: tablet) {
       display: inline;
     }
   }
@@ -162,12 +164,12 @@ div.hmcts-header__logo {
 }
 
 .xui-page-top-offset {
-  margin-top: govuk-spacing(4);
+  margin-top: govuk.govuk-spacing(4);
 }
 
 .xui-back-button-margin {
-  margin-top: govuk-spacing(4);
-  margin-bottom: govuk-spacing(4);
+  margin-top: govuk.govuk-spacing(4);
+  margin-bottom: govuk.govuk-spacing(4);
 }
 
 .govuk-js-link {
@@ -180,14 +182,14 @@ div.hmcts-header__logo {
   cursor: pointer;
 
   // :link / :visited only match <a>, so repeat the colours
-  color: govuk-colour("blue");
+  color: govuk.govuk-colour("blue");
 
   &:hover {
-    color: govuk-colour("dark-blue");
+    color: govuk.govuk-colour("blue", $variant: "shade-50");
   }
 
   &:focus {
-    @include govuk-focused-text;
+    @include govuk.govuk-focused-text;
   }
 }
 

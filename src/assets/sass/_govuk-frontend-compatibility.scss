@@ -1,8 +1,61 @@
-@use "govuk-frontend/dist/govuk" as govuk;
+@use "govuk-frontend/dist/govuk/base" as govuk;
 
 // TODO: Remove these adapters when @hmcts/frontend supports GOV.UK Frontend 6.
+$govuk-border-colour: govuk.govuk-functional-colour("border");
+$govuk-focus-colour: govuk.govuk-functional-colour("focus");
+$govuk-secondary-text-colour: govuk.govuk-functional-colour("secondary-text");
+$govuk-text-colour: govuk.govuk-functional-colour("text");
+
 @function govuk-colour($colour, $legacy: null) {
+  @if $colour == "light-pink" {
+    @return govuk.govuk-colour("magenta", $variant: "tint-50");
+  }
+
+  @if $colour == "pink" {
+    @return govuk.govuk-colour("magenta");
+  }
+
+  @if $colour == "light-green" {
+    @return govuk.govuk-colour("green", $variant: "tint-25");
+  }
+
+  @if $colour == "turquoise" {
+    @return govuk.govuk-colour("teal");
+  }
+
+  @if $colour == "light-blue" {
+    @return govuk.govuk-colour("blue", $variant: "tint-25");
+  }
+
+  @if $colour == "dark-blue" {
+    @return govuk.govuk-colour("blue", $variant: "shade-50");
+  }
+
+  @if $colour == "light-purple" {
+    @return govuk.govuk-colour("purple", $variant: "tint-25");
+  }
+
+  @if $colour == "bright-purple" {
+    @return govuk.govuk-colour("magenta", $variant: "shade-25");
+  }
+
+  @if $colour == "light-grey" {
+    @return govuk.govuk-colour("black", $variant: "tint-95");
+  }
+
+  @if $colour == "mid-grey" {
+    @return govuk.govuk-colour("black", $variant: "tint-80");
+  }
+
+  @if $colour == "dark-grey" {
+    @return govuk.govuk-colour("black", $variant: "tint-25");
+  }
+
   @return govuk.govuk-colour($colour);
+}
+
+@function govuk-spacing($spacing-point) {
+  @return govuk.govuk-spacing($spacing-point);
 }
 
 @mixin govuk-if-ie8 {
@@ -13,9 +66,32 @@
 }
 
 @mixin mq($from: null, $until: null, $and: null, $media-type: "all") {
-  @include govuk.govuk-media-query($from, $until, $and, $media-type) {
+  @include govuk-media-query($from, $until, $and, $media-type) {
     @content;
   }
+}
+
+@mixin govuk-clearfix {
+  @include govuk.govuk-clearfix;
+}
+
+@mixin govuk-focused-text {
+  @include govuk.govuk-focused-text;
+}
+
+@mixin govuk-media-query($from: null, $until: null, $and: null, $media-type: "all") {
+  @include govuk.govuk-media-query(
+    $from: $from,
+    $until: $until,
+    $and: $and,
+    $media-type: $media-type
+  ) {
+    @content;
+  }
+}
+
+@mixin govuk-visually-hidden {
+  @include govuk.govuk-visually-hidden;
 }
 
 @mixin govuk-font($size, $weight: regular, $tabular: false, $line-height: false) {
@@ -24,5 +100,10 @@
     line-height: 1.42857;
   }
 
-  @include govuk.govuk-font(if($size == 14, false, $size), $weight, $tabular, $line-height);
+  @include govuk.govuk-font(
+    $size: if($size == 14, false, $size),
+    $weight: $weight,
+    $tabular: $tabular,
+    $line-height: $line-height
+  );
 }

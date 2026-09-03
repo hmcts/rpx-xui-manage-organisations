@@ -1,12 +1,14 @@
+@use "govuk-frontend/dist/govuk/base" as govuk;
+
 /* ==========================================================================
    #DOCUMENT
    ========================================================================== */
 
 .jui-document {
-  @include govuk-clearfix;
+  @include govuk.govuk-clearfix;
 
   &:not(:first-child) {
-    margin-top: govuk-spacing(2);
+    margin-top: govuk.govuk-spacing(2);
   }
 
 }
@@ -30,5 +32,5 @@
 
 
 .jui-document__meta {
-  color: $govuk-text-colour;
+  color: govuk.govuk-functional-colour("text");
 }

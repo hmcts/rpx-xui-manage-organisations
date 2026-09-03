@@ -1,3 +1,5 @@
+@use "govuk-frontend/dist/govuk/base" as govuk;
+
 // This is a GOV.UK Publishing specific component that
 // can be seen at http://govuk-static.herokuapp.com/component-guide/related_items
 
@@ -26,7 +28,7 @@
 
 
 html {
-  background-color: govuk-colour("light-grey");
+  background-color: govuk.govuk-colour("black", $variant: "tint-95");
 }
 
 .js-enabled .js-hidden {
@@ -34,7 +36,7 @@ html {
 }
 
 mark.comment {
-  background-color: govuk-colour("orange");
+  background-color: govuk.govuk-colour("orange");
 }
 
 .medium-toolbar-arrow-under:after {
@@ -260,15 +262,15 @@ mark.comment {
 // Recommended - Use these styles for the check your answers pattern
 .govuk-check-your-answers {
 
-  @include govuk-font($size: 19);
+  @include govuk.govuk-font($size: 19);
 
-  @include mq($from: desktop) {
+  @include govuk.govuk-media-query($from: desktop) {
     display: table;
   }
 }
 
 .govuk-check-your-answers--pba-overview {
-  @include mq($from: desktop) {
+  @include govuk.govuk-media-query($from: desktop) {
     // to make focusOn of q&a line up horizontally (unless there is just one focusOn)
     width: 100%;
     // recommended for mostly short questions

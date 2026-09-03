@@ -1,25 +1,27 @@
+@use "govuk-frontend/dist/govuk/base" as govuk;
+
 /* ==========================================================================
    #BUTTON
    Unfortunately GDS don’t have a secondary button available.
    ========================================================================== */
 
 .jui-button--secondary {
-  background-color: govuk-colour("light-grey");
-  box-shadow: 0 2px 0 rgba(govuk-colour("dark-grey"), .7);
-  color: govuk-colour("black");
+  background-color: govuk.govuk-colour("black", $variant: "tint-95");
+  box-shadow: 0 2px 0 rgba(govuk.govuk-colour("black", $variant: "tint-25"), .7);
+  color: govuk.govuk-colour("black");
 
   &:link,
   &:visited,
   &:active,
   &:hover {
-    color: $govuk-text-colour;
+    color: govuk.govuk-functional-colour("text");
   }
 
   &:hover,
   &:focus,
   &:link:focus {
-    background-color: rgba(govuk-colour("mid-grey"), .7);
-    color: $govuk-text-colour;
+    background-color: rgba(govuk.govuk-colour("black", $variant: "tint-80"), .7);
+    color: govuk.govuk-functional-colour("text");
   }
 
 }

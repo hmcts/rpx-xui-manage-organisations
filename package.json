@@ -43,6 +43,7 @@
     "start": "node ./dist/rpx-xui-manage-organisations/api/server.bundle.js",
     "start:ng": "ng serve --port 3000 --host 0.0.0.0 --proxy-config proxy.config.json",
     "start:node": "cd api && yarn watch",
+    "start:node:demo": "NODE_CONFIG_ENV=demo && cd api && yarn watch",
     "start:node:docker": "PUI_ENV=ldocker;cd api && yarn watch",
     "test": "yarn test:ng",
     "test:accessibility:playwright": "node scripts/run-playwright-accessibility.js",

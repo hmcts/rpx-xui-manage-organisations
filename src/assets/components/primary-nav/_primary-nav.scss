@@ -1,10 +1,12 @@
+@use "govuk-frontend/dist/govuk/base" as govuk;
+
 /* ==========================================================================
    #PRIMARY NAV
    ========================================================================== */
 
 .jui-primary-nav {
-  color: govuk-colour("white");
-  margin-top: govuk-spacing(1);
+  color: govuk.govuk-colour("white");
+  margin-top: govuk.govuk-spacing(1);
 }
 
 
@@ -17,7 +19,7 @@
 
 .jui-primary-nav__item {
   display: inline-block;
-  margin-right: govuk-spacing(2);
+  margin-right: govuk.govuk-spacing(2);
 
   &:last-child {
     margin-right: 0;

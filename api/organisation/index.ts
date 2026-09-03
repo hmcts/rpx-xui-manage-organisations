@@ -3,7 +3,10 @@ import { NextFunction, Request, Response, Router } from 'express';
 import { getConfigValue } from '../configuration';
 import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references';
 import { OrganisationUser } from '../interfaces/organisationPayload';
+import * as log4jui from '../lib/log4jui';
 import { objectContainsOnlySafeCharacters } from '../lib/util';
+
+const logger = log4jui.getLogger('organisation');
 
 export async function handleOrganisationRoute(req: Request, res: Response, next: NextFunction) {
   try {
@@ -44,7 +47,10 @@ export async function handleOrganisationUsersRoute(req: Request, res: Response, 
     const response = await req.http.get(
       `${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/refdata/external/v1/organisations/users?returnRoles=false`
     );
-    console.log(req.query.currentUserEmail);
+    logger.info('Organisation users retrieved', {
+      currentUserEmailProvided: Boolean(req.query.currentUserEmail),
+      userCount: response.data && response.data.users ? response.data.users.length : 0
+    });
     res.send(getFilteredUsers(response.data.users));
   } catch (error) {
     next(error);

@@ -90,6 +90,18 @@ describe('CompanyHouseDetailsComponent', () => {
     expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'registered-address', 'external']);
   });
 
+  it('should allow company numbers starting with BR, OE and RS (RS with 5 numbers also)', () => {
+    ['BR123456', 'OE123456', 'RS12345'].forEach((companyHouseNumber) => {
+      component.companyHouseFormGroup.get('companyName').setValue('Company Name');
+      component.companyHouseFormGroup.get('companyHouseNumber').setValue(companyHouseNumber);
+      component.onContinue();
+
+      expect(component.companyNumberError).toBeNull();
+      expect(component.validationErrors.length).toEqual(0);
+      expect(component.registrationData.companyHouseNumber).toEqual(companyHouseNumber);
+    });
+  });
+
   it('should back link navigate to the check your answers page', () => {
     spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
       previousNavigation: {

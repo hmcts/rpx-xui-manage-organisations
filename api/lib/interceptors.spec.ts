@@ -7,7 +7,6 @@ chai.use(sinonChai);
 
 import * as configuration from '../configuration';
 import { MAX_LOG_LINE } from '../configuration/references';
-import * as errorStack from './errorStack';
 import { errorInterceptor, requestInterceptor, successInterceptor } from './interceptors';
 import * as log4jui from './log4jui';
 
@@ -18,13 +17,13 @@ describe('interceptors', () => {
         startTime: new Date()
       },
       method: 'POST',
-      url: 'http://test2.com'
+      url: 'http://aac-manage-case-assignment-aat.service.core-compute-aat.internal/case-assignments'
     },
     status: 200
   };
   const request = {
     method: 'GET',
-    url: 'http://test.com'
+    url: 'http://rd-professional-api-aat.service.core-compute-aat.internal/refdata/external/v1/organisations/users?returnRoles=false&status=active'
   };
   const errorWithResponseDataDetails = {
     config: {
@@ -38,7 +37,7 @@ describe('interceptors', () => {
       response: {
         status: 500
       },
-      url: 'http://test.com'
+      url: 'http://aac-manage-case-assignment-aat.service.core-compute-aat.internal/case-assignments'
     },
     request: {},
     response: {
@@ -62,7 +61,7 @@ describe('interceptors', () => {
       response: {
         status: 500
       },
-      url: 'http://test.com'
+      url: 'http://aac-manage-case-assignment-aat.service.core-compute-aat.internal/case-assignments'
     },
     request: {},
     response: {
@@ -85,7 +84,7 @@ describe('interceptors', () => {
       response: {
         status: 500
       },
-      url: 'http://test.com'
+      url: 'http://aac-manage-case-assignment-aat.service.core-compute-aat.internal/case-assignments'
     },
     request: {},
     response: {
@@ -98,7 +97,6 @@ describe('interceptors', () => {
 
   beforeEach(() => {
     sinon.stub(configuration, 'getConfigValue').withArgs(MAX_LOG_LINE).returns(20);
-    sinon.stub(errorStack, 'push');
   });
 
   afterEach(() => {
@@ -110,7 +108,7 @@ describe('interceptors', () => {
       const spy = sinon.spy();
       sinon.stub(log4jui, 'getLogger').returns({ info: spy } as any);
       requestInterceptor(request);
-      expect(spy).to.be.calledWith('GET to http://test.com');
+      expect(spy).to.be.calledWith('GET rd-professional-api /refdata/external/v1...');
     });
 
     it('Should return request unmutilated', () => {
@@ -132,7 +130,7 @@ describe('interceptors', () => {
         success: true,
         url: response.config.url
       });
-      expect(spy).to.be.calledWith(sinon.match(/^Success on POST to http:\/\/test2.com \([0-9]+\)$/));
+      expect(spy).to.be.calledWith(sinon.match(/^POST aac-manage-case-assignment \/case-assignments -> 200 \([0-9]+ms\)$/));
     });
 
     it('Should return response unmutilated', () => {
@@ -146,18 +144,21 @@ describe('interceptors', () => {
       const spy = sinon.spy();
       const stub = sinon.stub();
       sinon.stub(log4jui, 'getLogger').returns({ error: spy, trackRequest: stub } as any);
-      errorInterceptor(errorWithResponseDataDetails).catch(() => {
+      return errorInterceptor(errorWithResponseDataDetails).catch(() => {
         expect(stub).to.be.calledWith({
           duration: sinon.match.number,
           name: `Service ${errorWithResponseDataDetails.config.method.toUpperCase()} call`,
           resultCode: errorWithResponseDataDetails.status,
-          success: true,
+          success: false,
           url: errorWithResponseDataDetails.config.url
         });
-        expect(spy).to.be.calledWith(sinon.match(
-          /^Error on GET to http:\/\/test.com in \([0-9]+\) - \[object Object\] \n\s*{"error":true}$/));
-        expect(errorStack.push).to.be.calledWith(['request', sinon.match.object]);
-        expect(errorStack.push).to.be.calledWith(['response', sinon.match.object]);
+        expect(spy).to.be.calledWith('Outbound service call failed', {
+          duration: sinon.match.number,
+          message: undefined,
+          method: 'GET',
+          status: 500,
+          target: 'aac-manage-case-assignment /case-assignments'
+        });
       });
     });
 
@@ -165,18 +166,21 @@ describe('interceptors', () => {
       const spy = sinon.spy();
       const stub = sinon.stub();
       sinon.stub(log4jui, 'getLogger').returns({ error: spy, trackRequest: stub } as any);
-      errorInterceptor(errorWithoutResponseDataDetailsWithResponseStatus).catch(() => {
+      return errorInterceptor(errorWithoutResponseDataDetailsWithResponseStatus).catch(() => {
         expect(stub).to.be.calledWith({
           duration: sinon.match.number,
           name: `Service ${errorWithoutResponseDataDetailsWithResponseStatus.config.method.toUpperCase()} call`,
           resultCode: errorWithoutResponseDataDetailsWithResponseStatus.status,
-          success: true,
+          success: false,
           url: errorWithoutResponseDataDetailsWithResponseStatus.config.url
         });
-        expect(spy).to.be.calledWith(sinon.match(
-          /^Error on GET to http:\/\/test.com in \([0-9]+\) - \[object Object\] \n\s*{\n\s*"other": "random"\n\s*\[truncated\]$/));
-        expect(errorStack.push).to.be.calledWith(['request', sinon.match.object]);
-        expect(errorStack.push).to.be.calledWith(['response', sinon.match.object]);
+        expect(spy).to.be.calledWith('Outbound service call failed', {
+          duration: sinon.match.number,
+          message: undefined,
+          method: 'GET',
+          status: 500,
+          target: 'aac-manage-case-assignment /case-assignments'
+        });
       });
     });
 
@@ -184,18 +188,21 @@ describe('interceptors', () => {
       const spy = sinon.spy();
       const stub = sinon.stub();
       sinon.stub(log4jui, 'getLogger').returns({ error: spy, trackRequest: stub } as any);
-      errorInterceptor(errorWithoutResponseDataDetailsOrResponseStatus).catch(() => {
+      return errorInterceptor(errorWithoutResponseDataDetailsOrResponseStatus).catch(() => {
         expect(stub).to.be.calledWith({
           duration: sinon.match.number,
           name: `Service ${errorWithoutResponseDataDetailsOrResponseStatus.config.method.toUpperCase()} call`,
           resultCode: errorWithoutResponseDataDetailsOrResponseStatus.status,
-          success: true,
+          success: false,
           url: errorWithoutResponseDataDetailsOrResponseStatus.config.url
         });
-        expect(spy).to.be.calledWith(sinon.match(
-          /^Error on GET to http:\/\/test.com in \([0-9]+\) - \[object Object\] \n\s*null$/));
-        expect(errorStack.push).to.be.calledWith(['request', sinon.match.object]);
-        expect(errorStack.push).to.be.calledWith(['response', sinon.match.object]);
+        expect(spy).to.be.calledWith('Outbound service call failed', {
+          duration: sinon.match.number,
+          message: undefined,
+          method: 'GET',
+          status: 500,
+          target: 'aac-manage-case-assignment /case-assignments'
+        });
       });
     });
   });

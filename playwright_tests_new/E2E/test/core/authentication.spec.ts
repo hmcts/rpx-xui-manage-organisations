@@ -9,7 +9,7 @@ test(
 
     await organisationPage.signOut();
 
-    await expect(idamPage.heading).toBeVisible();
-    await expect(signedInPage).toHaveURL(/\/login/);
+    await expect(idamPage.usernameInput).toBeVisible();
+    await expect(signedInPage).toHaveURL(/idam|\/login|\/enter-email/);
   }
 );

@@ -20,11 +20,10 @@ import { HeaderComponent } from '../header/header.component';
 import { AppComponent } from './app.component';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
 const windowMock: Window = { gtag: () => {} } as any;
 
 const featureMock: FeatureToggleService = {
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+
   initialize: () => {},
   isEnabled: () => of(true),
   getValue: () => of(),
@@ -33,7 +32,7 @@ const featureMock: FeatureToggleService = {
 };
 
 const idleServiceMock = {
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+
   init: () => {},
   appStateChanges: () => of({
     countdown: 3,

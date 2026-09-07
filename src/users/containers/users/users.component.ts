@@ -31,7 +31,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly store: Store<fromStore.UserState>,
-    private readonly routerStore: Store<fromRoot.State>,
+    private readonly routerStore: Store<fromRoot.State>
   ) {}
 
   public ngOnInit(): void {

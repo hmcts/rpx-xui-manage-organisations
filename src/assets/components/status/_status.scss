@@ -3,13 +3,13 @@
    ========================================================================== */
 
 .jui-status {
-  @include govuk-font($size: 14);
   border: 2px solid govuk-colour("blue");
   color: govuk-colour("blue");
   font-weight: bold;
   padding: 0 govuk-spacing(1);
   text-transform: uppercase;
   vertical-align: middle;
+  @include govuk-font($size: 14);
 }
 
 

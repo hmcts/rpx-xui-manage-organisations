@@ -5,7 +5,12 @@
 @use "sass:math";
 
 @mixin aspect-ratio($ratio-or-width, $height: null) {
-  $padding: if($height, math.percentage(math.div($height, $ratio-or-width)), math.percentage(math.div(1, $ratio-or-width)));
+  $padding: math.percentage(math.div(1, $ratio-or-width));
+
+  @if $height {
+    $padding: math.percentage(math.div($height, $ratio-or-width));
+  }
+
   &:before { content:''; float: left; padding-bottom: $padding;  }
   &:after  { content:''; display: table; clear: both;  }
 }

@@ -1,15 +1,10 @@
-[31m[1mYAMLException[22m[39m: can not read a block mapping entry; a multiline key may not be an implicit key at line 20847, column 22:
-        "@hmcts/frontend": "npm:0.0.50-alpha"
-                         ^
-        "@hmcts/frontend": "npm:0.0.50-alpha"
-                         ^
-    at ure (/Users/Anthony.Borisade/Documents/projects/GOV/rpx-xui-manage-organisations/.yarn/releases/yarn-4.9.2.cjs:19:802)
-    at Rr (/Users/Anthony.Borisade/Documents/projects/GOV/rpx-xui-manage-organisations/.yarn/releases/yarn-4.9.2.cjs:19:905)
-    at HJe (/Users/Anthony.Borisade/Documents/projects/GOV/rpx-xui-manage-organisations/.yarn/releases/yarn-4.9.2.cjs:26:1612)
-    at dE (/Users/Anthony.Borisade/Documents/projects/GOV/rpx-xui-manage-organisations/.yarn/releases/yarn-4.9.2.cjs:26:4430)
-    at WJe (/Users/Anthony.Borisade/Documents/projects/GOV/rpx-xui-manage-organisations/.yarn/releases/yarn-4.9.2.cjs:26:6580)
-    at fre (/Users/Anthony.Borisade/Documents/projects/GOV/rpx-xui-manage-organisations/.yarn/releases/yarn-4.9.2.cjs:27:260)
-    at pre (/Users/Anthony.Borisade/Documents/projects/GOV/rpx-xui-manage-organisations/.yarn/releases/yarn-4.9.2.cjs:27:475)
-    at VJe (/Users/Anthony.Borisade/Documents/projects/GOV/rpx-xui-manage-organisations/.yarn/releases/yarn-4.9.2.cjs:27:748)
-    at Fze (/Users/Anthony.Borisade/Documents/projects/GOV/rpx-xui-manage-organisations/.yarn/releases/yarn-4.9.2.cjs:64:87)
-    at cs (/Users/Anthony.Borisade/Documents/projects/GOV/rpx-xui-manage-organisations/.yarn/releases/yarn-4.9.2.cjs:64:435)
+{"value":"@angular/animations","children":{"ID":"@angular/animations (deprecation)","Issue":"@angular/animations is deprecated. Use `animate.enter` and `animate.leave` instead. For more information see: https://v22.angular.dev/guide/animations.","Severity":"moderate","Vulnerable Versions":"20.3.27","Tree Versions":["20.3.27"],"Dependents":["rpx-xui-manage-organisations@workspace:."]}}
+{"value":"@angular/platform-browser-dynamic","children":{"ID":"@angular/platform-browser-dynamic (deprecation)","Issue":"@angular/platform-browser-dynamic is deprecated. Use `@angular/platform-browser` instead.","Severity":"moderate","Vulnerable Versions":"20.3.27","Tree Versions":["20.3.27"],"Dependents":["rpx-xui-manage-organisations@workspace:."]}}
+{"value":"fstream","children":{"ID":"fstream (deprecation)","Issue":"This package is no longer supported.","Severity":"moderate","Vulnerable Versions":"1.0.12","Tree Versions":["1.0.12"],"Dependents":["unzipper@npm:0.10.14"]}}
+{"value":"glob","children":{"ID":"glob (deprecation)","Issue":"Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me","Severity":"moderate","Vulnerable Versions":"7.2.3","Tree Versions":["7.2.3"],"Dependents":["archiver-utils@npm:2.1.0"]}}
+{"value":"inflight","children":{"ID":"inflight (deprecation)","Issue":"This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.","Severity":"moderate","Vulnerable Versions":"1.0.6","Tree Versions":["1.0.6"],"Dependents":["glob@npm:7.2.3"]}}
+{"value":"lodash.isequal","children":{"ID":"lodash.isequal (deprecation)","Issue":"This package is deprecated. Use require('node:util').isDeepStrictEqual instead.","Severity":"moderate","Vulnerable Versions":"4.5.0","Tree Versions":["4.5.0"],"Dependents":["@fast-csv/format@npm:4.3.5"]}}
+{"value":"qs","children":{"ID":1158506,"Issue":"qs array-limit bypass via bracket-key comma parsing","URL":"https://github.com/advisories/GHSA-x5fp-wj9c-mxmx","Severity":"moderate","Vulnerable Versions":">=6.14.2 <=6.15.3","Tree Versions":["6.15.2"],"Dependents":["body-parser@npm:2.3.0"]}}
+{"value":"qs","children":{"ID":1158507,"Issue":"qs: Denial of Service via Attacker Controlled isBuffer","URL":"https://github.com/advisories/GHSA-4mjr-xmp4-gh2g","Severity":"moderate","Vulnerable Versions":">=2.2.5 <6.16.0","Tree Versions":["6.15.2"],"Dependents":["body-parser@npm:2.3.0"]}}
+{"value":"rimraf","children":{"ID":"rimraf (deprecation)","Issue":"Rimraf versions prior to v4 are no longer supported","Severity":"moderate","Vulnerable Versions":"2.7.1","Tree Versions":["2.7.1"],"Dependents":["fstream@npm:1.0.12"]}}
+{"value":"uuid","children":{"ID":1119441,"Issue":"uuid: Missing buffer bounds check in v3/v5/v6 when buf is provided","URL":"https://github.com/advisories/GHSA-w5hq-g745-h8pq","Severity":"moderate","Vulnerable Versions":"<11.1.1","Tree Versions":["8.3.2"],"Dependents":["exceljs@npm:4.4.0"]}}

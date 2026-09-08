@@ -45,8 +45,10 @@ function getPromises(path, req: Request): any[] {
   if (healthCheckEndpointDictionary[path]) {
     healthCheckEndpointDictionary[path].forEach((endpoint) => {
       // TODO: Have health config for this.
-      console.log('healthEndpoints');
-      console.log(healthEndpoints()[endpoint]);
+      logger.debug('Health check endpoint selected', {
+        endpoint,
+        url: healthEndpoints()[endpoint]
+      });
       Promises.push(req.http.get(healthEndpoints()[endpoint]));
     });
   }
@@ -68,10 +70,10 @@ async function healthCheckRoute(req, res) {
       response = { healthState: false };
     });
 
-    logger.info('response::', response);
+    logger.debug('Health check response', response);
     res.send(response);
   } catch (error) {
-    logger.info('error', { healthState: false });
+    logger.error('Health check failed', error);
     res.status(exists(error, 'status') ? error.status : 500).send({ healthState: false });
   }
 }

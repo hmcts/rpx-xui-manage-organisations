@@ -27,10 +27,8 @@ export async function getAccountsForOrganisation(orgId: string, req: Request): P
  * Hit when
  */
 export async function postOrganisation(body: any, req: Request): Promise<any> {
-  logger.info('Post organisation body');
-  logger.debug(JSON.stringify(body));
-  console.log('url');
-  console.log(url);
+  logger.info('Posting organisation to RD Professional', { url });
+  logger.debug('Post organisation payload', body);
 
   try {
     const response = await req.http.post(`${url}/refdata/external/v1/organisations`, body);

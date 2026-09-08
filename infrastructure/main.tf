@@ -3,9 +3,6 @@ locals {
   ase_name          = "core-compute-${var.env}"
   local_env         = (var.env == "preview" || var.env == "spreview") ? (var.env == "preview") ? "aat" : "saat" : var.env
   shared_vault_name = "${var.shared_product_name}-${local.local_env}"
-
-  managed_redis_environments = ["demo"]
-  managed_redis_enabled_envs = contains(local.managed_redis_environments, var.env) ? toset([var.env]) : toset([])
 }
 
 data "azurerm_key_vault" "key_vault" {
@@ -43,8 +40,6 @@ module "redis6-cache" {
 }
 
 module "managed_redis" {
-  for_each = local.managed_redis_enabled_envs
-
   source = "git@github.com:hmcts/terraform-module-azure-managed-redis?ref=main"
 
   product     = var.product
@@ -53,7 +48,7 @@ module "managed_redis" {
   location    = var.location
   common_tags = var.common_tags
 
-  sku_name = "Balanced_B1"
+  sku_name = var.managed_redis_sku_name
 
   public_network_access   = "Disabled"
   create_private_endpoint = true
@@ -64,14 +59,24 @@ module "managed_redis" {
 
   access_keys_authentication_enabled = true
   persistence_rdb_backup_frequency   = "6h"
+
+  clustering_policy = "EnterpriseCluster"
+}
+
+moved {
+  from = module.managed_redis["demo"]
+  to   = module.managed_redis
 }
 
 resource "azurerm_key_vault_secret" "managed_redis_connection_string" {
-  for_each = module.managed_redis
-
   name         = "${var.component}-managed-redis-connection-string"
-  value        = "rediss://:${urlencode(each.value.primary_access_key)}@${each.value.hostname}:${each.value.port}?tls=true"
+  value        = "rediss://:${urlencode(module.managed_redis.primary_access_key)}@${module.managed_redis.hostname}:${module.managed_redis.port}"
   key_vault_id = data.azurerm_key_vault.key_vault.id
+}
+
+moved {
+  from = azurerm_key_vault_secret.managed_redis_connection_string["demo"]
+  to   = azurerm_key_vault_secret.managed_redis_connection_string
 }
 
 module "application_insights" {

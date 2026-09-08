@@ -43,3 +43,7 @@ variable "redis_capacity" {
   description = "The size of the Redis cache to deploy. Valid values are 1, 2, 3, 4, 5"
 }
 
+variable "managed_redis_sku_name" {
+  default     = "Balanced_B0"
+  description = "The SKU to use for Azure Managed Redis."
+}

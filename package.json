@@ -19,7 +19,6 @@
     "env:populate:aat": "bash ./scripts/populate-env-from-keyvault.sh aat",
     "env:populate:demo": "bash ./scripts/populate-env-from-keyvault.sh demo",
     "lint": "yarn lint:prettier && yarn lint:ng && yarn lint:node && yarn lint:playwright:api && yarn lint:playwright:integration && yarn lint:playwright:e2e && yarn lint:playwright:architecture && yarn lint:reporting:scripts",
-    "test:ci-evidence": "node --test test/ci-evidence.reporter.test.cjs",
     "lint:ng": "yarn eslint src --cache --cache-strategy content --cache-location .eslintcache",
     "lint:ng:fix": "yarn eslint --fix src --cache --cache-strategy content --cache-location .eslintcache",
     "lint:node": "yarn eslint api --cache --cache-strategy content --cache-location .eslintcache",

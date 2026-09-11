@@ -23,11 +23,6 @@ const resolveFlag = (raw: string | undefined, fallback: boolean): boolean => {
   return raw.trim().toLowerCase() === 'true';
 };
 
-const shouldEmitCiEvidence = (env: EnvMap): boolean => {
-  const configured = env.PLAYWRIGHT_CI_EVIDENCE?.trim().toLowerCase();
-  return configured ? configured === 'true' : Boolean(env.CI || env.JENKINS_URL || env.BUILD_NUMBER);
-};
-
 const resolvePositiveNumber = (raw: string | undefined, fallback: number): number => {
   const parsed = Number.parseInt(String(raw ?? ''), 10);
   return Number.isFinite(parsed) && parsed >= 0 ? parsed : fallback;
@@ -222,13 +217,10 @@ export const resolveReporters = (options: ReporterOptions, baseUrl: string, env:
     }
   });
 
-  if (shouldEmitCiEvidence(env)) {
+  if (env.CI && env.PLAYWRIGHT_INCLUDE_A11Y !== 'true' && env.PLAYWRIGHT_INCLUDE_WAVE_A11Y !== 'true') {
     reporters.push([
-      './playwright_tests_new/common/reporters/ci-evidence.reporter.cjs',
-      {
-        outputFolder: resolveOdhinOutputFolder(options, env),
-        repository: 'rpx-xui-manage-organisations',
-      },
+      'json',
+      { outputFile: env.PLAYWRIGHT_JSON_OUTPUT ?? `${resolveOdhinOutputFolder(options, env)}/ci-evidence/playwright.json` },
     ]);
   }
   return reporters;

@@ -63,7 +63,7 @@ test.describe('playwright reporting configuration', () => {
     ]);
   });
 
-  test('adds canonical evidence independently of explicit Jenkins reporters', () => {
+  test('adds native JSON independently of explicit Jenkins reporters', () => {
     const reporters = resolveReporters(
       {
         defaultIndexFilename: 'index.html',
@@ -75,9 +75,10 @@ test.describe('playwright reporting configuration', () => {
       { CI: 'true', PLAYWRIGHT_REPORTERS: 'dot,odhin' }
     );
 
-    expect(reporters.map(([name]) => name)).toContain(
-      './playwright_tests_new/common/reporters/ci-evidence.reporter.cjs'
-    );
+    expect(reporters).toContainEqual([
+      'json',
+      { outputFile: 'functional-output/tests/playwright-e2e/odhin-report/ci-evidence/playwright.json' }
+    ]);
   });
 
   test('builds include and exclude tag grep expressions', () => {

@@ -14,7 +14,7 @@ import {
   FEATURE_HELMET_ENABLED,
   FEATURE_REDIS_ENABLED,
   FEATURE_TERMS_AND_CONDITIONS_ENABLED,
-  HELMET, SERVICES_CCD_DATA_STORE_API_PATH,
+  HELMET, REDISCLOUD_URL, SERVICES_CCD_DATA_STORE_API_PATH,
   SERVICES_CCD_DEFINITION_STORE_API_PATH,
   SERVICES_FEE_AND_PAY_API_PATH,
   SERVICES_MCA_PROXY_API_PATH,
@@ -34,6 +34,7 @@ const helmet = (helmetModule as any).default || helmetModule;
 const bodyParser = (bodyParserModule as any).default || bodyParserModule;
 const cookieParser = (cookieParserModule as any).default || cookieParserModule;
 
+console.log('@@@@@@ REDISCLOUD_URL @@@@@@:-', getConfigValue(REDISCLOUD_URL));
 function loadIndexHtml(): string {
   // production build output
   let p = path.join(__dirname, '..', 'index.html');

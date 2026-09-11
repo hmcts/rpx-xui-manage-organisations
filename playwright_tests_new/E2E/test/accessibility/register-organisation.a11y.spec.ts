@@ -21,10 +21,6 @@ type RegisterOrganisationValidationState = RegisterOrganisationRoute & {
 type RegisterOrganisationInteractiveState = RegisterOrganisationRoute & {
   expectedSelectors: readonly string[];
   prepare: (registerOrganisationPage: RegisterOrganisationPage) => Promise<void>;
-  skippedUntil?: {
-    issue: string;
-    reason: string;
-  };
 };
 
 type RegisterOrganisationJourneyState = {
@@ -313,10 +309,6 @@ const registerOrganisationInteractiveStates = [
     path: 'regulatory-organisation-type',
     component: 'app-regulatory-organisation-type',
     expectedSelectors: ['#regulator-name0', '#organisation-registration-number0'],
-    skippedUntil: {
-      issue: 'EXUI-4639',
-      reason: 'Known MO accessibility defect: the conditional regulator name input is not programmatically associated with its visible label.'
-    },
     prepare: async (registerOrganisationPage) => {
       await registerOrganisationPage.regulatorTypeSelect.selectOption({ label: 'Other' });
     }
@@ -335,10 +327,6 @@ const registerOrganisationInteractiveStates = [
     path: 'individual-registered-with-regulator-details',
     component: 'app-individual-registered-with-regulator-details',
     expectedSelectors: ['#regulator-name0', '#organisation-registration-number0'],
-    skippedUntil: {
-      issue: 'EXUI-4639',
-      reason: 'Known MO accessibility defect: the conditional regulator name input is not programmatically associated with its visible label.'
-    },
     prepare: async (registerOrganisationPage) => {
       await registerOrganisationPage.regulatorTypeSelect.selectOption({ label: 'Other' });
     }
@@ -429,21 +417,10 @@ test.describe('register organisation accessibility @a11y', () => {
   }
 
   for (const interactiveState of registerOrganisationInteractiveStates) {
-    const pendingIssueSuffix = interactiveState.skippedUntil
-      ? ` - skipped pending ${interactiveState.skippedUntil.issue}`
-      : '';
-
     test(
-      `${interactiveState.name} interactive state has no automatically detectable accessibility violations${pendingIssueSuffix}`,
+      `${interactiveState.name} interactive state has no automatically detectable accessibility violations`,
       { tag: ['@e2e', '@a11y', '@registration'] },
       async ({ page, registerOrganisationPage }, testInfo) => {
-        test.skip(
-          Boolean(interactiveState.skippedUntil),
-          interactiveState.skippedUntil
-            ? `${interactiveState.skippedUntil.issue}: ${interactiveState.skippedUntil.reason}`
-            : ''
-        );
-
         const axeUtils = new AxeUtils(page);
 
         await registerOrganisationPage.openWorkflowPage(interactiveState.path);

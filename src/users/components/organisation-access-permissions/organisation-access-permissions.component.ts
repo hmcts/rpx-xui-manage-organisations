@@ -5,7 +5,7 @@ import { Observable, Subject, map, shareReplay, takeUntil, Subscription } from '
 import { CaseManagementPermissions } from '../../models/case-management-permissions.model';
 import { Jurisdiction } from 'src/models';
 import { AppConstants } from '../../../app/app.constants';
-import { Accordion } from 'govuk-frontend';
+import { Accordion, isSupported } from 'govuk-frontend';
 import { OrganisationProfileService } from 'src/users/services/org-profiles.service';
 import { ENVIRONMENT_CONFIG, EnvironmentConfig } from '../../../models/environmentConfig.model';
 
@@ -85,7 +85,7 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnChanges
   }
 
   initAccordion() {
-    if (!this.shouldShowCaseManagementContent) {
+    if (!this.shouldShowCaseManagementContent || !isSupported()) {
       return;
     }
     const accordion1 = document.getElementById('org-access-accordion');

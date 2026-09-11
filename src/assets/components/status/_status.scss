@@ -1,25 +1,29 @@
+@use "govuk-frontend/dist/govuk/base" as govuk;
+
 /* ==========================================================================
    #STATUS
    ========================================================================== */
 
 .jui-status {
-  @include govuk-font($size: 14);
-  border: 2px solid govuk-colour("blue");
-  color: govuk-colour("blue");
+  @include govuk.govuk-font($size: false);
+  font-size: 14px;
+  line-height: 1.42857;
+  border: 2px solid govuk.govuk-colour("blue");
+  color: govuk.govuk-colour("blue");
   font-weight: bold;
-  padding: 0 govuk-spacing(1);
+  padding: 0 govuk.govuk-spacing(1);
   text-transform: uppercase;
   vertical-align: middle;
 }
 
 
 .jui-status--urgent {
-  border-color: govuk-colour("red");
-  color: govuk-colour("red");
+  border-color: govuk.govuk-colour("red");
+  color: govuk.govuk-colour("red");
 }
 
 
 .jui-status--new {
-  border-color: govuk-colour("green");
-  color: govuk-colour("green");
+  border-color: govuk.govuk-colour("green");
+  color: govuk.govuk-colour("green");
 }

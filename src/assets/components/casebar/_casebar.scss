@@ -1,13 +1,15 @@
+@use "govuk-frontend/dist/govuk/base" as govuk;
+
 /* ==========================================================================
    #CASEBAR
    ========================================================================== */
 
 .jui-casebar {
-  @include govuk-clearfix;
-  background-color: govuk-colour("blue");
-  color: govuk-colour("white");
-  padding-top: govuk-spacing(3);
-  padding-bottom: govuk-spacing(3);
+  @include govuk.govuk-clearfix;
+  background-color: govuk.govuk-colour("blue");
+  color: govuk.govuk-colour("white");
+  padding-top: govuk.govuk-spacing(3);
+  padding-bottom: govuk.govuk-spacing(3);
 }
 
 
@@ -17,13 +19,13 @@
 
 
 .jui-casebar__reference {
-  @include govuk-font(16);
-  margin-right: govuk-spacing(2);
+  @include govuk.govuk-font(16);
+  margin-right: govuk.govuk-spacing(2);
 }
 
 
 .jui-casebar__title {
-  @include govuk-font(16);
+  @include govuk.govuk-font(16);
 }
 
 
@@ -36,15 +38,15 @@
 .jui-casebar__link:link,
 .jui-casebar__link:visited,
 .jui-casebar__link:active {
-  color: govuk-colour("white");
+  color: govuk.govuk-colour("white");
 
   .jui-casebar__title {
     text-decoration: underline;
   }
 
   &:focus {
-    background-color: $govuk-focus-colour;
-    color: govuk-colour("black");
+    background-color: govuk.govuk-functional-colour("focus");
+    color: govuk.govuk-colour("black");
   }
 
 }

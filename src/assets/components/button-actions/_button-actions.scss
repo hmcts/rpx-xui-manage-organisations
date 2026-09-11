@@ -1,16 +1,18 @@
+@use "govuk-frontend/dist/govuk/base" as govuk;
+
   .jui-button-actions {
-    @include govuk-clearfix;
+    @include govuk.govuk-clearfix;
   }
 
 
   /* Style variants
      ========================================================================== */
 
-  @include mq($from: tablet) {
+  @include govuk.govuk-media-query($from: tablet) {
 
     .jui-button-actions__item--inline {
       float: left;
-      margin-right: govuk-spacing(4);
+      margin-right: govuk.govuk-spacing(4);
     }
 
   }

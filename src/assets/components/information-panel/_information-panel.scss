@@ -1,25 +1,27 @@
+@use "govuk-frontend/dist/govuk/base" as govuk;
+
 /* ==========================================================================
    #PANEL
    ========================================================================== */
 
 .jui-panel {
-  @include govuk-font($size: 19);
+  @include govuk.govuk-font($size: 19);
   border: 5px solid transparent;
   box-sizing: border-box;
-  margin-bottom: govuk-spacing(6);
-  padding: govuk-spacing(6) - $govuk-border-width;
+  margin-bottom: govuk.govuk-spacing(6);
+  padding: govuk.govuk-spacing(6) - govuk.$govuk-border-width;
   position: relative;
 }
 
 
 .jui-panel__title {
-  @include govuk-font($size: 36, $weight: bold);
-  margin-bottom: govuk-spacing(3);
+  @include govuk.govuk-font($size: 36, $weight: bold);
+  margin-bottom: govuk.govuk-spacing(3);
 }
 
 
 .jui-panel__body {
-  @include govuk-font($size: 24);
+  @include govuk.govuk-font($size: 24);
 }
 
 
@@ -29,13 +31,13 @@
 
   dt {
     font-weight: bold;
-    margin-bottom: govuk-spacing(1);
+    margin-bottom: govuk.govuk-spacing(1);
   }
 
   dd {
-    @include govuk-font($size: 16);
+    @include govuk.govuk-font($size: 16);
     margin-left: 0;
-    margin-bottom: govuk-spacing(4);
+    margin-bottom: govuk.govuk-spacing(4);
 
     &:last-child {
       margin-bottom: 0;
@@ -50,12 +52,12 @@
    ========================================================================== */
 
 .jui-panel--information {
-  border-color: govuk-colour("blue");
+  border-color: govuk.govuk-colour("blue");
  }
 
 
 .jui-panel--confirmation {
-  border-color: govuk-colour("green");
-  color: govuk-colour("green");
+  border-color: govuk.govuk-colour("green");
+  color: govuk.govuk-colour("green");
   text-align: center;
 }

@@ -90,7 +90,7 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnChanges
     }
     const accordion1 = document.getElementById('org-access-accordion');
     if (accordion1 && !accordion1.dataset.codexInitialized) {
-      new Accordion(accordion1, this.accordianConfig).init();
+      new Accordion(accordion1, this.accordianConfig);
       accordion1.dataset.codexInitialized = 'true';
     }
   }

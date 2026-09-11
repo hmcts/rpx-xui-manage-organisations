@@ -1,28 +1,30 @@
+@use "govuk-frontend/dist/govuk/base" as govuk;
+
 /* ==========================================================================
    #QUESTIONS
    ========================================================================== */
 
 .jui-questions__item {
-  border-bottom: 1px solid $govuk-border-colour;
-  padding-top: govuk-spacing(4);
-  padding-bottom: govuk-spacing(4);
+  border-bottom: 1px solid govuk.govuk-functional-colour("border");
+  padding-top: govuk.govuk-spacing(4);
+  padding-bottom: govuk.govuk-spacing(4);
   position: relative;
 
   &:first-child {
-    border-top: 1px solid $govuk-border-colour;
+    border-top: 1px solid govuk.govuk-functional-colour("border");
   }
 
 }
 
 .jui-questions__subject {
-  @include govuk-font($size: 19, $weight: bold);
+  @include govuk.govuk-font($size: 19, $weight: bold);
   margin-bottom: 0;
   margin-top: 0;
 }
 
 
 .jui-questions__subject a {
-  margin-right: govuk-spacing(2);
+  margin-right: govuk.govuk-spacing(2);
 }
 
 
@@ -32,12 +34,12 @@
 
 
 .jui-questions__meta {
-  @include govuk-font($size: 16);
-  color: $govuk-secondary-text-colour;
+  @include govuk.govuk-font($size: 16);
+  color: govuk.govuk-functional-colour("secondary-text");
   margin-bottom: 0;
 
-  @include mq($from: tablet) {
-    margin-top: govuk-spacing(1);
+  @include govuk.govuk-media-query($from: tablet) {
+    margin-top: govuk.govuk-spacing(1);
   }
 
 }
@@ -48,16 +50,16 @@
   background-repeat: no-repeat;
   background-size: 25px;
   background-position: 0 50%;
-  color: $govuk-secondary-text-colour;
+  color: govuk.govuk-functional-colour("secondary-text");
   display: block;
   margin-bottom: 0;
   padding-left: 30px;
 
-  @include mq($until: tablet) {
-    margin-top: govuk-spacing(2);
+  @include govuk.govuk-media-query($until: tablet) {
+    margin-top: govuk.govuk-spacing(2);
   }
 
-  @include mq($from: tablet) {
+  @include govuk.govuk-media-query($from: tablet) {
     position: absolute; top: 20px; right: 0;
     margin-top: 2px;
   }
@@ -69,12 +71,12 @@
 ========================================================================== */
 
 .jui-question__meta {
-  @include govuk-font($size: 16);
-  color: $govuk-secondary-text-colour;
+  @include govuk.govuk-font($size: 16);
+  color: govuk.govuk-functional-colour("secondary-text");
   margin-top: 0;
 
-  @include mq($from: tablet) {
-    margin-bottom: govuk-spacing(4);
+  @include govuk.govuk-media-query($from: tablet) {
+    margin-bottom: govuk.govuk-spacing(4);
   }
 
 }

@@ -63,6 +63,24 @@ test.describe('playwright reporting configuration', () => {
     ]);
   });
 
+  test('adds native JSON independently of explicit Jenkins reporters', () => {
+    const reporters = resolveReporters(
+      {
+        defaultIndexFilename: 'index.html',
+        defaultProject: 'Manage Org',
+        defaultRelease: '1.0.0',
+        defaultTitle: 'Manage Org Playwright'
+      },
+      'https://manage-org.aat.platform.hmcts.net',
+      { CI: 'true', PLAYWRIGHT_REPORTERS: 'dot,odhin' }
+    );
+
+    expect(reporters).toContainEqual([
+      'json',
+      { outputFile: 'functional-output/tests/playwright-e2e/odhin-report/ci-evidence/playwright.json' }
+    ]);
+  });
+
   test('builds include and exclude tag grep expressions', () => {
     const include = resolveTagGrep({ PLAYWRIGHT_TAGS: '@e2e,@registration' });
     const exclude = resolveTagGrepInvert({ PLAYWRIGHT_EXCLUDE_TAGS: '@e2e-smoke,@wip' });

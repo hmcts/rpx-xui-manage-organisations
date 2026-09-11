@@ -8,6 +8,7 @@ import * as fromRoot from '../../../app/store';
 import * as fromAccountStore from '../../../fee-accounts/store';
 import { OrganisationDetails } from '../../../models/organisation.model';
 import * as fromOrgStore from '../../../organisation/store';
+import { buildIdOrIndexKey } from '../../../shared/utils/track-by.util';
 import { FeeAccount } from '../../models/pba-accounts';
 
 @Component({
@@ -88,5 +89,9 @@ export class OrganisationAccountsComponent implements OnInit, OnDestroy {
 
   public dispatchAction(feeStore: Store<fromAccountStore.FeeAccountsState>, action: Action): void {
     feeStore.dispatch(action);
+  }
+
+  public trackByFeeAccountError(index: number, error: string): string | number {
+    return buildIdOrIndexKey(index, { value: error }, 'value');
   }
 }

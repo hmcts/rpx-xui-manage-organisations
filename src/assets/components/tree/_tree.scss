@@ -3,10 +3,10 @@
    ========================================================================== */
 
 .jui-tree {
-  @include govuk-font(16);
   list-style: none;
   margin: 0;
   padding-left: 0;
+  @include govuk-font(16);
 }
 
 
@@ -82,10 +82,10 @@
 
 
 .jui-tree__doc-meta {
-  @include govuk-font(14);
   color: $govuk-secondary-text-colour;
   display: block;
   margin-top: govuk-spacing(1);
+  @include govuk-font(16);
 }
 
 

@@ -11,7 +11,6 @@ describe('store', () => {
   it('should set a key-value pair in the Store', async () => {
     const session = { 'key1': 'value1' };
     const testStore = new Store({ session });
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     Promise.resolve(testStore.set('key1', 'value2').then(() => {}));
     Promise.resolve(testStore.get('key1').then((value) => {
       assert.equal(value, 'value2');

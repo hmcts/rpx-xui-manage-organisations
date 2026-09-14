@@ -13,7 +13,6 @@ describe('CaseShareConfirmComponent', () => {
   let component: CaseShareConfirmComponent;
   let fixture: ComponentFixture<CaseShareConfirmComponent>;
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let store: MockStore<CaaCasesState>;
   const mockRoute = {
     snapshot: {

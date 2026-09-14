@@ -15,7 +15,7 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 
 const storeMock = {
   pipe: () => of(null),
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+
   dispatch: () => {}
 };
 let pipeSpy: jasmine.Spy;

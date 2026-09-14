@@ -22,7 +22,7 @@ describe('UpdatePbaNumbersCheckComponent', () => {
   let pbaService: any;
   const storeMock = {
     actionsDispatched: [],
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
+
     pipe: () => {},
     dispatch: (action: fromStore.OrganisationUpdatePBAs) => {
       storeMock.actionsDispatched.push(action);

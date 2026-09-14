@@ -36,7 +36,6 @@ export class LoggerService implements ILoggerService {
     this.monitoringService.logEvent(message);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public debug(message: any, ...additional: any[]): void {
     const formattedMessage = this.getMessage(message);
     this.ngxLogger.debug(formattedMessage, additional);

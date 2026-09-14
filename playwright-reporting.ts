@@ -161,7 +161,7 @@ export const resolveReporters = (options: ReporterOptions, baseUrl: string, env:
   const workerCount = resolveWorkerCount(env);
   const reportBranch = resolveBranchName(env);
 
-  return uniqueReporterNames.map((reporterName) => {
+  const reporters = uniqueReporterNames.map((reporterName): ReporterDescription => {
     switch (reporterName.toLowerCase()) {
       case 'html':
         return [
@@ -216,4 +216,12 @@ export const resolveReporters = (options: ReporterOptions, baseUrl: string, env:
         return [reporterName];
     }
   });
+
+  if (env.CI && env.PLAYWRIGHT_INCLUDE_A11Y !== 'true' && env.PLAYWRIGHT_INCLUDE_WAVE_A11Y !== 'true') {
+    reporters.push([
+      'json',
+      { outputFile: env.PLAYWRIGHT_JSON_OUTPUT ?? `${resolveOdhinOutputFolder(options, env)}/ci-evidence/playwright.json` },
+    ]);
+  }
+  return reporters;
 };

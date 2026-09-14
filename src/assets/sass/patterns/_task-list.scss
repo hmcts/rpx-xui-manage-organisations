@@ -22,17 +22,14 @@ $task-list-indent: 35px;
 
 .app-task-list__section {
   display: table;
-
-  @include govuk-font(24, $weight: bold);
   margin: 0;
-  padding-bottom: ($govuk-gutter / 6);
-    padding-bottom: math.div($govuk-gutter, 6);
+  padding-bottom: math.div($govuk-gutter, 6);
+  @include govuk-font(24, $weight: bold);
 }
 
 .app-task-list__section-number {
   display: table-cell;
-  padding-right: ($govuk-gutter / 6);
-    padding-right: math.div($govuk-gutter, 6);
+  padding-right: math.div($govuk-gutter, 6);
 
   @include govuk-media-query($from: tablet) {
     min-width: $task-list-indent;

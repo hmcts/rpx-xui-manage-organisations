@@ -78,14 +78,14 @@ module.exports = defineConfig({
       grep: e2eTagFilters.grep,
       grepInvert: e2eTagFilters.grepInvert,
       testIgnore: [smokeSpecPattern, 'playwright_tests_new/api/**', ...waveLikeA11yIgnore],
-      use: { ...devices['Desktop Chrome'], channel: 'chrome', headless: headlessMode, trace: 'on-first-retry' },
+      use: { ...devices['Desktop Chrome'], channel: 'chrome', headless: headlessMode, trace: { mode: 'retain-on-failure', snapshots: { dom: true, aria: true, screen: true } } },
     },
     {
       name: 'firefox',
       grep: e2eTagFilters.grep,
       grepInvert: e2eTagFilters.grepInvert,
       testIgnore: [smokeSpecPattern, 'playwright_tests_new/api/**', ...waveLikeA11yIgnore],
-      use: { ...devices['Desktop Firefox'], screenshot: 'only-on-failure', headless: headlessMode, trace: 'off' },
+      use: { ...devices['Desktop Firefox'], screenshot: 'only-on-failure', headless: headlessMode, trace: { mode: 'retain-on-failure', snapshots: { dom: true, aria: true, screen: true } } },
     },
     {
       name: 'webkit',
@@ -95,7 +95,7 @@ module.exports = defineConfig({
       use: {
         screenshot: 'only-on-failure',
         headless: headlessMode,
-        trace: 'off',
+        trace: { mode: 'retain-on-failure', snapshots: { dom: true, aria: true, screen: true } },
       },
     },
     {
@@ -108,7 +108,7 @@ module.exports = defineConfig({
         channel: 'chrome',
         headless: headlessMode,
         screenshot: 'only-on-failure',
-        trace: 'on-first-retry',
+        trace: { mode: 'retain-on-failure', snapshots: { dom: true, aria: true, screen: true } },
       },
     },
     {
@@ -128,7 +128,7 @@ module.exports = defineConfig({
         ignoreHTTPSErrors: true,
         headless: true,
         screenshot: 'off',
-        trace: 'off',
+        trace: { mode: 'retain-on-failure', snapshots: { dom: true, aria: true, screen: true } },
         video: 'off',
       },
     },

@@ -53,7 +53,7 @@ module.exports = defineConfig({
     baseURL: baseUrl,
     ignoreHTTPSErrors: true,
     screenshot: 'off',
-    trace: 'off',
+    trace: { mode: 'retain-on-failure', snapshots: { dom: true, aria: true, screen: true } },
     video: 'off',
   },
 });

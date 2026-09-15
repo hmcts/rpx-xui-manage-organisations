@@ -70,7 +70,7 @@ module.exports = defineConfig({
     baseURL: baseUrl,
     ignoreHTTPSErrors: true,
     headless: headlessMode,
-    trace: 'on-first-retry',
+    trace: { mode: 'retain-on-failure', snapshots: { dom: true, aria: true, screen: true } },
     screenshot: {
       mode: 'only-on-failure',
       fullPage: true,

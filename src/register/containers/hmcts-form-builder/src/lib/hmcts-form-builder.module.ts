@@ -19,7 +19,6 @@ import { TextareasComponent } from './components/textareas/textareas.component';
 import { ValidationErrorFormControlComponent } from './components/validation-error-formcontrol/validation-error-formcontrol.component';
 import { ValidationErrorFormGroupComponent } from './components/validation-error-formgroup/validation-error-formgroup.component';
 import { ValidationHeaderComponent } from './components/validation-header/validation-header.component';
-import { HmctsFormBuilderComponent } from './hmcts-form-builder.component';
 import { ValidationService } from './services/form-builder-validation.service';
 import { FormsService } from './services/form-builder.service';
 
@@ -42,7 +41,6 @@ const COMPONENTS = [
   HiddenInputComponent,
   ValidationHeaderComponent,
   ValidationErrorFormControlComponent,
-  HmctsFormBuilderComponent,
   ExtensionsComponent
 ];
 

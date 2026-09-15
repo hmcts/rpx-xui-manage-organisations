@@ -12,8 +12,6 @@ import { HmctsErrorSummaryComponent } from './components/hmcts-error-summary/hmc
 import { HmctsMainWrapperComponent } from './components/hmcts-main-wrapper/hmcts-main-wrapper.component';
 import { SuccessIconComponent } from './components/icons/success-icon.component';
 import { WarningIconComponent } from './components/icons/warning-icon.component';
-import { PhaseBannerComponent } from './components/phase-banner/phase-banner.component';
-import { SuccessNotificationComponent } from './components/success-notification/success-notification.component';
 import { HealthCheckGuard } from './guards/health-check.guard';
 import { UserRoleGuard } from './guards/user-role.guard';
 import { LoaderModule } from './modules/loader/loader.module';
@@ -28,8 +26,6 @@ import { RpxTranslationModule } from 'rpx-xui-translation';
   declarations: [
     HmctsMainWrapperComponent,
     HmctsErrorSummaryComponent,
-    PhaseBannerComponent,
-    SuccessNotificationComponent,
     SuccessIconComponent,
     WarningIconComponent
   ],
@@ -44,10 +40,8 @@ import { RpxTranslationModule } from 'rpx-xui-translation';
   exports: [
     GovUiModule,
     HmctsMainWrapperComponent,
-    PhaseBannerComponent,
     ReactiveFormsModule,
     SuccessIconComponent,
-    SuccessNotificationComponent,
     WarningIconComponent,
     HmctsErrorSummaryComponent
   ],

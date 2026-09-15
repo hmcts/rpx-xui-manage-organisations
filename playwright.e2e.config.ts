@@ -73,7 +73,7 @@ const config = defineConfig({
     headless: headlessMode,
     trace: disableGenericFailureArtifacts
       ? 'off'
-      : { mode: 'retain-on-failure', snapshots: { dom: true, aria: true, screen: true } },
+      : { mode: 'retain-on-failure', snapshots: true, screenshots: true, sources: true },
     screenshot: disableGenericFailureArtifacts
       ? 'off'
       : {

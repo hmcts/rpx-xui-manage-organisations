@@ -71,13 +71,14 @@ export function reducer(
   action: fromAction.appActions
 ): AppState {
   switch (action.type) {
-    case fromAction.LOAD_JURISDICTIONS_GLOBAL_SUCCESS:
+    case fromAction.LOAD_JURISDICTIONS_GLOBAL_SUCCESS: {
       const jurisdictions = action.payload;
 
       return {
         ...state,
         jurisdictions
       };
+    }
 
     case fromAction.SET_PAGE_TITLE: {
       const pageTitle = AppUtils.setPageTitle(action.payload);

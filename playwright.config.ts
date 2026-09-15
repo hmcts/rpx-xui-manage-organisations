@@ -78,14 +78,24 @@ module.exports = defineConfig({
       grep: e2eTagFilters.grep,
       grepInvert: e2eTagFilters.grepInvert,
       testIgnore: [smokeSpecPattern, 'playwright_tests_new/api/**', ...waveLikeA11yIgnore],
-      use: { ...devices['Desktop Chrome'], channel: 'chrome', headless: headlessMode, trace: { mode: 'retain-on-failure', snapshots: { dom: true, aria: true, screen: true } } },
+      use: {
+        ...devices['Desktop Chrome'],
+        channel: 'chrome',
+        headless: headlessMode,
+        trace: { mode: 'retain-on-failure', snapshots: { dom: true, aria: true, screen: true } },
+      },
     },
     {
       name: 'firefox',
       grep: e2eTagFilters.grep,
       grepInvert: e2eTagFilters.grepInvert,
       testIgnore: [smokeSpecPattern, 'playwright_tests_new/api/**', ...waveLikeA11yIgnore],
-      use: { ...devices['Desktop Firefox'], screenshot: 'only-on-failure', headless: headlessMode, trace: { mode: 'retain-on-failure', snapshots: { dom: true, aria: true, screen: true } } },
+      use: {
+        ...devices['Desktop Firefox'],
+        screenshot: 'only-on-failure',
+        headless: headlessMode,
+        trace: { mode: 'retain-on-failure', snapshots: { dom: true, aria: true, screen: true } },
+      },
     },
     {
       name: 'webkit',

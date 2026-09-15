@@ -1,8 +1,8 @@
-@import "govuk-frontend/govuk/base";
+@use "govuk-frontend/dist/govuk/base" as govuk;
 
 .govuk-grid-row {
   .govuk-grid-column-one-half {
-    background-color: govuk-colour("light-grey");
+    background-color: govuk.govuk-colour("black", $variant: "tint-95");
     padding-top: 20px;
     margin-left: 15px;
   }
@@ -36,12 +36,12 @@
 
   .mat-option {
     &:hover {
-      background: $govuk-focus-colour;
+      background: govuk.govuk-functional-colour("focus");
     }
     &.select-option {
       &:hover {
-        background: govuk-colour("blue");
-        color: govuk-colour("white");
+        background: govuk.govuk-colour("blue");
+        color: govuk.govuk-colour("white");
       }
     }
   }

@@ -1,10 +1,12 @@
+@use "govuk-frontend/dist/govuk/base" as govuk;
+
 .jui-cf {
 
   &--show-comments {
 
     .jui-cf__document-pages {
 
-      @include mq($from: desktop) {
+      @include govuk.govuk-media-query($from: desktop) {
         margin-right: 417px;
         margin-left: auto;
       }
@@ -17,8 +19,8 @@
 
 
 .jui-cf__toolbar {
-  @include govuk-clearfix;
-  background-color: govuk-colour("white");
+  @include govuk.govuk-clearfix;
+  background-color: govuk.govuk-colour("white");
   border-bottom: 1px solid #DDDDDD;
   border-top: 1px solid #DDDDDD;
   height: 50px;
@@ -45,7 +47,7 @@
 
   &::before {
     content: "";
-    background-color: govuk-colour("white");
+    background-color: govuk.govuk-colour("white");
     height: 100%;
     position: absolute;
     width: 100%;
@@ -57,8 +59,8 @@
 
 .jui-cf__toolbar-container {
   @include jui-width-container;
-  border-left:1px solid govuk-colour("light-grey");
-  border-right: 1px solid govuk-colour("light-grey");
+  border-left:1px solid govuk.govuk-colour("black", $variant: "tint-95");
+  border-right: 1px solid govuk.govuk-colour("black", $variant: "tint-95");
   height: 100%;
   position: relative;
   left: 0; top: 0;
@@ -67,10 +69,10 @@
 
 
 .jui-cf__toolbar-button {
-  @include govuk-font($size: 19);
-  background-color: govuk-colour("white");
+  @include govuk.govuk-font($size: 19);
+  background-color: govuk.govuk-colour("white");
   border: 0 none;
-  color: govuk-colour("black");
+  color: govuk.govuk-colour("black");
   cursor: pointer;
   float: left;
   height: 50px;
@@ -97,7 +99,7 @@
   }
 
   &:focus {
-    outline: 3px solid $govuk-focus-colour;
+    outline: 3px solid govuk.govuk-functional-colour("focus");
     outline-offset: -1px;
     position: relative;
     z-index: 2;
@@ -110,12 +112,12 @@
 
 
   &:hover {
-    background-color: govuk-colour("light-grey");
+    background-color: govuk.govuk-colour("black", $variant: "tint-95");
   }
 
 
   &[aria-pressed=true] {
-    background-color: govuk-colour("light-grey");
+    background-color: govuk.govuk-colour("black", $variant: "tint-95");
     cursor: default;
   }
 
@@ -149,7 +151,7 @@
 
 
 .jui-cf__window {
-  background-color: govuk-colour("light-grey");
+  background-color: govuk.govuk-colour("black", $variant: "tint-95");
   padding-bottom: 25px;
   padding-top: 25px;
   position: relative;
@@ -158,7 +160,7 @@
 
 .jui-cf__window-container {
   @include jui-width-container;
-  @include govuk-clearfix;
+  @include govuk.govuk-clearfix;
   position: relative;
 }
 
@@ -174,7 +176,7 @@
   max-width: 803px;
   margin-bottom: 30px;
 
-  @include mq($from: desktop) {
+  @include govuk.govuk-media-query($from: desktop) {
     margin-left: 417px;
   }
 
@@ -188,22 +190,22 @@
 
 .jui-cf__document-page {
   @include aspect-ratio(1,1.414); // True A4 aspect ratio
-  background: govuk-colour("white");
+  background: govuk.govuk-colour("white");
   box-sizing: border-box;
   box-shadow: 0 0 1px 0 #D1D1D1, 0 0 3px 0 #CCCCCC;
-  margin-top: govuk-spacing(4);
+  margin-top: govuk.govuk-spacing(4);
 
   &:first-child {
     margin-top: 0;
   }
 
   &[data-page]::after {
-    @include govuk-font(16);
-    color: $govuk-secondary-text-colour;
+    @include govuk.govuk-font(16);
+    color: govuk.govuk-functional-colour("secondary-text");
     content: attr(data-page);
     line-height: 1;
-    position: absolute; right: govuk-spacing(4);
-    bottom: govuk-spacing(4);
+    position: absolute; right: govuk.govuk-spacing(4);
+    bottom: govuk.govuk-spacing(4);
   }
 
   img {
@@ -216,7 +218,7 @@
 .jui-cf__document-comments {
   margin-bottom: 30px;
 
-  @include mq($from: desktop) {
+  @include govuk.govuk-media-query($from: desktop) {
     float: right;
     padding-left: 30px;
     width: 386px;
@@ -227,7 +229,7 @@
 
 .jui-cf__files {
 
-  @include mq($from: desktop) {
+  @include govuk.govuk-media-query($from: desktop) {
     position: sticky;
     position: -webkit-sticky;
     top: 75px; left: 0;
@@ -246,11 +248,11 @@
 // Comment
 
 .jui-comment {
-  background-color: govuk-colour("white");
+  background-color: govuk.govuk-colour("white");
   box-shadow: 0 1px 3px 0 rgba(0,0,0,0.30), inset 0 -1px 0 0 #DDDDDD;
   padding: 20px 20px 0;
 
-  @include mq($from: desktop) {
+  @include govuk.govuk-media-query($from: desktop) {
     position: relative; top: 578px;
   }
 
@@ -259,21 +261,21 @@
 
 .jui-comment__header {
   border-bottom: 1px solid #ddd;
-  margin-bottom: govuk-spacing(5);
-  padding-bottom: govuk-spacing(5);
+  margin-bottom: govuk.govuk-spacing(5);
+  padding-bottom: govuk.govuk-spacing(5);
 }
 
 
 .jui-comment__author {
-  @include govuk-font($size: 19);
+  @include govuk.govuk-font($size: 19);
   display: block;
   font-weight: bold;
 }
 
 
 .jui-comment__meta {
-  @include govuk-font($size: 16);
-  color: $govuk-secondary-text-colour;
+  @include govuk.govuk-font($size: 16);
+  color: govuk.govuk-functional-colour("secondary-text");
 }
 
 
@@ -281,7 +283,7 @@
   font-size: .1px;
 
   .govuk-button {
-    margin-right: govuk-spacing(2);
+    margin-right: govuk.govuk-spacing(2);
   }
 
 }

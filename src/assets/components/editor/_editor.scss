@@ -1,19 +1,21 @@
+@use "govuk-frontend/dist/govuk/base" as govuk;
+
 /* ==========================================================================
    #EDITOR
    ========================================================================== */
 
 .jui-editor__toolbar {
-  @include govuk-clearfix;
-  margin-bottom: govuk-spacing(2);
+  @include govuk.govuk-clearfix;
+  margin-bottom: govuk.govuk-spacing(2);
 }
 
 .jui-editor__toolbar-button {
-  background-color: govuk-colour("white");
+  background-color: govuk.govuk-colour("white");
   background-position: 50% 50%;
   background-repeat: no-repeat;
   background-size: 40px 40px;
-  border: 2px solid govuk-colour("black");
-  color: govuk-colour("black");
+  border: 2px solid govuk.govuk-colour("black");
+  color: govuk.govuk-colour("black");
   cursor: pointer;
   float: left;
   text-decoration: none;
@@ -34,7 +36,7 @@
   }
 
   &:focus {
-    outline: 3px solid $govuk-focus-colour;
+    outline: 3px solid govuk.govuk-functional-colour("focus");
     position: relative;
     z-index: 2;
   }
@@ -52,7 +54,7 @@
 
 .jui-editor__toolbar-button--underline {
   background-image: url(#{$jui-assets-path}icon-wysiwyg-underline.svg);
-  margin-right: govuk-spacing(2);
+  margin-right: govuk.govuk-spacing(2);
 }
 
 .jui-editor__toolbar-button--unordered-list {

@@ -168,7 +168,8 @@ export function reducer(
     }
 
     // Initialise Editing of User, resetting the state back to editing of a User.
-    case fromUsers.EDIT_USER: {
+    case fromUsers.EDIT_USER:
+    case fromUsers.EDIT_USER_FAILURE_RESET: {
       return {
         ...state,
         editUserFailure: false
@@ -179,13 +180,6 @@ export function reducer(
       return {
         ...state,
         editUserFailure: true
-      };
-    }
-
-    case fromUsers.EDIT_USER_FAILURE_RESET: {
-      return {
-        ...state,
-        editUserFailure: false
       };
     }
 

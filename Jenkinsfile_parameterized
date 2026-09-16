@@ -383,6 +383,7 @@ withParameterizedPipeline(type, product, component, params.ENVIRONMENT, 'sandbox
         ])
         junit(allowEmptyResults: false, testResults: 'functional-output/tests/playwright-smoke/**/*junit.xml')
         archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-smoke/**,test-results/playwright-smoke/**/*'
+        archiveArtifacts allowEmptyArchive: true, artifacts: 'test-results/perfetto*.json'
     }
 
     after('functionalTest:preview') {
@@ -418,6 +419,7 @@ withParameterizedPipeline(type, product, component, params.ENVIRONMENT, 'sandbox
         ])
         junit(allowEmptyResults: false, testResults: 'functional-output/tests/playwright-smoke/**/*junit.xml')
         archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-smoke/**,test-results/playwright-smoke/**/*'
+        archiveArtifacts allowEmptyArchive: true, artifacts: 'test-results/perfetto*.json'
     }
 
     after('functionalTest:aat') {
@@ -453,6 +455,7 @@ withParameterizedPipeline(type, product, component, params.ENVIRONMENT, 'sandbox
         ])
         junit(allowEmptyResults: false, testResults: 'functional-output/tests/playwright-smoke/**/*junit.xml')
         archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-smoke/**,test-results/playwright-smoke/**/*'
+        archiveArtifacts allowEmptyArchive: true, artifacts: 'test-results/perfetto*.json'
     }
 
 }

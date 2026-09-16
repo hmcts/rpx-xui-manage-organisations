@@ -13,7 +13,7 @@
         <ng-container>
             <tr class="govuk-table__row" data-selector="table-row">
                 <td class="govuk-table__cell" data-selector="table-cell">
-                    <a class="govuk-link" [attr.title]="u.routerLinkTitle" [routerLink]="u.routerLink"
+                    <a class="govuk-link" [attr.title]="u.routerLinkTitle" [routerLink]="['/users', 'user', u.userIdentifier]"
                         (click)="onUserClick(u)">{{ u.fullName }}</a>
                 </td>
                 <td class="govuk-table__cell" data-selector="table-cell">{{ u.email }}</td>

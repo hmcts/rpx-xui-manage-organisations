@@ -3,8 +3,8 @@
     <div class="govuk-grid-column-two-thirds">
       <button class="govuk-js-back-link xui-back-button-margin" (click)="onBack()">Back</button>
       <xuilib-hmcts-error-summary [errorMessages]="validationErrors" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
-      <span class="govuk-caption-xl">Register an organisation</span>
-      <h1 class="govuk-heading-xl">What is your organisation name and Companies House number?</h1>
+      <span class="govuk-caption-l">Register an organisation</span>
+      <h1 class="govuk-heading-l">What is your organisation name and Companies House number?</h1>
       <hr>
         <p class="govuk-hint">If your organisation is registered with Companies House,
           add the organisation name and Companies House number as they appear in the
@@ -17,11 +17,13 @@
               Enter the name of the organisation
             </label>
             @if (companyNameError) {
-              <p class="govuk-error-message">
+              <p id="company-name-error" class="govuk-error-message">
                 <span class="govuk-visually-hidden">Error:</span>{{ companyNameError.message }}
               </p>
             }
-            <input class="govuk-input" id="company-name" name="companyName" type="text" formControlName="companyName">
+            <input class="govuk-input" id="company-name" name="companyName" type="text" formControlName="companyName"
+              [class.govuk-input--error]="companyNameError"
+              [attr.aria-describedby]="companyNameError ? 'company-name-error' : null">
           </div>
 
           <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': companyNumberError}">
@@ -32,19 +34,21 @@
               This helps HMCTS to verify your organisation on our system
             </div>
             @if (companyNumberError) {
-              <p class="govuk-error-message">
+              <p id="company-house-number-error" class="govuk-error-message">
                 <span class="govuk-visually-hidden">Error:</span> {{ companyNumberError.message }}
               </p>
             }
             <input class="govuk-input" id="company-house-number" name="companyHouseNumber" type="text"
-              formControlName="companyHouseNumber" aria-describedby="company-house-number-hint">
+              formControlName="companyHouseNumber"
+              [class.govuk-input--error]="companyNumberError"
+              [attr.aria-describedby]="companyNumberError ? 'company-house-number-hint company-house-number-error' : 'company-house-number-hint'">
           </div>
 
           <div class="govuk-button-group">
             <button class="govuk-button govuk-button--primary" data-module="govuk-button" (click)="onContinue()">
               Continue
             </button>
-            <button class="govuk-js-link" (click)="onCancel()">Cancel</button>
+            <button type="button" class="govuk-js-link" (click)="onCancel()">Cancel</button>
           </div>
         </form>
       </div>

@@ -1,26 +1,22 @@
 <app-hmcts-main-wrapper [title]="'Organisation'">
   <app-prd-pba-success [response]="organisationDetails.response"></app-prd-pba-success>
   @if (isFeatureEnabled$ | async) {
-  <!-- Organisation name -->
   <dl class="govuk-summary-list">
+  <!-- Organisation name -->
     <div class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key">Name</dt>
       <dd class="govuk-summary-list__value">{{organisationDetails.name}}</dd>
     </div>
-  </dl>
 
   <!-- Company registration number -->
   @if (companyRegistrationNumber) {
-  <dl id="company-registration-number" class="govuk-summary-list">
-    <div class="govuk-summary-list__row">
+    <div id="company-registration-number" class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key">Company registration number</dt>
       <dd class="govuk-summary-list__value">{{companyRegistrationNumber}}</dd>
     </div>
-  </dl>
   }
 
   <!-- Organisation address -->
-  <dl class="govuk-summary-list">
     <div class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key">Organisation address</dt>
       <dd class="govuk-summary-list__value">
@@ -32,10 +28,9 @@
         @if (organisationContactInformation.postCode) {<div>{{organisationContactInformation.postCode}}</div>}
       </dd>
     </div>
-  </dl>
 
   <!-- DX reference -->
-  @if (organisationDxAddress?.dxNumber) {<dl class="govuk-summary-list">
+  @if (organisationDxAddress?.dxNumber) {
     <div class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key">DX reference</dt>
       <dd class="govuk-summary-list__value">
@@ -43,18 +38,17 @@
         @if (organisationDxAddress.dxExchange) {<span>, {{organisationDxAddress.dxExchange}}</span>}
       </dd>
     </div>
-  </dl>}
+  }
 
   <!-- Organisation type -->
-  @if (organisationType) {<dl id="organisation-type" class="govuk-summary-list">
-    <div class="govuk-summary-list__row">
+  @if (organisationType) {
+    <div id="organisation-type" class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key">Organisation type</dt>
       <dd class="govuk-summary-list__value">{{orgTypeDescription}}</dd>
     </div>
-  </dl>}
+  }
 
   <!-- PBA Numbers -->
-  <dl class="govuk-summary-list">
     <div class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key">PBA numbers</dt>
       <dd class="govuk-summary-list__value">
@@ -74,11 +68,10 @@
         </a>
       </dd>}
     </div>
-  </dl>
 
   <!-- Regulatory organisation type -->
-  @if (regulators?.length) {<dl id="regulators" class="govuk-summary-list">
-    <div class="govuk-summary-list__row">
+  @if (regulators?.length) {
+    <div id="regulators" class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key">
         Regulatory organisation type
       </dt>
@@ -102,7 +95,8 @@
         }
       </dd>
     </div>
-  </dl>}
+  }
+  </dl>
 
   <!-- Administration details -->
   @if (organisationDetails.superUser) {<div>
@@ -112,14 +106,10 @@
         <dt class="govuk-summary-list__key">First name(s)</dt>
         <dd class="govuk-summary-list__value">{{organisationDetails.superUser.firstName}}</dd>
       </div>
-    </dl>
-    <dl class="govuk-summary-list">
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">Last name</dt>
         <dd class="govuk-summary-list__value">{{organisationDetails.superUser.lastName}}</dd>
       </div>
-    </dl>
-    <dl class="govuk-summary-list">
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">Email address</dt>
         <dd class="govuk-summary-list__value">{{organisationDetails.superUser.email}}</dd>
@@ -167,7 +157,7 @@
             </div>
             <div class="govuk-grid-column-one-quarter govuk-!-text-align-right">
               @if (showChangePbaNumberLink) {<a class="govuk-link fright" routerLink="/organisation/update-pba-numbers"
-                id="change-pba-account-numbers__link" aria-label="Change PBA account numbers">Change</a>}
+                id="change-pba-account-numbers__link" aria-label="Change PBA account numbers for this organisation">Change</a>}
             </div>
           </div>
         </td>
@@ -198,7 +188,7 @@
         <th class="govuk-table__header" scope="row">Administrator</th>
         <td class="govuk-table__cell">
           <div>{{organisationDetails.superUser.firstName}} {{organisationDetails.superUser.lastName}}</div>
-          <div class="govuk-caption-m govuk-!-font-size-16">{{organisationDetails.superUser.email}}</div>
+          <div class="govuk-body-s govuk-!-margin-bottom-0">{{organisationDetails.superUser.email}}</div>
         </td>
       </tr>}
       @if (organisationDetails.sraId) {<tr class="govuk-table__row">

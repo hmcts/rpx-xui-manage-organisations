@@ -378,7 +378,7 @@ test.describe('register organisation accessibility @a11y', () => {
       async ({ page, registerOrganisationPage }, testInfo) => {
         const axeUtils = new AxeUtils(page);
 
-        await registerOrganisationPage.openWorkflowPage(registerOrganisationPageRoute.path);
+        await registerOrganisationPage.openWorkflowPage(registerOrganisationPageRoute.path, registerOrganisationPageRoute.component);
 
         await expect(page).toHaveURL(new RegExp(`/register-org-new/${registerOrganisationPageRoute.path}$`));
         await expect(page.locator(registerOrganisationPageRoute.component)).toBeVisible();
@@ -395,7 +395,7 @@ test.describe('register organisation accessibility @a11y', () => {
       async ({ page, registerOrganisationPage }, testInfo) => {
         const axeUtils = new AxeUtils(page);
 
-        await registerOrganisationPage.openWorkflowPage(validationState.path);
+        await registerOrganisationPage.openWorkflowPage(validationState.path, validationState.component);
         await expect(page).toHaveURL(new RegExp(`/register-org-new/${validationState.path}$`));
         await expect(page.locator(validationState.component)).toBeVisible();
 
@@ -423,7 +423,7 @@ test.describe('register organisation accessibility @a11y', () => {
       async ({ page, registerOrganisationPage }, testInfo) => {
         const axeUtils = new AxeUtils(page);
 
-        await registerOrganisationPage.openWorkflowPage(interactiveState.path);
+        await registerOrganisationPage.openWorkflowPage(interactiveState.path, interactiveState.component);
         await expect(page).toHaveURL(new RegExp(`/register-org-new/${interactiveState.path}$`));
         await expect(page.locator(interactiveState.component)).toBeVisible();
 

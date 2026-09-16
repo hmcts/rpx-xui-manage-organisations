@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { buildMockStoreProviders } from '../../../register-org/testing/mock-store-state';
 import { CaaCasesPageType } from '../../models/caa-cases.enum';
 import { CaaCasesState } from '../../store/reducers';
+import { RpxTranslatePipe, RpxTranslationService } from 'rpx-xui-translation';
 import { CaseShareConfirmComponent } from './case-share-confirm.component';
 
 describe('CaseShareConfirmComponent', () => {
@@ -23,14 +24,16 @@ describe('CaseShareConfirmComponent', () => {
   const mockRouter = {
     url: '/assigned-cases'
   };
+  const translationMockService = jasmine.createSpyObj('translationMockService', ['translate', 'getTranslation$']);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [CaseShareConfirmComponent],
+      declarations: [CaseShareConfirmComponent, RpxTranslatePipe],
       providers: [
         ...buildMockStoreProviders(),
+        { provide: RpxTranslationService, useValue: translationMockService },
         { provide: Router, useValue: mockRouter },
         { provide: ActivatedRoute, useValue: mockRoute }
       ]

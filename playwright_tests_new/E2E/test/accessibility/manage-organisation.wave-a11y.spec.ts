@@ -368,7 +368,7 @@ test.describe('Manage Organisation WAVE-like accessibility @wave-a11y', () => {
       `${registerOrganisationPageRoute.name} route passes WAVE-like structural checks`,
       { tag: ['@registration'] },
       async ({ page, registerOrganisationPage }, testInfo) => {
-        await registerOrganisationPage.openWorkflowPage(registerOrganisationPageRoute.path);
+        await registerOrganisationPage.openWorkflowPage(registerOrganisationPageRoute.path, registerOrganisationPageRoute.component);
         await expect(page).toHaveURL(new RegExp(`/register-org-new/${registerOrganisationPageRoute.path}$`));
         await expect(page.locator(registerOrganisationPageRoute.component)).toBeVisible();
         await expectWaveLikeAccessibility(page, testInfo);
@@ -381,7 +381,7 @@ test.describe('Manage Organisation WAVE-like accessibility @wave-a11y', () => {
       `${validationState.name} error state passes WAVE-like structural checks`,
       { tag: ['@registration', '@validation'] },
       async ({ page, registerOrganisationPage }, testInfo) => {
-        await registerOrganisationPage.openWorkflowPage(validationState.path);
+        await registerOrganisationPage.openWorkflowPage(validationState.path, validationState.component);
         await expect(page).toHaveURL(new RegExp(`/register-org-new/${validationState.path}$`));
         await expect(page.locator(validationState.component)).toBeVisible();
 
@@ -406,7 +406,7 @@ test.describe('Manage Organisation WAVE-like accessibility @wave-a11y', () => {
       `${interactiveState.name} interactive state passes WAVE-like structural checks`,
       { tag: ['@registration'] },
       async ({ page, registerOrganisationPage }, testInfo) => {
-        await registerOrganisationPage.openWorkflowPage(interactiveState.path);
+        await registerOrganisationPage.openWorkflowPage(interactiveState.path, interactiveState.component);
         await expect(page).toHaveURL(new RegExp(`/register-org-new/${interactiveState.path}$`));
         await expect(page.locator(interactiveState.component)).toBeVisible();
 

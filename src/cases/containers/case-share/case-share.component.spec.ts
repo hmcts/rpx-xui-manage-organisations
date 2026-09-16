@@ -5,6 +5,7 @@ import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { of } from 'rxjs';
+import { RpxTranslatePipe, RpxTranslationService } from 'rpx-xui-translation';
 import { getRouterState } from '../../../app/store/reducers';
 import { CaaCasesState } from '../../store/reducers';
 import * as fromCasesFeature from '../../store';
@@ -17,6 +18,7 @@ describe('CaseShareComponent', () => {
   let mockStore: MockStore<CaaCasesState>;
   let dispatchSpy: jasmine.Spy;
   const mockFeatureToggleService = jasmine.createSpyObj('FeatureToggleService', ['getValue']);
+  const translationMockService = jasmine.createSpyObj('translationMockService', ['translate', 'getTranslation$']);
 
   const sharedCases = [{
     caseId: '9417373995765133',
@@ -34,9 +36,10 @@ describe('CaseShareComponent', () => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [CaseShareComponent],
+      declarations: [CaseShareComponent, RpxTranslatePipe],
       providers: [
         provideMockStore(),
+        { provide: RpxTranslationService, useValue: translationMockService },
         {
           provide: FeatureToggleService,
           useValue: mockFeatureToggleService

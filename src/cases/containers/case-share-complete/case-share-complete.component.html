@@ -41,12 +41,8 @@
 @for (acase of newShareCases; track acase.caseId) {
 <div>
   @if (showUserAccessBlock(acase)) {
+  <span class="govuk-caption-m">{{ acase.caseId }}</span>
   <h2 class="govuk-heading-m case-share-confirm__title">{{ acase.caseTitle }}</h2>
-  <div class="case-share-confirm__caption-area">
-    <div class="govuk-caption-m case-share-confirm__caption">
-      {{ acase.caseId }}
-    </div>
-  </div>
   <table class="govuk-table">
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
@@ -86,5 +82,5 @@
 @if (!(removeUserFromCaseToggleOn$ | async)) {
 <p id="add-user-info" class="govuk-body">Access to all your other selected cases was shared.</p>
 }
-<p class="govuk-body">Try again or <a href="get-help">get help</a> if you're still having problems</p>
+<p class="govuk-body">Try again or <a href="get-help">get help with case sharing</a> if you're still having problems</p>
 }

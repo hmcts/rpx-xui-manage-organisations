@@ -533,8 +533,15 @@ function enhanceGeneratedReport(outputFolder, featureStats) {
   reportFiles.forEach((fileName) => {
     const filePath = path.join(outputFolder, fileName);
     const currentHtml = fs.readFileSync(filePath, 'utf8');
+    const testResultsFolder = path.join(outputFolder, '..', 'test-results');
+    const perfettoFiles = fs.existsSync(testResultsFolder)
+      ? fs.readdirSync(testResultsFolder).filter((name) => /^perfetto(?:[-_].*)?\.json$/i.test(name))
+      : [];
     const nextHtml = enhanceDashboardHtml(currentHtml, featureStats);
-    fs.writeFileSync(filePath, nextHtml, 'utf8');
+    const perfettoLinks = perfettoFiles.length
+      ? `<p id="odhin-perfetto-link">Perfetto timelines (test names and statuses are embedded): ${perfettoFiles.map((name) => `<a href="../test-results/${name}">${name}</a>`).join(' · ')}</p>`
+      : '';
+    fs.writeFileSync(filePath, perfettoLinks ? nextHtml.replace('<body>', `<body>${perfettoLinks}`) : nextHtml, 'utf8');
   });
 }
 

@@ -82,7 +82,12 @@ module.exports = defineConfig({
         ...devices['Desktop Chrome'],
         channel: 'chrome',
         headless: headlessMode,
-        trace: { mode: 'retain-on-failure', snapshots: true, screenshots: true, sources: true },
+        trace: {
+          mode: 'retain-on-failure',
+          snapshots: { dom: true, aria: true, screen: true },
+          screenshots: true,
+          sources: true,
+        },
       },
     },
     {
@@ -94,7 +99,12 @@ module.exports = defineConfig({
         ...devices['Desktop Firefox'],
         screenshot: 'only-on-failure',
         headless: headlessMode,
-        trace: { mode: 'retain-on-failure', snapshots: true, screenshots: true, sources: true },
+        trace: {
+          mode: 'retain-on-failure',
+          snapshots: { dom: true, aria: true, screen: true },
+          screenshots: true,
+          sources: true,
+        },
       },
     },
     {
@@ -105,7 +115,12 @@ module.exports = defineConfig({
       use: {
         screenshot: 'only-on-failure',
         headless: headlessMode,
-        trace: { mode: 'retain-on-failure', snapshots: true, screenshots: true, sources: true },
+        trace: {
+          mode: 'retain-on-failure',
+          snapshots: { dom: true, aria: true, screen: true },
+          screenshots: true,
+          sources: true,
+        },
       },
     },
     {
@@ -118,7 +133,12 @@ module.exports = defineConfig({
         channel: 'chrome',
         headless: headlessMode,
         screenshot: 'only-on-failure',
-        trace: { mode: 'retain-on-failure', snapshots: true, screenshots: true, sources: true },
+        trace: {
+          mode: 'retain-on-failure',
+          snapshots: { dom: true, aria: true, screen: true },
+          screenshots: true,
+          sources: true,
+        },
       },
     },
     {
@@ -138,7 +158,12 @@ module.exports = defineConfig({
         ignoreHTTPSErrors: true,
         headless: true,
         screenshot: 'off',
-        trace: { mode: 'retain-on-failure', snapshots: true, screenshots: true, sources: true },
+        trace: {
+          mode: 'retain-on-failure',
+          snapshots: { dom: true, aria: true, screen: true },
+          screenshots: true,
+          sources: true,
+        },
         video: 'off',
       },
     },

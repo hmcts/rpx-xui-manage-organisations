@@ -66,6 +66,23 @@ describe('UserPersonalDetailsComponent', () => {
       fixture.detectChanges();
     });
 
+    it('should render labelled invalid inputs without empty fieldsets or an extra page heading', () => {
+      component.personalDetailForm.markAllAsTouched();
+      component.updateCurrentErrors();
+      fixture.detectChanges();
+
+      const root: HTMLElement = fixture.nativeElement;
+      expect(root.querySelector('h1')).toBeNull();
+      expect(root.querySelector('h2').textContent.trim()).toBe('User details');
+      expect(root.querySelector('fieldset')).toBeNull();
+      for (const id of ['firstName', 'lastName', 'email']) {
+        const input = root.querySelector<HTMLInputElement>(`input#${id}`);
+        expect(input).not.toBeNull();
+        expect(root.querySelector(`label[for="${id}"]`)).not.toBeNull();
+      }
+      expect(root.querySelectorAll('.govuk-error-message').length).toBe(3);
+    });
+
     it('should setup component as editable', () => {
       const spy = spyOn(component.personalDetailsChanged, 'emit');
 

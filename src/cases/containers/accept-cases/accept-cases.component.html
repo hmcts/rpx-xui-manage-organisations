@@ -2,32 +2,33 @@
 <main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
   <span class="govuk-caption-xl">{{
     (selectedOrganisation$ | async)?.name
-  }}</span>
+    }}</span>
   <h1 class="govuk-heading-xl">{{ pageTitle }}</h1>
 
-<div class="govuk-form-group">
-    <fieldset class="govuk-fieldset govuk-!-margin-bottom-3">
-      <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-        <p class="govuk-fieldset__body">
-          You are accepting new cases into your organisation.
-          <br><br>
-          You do not need to assign cases to users if they have 'Access all cases in the organisation'
-          enabled for that case type.
-        </p>
-        <div class="govuk-warning-text">
-          <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-          <strong class="govuk-warning-text__text">
-            <span class="govuk-visually-hidden">Warning</span>
-            If users do not have access to all cases in the organisation, you must assign this case to at
-            least one user.
-          </strong>
-        </div>
+  <div class="govuk-form-group">
+    <fieldset class="govuk-fieldset govuk-!-margin-bottom-3" aria-describedby="accept-cases-hint accept-cases-warning">
+      <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+        <h2 class="govuk-fieldset__heading">How do you want to accept these cases?</h2>
       </legend>
+      <p id="accept-cases-hint" class="govuk-body">
+        You are accepting new cases into your organisation.
+        <br><br>
+        You do not need to assign cases to users if they have 'Access all cases in the organisation'
+        enabled for that case type.
+      </p>
+      <div id="accept-cases-warning" class="govuk-warning-text">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+          <span class="govuk-visually-hidden">Warning</span>
+          If users do not have access to all cases in the organisation, you must assign this case to at
+          least one user.
+        </strong>
+      </div>
       <form [formGroup]="permissionsForm">
         <div class="govuk-radios" data-module="govuk-radios">
           <div class="govuk-radios__item">
-            <input class="govuk-radios__input" type="radio" id="assign-without-users"
-              name="assignmentType" formControlName="assignmentType" value="notAssigning">
+            <input class="govuk-radios__input" type="radio" id="assign-without-users" name="assignmentType"
+              formControlName="assignmentType" value="notAssigning">
             <label class="govuk-label govuk-radios__label" for="assign-without-users">
               Accept these cases without assigning them to anyone.
             </label>
@@ -36,8 +37,8 @@
             </div>
           </div>
           <div class="govuk-radios__item">
-            <input class="govuk-radios__input" type="radio" id="assign-with-users"
-              name="assignmentType" formControlName="assignmentType" value="assigning">
+            <input class="govuk-radios__input" type="radio" id="assign-with-users" name="assignmentType"
+              formControlName="assignmentType" value="assigning">
             <label class="govuk-label govuk-radios__label" for="assign-with-users">
               Accept these cases and assign them to one or more users in your organisation.
             </label>
@@ -49,7 +50,8 @@
       </form>
     </fieldset>
     <div class="govuk-button-group">
-      <button type="submit" data-prevent-double-click="true" class="govuk-button" data-module="govuk-button" (click)="continue()">
+      <button type="submit" data-prevent-double-click="true" class="govuk-button" data-module="govuk-button"
+        (click)="continue()">
         Continue
       </button>
       <button type="cancel" class="govuk-button govuk-button--secondary" data-module="govuk-button" (click)="goBack()">

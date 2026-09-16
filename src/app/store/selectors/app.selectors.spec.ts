@@ -43,11 +43,11 @@ describe('App Selectors', () => {
       store.pipe(select(fromSelectors.getPageTitle))
         .subscribe((value) => (result = value));
 
-      expect(result).toEqual('');
+      expect(result).toEqual('Manage Organisation - HM Courts & Tribunals Service - GOV.UK');
 
       store.dispatch(new fromActions.SetPageTitle('/organisation'));
 
-      expect(result).toEqual('Manage organisation - Organisation details - GOV.UK');
+      expect(result).toEqual('Organisation details - Manage Organisation - HM Courts & Tribunals Service - GOV.UK');
     });
   });
 

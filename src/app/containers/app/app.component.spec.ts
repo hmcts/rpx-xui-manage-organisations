@@ -163,9 +163,18 @@ describe('AppComponent', () => {
     fixture.destroy();
   });
 
+  it('should update the browser title after navigating to a page', () => {
+    store.dispatch(new fromRoot.SetPageTitle('/users'));
+    expect(document.title).toBe('Users - Manage Organisation - HM Courts & Tribunals Service - GOV.UK');
+    store.dispatch(new fromRoot.SetPageTitle('/organisation/update-pba-numbers-check'));
+    expect(document.title).toBe('Check your PBA accounts - Manage Organisation - HM Courts & Tribunals Service - GOV.UK');
+    store.dispatch(new fromRoot.SetPageTitle('/users/user/123'));
+    expect(document.title).toBe('User details - Manage Organisation - HM Courts & Tribunals Service - GOV.UK');
+  });
+
   it('should have pageTitle$ Observable the app', waitForAsync(() => {
     store.dispatch(new fromRoot.SetPageTitle('/organisation'));
-    const expected = cold('a', { a: 'Manage organisation - Organisation details - GOV.UK' });
+    const expected = cold('a', { a: 'Organisation details - Manage Organisation - HM Courts & Tribunals Service - GOV.UK' });
     expect(app.pageTitle$).toBeObservable(expected);
   }));
 

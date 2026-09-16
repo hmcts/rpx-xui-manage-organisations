@@ -52,6 +52,13 @@ describe('DocumentExchangeReferenceComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should render the question as the page heading within the legend', () => {
+    const heading = fixture.nativeElement.querySelector('fieldset legend h1');
+
+    expect(heading).not.toBeNull();
+    expect(heading.textContent.trim()).toBe('Do you have a document exchange reference for your main office?');
+  });
+
   it('should set the yes radio button form control', () => {
     component.registrationData = registrationData;
     component.registrationData.hasDxReference = true;

@@ -167,7 +167,7 @@
             </div>
             <div class="govuk-grid-column-one-quarter govuk-!-text-align-right">
               @if (showChangePbaNumberLink) {<a class="govuk-link fright" routerLink="/organisation/update-pba-numbers"
-                id="change-pba-account-numbers__link" aria-label="Change PBA account numbers">Change</a>}
+                id="change-pba-account-numbers__link" aria-label="Change PBA account numbers for this organisation">Change</a>}
             </div>
           </div>
         </td>
@@ -198,7 +198,7 @@
         <th class="govuk-table__header" scope="row">Administrator</th>
         <td class="govuk-table__cell">
           <div>{{organisationDetails.superUser.firstName}} {{organisationDetails.superUser.lastName}}</div>
-          <div class="govuk-caption-m govuk-!-font-size-16">{{organisationDetails.superUser.email}}</div>
+          <div class="govuk-body-s govuk-!-margin-bottom-0">{{organisationDetails.superUser.email}}</div>
         </td>
       </tr>}
       @if (organisationDetails.sraId) {<tr class="govuk-table__row">

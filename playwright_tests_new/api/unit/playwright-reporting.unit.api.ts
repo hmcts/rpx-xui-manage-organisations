@@ -81,6 +81,16 @@ test.describe('playwright reporting configuration', () => {
     ]);
   });
 
+  test('uses the configured Perfetto output file', () => {
+    const reporters = resolveReporters(
+      { defaultIndexFilename: 'index.html', defaultProject: 'Manage Org', defaultRelease: '1.0.0', defaultTitle: 'Manage Org Playwright' },
+      'https://manage-org.aat.platform.hmcts.net',
+      { PLAYWRIGHT_PERFETTO_OUTPUT_FILE: 'functional-output/tests/playwright-api/test-results/perfetto.json' }
+    );
+
+    expect(reporters).toContainEqual(['perfetto', { outputFile: 'functional-output/tests/playwright-api/test-results/perfetto.json' }]);
+  });
+
   test('builds include and exclude tag grep expressions', () => {
     const include = resolveTagGrep({ PLAYWRIGHT_TAGS: '@e2e,@registration' });
     const exclude = resolveTagGrepInvert({ PLAYWRIGHT_EXCLUDE_TAGS: '@e2e-smoke,@wip' });

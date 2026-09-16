@@ -1,7 +1,36 @@
 {
-    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-    "extends": [
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
     "local>hmcts/.github:renovate-config",
-    "local>hmcts/.github//renovate/automerge-minor"
-    ]
+    "local>hmcts/.github//renovate/automerge-all"
+  ],
+  "automerge": true,
+  "automergeSchedule": [
+    "* 7-12 * * 1-5"
+  ],
+  "platformAutomerge": true,
+  "timezone": "Europe/London",
+  "schedule": [
+    "* 7-9 * * 1-5"
+  ],
+  "updateNotScheduled": false,
+  "packageRules": [
+    {
+      "description": "Exclude pinned HMCTS dependencies from Renovate updates",
+      "matchPackageNames": [
+        "@hmcts/ccd-case-ui-toolkit",
+        "@hmcts/rpx-xui-common-lib",
+        "@hmcts/rpx-xui-node-lib",
+        "rpx-xui-translation"
+      ],
+      "enabled": false
+    },
+    {
+      "description": "Disable major version updates",
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "enabled": false
+    }
+  ]
 }

@@ -1,3 +1,6 @@
+@use "govuk-frontend/govuk/base" as *;
+@use "../../sass/jui/settings/settings.general" as settings;
+
 /* ==========================================================================
    #CASEFILE
    This is just for demo purposes only. Not for production usage!
@@ -79,7 +82,7 @@
 
 
 .jui-casefile-list__link {
-  background-image: url(#{$jui-assets-path}icon-document.svg);
+  background-image: url(#{settings.$jui-assets-path}icon-document.svg);
   background-repeat: no-repeat;
   background-size: 15px 20px;
   background-position: 0 10px;
@@ -141,5 +144,3 @@
 }
 
 // END CASE FILE ACTIONS
-
-

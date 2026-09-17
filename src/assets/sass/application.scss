@@ -10,6 +10,10 @@
 
 @import "@hmcts/frontend/all";
 
+.jui-editor__content {
+  @extend .govuk-textarea;
+}
+
 $path: "/public/images/";
 
 // global styles for <a> and <p> tags

@@ -224,7 +224,10 @@ export const resolveReporters = (options: ReporterOptions, baseUrl: string, env:
     ]);
   }
   if (!env.PLAYWRIGHT_REPORTERS?.trim() && env.PW_ENABLE_PERFETTO !== 'false') {
-    reporters.push(['perfetto', { outputFile: env.PLAYWRIGHT_PERFETTO_OUTPUT_FILE || `${resolveOutputDir(env)}/perfetto.json` }]);
+    // Perfetto must finish writing before Odhín enhances its report with timeline links.
+    const odhinIndex = reporters.findIndex(([name]) => name.endsWith('/odhin-adaptive.reporter.cjs'));
+    reporters.splice(odhinIndex < 0 ? reporters.length : odhinIndex, 0,
+      ['perfetto', { outputFile: env.PLAYWRIGHT_PERFETTO_OUTPUT_FILE || `${resolveOutputDir(env)}/perfetto.json` }]);
   }
   return reporters;
 };

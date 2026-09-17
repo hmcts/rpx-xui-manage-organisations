@@ -89,6 +89,8 @@ test.describe('playwright reporting configuration', () => {
     );
 
     expect(reporters).toContainEqual(['perfetto', { outputFile: 'functional-output/tests/playwright-api/test-results/perfetto.json' }]);
+    const names = reporters.map(([name]) => name);
+    expect(names.indexOf('perfetto')).toBeLessThan(names.indexOf('./playwright_tests_new/common/reporters/odhin-adaptive.reporter.cjs'));
   });
 
   test('uses the suite-scoped smoke Perfetto output when configured', () => {

@@ -1,3 +1,5 @@
+@use "../../sass/jui/settings/settings.aspect-ratio" as aspect;
+@use "../../sass/jui/settings/settings.general" as settings;
 @use "govuk-frontend/dist/govuk/base" as govuk;
 
 .jui-cf {
@@ -58,7 +60,7 @@
 
 
 .jui-cf__toolbar-container {
-  @include jui-width-container;
+  @include settings.jui-width-container;
   border-left:1px solid govuk.govuk-colour("black", $variant: "tint-95");
   border-right: 1px solid govuk.govuk-colour("black", $variant: "tint-95");
   height: 100%;
@@ -126,7 +128,7 @@
 
 
 .jui-cf__toolbar-button--items {
-  background-image: url(#{$jui-assets-path}icon-casefile-items.svg);
+  background-image: url(#{settings.$jui-assets-path}icon-casefile-items.svg);
   background-repeat: no-repeat;
   background-size: 18px 14px;
   background-position: 15px 50%;
@@ -135,7 +137,7 @@
 
 
 .jui-cf__toolbar-button--comments {
-  background-image: url(#{$jui-assets-path}icon-casefile-comments.svg);
+  background-image: url(#{settings.$jui-assets-path}icon-casefile-comments.svg);
   background-repeat: no-repeat;
   background-size: 20px 20px;
   background-position: 15px 50%;
@@ -159,7 +161,7 @@
 
 
 .jui-cf__window-container {
-  @include jui-width-container;
+  @include settings.jui-width-container;
   @include govuk.govuk-clearfix;
   position: relative;
 }
@@ -189,7 +191,7 @@
 
 
 .jui-cf__document-page {
-  @include aspect-ratio(1,1.414); // True A4 aspect ratio
+  @include aspect.aspect-ratio(1,1.414); // True A4 aspect ratio
   background: govuk.govuk-colour("white");
   box-sizing: border-box;
   box-shadow: 0 0 1px 0 #D1D1D1, 0 0 3px 0 #CCCCCC;

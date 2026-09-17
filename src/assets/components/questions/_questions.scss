@@ -1,3 +1,4 @@
+@use "../../sass/jui/settings/settings.general" as settings;
 @use "govuk-frontend/dist/govuk/base" as govuk;
 
 /* ==========================================================================
@@ -46,7 +47,7 @@
 
 
 .jui-questions__attachment {
-  background-image: url(#{$jui-assets-path}icon-attachment.svg);
+  background-image: url(#{settings.$jui-assets-path}icon-attachment.svg);
   background-repeat: no-repeat;
   background-size: 25px;
   background-position: 0 50%;

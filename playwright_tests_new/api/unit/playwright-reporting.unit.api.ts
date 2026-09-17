@@ -91,6 +91,23 @@ test.describe('playwright reporting configuration', () => {
     expect(reporters).toContainEqual(['perfetto', { outputFile: 'functional-output/tests/playwright-api/test-results/perfetto.json' }]);
   });
 
+  test('uses the suite-scoped smoke Perfetto output when configured', () => {
+    const reporters = resolveReporters(
+      { defaultIndexFilename: 'xui-playwright-smoke.html', defaultProject: 'Manage Org Smoke', defaultRelease: '1.0.0', defaultTitle: 'Manage Org Smoke' },
+      'https://manage-org.aat.platform.hmcts.net',
+      {
+        PLAYWRIGHT_TEST_OUTPUT_DIR: 'test-results/playwright-smoke',
+        PLAYWRIGHT_REPORT_FOLDER: 'functional-output/tests/playwright-smoke/odhin-report',
+        PLAYWRIGHT_PERFETTO_OUTPUT_FILE: 'functional-output/tests/playwright-smoke/test-results/perfetto.json'
+      }
+    );
+
+    expect(reporters).toContainEqual([
+      'perfetto',
+      { outputFile: 'functional-output/tests/playwright-smoke/test-results/perfetto.json' }
+    ]);
+  });
+
   test('builds include and exclude tag grep expressions', () => {
     const include = resolveTagGrep({ PLAYWRIGHT_TAGS: '@e2e,@registration' });
     const exclude = resolveTagGrepInvert({ PLAYWRIGHT_EXCLUDE_TAGS: '@e2e-smoke,@wip' });

@@ -223,5 +223,6 @@ export const resolveReporters = (options: ReporterOptions, baseUrl: string, env:
       { outputFile: env.PLAYWRIGHT_JSON_OUTPUT ?? `${resolveOdhinOutputFolder(options, env)}/ci-evidence/playwright.json` },
     ]);
   }
+  if (!env.PLAYWRIGHT_REPORTERS?.trim() && env.PW_ENABLE_PERFETTO !== 'false') reporters.push(['perfetto']);
   return reporters;
 };

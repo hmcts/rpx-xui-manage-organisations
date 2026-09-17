@@ -17,7 +17,7 @@ properties([
     ])
 ])
 
-@Library("Infrastructure@2.5.1")
+@Library("Infrastructure@2.8.0")
 
 def type      = "nodejs"
 def product   = "xui"
@@ -88,7 +88,7 @@ def stagePlaywrightArtifacts = { String stageDir, String sourceDir ->
               failed=0
               while IFS= read -r file; do
                 case "$file" in
-                  *.png|*.webm|*.zip|*/error-context.md|*/node-api-calls.json|*/node-api-calls.pretty.txt)
+                  *.png|*.webm|*.zip|*.json|*/error-context.md|*/node-api-calls.json|*/node-api-calls.pretty.txt)
                     if [ ! -f "$file" ]; then
                       failed=$((failed + 1))
                       continue

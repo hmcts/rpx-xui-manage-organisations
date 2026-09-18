@@ -9,7 +9,7 @@ import * as fromStore from '../../store';
 import * as fromOrgStore from '../../../organisation/store';
 import { ActivatedRoute } from '@angular/router';
 import { ENVIRONMENT_CONFIG, EnvironmentConfig } from '../../../models/environmentConfig.model';
-import { OrganisationAccessType } from 'src/models/organisation.model';
+import { OrganisationAccessType } from '../../../models';
 
 @Component({
   selector: 'app-prd-user-details-component',
@@ -94,7 +94,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
         }
 
         const enabledUserAccessTypes: UserAccessType[] =
-          user.userAccessTypes?.filter((x: UserAccessType) => x.enabled) ?? [];
+          user.userAccessTypes?.filter((userType: UserAccessType) => userType.enabled) ?? [];
 
         for (const jurisdiction of organisationAccessTypes) {
           for (const accessType of jurisdiction.accessTypes) {

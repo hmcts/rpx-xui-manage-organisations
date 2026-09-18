@@ -29,6 +29,7 @@ export function shareCasesReducer(
       };
 
     case ShareCasesActions.LOAD_SHARE_ASSIGNED_CASES:
+    case ShareCasesActions.LOAD_SHARE_UNASSIGNED_CASES:
       return {
         ...state,
         loading: true
@@ -45,6 +46,7 @@ export function shareCasesReducer(
       };
 
     case ShareCasesActions.LOAD_SHARE_ASSIGNED_CASES_FAILURE:
+    case ShareCasesActions.LOAD_SHARE_UNASSIGNED_CASES_FAILURE:
       return {
         ...state,
         error: action.payload,
@@ -96,12 +98,6 @@ export function shareCasesReducer(
         shareUnassignedCases: addUniqueCases(state.shareUnassignedCases, action.payload)
       };
 
-    case ShareCasesActions.LOAD_SHARE_UNASSIGNED_CASES:
-      return {
-        ...state,
-        loading: true
-      };
-
     case ShareCasesActions.LOAD_SHARE_UNASSIGNED_CASES_SUCCESS:
       return {
         ...state,
@@ -109,13 +105,6 @@ export function shareCasesReducer(
           state.shareUnassignedCases,
           sortedUserInCases(action.payload)
         ),
-        loading: false
-      };
-
-    case ShareCasesActions.LOAD_SHARE_UNASSIGNED_CASES_FAILURE:
-      return {
-        ...state,
-        error: action.payload,
         loading: false
       };
 

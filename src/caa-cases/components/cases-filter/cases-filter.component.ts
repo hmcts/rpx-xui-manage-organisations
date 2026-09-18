@@ -106,18 +106,38 @@ export class CasesFilterComponent implements OnInit, OnChanges{
     }
   }
 
-  public filterSelectedOrganisationUsers(searchTerm?: string | User): Observable<Map<string, User[]>> {
+  public filterSelectedOrganisationUsers(
+    searchTerm?: string | User
+  ): Observable<Map<string, User[]>> {
     const selectedOrganisationUsers = this.selectedOrganisationUsers ?? [];
-    const filteredUsers = searchTerm && searchTerm.length > 0
-      ? typeof(searchTerm) === 'string'
-        ? selectedOrganisationUsers.filter((user) => this.getDisplayName(user).toLowerCase().includes(searchTerm.toLowerCase()))
-        : selectedOrganisationUsers.filter((user) => this.getDisplayName(user).toLowerCase().includes(this.getDisplayName(searchTerm).toLowerCase()))
-      : selectedOrganisationUsers;
-    const activeUsers = filteredUsers.filter((user) => user.status.toLowerCase() === this.ACTIVE_USER_STATUS);
-    const inactiveUsers = filteredUsers.filter((user) => user.status.toLowerCase() !== this.ACTIVE_USER_STATUS);
+
+    let filteredUsers = selectedOrganisationUsers;
+
+    if (searchTerm && searchTerm.length > 0) {
+      const searchValue = typeof searchTerm === 'string'
+        ? searchTerm
+        : this.getDisplayName(searchTerm);
+
+      filteredUsers = selectedOrganisationUsers.filter((user) =>
+        this.getDisplayName(user)
+          .toLowerCase()
+          .includes(searchValue.toLowerCase())
+      );
+    }
+
+    const activeUsers = filteredUsers.filter(
+      (user) => user?.status?.toLowerCase() === this.ACTIVE_USER_STATUS
+    );
+
+    const inactiveUsers = filteredUsers.filter(
+      (user) => user?.status?.toLowerCase() !== this.ACTIVE_USER_STATUS
+    );
+
     const groupedUsers = new Map<string, User[]>();
+
     groupedUsers.set(this.ACTIVE_USER_GROUP_HEADING, activeUsers);
     groupedUsers.set(this.INACTIVE_USER_GROUP_HEADING, inactiveUsers);
+
     return of(groupedUsers);
   }
 

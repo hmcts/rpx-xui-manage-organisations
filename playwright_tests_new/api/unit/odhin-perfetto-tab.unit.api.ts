@@ -27,7 +27,7 @@ test('always keeps Odhín attachments external', () => {
     createInnerReporter: (options: Record<string, unknown>) => {
       receivedOptions = options;
       return {};
-    },
+    }
   });
 
   expect(receivedOptions?.embedAttachments).toBe(false);

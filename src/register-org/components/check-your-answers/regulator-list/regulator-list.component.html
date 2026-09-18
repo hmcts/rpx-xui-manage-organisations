@@ -22,7 +22,7 @@
       </span>}
     </dt>
     <dd class="govuk-summary-list__value">
-      @for(regulator of regulators; track trackByRegulator) {
+      @for(regulator of regulators; track trackByRegulator($index, regulator)) {
       <div>
         <ng-container [ngSwitch]="regulator.regulatorType">
           <span *ngSwitchCase="regulatoryTypeEnum.Other">

@@ -51,7 +51,10 @@ describe('User Details Component', () => {
       expect(component.userSubscription).toBeTruthy();
       expect(component.suspendSuccessSubscription).toBeTruthy();
       expect(component.ogdUpdateRefreshUserEnabled).toBe(true);
-      expect(userStoreSpyObject.dispatch).toHaveBeenCalledWith(new fromStore.CheckUserListLoaded());
+      expect(userStoreSpyObject.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({
+        payload: jasmine.objectContaining({ currentTime: jasmine.any(Number) }),
+        type: fromStore.CHECK_USER_LIST_LOADED
+      }));
       expect(userStoreSpyObject.dispatch).toHaveBeenCalledWith(new fromStore.LoadUserDetails('user-1'));
       expect(routerStoreSpyObject.dispatch).toHaveBeenCalledWith(new fromRoot.Go({ path: ['service-down'] }));
     });

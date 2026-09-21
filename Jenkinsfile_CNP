@@ -127,7 +127,10 @@ def stagePlaywrightArtifacts = { String stageDir, String sourceDir ->
               failed=0
               while IFS= read -r file; do
                 case "$file" in
-                  *.png|*.webm|*.zip|*.json|*/error-context.md|*/node-api-calls.json|*/node-api-calls.pretty.txt)
+                  */trace.zip|*.png|*.jpg|*.jpeg)
+                    continue
+                    ;;
+                  *.webm|*.zip|*.json|*/error-context.md|*/node-api-calls.json|*/node-api-calls.pretty.txt)
                     if [ ! -f "$file" ]; then
                       failed=$((failed + 1))
                       continue

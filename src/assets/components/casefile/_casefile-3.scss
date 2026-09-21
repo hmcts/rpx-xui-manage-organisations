@@ -1,10 +1,14 @@
+@use "govuk-frontend/govuk/base" as *;
+@use "../../sass/jui/settings/settings.general" as settings;
+@use "../../sass/jui/settings/settings.aspect-ratio" as aspect-ratio;
+
 .jui-cf {
 
   &--show-comments {
 
     .jui-cf__document-pages {
 
-      @include mq($from: desktop) {
+      @include govuk-media-query($from: desktop) {
         margin-right: 417px;
         margin-left: auto;
       }
@@ -56,7 +60,7 @@
 
 
 .jui-cf__toolbar-container {
-  @include jui-width-container;
+  @include settings.jui-width-container;
   border-left:1px solid govuk-colour("light-grey");
   border-right: 1px solid govuk-colour("light-grey");
   height: 100%;
@@ -124,7 +128,7 @@
 
 
 .jui-cf__toolbar-button--items {
-  background-image: url(#{$jui-assets-path}icon-casefile-items.svg);
+  background-image: url(#{settings.$jui-assets-path}icon-casefile-items.svg);
   background-repeat: no-repeat;
   background-size: 18px 14px;
   background-position: 15px 50%;
@@ -133,7 +137,7 @@
 
 
 .jui-cf__toolbar-button--comments {
-  background-image: url(#{$jui-assets-path}icon-casefile-comments.svg);
+  background-image: url(#{settings.$jui-assets-path}icon-casefile-comments.svg);
   background-repeat: no-repeat;
   background-size: 20px 20px;
   background-position: 15px 50%;
@@ -157,7 +161,7 @@
 
 
 .jui-cf__window-container {
-  @include jui-width-container;
+  @include settings.jui-width-container;
   @include govuk-clearfix;
   position: relative;
 }
@@ -174,7 +178,7 @@
   max-width: 803px;
   margin-bottom: 30px;
 
-  @include mq($from: desktop) {
+  @include govuk-media-query($from: desktop) {
     margin-left: 417px;
   }
 
@@ -187,7 +191,7 @@
 
 
 .jui-cf__document-page {
-  @include aspect-ratio(1,1.414); // True A4 aspect ratio
+  @include aspect-ratio.aspect-ratio(1,1.414); // True A4 aspect ratio
   background: govuk-colour("white");
   box-sizing: border-box;
   box-shadow: 0 0 1px 0 #D1D1D1, 0 0 3px 0 #CCCCCC;
@@ -216,7 +220,7 @@
 .jui-cf__document-comments {
   margin-bottom: 30px;
 
-  @include mq($from: desktop) {
+  @include govuk-media-query($from: desktop) {
     float: right;
     padding-left: 30px;
     width: 386px;
@@ -227,7 +231,7 @@
 
 .jui-cf__files {
 
-  @include mq($from: desktop) {
+  @include govuk-media-query($from: desktop) {
     position: sticky;
     position: -webkit-sticky;
     top: 75px; left: 0;
@@ -250,7 +254,7 @@
   box-shadow: 0 1px 3px 0 rgba(0,0,0,0.30), inset 0 -1px 0 0 #DDDDDD;
   padding: 20px 20px 0;
 
-  @include mq($from: desktop) {
+  @include govuk-media-query($from: desktop) {
     position: relative; top: 578px;
   }
 

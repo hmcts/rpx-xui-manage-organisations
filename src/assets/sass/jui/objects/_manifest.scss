@@ -2,4 +2,4 @@
    #OBJECTS
    ========================================================================== */
 
-@import "objects.container";
+@use "objects.container" as *;

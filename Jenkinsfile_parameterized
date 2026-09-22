@@ -19,7 +19,7 @@ properties([
     ])
 ])
 
-@Library("Infrastructure@2.5.1")
+@Library("Infrastructure@2.8.0")
 
 def type      = "nodejs"
 def product   = "xui"
@@ -133,7 +133,10 @@ def stagePlaywrightArtifacts = { String stageDir, String sourceDir ->
               failed=0
               while IFS= read -r file; do
                 case "$file" in
-                  *.png|*.webm|*.zip|*/error-context.md|*/node-api-calls.json|*/node-api-calls.pretty.txt)
+                  */trace.zip|*.png|*.jpg|*.jpeg)
+                    continue
+                    ;;
+                  *.webm|*.zip|*.json|*/error-context.md|*/node-api-calls.json|*/node-api-calls.pretty.txt)
                     if [ ! -f "$file" ]; then
                       failed=$((failed + 1))
                       continue
@@ -382,7 +385,8 @@ withParameterizedPipeline(type, product, component, params.ENVIRONMENT, 'sandbox
             reportName           : 'PREVIEW Smoke Test'
         ])
         junit(allowEmptyResults: false, testResults: 'functional-output/tests/playwright-smoke/**/*junit.xml')
-        archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-smoke/**,test-results/playwright-smoke/**/*'
+        archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-smoke/**,test-results/playwright-smoke/**/*', excludes: 'test-results/playwright-smoke/**/trace.zip,test-results/playwright-smoke/**/*.png,test-results/playwright-smoke/**/*.jpg,test-results/playwright-smoke/**/*.jpeg'
+        archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/**/test-results/perfetto*.json'
     }
 
     after('functionalTest:preview') {
@@ -417,7 +421,8 @@ withParameterizedPipeline(type, product, component, params.ENVIRONMENT, 'sandbox
             reportName           : 'AAT Smoke Test'
         ])
         junit(allowEmptyResults: false, testResults: 'functional-output/tests/playwright-smoke/**/*junit.xml')
-        archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-smoke/**,test-results/playwright-smoke/**/*'
+        archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-smoke/**,test-results/playwright-smoke/**/*', excludes: 'test-results/playwright-smoke/**/trace.zip,test-results/playwright-smoke/**/*.png,test-results/playwright-smoke/**/*.jpg,test-results/playwright-smoke/**/*.jpeg'
+        archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/**/test-results/perfetto*.json'
     }
 
     after('functionalTest:aat') {
@@ -452,7 +457,8 @@ withParameterizedPipeline(type, product, component, params.ENVIRONMENT, 'sandbox
             reportName           : 'PROD Smoke Test'
         ])
         junit(allowEmptyResults: false, testResults: 'functional-output/tests/playwright-smoke/**/*junit.xml')
-        archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-smoke/**,test-results/playwright-smoke/**/*'
+        archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-smoke/**,test-results/playwright-smoke/**/*', excludes: 'test-results/playwright-smoke/**/trace.zip,test-results/playwright-smoke/**/*.png,test-results/playwright-smoke/**/*.jpg,test-results/playwright-smoke/**/*.jpeg'
+        archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/**/test-results/perfetto*.json'
     }
 
 }

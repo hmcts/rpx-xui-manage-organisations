@@ -11,7 +11,7 @@ import { RegisterOrgService } from '../../services/index';
 
 export class RegisterComponent implements OnInit, OnDestroy {
   private isRegistrationJourneyCancelled = false;
-  private routerCurrentNavigation: Navigation | null;
+  private readonly routerCurrentNavigation: Navigation | null;
   public registrationData: RegistrationData;
   constructor(public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService) {

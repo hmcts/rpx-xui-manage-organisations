@@ -14,13 +14,31 @@ const COMPANY_HOUSE_PREFIXES = [
 // Special company house number validation patterns (e.g. RS12345, RS1234FI, RS123CUS, NI12345A)
 const COMPANY_HOUSE_PATTERNS = [
   /^RS\d{5}$/,
-  /^(RS|SO)\d{6}$/,
-  /^(RS|SO)\d{5}[WSRCZF]$/,
-  /^(RS|SO)\d{4}(FI|RS|SA|IP|US|EN|AS)$/,
-  /^(RS|SO)\d{3}CUS$/,
-  /^(NI|SL)\d{5}[\dA]$/,
+  /^RS\d{6}$/,
+  /^SO\d{6}$/,
+  /^RS\d{5}[WSRCZF]$/,
+  /^SO\d{5}[WSRCZF]$/,
+  /^RS\d{4}FI$/,
+  /^RS\d{4}RS$/,
+  /^RS\d{4}SA$/,
+  /^RS\d{4}IP$/,
+  /^RS\d{4}US$/,
+  /^RS\d{4}EN$/,
+  /^RS\d{4}AS$/,
+  /^SO\d{4}FI$/,
+  /^SO\d{4}RS$/,
+  /^SO\d{4}SA$/,
+  /^SO\d{4}IP$/,
+  /^SO\d{4}US$/,
+  /^SO\d{4}EN$/,
+  /^SO\d{4}AS$/,
+  /^RS\d{3}CUS$/,
+  /^SO\d{3}CUS$/,
+  /^NI\d{5}[\dA]$/,
+  /^SL\d{5}[\dA]$/,
   /^OC[\dP]{5}[CWERTB]$/,
-  /^OC[\dP]{4}(OC|CU)$/
+  /^OC[\dP]{4}OC$/,
+  /^OC[\dP]{4}CU$/
 ];
 
 // Sonar complained about complex validation so this was created to simplify and make it more readable

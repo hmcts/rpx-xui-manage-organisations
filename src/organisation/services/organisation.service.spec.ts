@@ -24,16 +24,16 @@ describe('OrganisationService', () => {
     httpMock.verify();
   });
 
-  it('should call the v1 organisation endpoint when the register org feature is disabled', () => {
-    service.fetchOrganisation(false).subscribe();
+  it('should call the v1 organisation endpoint', () => {
+    service.fetchOrganisationV1().subscribe();
 
     const request = httpMock.expectOne('/api/organisation/v1');
     expect(request.request.method).toBe('GET');
     request.flush({});
   });
 
-  it('should call the new organisation endpoint when the register org feature is enabled', () => {
-    service.fetchOrganisation(true).subscribe();
+  it('should call the new organisation endpoint', () => {
+    service.fetchOrganisationLatest().subscribe();
 
     const request = httpMock.expectOne('/api/organisation');
     expect(request.request.method).toBe('GET');

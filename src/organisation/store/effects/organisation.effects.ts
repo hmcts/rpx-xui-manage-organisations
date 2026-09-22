@@ -28,7 +28,11 @@ export class OrganisationEffects {
         return this.featureToggleService.getValue(AppConstants.FEATURE_NAMES.newRegisterOrg, false);
       }),
       switchMap((newRegisterOrg) => {
-        return this.organisationService.fetchOrganisation(newRegisterOrg).pipe(
+        const fetchOrganisation = newRegisterOrg
+          ? this.organisationService.fetchOrganisationLatest()
+          : this.organisationService.fetchOrganisationV1();
+
+        return fetchOrganisation.pipe(
           take(1),
           map((orgDetails) => new organisationActions.LoadOrganisationSuccess(orgDetails)),
           catchError((error) => {

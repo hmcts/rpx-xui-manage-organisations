@@ -161,7 +161,7 @@ export const resolveReporters = (options: ReporterOptions, baseUrl: string, env:
   const workerCount = resolveWorkerCount(env);
   const reportBranch = resolveBranchName(env);
 
-  return uniqueReporterNames.map((reporterName) => {
+  const reporters = uniqueReporterNames.map((reporterName): ReporterDescription => {
     switch (reporterName.toLowerCase()) {
       case 'html':
         return [
@@ -216,4 +216,20 @@ export const resolveReporters = (options: ReporterOptions, baseUrl: string, env:
         return [reporterName];
     }
   });
+
+  if (env.CI && env.PLAYWRIGHT_INCLUDE_A11Y !== 'true' && env.PLAYWRIGHT_INCLUDE_WAVE_A11Y !== 'true') {
+    reporters.push([
+      'json',
+      { outputFile: env.PLAYWRIGHT_JSON_OUTPUT ?? `${resolveOdhinOutputFolder(options, env)}/ci-evidence/playwright.json` },
+    ]);
+  }
+  if (env.PW_ENABLE_PERFETTO !== 'false' && !reporters.some(([name]) => name === 'perfetto')) {
+    // Perfetto must finish writing before Odhín enhances its report with timeline links.
+    const odhinIndex = reporters.findIndex(([name]) => name.endsWith('/odhin-adaptive.reporter.cjs'));
+    reporters.splice(odhinIndex < 0 ? reporters.length : odhinIndex, 0, [
+      'perfetto',
+      { outputFile: env.PLAYWRIGHT_PERFETTO_OUTPUT_FILE || `${resolveOutputDir(env)}/perfetto.json` },
+    ]);
+  }
+  return reporters;
 };

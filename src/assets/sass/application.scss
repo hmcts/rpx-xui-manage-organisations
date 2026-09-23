@@ -10,7 +10,24 @@ $govuk-global-styles: true;
 $hmcts-page-width: 1220px;
 
 // Import GOV.UK Frontend
-@import "govuk-frontend/govuk/all";
+@import "govuk-frontend/dist/govuk/all";
+
+// GOV.UK Frontend 5 removed its deprecated IE8 support, but the pinned
+// @hmcts/frontend styles still reference this mixin for IE8-only rules.
+@mixin govuk-if-ie8 {
+  @if false {
+    @content;
+  }
+}
+
+// @hmcts/frontend also uses the legacy sass-mq name. GOV.UK Frontend 5
+// exposes the same behaviour through govuk-media-query.
+@mixin mq($from: null, $until: null, $and: null) {
+  @include govuk-media-query($from: $from, $until: $until, $and: $and) {
+    @content;
+  }
+}
+
 @import "@hmcts/frontend/all";
 
 // Patterns that aren’t in Frontend

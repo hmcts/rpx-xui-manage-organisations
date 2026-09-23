@@ -7,6 +7,7 @@ import { HmctsGlobalHeaderComponent } from './hmcts-global-header/hmcts-global-h
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { ServiceDownComponent } from './service-down/service-down.component';
 import { SignedOutComponent } from './signed-out/signed-out.component';
+import { SitemapComponent } from './sitemap/sitemap.component';
 import { TermsAndConditionsRegisterOtherOrgComponent } from './terms-and-conditions-register-other-org/terms-and-conditions-register-other-org.component';
 import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
 
@@ -21,6 +22,7 @@ export const components: any[] = [
   GetHelpComponent,
   TermsAndConditionsRegisterOtherOrgComponent,
   TermsAndConditionsComponent,
+  SitemapComponent,
   SignedOutComponent
 ];
 
@@ -34,4 +36,5 @@ export * from './hmcts-global-header/hmcts-global-header.component';
 export * from './privacy-policy/privacy-policy.component';
 export * from './service-down/service-down.component';
 export * from './signed-out/signed-out.component';
+export * from './sitemap/sitemap.component';
 export * from './terms-and-conditions/terms-and-conditions.component';

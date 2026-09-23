@@ -4,7 +4,7 @@ import { AcceptTermsAndConditionGuard } from '../accept-tc/guards/acceptTermsAnd
 import { HealthCheckGuard } from '../shared/guards/health-check.guard';
 import { AuthGuard } from '../user-profile/guards/auth.guard';
 import { AppConstants } from './app.constants';
-import { AccessibilityComponent, AccessDeniedComponent, CookiePolicyComponent, GetHelpComponent, PrivacyPolicyComponent, ServiceDownComponent, SignedOutComponent, TermsAndConditionsComponent } from './components';
+import { AccessibilityComponent, AccessDeniedComponent, CookiePolicyComponent, GetHelpComponent, PrivacyPolicyComponent, ServiceDownComponent, SignedOutComponent, SitemapComponent, TermsAndConditionsComponent } from './components';
 import { TermsAndConditionsRegisterOtherOrgComponent } from './components/terms-and-conditions-register-other-org/terms-and-conditions-register-other-org.component';
 import { RedirectComponent } from './containers/redirect/redirect.component';
 import { TermsConditionGuard } from './guards/termsCondition.guard';
@@ -108,6 +108,10 @@ export const ROUTES: Routes = [
   {
     path: 'get-help',
     component: GetHelpComponent
+  },
+  {
+    path: 'sitemap',
+    component: SitemapComponent
   },
   {
     path: 'idle-sign-out',

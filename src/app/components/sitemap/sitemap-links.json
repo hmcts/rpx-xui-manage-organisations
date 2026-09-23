@@ -1,0 +1,99 @@
+[
+  {
+    "heading": "Manage your organisation",
+    "links": [
+      {
+        "text": "Organisation",
+        "href": "/organisation",
+        "requiredRole": "pui-organisation-manager"
+      },
+      {
+        "text": "Update PBA numbers",
+        "href": "/organisation/update-pba-numbers",
+        "requiredRole": "pui-finance-manager"
+      },
+      {
+        "text": "Users",
+        "href": "/users",
+        "requiredRole": "pui-user-manager"
+      },
+      {
+        "text": "Invite a user",
+        "href": "/users/invite-user",
+        "requiredRole": "pui-user-manager"
+      },
+      {
+        "text": "Manage a user",
+        "href": "/users/manage",
+        "requiredRole": "pui-user-manager",
+        "requiredFeature": "ogd-invite-user-flow"
+      },
+      {
+        "text": "Fee accounts",
+        "href": "/fee-accounts",
+        "requiredRole": "pui-finance-manager",
+        "requiredFeature": "fee-and-accounts"
+      },
+      {
+        "text": "Cases",
+        "href": "/cases",
+        "requiredRole": "pui-caa",
+        "requiredFeature": "mo-new-cases"
+      },
+      {
+        "text": "Unassigned cases",
+        "href": "/unassigned-cases",
+        "requiredRole": "pui-caa",
+        "requiredFeature": "mo-caa-menu-items"
+      },
+      {
+        "text": "Assigned cases",
+        "href": "/assigned-cases",
+        "requiredRole": "pui-caa",
+        "requiredFeature": "mo-caa-menu-items"
+      }
+    ]
+  },
+  {
+    "heading": "Register an organisation",
+    "links": [
+      {
+        "text": "Before you start",
+        "href": "/register-org-new/register"
+      }
+    ]
+  },
+  {
+    "heading": "Help and legal information",
+    "links": [
+      {
+        "text": "Accessibility statement",
+        "href": "/accessibility"
+      },
+      {
+        "text": "Cookies",
+        "href": "/cookies"
+      },
+      {
+        "text": "Privacy policy",
+        "href": "/privacy-policy"
+      },
+      {
+        "text": "Terms and conditions",
+        "href": "/terms-and-conditions"
+      },
+      {
+        "text": "Terms and conditions for registering another organisation",
+        "href": "/terms-and-conditions-register-other-org"
+      },
+      {
+        "text": "Get help",
+        "href": "/get-help"
+      },
+      {
+        "text": "Site map",
+        "href": "/sitemap"
+      }
+    ]
+  }
+]

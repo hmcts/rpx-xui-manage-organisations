@@ -110,6 +110,22 @@ describe('case-converter', () => {
         { caseId: '1', caseTitle: '1', caseTypeId: 'Civil' }
       ]);
     });
+
+    it('should use all party names as the case title when case_title is not provided', () => {
+      const selectedCases = [{
+        case_id: '1785412409706633',
+        caseType: 'CIVIL',
+        allPartyNames: 'Test Inc V Sir John Doe, Dr Foo Bar'
+      }];
+
+      const shareCases: SharedCase[] = converts.toShareCaseConverter(selectedCases, 'CIVIL');
+
+      expect(shareCases).toEqual([{
+        caseId: '1785412409706633',
+        caseTitle: 'Test Inc V Sir John Doe, Dr Foo Bar',
+        caseTypeId: 'CIVIL'
+      }]);
+    });
   });
 
   describe('toSearchResultViewItemConverter()', () => {

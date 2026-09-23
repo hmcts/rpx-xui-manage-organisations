@@ -503,24 +503,50 @@ function stripLegacyFileChartArtifacts(root) {
   });
 }
 
-function enhanceDashboardHtml(html, featureStats) {
+function enhanceDashboardHtml(html, featureStats, perfettoFiles = [], perfettoHrefPrefix = '../test-results') {
   const normalizedStats = normalizeFeatureStats(featureStats);
   const root = parse(html);
 
   injectEnhancerStyles(root);
   injectDataTableDefaults(root);
 
-  if (!normalizedStats.length) {
+  if (!normalizedStats.length && !perfettoFiles.length) {
     return root.toString();
   }
 
-  replaceDashboardBlock(root, 'Files Summary', buildFeatureOverviewBlock(normalizedStats));
-  removeDuplicateFeatureStatusBlock(root);
-  rebalanceTopDashboardColumns(root);
+  if (normalizedStats.length) {
+    replaceDashboardBlock(root, 'Files Summary', buildFeatureOverviewBlock(normalizedStats));
+    removeDuplicateFeatureStatusBlock(root);
+    rebalanceTopDashboardColumns(root);
 
-  stripLegacyFileChartArtifacts(root);
+    stripLegacyFileChartArtifacts(root);
+  }
+
+  if (perfettoFiles.length) {
+    injectPerfettoTab(root, perfettoFiles, perfettoHrefPrefix);
+  }
 
   return root.toString();
+}
+
+function injectPerfettoTab(root, perfettoFiles, perfettoHrefPrefix = '../test-results') {
+  root.querySelector('#odhin-perfetto-link')?.remove();
+  root.querySelector('#TabPerfetto')?.remove();
+  root.querySelector('.main-tablinks[onclick*="TabPerfetto"]')?.remove();
+
+  const links = perfettoFiles.map((fileName) => `<a href="${perfettoHrefPrefix}/${fileName}">${fileName}</a>`).join(' · ');
+  root
+    .querySelector('.tab')
+    ?.insertAdjacentHTML(
+      'beforeend',
+      `<button class="main-tablinks" onclick="openMainTab(event, 'TabPerfetto')">Perfetto Results</button>`
+    );
+  root
+    .querySelector('body')
+    ?.insertAdjacentHTML(
+      'beforeend',
+      `<div id="TabPerfetto" style="display: none" class="main-tabcontent"><div class="container-fluid text-center mt-3 mb-5"><div class="row ms-3 me-3"><div class="col-12"><div class="mt-3 mb-3 odhin-thin-border dashboard-block"><div class="info-box-header">Perfetto Results</div><p class="text-secondary-emphasis small mb-3 ps-4">Suite timeline with test names and statuses.</p><p id="odhin-perfetto-link">${links}</p></div></div></div></div></div>`
+    );
 }
 
 function enhanceGeneratedReport(outputFolder, featureStats) {
@@ -533,16 +559,26 @@ function enhanceGeneratedReport(outputFolder, featureStats) {
   reportFiles.forEach((fileName) => {
     const filePath = path.join(outputFolder, fileName);
     const currentHtml = fs.readFileSync(filePath, 'utf8');
-    const testResultsFolder = path.join(outputFolder, '..', 'test-results');
-    const perfettoFiles = fs.existsSync(testResultsFolder)
-      ? fs.readdirSync(testResultsFolder).filter((name) => /^perfetto(?:[-_].*)?\.json$/i.test(name))
-      : [];
-    const nextHtml = enhanceDashboardHtml(currentHtml, featureStats);
-    const perfettoLinks = perfettoFiles.length
-      ? `<p id="odhin-perfetto-link">Perfetto timelines (test names and statuses are embedded): ${perfettoFiles.map((name) => `<a href="../test-results/${name}">${name}</a>`).join(' · ')}</p>`
-      : '';
-    fs.writeFileSync(filePath, perfettoLinks ? nextHtml.replace('<body>', `<body>${perfettoLinks}`) : nextHtml, 'utf8');
+    const testResultsFolder = [path.join(outputFolder, 'test-results'), path.join(outputFolder, '..', 'test-results')].find(
+      (folder) => fs.existsSync(folder)
+    );
+    const perfettoFiles =
+      testResultsFolder && fs.existsSync(testResultsFolder)
+        ? fs.readdirSync(testResultsFolder).filter((name) => /^perfetto(?:[-_].*)?\.json$/i.test(name))
+        : [];
+    const perfettoHrefPrefix = resolvePerfettoHrefPrefix(outputFolder, testResultsFolder);
+    const nextHtml = enhanceDashboardHtml(currentHtml, featureStats, perfettoFiles, perfettoHrefPrefix);
+    fs.writeFileSync(filePath, nextHtml, 'utf8');
   });
+}
+
+function resolvePerfettoHrefPrefix(outputFolder, testResultsFolder, env = process.env) {
+  const artifactBaseUrl = (env.PLAYWRIGHT_PERFETTO_ARTIFACT_BASE_URL || env.BUILD_URL)?.trim().replace(/\/$/, '');
+  if (artifactBaseUrl && testResultsFolder) {
+    const relativeResultsPath = path.relative(process.cwd(), testResultsFolder).split(path.sep).join('/');
+    return `${artifactBaseUrl}/artifact/${relativeResultsPath}`;
+  }
+  return testResultsFolder === path.join(outputFolder, 'test-results') ? 'test-results' : '../test-results';
 }
 
 module.exports = {
@@ -563,5 +599,7 @@ module.exports = {
     removeLegacyFileChartInitializer,
     normalizeFeatureStats,
     percentOf,
+    resolvePerfettoHrefPrefix,
+    injectPerfettoTab,
   },
 };

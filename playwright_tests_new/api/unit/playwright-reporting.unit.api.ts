@@ -27,10 +27,12 @@ test.describe('playwright reporting configuration', () => {
   test('resolves suite-specific output directories', () => {
     expect(resolveOutputDir({})).toBe('test-results');
     expect(resolveOutputDir({ PLAYWRIGHT_OUTPUT_DIR: 'test-results/fallback' })).toBe('test-results/fallback');
-    expect(resolveOutputDir({
-      PLAYWRIGHT_OUTPUT_DIR: 'test-results/fallback',
-      PLAYWRIGHT_TEST_OUTPUT_DIR: 'test-results/playwright-integration'
-    })).toBe('test-results/playwright-integration');
+    expect(
+      resolveOutputDir({
+        PLAYWRIGHT_OUTPUT_DIR: 'test-results/fallback',
+        PLAYWRIGHT_TEST_OUTPUT_DIR: 'test-results/playwright-integration'
+      })
+    ).toBe('test-results/playwright-integration');
   });
 
   test('infers target environment from known service URLs', () => {
@@ -58,6 +60,7 @@ test.describe('playwright reporting configuration', () => {
     expect(reporters.map((reporter) => reporter[0])).toEqual([
       'list',
       'html',
+      'perfetto',
       './playwright_tests_new/common/reporters/odhin-adaptive.reporter.cjs',
       'junit'
     ]);
@@ -78,6 +81,50 @@ test.describe('playwright reporting configuration', () => {
     expect(reporters).toContainEqual([
       'json',
       { outputFile: 'functional-output/tests/playwright-e2e/odhin-report/ci-evidence/playwright.json' }
+    ]);
+  });
+
+  test('uses the configured Perfetto output file', () => {
+    const reporters = resolveReporters(
+      {
+        defaultIndexFilename: 'index.html',
+        defaultProject: 'Manage Org',
+        defaultRelease: '1.0.0',
+        defaultTitle: 'Manage Org Playwright'
+      },
+      'https://manage-org.aat.platform.hmcts.net',
+      { PLAYWRIGHT_PERFETTO_OUTPUT_FILE: 'functional-output/tests/playwright-api/test-results/perfetto.json' }
+    );
+
+    expect(reporters).toContainEqual([
+      'perfetto',
+      { outputFile: 'functional-output/tests/playwright-api/test-results/perfetto.json' }
+    ]);
+    const names = reporters.map(([name]) => name);
+    expect(names.indexOf('perfetto')).toBeLessThan(
+      names.indexOf('./playwright_tests_new/common/reporters/odhin-adaptive.reporter.cjs')
+    );
+  });
+
+  test('uses the suite-scoped smoke Perfetto output when configured', () => {
+    const reporters = resolveReporters(
+      {
+        defaultIndexFilename: 'xui-playwright-smoke.html',
+        defaultProject: 'Manage Org Smoke',
+        defaultRelease: '1.0.0',
+        defaultTitle: 'Manage Org Smoke'
+      },
+      'https://manage-org.aat.platform.hmcts.net',
+      {
+        PLAYWRIGHT_TEST_OUTPUT_DIR: 'test-results/playwright-smoke',
+        PLAYWRIGHT_REPORT_FOLDER: 'functional-output/tests/playwright-smoke/odhin-report',
+        PLAYWRIGHT_PERFETTO_OUTPUT_FILE: 'functional-output/tests/playwright-smoke/test-results/perfetto.json'
+      }
+    );
+
+    expect(reporters).toContainEqual([
+      'perfetto',
+      { outputFile: 'functional-output/tests/playwright-smoke/test-results/perfetto.json' }
     ]);
   });
 

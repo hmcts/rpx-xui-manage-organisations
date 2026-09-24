@@ -71,7 +71,9 @@ const config = defineConfig({
     baseURL: baseUrl,
     ignoreHTTPSErrors: true,
     headless: headlessMode,
-    trace: disableGenericFailureArtifacts ? 'off' : 'retain-on-failure',
+    trace: disableGenericFailureArtifacts
+      ? 'off'
+      : { mode: 'retain-on-failure', snapshots: { dom: true, aria: true, screen: true }, screenshots: true, sources: true },
     screenshot: disableGenericFailureArtifacts
       ? 'off'
       : {

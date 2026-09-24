@@ -9,9 +9,11 @@ const terminalStatusesNoRetry = ['passed', 'flaky', 'skipped', 'interrupted'];
 
 class OdhinAdaptiveReporter {
   constructor(options = {}) {
-    this.options = options;
-    this.outputFolder = options.outputFolder;
-    const configuredLightweight = options.lightweight;
+    // Keep traces and screenshots beside the published report; never serialize them into Odhín HTML.
+    const reporterOptions = { ...options, embedAttachments: false };
+    this.options = reporterOptions;
+    this.outputFolder = reporterOptions.outputFolder;
+    const configuredLightweight = reporterOptions.lightweight;
     const envLightweight = process.env.PW_ODHIN_LIGHTWEIGHT;
     this.lightweight =
       typeof configuredLightweight === 'boolean'
@@ -37,14 +39,14 @@ class OdhinAdaptiveReporter {
     };
 
     // Keep stdout/stderr only for failed tests in default mode.
-    this.testOutputMode = normalizeTestOutputMode(options.testOutput);
+    this.testOutputMode = normalizeTestOutputMode(reporterOptions.testOutput);
     this.profileEnabled =
-      typeof options.profile === 'boolean'
-        ? options.profile
+      typeof reporterOptions.profile === 'boolean'
+        ? reporterOptions.profile
         : process.env.PW_ODHIN_PROFILE
           ? process.env.PW_ODHIN_PROFILE.toLowerCase() === 'true'
           : true;
-    const configuredRuntimeHookTimeoutMs = options.runtimeHookTimeoutMs ?? process.env.PW_ODHIN_RUNTIME_HOOK_TIMEOUT_MS;
+    const configuredRuntimeHookTimeoutMs = reporterOptions.runtimeHookTimeoutMs ?? process.env.PW_ODHIN_RUNTIME_HOOK_TIMEOUT_MS;
     this.runtimeHookTimeoutMs = normalizeRuntimeHookTimeoutMs(configuredRuntimeHookTimeoutMs, process.env.CI ? 0 : 15000);
     this.statusCounts = {
       passed: 0,
@@ -68,7 +70,9 @@ class OdhinAdaptiveReporter {
     this.finalizationStartedAt = 0;
     this.pendingInnerCallbacks = Promise.resolve();
     this.inner =
-      typeof options.createInnerReporter === 'function' ? options.createInnerReporter(options) : new OdhinReporter(options);
+      typeof reporterOptions.createInnerReporter === 'function'
+        ? reporterOptions.createInnerReporter(reporterOptions)
+        : new OdhinReporter(reporterOptions);
   }
 
   async onBegin(config, suite) {

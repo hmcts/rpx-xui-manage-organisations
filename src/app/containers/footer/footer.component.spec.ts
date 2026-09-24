@@ -52,6 +52,10 @@ describe('FooterComponent', () => {
     store = TestBed.inject(MockStore);
   });
 
+  afterEach(() => {
+    store.resetSelectors();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });

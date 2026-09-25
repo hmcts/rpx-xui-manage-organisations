@@ -1,6 +1,7 @@
-import { Publisher } from '@pact-foundation/pact';
+import { execFile } from 'child_process';
 import * as git from 'git-rev-sync';
 import * as path from 'path';
+import { promisify } from 'util';
 
 import { getConfigValue } from '../../../configuration';
 import {
@@ -23,19 +24,17 @@ const publish = async (): Promise<void> => {
       // @ts-ignore
       getConfigValue(PACT_CONSUMER_VERSION) : git.short();
 
-    const opts = {
-      consumerVersion,
-      pactBroker,
-      pactBrokerPassword: getConfigValue(PACT_BROKER_PASSWORD),
-      pactBrokerUsername: getConfigValue(PACT_BROKER_USERNAME),
-      pactFilesOrDirs: [
-        path.resolve(__dirname, '../pacts/')
-      ],
-      tags: [pactTag]
-    };
+    const args = [
+      'publish',
+      path.resolve(__dirname, '../pacts/'),
+      '--broker-base-url', pactBroker,
+      '--broker-username', getConfigValue(PACT_BROKER_USERNAME),
+      '--broker-password', getConfigValue(PACT_BROKER_PASSWORD),
+      '--consumer-app-version', consumerVersion,
+      '--tag', pactTag
+    ];
 
-    const publisher = new Publisher(opts);
-    await publisher.publishPacts();
+    await promisify(execFile)('pact-broker', args);
 
     console.log('Pact contract publishing complete!');
     console.log('');

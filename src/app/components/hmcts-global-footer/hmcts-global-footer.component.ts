@@ -10,6 +10,7 @@ import { Helper, Navigation } from '../../containers/footer/footer.model';
 export class HmctsGlobalFooterComponent {
   @Input() public help: Helper;
   @Input() public navigation: Navigation;
+  @Input() public userEmail: string | null;
   public trackByFooterNavItem(_index: number, item: any): string | number {
     return item?.id || item?.text || _index;
   }

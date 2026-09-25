@@ -10,8 +10,8 @@
                   <div id="event-name-hint" class="govuk-hint">
                         Enter at least 3 characters to begin filtering by name or email address
                   </div>
-                  <input class="govuk-input" formControlName="nameFilter" [matAutocomplete]="autoComplete"
-                        (blur)="onBlur($event)" aria-label="Filter by name">
+                  <input id="event-name" class="govuk-input" formControlName="nameFilter" [matAutocomplete]="autoComplete"
+                        (blur)="onBlur($event)" aria-describedby="event-name-hint">
                   <mat-autocomplete #autoComplete="matAutocomplete" [displayWith]="displayJudicialUser"
                         [hidden]="searchTerm.length < 3">
                         <div [ngClass]="{'hide-autocomplete': !showAutocomplete}">

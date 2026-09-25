@@ -96,7 +96,7 @@
                       @if (regulators.controls[i].get('regulatorName')) {
                         <div class="govuk-body govuk-!-margin-top-4"
                           [ngClass]="{'govuk-form-group--error': fieldHasErrorMessage('regulator-name' + i)}">
-                          <label class="govuk-label govuk-!-font-weight-bold" for="'regulator-name' + i">
+                          <label class="govuk-label govuk-!-font-weight-bold" [for]="'regulator-name' + i">
                             Enter the name of the professional body or regulator
                           </label>
                           @if (fieldHasErrorMessage('regulator-name' + i)) {

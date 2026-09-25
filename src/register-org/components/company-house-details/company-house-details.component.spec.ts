@@ -102,6 +102,18 @@ describe('CompanyHouseDetailsComponent', () => {
     });
   });
 
+  it('should allow company numbers starting with other prefixes', () => {
+    ['IP123456', 'SP123456', 'IC123456', 'SI123456', 'NP123456', 'NV123456', 'RC123456', 'SR123456', 'NR123456', 'NO123456'].forEach((companyHouseNumber) => {
+      component.companyHouseFormGroup.get('companyName').setValue('Company Name');
+      component.companyHouseFormGroup.get('companyHouseNumber').setValue(companyHouseNumber);
+      component.onContinue();
+
+      expect(component.companyNumberError).toBeNull();
+      expect(component.validationErrors.length).toEqual(0);
+      expect(component.registrationData.companyHouseNumber).toEqual(companyHouseNumber);
+    });
+  });
+
   it('should back link navigate to the check your answers page', () => {
     spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
       previousNavigation: {

@@ -37,7 +37,7 @@ export interface AppState {
 
 export const initialState: AppState = {
   allNavItems: AppConstants.ROLES_BASED_NAV,
-  pageTitle: '',
+  pageTitle: AppUtils.DEFAULT_PAGE_TITLE,
   userNav: AppConstants.USER_NAV,
   navItems: [],
   headerTitle: { regOrg: AppConstants.REG_ORG_TITLE, manageOrg: AppConstants.MANAGE_ORG_TITLE },

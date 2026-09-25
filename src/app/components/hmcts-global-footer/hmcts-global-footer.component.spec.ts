@@ -36,4 +36,18 @@ describe('HmctsGlobalFooterComponent', () => {
   it('should be created by angular', () => {
     expect(fixture).not.toBeNull();
   });
+
+  it('should display the logged-in user email when provided', () => {
+    component.userEmail = 'user@example.com';
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.textContent).toContain('Logged in as: user@example.com');
+  });
+
+  it('should not display the logged-in user label without an email', () => {
+    component.userEmail = null;
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.textContent).not.toContain('Logged in as:');
+  });
 });

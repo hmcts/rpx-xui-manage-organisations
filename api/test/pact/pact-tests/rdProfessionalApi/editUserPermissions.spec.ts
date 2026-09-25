@@ -68,7 +68,7 @@ describe('RD Professional API', () => {
 
       const taskUrl: string = `${pactSetUp.provider.mockService.baseUrl}/refdata/external/v1/organisations/users/` + userId;
       const response = await editUserPermissions(taskUrl, mockRequest as any);
-      const responseDto = response.data as EditUserPermissionsDto;
+      const responseDto: EditUserPermissionsDto = <EditUserPermissionsDto>response.data;
       assertResponse(responseDto);
       await pactSetUp.provider.verify();
     });

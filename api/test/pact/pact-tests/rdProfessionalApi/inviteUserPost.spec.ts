@@ -57,7 +57,7 @@ describe('RD Professional API', () => {
     it('returns the correct response', async () => {
       const taskUrl: string = `${pactSetUp.provider.mockService.baseUrl}/refdata/external/v1/organisations/users/`;
       const response = await inviteUser(taskUrl, mockRequest as any);
-      const responseDto = response.data as InviteUserResponse;
+      const responseDto: InviteUserResponse = <InviteUserResponse>response.data;
       assertResponse(responseDto);
       await pactSetUp.provider.verify();
     });

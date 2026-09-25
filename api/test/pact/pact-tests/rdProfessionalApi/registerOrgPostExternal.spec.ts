@@ -83,7 +83,7 @@ describe('Register External Organisation', () => {
       const taskUrl: string = `${pactSetUp.provider.mockService.baseUrl}/refdata/external/v1/organisations`;
       const response = await registerOrganisationExternalV1(taskUrl, mockRequest as any);
       expect(response.status).to.equal(201);
-      const responseDto = response.data as OrganisationCreatedResponse;
+      const responseDto: OrganisationCreatedResponse = <OrganisationCreatedResponse> response.data;
       assertResponse(responseDto);
       await pactSetUp.provider.verify();
     });

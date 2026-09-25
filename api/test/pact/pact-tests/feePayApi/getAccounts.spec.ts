@@ -55,7 +55,7 @@ describe('Payment API interaction for get account', () => {
       const taskUrl: string = `${pactSetUp.provider.mockService.baseUrl}/accounts/` + accountId;
 
       const response = await getAccountFeeAndPayApi(taskUrl);
-      const responseDto = response.data as FeeAccount;
+      const responseDto: FeeAccount = <FeeAccount>response.data;
       assertResponse(responseDto);
       await pactSetUp.provider.verify();
     });

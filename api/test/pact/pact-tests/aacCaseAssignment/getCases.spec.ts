@@ -46,7 +46,7 @@ describe('Get cases from acc ', () => {
       const caseUrl: string = `${pactSetUp.provider.mockService.baseUrl}/case-assignments?case_ids=[123456789]`;
 
       const response = await getCases(caseUrl);
-      const responseDto = response.data.case_assignments as CCDRawCaseUserModel[];
+      const responseDto: CCDRawCaseUserModel[] = <CCDRawCaseUserModel[]>response.data.case_assignments;
       assertResponse(responseDto);
       await pactSetUp.provider.verify();
     });

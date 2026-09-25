@@ -67,7 +67,7 @@ describe('RD Professional API', () => {
       const taskUrl: string = `${pactSetUp.provider.mockService.baseUrl}/refdata/external/v1/organisations/users/` + userId;
 
       const response = await suspendUser(taskUrl, mockRequest as any);
-      const responseDto = response.data as SuspendUserReponseDto;
+      const responseDto: SuspendUserReponseDto = <SuspendUserReponseDto>response.data;
       assertResponse(responseDto);
       await pactSetUp.provider.verify();
     });

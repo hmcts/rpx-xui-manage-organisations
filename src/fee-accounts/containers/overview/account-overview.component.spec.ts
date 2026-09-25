@@ -75,4 +75,8 @@ describe('OrganisationAccountsComponent', () => {
     expect(component.dependanciesSubscription.unsubscribe).toHaveBeenCalled();
     expect(feeStore.dispatch).toHaveBeenCalledWith(new fromAccountStore.LoadFeeAccountResetState());
   });
+
+  it('should build a stable key for a fee account error', () => {
+    expect(component.trackByFeeAccountError(2, 'Unable to load account')).toBe('Unable to load account#2');
+  });
 });

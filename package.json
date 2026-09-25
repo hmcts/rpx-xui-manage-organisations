@@ -213,8 +213,8 @@
     "webpack-source-map-support": "^2.0.1"
   },
   "resolutions": {
-    "@angular/cdk": "16.2.0",
-    "@angular/material": "16.2.0",
+    "@angular/cdk": "16.2.14",
+    "@angular/material": "16.2.14",
     "@stryker-mutator/api": "^3.0.1",
     "@stryker-mutator/core": "^3.0.1",
     "@stryker-mutator/html-reporter": "^3.0.1",

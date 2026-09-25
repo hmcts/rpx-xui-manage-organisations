@@ -7,14 +7,14 @@
       <fieldset class="govuk-fieldset" aria-describedby="regulator-details">
         <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
           @if (regulatorType === regulatorTypeEnum.Individual) {
-            <span>
+            <h1 class="govuk-fieldset__heading">
               What regulator are you (as an individual) registered with?
-            </span>
+            </h1>
           }
           @if (regulatorType === regulatorTypeEnum.Organisation) {
-            <span>
+            <h1 class="govuk-fieldset__heading">
               Who is your organisation registered with?
-            </span>
+            </h1>
           }
         </legend>
         <hr class="govuk-!-margin-top-0">

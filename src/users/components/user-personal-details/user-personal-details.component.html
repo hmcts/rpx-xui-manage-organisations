@@ -1,4 +1,4 @@
-<h1 class="govuk-heading-m">User Details</h1>
+<h2 class="govuk-heading-m">User Details</h2>
 
 @if (inviteMode) {
 <p class="govuk-caption-m">Add details of the user you want to invite</p>
@@ -6,7 +6,7 @@
   @if (personalDetailForm) {
   <form [formGroup]="personalDetailForm">
     <xuilib-gov-uk-form-group-wrapper [group]="'personalDetailForm'" [config]="{
-        key: 'firstName'
+        key: 'firstName', legend: 'First name'
       }">
       <xuilib-gov-uk-input [config]="{
           label: 'First name',
@@ -22,7 +22,7 @@
     </xuilib-gov-uk-form-group-wrapper>
 
     <xuilib-gov-uk-form-group-wrapper [group]="'personalDetailForm'" [config]="{
-        key: 'lastName'
+        key: 'lastName', legend: 'Last name'
       }">
       <xuilib-gov-uk-input [config]="{
           label: 'Last name',
@@ -37,7 +37,7 @@
     </xuilib-gov-uk-form-group-wrapper>
 
     <xuilib-gov-uk-form-group-wrapper [group]="'personalDetailForm'" [config]="{
-        key: 'email'
+        key: 'email', legend: 'Email address'
       }">
       <xuilib-gov-uk-input [config]="{
           label: 'Email address',

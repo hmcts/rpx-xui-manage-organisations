@@ -1,5 +1,5 @@
 import { AfterViewInit, Component } from '@angular/core';
-import { Accordion } from 'govuk-frontend';
+import { Accordion, isSupported } from 'govuk-frontend';
 
 @Component({
   selector: 'app-solicitor-profile-content',
@@ -16,10 +16,18 @@ export class SolicitorProfileContentComponent implements AfterViewInit {
   };
 
   ngAfterViewInit(): void {
+    if (!isSupported()) {
+      return;
+    }
+
     const accordion1 = document.getElementById('solicitor-profile-accordion');
-    new Accordion(accordion1, this.accordianConfig).init();
+    if (accordion1) {
+      new Accordion(accordion1, this.accordianConfig).init();
+    }
 
     const accordion2 = document.getElementById('additional-access-accordion');
-    new Accordion(accordion2, this.accordianConfig).init();
+    if (accordion2) {
+      new Accordion(accordion2, this.accordianConfig).init();
+    }
   }
 }

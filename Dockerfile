@@ -50,4 +50,4 @@ COPY --from=build --chown=hmcts:hmcts /opt/app/config ./config
 
 USER hmcts
 EXPOSE 3000
-CMD [ "yarn", "start" ]
+CMD [ "node", "--enable-source-maps", "./dist/rpx-xui-manage-organisations/api/server.bundle.js" ]

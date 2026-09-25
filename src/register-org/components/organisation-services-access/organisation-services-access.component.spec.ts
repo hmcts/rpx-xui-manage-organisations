@@ -78,7 +78,21 @@ describe('OrganisationServicesAccessComponent', () => {
     fixture.detectChanges();
     component.onContinue();
     expect(component.validationErrors.length).toEqual(0);
+    expect(component.registrationData.services).toContain({ key: 'AAA7', value: 'Damages' });
     expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'payment-by-account']);
+  });
+
+  it('should ignore an unknown service key', () => {
+    component.selectedServices = [];
+
+    component.onServicesSelectionChange({
+      target: {
+        checked: true,
+        value: 'UNKNOWN'
+      }
+    });
+
+    expect(component.selectedServices).toEqual([]);
   });
 
   it('should remove a service when the checkbox is unchecked', () => {

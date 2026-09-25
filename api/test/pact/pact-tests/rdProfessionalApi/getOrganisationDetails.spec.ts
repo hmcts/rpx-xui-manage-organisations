@@ -45,7 +45,7 @@ describe('Get Organisation Details from RDProfessionalAPI ', () => {
       const taskUrl: string = `${pactSetUp.provider.mockService.baseUrl}/refdata/external/v1/organisations`;
 
       const response = await getOrganisationDetails(taskUrl);
-      const responseDto: Organisation = <Organisation>response.data;
+      const responseDto = response.data as Organisation;
       assertResponse(responseDto);
       await pactSetUp.provider.verify();
     });

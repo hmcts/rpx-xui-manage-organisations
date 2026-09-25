@@ -1,4 +1,4 @@
-FROM hmctsprod.azurecr.io/base/node:24-alpine AS base
+FROM hmctsprod.azurecr.io/base/node:24-alpine AS dependencies
 LABEL maintainer="HMCTS Expert UI <https://github.com/hmcts>"
 
 ENV PUPPETEER_SKIP_DOWNLOAD=1 \
@@ -16,22 +16,38 @@ ENV PUPPETEER_SKIP_DOWNLOAD=1 \
 USER root
 RUN corepack enable
 USER hmcts
+WORKDIR /opt/app
 
-COPY --chown=hmcts:hmcts .yarn ./.yarn
-COPY --chown=hmcts:hmcts package.json yarn.lock .yarnrc.yml tsconfig.json ./
+COPY --chown=hmcts:hmcts .yarn/ ./.yarn/
+COPY --chown=hmcts:hmcts package.json yarn.lock .yarnrc.yml ./
 COPY --chown=hmcts:hmcts api/package.json ./api/package.json
 
 RUN yarn install --immutable --mode=skip-build
 
-FROM base AS build
+FROM dependencies AS build
+WORKDIR /opt/app
 
 COPY --chown=hmcts:hmcts . .
 
 RUN yarn build
 
-FROM base AS runtime
-COPY --from=build --chown=hmcts:hmcts $WORKDIR/dist ./dist
-COPY --from=build --chown=hmcts:hmcts $WORKDIR/config ./config
+FROM hmctsprod.azurecr.io/base/node:24-alpine AS runtime
+LABEL maintainer="HMCTS Expert UI <https://github.com/hmcts>"
+
+USER root
+RUN corepack enable
+USER hmcts
+WORKDIR /opt/app
+
+COPY --chown=hmcts:hmcts .yarn/ ./.yarn/
+COPY --chown=hmcts:hmcts package.json yarn.lock .yarnrc.yml ./
+COPY --chown=hmcts:hmcts api/package.json ./api/package.json
+
+RUN yarn workspaces focus rpx-xui-manage-organisations --production && yarn cache clean
+
+COPY --from=build --chown=hmcts:hmcts /opt/app/dist ./dist
+COPY --from=build --chown=hmcts:hmcts /opt/app/config ./config
+
 USER hmcts
 EXPOSE 3000
-CMD [ "yarn", "start" ]
+CMD [ "node", "--enable-source-maps", "./dist/rpx-xui-manage-organisations/api/server.bundle.js" ]

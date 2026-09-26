@@ -162,7 +162,7 @@ export const getXuiNodeMiddleware = () => {
     logoutURL: idamApiPath,
     responseTypes: ['code'],
     routeCredential,
-    scope: 'profile openid roles manage-user create-user manage-roles',
+    scope: 'openid profile roles manage-user create-user',
     sessionKey: 'xui-mo-webapp',
     tokenEndpointAuthMethod: 'client_secret_post',
     tokenURL: tokenUrl,

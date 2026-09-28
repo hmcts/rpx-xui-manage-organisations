@@ -1,9 +1,3 @@
-$govuk-global-styles: true;
-$hmcts-images-path: "/assets/images/";
-
-// Width of main container
-$hmcts-page-width: 1220px;
-
 // TODO temporary solution to extend the width of the page until is addressed through govuk-frontend"
 body .govuk-width-container,
 #content {
@@ -18,9 +12,6 @@ body .govuk-width-container,
 #content {
   padding-left: 20px;
 }
-
-@import "govuk-frontend/govuk/all";
-@import "@hmcts/frontend/all";
 
 // gov uk frond-end template is not installed on this
 .js-hidden {

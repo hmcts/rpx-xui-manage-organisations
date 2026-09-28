@@ -53,10 +53,15 @@ export class OrganisationServicesAccessComponent extends RegisterComponent imple
 
   public onServicesSelectionChange(event: any): void {
     if (event.target.checked) {
-      this.selectedServices.push({ key: event.target.value, value: event.target.id });
+      const selectedService = this.services.find((service) => service.key === event.target.value);
+      if (selectedService) {
+        this.selectedServices.push({ key: selectedService.key, value: selectedService.value });
+      }
     } else {
       const serviceIndex = this.selectedServices.findIndex((service) => service.key === event.target.value);
-      this.selectedServices.splice(serviceIndex, 1);
+      if (serviceIndex >= 0) {
+        this.selectedServices.splice(serviceIndex, 1);
+      }
     }
     this.showOtherServicesInput = this.selectedServices.some((service) => service.key === 'NONE');
   }

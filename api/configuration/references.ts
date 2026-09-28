@@ -73,7 +73,7 @@ export const LINKS_MANAGE_CASES_LINK = 'links.manageCaseLink';
 export const LINKS_MANAGE_ORG_LINK = 'links.manageOrgLink';
 
 // REDIS CONFIG
-export const REDISCLOUD_URL = 'secrets.rpx.mo-webapp-redis-connection-string';
+export const REDISCLOUD_URL = 'secrets.rpx.mo-webapp-managed-redis-connection-string';
 export const REDIS_TTL = 'redis.ttl';
 export const REDIS_KEY_PREFIX = 'redis.prefix';
 

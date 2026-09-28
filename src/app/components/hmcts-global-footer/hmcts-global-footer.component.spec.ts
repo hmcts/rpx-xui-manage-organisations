@@ -44,4 +44,22 @@ describe('HmctsGlobalFooterComponent', () => {
     expect(crown.getAttribute('aria-hidden')).toBe('true');
     expect(crown.getAttribute('viewBox')).toBe('0 0 64 60');
   });
+
+  it('should display the logged-in user email when provided', () => {
+    component.userEmail = 'user@example.com';
+    fixture.detectChanges();
+
+    const userLabel = fixture.nativeElement.querySelector('.govuk-body-s');
+    const crown = fixture.nativeElement.querySelector('.govuk-footer__crown');
+
+    expect(userLabel.textContent).toContain('Logged in as: user@example.com');
+    expect(userLabel.nextElementSibling).toBe(crown);
+  });
+
+  it('should not display the logged-in user label without an email', () => {
+    component.userEmail = null;
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.textContent).not.toContain('Logged in as:');
+  });
 });

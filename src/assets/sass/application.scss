@@ -2,8 +2,10 @@
 // in the govuk frontend toolkit"s url-helpers partial
 @use "govuk-frontend/govuk/all" as * with (
 $govuk-global-styles: true,
-$govuk-compatibility-govukfrontendtoolkit: false
+$govuk-compatibility-govukfrontendtoolkit: false,
+$govuk-page-width: 1220px
 );
+$hmcts-page-width: 1220px;
 @use "patterns/check-your-answers" as *;
 @use "patterns/task-list" as *;
 @use "patterns/related-items" as *;
@@ -20,7 +22,6 @@ $govuk-compatibility-govukfrontendtoolkit: false
 $path: "/public/images/";
 
 // Width of main container
-$hmcts-page-width: 1220px;
 
 // Import GOV.UK Frontend
 
@@ -161,7 +162,9 @@ html {
 
 }
 
-
+.govuk-footer {
+  border-top: 10px solid govuk-colour("blue");
+}
 
 // Panel (temp)
 

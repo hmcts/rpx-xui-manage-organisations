@@ -1,6 +1,9 @@
 // Path to assets for use with the file-url function
 // in the govuk frontend toolkit"s url-helpers partial
-@use "govuk-frontend/govuk/all" as *;
+@use "govuk-frontend/govuk/all" as * with (
+$govuk-global-styles: true,
+$govuk-compatibility-govukfrontendtoolkit: false
+);
 @use "patterns/check-your-answers" as *;
 @use "patterns/task-list" as *;
 @use "patterns/related-items" as *;
@@ -15,10 +18,6 @@
 }
 
 $path: "/public/images/";
-
-// global styles for <a> and <p> tags
-$govuk-global-styles: true;
-
 
 // Width of main container
 $hmcts-page-width: 1220px;

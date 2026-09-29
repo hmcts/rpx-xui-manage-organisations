@@ -1,0 +1,141 @@
+[
+  {
+    "heading": "Manage your organisation",
+    "links": [
+      {
+        "text": "Organisation",
+        "href": "/organisation"
+      },
+      {
+        "text": "Update PBA numbers",
+        "href": "/organisation/update-pba-numbers"
+      },
+      {
+        "text": "Users",
+        "href": "/users"
+      },
+      {
+        "text": "Invite a user",
+        "href": "/users/invite-user"
+      },
+      {
+        "text": "Manage a user",
+        "href": "/users/manage"
+      },
+      {
+        "text": "Fee accounts",
+        "href": "/fee-accounts"
+      },
+      {
+        "text": "Cases",
+        "href": "/cases"
+      },
+      {
+        "text": "Unassigned cases",
+        "href": "/unassigned-cases"
+      },
+      {
+        "text": "Assigned cases",
+        "href": "/assigned-cases"
+      }
+    ]
+  },
+  {
+    "heading": "Register an organisation",
+    "links": [
+      {
+        "text": "Before you start",
+        "href": "/register-org-new/register"
+      },
+      {
+        "text": "Organisation name and Companies House number",
+        "href": "/register-org-new/company-house-details"
+      },
+      {
+        "text": "Organisation type",
+        "href": "/register-org-new/organisation-type"
+      },
+      {
+        "text": "Regulatory organisation",
+        "href": "/register-org-new/regulatory-organisation-type"
+      },
+      {
+        "text": "Document exchange reference",
+        "href": "/register-org-new/document-exchange-reference"
+      },
+      {
+        "text": "Document exchange details",
+        "href": "/register-org-new/document-exchange-reference-details"
+      },
+      {
+        "text": "Services access",
+        "href": "/register-org-new/organisation-services-access"
+      },
+      {
+        "text": "Payment by account",
+        "href": "/register-org-new/payment-by-account"
+      },
+      {
+        "text": "Payment by account details",
+        "href": "/register-org-new/payment-by-account-details"
+      },
+      {
+        "text": "Registered address",
+        "href": "/register-org-new/registered-address/external"
+      },
+      {
+        "text": "Individual registered with a regulator",
+        "href": "/register-org-new/individual-registered-with-regulator"
+      },
+      {
+        "text": "Individual regulator details",
+        "href": "/register-org-new/individual-registered-with-regulator-details"
+      },
+      {
+        "text": "Contact details",
+        "href": "/register-org-new/contact-details"
+      },
+      {
+        "text": "Check your answers",
+        "href": "/register-org-new/check-your-answers"
+      },
+      {
+        "text": "Registration submitted",
+        "href": "/register-org-new/registration-submitted"
+      }
+    ]
+  },
+  {
+    "heading": "Help and legal information",
+    "links": [
+      {
+        "text": "Accessibility statement",
+        "href": "/accessibility"
+      },
+      {
+        "text": "Cookies",
+        "href": "/cookies"
+      },
+      {
+        "text": "Privacy policy",
+        "href": "/privacy-policy"
+      },
+      {
+        "text": "Terms and conditions",
+        "href": "/terms-and-conditions"
+      },
+      {
+        "text": "Terms and conditions for registering another organisation",
+        "href": "/terms-and-conditions-register-other-org"
+      },
+      {
+        "text": "Get help",
+        "href": "/get-help"
+      },
+      {
+        "text": "Site map",
+        "href": "/sitemap"
+      }
+    ]
+  }
+]

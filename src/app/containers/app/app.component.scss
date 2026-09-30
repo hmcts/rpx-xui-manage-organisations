@@ -1,18 +1,24 @@
 $govuk-global-styles: true;
 $hmcts-images-path: "/assets/images/";
 
-// Width of main container
-$hmcts-page-width: 1220px;
-
 // TODO temporary solution to extend the width of the page until is addressed through govuk-frontend"
 body .govuk-width-container,
 #content {
   max-width: 1220px;
   padding-right: 30px;
   padding-left: 20px;
-  max-width: 1860px;
   min-width: 900px;
   margin: auto;
+}
+
+// The production footer uses a full-width container, unlike the main page content.
+body .govuk-footer .govuk-width-container {
+  max-width: none;
+  min-width: 0;
+  padding-right: 0;
+  padding-left: 0;
+  margin-right: 26px;
+  margin-left: 26px;
 }
 
 #content {

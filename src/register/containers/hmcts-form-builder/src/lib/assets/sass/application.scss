@@ -1,5 +1,6 @@
 // Path to assets for use with the file-url function
 // in the govuk frontend toolkit"s url-helpers partial
+@use "govuk-frontend/govuk/all" as *;
 @use "patterns/check-your-answers" as *;
 @use "patterns/task-list" as *;
 @use "patterns/related-items" as *;

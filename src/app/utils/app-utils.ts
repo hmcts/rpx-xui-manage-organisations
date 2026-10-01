@@ -82,102 +82,105 @@ export class AppUtils {
     return is24Hour ? formatDate(date, 'HH:mm', 'en-UK') : formatDate(date, 'h:mm a', 'en-UK').toLowerCase();
   }
 
+  public static readonly DEFAULT_PAGE_TITLE = 'Manage Organisation - HM Courts & Tribunals Service - GOV.UK';
+
   public static setPageTitle(url: string): string {
-    /**
-     * it sets correct page titles based on the url.
-     */
-    if (url.indexOf('register-org') !== -1 || url.indexOf('register-org-new') !== -1) {
-      return AppUtils.getPageTitleForRegisterOrganisation(url);
+    // Match path segments only: query parameters and fragments are not page identities.
+    const path = url.split(/[?#]/)[0].replace(/^\/+|\/+$/g, '');
+    if (/^register-org(?:-new)?(?:\/|$)/.test(path)) {
+      return AppUtils.getPageTitleForRegisterOrganisation(path);
     }
-    if (url.indexOf('invite-user') !== -1) {
-      return 'Manage organisation - Invite user - GOV.UK';
+    const titles: Record<string, string> = {
+      organisation: 'Organisation details',
+      'organisation/update-pba-numbers': 'Update PBA accounts',
+      'organisation/update-pba-numbers-check': 'Check your PBA accounts',
+      users: 'Users',
+      'users/invite-user': 'Invite user',
+      'users/invite-user-success': 'User invitation sent',
+      'users/updated-user-success': 'User updated',
+      'users/manage': 'Manage user',
+      'fee-accounts': 'Payment by account',
+      'fee-accounts/account': 'Account overview',
+      cases: 'Cases',
+      'assigned-cases': 'Assigned cases',
+      'unassigned-cases': 'Unassigned cases',
+      'accept-terms-and-conditions': 'Accept terms and conditions',
+      'service-down': 'Sorry, there is a problem with the service',
+      'access-denied': 'You cannot use Manage Organisations with this account',
+      cookies: 'Cookies',
+      'privacy-policy': 'Privacy policy',
+      'terms-and-conditions': 'Terms and conditions',
+      'terms-and-conditions-register-other-org': 'Terms and conditions for registering an organisation',
+      accessibility: 'Accessibility statement',
+      'get-help': 'Get help',
+      'idle-sign-out': 'We have signed you out',
+      'style-guide': 'Style guide',
+      profile: 'Profile'
+    };
+    let title = titles[path];
+    if (/^users\/user\/[^/]+$/.test(path)) {
+      title = 'User details';
+    } else if (/^users\/user\/[^/]+\/editpermission$/.test(path)) {
+      title = 'Edit user permissions';
+    } else if (/^users\/user\/[^/]+\/manage$/.test(path)) {
+      title = 'Manage user';
+    } else if (/^users\/user\/[^/]+\/(editpermission-failure|manage-user-failure)$/.test(path)) {
+      title = 'Sorry, there is a problem with the service';
+    } else if (/^fee-accounts\/account\/[^/]+$/.test(path)) {
+      title = 'Account summary';
+    } else if (/^fee-accounts\/account\/[^/]+\/transactions$/.test(path)) {
+      title = 'Account transactions';
+    } else if (/^(cases|assigned-cases|unassigned-cases)\//.test(path)) {
+      const step = path.split('/')[1];
+      const caseTitles: Record<string, string> = {
+        'case-share': 'Share cases',
+        'case-share-confirm': 'Check and confirm your case selection',
+        'case-share-complete': 'Case update results',
+        'accept-cases': 'Accept cases'
+      };
+      title = caseTitles[step];
     }
-    if (url.indexOf('profile') !== -1) {
-      return 'Manage organisation - Profile - GOV.UK';
-    }
-    if (url.indexOf('organisation') !== -1) {
-      return 'Manage organisation - Organisation details - GOV.UK';
-    }
-    if (url.indexOf('users') !== -1) {
-      return 'Manage organisation - Users - GOV.UK';
-    }
-    if (url.indexOf('unassigned-cases') !== -1) {
-      return 'Manage organisation - Unassigned cases - GOV.UK';
-    }
-    if (url.indexOf('assigned-cases') !== -1) {
-      return 'Manage organisation - Assigned cases - GOV.UK';
-    }
-    return 'Manage organisation - GOV.UK';
+    return AppUtils.formatPageTitle(title);
   }
 
   public static getPageTitleForRegisterOrganisation(url: string): string {
-    if (url.indexOf('register-org-new/register') !== -1) {
-      return 'Register organisation - Register - GOV.UK';
-    }
-    if (url.indexOf('register-org-new/organisation-type') !== -1) {
-      return 'Register organisation - Organisation type - GOV.UK';
-    }
-    if (url.indexOf('register-org-new/company-house-details') !== -1) {
-      return 'Register organisation - Company house details - GOV.UK';
-    }
-    if (url.indexOf('register-org-new/registered-address') !== -1) {
-      return 'Register organisation - Registered address - GOV.UK';
-    }
-    if (url.indexOf('register-org-new/document-exchange-reference') !== -1) {
-      return 'Register organisation - Document exchange reference - GOV.UK';
-    }
-    if (url.indexOf('register-org-new/regulatory-organisation-type') !== -1) {
-      return 'Register organisation - Organisation regulators - GOV.UK';
-    }
-    if (url.indexOf('register-org-new/organisation-services-access') !== -1) {
-      return 'Register organisation - Services to access - GOV.UK';
-    }
-    if (url.indexOf('register-org-new/payment-by-account') !== -1) {
-      return 'Register organisation - Payment by account - GOV.UK';
-    }
-    if (url.indexOf('register-org-new/contact-details') !== -1) {
-      return 'Register organisation - Contact details - GOV.UK';
-    }
-    if (url.indexOf('register-org-new/individual-registered-with-regulator') !== -1) {
-      return 'Register organisation - Individual regulators - GOV.UK';
-    }
-    if (url.indexOf('register-org-new/check-your-answers') !== -1) {
-      return 'Register organisation - Check your answers - GOV.UK';
-    }
-    if (url.indexOf('register-org/register/organisation-name') !== -1) {
-      return 'Register organisation - Organisation name - GOV.UK';
-    }
-    if (url.indexOf('register-org/register/organisation-address') !== -1) {
-      return 'Register organisation - Organisation address - GOV.UK';
-    }
-    if (url.indexOf('register-org/register/organisation-pba') !== -1) {
-      return 'Register organisation - PBA - GOV.UK';
-    }
-    if (url.indexOf('register-org/register/organisation-have-dx') !== -1) {
-      return 'Register organisation - DX - GOV.UK';
-    }
-    if (url.indexOf('register-org/register/organisation-dx') !== -1) {
-      return 'Register organisation - DX reference - GOV.UK';
-    }
-    if (url.indexOf('register-org/register/haveSra') !== -1) {
-      return 'Register organisation - SRA - GOV.UK';
-    }
-    if (url.indexOf('register-org/register/sraNumber') !== -1) {
-      return 'Register organisation - SRA number - GOV.UK';
-    }
-    if (url.indexOf('register-org/register/name') !== -1) {
-      return 'Register organisation - Name - GOV.UK';
-    }
-    if (url.indexOf('register-org/register/email-address') !== -1) {
-      return 'Register organisation - Email - GOV.UK';
-    }
-    if (url.indexOf('register-org/register/check') !== -1) {
-      return 'Register organisation - Check answers - GOV.UK';
-    }
-    if (url.indexOf('register-org/register/confirmation') !== -1) {
-      return 'Register organisation - Confirmation - GOV.UK';
-    }
-    return 'Register organisation - Register - GOV.UK';
+    const segments = url.split(/[?#]/)[0].replace(/^\/+|\/+$/g, '').split('/');
+    const step = segments[0] === 'register-org' && segments[1] === 'register'
+      ? segments[2] || 'register' : segments[1] || 'register';
+    const titles: Record<string, string> = {
+      register: 'Register organisation',
+      'organisation-type': 'Organisation type',
+      'company-house-details': 'Company house details',
+      'registered-address': 'Registered address',
+      'document-exchange-reference': 'Do you have a document exchange reference?',
+      'document-exchange-reference-details': 'Document exchange reference details',
+      'regulatory-organisation-type': 'Organisation regulators',
+      'organisation-services-access': 'Services to access',
+      'payment-by-account': 'Do you have payment by account numbers?',
+      'payment-by-account-details': 'Payment by account details',
+      'contact-details': 'Contact details',
+      'individual-registered-with-regulator': 'Are you registered with a regulator?',
+      'individual-registered-with-regulator-details': 'Individual regulator details',
+      'check-your-answers': 'Check your answers',
+      'registration-submitted': 'Registration submitted',
+      'service-down': 'Sorry, there is a problem with the service',
+      'organisation-name': 'Organisation name',
+      'organisation-address': 'Organisation address',
+      'organisation-pba': 'PBA',
+      'organisation-have-dx': 'DX',
+      'organisation-dx': 'DX reference',
+      haveSra: 'SRA',
+      sraNumber: 'SRA number',
+      name: 'Name',
+      'email-address': 'Email',
+      check: 'Check answers',
+      confirmation: 'Registration submitted'
+    };
+    return AppUtils.formatPageTitle(titles[step] || 'Register organisation');
+  }
+
+  private static formatPageTitle(title?: string): string {
+    return title ? `${title} - ${AppUtils.DEFAULT_PAGE_TITLE}` : AppUtils.DEFAULT_PAGE_TITLE;
   }
 
   // 04-Sep-2019 - Author U Denduluri

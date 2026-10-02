@@ -14,7 +14,7 @@
       <p class="govuk-body">Use this page to find your way around Manage Organisation.</p>
 
       <nav aria-label="Site map">
-        @for (section of sections; track section.heading) {
+        @for (section of sections$ | async; track section.heading) {
           <section class="govuk-!-margin-bottom-7">
             <h2 class="govuk-heading-m">{{ section.heading }}</h2>
             <ul class="govuk-list">

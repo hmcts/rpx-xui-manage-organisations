@@ -40,6 +40,14 @@ describe('App routes', () => {
     }));
   });
 
+  it('should expose the sitemap route', () => {
+    const sitemapRoute = ROUTES.find((route) => route.path === 'sitemap');
+
+    expect(sitemapRoute).toEqual(jasmine.objectContaining({
+      path: 'sitemap'
+    }));
+  });
+
   it('should redirect unknown paths to home', () => {
     const wildcardRoute = ROUTES[ROUTES.length - 1];
 

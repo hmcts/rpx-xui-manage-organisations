@@ -1,3 +1,5 @@
+@use "govuk-frontend/govuk/base" as *;
+
 .jui-casefile-2 {
   display: grid;
   grid-template-columns: 260px auto 260px;

@@ -1,3 +1,5 @@
+@use "govuk-frontend/govuk/base" as *;
+
 .govuk-tabs__title {
   @include govuk-font($size: 19);
   margin-bottom: govuk-spacing(1);
@@ -35,7 +37,7 @@
 // JavaScript enabled
 .js-tabs-enabled .govuk-tabs {
 
-  @include mq($from: tablet) {
+  @include govuk-media-query($from: tablet) {
 
     .govuk-tabs__list {
       @include govuk-clearfix;

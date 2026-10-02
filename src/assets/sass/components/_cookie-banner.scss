@@ -1,4 +1,6 @@
 @use "sass:color";
+@use "govuk-frontend/govuk/base" as *;
+@use "govuk-frontend/govuk/objects/width-container" as width-container;
 .app-cookie-banner {
   @include govuk-font(16);
   @include govuk-text-colour;
@@ -17,7 +19,7 @@
 
 .app-cookie-banner__message {
   margin: 0;
-  @include govuk-width-container;
+  @include width-container.govuk-width-container;
 }
 
 @include govuk-media-query($media-type: print) {

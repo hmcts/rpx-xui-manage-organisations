@@ -1,3 +1,6 @@
+@use "govuk-frontend/govuk/base" as *;
+@use "../../sass/jui/settings/settings.general" as settings;
+
 /* ==========================================================================
    #DOCUMENT TREE
    ========================================================================== */
@@ -22,13 +25,13 @@
 
 
 .jui-tree__item--open .jui-tree__folder {
-  background-image: url(#{$jui-assets-path}icon-documents-folder-open.svg);
+  background-image: url(#{settings.$jui-assets-path}icon-documents-folder-open.svg);
   color: govuk-colour("black");
 }
 
 
 .jui-tree__folder {
-  background-image: url(#{$jui-assets-path}icon-documents-folder.svg);
+  background-image: url(#{settings.$jui-assets-path}icon-documents-folder.svg);
   background-repeat: no-repeat;
   background-size: 20px 16px;
   background-position: 15px;
@@ -53,7 +56,7 @@
 
 
 .jui-tree__doc-link {
-  background-image: url(#{$jui-assets-path}icon-documents-doc.svg);
+  background-image: url(#{settings.$jui-assets-path}icon-documents-doc.svg);
   background-repeat: no-repeat;
   background-size: 16px 20px;
   background-position: 45px 5px;

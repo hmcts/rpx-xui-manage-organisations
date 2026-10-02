@@ -1,7 +1,9 @@
+@use "../settings/settings.general" as settings;
+
 /* ==========================================================================
    #CONTAINER
    ========================================================================== */
 
 .jui-width-container {
-  @include jui-width-container;
+  @include settings.jui-width-container;
 }

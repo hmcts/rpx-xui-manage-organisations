@@ -1,3 +1,5 @@
+@use "govuk-frontend/govuk/base" as *;
+
 /* ==========================================================================
    #HEADER
    ========================================================================== */
@@ -28,7 +30,7 @@
   }
 
 
-  @include mq($from: tablet) {
+  @include govuk-media-query($from: tablet) {
 
     .jui-header__service {
       float: left;

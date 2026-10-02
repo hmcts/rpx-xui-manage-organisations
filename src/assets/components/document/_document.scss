@@ -1,3 +1,6 @@
+@use "govuk-frontend/govuk/base" as *;
+@use "../../sass/jui/settings/settings.general" as settings;
+
 /* ==========================================================================
    #DOCUMENT
    ========================================================================== */
@@ -13,7 +16,7 @@
 
 
 .jui-document__link {
-  background-image: url(#{$jui-assets-path}icon-document.svg);
+  background-image: url(#{settings.$jui-assets-path}icon-document.svg);
   background-repeat: no-repeat;
   background-size: 31px 40px;
   float: left;

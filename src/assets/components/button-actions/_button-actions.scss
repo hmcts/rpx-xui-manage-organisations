@@ -1,3 +1,5 @@
+@use "govuk-frontend/govuk/base" as *;
+
   .jui-button-actions {
     @include govuk-clearfix;
   }
@@ -6,7 +8,7 @@
   /* Style variants
      ========================================================================== */
 
-  @include mq($from: tablet) {
+  @include govuk-media-query($from: tablet) {
 
     .jui-button-actions__item--inline {
       float: left;

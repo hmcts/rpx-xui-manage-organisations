@@ -1,4 +1,4 @@
-@import "govuk-frontend/govuk/base";
+@use "govuk-frontend/govuk/base" as *;
 
 .govuk-grid-row {
   .govuk-grid-column-one-half {

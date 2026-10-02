@@ -1,3 +1,5 @@
+@use "govuk-frontend/govuk/base" as *;
+
 // This is a GOV.UK Publishing specific component that
 // can be seen at http://govuk-static.herokuapp.com/component-guide/related_items
 
@@ -262,13 +264,13 @@ mark.comment {
 
   @include govuk-font($size: 19);
 
-  @include mq($from: desktop) {
+  @include govuk-media-query($from: desktop) {
     display: table;
   }
 }
 
 .govuk-check-your-answers--pba-overview {
-  @include mq($from: desktop) {
+  @include govuk-media-query($from: desktop) {
     // to make focusOn of q&a line up horizontally (unless there is just one focusOn)
     width: 100%;
     // recommended for mostly short questions

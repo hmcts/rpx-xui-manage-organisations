@@ -1,5 +1,3 @@
-import 'source-map-support/register';
-
 import * as ejs from 'ejs';
 import * as express from 'express';
 import * as path from 'path';

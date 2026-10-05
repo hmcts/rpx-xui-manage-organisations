@@ -19,7 +19,14 @@
               "util",
               "@edium/fsm",
               "crypto-js",
-              "jwt-decode"
+              "jwt-decode",
+              "moment",
+              "reflect-metadata",
+              "lodash",
+              "lz-string",
+              "exceljs",
+              "file-saver",
+              "moment-timezone"
             ],
             "aot": true,
             "outputPath": {
@@ -41,6 +48,13 @@
             ],
             "scripts": [],
             "sourceMap": true,
+            "stylePreprocessorOptions": {
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
+            },
             "browser": "src/main.ts"
           },
           "configurations": {

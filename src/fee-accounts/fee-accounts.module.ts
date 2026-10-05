@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { RpxTranslationModule } from 'rpx-xui-translation';
 
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
@@ -29,6 +30,7 @@ export const COMPONENTS = [AccountOverviewComponent, AccountSummaryComponent, Ac
 
 @NgModule({ exports: [...fromContainers.containers],
   declarations: [...fromContainers.containers, ...COMPONENTS, DateFormatAtTimePipe], imports: [CommonModule,
+    RpxTranslationModule.forChild(),
     feeAccountsRouting,
     SharedModule,
     StoreModule.forFeature('feeAccounts', reducers),

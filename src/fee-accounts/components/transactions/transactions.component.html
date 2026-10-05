@@ -3,5 +3,5 @@
     [columnConfig]="columnConfig" [rows]="transactions" [firstCellIsHeader]="false" [caption]="''"
   ></app-govuk-table>
 } @else {
-  <p>No transactions found.</p>
+  <p>{{ 'No transactions found.' | rpxTranslate }}</p>
 }

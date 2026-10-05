@@ -1,0 +1,10 @@
+.hmcts-footer__licence {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+
+  .govuk-footer__licence-logo {
+    flex-shrink: 0;
+    margin: 0;
+  }
+}

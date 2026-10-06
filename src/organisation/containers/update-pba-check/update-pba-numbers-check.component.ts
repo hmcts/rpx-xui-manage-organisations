@@ -90,7 +90,6 @@ export class UpdatePbaNumbersCheckComponent implements OnInit, OnDestroy {
       this.organisationDetails = organisationDetails;
 
       if (!this.hasPendingChanges) {
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
         this.router.navigate(['/organisation/update-pba-numbers']).then(() => {});
       }
     });

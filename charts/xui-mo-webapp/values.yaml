@@ -96,6 +96,8 @@ nodejs:
         - google-analytics-key
         - name: mo-webapp-redis6-connection-string
           alias: mo-webapp-redis-connection-string
+        - name: mo-webapp-managed-redis-connection-string
+          alias: mo-webapp-managed-redis-connection-string
         - launch-darkly-client-id
         - system-user-name
         - system-user-password

@@ -4,6 +4,7 @@ import { handleDelete, handleGet, handlePost } from '../common/crudService';
 import { getConfigValue } from '../configuration';
 import { SERVICES_CCD_DATA_STORE_API_PATH, SERVICES_MCA_PROXY_API_PATH, SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references';
 import { EnhancedRequest } from '../models/enhanced-request.interface';
+import * as log4jui from '../lib/log4jui';
 import { ccdToUserDetails, prdToUserDetails } from './dtos/user-dto';
 import { CaseAssigneeMappingModel } from './models/case-assignee-mapping.model';
 import { SharedCase } from './models/case-share.model';
@@ -14,6 +15,7 @@ import { UserDetails } from './models/user-details.model';
 const prdUrl: string = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH);
 const ccdUrl: string = getConfigValue(SERVICES_MCA_PROXY_API_PATH);
 const ccdDsUrl: string = getConfigValue(SERVICES_CCD_DATA_STORE_API_PATH);
+const logger = log4jui.getLogger('case-share');
 
 export async function getUsers(req: EnhancedRequest, res: Response, next: NextFunction): Promise<Response> {
   try {
@@ -70,8 +72,12 @@ export async function acceptNewCases(req: EnhancedRequest, res: Response): Promi
     const { status, data }: {status: number, data: any} = await handlePost(path, postData, req);
     return res.status(status).send(data);
   } catch (err) {
-    console.log(err);
-    res.status(500);
+    logger.error('Failed to accept new cases', {
+      caseCount: caseIdsToAccept.length,
+      orgIdentifier,
+      error: err
+    });
+    return res.status(500).send({ message: 'Unable to accept new cases' });
   }
 }
 
@@ -80,6 +86,11 @@ export async function assignCases(req: EnhancedRequest, res: Response): Promise<
 
   // call share case api (the n call)
   const shareCasePromises: Promise<AxiosResponse>[] = doShareCase(req, shareCases);
+  logger.info('Assign cases request received', {
+    caseCount: shareCases.length,
+    shareRequestCount: shareCasePromises.length,
+    unshareRequestCount: countPendingUnshares(shareCases)
+  });
   // Process any rejected responses and handle case shares
   // @ts-ignore
   const allShareCaseResults = await Promise.allSettled([...shareCasePromises]);
@@ -113,6 +124,21 @@ export async function assignCases(req: EnhancedRequest, res: Response): Promise<
     }
   }
 
+  if (shareCaseRejections.rejectedCount > 0 || (unshareCaseRejection && unshareCaseRejection.rejectedCount > 0)) {
+    logger.error('Assign cases completed with rejected operations', {
+      caseIds: getCaseIds(shareCases),
+      shareRejectedCount: shareCaseRejections.rejectedCount,
+      unshareRejectedCount: unshareCaseRejection ? unshareCaseRejection.rejectedCount : 0
+    });
+  } else {
+    logger.info('Assign cases completed successfully', {
+      caseCount: shareCases.length,
+      caseIds: getCaseIds(shareCases),
+      shareRequestCount: shareCasePromises.length,
+      unshareRequestCount: countPendingUnshares(shareCases)
+    });
+  }
+
   // when none of the apis returned successfully
   if (shareCasePromises.length > 0 && shareCasePromises.length === shareCaseRejections.rejectedCount) {
     return res.status(500).send(shareCaseRejections.updatedErrorMessages);
@@ -121,6 +147,14 @@ export async function assignCases(req: EnhancedRequest, res: Response): Promise<
     return res.status(500).send(unshareCaseRejection.updatedErrorMessages);
   }
   return res.status(201).send(finalSharedCases && finalSharedCases.length > 0 ? finalSharedCases : updatedSharedCases);
+}
+
+function countPendingUnshares(shareCases: SharedCase[]): number {
+  return shareCases.reduce((count, sharedCase) => count + (sharedCase.pendingUnshares ? sharedCase.pendingUnshares.length : 0), 0);
+}
+
+function getCaseIds(shareCases: SharedCase[]): string[] {
+  return shareCases.map((sharedCase) => sharedCase.caseId).filter(Boolean);
 }
 
 function doShareCase(req: EnhancedRequest, shareCases: SharedCase[]): Promise<AxiosResponse>[] {

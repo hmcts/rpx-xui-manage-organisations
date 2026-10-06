@@ -17,7 +17,7 @@ export class UsersEffects {
     private readonly actions$: Actions,
     private readonly usersService: UsersService,
     private readonly loggerService: LoggerService,
-    private readonly appStore: Store<fromRoot.State>,
+    private readonly appStore: Store<fromRoot.State>
   ) {}
 
   checkAndLoadUsers$ = createEffect(() =>

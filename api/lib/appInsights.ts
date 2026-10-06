@@ -1,9 +1,11 @@
+import * as log4js from 'log4js';
 import { getConfigValue, hasConfigValue, showFeature } from '../configuration';
 import { APP_INSIGHTS_CONNECTION_STRING, FEATURE_APP_INSIGHTS_ENABLED } from '../configuration/references';
 
 const applicationinsights = module.require('applicationinsights') as typeof import('applicationinsights');
 
 export let client;
+export const logger = log4js.getLogger('app-insights');
 
 export function initialiseAppInsights() {
   // Check the APP_INSIGHTS_CONNECTION_STRING config value is present before trying to initialise the App Insights client
@@ -24,12 +26,12 @@ export function initialiseAppInsights() {
     client.context.tags[client.context.keys.cloudRole] = 'xui-mo';
     client.trackTrace({ message: 'App Insights activated' });
   } else {
-    console.error(`App Insights not activated: connection string "${APP_INSIGHTS_CONNECTION_STRING}" is not defined!`);
+    logger.error(`App Insights not activated: connection string "${APP_INSIGHTS_CONNECTION_STRING}" is not defined!`);
   }
 }
 
 if (showFeature(FEATURE_APP_INSIGHTS_ENABLED)) {
-  console.log('App Insights enabled');
+  logger.info('App Insights enabled');
   initialiseAppInsights();
 }
 

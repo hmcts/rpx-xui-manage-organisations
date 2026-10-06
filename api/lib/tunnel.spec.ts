@@ -33,7 +33,10 @@ describe('tunnel', () => {
     tunnel.init();
     expect(log4js.getLogger).to.be.calledWith('tunnel');
     assert.equal(spiedLogger.level, 'info');
-    expect(spiedLogger.info).to.be.calledWith('configuring global-agent: ', 'http://proxy.local', ' no proxy: ', 'http://noproxy.local');
+    expect(spiedLogger.info).to.be.calledWith('Configuring global-agent proxy', {
+      httpProxyConfigured: true,
+      noProxy: 'http://noproxy.local'
+    });
     // Sinon cannot spy on createGlobalProxyAgent() and tunnel.init() returns nothing, so proxy agent creation
     // cannot be tested
   });

@@ -14,14 +14,6 @@ body .govuk-width-container,
   padding-left: 20px;
 }
 
-@import "govuk-frontend/govuk/all";
-@import "@hmcts/frontend/all";
-
-.govuk-phase-banner .language {
-  float: right;
-  @include govuk-font($size: 16);
-}
-
 // gov uk frond-end template is not installed on this
 .js-hidden {
   display: none;

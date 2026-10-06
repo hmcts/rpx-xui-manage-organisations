@@ -3,7 +3,7 @@
   <ng-container>
     <div class="govuk-form-group" [formGroupName]="i">
       <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-        <p class="govuk-heading-s">Additional access: {{ jurisdiction.value.jurisdictionName }}</p>
+        <p class="govuk-heading-s">{{ 'Additional access:' | rpxTranslate }} {{ jurisdiction.value.jurisdictionName }}</p>
         <div formArrayName="accessTypes">
           @for (accessType of jurisdiction.value.accessTypes; let j = $index; track accessType.accessTypeId) {
           <ng-container>
@@ -18,8 +18,8 @@
               </label>
               @if (accessType.mandatory) {
               <span class="govuk-hint govuk-checkboxes__hint">
-                This checkbox is disabled because this role is mandatory.
-              </span>
+                 {{ 'This checkbox is disabled because this role is mandatory.' | rpxTranslate }}
+                </span>
               } @else {
               <span [id]="accessType.accessTypeId + '-item-hint'" class="govuk-hint govuk-checkboxes__hint">
                 {{ accessType.hint }} <br />

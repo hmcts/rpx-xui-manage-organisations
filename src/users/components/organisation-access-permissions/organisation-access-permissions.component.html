@@ -1,5 +1,5 @@
 <div class="govuk-!-margin-top-8">
-  <h1 class="govuk-heading-m">Case management and access</h1>
+  <h1 class="govuk-heading-m">{{ 'Case management and access' | rpxTranslate }}</h1>
   <div class="govuk-form-group">
     @if (jurisdictionPermissionsForm) {
     <form [formGroup]="jurisdictionPermissionsForm">
@@ -38,10 +38,8 @@
             <div class="govuk-warning-text">
               <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
               <strong class="govuk-warning-text__text">
-                <span class="govuk-visually-hidden">Warning</span>
-                The below list contains all case types with additional access. You do not need to select additional
-                access
-                for case types that you do not use.
+                <span class="govuk-visually-hidden">{{ 'Warning' | rpxTranslate }}</span>
+                 {{ 'The below list contains all case types with additional access. You do not need to select additional access for case types that you do not use.' | rpxTranslate }}
               </strong>
             </div>
             <app-jurisdiction-access-options

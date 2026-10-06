@@ -16,7 +16,7 @@
       <span class="govuk-phase-banner__text">
         {{ 'This is a new service' | rpxTranslate }} - {{ 'your' | rpxTranslate }}
         <a class="govuk-link" href="https://www.smartsurvey.co.uk/s/CCDSurvey/" target="_blank" rel="noopener noreferrer"
-          aria-label="Provide your feedback. This will open in a new tab."
+          [attr.aria-label]="'Provide your feedback. This will open in a new tab.' | rpxTranslate"
         >
           {{ 'feedback' | rpxTranslate }}<span class="visuallyhidden">{{ '(Opens in a new window)' | rpxTranslate }}</span>
         </a>

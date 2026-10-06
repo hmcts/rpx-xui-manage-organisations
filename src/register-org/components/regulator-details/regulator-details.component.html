@@ -6,16 +6,18 @@
       <span class="govuk-caption-xl">{{ 'Register an organisation' | rpxTranslate }}</span>
       <fieldset class="govuk-fieldset" aria-describedby="regulator-details">
         <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
-          @if (regulatorType === regulatorTypeEnum.Individual) {
-            <span>
-              {{ 'What regulator are you (as an individual) registered with?' | rpxTranslate }}
-            </span>
-          }
-          @if (regulatorType === regulatorTypeEnum.Organisation) {
-            <span>
-              {{ 'Who is your organisation registered with?' | rpxTranslate }}
-            </span>
-          }
+          <h1 class="govuk-fieldset__heading">
+            @if (regulatorType === regulatorTypeEnum.Individual) {
+              <span>
+                {{ 'What regulator are you (as an individual) registered with?' | rpxTranslate }}
+              </span>
+            }
+            @if (regulatorType === regulatorTypeEnum.Organisation) {
+              <span>
+                {{ 'Who is your organisation registered with?' | rpxTranslate }}
+              </span>
+            }
+          </h1>
         </legend>
         <hr class="govuk-!-margin-top-0">
         <div id="regulator-details" class="govuk-body govuk-!-margin-top-4">
@@ -87,7 +89,7 @@
                       @if (regulators.controls[i].get('regulatorName')) {
                         <div class="govuk-body govuk-!-margin-top-4"
                           [ngClass]="{'govuk-form-group--error': fieldHasErrorMessage('regulator-name' + i)}">
-                          <label class="govuk-label govuk-!-font-weight-bold" for="'regulator-name' + i">
+                          <label class="govuk-label govuk-!-font-weight-bold" [for]="'regulator-name' + i">
                             {{ 'Enter the name of the professional body or regulator' | rpxTranslate }}
                           </label>
                           @if (fieldHasErrorMessage('regulator-name' + i)) {

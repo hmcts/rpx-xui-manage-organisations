@@ -1,24 +1,23 @@
 <main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <button class="govuk-js-back-link xui-back-button-margin" (click)="onBack()">Back</button>
+      <button class="govuk-js-back-link xui-back-button-margin" (click)="onBack()">{{ 'Back' | rpxTranslate }}</button>
       <xuilib-hmcts-error-summary [errorMessages]="validationErrors" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
-      <span class="govuk-caption-xl">Register an organisation</span>
+      <span class="govuk-caption-xl">{{ 'Register an organisation' | rpxTranslate }}</span>
       <form [formGroup]="pbaFormGroup">
         <div class="govuk-form-group">
           <fieldset class="govuk-fieldset" aria-describedby="pba-hint">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
-              Does your organisation have a payment by account number?
+              {{ 'Does your organisation have a payment by account number?' | rpxTranslate }}
             </legend>
             <hr class="govuk-!-margin-top-0">
             <div id="pba-hint" class="govuk-hint govuk-!-margin-top-4">
-              Payment by account (PBA) is a credit service for organisations who frequently bring proceedings to HMCTS.
-              It enables monthly invoicing for court fees.
+              {{ 'Payment by account (PBA) is a credit service for organisations who frequently bring proceedings to HMCTS. It enables monthly invoicing for court fees.' | rpxTranslate }}
             </div>
             <div [ngClass]="{'govuk-form-group--error': validationErrors.length}">
               @if (validationErrors.length) {
                 <div class="govuk-error-message">
-                  <span class="govuk-visually-hidden">Error:</span> Please select an option
+                  <span class="govuk-visually-hidden">{{ 'Error:' | rpxTranslate }}</span>  {{ 'Please select an option' | rpxTranslate }}
                 </div>
               }
               <div class="govuk-radios" data-module="govuk-radios">
@@ -26,14 +25,14 @@
                   <input class="govuk-radios__input" type="radio" value="yes"
                     id="pba-yes" name="pba" formControlName="pba">
                   <label class="govuk-label govuk-radios__label" for="pba-yes">
-                    Yes
+                    {{ 'Yes' | rpxTranslate }}
                   </label>
                 </div>
                 <div class="govuk-radios__item">
                   <input class="govuk-radios__input" type="radio" value="no"
                     id="pba-no" name="pba" formControlName="pba">
                   <label class="govuk-label govuk-radios__label" for="pba-no">
-                    No
+                    {{ 'No' | rpxTranslate }}
                   </label>
                 </div>
               </div>
@@ -42,9 +41,9 @@
         </div>
         <div class="govuk-button-group">
           <button class="govuk-button govuk-button--primary" data-module="govuk-button" (click)="onContinue()">
-            Continue
+            {{ 'Continue' | rpxTranslate }}
           </button>
-          <button class="govuk-js-link" (click)="onCancel()">Cancel</button>
+          <button class="govuk-js-link" (click)="onCancel()">{{ 'Cancel' | rpxTranslate }}</button>
         </div>
       </form>
     </div>

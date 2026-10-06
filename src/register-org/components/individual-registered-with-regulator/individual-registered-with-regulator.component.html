@@ -1,20 +1,20 @@
 <main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <button class="govuk-js-back-link xui-back-button-margin" (click)="onBack()">Back</button>
+      <button class="govuk-js-back-link xui-back-button-margin" (click)="onBack()">{{ 'Back' | rpxTranslate }}</button>
       <xuilib-hmcts-error-summary [errorMessages]="validationErrors" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
-      <span class="govuk-caption-xl">Register an organisation</span>
+      <span class="govuk-caption-xl">{{ 'Register an organisation' | rpxTranslate }}</span>
       <form [formGroup]="registeredWithRegulatorFormGroup">
         <div class="govuk-form-group">
           <fieldset class="govuk-fieldset" aria-describedby="registered-regulators">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
-              Are you (as an individual) registered with a regulator?
-            </legend>
+               {{ 'Are you (as an individual) registered with a regulator?' | rpxTranslate }}
+              </legend>
             <hr class="govuk-!-margin-top-0">
             <div id="registered-regulators" class=" govuk-!-margin-top-4" [ngClass]="{'govuk-form-group--error': validationErrors.length}">
               @if (validationErrors.length) {
                 <div class="govuk-error-message">
-                  <span class="govuk-visually-hidden">Error:</span> Please select an option
+                  <span class="govuk-visually-hidden">{{ 'Error:' | rpxTranslate }}</span>  {{ 'Please select an option' | rpxTranslate }}
                 </div>
               }
               <div class="govuk-radios" data-module="govuk-radios">
@@ -22,14 +22,14 @@
                   <input class="govuk-radios__input" type="radio" value="yes"
                     id="registered-with-regulator-yes" name="registeredWithRegulator" formControlName="registeredWithRegulator">
                   <label class="govuk-label govuk-radios__label" for="registered-with-regulator-yes">
-                    Yes
+                    {{ 'Yes' | rpxTranslate }}
                   </label>
                 </div>
                 <div class="govuk-radios__item">
                   <input class="govuk-radios__input" type="radio" value="no"
                     id="registered-with-regulator-no" name="registeredWithRegulator" formControlName="registeredWithRegulator">
                   <label class="govuk-label govuk-radios__label" for="registered-with-regulator-no">
-                    No
+                    {{ 'No' | rpxTranslate }}
                   </label>
                 </div>
               </div>
@@ -38,9 +38,9 @@
         </div>
         <div class="govuk-button-group">
           <button class="govuk-button govuk-button--primary" data-module="govuk-button" (click)="onContinue()">
-            Continue
+            {{ 'Continue' | rpxTranslate }}
           </button>
-          <button class="govuk-js-link" (click)="onCancel()">Cancel</button>
+          <button class="govuk-js-link" (click)="onCancel()">{{ 'Cancel' | rpxTranslate }}</button>
         </div>
       </form>
     </div>

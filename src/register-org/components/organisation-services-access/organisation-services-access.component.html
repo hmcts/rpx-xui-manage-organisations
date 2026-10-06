@@ -1,36 +1,36 @@
 <main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <button class="govuk-js-back-link xui-back-button-margin" (click)="onBack()">Back</button>
+      <button class="govuk-js-back-link xui-back-button-margin" (click)="onBack()">{{ 'Back' | rpxTranslate }}</button>
       <xuilib-hmcts-error-summary [errorMessages]="validationErrors" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
-      <span class="govuk-caption-xl">Register an organisation</span>
+      <span class="govuk-caption-xl">{{ 'Register an organisation' | rpxTranslate }}</span>
       <form [formGroup]="servicesFormGroup">
         <div class="govuk-form-group">
           <fieldset class="govuk-fieldset" aria-describedby="service-selection-hint">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
-              Which services will your organisation need to access?
+              {{ 'Which services will your organisation need to access?' | rpxTranslate }}
             </legend>
             <hr class="govuk-!-margin-top-0">
             <div class="govuk-label govuk-!-font-weight-bold govuk-!-margin-top-4">
-              Please indicate the services you are looking to access
+              {{ 'Please indicate the services you are looking to access' | rpxTranslate }}
             </div>
             <div class="govuk-hint" id="service-selection-hint">
-              You must select at least one option. This will not impact access to any of the services listed as long as you're eligible to do so.
+              {{ 'You must select at least one option. This will not impact access to any of the services listed as long as you\'re eligible to do so.' | rpxTranslate }}
             </div>
             <div [ngClass]="{'govuk-form-group--error': noServicesError}">
               @if (noServicesError) {
                 <div class="govuk-error-message">
-                  <span class="govuk-visually-hidden">Error:</span> {{noServicesError}}
+                  <span class="govuk-visually-hidden">{{ 'Error:' | rpxTranslate }}</span> {{ noServicesError | rpxTranslate }}
                 </div>
               }
               <div class="govuk-checkboxes" data-module="govuk-checkboxes">
                 @for (service of services; track trackByOrgService($index, service)) {
                   <div class="govuk-checkboxes__item">
                     <!-- id uses stable key; data-service-label exposed for readable test selectors -->
-                    <input class="govuk-checkboxes__input" [id]="service.value" [attr.data-service-label]="service.value" type="checkbox" [value]="service.key" aria-label="service.key"
+                    <input class="govuk-checkboxes__input" [id]="service.value" [attr.data-service-label]="service.value" type="checkbox" [value]="service.key" [attr.aria-label]="service.value | rpxTranslate"
                       name="services" formArrayName="services" [checked]="service.selected" (change)="onServicesSelectionChange($event)">
                     <label class="govuk-label govuk-checkboxes__label" [for]="service.key">
-                      {{service.value}}
+                      {{ service.value | rpxTranslate }}
                     </label>
                   </div>
                 }
@@ -38,11 +38,11 @@
                   [ngClass]="{'govuk-checkboxes__conditional--hidden': !showOtherServicesInput}">
                   <div [ngClass]="{'govuk-form-group--error': otherServicesError}">
                     <label class="govuk-label" for="other-services">
-                      Please enter the HMCTS service you are wishing to access
+                      {{ 'Please enter the HMCTS service you are wishing to access' | rpxTranslate }}
                     </label>
                     @if (otherServicesError) {
                       <div class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span> {{otherServicesError}}
+                        <span class="govuk-visually-hidden">{{ 'Error:' | rpxTranslate }}</span> {{ otherServicesError | rpxTranslate }}
                       </div>
                     }
                     <input class="govuk-input" id="other-services" name="other-services" formControlName="otherServices" type="text">
@@ -53,8 +53,8 @@
           </fieldset>
         </div>
         <div class="govuk-button-group">
-          <button class="govuk-button govuk-button--primary" (click)="onContinue()">Continue</button>
-          <button class="govuk-js-link" (click)="onCancel()">Cancel</button>
+          <button class="govuk-button govuk-button--primary" (click)="onContinue()">{{ 'Continue' | rpxTranslate }}</button>
+          <button class="govuk-js-link" (click)="onCancel()">{{ 'Cancel' | rpxTranslate }}</button>
         </div>
       </form>
     </div>

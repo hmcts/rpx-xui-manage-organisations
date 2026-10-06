@@ -1,11 +1,11 @@
 <main id="content" class="govuk-main-wrapper" role="main" tabindex="-1" #mainContent>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <button class="govuk-js-back-link xui-back-button-margin" (click)="onBack()">Back</button>
+      <button class="govuk-js-back-link xui-back-button-margin" (click)="onBack()">{{ 'Back' | rpxTranslate }}</button>
       <xuilib-hmcts-error-summary [errorMessages]="organisationTypeErrors" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
-      <span class="govuk-caption-xl">Register an organisation</span>
+      <span class="govuk-caption-xl">{{ 'Register an organisation' | rpxTranslate }}</span>
       <h1 class="govuk-heading-xl">
-        What type of organisation are you registering?
+        {{ 'What type of organisation are you registering?' | rpxTranslate }}
       </h1>
       <hr>
         <div class="govuk-body govuk-!-margin-top-4">
@@ -13,17 +13,17 @@
             <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': organisationTypeErrors.length > 0 && !showOtherOrganisationTypes}">
               @if (organisationTypeErrors.length > 0 && !showOtherOrganisationTypes) {
                 <p class="govuk-error-message">
-                  <span class="govuk-visually-hidden">Error:</span>{{organisationTypeErrors[0].message}}
+                  <span class="govuk-visually-hidden">{{ 'Error:' | rpxTranslate }}</span>{{ organisationTypeErrors[0].message | rpxTranslate }}
                 </p>
               }
               <fieldset class="govuk-fieldset" aria-describedby="organisation-types">
                 <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
                   <h1 class="govuk-fieldset__heading">
-                    Select the type of organisation
+                    {{ 'Select the type of organisation' | rpxTranslate }}
                   </h1>
                 </legend>
                 <div id="organisation-types" class="govuk-hint">
-                  Select the type of organisation you are registering. If you are not sure, select 'Other'.
+                  {{ 'Select the type of organisation you are registering. If you are not sure, select \'Other\'.' | rpxTranslate }}
                 </div>
                 <div class="govuk-radios" id="govuk-radios" data-module="govuk-radios">
                   @for (organisationType of organisationTypes; track trackByOrgType($index, organisationType)) {
@@ -32,7 +32,7 @@
                         [id]="organisationType.key" name="organisationType" [value]="organisationType.key" formControlName="organisationType"
                         (click)="canShowOtherOrganisationTypes(organisationType.key === 'OTHER')">
                       <label class="govuk-label govuk-radios__label" [for]="organisationType.key">
-                        {{organisationType.value_en}}
+                        {{ organisationType.value_en | rpxTranslate }}
                       </label>
                     </div>
                   }
@@ -42,31 +42,31 @@
                     <div >
                       <div class="govuk-body" [ngClass]="{'govuk-form-group--error': otherOrgTypeErrors}">
                         <label class="govuk-label govuk-!-font-weight-bold" for="other-organisation-type">
-                          Select another type of organisation
+                          {{ 'Select another type of organisation' | rpxTranslate }}
                         </label>
                         @if (otherOrgTypeErrors) {
                           <div class="govuk-error-message">
-                            <span class="govuk-visually-hidden">Error:</span> {{ otherOrgTypeErrors.message }}
+                            <span class="govuk-visually-hidden">{{ 'Error:' | rpxTranslate }}</span> {{ otherOrgTypeErrors.message | rpxTranslate }}
                           </div>
                         }
                         <select class="govuk-select govuk-!-width-two-thirds"
                           [ngClass]="{'govuk-select--error': otherOrgTypeErrors}"
                           id="other-organisation-type" name="otherOrganisationType" formControlName="otherOrganisationType">
-                          <option [ngValue]="'none'" disabled>--Select a value--</option>
+                          <option [ngValue]="'none'" disabled>{{ '--Select a value--' | rpxTranslate }}</option>
                           @for (otherOrganisationType of otherOrganisationTypes; track trackByOtherOrgType($index, otherOrganisationType)) {
                             <option [ngValue]="otherOrganisationType.key">
-                              {{otherOrganisationType.value_en}}
+                              {{ otherOrganisationType.value_en | rpxTranslate }}
                             </option>
                           }
                         </select>
                       </div>
                       <div class="govuk-body" [ngClass]="{'govuk-form-group--error': otherOrgDetailsErrors}">
                         <label class="govuk-label govuk-!-font-weight-bold" for="other-organisation-detail">
-                          Enter details
+                          {{ 'Enter details' | rpxTranslate }}
                         </label>
                         @if (otherOrgDetailsErrors) {
                           <div class="govuk-error-message">
-                            <span class="govuk-visually-hidden">Error:</span> {{ otherOrgDetailsErrors.message }}
+                            <span class="govuk-visually-hidden">{{ 'Error:' | rpxTranslate }}</span> {{ otherOrgDetailsErrors.message | rpxTranslate }}
                           </div>
                         }
                         <input class="govuk-input govuk-!-width-two-thirds" type="text"
@@ -79,8 +79,8 @@
               </fieldset>
             </div>
             <div class="govuk-button-group">
-              <button type="submit" class="govuk-button govuk-button--primary" (click)="onContinue()">Continue</button>
-              <button class="govuk-js-link" (click)="onCancel()">Cancel</button>
+              <button type="submit" class="govuk-button govuk-button--primary" (click)="onContinue()">{{ 'Continue' | rpxTranslate }}</button>
+              <button class="govuk-js-link" (click)="onCancel()">{{ 'Cancel' | rpxTranslate }}</button>
             </div>
           </form>
         </div>

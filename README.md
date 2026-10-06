@@ -10,7 +10,7 @@ This repo contains the Manage Organisations Angular frontend and Node API.
 
 ## Repository Map
 
-This is a single application repo with an Angular frontend, an Express/Node API, Helm chart deployment config, and Playwright validation suites
+This is a single application repo with an Angular frontend, an Express/Node API, Helm chart deployment config, and Playwright validation suites.
 
 ```mermaid
 flowchart TB

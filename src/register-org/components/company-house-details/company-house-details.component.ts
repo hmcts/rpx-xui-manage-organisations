@@ -8,7 +8,13 @@ import { RegisterOrgService } from '../../services/register-org.service';
 // General company house number validation prefixes
 const COMPANY_HOUSE_PREFIXES = [
   'AC', 'ZC', 'FC', 'GE', 'LP', 'OC', 'SE', 'SA', 'SZ', 'SF', 'GS', 'SL', 'SO', 'SC', 'ES',
-  'NA', 'NZ', 'NF', 'GN', 'NL', 'NC', 'R0', 'NI', 'EN', 'SG', 'FE', 'BR', 'OE', 'RS'
+  'NA', 'NZ', 'NF', 'GN', 'NL', 'NC', 'R0', 'NI', 'EN',
+  // EXUI-5219 - Added additional company house number based on document (in ticket)
+  'IP', 'SP', 'IC', 'SI', 'NP', 'NV', 'RC', 'SR', 'NR', 'NO',
+  // EXUI-5219 - Not present in document but pre-existing
+  'SG', 'FE',
+  // EXUI-5082 - Not present in document but requested by HALO ticket
+  'BR', 'OE', 'RS'
 ];
 
 // Special company house number validation patterns (e.g. RS12345, RS1234FI, RS123CUS, NI12345A)

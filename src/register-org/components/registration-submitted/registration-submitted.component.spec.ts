@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { RegistrationSubmittedComponent } from './registration-submitted.component';
 import { buildMockStoreProviders } from '../../testing/mock-store-state';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
@@ -11,7 +12,7 @@ describe('RegistrationSubmittedComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [RegistrationSubmittedComponent],
-      imports: [],
+      imports: [RpxTranslationTestingModule],
       providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting(), ...buildMockStoreProviders()]
     })
       .compileComponents();

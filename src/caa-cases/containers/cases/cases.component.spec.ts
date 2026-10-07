@@ -1,6 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { CasesComponent } from './cases.component';
 import { CaaCasesService } from 'src/caa-cases/services';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -39,6 +40,7 @@ describe('CaaCasesComponent', () => {
         { provide: CaaCasesService, useValue: caaCasesService }
       ],
       imports: [
+        RpxTranslationTestingModule,
         MatAutocompleteModule
       ]
     })

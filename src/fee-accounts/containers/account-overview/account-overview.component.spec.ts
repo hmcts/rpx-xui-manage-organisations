@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { reducers } from '../../../organisation/store/reducers';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { AccountOverviewComponent } from './account-overview.component';
 
 describe('AccountOverviewComponent', () => {
@@ -12,6 +13,7 @@ describe('AccountOverviewComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
+        RpxTranslationTestingModule,
         RouterModule.forRoot([]),
         StoreModule.forRoot({}),
         StoreModule.forFeature('org', reducers)

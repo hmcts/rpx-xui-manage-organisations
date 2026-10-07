@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { ContactDetailsErrorMessage } from '../../models/contact-details.enum';
 import { RegistrationData } from '../../models/registration-data.model';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { ContactDetailsComponent } from './contact-details.component';
 import { buildMockStoreProviders } from '../../testing/mock-store-state';
 
@@ -42,6 +43,7 @@ describe('ContactDetailsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ContactDetailsComponent],
       imports: [
+        RpxTranslationTestingModule,
         RouterTestingModule,
         ReactiveFormsModule,
         ExuiCommonLibModule

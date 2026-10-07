@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { PrivacyPolicyComponent } from '..';
 
 describe('PrivacyPolicyComponent', () => {
@@ -15,6 +16,7 @@ describe('PrivacyPolicyComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      imports: [RpxTranslationTestingModule],
       declarations: [PrivacyPolicyComponent],
       providers: [
         { provide: ActivatedRoute, useClass: MockActivatedRoute }

@@ -9,6 +9,7 @@ import { LovRefDataModel } from '../../../shared/models/lovRefData.model';
 import { LovRefDataService } from '../../../shared/services/lov-ref-data.service';
 import { RegistrationData } from '../../models';
 import { OrgTypeMessageEnum } from '../../models/organisation-type.enum';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { OrganisationTypeComponent } from './organisation-type.component';
 import { buildMockStoreProviders } from '../../testing/mock-store-state';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
@@ -116,7 +117,7 @@ describe('OrganisationTypeComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [OrganisationTypeComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [ReactiveFormsModule, RouterTestingModule],
+      imports: [RpxTranslationTestingModule, ReactiveFormsModule, RouterTestingModule],
       providers: [
         { provide: LovRefDataService, useValue: mockLovRefDataService },
         { provide: Router, useValue: mockRouter },

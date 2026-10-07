@@ -8,6 +8,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { of } from 'rxjs';
 import { CaaCasesPageType } from '../../models/caa-cases.enum';
 import { CaaCasesState } from '../../store/reducers';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { CaseShareCompleteComponent } from './case-share-complete.component';
 
 describe('CaseShareCompleteComponent', () => {
@@ -29,7 +30,7 @@ describe('CaseShareCompleteComponent', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [CaseShareCompleteComponent],
-      imports: [RouterTestingModule],
+      imports: [RpxTranslationTestingModule, RouterTestingModule],
       providers: [
         provideMockStore(),
         { provide: FeatureToggleService, useValue: mockFeatureToggleService },

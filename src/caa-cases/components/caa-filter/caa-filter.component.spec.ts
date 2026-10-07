@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { Observable } from 'rxjs';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import {
   CaaCasesFilterErrorMessage,
   CaaCasesFilterHeading,
@@ -20,6 +21,7 @@ describe('CaaFilterComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
+        RpxTranslationTestingModule,
         ReactiveFormsModule,
         MatAutocompleteModule
       ],

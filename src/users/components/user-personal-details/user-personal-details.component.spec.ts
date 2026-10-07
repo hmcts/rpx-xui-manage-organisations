@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { UserPersonalDetailsComponent } from './user-personal-details.component';
 import { ExuiCommonLibModule, UserDetails } from '@hmcts/rpx-xui-common-lib';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -20,7 +21,7 @@ describe('UserPersonalDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, ExuiCommonLibModule],
+      imports: [RpxTranslationTestingModule, ReactiveFormsModule, ExuiCommonLibModule],
       declarations: [UserPersonalDetailsComponent],
       providers: [{ provide: RpxTranslationService, useValue: translationMockService }]
     })

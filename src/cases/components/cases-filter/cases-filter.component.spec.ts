@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { CasesFilterComponent } from './cases-filter.component';
 import { SimpleChange } from '@angular/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -35,6 +36,7 @@ describe('CasesCasesFilterComponent', () => {
         { provide: ENVIRONMENT_CONFIG, useValue: mockEnvironmentConfig }
       ],
       imports: [
+        RpxTranslationTestingModule,
         ReactiveFormsModule,
         MatAutocompleteModule
       ]

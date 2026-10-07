@@ -6,6 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AddressMessageEnum } from '@hmcts/rpx-xui-common-lib';
 import { INTERNATIONAL_HEADING, POSTCODE_HEADING } from '../../constants/register-org-constants';
 import { RegisterOrgService } from '../../services';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { RegisteredAddressComponent } from './registered-address.component';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
@@ -35,7 +36,7 @@ describe('RegisteredAddressComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [RegisteredAddressComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [RouterTestingModule],
+      imports: [RpxTranslationTestingModule, RouterTestingModule],
       providers: [{ provide: RegisterOrgService, useValue: mockRegisterOrgService },
         {
           provide: Router, useValue: mockRouter

@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { ServiceDownComponent } from './service-down.component';
 import { buildMockStoreProviders } from '../../testing/mock-store-state';
 
@@ -9,6 +10,7 @@ describe('ServiceDownComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [RpxTranslationTestingModule],
       declarations: [ServiceDownComponent],
       providers: [
         ...buildMockStoreProviders()

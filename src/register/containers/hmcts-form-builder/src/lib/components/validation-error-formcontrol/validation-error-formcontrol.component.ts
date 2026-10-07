@@ -17,7 +17,7 @@ export class ValidationErrorFormControlComponent {
     @Input() group: FormGroup;
     @Input() controlId;
 
-    constructor(private validationService: ValidationService) {}
+    constructor(private readonly validationService: ValidationService) {}
 
     /**
      * Is Form Control Valid

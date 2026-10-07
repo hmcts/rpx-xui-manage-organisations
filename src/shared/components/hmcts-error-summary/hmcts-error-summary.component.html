@@ -28,7 +28,7 @@
   @for (message of messages; track trackByMessage($index, message)) {
         <p class="govuk-body">
           <span class="govuk-visually-hidden">{{ 'Warning' | rpxTranslate }}</span>
-          {{ message['message'] | rpxTranslate }}
+          {{ message['message'] }}
         </p>
       }
     </div>

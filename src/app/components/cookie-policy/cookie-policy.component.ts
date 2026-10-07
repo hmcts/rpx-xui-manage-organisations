@@ -48,77 +48,77 @@ export class CookiePolicyComponent {
       name: 'xui-mo-webapp',
       cat: this.SECURITY,
       purpose: 'Defnyddir i ddiogelu cyfathrebu gyda gwasanaethau data GLlTEF.',
-      expires: '8 awr',
+      expires: '8 awr'
     },
     {
       name: 'rxVisitor',
       catAlias: this.USAGE_WELSH,
       cat: this.USAGE,
       purpose: 'ID defnyddiwr a gynhyrchwyd ar gyfer tracio defnydd (Dynatrace)',
-      expires: '2 flynedd',
+      expires: '2 flynedd'
     },
     {
       name: 'ai_defnyddiwr',
       catAlias: this.USAGE_WELSH,
       cat: this.USAGE,
       purpose: 'ID defnyddiwr a gynhyrchwyd ar gyfer tracio defnydd (Application Insights)',
-      expires: '6 mis',
+      expires: '6 mis'
     },
     {
       name: 'ai_sesiwn',
       catAlias: this.USAGE_WELSH,
       cat: this.USAGE,
       purpose: 'ID defnyddiwr a gynhyrchwyd ar gyfer tracio defnydd (Application Insights)',
-      expires: "Pan fyddwch chi'n cau eich porwr",
+      expires: 'Pan fyddwch chi\'n cau eich porwr'
     },
     {
       purpose: 'Defnyddir i ddiogelu eich sesiwn mewngofnodi',
       name: '_oauth2_proxy',
       cat: this.SECURITY,
-      expires: '4 awr',
+      expires: '4 awr'
     },
     {
       name: '_gid',
       cat: this.GOOGLE,
       purpose: this.googlePurpose,
-      expires: '1 diwrnod',
+      expires: '1 diwrnod'
     },
     {
       purpose: 'Mae hyn yn storio gwybodaeth am eich sesiwn.',
       name: '_ga',
       cat: this.GOOGLE,
-      expires: '2 flynedd',
+      expires: '2 flynedd'
     },
     {
       name: '_ga_XXXXXXXXXX',
       cat: this.GOOGLE,
       purpose: 'Mae hyn yn storio gwybodaeth am eich sesiwn.',
-      expires: '2 flynedd',
+      expires: '2 flynedd'
     },
     {
       name: '_gat_XXXXXXXXXX',
       cat: this.GOOGLE,
-      purpose: "Defnyddir hyn i reoli'r gyfradd y gwneir ceisiadau i'r feddalwedd dadansoddeg.",
-      expires: '1 diwrnod',
+      purpose: 'Defnyddir hyn i reoli\'r gyfradd y gwneir ceisiadau i\'r feddalwedd dadansoddeg.',
+      expires: '1 diwrnod'
     },
     {
       name: '__id defnyddiwr__',
       cat: this.IDENTIFY,
       purpose: 'Eich ID defnyddiwr',
-      expires: 'Pan fyddwch yn cau eich porwr',
+      expires: 'Pan fyddwch yn cau eich porwr'
     },
     {
       name: '__auth__',
       cat: this.SECURITY,
       purpose: 'Gwybodaeth am eich awdurdodiadau system cyfredol',
-      expires: 'Pan fyddwch yn cau eich porwr',
+      expires: 'Pan fyddwch yn cau eich porwr'
     },
     {
       name: 'XSRF-TOKEN',
       cat: this.SECURITY,
       purpose: 'Defnyddir i ddiogelu eich sesiwn rhag ymosodiadau sgriptio ar draws safleoedd',
-      expires: 'Pan fyddwch yn cau eich porwr',
-    },
+      expires: 'Pan fyddwch yn cau eich porwr'
+    }
   ];
 
   constructor(private readonly langService: RpxTranslationService) {}

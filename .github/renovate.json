@@ -4,8 +4,8 @@
     "local>hmcts/.github:renovate-config",
     "local>hmcts/.github//renovate/automerge-all"
   ],
-  "automerge": true,
-  "platformAutomerge": true,
+  "automerge": false,
+  "platformAutomerge": false,
   "prConcurrentLimit": 3,
   "prHourlyLimit": 1,
   "timezone": "Europe/London",

@@ -1,4 +1,4 @@
-@use "govuk-frontend/govuk/base" as *;
+@use "govuk-frontend/dist/govuk/base" as *;
 @use "sass:math";
 
 /* ==========================================================================
@@ -16,10 +16,6 @@ $jui-assets-path : "/public/images/";
   margin-left: auto;
   margin-right: auto;
   max-width: $jui-page-width;
-
-  @include govuk-if-ie8 {
-    width: $jui-page-width;
-  }
 
   // On mobile, add half width gutters
   margin: 0 $jui-gutter-half;

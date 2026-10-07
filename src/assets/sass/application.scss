@@ -1,8 +1,7 @@
 // Path to assets for use with the file-url function
 // in the govuk frontend toolkit"s url-helpers partial
-@use "govuk-frontend/govuk/all" as * with (
+@use "govuk-frontend/dist/govuk/index" as * with (
 $govuk-global-styles: true,
-$govuk-compatibility-govukfrontendtoolkit: false,
 $govuk-page-width: 1220px
 );
 $hmcts-page-width: 1220px;
@@ -13,6 +12,20 @@ $hmcts-page-width: 1220px;
 @use "components/cookie-banner" as *;
 @use "jui/all" as *;
 
+// The current @hmcts/frontend package still references this removed IE8 mixin.
+// Its IE8-only declarations must not be emitted with GOV.UK Frontend 5.
+@mixin govuk-if-ie8 {
+  @if false {
+    @content;
+  }
+}
+
+// HMCTS and local styles still use sass-mq's former name for this mixin.
+@mixin mq($from: null, $until: null, $and: null) {
+  @include govuk-media-query($from: $from, $until: $until, $and: $and) {
+    @content;
+  }
+}
 @import "@hmcts/frontend/all";
 
 .jui-editor__content {
@@ -91,11 +104,11 @@ html {
 
 
 .jui-case-action-alert__heading {
-  @include govuk-font($size: 24,
-    $weight: bold);
   color: inherit;
   margin-bottom: govuk-spacing(2);
   margin-top: 0;
+  @include govuk-font($size: 24,
+    $weight: bold);
 }
 
 

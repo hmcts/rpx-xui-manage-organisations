@@ -1,4 +1,4 @@
-@use "govuk-frontend/govuk/base" as *;
+@use "govuk-frontend/dist/govuk/base" as *;
 @use "../../sass/jui/settings/settings.general" as settings;
 @use "../../sass/jui/settings/settings.aspect-ratio" as aspect-ratio;
 
@@ -21,7 +21,6 @@
 
 
 .jui-cf__toolbar {
-  @include govuk-clearfix;
   background-color: govuk-colour("white");
   border-bottom: 1px solid #DDDDDD;
   border-top: 1px solid #DDDDDD;
@@ -32,6 +31,7 @@
   width: 100%;
   z-index: 1;
 
+  @include govuk-clearfix;
   &::after {
     content: "";
     display: block;
@@ -60,18 +60,17 @@
 
 
 .jui-cf__toolbar-container {
-  @include settings.jui-width-container;
   border-left:1px solid govuk-colour("light-grey");
   border-right: 1px solid govuk-colour("light-grey");
   height: 100%;
   position: relative;
   left: 0; top: 0;
   z-index: 1;
+  @include settings.jui-width-container;
 }
 
 
 .jui-cf__toolbar-button {
-  @include govuk-font($size: 19);
   background-color: govuk-colour("white");
   border: 0 none;
   color: govuk-colour("black");
@@ -83,6 +82,7 @@
   padding-right: 15px;
   position: relative;
 
+  @include govuk-font($size: 19);
   &::after {
     background-color: #DEE0E2;
     content: "";
@@ -161,9 +161,9 @@
 
 
 .jui-cf__window-container {
-  @include settings.jui-width-container;
-  @include govuk-clearfix;
   position: relative;
+  @include govuk-clearfix;
+  @include settings.jui-width-container;
 }
 
 
@@ -202,12 +202,16 @@
   }
 
   &[data-page]::after {
-    @include govuk-font(16);
     color: $govuk-secondary-text-colour;
     content: attr(data-page);
-    line-height: 1;
     position: absolute; right: govuk-spacing(4);
     bottom: govuk-spacing(4);
+    @include govuk-font(16);
+
+    // Keep the original compact page-number height below the tablet breakpoint.
+    @include govuk-media-query($until: tablet, $media-type: screen) {
+      line-height: 1;
+    }
   }
 
   img {
@@ -269,15 +273,14 @@
 
 
 .jui-comment__author {
-  @include govuk-font($size: 19);
   display: block;
-  font-weight: bold;
+  @include govuk-font($size: 19, $weight: bold);
 }
 
 
 .jui-comment__meta {
-  @include govuk-font($size: 16);
   color: $govuk-secondary-text-colour;
+  @include govuk-font($size: 16);
 }
 
 

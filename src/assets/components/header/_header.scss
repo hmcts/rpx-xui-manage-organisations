@@ -1,21 +1,21 @@
-@use "govuk-frontend/govuk/base" as *;
+@use "govuk-frontend/dist/govuk/base" as *;
 
 /* ==========================================================================
    #HEADER
    ========================================================================== */
 
    .jui-header {
-    @include govuk-clearfix;
     background-color: govuk-colour("black");
     padding-top: govuk-spacing(3);
     padding-bottom: govuk-spacing(3);
+    @include govuk-clearfix;
   }
 
 
   .jui-header__service {
-    @include govuk-font($size: 24, $weight: bold);
     display: block;
 
+    @include govuk-font($size: 24, $weight: bold);
     a:link,
     a:active,
     a:visited {

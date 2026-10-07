@@ -1,22 +1,22 @@
-@use "govuk-frontend/govuk/base" as *;
+@use "govuk-frontend/dist/govuk/base" as *;
 
 /* ==========================================================================
    #PANEL
    ========================================================================== */
 
 .jui-panel {
-  @include govuk-font($size: 19);
   border: 5px solid transparent;
   box-sizing: border-box;
   margin-bottom: govuk-spacing(6);
   padding: govuk-spacing(6) - $govuk-border-width;
   position: relative;
+  @include govuk-font($size: 19);
 }
 
 
 .jui-panel__title {
-  @include govuk-font($size: 36, $weight: bold);
   margin-bottom: govuk-spacing(3);
+  @include govuk-font($size: 36, $weight: bold);
 }
 
 
@@ -35,10 +35,10 @@
   }
 
   dd {
-    @include govuk-font($size: 16);
     margin-left: 0;
     margin-bottom: govuk-spacing(4);
 
+    @include govuk-font($size: 16);
     &:last-child {
       margin-bottom: 0;
     }

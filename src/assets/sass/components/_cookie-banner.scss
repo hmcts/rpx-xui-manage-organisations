@@ -1,10 +1,7 @@
 @use "sass:color";
-@use "govuk-frontend/govuk/base" as *;
-@use "govuk-frontend/govuk/objects/width-container" as width-container;
+@use "govuk-frontend/dist/govuk/base" as *;
+@use "govuk-frontend/dist/govuk/objects/width-container" as width-container;
 .app-cookie-banner {
-  @include govuk-font(16);
-  @include govuk-text-colour;
-
   box-sizing: border-box;
   width: 100%;
 
@@ -15,6 +12,8 @@
   // Replaced deprecated lighten() & desaturate() with color.adjust (Sass modern API)
   // Original intent: slightly desaturate and lighten the light-blue
   background-color: color.adjust(govuk-colour("light-blue"), $lightness: 42.55%, $saturation: -8.46%);
+  @include govuk-font(16);
+  @include govuk-text-colour;
 }
 
 .app-cookie-banner__message {

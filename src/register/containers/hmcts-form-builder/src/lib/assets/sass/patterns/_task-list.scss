@@ -1,5 +1,5 @@
 // Task list pattern
-@use "govuk-frontend/govuk/base" as *;
+@use "govuk-frontend/dist/govuk/base" as *;
 @use "sass:math";
 
 // Override column width for tablet and up
@@ -23,10 +23,9 @@ $task-list-indent: 35px;
 
 .govuk-task-list__section {
   display: table;
-
-  @include govuk-font(24, $weight: bold);
   margin: 0;
   padding-bottom: math.div($govuk-gutter, 6);
+  @include govuk-font(24, $weight: bold);
 }
 
 .govuk-task-list__section-number {

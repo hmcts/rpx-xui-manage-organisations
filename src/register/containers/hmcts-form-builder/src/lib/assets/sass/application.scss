@@ -1,6 +1,6 @@
 // Path to assets for use with the file-url function
 // in the govuk frontend toolkit"s url-helpers partial
-@use "govuk-frontend/govuk/all" as *;
+@use "govuk-frontend/dist/govuk/all" as *;
 @use "patterns/check-your-answers" as *;
 @use "patterns/task-list" as *;
 @use "patterns/related-items" as *;
@@ -18,7 +18,6 @@ $hmcts-page-width: 1220px;
 
 // Import GOV.UK Frontend
 //@import "govuk-frontend/all";
-//@import "@hmcts/frontend/all";
 
 // Patterns that aren’t in Frontend
 

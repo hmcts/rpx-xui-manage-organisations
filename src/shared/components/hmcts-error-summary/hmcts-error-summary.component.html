@@ -8,7 +8,7 @@
           <li>
             @if (hasElement(message['id'])) {
               <a [routerLink]="" [fragment]="message['id']"
-              (click)="scrollTo(message['id'])">{{ message['message'] | rpxTranslate }}</a>
+              (click)="scrollTo(message['id'])">{{ message['message'] }}</a>
             }
             @if (!hasElement(message['id'])) {
               <span>{{ message['message'] | rpxTranslate }}</span>

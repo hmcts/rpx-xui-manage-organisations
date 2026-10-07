@@ -229,7 +229,7 @@
     "yargs-parser": "^21.1.1",
     "shelljs": "^0.10.0",
     "exceljs/archiver": "8.0.0",
-    "exceljs/fast-csv": "5.0.7",
+    "exceljs/fast-csv": "5.0.8",
     "exceljs/unzipper": "0.12.5",
     "exceljs/uuid": "11.1.1",
     "dompurify": "^3.4.13",

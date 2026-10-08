@@ -8,7 +8,7 @@ terraform {
     }
   }
 
-  required_version = "~> 1.6.6"
+  required_version = "~> 1.16.0"
 }
 
 provider "azurerm" {

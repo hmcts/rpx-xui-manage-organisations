@@ -80,7 +80,7 @@ export class CookiePolicyComponent {
     {
       name: '_gid',
       cat: this.GOOGLE,
-      purpose: this.googlePurpose,
+      purpose: 'Mae’n ein helpu i gyfrif faint o bobl sy’n ymweld â’r gwasanaeth drwy olrhain os ydych wedi ymweld o’r blaen',
       expires: '1 diwrnod'
     },
     {

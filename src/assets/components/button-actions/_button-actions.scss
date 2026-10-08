@@ -1,3 +1,5 @@
+@use "govuk-frontend/dist/govuk/base" as *;
+
   .jui-button-actions {
     @include govuk-clearfix;
   }

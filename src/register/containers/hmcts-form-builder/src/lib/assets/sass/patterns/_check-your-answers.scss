@@ -1,4 +1,6 @@
 // Recommended - Use these styles for the check your answers pattern
+@use "govuk-frontend/dist/govuk/base" as *;
+
 .govuk-check-your-answers {
 
   @include govuk-font(19);

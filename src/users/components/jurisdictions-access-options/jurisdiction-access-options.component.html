@@ -18,8 +18,8 @@
               </label>
               @if (accessType.mandatory) {
               <span class="govuk-hint govuk-checkboxes__hint">
-                 {{ 'This checkbox is disabled because this role is mandatory.' | rpxTranslate }}
-                </span>
+                {{ 'This checkbox is disabled because this role is mandatory.' | rpxTranslate }}
+              </span>
               } @else {
               <span [id]="accessType.accessTypeId + '-item-hint'" class="govuk-hint govuk-checkboxes__hint">
                 {{ accessType.hint }} <br />

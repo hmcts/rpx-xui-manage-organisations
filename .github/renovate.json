@@ -25,6 +25,7 @@
         "@hmcts/rpx-xui-node-lib",
         "rpx-xui-translation",
         "@microsoft/applicationinsights-web",
+        "@opentelemetry/core",
         "applicationinsights",
         "/^@angular\\//",
         "/^@angular-devkit\\//"

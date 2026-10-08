@@ -2212,6 +2212,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:7.29.10":
+  version: 7.29.10
+  resolution: "@babel/runtime@npm:7.29.10"
+  checksum: 10/883bb39a09f4773cf46cdd7ba0080ef6b30ff996a4ed21f8d34511ec0836122e697716533da5efc9b5016f763110b19aa07e81cec6e2036fe72cb26aad556af2
+  languageName: node
+  linkType: hard
+
 "@babel/template@npm:^7.29.7":
   version: 7.29.7
   resolution: "@babel/template@npm:7.29.7"
@@ -20040,7 +20047,7 @@ __metadata:
     "@angular/material": "npm:^17.3.8"
     "@angular/platform-browser": "npm:20.3.31"
     "@angular/router": "npm:20.3.31"
-    "@babel/runtime": "npm:7.28.3"
+    "@babel/runtime": "npm:7.29.10"
     "@edium/fsm": "npm:^3.0.2"
     "@hmcts/ccd-case-ui-toolkit": "npm:7.4.5"
     "@hmcts/ccpay-web-component": "npm:6.5.22"

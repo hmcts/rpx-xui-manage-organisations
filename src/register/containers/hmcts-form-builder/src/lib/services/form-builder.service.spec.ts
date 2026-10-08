@@ -123,15 +123,13 @@ describe('FormsService', () => {
       it('should create form control when updateOn is set', inject([FormsService], (service: FormsService) => {
         service.defineFormControls(someJson, someData);
         service.createFormControl('PBA1111111', 'PBANumber1', ['required'], true);
-        // eslint-disable-next-line dot-notation
-        expect(service.formControls['PBANumber1']._updateOn).toBe('blur');
+        expect(service.formControls.PBANumber1.updateOn).toBe('blur');
       }));
 
       it('should not create form control with updateOn when updateOn is not set', inject([FormsService], (service: FormsService) => {
         service.defineFormControls(someJson, someData);
         service.createFormControl('PBA1111111', 'PBANumber1', ['required']);
-        // eslint-disable-next-line dot-notation
-        expect(service.formControls['PBANumber1']._updateOn).toBeFalsy();
+        expect(service.formControls.PBANumber1.updateOn).toBe('change');
       }));
     });
   });

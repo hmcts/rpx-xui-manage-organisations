@@ -3,7 +3,6 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { GovUiModule } from 'projects/gov-ui/src/public_api';
 import { AcceptTermsAndConditionGuard } from 'src/accept-tc/guards/acceptTermsAndCondition.guard';
 import { FeatureToggleEditUserGuard } from 'src/users/guards/feature-toggle-edit-user.guard';
@@ -34,7 +33,6 @@ import { RpxTranslationModule } from 'rpx-xui-translation';
     ReactiveFormsModule,
     RouterModule,
     CommonModule,
-    ExuiCommonLibModule,
     GovUiModule,
     LoaderModule,
     RpxTranslationModule.forChild()

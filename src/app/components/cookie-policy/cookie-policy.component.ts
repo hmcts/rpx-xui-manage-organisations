@@ -58,14 +58,14 @@ export class CookiePolicyComponent {
       expires: '2 flynedd'
     },
     {
-      name: 'ai_defnyddiwr',
+      name: 'ai_user',
       catAlias: this.USAGE_WELSH,
       cat: this.USAGE,
       purpose: 'ID defnyddiwr a gynhyrchwyd ar gyfer tracio defnydd (Application Insights)',
       expires: '6 mis'
     },
     {
-      name: 'ai_sesiwn',
+      name: 'ai_session',
       catAlias: this.USAGE_WELSH,
       cat: this.USAGE,
       purpose: 'ID defnyddiwr a gynhyrchwyd ar gyfer tracio defnydd (Application Insights)',
@@ -102,7 +102,7 @@ export class CookiePolicyComponent {
       expires: '1 diwrnod'
     },
     {
-      name: '__id defnyddiwr__',
+      name: '__userid__',
       cat: this.IDENTIFY,
       purpose: 'Eich ID defnyddiwr',
       expires: 'Pan fyddwch yn cau eich porwr'

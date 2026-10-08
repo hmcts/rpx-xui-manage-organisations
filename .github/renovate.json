@@ -5,13 +5,14 @@
     "local>hmcts/.github//renovate/automerge-all"
   ],
   "automerge": true,
-  "platformAutomerge": true,
+  "platformAutomerge": false,
   "prConcurrentLimit": 3,
   "prHourlyLimit": 1,
   "timezone": "Europe/London",
   "schedule": [
     "* 7-16 * * 1-5"
   ],
+  "automergeSchedule": ["* 7-16 * * 1-5"],
   "updateNotScheduled": false,
   "packageRules": [
     {
@@ -19,6 +20,7 @@
       "matchPackageNames": [
         "@hmcts/ccd-case-ui-toolkit",
         "@hmcts/ccpay-web-component",
+        "@hmcts/media-viewer",
         "@hmcts/rpx-xui-common-lib",
         "@hmcts/rpx-xui-node-lib",
         "rpx-xui-translation",

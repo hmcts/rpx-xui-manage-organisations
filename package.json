@@ -130,7 +130,7 @@
     "helmet": "^8.1.0",
     "http-proxy-middleware": "^4.0.0",
     "jwt-decode": "^4.0.0",
-    "launchdarkly-js-client-sdk": "3.9.5",
+    "launchdarkly-js-client-sdk": "3.9.6",
     "log4js": "^6.9.1",
     "lz-string": "^1.5.0",
     "mermaid": "11.17.2",

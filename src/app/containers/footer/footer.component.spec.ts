@@ -1,5 +1,6 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { firstValueFrom } from 'rxjs';
@@ -72,7 +73,7 @@ describe('FooterComponent', () => {
   });
 
   it('should not provide the logged-in user email in production', async () => {
-    const productionFooter = new FooterComponent(store as any, { environment: 'prod' } as any);
+    const productionFooter = new FooterComponent(store as any, { environment: 'prod' } as any, TestBed.inject(Router));
 
     await expectAsync(firstValueFrom(productionFooter.userEmail$)).toBeResolvedTo(null);
   });

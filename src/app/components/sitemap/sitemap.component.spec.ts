@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, throwError } from 'rxjs';
 import * as fromRoot from '../../store';
 import * as fromAuthStore from '../../../user-profile/store';
 import { AuthService } from '../../../user-profile/services/auth.service';
@@ -10,7 +10,7 @@ import { SitemapComponent } from './sitemap.component';
 describe('SitemapComponent', () => {
   let component: SitemapComponent;
   let fixture: ComponentFixture<SitemapComponent>;
-  let store: MockStore;
+  let store: MockStore<fromRoot.State>;
   let authService: jasmine.SpyObj<AuthService>;
   let authState$: BehaviorSubject<boolean>;
 
@@ -19,7 +19,7 @@ describe('SitemapComponent', () => {
       declarations: [SitemapComponent],
       imports: [RouterTestingModule],
       providers: [
-        provideMockStore(),
+        provideMockStore<fromRoot.State>(),
         {
           provide: AuthService,
           useValue: jasmine.createSpyObj<AuthService>('AuthService', ['isAuthenticated'])
@@ -74,5 +74,35 @@ describe('SitemapComponent', () => {
     expect(pageLinks.map((link) => link.getAttribute('href'))).toContain('/users');
     expect(pageLinks.map((link) => link.getAttribute('href'))).not.toContain('/organisation');
     expect(pageLinks.map((link) => link.getAttribute('href'))).not.toContain('/fee-accounts');
+  });
+
+  it('should show only public links when checking authentication fails', async () => {
+    authService.isAuthenticated.and.returnValue(throwError(() => new Error('Authentication status unavailable')));
+    const sitemap = new SitemapComponent(store, authService);
+
+    const sections = await firstValueFrom(sitemap.sections$);
+    const links = sections.flatMap((section) => section.links.map((link) => link.href));
+
+    expect(links).toContain('/accessibility');
+    expect(links).not.toContain('/users');
+  });
+
+  it('should use enabled feature links and feature-specific terms and conditions URL', () => {
+    authState$.next(true);
+    store.overrideSelector(fromAuthStore.getUser, { roles: ['pui-caa', 'pui-finance-manager'] } as any);
+    store.overrideSelector(fromRoot.getFeatureFlag, [
+      { featureName: 'fee-and-accounts', isEnabled: false },
+      { featureName: 'mo-new-cases', isEnabled: true },
+      { featureName: 'mo-new-register-org', isEnabled: true }
+    ] as any);
+    store.refreshState();
+    fixture.detectChanges();
+
+    const pageLinks = Array.from<HTMLAnchorElement>(fixture.nativeElement.querySelectorAll('[data-testid="sitemap-link"]'));
+    const hrefs = pageLinks.map((link) => link.getAttribute('href'));
+
+    expect(hrefs).toContain('/cases');
+    expect(hrefs).not.toContain('/fee-accounts');
+    expect(hrefs).toContain('/terms-and-conditions-register-other-org');
   });
 });

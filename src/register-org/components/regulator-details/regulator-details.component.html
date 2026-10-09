@@ -3,7 +3,7 @@
     <div class="govuk-grid-column-two-thirds">
       <button class="govuk-js-back-link xui-back-button-margin" (click)="onBack()">Back</button>
       <xuilib-hmcts-error-summary [errorMessages]="validationErrors" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
-      <span class="govuk-caption-xl">Register an organisation</span>
+      <span class="govuk-caption-l">Register an organisation</span>
       <fieldset class="govuk-fieldset" aria-describedby="regulator-details">
         <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
           <h1 class="govuk-fieldset__heading">
@@ -89,6 +89,7 @@
                       </select>
                       @if (regulators.controls.length > 1) {
                         <button (click)="onRemoveBtnClicked(i)" [id]="'remove-button' + i"
+                          [attr.aria-label]="'Remove regulator ' + (i + 1)"
                           class="govuk-button govuk-button--secondary govuk-!-margin-left-4 govuk-!-margin-bottom-0">
                           Remove
                         </button>

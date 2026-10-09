@@ -52,6 +52,29 @@ describe('FieldsetComponent', () => {
       element = fixture.debugElement;
     });
 
+    it('should render one legend first and preserve subsequent section headings', () => {
+      component.data = [
+        { input: { id: 'name' } },
+        { legend: { text: 'Organisation details' } },
+        { legend: { text: 'Contact details' } }
+      ];
+      fixture.detectChanges();
+      const fieldset: HTMLElement = fixture.nativeElement.querySelector('fieldset');
+      expect(fieldset.firstElementChild.tagName).toBe('LEGEND');
+      expect(fieldset.querySelectorAll('legend').length).toBe(1);
+      expect(fieldset.querySelector('legend h2').textContent).toBe('Organisation details');
+      expect(fieldset.querySelector('h3').textContent).toBe('Contact details');
+      expect(fieldset.querySelector('h1')).toBeNull();
+    });
+
+    it('should use a page heading only when requested', () => {
+      component.data = [{ legend: { text: 'Organisation details' } }];
+      component.isPageHeading = true;
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('legend h1.govuk-fieldset__heading').textContent)
+        .toBe('Organisation details');
+    });
+
     it('should create', () => {
       expect(component).toBeTruthy();
     });

@@ -31,16 +31,20 @@ export class FormBuilderComponent implements OnChanges {
   @Output() public blurCast = new EventEmitter<any>();
 
   public formDraft: FormGroup;
-  public isLegendAvailable: boolean;
+
+  public get pageHeadingFieldset(): any[] | undefined {
+    if (this.pageItems?.header) {
+      return undefined;
+    }
+    return this.pageItems?.groups?.find((group: any) =>
+      group.fieldset?.some((item: any) => item.legend)
+    )?.fieldset;
+  }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    this.isLegendAvailable = false;
-
     if (changes.pageItems?.currentValue) {
       this.createForm();
     }
-
-    this.isLegendAvailable = this.hasLegend(this.pageItems);
   }
 
   public createForm(): void {
@@ -70,11 +74,5 @@ export class FormBuilderComponent implements OnChanges {
   // trackBy helper for groups to avoid identity churn / duplicate empty keys
   public trackByFormGroup(index: number, group: any): string | number {
     return buildIdOrIndexKey(index, group, 'id', 'name', 'fieldId');
-  }
-
-  private hasLegend(pageItems: any): boolean {
-    return pageItems?.groups?.some((group: any) =>
-      group.fieldset?.some((item: any) => item.legend)
-    ) ?? false;
   }
 }

@@ -10,6 +10,10 @@ import sitemapSections from './sitemap-links.json';
 export interface SitemapLink {
   text: string;
   href: string;
+  hrefWhenFeatureEnabled?: {
+    featureName: string;
+    href: string;
+  };
   requiredRole?: string;
   requiredFeature?: string;
 }
@@ -57,15 +61,22 @@ export class SitemapComponent {
         return SITEMAP_SECTIONS
           .map((section) => ({
             ...section,
-            links: section.links.filter((link) => {
-              if (!link.requiredRole && !link.requiredFeature) {
-                return true;
-              }
+            links: section.links
+              .filter((link) => {
+                if (!link.requiredRole && !link.requiredFeature) {
+                  return true;
+                }
 
-              return isAuthenticated &&
-                (!link.requiredRole || roles.includes(link.requiredRole)) &&
-                (!link.requiredFeature || enabledFeatures.has(link.requiredFeature));
-            })
+                return isAuthenticated &&
+                  (!link.requiredRole || roles.includes(link.requiredRole)) &&
+                  (!link.requiredFeature || enabledFeatures.has(link.requiredFeature));
+              })
+              .map((link) => {
+                if (link.hrefWhenFeatureEnabled && enabledFeatures.has(link.hrefWhenFeatureEnabled.featureName)) {
+                  return { ...link, href: link.hrefWhenFeatureEnabled.href };
+                }
+                return link;
+              })
           }))
           .filter((section) => section.links.length > 0);
       })

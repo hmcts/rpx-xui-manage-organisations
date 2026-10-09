@@ -71,11 +71,11 @@
       },
       {
         "text": "Terms and conditions",
-        "href": "/terms-and-conditions"
-      },
-      {
-        "text": "Terms and conditions for registering another organisation",
-        "href": "/terms-and-conditions-register-other-org"
+        "href": "/terms-and-conditions",
+        "hrefWhenFeatureEnabled": {
+          "featureName": "mo-new-register-org",
+          "href": "/terms-and-conditions-register-other-org"
+        }
       },
       {
         "text": "Get help",

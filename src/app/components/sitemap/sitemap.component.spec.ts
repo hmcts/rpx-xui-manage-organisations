@@ -58,7 +58,6 @@ describe('SitemapComponent', () => {
       '/cookies',
       '/privacy-policy',
       '/terms-and-conditions',
-      '/terms-and-conditions-register-other-org',
       '/get-help',
       '/sitemap'
     ]);

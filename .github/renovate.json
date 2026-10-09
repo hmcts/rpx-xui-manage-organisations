@@ -9,10 +9,8 @@
   "prConcurrentLimit": 3,
   "prHourlyLimit": 1,
   "timezone": "Europe/London",
-  "schedule": [
-    "* 7-16 * * 1-5"
-  ],
-  "automergeSchedule": ["* 7-16 * * 1-5"],
+  "schedule": ["* 7-16 * * 1-4"],
+  "automergeSchedule": ["* 7-16 * * 1-4"],
   "updateNotScheduled": false,
   "packageRules": [
     {

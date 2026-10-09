@@ -124,7 +124,8 @@ const footerDataNavigation = {
     { text: 'Terms and conditions', href: 'terms-and-conditions', target: '_blank' },
     { text: 'Cookies', href: 'cookies', target: '_blank' },
     { text: 'Privacy policy', href: 'privacy-policy', target: '_blank' },
-    { text: 'Get help', href: 'get-help', target: '_blank' }
+    { text: 'Get help', href: 'get-help', target: '_blank' },
+    { text: 'Site map', href: 'sitemap', target: '_blank' }
   ]
 };
 

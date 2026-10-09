@@ -1,0 +1,62 @@
+[
+  {
+    "heading": "Manage your organisation",
+    "links": [
+      {
+        "text": "Organisation",
+        "href": "/organisation",
+        "requiredRole": "pui-organisation-manager"
+      },
+      {
+        "text": "Users",
+        "href": "/users",
+        "requiredRole": "pui-user-manager"
+      },
+      {
+        "text": "Fee accounts",
+        "href": "/fee-accounts",
+        "requiredRole": "pui-finance-manager",
+        "requiredFeature": "fee-and-accounts"
+      },
+      {
+        "text": "Cases",
+        "href": "/cases",
+        "requiredRole": "pui-caa",
+        "requiredFeature": "mo-new-cases"
+      }
+    ]
+  },
+  {
+    "heading": "Help and information",
+    "links": [
+      {
+        "text": "Accessibility statement",
+        "href": "/accessibility"
+      },
+      {
+        "text": "Terms and conditions",
+        "href": "/terms-and-conditions",
+        "hrefWhenFeatureEnabled": {
+          "featureName": "mo-new-register-org",
+          "href": "/terms-and-conditions-register-other-org"
+        }
+      },
+      {
+        "text": "Cookies",
+        "href": "/cookies"
+      },
+      {
+        "text": "Privacy policy",
+        "href": "/privacy-policy"
+      },
+      {
+        "text": "Get help",
+        "href": "/get-help"
+      },
+      {
+        "text": "Site map",
+        "href": "/sitemap"
+      }
+    ]
+  }
+]

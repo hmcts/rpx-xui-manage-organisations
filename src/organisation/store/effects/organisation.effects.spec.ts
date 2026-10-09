@@ -19,7 +19,8 @@ describe('Organisation Effects', () => {
   let loggerService: LoggerService;
 
   const organisationServiceMock = jasmine.createSpyObj('OrganisationService', [
-    'fetchOrganisation'
+    'fetchOrganisationLatest',
+    'fetchOrganisationV1'
   ]);
 
   const mockedLoggerService = jasmine.createSpyObj('mockedLoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
@@ -93,7 +94,7 @@ describe('Organisation Effects', () => {
         pendingRemovePaymentAccount: []
       };
       mockFeatureService.getValue.and.returnValue(of(true));
-      organisationServiceMock.fetchOrganisation.and.returnValue(of(payload));
+      organisationServiceMock.fetchOrganisationLatest.and.returnValue(of(payload));
       const action = new LoadOrganisation();
       const completion = new LoadOrganisationSuccess(payload);
       actions$ = hot('-a', { a: action });
@@ -105,7 +106,7 @@ describe('Organisation Effects', () => {
   describe('loadOrganisation$ error', () => {
     it('should return LoadOrganisationFail', waitForAsync(() => {
       mockFeatureService.getValue.and.returnValue(of(true));
-      organisationServiceMock.fetchOrganisation.and.returnValue(throwError(() => new Error()));
+      organisationServiceMock.fetchOrganisationLatest.and.returnValue(throwError(() => new Error()));
       const action = new LoadOrganisation();
       const completion = new LoadOrganisationFail(new Error());
       actions$ = hot('-a', { a: action });

@@ -5,6 +5,7 @@ import { Helper, Navigation } from '../../containers/footer/footer.model';
 @Component({
   selector: 'app-hmcts-global-footer',
   templateUrl: './hmcts-global-footer.component.html',
+  styleUrls: ['./hmcts-global-footer.component.scss'],
   standalone: false
 })
 export class HmctsGlobalFooterComponent {

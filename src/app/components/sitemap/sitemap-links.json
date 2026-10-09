@@ -8,25 +8,9 @@
         "requiredRole": "pui-organisation-manager"
       },
       {
-        "text": "Update PBA numbers",
-        "href": "/organisation/update-pba-numbers",
-        "requiredRole": "pui-finance-manager"
-      },
-      {
         "text": "Users",
         "href": "/users",
         "requiredRole": "pui-user-manager"
-      },
-      {
-        "text": "Invite a user",
-        "href": "/users/invite-user",
-        "requiredRole": "pui-user-manager"
-      },
-      {
-        "text": "Manage a user",
-        "href": "/users/manage",
-        "requiredRole": "pui-user-manager",
-        "requiredFeature": "ogd-invite-user-flow"
       },
       {
         "text": "Fee accounts",

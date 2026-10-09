@@ -63,20 +63,15 @@ describe('SitemapComponent', () => {
     ]);
   });
 
-  it('should display links allowed by the logged-in user role and feature flags', () => {
+  it('should display links allowed by the logged-in user role', () => {
     authState$.next(true);
     store.overrideSelector(fromAuthStore.getUser, { roles: ['pui-user-manager'] } as any);
-    store.overrideSelector(fromRoot.getFeatureFlag, [
-      { featureName: 'ogd-invite-user-flow', isEnabled: true }
-    ]);
     store.refreshState();
     fixture.detectChanges();
 
     const pageLinks = Array.from<HTMLAnchorElement>(fixture.nativeElement.querySelectorAll('[data-testid="sitemap-link"]'));
 
     expect(pageLinks.map((link) => link.getAttribute('href'))).toContain('/users');
-    expect(pageLinks.map((link) => link.getAttribute('href'))).toContain('/users/invite-user');
-    expect(pageLinks.map((link) => link.getAttribute('href'))).toContain('/users/manage');
     expect(pageLinks.map((link) => link.getAttribute('href'))).not.toContain('/organisation');
     expect(pageLinks.map((link) => link.getAttribute('href'))).not.toContain('/fee-accounts');
   });

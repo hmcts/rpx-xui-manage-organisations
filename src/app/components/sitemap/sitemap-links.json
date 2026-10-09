@@ -34,20 +34,20 @@
         "href": "/accessibility"
       },
       {
-        "text": "Cookies",
-        "href": "/cookies"
-      },
-      {
-        "text": "Privacy policy",
-        "href": "/privacy-policy"
-      },
-      {
         "text": "Terms and conditions",
         "href": "/terms-and-conditions",
         "hrefWhenFeatureEnabled": {
           "featureName": "mo-new-register-org",
           "href": "/terms-and-conditions-register-other-org"
         }
+      },
+      {
+        "text": "Cookies",
+        "href": "/cookies"
+      },
+      {
+        "text": "Privacy policy",
+        "href": "/privacy-policy"
       },
       {
         "text": "Get help",

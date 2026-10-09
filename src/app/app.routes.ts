@@ -111,6 +111,7 @@ export const ROUTES: Routes = [
   },
   {
     path: 'sitemap',
+    canActivate: [AuthGuard],
     component: SitemapComponent
   },
   {

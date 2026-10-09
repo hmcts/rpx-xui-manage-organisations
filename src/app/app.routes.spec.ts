@@ -1,3 +1,4 @@
+import { AuthGuard } from '../user-profile/guards/auth.guard';
 import { AppConstants } from './app.constants';
 import { ROUTES } from './app.routes';
 
@@ -40,11 +41,12 @@ describe('App routes', () => {
     }));
   });
 
-  it('should expose the sitemap route', () => {
+  it('should protect the sitemap route with AuthGuard', () => {
     const sitemapRoute = ROUTES.find((route) => route.path === 'sitemap');
 
     expect(sitemapRoute).toEqual(jasmine.objectContaining({
-      path: 'sitemap'
+      path: 'sitemap',
+      canActivate: [AuthGuard]
     }));
   });
 

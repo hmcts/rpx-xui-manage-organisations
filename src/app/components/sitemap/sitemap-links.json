@@ -23,18 +23,6 @@
         "href": "/cases",
         "requiredRole": "pui-caa",
         "requiredFeature": "mo-new-cases"
-      },
-      {
-        "text": "Unassigned cases",
-        "href": "/unassigned-cases",
-        "requiredRole": "pui-caa",
-        "requiredFeature": "mo-caa-menu-items"
-      },
-      {
-        "text": "Assigned cases",
-        "href": "/assigned-cases",
-        "requiredRole": "pui-caa",
-        "requiredFeature": "mo-caa-menu-items"
       }
     ]
   },

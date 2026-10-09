@@ -8,6 +8,7 @@ import { of } from 'rxjs';
 import { getRouterState } from '../../../app/store/reducers';
 import { CaaCasesState } from '../../store/reducers';
 import * as fromCasesFeature from '../../store';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { CaseShareComponent } from './case-share.component';
 
 describe('CaseShareComponent', () => {
@@ -32,7 +33,7 @@ describe('CaseShareComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RpxTranslationTestingModule, RouterTestingModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [CaseShareComponent],
       providers: [

@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { ManageUserFailureComponent } from './manage-user-failure.component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -19,7 +20,7 @@ describe('ManageUserFailureComponent', () => {
           useValue: { paramMap: of(convertToParamMap({ userId: '123' })) }
         }
       ],
-      imports: [RouterTestingModule],
+      imports: [RpxTranslationTestingModule, RouterTestingModule],
       declarations: [ManageUserFailureComponent]
     })
       .compileComponents();

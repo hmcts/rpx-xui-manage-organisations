@@ -29,7 +29,7 @@
         <ul class="hmcts-footer__list hmcts-footer__list--inline">
           @for (item of navigation.items; track trackByFooterNavItem($index, item)) {
             <li class="hmcts-footer__list-item">
-              <a class="govuk-footer__link" [routerLink]="item.href" [target]="item.target">{{item.text}}</a>
+              <a class="govuk-footer__link" [routerLink]="item.href" [target]="item.target">{{ item.text | rpxTranslate }}</a>
             </li>
           }
         </ul>
@@ -49,19 +49,19 @@
             />
           </svg>
           <span class="govuk-footer__licence-description">
-            All content is available under the
+            {{ 'All content is available under the' | rpxTranslate }}
             <a
               class="govuk-footer__link"
               href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
               rel="license"
-            >Open Government Licence v3.0</a>, except where otherwise stated
+            >{{ 'Open Government Licence v3.0' | rpxTranslate }}</a>{{ ', except where otherwise stated' | rpxTranslate }}
           </span>
         </div>
       </div>
       <div class="govuk-footer__meta-item">
         <a class="govuk-footer__link" href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/">
-          <img src="/assets/images/govuk-crest.svg" alt="HMCTS logo" />
-          <div>&copy; Crown copyright</div>
+          <img src="/assets/images/govuk-crest.svg" [alt]="'HMCTS logo' | rpxTranslate" />
+          <div>&copy; {{ 'Crown copyright' | rpxTranslate }}</div>
         </a>
       </div>
     </div>

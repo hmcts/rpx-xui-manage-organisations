@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { UserModel } from '../../models/user.model';
 import * as fromAuth from '../../store';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { ProfileComponent } from './profile.component';
 
 describe('ProfileComponent', () => {
@@ -28,6 +29,7 @@ describe('ProfileComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [RpxTranslationTestingModule],
       declarations: [ProfileComponent],
       providers: [provideMockStore()]
     }).compileComponents();

@@ -12,6 +12,7 @@ import {
   RegulatoryType
 } from '../../../register-org/models';
 import { LovRefDataService } from '../../../shared/services/lov-ref-data.service';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { RegulatorDetailsComponent } from './regulator-details.component';
 import { buildMockStoreProviders } from '../../testing/mock-store-state';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
@@ -63,7 +64,7 @@ describe('RegulatorDetailsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [RegulatorDetailsComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [ReactiveFormsModule, RouterTestingModule],
+      imports: [RpxTranslationTestingModule, ReactiveFormsModule, RouterTestingModule],
       providers: [
         {
           provide: ActivatedRoute, useValue: mockRoute

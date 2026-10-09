@@ -32,6 +32,7 @@
         "s2s": "S2S_SERVICE",
         "feeAndPayApi": "FEE_AND_PAY_API",
         "termsAndConditions": "SERVICES_TERMS_AND_CONDITIONS_API_SERVICE",
+        "translation": "SERVICES_TRANSLATION_API_URL",
         "ccdDataApi": "SERVICES_CCD_DATA_STORE_API",
         "ccdDefinitionApi": "SERVICES_CCD_DEFINITION_STORE_API",
         "caseAssignmentApi": "SERVICES_MCA_PROXY_API",

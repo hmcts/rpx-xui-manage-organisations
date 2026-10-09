@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { RpxTranslationModule } from 'rpx-xui-translation';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CaseListModule } from '@hmcts/ccd-case-ui-toolkit';
@@ -26,6 +27,7 @@ import { NewCaseFeatureToggleGuard } from './guards/new-cases-feature-toggle.gua
   declarations: [...fromContainers.containers, ...fromComponents.components],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [CommonModule,
+    RpxTranslationModule.forChild(),
     ExuiCommonLibModule,
     SharedModule,
     caaCasesRouting,

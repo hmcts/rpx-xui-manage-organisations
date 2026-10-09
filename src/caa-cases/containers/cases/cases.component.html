@@ -2,7 +2,7 @@
   <span class="govuk-caption-xl">{{
     (selectedOrganisation$ | async)?.name
   }}</span>
-  <h1 class="govuk-heading-xl">{{ pageTitle }}</h1>
+  <h1 class="govuk-heading-xl">{{ pageTitle | rpxTranslate }}</h1>
 
   <div>
     <button
@@ -10,7 +10,7 @@
       class="govuk-button govuk-button--secondary"
       (click)="toggleFilterSection()"
     >
-      {{ showFilterSection ? "Hide cases filter" : "Show cases filter" }}
+      {{ (showFilterSection ? 'Hide cases filter' : 'Show cases filter') | rpxTranslate }}
     </button>
     @if (showFilterSection) {
       <div>
@@ -23,13 +23,13 @@
             data-module="govuk-error-summary"
           >
             <h2 class="govuk-error-summary__title" id="error-summary-title">
-              There is a problem
+              {{ 'There is a problem' | rpxTranslate }}
             </h2>
             <div class="govuk-error-summary__body">
               <ul class="govuk-list govuk-error-summary__list">
                 @for (errorMessage of errorMessages; track errorMessage.fieldId){
                 <li>
-                  <a href="cases/all#{{ errorMessage.fieldId }}">{{ errorMessage.description }}</a>
+                  <a href="cases/all#{{ errorMessage.fieldId }}">{{ errorMessage.description | rpxTranslate }}</a>
                 </li>
                 }
               </ul>

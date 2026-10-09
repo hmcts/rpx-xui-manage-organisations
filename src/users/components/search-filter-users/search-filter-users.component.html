@@ -4,11 +4,11 @@
             <div class="govuk-form-group">
                   <h2 class="govuk-label-wrapper">
                         <label class="govuk-label govuk-label--l" for="event-name">
-                              Filter by name
+                              {{ 'Filter by name' | rpxTranslate }}
                         </label>
                   </h2>
                   <div id="event-name-hint" class="govuk-hint">
-                        Enter at least 3 characters to begin filtering by name or email address
+                        {{ 'Enter at least 3 characters to begin filtering by name or email address' | rpxTranslate }}
                   </div>
                   <input id="event-name" class="govuk-input" formControlName="nameFilter" [matAutocomplete]="autoComplete"
                         (blur)="onBlur($event)" aria-describedby="event-name-hint">
@@ -26,7 +26,7 @@
                               @if (noResults && searchTerm && searchTerm.length >= minSearchCharacters &&
                               showAutocomplete) {
                               <mat-option class="govuk-body" disabled>
-                                    No results found
+                                    {{ 'No results found' | rpxTranslate }}
                               </mat-option>
                               }
                         </div>

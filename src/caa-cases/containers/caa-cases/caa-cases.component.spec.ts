@@ -18,6 +18,7 @@ import {
 import { CaaCasesSessionState, CaaCasesSessionStateValue } from '../../models/caa-cases.model';
 import { CaaCasesService } from '../../services';
 import * as fromStore from '../../store';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { CaaCasesComponent } from './caa-cases.component';
 import { buildMockStoreProviders } from '../../../register-org/testing/mock-store-state';
 import { ROUTES as AppRoutes } from 'src/app/app.routes';
@@ -54,6 +55,7 @@ describe('CaaCasesComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [CaaCasesComponent],
       imports: [
+        RpxTranslationTestingModule,
         RouterTestingModule.withRoutes(AppRoutes)
       ],
       providers: [

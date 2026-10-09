@@ -54,7 +54,6 @@ describe('SitemapComponent', () => {
     const pageLinks = Array.from<HTMLAnchorElement>(fixture.nativeElement.querySelectorAll('[data-testid="sitemap-link"]'));
 
     expect(pageLinks.map((link) => link.getAttribute('href'))).toEqual([
-      '/register-org-new/register',
       '/accessibility',
       '/cookies',
       '/privacy-policy',

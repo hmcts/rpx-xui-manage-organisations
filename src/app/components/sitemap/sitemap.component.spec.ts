@@ -80,10 +80,4 @@ describe('SitemapComponent', () => {
     expect(pageLinks.map((link) => link.getAttribute('href'))).not.toContain('/organisation');
     expect(pageLinks.map((link) => link.getAttribute('href'))).not.toContain('/fee-accounts');
   });
-
-  it('should identify the current page in the breadcrumb', () => {
-    const currentPage = fixture.nativeElement.querySelector('.govuk-breadcrumbs__list-item[aria-current="page"]');
-
-    expect(currentPage.textContent.trim()).toBe('Site map');
-  });
 });

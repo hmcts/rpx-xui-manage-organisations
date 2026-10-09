@@ -55,9 +55,9 @@ describe('SitemapComponent', () => {
 
     expect(pageLinks.map((link) => link.getAttribute('href'))).toEqual([
       '/accessibility',
+      '/terms-and-conditions',
       '/cookies',
       '/privacy-policy',
-      '/terms-and-conditions',
       '/get-help',
       '/sitemap'
     ]);

@@ -262,8 +262,17 @@ export class CaaCasesComponent implements OnInit {
   }
 
   public getLastResult(): number {
-    const count = ((this.currentPageNo) * this.paginationPageSize);
-    return count >= this.totalCases ? this.totalCases : count < this.totalCases ? count : 1;
+    const count = this.currentPageNo * this.paginationPageSize;
+
+    if (count >= this.totalCases) {
+      return this.totalCases;
+    }
+
+    if (count < this.totalCases) {
+      return count;
+    }
+
+    return 1;
   }
 
   public getTotalResults(): number {

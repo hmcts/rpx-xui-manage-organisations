@@ -3,11 +3,11 @@
    ========================================================================== */
 
 .jui-casebar {
-  @include govuk-clearfix;
   background-color: govuk-colour("blue");
   color: govuk-colour("white");
   padding-top: govuk-spacing(3);
   padding-bottom: govuk-spacing(3);
+  @include govuk-clearfix;
 }
 
 
@@ -17,8 +17,8 @@
 
 
 .jui-casebar__reference {
-  @include govuk-font(16);
   margin-right: govuk-spacing(2);
+  @include govuk-font(16);
 }
 
 

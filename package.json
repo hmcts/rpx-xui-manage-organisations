@@ -94,7 +94,7 @@
     "@angular/platform-browser": "20.3.31",
     "@angular/router": "20.3.31",
     "@edium/fsm": "^3.0.2",
-    "@hmcts/ccd-case-ui-toolkit": "7.4.8-cve-update",
+    "@hmcts/ccd-case-ui-toolkit": "7.4.11-cve-update",
     "@hmcts/ccpay-web-component": "6.5.27",
     "@hmcts/frontend": "0.0.50-alpha",
     "@hmcts/media-viewer": "4.2.42-cve-update",

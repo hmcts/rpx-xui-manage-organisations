@@ -12,17 +12,11 @@ export const ENVIRONMENT = {
 export class OrganisationService {
   constructor(private readonly http: HttpClient) { }
 
-  public fetchOrganisation(registerOrgFeature: boolean): Observable<any> {
-    return registerOrgFeature
-      ? this.fetchOrganisationLatest()
-      : this.fetchOrganisationV1();
-  }
-
-  private fetchOrganisationLatest(): Observable<any> {
+  public fetchOrganisationLatest(): Observable<any> {
     return this.http.get<any>(ENVIRONMENT.orgUri);
   }
 
-  private fetchOrganisationV1(): Observable<any> {
+  public fetchOrganisationV1(): Observable<any> {
     return this.http.get<any>(`${ENVIRONMENT.orgUri}/v1`);
   }
 

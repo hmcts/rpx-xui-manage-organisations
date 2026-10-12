@@ -168,7 +168,6 @@ export class AppComponent implements OnInit, OnDestroy {
    *
    * The User's Session Timeout information is different per User and per application.
    *
-   * TODO: Remove console.log(userProfile) after testing
    */
   public addUserProfileListener() {
     this.store.pipe(select(fromUserProfile.getUser)).subscribe((userProfile) => {

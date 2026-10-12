@@ -16,7 +16,7 @@ export function toShareCaseConverter(selectedCases: any[], theCaseTypeId: string
 
     const shareCase = {
       caseId: selectCase.case_id,
-      caseTitle: caseTitle ? caseTitle : combineCaseTitleByCaseType(caseTypeId, selectCase),
+      caseTitle: caseTitle || combineCaseTitleByCaseType(caseTypeId, selectCase),
       caseTypeId
     };
     sharedCases.push(shareCase);

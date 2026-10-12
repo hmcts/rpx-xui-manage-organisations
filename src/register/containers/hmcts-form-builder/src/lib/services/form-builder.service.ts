@@ -6,7 +6,7 @@ import { ValidationService } from './form-builder-validation.service';
 })
 
 export class FormsService {
-  public formControls = [];
+  public formControls: Record<string, FormControl> = {};
 
   constructor(private readonly validationService: ValidationService) { }
 
@@ -121,7 +121,7 @@ export class FormsService {
   }
 
   public defineFormControls(someJson: any, someData: any): any {
-    this.formControls = [];
+    this.formControls = {};
     this.create(someJson, someData);
     return this.formControls;
   }

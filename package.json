@@ -242,7 +242,7 @@
     "jsdom": "^27.0.1",
     "minimatch": "8.0.7",
     "body-parser": "^2.3.0",
-    "ws": "8.21.3",
+    "ws": "8.22.0",
     "@opentelemetry/core": "^2.8.0",
     "@azure/monitor-opentelemetry": "^1.19.0",
     "tar": "^7.5.22",

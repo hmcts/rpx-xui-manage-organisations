@@ -19,12 +19,13 @@ export class OrganisationServicesAccessComponent extends RegisterComponent imple
   public servicesFormGroup: FormGroup;
   public services: OrganisationService[];
   public selectedServices: OrganisationService[];
-  public validationErrors: { id: string, message: string }[] = [];
+  public validationErrors: { id: string; message: string }[] = [];
   public noServicesError: string;
   public otherServicesError: string;
   public showOtherServicesInput: boolean;
 
-  constructor(public readonly router: Router,
+  constructor(
+    public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService,
     private readonly environmentService: EnvironmentService
   ) {
@@ -34,10 +35,7 @@ export class OrganisationServicesAccessComponent extends RegisterComponent imple
   public ngOnInit(): void {
     super.ngOnInit();
 
-    this.services = organisationServices(
-      this.environmentService.get('environment'),
-      this.environmentService.get('idamWeb')
-    );
+    this.services = organisationServices(this.environmentService.get('environment'), this.environmentService.get('idamWeb'));
 
     this.servicesFormGroup = new FormGroup({
       services: new FormArray([]),
@@ -94,11 +92,11 @@ export class OrganisationServicesAccessComponent extends RegisterComponent imple
   }
 
   private setFormControlValues(): void {
-    this.selectedServices = this.registrationData.services;
+    // Keep the component selection state separate from persisted registration data.
+    // The list is updated when the "Service not listed" option is hydrated.
+    this.selectedServices = [...(this.registrationData.services ?? [])];
     this.services.forEach((service) => {
-      service.selected = this.selectedServices.some(
-        (thisService) => thisService.key === service.key
-      );
+      service.selected = this.selectedServices.some((thisService) => thisService.key === service.key);
     });
     if (this.registrationData.otherServices) {
       this.showOtherServicesInput = true;

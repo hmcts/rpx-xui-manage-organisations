@@ -30,11 +30,11 @@ describe('OrganisationServicesAccessComponent', () => {
         provideHttpClientTesting(),
         ...buildMockStoreProviders()
       ]
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {
+    window.sessionStorage.clear();
     fixture = TestBed.createComponent(OrganisationServicesAccessComponent);
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
@@ -45,6 +45,7 @@ describe('OrganisationServicesAccessComponent', () => {
 
   afterEach(() => {
     component.ngOnDestroy();
+    window.sessionStorage.clear();
     TestBed.resetTestingModule();
   });
 
@@ -137,7 +138,7 @@ describe('OrganisationServicesAccessComponent', () => {
   it('should set the error message and stay on the page', () => {
     component.selectedServices = [];
     component.showOtherServicesInput = false;
-    component.services.forEach((s) => s.selected = false);
+    component.services.forEach((s) => (s.selected = false));
     fixture.detectChanges();
     component.onContinue();
     expect(component.noServicesError).toEqual(OrganisationServicesMessage.NO_ORG_SERVICES);

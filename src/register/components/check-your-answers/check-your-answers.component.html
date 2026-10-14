@@ -2,31 +2,31 @@
   <h1 class="govuk-heading-xl">Check your answers before you register</h1>
   <dl class="govuk-check-your-answers  govuk-check-your-answers--short  govuk-!-margin-bottom-6" [ngClass]="{ 'govuk-form-group--error': (errorMessageDetails | async) !== '' }">
     <div app-govuk-dl-list-item class="govuk-check-your-answers__contents">
-      <ng-container question>Organisation name</ng-container>
-      <ng-container answer>
+      <dt class="govuk-check-your-answers__question">Organisation name</dt>
+      <dd class="govuk-check-your-answers__answer">
         {{ formDataValues.orgName }}
-      </ng-container>
-      <ng-container button>
+      </dd>
+      <dd class="govuk-check-your-answers__change">
         <a [routerLink]="'/register-org/register/organisation-name'">Change <span class="govuk-visually-hidden">organisation name</span></a>
-      </ng-container>
+      </dd>
     </div>
     <div app-govuk-dl-list-item class="govuk-check-your-answers__contents">
-      <ng-container question>Organisation address</ng-container>
-      <ng-container answer>
+      <dt class="govuk-check-your-answers__question">Organisation address</dt>
+      <dd class="govuk-check-your-answers__answer">
         <div>{{ formDataValues.officeAddressOne }}</div>
         <div>{{ formDataValues.officeAddressTwo }}</div>
         <div>{{ formDataValues.townOrCity }}</div>
         <div>{{ formDataValues.county }}</div>
         <div>{{ formDataValues.postCode }}</div>
-      </ng-container>
-      <ng-container button>
+      </dd>
+      <dd class="govuk-check-your-answers__change">
         <a [routerLink]="'/register-org/register/organisation-address'">Change <span class="govuk-visually-hidden">organisation address</span></a>
-      </ng-container>
+      </dd>
     </div>
     @if (formDataValues.PBANumbers && formDataValues.PBANumbers.length >= 0) {
       <div app-govuk-dl-list-item class="govuk-check-your-answers__contents">
-        <ng-container question>PBA number</ng-container>
-        <ng-container answer>
+        <dt class="govuk-check-your-answers__question">PBA number</dt>
+        <dd class="govuk-check-your-answers__answer">
           @for (PBANumber of formDataValues.PBANumbers; track trackByPbaNumber(PBANumber, $index)) {
             <div>
               <span>{{ PBANumber }}</span><br>
@@ -39,28 +39,28 @@
               If you're still having problems, contact HMCTS.</div>
             </div>
           }
-        </ng-container>
-        <ng-container button>
+        </dd>
+        <dd class="govuk-check-your-answers__change">
           <a [routerLink]="'/register-org/register/organisation-pba'">Change <span class="govuk-visually-hidden">PBA number</span></a>
-        </ng-container>
+        </dd>
       </div>
     }
     @if (formDataValues.DXnumber && formDataValues.DXexchange) {
       <div app-govuk-dl-list-item class="govuk-check-your-answers__contents">
-        <ng-container question>DX reference</ng-container>
-        <ng-container answer>
+        <dt class="govuk-check-your-answers__question">DX reference</dt>
+        <dd class="govuk-check-your-answers__answer">
           <div>DX number: {{ formDataValues.DXnumber }}</div>
           <div>DX exchange: {{ formDataValues.DXexchange }}</div>
-        </ng-container>
-        <ng-container button>
+        </dd>
+        <dd class="govuk-check-your-answers__change">
           <a [routerLink]="'/register-org/register/organisation-dx'">Change <span class="govuk-visually-hidden">DX reference</span></a>
-        </ng-container>
+        </dd>
       </div>
     }
     @if (formDataValues.sraNumber) {
       <div app-govuk-dl-list-item class="govuk-check-your-answers__contents">
-        <ng-container question>SRA Number</ng-container>
-        <ng-container answer>
+        <dt class="govuk-check-your-answers__question">SRA Number</dt>
+        <dd class="govuk-check-your-answers__answer">
           {{ formDataValues.sraNumber }}
           @if ((errorMessageDetailsCode | async) == '6 : SRA_ID Invalid or already exists') {
             <div>
@@ -72,33 +72,33 @@
               </div>
             </div>
           }
-        </ng-container>
-        <ng-container button>
+        </dd>
+        <dd class="govuk-check-your-answers__change">
           <a [routerLink]="'/register-org/register/sraNumber'">Change <span class="govuk-visually-hidden">SRA number</span></a>
-        </ng-container>
+        </dd>
       </div>
     }
     <div app-govuk-dl-list-item class="govuk-check-your-answers__contents">
-      <ng-container question>First name</ng-container>
-      <ng-container answer>
+      <dt class="govuk-check-your-answers__question">First name</dt>
+      <dd class="govuk-check-your-answers__answer">
         {{ formDataValues.firstName }}
-      </ng-container>
-      <ng-container button>
+      </dd>
+      <dd class="govuk-check-your-answers__change">
         <a [routerLink]="'/register-org/register/name'">Change <span class="govuk-visually-hidden">name</span></a>
-      </ng-container>
+      </dd>
     </div>
     <div app-govuk-dl-list-item class="govuk-check-your-answers__contents">
-      <ng-container question>Last name</ng-container>
-      <ng-container answer>
+      <dt class="govuk-check-your-answers__question">Last name</dt>
+      <dd class="govuk-check-your-answers__answer">
         {{ formDataValues.lastName }}
-      </ng-container>
-      <ng-container button>
+      </dd>
+      <dd class="govuk-check-your-answers__change">
         <a [routerLink]="'/register-org/register/name'">Change <span class="govuk-visually-hidden">last name</span></a>
-      </ng-container>
+      </dd>
     </div>
     <div app-govuk-dl-list-item class="govuk-check-your-answers__contents">
-      <ng-container question>Email address</ng-container>
-      <ng-container answer>
+      <dt class="govuk-check-your-answers__question">Email address</dt>
+      <dd class="govuk-check-your-answers__answer">
         {{ formDataValues.emailAddress }}
         @if ((errorMessageDetailsCode | async) == '6 : EMAIL Invalid or already exists') {
           <div>
@@ -110,10 +110,10 @@
             </div>
           </div>
         }
-      </ng-container>
-      <ng-container button>
+      </dd>
+      <dd class="govuk-check-your-answers__change">
         <a [routerLink]="'/register-org/register/email-address'">Change <span class="govuk-visually-hidden">email address</span></a>
-      </ng-container>
+      </dd>
     </div>
   </dl>
   <h2 class="govuk-heading-l">Now submit your registration details</h2>

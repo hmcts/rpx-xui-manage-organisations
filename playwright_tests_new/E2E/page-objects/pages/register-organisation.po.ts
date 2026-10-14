@@ -5,6 +5,9 @@ import type { RegisterOrganisationAddress, RegisterOrganisationData } from '../.
 const escapeRegExp = (value: string): string => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 export class RegisterOrganisationPage extends BasePage {
+  private static readonly WORKFLOW_ROUTE_MOUNT_TIMEOUT = 30_000;
+  private static readonly WORKFLOW_ROUTE_NAVIGATION_ATTEMPTS = 3;
+
   public readonly startPageHeading = this.page.getByRole('heading', {
     name: 'Apply for an organisation to manage civil, family and tribunal cases'
   });
@@ -67,8 +70,29 @@ export class RegisterOrganisationPage extends BasePage {
     await this.page.goto('/register-org/register');
   }
 
-  public async openWorkflowPage(path: string): Promise<void> {
-    await this.page.goto(`/register-org-new/${path}`);
+  public async openWorkflowPage(path: string, componentSelector?: string): Promise<void> {
+    const url = `/register-org-new/${path}`;
+    let lastMountError: unknown;
+
+    for (let attempt = 0; attempt < RegisterOrganisationPage.WORKFLOW_ROUTE_NAVIGATION_ATTEMPTS; attempt++) {
+      await this.page.goto(url, { waitUntil: 'domcontentloaded' });
+
+      if (!componentSelector) {
+        return;
+      }
+
+      try {
+        await this.page.locator(componentSelector).waitFor({
+          state: 'attached',
+          timeout: RegisterOrganisationPage.WORKFLOW_ROUTE_MOUNT_TIMEOUT
+        });
+        return;
+      } catch (error) {
+        lastMountError = error;
+      }
+    }
+
+    throw lastMountError;
   }
 
   public validationSummaryError(message: string): Locator {

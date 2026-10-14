@@ -6,15 +6,17 @@
   <h1 class="govuk-heading-xl">{{ pageTitle }}</h1>
 
 <div class="govuk-form-group">
-    <fieldset class="govuk-fieldset govuk-!-margin-bottom-3">
-      <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-        <p class="govuk-fieldset__body">
+    <fieldset class="govuk-fieldset govuk-!-margin-bottom-3" aria-describedby="accept-cases-hint accept-cases-warning">
+      <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+        <h2 class="govuk-fieldset__heading">How do you want to accept these cases?</h2>
+      </legend>
+        <p id="accept-cases-hint" class="govuk-body">
           You are accepting new cases into your organisation.
           <br><br>
           You do not need to assign cases to users if they have 'Access all cases in the organisation'
           enabled for that case type.
         </p>
-        <div class="govuk-warning-text">
+        <div id="accept-cases-warning" class="govuk-warning-text">
           <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
           <strong class="govuk-warning-text__text">
             <span class="govuk-visually-hidden">Warning</span>
@@ -22,7 +24,6 @@
             least one user.
           </strong>
         </div>
-      </legend>
       <form [formGroup]="permissionsForm">
         <div class="govuk-radios" data-module="govuk-radios">
           <div class="govuk-radios__item">

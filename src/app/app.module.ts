@@ -41,6 +41,7 @@ import { MonitoringService } from '../shared/services/monitoring.service';
 import { FeatureToggleEditUserGuard } from '../users/guards/feature-toggle-edit-user.guard';
 import { TermsConditionGuard } from './guards/termsCondition.guard';
 import { OrganisationModule } from 'src/organisation/organisation.module';
+import { ServiceMessageAccessibilityDirective } from '../shared/directives/service-message-accessibility.directive';
 
 // storeFreeze replaced by NgRx runtimeChecks in v20+; keep metaReducers empty.
 export const metaReducers: MetaReducer<any>[] = [];
@@ -52,6 +53,7 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
 @NgModule({
   declarations: [
     AppComponent,
+    ServiceMessageAccessibilityDirective,
     ...fromComponents.components,
     ...fromContainers.containers
   ],

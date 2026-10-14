@@ -1,7 +1,9 @@
 <div class="page">
-  @if (backLink) {
-    <a [href]="backLink" class="govuk-back-link">{{ 'Back' | rpxTranslate }}</a>
-  }
+ @if (backLink) {
+  <a [routerLink]="backLink" class="govuk-back-link">
+    {{ 'Back' | rpxTranslate }}
+  </a>
+}
   <div class="govuk-width-container">
     <div class="govuk-grid-row">
       <span class="govuk-caption-xl">{{ fnTitle | rpxTranslate }}</span>

@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
 import { buildMockStoreProviders } from '../../../register-org/testing/mock-store-state';
@@ -21,9 +21,6 @@ describe('CaseShareConfirmComponent', () => {
       }
     }
   };
-  const mockRouter = {
-    url: '/assigned-cases'
-  };
   const translationMockService = jasmine.createSpyObj('translationMockService', ['translate', 'getTranslation$']);
 
   beforeEach(waitForAsync(() => {
@@ -34,7 +31,6 @@ describe('CaseShareConfirmComponent', () => {
       providers: [
         ...buildMockStoreProviders(),
         { provide: RpxTranslationService, useValue: translationMockService },
-        { provide: Router, useValue: mockRouter },
         { provide: ActivatedRoute, useValue: mockRoute }
       ]
     }).compileComponents();

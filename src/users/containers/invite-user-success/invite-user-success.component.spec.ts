@@ -4,6 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import * as fromRoot from '../../../app/store';
 import * as fromStore from '../../store';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { InviteUserSuccessComponent } from './invite-user-success.component';
 
 describe('Invite User Success Component', () => {
@@ -14,6 +15,7 @@ describe('Invite User Success Component', () => {
   beforeEach((() => {
     TestBed.configureTestingModule({
       imports: [
+        RpxTranslationTestingModule,
         RouterTestingModule,
         StoreModule.forRoot({
           ...fromRoot.reducers,

@@ -6,6 +6,7 @@ import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { CompanyHouseDetailsMessage } from '../../../register-org/models';
 import { buildMockStoreProviders } from '../../testing/mock-store-state';
 import { RegisterOrgService } from '../../services/register-org.service';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { CompanyHouseDetailsComponent } from './company-house-details.component';
 
 describe('CompanyHouseDetailsComponent', () => {
@@ -25,7 +26,7 @@ describe('CompanyHouseDetailsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [CompanyHouseDetailsComponent],
-      imports: [RouterTestingModule, ReactiveFormsModule, ExuiCommonLibModule],
+      imports: [RpxTranslationTestingModule, RouterTestingModule, ReactiveFormsModule, ExuiCommonLibModule],
       providers: [
         { provide: RegisterOrgService, useValue: service },
         ...buildMockStoreProviders()

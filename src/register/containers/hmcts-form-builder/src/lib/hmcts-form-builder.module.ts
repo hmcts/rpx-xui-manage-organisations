@@ -1,5 +1,6 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { RpxTranslationModule } from 'rpx-xui-translation';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonsComponent } from './components/buttons/buttons.component';
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
@@ -53,6 +54,7 @@ const SERVICES = [
 @NgModule({
   imports: [
     CommonModule,
+    RpxTranslationModule.forChild(),
     FormsModule,
     ReactiveFormsModule
   ],

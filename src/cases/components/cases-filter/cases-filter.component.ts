@@ -214,6 +214,11 @@ export class CasesFilterComponent implements OnInit, OnChanges, OnDestroy {
     this.selectedFilterType = this.getAvailableFilterType(caaCasesFilterType);
   }
 
+  public getCaseReferenceNumberAriaDescribedBy(): string | null {
+    const control = this.form.controls.caseReferenceNumber;
+    return control.invalid && control.touched ? 'case-reference-number-error-message' : null;
+  }
+
   private getAvailableFilterType(caaCasesFilterType: CaaCasesFilterType): CaaCasesFilterType {
     if (!this.ogdUpdateRefreshUserEnabled && caaCasesFilterType === CaaCasesFilterType.NewCasesToAccept) {
       return CaaCasesFilterType.UnassignedCases;

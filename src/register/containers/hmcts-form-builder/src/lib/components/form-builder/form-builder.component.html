@@ -6,7 +6,7 @@
 @if (pageItems) {
   <form [formGroup]="formDraft" (ngSubmit)="onFormSubmit()">
     <div [ngClass]="{'govuk-form-group':true, 'govuk-form-group--error' : isPageValid && formDraft.invalid }">
-      @if (!isLegendAvailable) {
+      @if (pageItems.header) {
         <h1 class="govuk-heading-xl">
           @if (pageItems.caption) {
             <span [class]="pageItems.caption.classes">{{ pageItems.caption.text }}</span>
@@ -21,6 +21,7 @@
               [classes]="'govuk-fieldset'"
               [group]="formDraft"
               [data]="group.fieldset"
+              [isPageHeading]="group.fieldset === pageHeadingFieldset"
               [validate]="isPageValid">
             </app-fieldset>
           }

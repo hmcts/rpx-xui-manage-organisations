@@ -6,8 +6,8 @@
         <xuilib-hmcts-error-summary [errorMessages]="validationErrors" [header]="'There is a problem'">
         </xuilib-hmcts-error-summary>
       }
-      <span class="govuk-caption-xl">Register an organisation</span>
-      <h1 class="govuk-heading-xl">
+      <span class="govuk-caption-l">Register an organisation</span>
+      <h1 class="govuk-heading-l">
         What PBA numbers does your organisation use?
       </h1>
       <hr>
@@ -29,6 +29,7 @@
                       name="pbaNumber" formControlName="pbaNumber">
                     @if (pbaNumbers.controls.length > 1) {
                       <button (click)="onRemovePBANumber(i)"
+                        [attr.aria-label]="'Remove PBA number ' + (i + 1)"
                         class="govuk-button govuk-button--secondary govuk-!-margin-left-4 govuk-!-margin-bottom-0">
                         Remove
                       </button>

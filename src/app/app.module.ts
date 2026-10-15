@@ -33,6 +33,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 import { RpxTranslationModule } from 'rpx-xui-translation';
 import { SharedModule } from 'src/shared/shared.module';
+import { ServiceMessageAccessibilityDirective } from '../shared/directives/service-message-accessibility.directive';
 import { GovUiModule } from '../../projects/gov-ui/src/public_api';
 import { AcceptTermsAndConditionGuard } from '../accept-tc/guards/acceptTermsAndCondition.guard';
 import { HealthCheckGuard } from '../shared/guards/health-check.guard';
@@ -52,6 +53,7 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
 @NgModule({
   declarations: [
     AppComponent,
+    ServiceMessageAccessibilityDirective,
     ...fromComponents.components,
     ...fromContainers.containers
   ],

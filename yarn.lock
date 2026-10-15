@@ -7187,14 +7187,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@playwright/test@npm:1.63.0":
-  version: 1.63.0
-  resolution: "@playwright/test@npm:1.63.0"
+"@playwright/test@npm:1.64.0":
+  version: 1.64.0
+  resolution: "@playwright/test@npm:1.64.0"
   dependencies:
-    playwright: "npm:1.63.0"
+    playwright: "npm:1.64.0"
   bin:
     playwright: cli.js
-  checksum: 10/b5e561b8f11488b8062b98c5cf975740f48ae7e9b455fb7152e0fb90d8e13f20c3c3ae6a15833655364246b99f5a46f6601daa5a9eef01de5004c8be7e2b3af3
+  checksum: 10/150071109a165e413f390bea574c2d6508788b713dbc0ae58ba3bfed7d5befa621f862b4a818fab502e409365f465bf90641dc1da7a64ccd4910a0124e8cd3bf
   languageName: node
   linkType: hard
 
@@ -8654,12 +8654,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:24.13.3":
-  version: 24.13.3
-  resolution: "@types/node@npm:24.13.3"
+"@types/node@npm:24.19.2":
+  version: 24.19.2
+  resolution: "@types/node@npm:24.19.2"
   dependencies:
-    undici-types: "npm:~7.18.0"
-  checksum: 10/cfa6ed1e16c4624d1e83b09aeb72a2f50a7e17d837bf5a1259a52e346f33a693afd289402d3b6118ce3abea7aff35f2a4f13a0284b96bc5807a50f0e22e1ec77
+    undici-types: "npm:>=7.24.0 <7.24.7"
+  checksum: 10/5bc31df093f2866db0a2f9df0a1e99c2a46c3154ca2dc62ee14bde7af216d6361e4737e1023880921007ccb326b8559980e239e18a6fa927cda507da9383225c
   languageName: node
   linkType: hard
 
@@ -12297,14 +12297,14 @@ __metadata:
   linkType: hard
 
 "dompurify@npm:^3.4.13":
-  version: 3.4.16
-  resolution: "dompurify@npm:3.4.16"
+  version: 3.4.17
+  resolution: "dompurify@npm:3.4.17"
   dependencies:
     "@types/trusted-types": "npm:^2.0.7"
   dependenciesMeta:
     "@types/trusted-types":
       optional: true
-  checksum: 10/a571d0e2bede4f739666afd640398a86854abd27c71ce0724910249e2fd2ca7ddb8098a9ab579d3a5b39058419af694421f8fe859a81fd6d8acda16019a8ab9d
+  checksum: 10/ae03c068bd351d1201a24a9667cb302c65939f45a0c357edec8b84133108e19ac74f355c2d8b0f30baadadd7f0be2db300d269aa80d3ee15872712ca9ff4e1a8
   languageName: node
   linkType: hard
 
@@ -12542,7 +12542,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"enhanced-resolve@npm:^5.0.0, enhanced-resolve@npm:^5.19.0, enhanced-resolve@npm:^5.25.0":
+"enhanced-resolve@npm:^5.19.0, enhanced-resolve@npm:^5.25.0":
   version: 5.25.1
   resolution: "enhanced-resolve@npm:5.25.1"
   dependencies:
@@ -16958,7 +16958,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"micromatch@npm:^4.0.0, micromatch@npm:^4.0.2, micromatch@npm:^4.0.4, micromatch@npm:^4.0.8":
+"micromatch@npm:^4.0.2, micromatch@npm:^4.0.4, micromatch@npm:^4.0.8":
   version: 4.0.8
   resolution: "micromatch@npm:4.0.8"
   dependencies:
@@ -18747,7 +18747,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"picomatch@npm:^4.0.2, picomatch@npm:^4.0.3, picomatch@npm:^4.0.4":
+"picomatch@npm:^4.0.0, picomatch@npm:^4.0.2, picomatch@npm:^4.0.3, picomatch@npm:^4.0.4":
   version: 4.0.7
   resolution: "picomatch@npm:4.0.7"
   checksum: 10/66e1df34bc39c72fa3756be4069f7887ea3e35e94bba1c3f6167763007698cb04b8a0a365161d186fda6e9571a2d3efb606b2966eb6a7dea6252911224dc2f48
@@ -18932,12 +18932,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"playwright-core@npm:1.63.0":
-  version: 1.63.0
-  resolution: "playwright-core@npm:1.63.0"
+"playwright-core@npm:1.64.0":
+  version: 1.64.0
+  resolution: "playwright-core@npm:1.64.0"
   bin:
     playwright-core: cli.js
-  checksum: 10/d0f7c70786f5e08aa7553a77ba28c07427086e323ae8c4126a647debd8181966dc11d6f8fe1462f2a776ad60c95451b08f01fbee17b11e69a5bd9a2070fe75a6
+  checksum: 10/38b1c9a4ebe96ab5ee282a9743cb57dd5abb4d1370ad5570b676b71d0864e6f9feb9feebe74e15af4af6828ebaca3670f77bdcdc1979a1fa02462465456edc12
   languageName: node
   linkType: hard
 
@@ -18957,14 +18957,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"playwright@npm:1.63.0":
-  version: 1.63.0
-  resolution: "playwright@npm:1.63.0"
+"playwright@npm:1.64.0":
+  version: 1.64.0
+  resolution: "playwright@npm:1.64.0"
   dependencies:
-    playwright-core: "npm:1.63.0"
+    playwright-core: "npm:1.64.0"
   bin:
     playwright: cli.js
-  checksum: 10/ec87c22888148603a8955bc2a092f416455af931fe53925b9143ce333b83e42a6d8c159c00a4f2d232b27100cf3eadd93cec8a6e5c4e12c1c00663d2034dd515
+  checksum: 10/8e68bd0db79a9b5812b08c8ad5e9280359b37f38d53bf6eaf73891140014edb61566ab11df2f4401bf70a12a78518467c2d44c258cdf069a5a0469753dbe1c69
   languageName: node
   linkType: hard
 
@@ -20260,7 +20260,7 @@ __metadata:
     "@ngrx/store-devtools": "npm:^20"
     "@pact-foundation/pact": "npm:^9.2.0"
     "@pact-foundation/pact-node": "npm:^10.9.7"
-    "@playwright/test": "npm:1.63.0"
+    "@playwright/test": "npm:1.64.0"
     "@rxweb/reactive-form-validators": "npm:13.0.1"
     "@types/chai": "npm:^4.1.7"
     "@types/chai-as-promised": "npm:^7.1.2"
@@ -20269,7 +20269,7 @@ __metadata:
     "@types/global-agent": "npm:^2.1.0"
     "@types/jasmine": "npm:~5.1.0"
     "@types/mocha": "npm:^10.0.6"
-    "@types/node": "npm:24.13.3"
+    "@types/node": "npm:24.19.2"
     "@types/session-file-store": "npm:^1.2.6"
     "@types/sinon-chai": "npm:^3.2.4"
     "@typescript-eslint/eslint-plugin": "npm:^8.66.0"
@@ -20328,7 +20328,7 @@ __metadata:
     otp: "npm:^0.1.3"
     p-iteration: "npm:^1.1.8"
     pegjs: "npm:^0.10.0"
-    playwright-core: "npm:1.63.0"
+    playwright-core: "npm:1.64.0"
     prettier: "npm:^3.8.0"
     redis: "npm:^6.1.0"
     rpx-xui-translation: "npm:1.2.15"
@@ -20341,8 +20341,8 @@ __metadata:
     sonar-scanner: "npm:^3.1.0"
     source-map-explorer: "npm:^2.5.3"
     terser-webpack-plugin: "npm:^5.3.3"
-    ts-loader: "npm:9.4.4"
-    ts-node: "npm:10.8.1"
+    ts-loader: "npm:9.6.2"
+    ts-node: "npm:10.9.2"
     tslib: "npm:^2.6.1"
     typescript: "npm:5.9.2"
     webpack: "npm:^5.73.0"
@@ -21917,18 +21917,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-loader@npm:9.4.4":
-  version: 9.4.4
-  resolution: "ts-loader@npm:9.4.4"
+"ts-loader@npm:9.6.2":
+  version: 9.6.2
+  resolution: "ts-loader@npm:9.6.2"
   dependencies:
     chalk: "npm:^4.1.0"
-    enhanced-resolve: "npm:^5.0.0"
-    micromatch: "npm:^4.0.0"
-    semver: "npm:^7.3.4"
+    picomatch: "npm:^4.0.0"
+    source-map: "npm:^0.7.4"
   peerDependencies:
+    loader-utils: "*"
     typescript: "*"
-    webpack: ^5.0.0
-  checksum: 10/52302f3540962d779fc346281d8d4f7310f73e129debc4fb55c1fb3f097519009b32f7e2806299904e98961c785784fccb70ceca9076c4bae33f064ad11dd982
+    webpack: ^4.0.0 || ^5.0.0
+  peerDependenciesMeta:
+    loader-utils:
+      optional: true
+  checksum: 10/9df2167f5d558a57ade8e6340b854dbe19433ab1fe4ce0314995dd7f8133b03fb2a219e5206a130cf1d260717f838c9f735a5476d152c8777fcbe99d847f1f2d
   languageName: node
   linkType: hard
 
@@ -21942,9 +21945,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-node@npm:10.8.1":
-  version: 10.8.1
-  resolution: "ts-node@npm:10.8.1"
+"ts-node@npm:10.9.2":
+  version: 10.9.2
+  resolution: "ts-node@npm:10.9.2"
   dependencies:
     "@cspotcode/source-map-support": "npm:^0.8.0"
     "@tsconfig/node10": "npm:^1.0.7"
@@ -21976,7 +21979,7 @@ __metadata:
     ts-node-script: dist/bin-script.js
     ts-node-transpile-only: dist/bin-transpile.js
     ts-script: dist/bin-script-deprecated.js
-  checksum: 10/7c8242a160a49aa2662e0ed44bd17dbde316433c57bc6791310c8ed34683b19680de2ed55a7b9fa3265e70050746b48f466618114f34e91d1d5b0ebc855fb213
+  checksum: 10/a91a15b3c9f76ac462f006fa88b6bfa528130dcfb849dd7ef7f9d640832ab681e235b8a2bc58ecde42f72851cc1d5d4e22c901b0c11aa51001ea1d395074b794
   languageName: node
   linkType: hard
 
@@ -22238,10 +22241,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici-types@npm:~7.18.0":
-  version: 7.18.2
-  resolution: "undici-types@npm:7.18.2"
-  checksum: 10/e61a5918f624d68420c3ca9d301e9f15b61cba6e97be39fe2ce266dd6151e4afe424d679372638826cb506be33952774e0424141200111a9857e464216c009af
+"undici-types@npm:>=7.24.0 <7.24.7":
+  version: 7.24.6
+  resolution: "undici-types@npm:7.24.6"
+  checksum: 10/defc9538b952e3c15b8526596c591f7c1f0c7605ad27a2b7feddbea7ef2e3003f3eda2cdb051a3cb1a2185e3893100fd9cb925c799db99d48131ea63b5233d10
   languageName: node
   linkType: hard
 
@@ -23094,9 +23097,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ws@npm:8.21.3":
-  version: 8.21.3
-  resolution: "ws@npm:8.21.3"
+"ws@npm:8.22.0":
+  version: 8.22.0
+  resolution: "ws@npm:8.22.0"
   peerDependencies:
     bufferutil: ^4.0.1
     utf-8-validate: ">=5.0.2"
@@ -23105,7 +23108,7 @@ __metadata:
       optional: true
     utf-8-validate:
       optional: true
-  checksum: 10/8856922c26fd2d106931c16310d9a0bc2d6d37ed8771352bfa0d2a36df0ab5cb1f6528c6db8213f3333cf4ce93925e56f13604df0454cb0d4289fef922bebcdd
+  checksum: 10/ed771c2766bdb5724a66872f60ffc1a39f06e1a5bc8849f453c273e97c91a40ed5a224f06dc0e22f44b4a9e03938bf746fc5938d6887433cc0f4c416237d3b10
   languageName: node
   linkType: hard
 

@@ -38,7 +38,7 @@
     "pre-push": "yarn lint && ng build --configuration production && ng test rpx-xui-manage-organisations --code-coverage",
     "prepush": "bash ./bin/prepush.sh",
     "report:playwright:evidence": "node scripts/build-playwright-evidence-dashboard.js",
-    "publish-pact": "NODE_PATH=. LOG_LEVEL=error mocha -r ts-node/register api/test/pact/publish/*.ts --timeout 15000 --reporter spec",
+    "publish-pact": "NODE_PATH=. LOG_LEVEL=error ts-node api/test/pact/publish/publish.ts",
     "sonar-scan": "node_modules/sonar-scanner/bin/sonar-scanner",
     "start": "node ./dist/rpx-xui-manage-organisations/api/server.bundle.js",
     "start:ng": "ng serve --port 3000 --host 0.0.0.0 --proxy-config proxy.config.json",
@@ -79,7 +79,8 @@
     "test:setup:playwright-install-browsers": "npx playwright install chromium firefox webkit",
     "test:setup:playwright-install-chromium": "npx playwright install chromium",
     "test:setup:playwright-verify-all": "node scripts/verify-playwright-browsers.js chromium firefox webkit",
-    "test:setup:playwright-verify-chromium": "node scripts/verify-playwright-browsers.js chromium"
+    "test:setup:playwright-verify-chromium": "node scripts/verify-playwright-browsers.js chromium",
+    "test:pact:publisher": "NODE_PATH=. NODE_ENV=pacttesting mocha --timeout 10000 -r ts-node/register 'api/test/pact/publisher-tests/*.spec.ts'"
   },
   "private": true,
   "dependencies": {
@@ -157,7 +158,7 @@
     "@angular/language-service": "20.3.31",
     "@babel/runtime": "7.29.10",
     "@hmcts/playwright-common": "1.1.5",
-    "@pact-foundation/pact": "^9.2.0",
+    "@pact-foundation/pact": "^15.0.1",
     "@pact-foundation/pact-node": "^10.9.7",
     "@playwright/test": "1.64.0",
     "@types/chai": "^4.1.7",

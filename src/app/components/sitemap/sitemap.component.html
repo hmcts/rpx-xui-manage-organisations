@@ -1,0 +1,30 @@
+<main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">Site map</h1>
+      <p class="govuk-body">Use this page to find your way around Manage Organisation.</p>
+
+      <nav aria-label="Site map">
+        @for (section of sections$ | async; track section.heading) {
+          <section class="govuk-!-margin-bottom-7">
+            <h2 class="govuk-heading-m">{{ section.heading }}</h2>
+            <ul class="govuk-list">
+              @for (link of section.links; track link.href) {
+                <li>
+                  <a
+                    class="govuk-link"
+                    data-testid="sitemap-link"
+                    [routerLink]="link.href"
+                    routerLinkActive="govuk-!-font-weight-bold"
+                    ariaCurrentWhenActive="page"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                  >{{ link.text }}</a>
+                </li>
+              }
+            </ul>
+          </section>
+        }
+      </nav>
+    </div>
+  </div>
+</main>

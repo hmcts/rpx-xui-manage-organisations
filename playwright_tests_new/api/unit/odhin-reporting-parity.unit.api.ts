@@ -307,6 +307,55 @@ test.describe('Manage Org Odhín reporting parity', { tag: '@svc-internal' }, ()
     }
   });
 
+  test('renders unified accessibility summary evidence from Axe and screen-reader outcomes', () => {
+    const rootDir = fs.mkdtempSync(path.join(os.tmpdir(), 'manage-org-odhin-summary-'));
+    const reportDir = path.join(rootDir, 'odhin-report');
+    const evidenceDir = path.join(reportDir, 'accessibility-evidence');
+
+    try {
+      fs.mkdirSync(evidenceDir, { recursive: true });
+      fs.writeFileSync(path.join(reportDir, 'report.html'), baseHtml);
+      fs.writeFileSync(path.join(evidenceDir, 'users-page-summary.html'), '<html>summary</html>');
+      fs.writeFileSync(
+        path.join(evidenceDir, 'users-page-summary.json'),
+        JSON.stringify({
+          feature: 'Manage Organisations',
+          pageState: 'users list',
+          outcomes: [
+            { engine: 'axe', status: 'passed', issueCount: 0, rules: [] },
+            { engine: 'screen-reader', status: 'issues-found', issueCount: 1, rules: ['missing-main'] }
+          ]
+        })
+      );
+      fs.writeFileSync(
+        path.join(evidenceDir, 'manifest-entry-users-page-summary.json'),
+        JSON.stringify({
+          engine: 'summary',
+          feature: 'Manage Organisations',
+          pageState: 'users list',
+          testTitle: 'users page accessibility summary',
+          attachmentPrefix: 'users-page-summary',
+          htmlFileName: 'users-page-summary.html',
+          jsonFileName: 'users-page-summary.json',
+          screenshotFileName: 'users-page-summary-screenshot.png',
+          violationCount: 1,
+          status: 'issues-found',
+          rules: ['screen-reader: missing-main'],
+          targets: []
+        })
+      );
+
+      enhancer.enhanceGeneratedReport(reportDir, []);
+      const html = fs.readFileSync(path.join(reportDir, 'report.html'), 'utf8');
+
+      expect(html).toContain('Accessibility summary');
+      expect(html).toContain('screen-reader: missing-main');
+      expect(html).toContain('accessibility-evidence/users-page-summary.html');
+    } finally {
+      fs.rmSync(rootDir, { recursive: true, force: true });
+    }
+  });
+
   test('does not present malformed WAVE details as a clean accessibility result', () => {
     const rootDir = fs.mkdtempSync(path.join(os.tmpdir(), 'manage-org-odhin-malformed-'));
     const reportDir = path.join(rootDir, 'odhin-report');
@@ -411,6 +460,43 @@ test.describe('Manage Org Odhín reporting parity', { tag: '@svc-internal' }, ()
 
     expect(html).toContain('Evidence unavailable or incomplete');
     expect(html).not.toContain('No detected issues in this evidence.');
+  });
+
+  test('ignores malformed accessibility summary manifests instead of reporting them clean', () => {
+    const rootDir = fs.mkdtempSync(path.join(os.tmpdir(), 'manage-org-odhin-summary-'));
+    const reportDir = path.join(rootDir, 'odhin-report');
+    const evidenceDir = path.join(reportDir, 'accessibility-evidence');
+
+    try {
+      fs.mkdirSync(evidenceDir, { recursive: true });
+      fs.writeFileSync(path.join(reportDir, 'report.html'), baseHtml);
+      fs.writeFileSync(path.join(evidenceDir, 'summary.html'), '<h1>summary</h1>');
+      fs.writeFileSync(
+        path.join(evidenceDir, 'summary.json'),
+        JSON.stringify({
+          outcomes: [{ engine: 'axe', status: 'unknown', issueCount: -1, unexpectedIssueCount: 2, rules: [] }]
+        })
+      );
+      fs.writeFileSync(
+        path.join(evidenceDir, 'manifest-entry-summary.json'),
+        JSON.stringify({
+          engine: 'summary',
+          testTitle: 'invite user',
+          htmlFileName: 'summary.html',
+          jsonFileName: 'summary.json',
+          screenshotFileName: 'summary.png',
+          violationCount: -1,
+          status: 'unknown'
+        })
+      );
+
+      enhancer.enhanceGeneratedReport(reportDir, []);
+      const html = fs.readFileSync(path.join(reportDir, 'report.html'), 'utf8');
+
+      expect(html).not.toContain('invite user');
+    } finally {
+      fs.rmSync(rootDir, { recursive: true, force: true });
+    }
   });
 
   test('does not call a mixed clean and truncated Axe attachment clean', () => {

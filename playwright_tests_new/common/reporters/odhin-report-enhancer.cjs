@@ -354,7 +354,7 @@ function isRegularDirectory(folder) {
   }
 }
 
-function readWaveEvidence(outputFolder) {
+function readAccessibilityEvidence(outputFolder) {
   const evidenceFolder = path.join(outputFolder, 'accessibility-evidence');
   if (!isRegularDirectory(evidenceFolder)) {
     return [];
@@ -375,9 +375,18 @@ function readWaveEvidence(outputFolder) {
           return [];
         }
         const detail = JSON.parse(fs.readFileSync(path.join(evidenceFolder, manifest.jsonFileName), 'utf8'));
-        if (!Array.isArray(detail.violations) || !Number.isInteger(manifest.violationCount) ||
-            manifest.violationCount !== detail.violations.length ||
-            (detail.violationCount != null && detail.violationCount !== detail.violations.length)) {
+        const isSummary = manifest.engine === 'summary';
+        const violations = Array.isArray(detail.violations) ? detail.violations : [];
+        const outcomes = Array.isArray(detail.outcomes) ? detail.outcomes : [];
+        if ((!isSummary && !Array.isArray(detail.violations)) || !isNonNegativeInteger(manifest.violationCount) ||
+            (!isSummary && manifest.violationCount !== violations.length) ||
+            (isSummary && (!Array.isArray(detail.outcomes) || detail.outcomes.length === 0 ||
+              !['passed', 'issues-found', 'error'].includes(manifest.status) ||
+              detail.outcomes.some((outcome) => !isValidAccessibilityOutcome(outcome)) ||
+              manifest.violationCount !== detail.outcomes.reduce(
+                (count, outcome) => count + (Number.isInteger(outcome.unexpectedIssueCount) ? outcome.unexpectedIssueCount : outcome.issueCount), 0
+              ))) ||
+            (!isSummary && detail.violationCount != null && detail.violationCount !== violations.length)) {
           return [];
         }
         const screenshotName = manifest.screenshotFileName;
@@ -385,19 +394,44 @@ function readWaveEvidence(outputFolder) {
         if (isSafeArtifactName(screenshotName, 'png') && isRegularFile(evidenceFolder, screenshotName)) {
           links.push({ label: 'Highlighted screenshot', href: `accessibility-evidence/${screenshotName}` });
         }
+        const engine = isSummary ? 'Accessibility summary' : String(manifest.engine ?? 'WAVE-like');
+        const summaryViolations = isSummary
+          ? outcomes.flatMap((outcome) => (outcome.rules ?? []).map((rule) => ({
+              rule: `${String(outcome.engine ?? 'accessibility')}: ${String(rule)}`,
+              impact: String(outcome.status ?? 'reported'),
+              element: 'page state'
+            })))
+          : violations.map((violation) => ({
+              rule: String(violation.rule ?? violation.id ?? 'Unknown rule'),
+              impact: String(violation.impact ?? 'reported'),
+              element: safeElementTag(violation.codeLocation?.tag ?? violation.nodes?.[0]?.html?.match(/<([a-z][a-z0-9-]*)\b/i)?.[1])
+            }));
         return [{
-          engine: 'WAVE-like',
+          engine,
           testTitle: String(manifest.testTitle ?? 'Accessibility test'),
-          violations: detail.violations.map((violation) => ({
-            rule: String(violation.rule ?? 'Unknown rule'),
-            element: safeElementTag(violation.codeLocation?.tag),
-          })),
+          unavailable: manifest.status === 'error',
+          violations: summaryViolations,
           links,
         }];
       } catch {
         return [];
       }
     });
+}
+
+function isNonNegativeInteger(value) {
+  return Number.isInteger(value) && value >= 0;
+}
+
+function isValidAccessibilityOutcome(outcome) {
+  return !!outcome &&
+    ['axe', 'wave-like', 'screen-reader'].includes(outcome.engine) &&
+    ['passed', 'issues-found', 'error'].includes(outcome.status) &&
+    isNonNegativeInteger(outcome.issueCount) &&
+    (outcome.knownIssueCount == null || isNonNegativeInteger(outcome.knownIssueCount)) &&
+    (outcome.unexpectedIssueCount == null ||
+      isNonNegativeInteger(outcome.unexpectedIssueCount) && outcome.unexpectedIssueCount <= outcome.issueCount) &&
+    Array.isArray(outcome.rules) && outcome.rules.every((rule) => typeof rule === 'string');
 }
 
 function safeAxeHelpUrl(rawUrl) {
@@ -606,7 +640,10 @@ function enhanceGeneratedReport(outputFolder, featureStats, axeEvidence = [], te
     }
   }
 
-  const accessibilityEntries = [...readWaveEvidence(outputFolder), ...axeEvidence];
+  const accessibilityEntries = dedupeAccessibilityEntries([
+    ...readAccessibilityEvidence(outputFolder),
+    ...axeEvidence,
+  ]);
   reportFiles.forEach((fileName) => {
     const filePath = path.join(outputFolder, fileName);
     const currentHtml = fs.readFileSync(filePath, 'utf8');
@@ -621,6 +658,20 @@ function enhanceGeneratedReport(outputFolder, featureStats, axeEvidence = [], te
     const nextHtml = enhanceDashboardHtml(currentHtml, featureStats, perfettoFiles, perfettoHrefPrefix, accessibilityEntries, testMetadata);
     fs.writeFileSync(filePath, nextHtml, 'utf8');
   });
+}
+
+function dedupeAccessibilityEntries(entries) {
+  const unique = new Map();
+  for (const entry of entries) {
+    const key = `${String(entry.engine)}\u0000${String(entry.testTitle)}\u0000${String(entry.feature ?? '')}\u0000${String(entry.pageState ?? '')}\u0000${(entry.violations ?? [])
+      .map((violation) => violation.rule)
+      .sort()
+      .join(',')}`;
+    if (!unique.has(key)) {
+      unique.set(key, entry);
+    }
+  }
+  return [...unique.values()];
 }
 
 function resolvePerfettoHrefPrefix(outputFolder, testResultsFolder, env = process.env) {
@@ -653,5 +704,7 @@ module.exports = {
     percentOf,
     resolvePerfettoHrefPrefix,
     injectPerfettoTab,
+    readAccessibilityEvidence,
+    dedupeAccessibilityEntries,
   },
 };

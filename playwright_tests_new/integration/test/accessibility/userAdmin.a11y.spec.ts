@@ -1,8 +1,10 @@
-import { AxeUtils } from '@hmcts/playwright-common';
 import { expect, test } from '../../fixtures';
 import { setupUserAdminRoutes } from '../../helpers';
 import { userAdminActiveUser } from '../../mocks/userAdmin.mock';
 import { UserAdminPage } from '../../page-objects/user-admin.po';
+import { auditAccessibilityPage, type AccessibilityEngine } from '../../../E2E/utils/accessibility/accessibilityAudit';
+
+const accessibilityEngines: AccessibilityEngine[] = ['axe', 'wave-like', 'screen-reader'];
 
 test.describe('User administration accessibility', {
   tag: ['@integration', '@integration-user-admin', '@a11y']
@@ -12,7 +14,6 @@ test.describe('User administration accessibility', {
   }, testInfo) => {
     const routeState = await setupUserAdminRoutes(page);
     const userAdminPage = new UserAdminPage(page);
-    const axeUtils = new AxeUtils(page);
 
     await userAdminPage.openUsers();
     await userAdminPage.openUserDetails(userAdminActiveUser.email);
@@ -25,8 +26,11 @@ test.describe('User administration accessibility', {
     await expect(userAdminPage.validationSummaryError(errorMessage)).toBeVisible();
     await expect(page.locator('#errorSummary')).toBeFocused();
     await expect(page.getByRole('group', { name: 'What user Permissions would you like to approve?' })).toBeVisible();
-    await axeUtils.audit();
-    await axeUtils.generateReport(testInfo, 'user permission validation accessibility report');
+    await auditAccessibilityPage(page, testInfo, {
+      defaultEngines: accessibilityEngines,
+      feature: 'User administration',
+      pageState: 'required permission validation'
+    });
     expect(routeState.editUserPermissionRequests).toHaveLength(0);
   });
 
@@ -35,7 +39,6 @@ test.describe('User administration accessibility', {
   }, testInfo) => {
     const routeState = await setupUserAdminRoutes(page);
     const userAdminPage = new UserAdminPage(page);
-    const axeUtils = new AxeUtils(page);
 
     await userAdminPage.openUsers();
     await userAdminPage.openUserDetails(userAdminActiveUser.email);
@@ -44,8 +47,11 @@ test.describe('User administration accessibility', {
     await expect(userAdminPage.suspendAccountHeading).toBeVisible();
     await expect(page.getByText('If you suspend this user’s account, they’ll no longer be able to access MyHMCTS services.', { exact: false })).toBeVisible();
     await expect(userAdminPage.suspendAccountButton).toBeEnabled();
-    await axeUtils.audit();
-    await axeUtils.generateReport(testInfo, 'user suspension confirmation accessibility report');
+    await auditAccessibilityPage(page, testInfo, {
+      defaultEngines: accessibilityEngines,
+      feature: 'User administration',
+      pageState: 'suspend confirmation'
+    });
     await expect.soft(userAdminPage.backLink).toBeVisible();
 
     expect(routeState.suspendUserRequests).toHaveLength(0);

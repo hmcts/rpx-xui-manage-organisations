@@ -1,4 +1,3 @@
-import { AxeUtils } from '@hmcts/playwright-common';
 import { expect, test } from '../../fixtures';
 import { setupPbaManagementRoutes } from '../../helpers';
 import {
@@ -7,6 +6,9 @@ import {
   pbaNewAccount
 } from '../../mocks/pbaManagement.mock';
 import { PbaManagementPage } from '../../page-objects/pba-management.po';
+import { auditAccessibilityPage, type AccessibilityEngine } from '../../../E2E/utils/accessibility/accessibilityAudit';
+
+const accessibilityEngines: AccessibilityEngine[] = ['axe', 'wave-like', 'screen-reader'];
 
 test.describe('PBA management accessibility', {
   tag: ['@integration', '@integration-pba-management', '@a11y']
@@ -16,7 +18,6 @@ test.describe('PBA management accessibility', {
   }, testInfo) => {
     const routeState = await setupPbaManagementRoutes(page);
     const pbaManagementPage = new PbaManagementPage(page);
-    const axeUtils = new AxeUtils(page);
 
     await pbaManagementPage.openOrganisation();
     await pbaManagementPage.openPbaManagement();
@@ -25,7 +26,11 @@ test.describe('PBA management accessibility', {
     await expect(page.getByRole('textbox', { name: 'PBA Number' })).toBeVisible();
     await expect(pbaManagementPage.validationMessage('Enter a valid PBA number')).toBeVisible();
     await expect(pbaManagementPage.continueButton).toBeDisabled();
-    await axeUtils.audit();
+    await auditAccessibilityPage(page, testInfo, {
+      defaultEngines: accessibilityEngines,
+      feature: 'PBA management',
+      pageState: 'invalid account feedback'
+    });
 
     await pbaManagementPage.pbaInput(0).fill(pbaNewAccount);
     await pbaManagementPage.pbaInput(0).blur();
@@ -39,8 +44,11 @@ test.describe('PBA management accessibility', {
     const changeLink = pbaManagementPage.checkSummaryRow('Accounts to be added')
       .getByRole('link', { name: 'Change PBA account numbers' });
     await expect(changeLink).toBeVisible();
-    await axeUtils.audit();
-    await axeUtils.generateReport(testInfo, 'PBA validation and check accessibility report');
+    await auditAccessibilityPage(page, testInfo, {
+      defaultEngines: accessibilityEngines,
+      feature: 'PBA management',
+      pageState: 'check accounts'
+    });
 
     await changeLink.press('Enter');
     await expect(page).toHaveURL(/\/organisation\/update-pba-numbers$/);

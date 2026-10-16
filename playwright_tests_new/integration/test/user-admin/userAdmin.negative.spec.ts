@@ -243,6 +243,27 @@ test.describe('User administration negative paths', {
     await expect(page.getByRole('heading', { name: 'Sorry, there is a problem with the service' })).toBeVisible();
   });
 
+  test('blocks removal of every standard user permission without sending an update', async ({
+    manageOrgIntegrationPage: page
+  }) => {
+    const routeState = await setupUserAdminRoutes(page);
+    const userAdminPage = new UserAdminPage(page);
+
+    await userAdminPage.openUsers();
+    await userAdminPage.openUserDetails(userAdminActiveUser.email);
+    await userAdminPage.openEditPermissions(userAdminActiveUser.userIdentifier);
+
+    await expect(page).toHaveURL(new RegExp(`/users/user/${userAdminActiveUser.userIdentifier}/editpermission$`));
+    await userAdminPage.permissionCheckbox('Manage Organisation').uncheck();
+    await userAdminPage.permissionCheckbox('Manage Users').uncheck();
+    await userAdminPage.submitEditPermissions();
+
+    await expect(userAdminPage.validationSummaryError('You must select at least one action')).toBeVisible();
+    await expect(page).toHaveURL(new RegExp(`/users/user/${userAdminActiveUser.userIdentifier}/editpermission$`));
+    expect(routeState.editUserPermissionRequests).toHaveLength(0);
+    expect(routeState.ogdEditUserPermissionRequests).toHaveLength(0);
+  });
+
   test('validates pending-user re-invite permissions without posting an invite', async ({
     manageOrgIntegrationPage: page
   }) => {

@@ -29,6 +29,11 @@ export interface PbaManagementRouteState {
   updatePbaRequests: CapturedPbaManagementUpdateRequest[];
 }
 
+interface SetupPbaManagementRoutesOptions {
+  updateStatus?: number;
+  userDetails?: typeof pbaFinanceUserDetails;
+}
+
 const clone = <T>(value: T): T => JSON.parse(JSON.stringify(value)) as T;
 
 const rejectUnexpectedMethod = async (
@@ -63,7 +68,10 @@ const applySuccessfulPbaUpdate = (
   };
 };
 
-export const setupPbaManagementRoutes = async (page: Page): Promise<PbaManagementRouteState> => {
+export const setupPbaManagementRoutes = async (
+  page: Page,
+  options: SetupPbaManagementRoutesOptions = {}
+): Promise<PbaManagementRouteState> => {
   const routeState: PbaManagementRouteState = {
     organisationRequests: [],
     updatePbaRequests: []
@@ -71,7 +79,9 @@ export const setupPbaManagementRoutes = async (page: Page): Promise<PbaManagemen
   let organisation = clone(pbaManagementOrganisation) as PbaManagementOrganisation;
 
   await page.unroute('**/api/user/details**');
-  await page.route('**/api/user/details**', async (route) => fulfillJson(route, pbaFinanceUserDetails));
+  await page.route('**/api/user/details**', async (route) =>
+    fulfillJson(route, options.userDetails ?? pbaFinanceUserDetails)
+  );
 
   await page.unroute('**/api/organisation**');
   await page.route('**/api/organisation**', async (route) => {
@@ -96,9 +106,17 @@ export const setupPbaManagementRoutes = async (page: Page): Promise<PbaManagemen
       ...updateRequest,
       method: request.method()
     });
-    organisation = applySuccessfulPbaUpdate(organisation, updateRequest);
+    const updateStatus = options.updateStatus ?? 200;
 
-    await fulfillJson(route, pbaUpdateSuccessResponse);
+    if (updateStatus === 200) {
+      organisation = applySuccessfulPbaUpdate(organisation, updateRequest);
+    }
+
+    await fulfillJson(
+      route,
+      updateStatus === 200 ? pbaUpdateSuccessResponse : { error: 'PBA update failed' },
+      updateStatus
+    );
   });
 
   return routeState;

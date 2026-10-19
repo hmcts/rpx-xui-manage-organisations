@@ -21,7 +21,7 @@
             (click)="toggleLanguage(currentLang === 'cy' ? 'en' : 'cy')"
             class="language govuk-js-link"
           >
-            {{ currentLang == 'cy' ? 'English' : currentLang == 'en' ? 'Cymraeg' : 'English' }}
+            {{ currentLang === 'cy' ? 'English' : 'Cymraeg' }}
           </button>
         </ng-container>
         <p class="govuk-phase-banner__content">

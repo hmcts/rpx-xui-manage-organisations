@@ -445,7 +445,20 @@ export async function attachAccessibilityPageSummaryEvidence(
     return;
   }
 
-  const snapshot = await collectScreenReaderLikePageSnapshot(page);
+  let snapshot: ScreenReaderLikeSnapshot;
+  try {
+    snapshot = sanitisePageSnapshot(await collectScreenReaderLikePageSnapshot(page));
+  } catch {
+    snapshot = {
+      title: 'Page snapshot unavailable',
+      url: '[redacted URL]',
+      headings: [],
+      landmarks: [],
+      keyboardOrder: [],
+      liveRegions: [],
+      axTree: []
+    };
+  }
   const unexpectedCount = summary.outcomes.reduce(
     (count, outcome) => count + (outcome.unexpectedIssueCount ?? outcome.issueCount),
     0
@@ -453,7 +466,7 @@ export async function attachAccessibilityPageSummaryEvidence(
   const summaryEvidence = {
     ...summary,
     url: '[redacted URL]',
-    snapshot: sanitisePageSnapshot(snapshot)
+    snapshot
   };
   const html = buildPageSummaryHtml(summaryEvidence);
   const attachmentPrefix = `${sanitiseFileName(summary.feature)}-${sanitiseFileName(summary.pageState)}-page-summary`;
@@ -473,7 +486,9 @@ export async function attachAccessibilityPageSummaryEvidence(
       engine: 'summary',
       feature: summary.feature,
       pageState: summary.pageState,
-      status: unexpectedCount > 0 ? 'issues-found' : 'passed',
+      status: summary.outcomes.some((outcome) => outcome.status === 'error')
+        ? 'error'
+        : unexpectedCount > 0 ? 'issues-found' : 'passed',
       summary: `${summary.outcomes.length} engine(s), ${unexpectedCount} unexpected issue(s)`
     },
     html,
@@ -497,81 +512,6 @@ function sanitisePageSnapshot(snapshot: ScreenReaderLikeSnapshot): ScreenReaderL
   };
 }
 
-export async function attachAccessibilityReachabilityFailureEvidence(
-  page: Page,
-  testInfo: TestInfo | undefined,
-  context: {
-    feature: string;
-    pageState: string;
-    strict: boolean;
-    error: unknown;
-  }
-): Promise<void> {
-  if (!testInfo) {
-    return;
-  }
-
-  const url = page.url();
-  const snapshot = await collectOptionalPageSnapshot(page, context);
-  const message = context.error instanceof Error ? context.error.message : String(context.error);
-  const screenshot = await captureOptionalScreenshot(page, [`page-state-reachability: ${message}`]);
-  const evidence = {
-    feature: context.feature,
-    pageState: context.pageState,
-    strict: context.strict,
-    url,
-    status: 'unreachable',
-    error: message
-  };
-  const html = buildEvidenceShell({
-    title: 'Accessibility page-state reachability failure',
-    bannerClass: 'banner issue-banner',
-    summary: `${context.feature} / ${context.pageState}`,
-    snapshot,
-    screenshotDataUrl: `data:image/png;base64,${screenshot.toString('base64')}`,
-    body: `
-      <section class="issue">
-        <h2>Page state was not reachable</h2>
-        <p>This page state did not reach its ready condition before the accessibility engines could run.</p>
-        <p><strong>URL:</strong> <code>${escapeHtml(url)}</code></p>
-        <p><strong>Strict mode:</strong> ${context.strict ? 'on' : 'off'}</p>
-        <pre>${escapeHtml(message)}</pre>
-      </section>
-    `
-  });
-  const attachmentPrefix = `${sanitiseFileName(context.feature)}-${sanitiseFileName(context.pageState)}-reachability`;
-
-  await testInfo.attach(`${attachmentPrefix}.json`, {
-    body: JSON.stringify(evidence, null, 2),
-    contentType: 'application/json'
-  });
-  await testInfo.attach(`${attachmentPrefix}-screenshot.png`, {
-    body: screenshot,
-    contentType: 'image/png'
-  });
-  await testInfo.attach(`${attachmentPrefix}.html`, {
-    body: html,
-    contentType: 'text/html'
-  });
-
-  await writePublishedEvidence(testInfo, {
-    attachmentPrefix,
-    metadata: {
-      engine: 'summary',
-      feature: context.feature,
-      pageState: context.pageState,
-      status: 'error',
-      summary: `Page state was not reachable: ${message}`
-    },
-    html,
-    json: evidence,
-    screenshot,
-    violationCount: 1,
-    rules: ['page-state-reachability'],
-    targets: [url]
-  });
-}
-
 async function collectChromiumAxTree(page: Page): Promise<Array<{ role: string; name: string }>> {
   try {
     const session = await page.context().newCDPSession(page);
@@ -588,45 +528,6 @@ async function collectChromiumAxTree(page: Page): Promise<Array<{ role: string; 
       .slice(0, 80);
   } catch {
     return [];
-  }
-}
-
-async function collectOptionalPageSnapshot(
-  page: Page,
-  context: {
-    feature: string;
-    pageState: string;
-  }
-): Promise<ScreenReaderLikeSnapshot> {
-  try {
-    return await collectScreenReaderLikePageSnapshot(page);
-  } catch {
-    return {
-      title: `${context.feature} / ${context.pageState}`,
-      url: page.url(),
-      headings: [],
-      landmarks: [],
-      keyboardOrder: [],
-      liveRegions: [],
-      axTree: []
-    };
-  }
-}
-
-async function captureOptionalScreenshot(page: Page, pageLevelFindings: string[] = []): Promise<Buffer> {
-  let cleanup: (() => Promise<void>) | undefined;
-  try {
-    if (pageLevelFindings.length > 0) {
-      cleanup = await markPageLevelFindingsOnPage(page, pageLevelFindings);
-    }
-    return await page.screenshot({ fullPage: true });
-  } catch {
-    return Buffer.from(
-      'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAFgwJ/l8hS+QAAAABJRU5ErkJggg==',
-      'base64'
-    );
-  } finally {
-    await cleanup?.();
   }
 }
 
@@ -870,41 +771,6 @@ async function markViolationsOnPage(page: Page, violations: ScreenReaderLikeViol
   return async () => {
     await page.evaluate(() => {
       document.querySelector('[data-testid="screen-reader-violation-overlays"]')?.remove();
-    });
-  };
-}
-
-async function markPageLevelFindingsOnPage(page: Page, findings: string[]): Promise<() => Promise<void>> {
-  await page.evaluate((items) => {
-    const overlayRoot = document.createElement('div');
-    overlayRoot.setAttribute('data-testid', 'accessibility-page-summary-overlays');
-    overlayRoot.style.position = 'absolute';
-    overlayRoot.style.left = '0';
-    overlayRoot.style.top = '0';
-    overlayRoot.style.width = '0';
-    overlayRoot.style.height = '0';
-    overlayRoot.style.zIndex = '2147483647';
-    overlayRoot.style.pointerEvents = 'none';
-    document.body.appendChild(overlayRoot);
-
-    const banner = document.createElement('div');
-    banner.style.position = 'absolute';
-    banner.style.left = `${window.scrollX + 16}px`;
-    banner.style.top = `${window.scrollY + 16}px`;
-    banner.style.maxWidth = '820px';
-    banner.style.background = '#d4351c';
-    banner.style.color = '#fff';
-    banner.style.border = '6px solid #ffdd00';
-    banner.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.35)';
-    banner.style.font = 'bold 18px Arial, sans-serif';
-    banner.style.padding = '12px 16px';
-    banner.textContent = `Accessibility finding(s): ${items.slice(0, 5).join('; ')}${items.length > 5 ? '; ...' : ''}`;
-    overlayRoot.appendChild(banner);
-  }, findings);
-
-  return async () => {
-    await page.evaluate(() => {
-      document.querySelector('[data-testid="accessibility-page-summary-overlays"]')?.remove();
     });
   };
 }

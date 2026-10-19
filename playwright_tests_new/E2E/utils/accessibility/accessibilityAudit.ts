@@ -98,16 +98,26 @@ export async function auditAccessibilityPage(page: Page, testInfo: TestInfo, opt
   const strict = options.strict ?? isAccessibilityStrictMode();
   const outcomes: EngineOutcome[] = [];
 
-  if (engines.includes('axe')) {
-    outcomes.push(await runAxeEngine(page, testInfo, options));
-  }
-
-  if (engines.includes('wave-like')) {
-    outcomes.push(await runWaveLikeEngine(page, testInfo, options));
-  }
-
-  if (engines.includes('screen-reader')) {
-    outcomes.push(await runScreenReaderLikeEngine(page, testInfo, options));
+  for (const [engine, run] of [
+    ['axe', runAxeEngine],
+    ['wave-like', runWaveLikeEngine],
+    ['screen-reader', runScreenReaderLikeEngine]
+  ] as const) {
+    if (!engines.includes(engine)) {
+      continue;
+    }
+    try {
+      outcomes.push(await run(page, testInfo, options));
+    } catch {
+      outcomes.push({
+        engine,
+        status: 'error',
+        issueCount: 0,
+        unexpectedIssueCount: 0,
+        rules: [],
+        message: `${engine} accessibility audit or evidence collection failed.`
+      });
+    }
   }
 
   await attachAccessibilityAuditSummary(testInfo, {
@@ -126,7 +136,7 @@ export async function auditAccessibilityPage(page: Page, testInfo: TestInfo, opt
   });
 
   const unexpectedIssues = outcomes.filter(
-    (outcome) => outcome.status !== 'passed' && (outcome.unexpectedIssueCount ?? outcome.issueCount) > 0
+    (outcome) => outcome.status === 'error' || (outcome.unexpectedIssueCount ?? outcome.issueCount) > 0
   );
   if (unexpectedIssues.length > 0 && strict) {
     throw new Error(

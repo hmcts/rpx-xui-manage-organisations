@@ -628,11 +628,14 @@ function enhanceGeneratedReport(outputFolder, featureStats, axeEvidence = [], te
   if (!reportFiles.length || (indexFilename && !reportFiles.includes(indexFilename))) {
     throw new Error(`Odhín report index is missing${indexFilename ? `: ${indexFilename}` : ''}`);
   }
-  if (startedAtMs && fs.statSync(path.join(outputFolder, indexFilename || reportFiles[0])).mtimeMs < startedAtMs) {
+  const reportPath = path.join(outputFolder, indexFilename || reportFiles[0]);
+  const reportTimestampToleranceMs = 1000;
+  // CI filesystems can expose report mtimes at one-second precision; keep the stale guard without rejecting a report written during finalisation.
+  if (startedAtMs && fs.statSync(reportPath).mtimeMs + reportTimestampToleranceMs < startedAtMs) {
     throw new Error('Odhín report index is stale');
   }
   if (indexFilename) {
-    const html = fs.readFileSync(path.join(outputFolder, indexFilename), 'utf8');
+    const html = fs.readFileSync(reportPath, 'utf8');
     const root = parse(html);
     if (!/<\/html>\s*$/i.test(html) || !root.querySelector('body#body-content') || !root.querySelector('#TabDashboard') ||
       !root.querySelector('#TabTests') || !root.querySelector('#test-list-table')) {

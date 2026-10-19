@@ -145,6 +145,23 @@ test.describe('Manage Org Odhín reporting parity', { tag: '@svc-internal' }, ()
     }
   });
 
+  test('accepts a report mtime within one filesystem timestamp tick of finalisation', () => {
+    const rootDir = fs.mkdtempSync(path.join(os.tmpdir(), 'manage-org-odhin-mtime-'));
+    const reportDir = path.join(rootDir, 'odhin-report');
+    try {
+      fs.mkdirSync(reportDir);
+      const reportPath = path.join(reportDir, 'report.html');
+      fs.writeFileSync(reportPath, baseHtml);
+      const startedAtMs = Date.now();
+      const reportMtimeMs = startedAtMs - 500;
+      fs.utimesSync(reportPath, reportMtimeMs / 1000, reportMtimeMs / 1000);
+
+      expect(() => enhancer.enhanceGeneratedReport(reportDir, [], [], [], { startedAtMs })).not.toThrow();
+    } finally {
+      fs.rmSync(rootDir, { recursive: true, force: true });
+    }
+  });
+
   test('rejects a fresh but empty or truncated Odhín index', async () => {
     const rootDir = fs.mkdtempSync(path.join(os.tmpdir(), 'manage-org-odhin-partial-'));
     const reportDir = path.join(rootDir, 'odhin-report');

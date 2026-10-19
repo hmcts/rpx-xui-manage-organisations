@@ -4,6 +4,7 @@ import os from 'node:os';
 import path from 'node:path';
 
 import e2eConfig from '../../../playwright.e2e.config';
+import { publishAccessibilityEvidence } from '../../E2E/utils/accessibility/accessibilityEvidencePublisher';
 import { attachWaveLikeAccessibilityEvidence, WAVE_LIKE_A11Y_TAG } from '../../E2E/utils/accessibility/waveLikeAccessibility';
 
 const { includesWaveLikeA11y } = (
@@ -115,6 +116,37 @@ test.describe('WAVE-like accessibility tag contract', { tag: '@svc-internal' }, 
       expect(html).toContain('Fix the template first: add visible text, a govukLabel/label');
       expect(json).toContain('"classes": "govuk-button"');
       expect(json).toContain('"advice": "Fix the template first: add visible text, a govukLabel/label');
+    } finally {
+      if (previousEvidenceDir === undefined) {
+        delete process.env.PW_A11Y_EVIDENCE_DIR;
+      } else {
+        process.env.PW_A11Y_EVIDENCE_DIR = previousEvidenceDir;
+      }
+      fs.rmSync(evidenceDir, { recursive: true, force: true });
+    }
+  });
+
+  test('sanitises publisher filename components before writing evidence', async () => {
+    const previousEvidenceDir = process.env.PW_A11Y_EVIDENCE_DIR;
+    const evidenceDir = fs.mkdtempSync(path.join(os.tmpdir(), 'manage-org-publisher-evidence-'));
+
+    try {
+      process.env.PW_A11Y_EVIDENCE_DIR = evidenceDir;
+      await publishAccessibilityEvidence(
+        { title: '../unsafe title' } as unknown as TestInfo,
+        {
+          attachmentPrefix: '../unsafe prefix',
+          screenshotSuffix: '../unsafe.png',
+          entry: { engine: 'wave-like', violationCount: 0, rules: [], targets: [] },
+          html: '<html></html>',
+          json: { violations: [] },
+          screenshot: Buffer.from('screenshot')
+        }
+      );
+
+      const fileNames = fs.readdirSync(evidenceDir);
+      expect(fileNames.every((fileName) => !fileName.includes('/') && !fileName.includes('..'))).toBe(true);
+      expect(fileNames.some((fileName) => fileName.endsWith('-unsafe.png'))).toBe(true);
     } finally {
       if (previousEvidenceDir === undefined) {
         delete process.env.PW_A11Y_EVIDENCE_DIR;

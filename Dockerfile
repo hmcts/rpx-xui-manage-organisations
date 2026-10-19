@@ -14,7 +14,6 @@ ENV PUPPETEER_SKIP_DOWNLOAD=1 \
   SCARF_ANALYTICS=false
 
 USER root
-RUN corepack enable
 USER hmcts
 WORKDIR /opt/app
 
@@ -22,20 +21,19 @@ COPY --chown=hmcts:hmcts .yarn/ ./.yarn/
 COPY --chown=hmcts:hmcts package.json yarn.lock .yarnrc.yml ./
 COPY --chown=hmcts:hmcts api/package.json ./api/package.json
 
-RUN yarn install --immutable --mode=skip-build
+RUN node .yarn/releases/yarn-4.9.2.cjs install --immutable --mode=skip-build
 
 FROM dependencies AS build
 WORKDIR /opt/app
 
 COPY --chown=hmcts:hmcts . .
 
-RUN yarn build
+RUN node .yarn/releases/yarn-4.9.2.cjs build
 
 FROM hmctsprod.azurecr.io/base/node:24-alpine AS runtime
 LABEL maintainer="HMCTS Expert UI <https://github.com/hmcts>"
 
 USER root
-RUN corepack enable
 USER hmcts
 WORKDIR /opt/app
 
@@ -43,7 +41,8 @@ COPY --chown=hmcts:hmcts .yarn/ ./.yarn/
 COPY --chown=hmcts:hmcts package.json yarn.lock .yarnrc.yml ./
 COPY --chown=hmcts:hmcts api/package.json ./api/package.json
 
-RUN yarn workspaces focus rpx-xui-manage-organisations --production && yarn cache clean
+RUN node .yarn/releases/yarn-4.9.2.cjs workspaces focus rpx-xui-manage-organisations --production \
+  && node .yarn/releases/yarn-4.9.2.cjs cache clean
 
 COPY --from=build --chown=hmcts:hmcts /opt/app/dist ./dist
 COPY --from=build --chown=hmcts:hmcts /opt/app/config ./config

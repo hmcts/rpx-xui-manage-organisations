@@ -21,6 +21,10 @@ logResolvedTagFilters('Integration', integrationTagFilters);
 const { version: appVersion } = JSON.parse(readFileSync(resolve(process.cwd(), 'package.json'), 'utf-8')) as { version: string };
 
 module.exports = defineConfig({
+  metadata: {
+    visualCandidateSha: process.env.VISUAL_CANDIDATE_SHA ?? 'not provided',
+    visualCandidateUrl: process.env.TEST_URL ?? 'not provided',
+  },
   outputDir,
   testDir: 'playwright_tests_new/integration',
   testMatch: ['**/*.spec.ts'],

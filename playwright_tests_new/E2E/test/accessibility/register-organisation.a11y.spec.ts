@@ -1,6 +1,6 @@
-import { AxeUtils } from '@hmcts/playwright-common';
 import { test, expect } from '../../fixtures';
 import type { RegisterOrganisationPage } from '../../page-objects/pages/register-organisation.po';
+import { auditAccessibilityPage, type AccessibilityEngine } from '../../utils/accessibility/accessibilityAudit';
 import { createRegisterOrganisationData } from '../../utils/test-setup/register-organisation-data';
 import {
   completeMinimumRegisterOrganisationJourney,
@@ -108,7 +108,7 @@ const registerOrganisationPages = [
   }
 ] as const satisfies readonly RegisterOrganisationRoute[];
 
-const registerOrganisationValidationStates = [
+const registerOrganisationValidationStates: readonly RegisterOrganisationValidationState[] = [
   {
     name: 'organisation type missing selection',
     path: 'organisation-type',
@@ -335,7 +335,7 @@ const registerOrganisationInteractiveStates = [
 
 const termsAndConditionsError = 'Please select checkbox to confirm you have read and understood the terms and conditions';
 
-const registerOrganisationJourneyStates = [
+const registerOrganisationJourneyStates: readonly RegisterOrganisationJourneyState[] = [
   {
     name: 'check your answers optional journey',
     expectedSelectors: ['#confirm-terms-and-conditions'],
@@ -371,19 +371,22 @@ const registerOrganisationJourneyStates = [
 ] as const satisfies readonly RegisterOrganisationJourneyState[];
 
 test.describe('register organisation accessibility @a11y', () => {
+  const accessibilityEngines: AccessibilityEngine[] = ['axe', 'screen-reader'];
+
   for (const registerOrganisationPageRoute of registerOrganisationPages) {
     test(
       `${registerOrganisationPageRoute.name} route has no automatically detectable accessibility violations`,
       { tag: ['@e2e', '@a11y', '@registration'] },
       async ({ page, registerOrganisationPage }, testInfo) => {
-        const axeUtils = new AxeUtils(page);
-
         await registerOrganisationPage.openWorkflowPage(registerOrganisationPageRoute.path);
 
         await expect(page).toHaveURL(new RegExp(`/register-org-new/${registerOrganisationPageRoute.path}$`));
         await expect(page.locator(registerOrganisationPageRoute.component)).toBeVisible();
-        await axeUtils.audit();
-        await axeUtils.generateReport(testInfo, `${registerOrganisationPageRoute.name} accessibility report`);
+        await auditAccessibilityPage(page, testInfo, {
+          defaultEngines: accessibilityEngines,
+          feature: 'Register Organisation',
+          pageState: `${registerOrganisationPageRoute.name} route`
+        });
       }
     );
   }
@@ -393,8 +396,6 @@ test.describe('register organisation accessibility @a11y', () => {
       `${validationState.name} error state has no automatically detectable accessibility violations`,
       { tag: ['@e2e', '@a11y', '@registration', '@validation'] },
       async ({ page, registerOrganisationPage }, testInfo) => {
-        const axeUtils = new AxeUtils(page);
-
         await registerOrganisationPage.openWorkflowPage(validationState.path);
         await expect(page).toHaveURL(new RegExp(`/register-org-new/${validationState.path}$`));
         await expect(page.locator(validationState.component)).toBeVisible();
@@ -410,8 +411,11 @@ test.describe('register organisation accessibility @a11y', () => {
         for (const expectedError of validationState.expectedErrors) {
           await expect(registerOrganisationPage.validationSummaryError(expectedError)).toBeVisible();
         }
-        await axeUtils.audit();
-        await axeUtils.generateReport(testInfo, `${validationState.name} accessibility report`);
+        await auditAccessibilityPage(page, testInfo, {
+          defaultEngines: accessibilityEngines,
+          feature: 'Register Organisation',
+          pageState: `${validationState.name} error state`
+        });
       }
     );
   }
@@ -421,8 +425,6 @@ test.describe('register organisation accessibility @a11y', () => {
       `${interactiveState.name} interactive state has no automatically detectable accessibility violations`,
       { tag: ['@e2e', '@a11y', '@registration'] },
       async ({ page, registerOrganisationPage }, testInfo) => {
-        const axeUtils = new AxeUtils(page);
-
         await registerOrganisationPage.openWorkflowPage(interactiveState.path);
         await expect(page).toHaveURL(new RegExp(`/register-org-new/${interactiveState.path}$`));
         await expect(page.locator(interactiveState.component)).toBeVisible();
@@ -433,8 +435,11 @@ test.describe('register organisation accessibility @a11y', () => {
         for (const expectedSelector of interactiveState.expectedSelectors) {
           await expect(page.locator(expectedSelector)).toBeVisible();
         }
-        await axeUtils.audit();
-        await axeUtils.generateReport(testInfo, `${interactiveState.name} accessibility report`);
+        await auditAccessibilityPage(page, testInfo, {
+          defaultEngines: accessibilityEngines,
+          feature: 'Register Organisation',
+          pageState: `${interactiveState.name} interactive state`
+        });
       }
     );
   }
@@ -444,8 +449,6 @@ test.describe('register organisation accessibility @a11y', () => {
       `${journeyState.name} state has no automatically detectable accessibility violations`,
       { tag: ['@e2e', '@a11y', '@registration'] },
       async ({ page, registerOrganisationPage }, testInfo) => {
-        const axeUtils = new AxeUtils(page);
-
         await journeyState.prepare(registerOrganisationPage);
 
         await expect(page).toHaveURL(/\/register-org-new\/check-your-answers$/);
@@ -456,8 +459,11 @@ test.describe('register organisation accessibility @a11y', () => {
         for (const expectedError of journeyState.expectedErrors ?? []) {
           await expect(registerOrganisationPage.validationSummaryError(expectedError)).toBeVisible();
         }
-        await axeUtils.audit();
-        await axeUtils.generateReport(testInfo, `${journeyState.name} accessibility report`);
+        await auditAccessibilityPage(page, testInfo, {
+          defaultEngines: accessibilityEngines,
+          feature: 'Register Organisation',
+          pageState: `${journeyState.name} journey state`
+        });
       }
     );
   }

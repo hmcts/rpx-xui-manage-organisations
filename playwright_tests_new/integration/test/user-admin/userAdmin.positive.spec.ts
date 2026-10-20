@@ -44,7 +44,7 @@ const expectedCivilAccessTypes = (standardAccessEnabled: boolean, financeAccessE
   }
 ];
 
-test.describe('User administration', { tag: ['@integration', '@integration-user-admin'] }, () => {
+test.describe('User administration UI and invite payloads', { tag: ['@integration', '@integration-user-admin'] }, () => {
   test('renders the users list and returns from invite-user with the back link', async ({
     manageOrgIntegrationPage: page
   }) => {

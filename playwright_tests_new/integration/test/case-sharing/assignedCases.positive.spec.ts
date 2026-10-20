@@ -29,7 +29,7 @@ const isAssignedCaseShareUrl = (url: URL): boolean =>
   url.searchParams.get('init') === 'true' &&
   url.searchParams.get('pageType') === 'assigned-cases';
 
-test.describe('Assigned cases', { tag: ['@integration', '@integration-assigned-cases', '@integration-case-sharing'] }, () => {
+test.describe('Assigned cases UI filtering and sharing payloads', { tag: ['@integration', '@integration-assigned-cases', '@integration-case-sharing'] }, () => {
   test('switches from unassigned to assigned cases on the combined Cases page', async ({
     manageOrgIntegrationPage: page
   }) => {

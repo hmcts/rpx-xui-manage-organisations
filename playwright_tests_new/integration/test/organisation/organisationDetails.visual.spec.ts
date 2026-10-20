@@ -19,16 +19,24 @@ test.use({
 });
 const visualCandidateUrl = process.env.TEST_URL?.trim();
 const visualCandidateSha = process.env.VISUAL_CANDIDATE_SHA?.trim();
-if (process.env.RUN_SRT_VISUAL === '1' && (!visualCandidateUrl || !visualCandidateSha)) {
+const visualRunEnabled = process.env.RUN_SRT_VISUAL === '1';
+const buildCommitSha = process.env.GIT_COMMIT?.trim();
+
+if (visualRunEnabled && (!visualCandidateUrl || !visualCandidateSha)) {
   throw new Error('SRT visual comparison requires TEST_URL and VISUAL_CANDIDATE_SHA for the identified candidate build');
 }
-if (process.env.RUN_SRT_VISUAL === '1' && process.platform !== 'darwin') {
-  throw new Error('SRT visual comparison is macOS-only until an approved Linux baseline exists');
+if (visualRunEnabled && buildCommitSha && visualCandidateSha !== buildCommitSha) {
+  throw new Error(`SRT visual candidate SHA ${visualCandidateSha} does not match GIT_COMMIT ${buildCommitSha}`);
 }
 
-test.describe('SRT organisation visual baseline', { tag: ['@integration', '@srt-visual'] }, () => {
+test.describe('SRT organisation visual baseline', {
+  tag: ['@integration', '@srt-visual'],
+  annotation: [
+    { type: 'visual-candidate-url', description: visualCandidateUrl ?? 'not provided' },
+    { type: 'visual-candidate-sha', description: visualCandidateSha ?? 'not provided' }
+  ]
+}, () => {
   test.skip(process.env.RUN_SRT_VISUAL !== '1', 'Visual comparison is an explicit, non-release-gating review run');
-  test.skip(process.platform !== 'darwin', 'Visual baselines are macOS-only until an approved Linux baseline exists');
 
   test('shows mocked organisation details', async ({ manageOrgIntegrationPage: page }) => {
     await setupOrganisationDetailsRoutes(page);

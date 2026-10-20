@@ -203,13 +203,13 @@ test.describe('User administration UI and invite payloads', { tag: ['@integratio
     const userAdminPage = new UserAdminPage(page);
 
     await page.goto('/');
-    await page.getByRole('link', { name: 'Users', exact: true }).click();
+    await userAdminPage.usersLink.click();
     await expect(page).toHaveURL(/\/users$/);
     await expect(userAdminPage.heading).toBeVisible();
     await userAdminPage.openInviteUser();
 
     await expect(page).toHaveURL(/\/users\/manage$/);
-    await expect(page.getByRole('heading', { name: 'Manage user', exact: true })).toBeVisible();
+    await expect(userAdminPage.manageUserHeading).toBeVisible();
     await expect(userAdminPage.permissionCheckbox('Case access administrator')).toBeVisible();
     await expect(userAdminPage.permissionCheckbox('Manage fee accounts')).toBeVisible();
 

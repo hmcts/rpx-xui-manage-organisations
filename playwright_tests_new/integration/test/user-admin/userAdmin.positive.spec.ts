@@ -202,11 +202,14 @@ test.describe('User administration', { tag: ['@integration', '@integration-user-
     const routeState = await setupUserAdminRoutes(page, { enableOgdInviteUserFlow: true });
     const userAdminPage = new UserAdminPage(page);
 
-    await userAdminPage.openUsers();
+    await page.goto('/');
+    await page.getByRole('link', { name: 'Users', exact: true }).click();
+    await expect(page).toHaveURL(/\/users$/);
+    await expect(userAdminPage.heading).toBeVisible();
     await userAdminPage.openInviteUser();
 
     await expect(page).toHaveURL(/\/users\/manage$/);
-    await expect(userAdminPage.inviteUserHeading).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Manage user', exact: true })).toBeVisible();
     await expect(userAdminPage.permissionCheckbox('Case access administrator')).toBeVisible();
     await expect(userAdminPage.permissionCheckbox('Manage fee accounts')).toBeVisible();
 

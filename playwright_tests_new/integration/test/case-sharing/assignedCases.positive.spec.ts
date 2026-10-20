@@ -1,6 +1,7 @@
 import { expect, test } from '../../fixtures';
 import {
   setupAssignedCaseShareRoutes,
+  setupAssignedCaseListRoutes,
   setupUnassignedCaseListRoutes
 } from '../../helpers';
 import {
@@ -29,7 +30,7 @@ const isAssignedCaseShareUrl = (url: URL): boolean =>
   url.searchParams.get('pageType') === 'assigned-cases';
 
 test.describe('Assigned cases', { tag: ['@integration', '@integration-assigned-cases', '@integration-case-sharing'] }, () => {
-  test('renders Cases page rows after switching between multiple default case-type tabs', async ({
+  test('switches from unassigned to assigned cases on the combined Cases page', async ({
     manageOrgIntegrationPage: page
   }) => {
     const routeState = await setupUnassignedCaseListRoutes(page);
@@ -86,6 +87,20 @@ test.describe('Assigned cases', { tag: ['@integration', '@integration-assigned-c
     await expect(assignedCasesPage.caseList).toContainText(unassignedAsylumCase.caseReference);
     await expect(assignedCasesPage.caseList).toContainText(unassignedSecondAsylumCase.caseReference);
     await expect(assignedCasesPage.caseList).not.toContainText(unassignedImmigrationCase.caseReference);
+
+    const assignedRouteState = await setupAssignedCaseListRoutes(page);
+    await assignedCasesPage.showAssignedCasesFilter();
+    await assignedCasesPage.selectAllAssignedCasesFilter();
+    await assignedCasesPage.applyFilter();
+
+    await expect(page).toHaveURL(/\/cases$/);
+    await expect(assignedCasesPage.caseList).toContainText(assignedAsylumCase.caseReference);
+    await expect(assignedCasesPage.caseList).not.toContainText(unassignedAsylumCase.caseReference);
+    await expect.poll(() => assignedRouteState.caseListRequests.some((request) =>
+      request.caaCasesFilterType === 'all-assignees' &&
+      request.caaCasesPageType === 'assigned-cases' &&
+      request.caseTypeId === asylumCaseType
+    )).toBe(true);
   });
 
   test('validates assigned case filters, tabs and manage-sharing submission', async ({

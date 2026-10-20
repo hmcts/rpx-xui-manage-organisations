@@ -20,6 +20,7 @@ class InviteUserError extends Error {
 
   constructor(report: InviteUserErrorReport) {
     super(report.message || report.apiError || 'Invite user request failed');
+    Object.setPrototypeOf(this, InviteUserError.prototype);
     this.name = 'InviteUserError';
     this.apiError = report.apiError;
     this.apiStatusCode = report.apiStatusCode;

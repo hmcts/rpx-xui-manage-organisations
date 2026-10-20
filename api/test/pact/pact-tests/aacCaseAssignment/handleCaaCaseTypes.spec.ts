@@ -8,50 +8,6 @@ const { like: somethingLike } = MatchersV3;
 const pactSetUp = new PactV3TestSetup({ provider: 'acc_manageCaseAssignment', port: 8000 });
 const caseTypes = 'MoneyClaimCase,DIVORCE,FinancialRemedyContested,FinancialRemedyMVP2,Asylum,Caveat,GrantOfRepresentation,StandingSearch,WillLodgement,CARE_SUPERVISION_EPO,Benefit,NFD';
 
-<<<<<<< Updated upstream
-describe('Handle unassigned case types ', () => {
-  describe('Handles caa case types', () => {
-    // have kept similar structure to payload in function that calls API but may be discrepancies in understanding
-    const mockPayload = {
-      _source: false,
-      from: 0,
-      query: {
-        bool: {
-          filter: [
-            {
-              multi_match: {
-                fields: ['data.*.Organisation.OrganisationID'],
-                query: 'organisationId',
-                type: 'phrase'
-              }
-            },
-            {
-              bool: {
-                ...{
-                  must: [
-                    { range: { 'key': { gt: 0 } } }
-                  ]
-                },
-                ...{
-                  must_not: [
-                    { range: { 'key': { gt: 0 } } }
-                  ]
-                }
-              }
-            },
-            {
-              bool: {
-                ...{
-                  must: {}
-                },
-                ...{
-                  should: {}
-                }
-              }
-            }
-          ]
-        }
-=======
 describe('Handle unassigned case types', () => {
   let context: ReturnType<typeof consumerRequest>;
   before(async () => {
@@ -81,7 +37,6 @@ describe('Handle unassigned case types', () => {
             { bool: {} }
           ] } }, size: 100, sort: { created_date: { order: 'desc' } }
         })
->>>>>>> Stashed changes
       },
       willRespondWith: {
         status: 200, headers: { 'Content-Type': 'application/json' },

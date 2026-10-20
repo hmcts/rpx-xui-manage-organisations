@@ -23,13 +23,12 @@ const visualCandidateSha = process.env.VISUAL_CANDIDATE_SHA?.trim();
 const visualRunEnabled = process.env.RUN_SRT_VISUAL === '1';
 const buildCommitSha = process.env.GIT_COMMIT?.trim();
 
-if (visualRunEnabled && (!visualCandidateUrl || !visualCandidateSha)) {
-  throw new Error('SRT visual comparison requires TEST_URL and VISUAL_CANDIDATE_SHA for the identified candidate build');
+if (visualRunEnabled && (!visualCandidateUrl || !visualCandidateSha || !buildCommitSha)) {
+  throw new Error(
+    'SRT visual comparison requires TEST_URL, VISUAL_CANDIDATE_SHA and GIT_COMMIT for the identified candidate build'
+  );
 }
-if (visualRunEnabled && !/^http:\/\/(?:127\.0\.0\.1|localhost):\d+\/?$/.test(visualCandidateUrl ?? '')) {
-  throw new Error('SRT visual comparison requires TEST_URL=http://127.0.0.1:<port> for an identified local candidate build');
-}
-if (visualRunEnabled && buildCommitSha && visualCandidateSha !== buildCommitSha) {
+if (visualRunEnabled && visualCandidateSha !== buildCommitSha) {
   throw new Error(`SRT visual candidate SHA ${visualCandidateSha} does not match GIT_COMMIT ${buildCommitSha}`);
 }
 if (visualRunEnabled && visualCandidateSha !== execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim()) {

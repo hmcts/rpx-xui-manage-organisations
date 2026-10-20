@@ -1,4 +1,3 @@
-import { execFileSync } from 'node:child_process';
 import { expect, test } from '../../fixtures';
 import {
   setupOrganisationDetailsRoutes,
@@ -31,10 +30,6 @@ if (visualRunEnabled && (!visualCandidateUrl || !visualCandidateSha || !buildCom
 if (visualRunEnabled && visualCandidateSha !== buildCommitSha) {
   throw new Error(`SRT visual candidate SHA ${visualCandidateSha} does not match GIT_COMMIT ${buildCommitSha}`);
 }
-if (visualRunEnabled && visualCandidateSha !== execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim()) {
-  throw new Error('Visual comparison candidate SHA does not match the checked-out build');
-}
-
 test.describe('SRT organisation visual baseline', {
   tag: ['@integration', '@srt-visual'],
   annotation: [

@@ -37,8 +37,6 @@ test.describe('SRT organisation visual baseline', {
     { type: 'visual-candidate-sha', description: visualCandidateSha ?? 'not provided' }
   ]
 }, () => {
-  test.skip(process.env.RUN_SRT_VISUAL !== '1', 'Visual comparison is an explicit, non-release-gating review run');
-
   test('shows mocked organisation details', async ({ manageOrgIntegrationPage: page }) => {
     await setupOrganisationDetailsRoutes(page);
     const organisationPage = new OrganisationPage(page);

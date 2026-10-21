@@ -52,12 +52,16 @@
 
 
     &[data-page]::after {
-      @include govuk-font(16);
       color: $govuk-secondary-text-colour;
       content: attr(data-page);
-      line-height: 1;
       position: absolute; right: govuk-spacing(4);
       bottom: govuk-spacing(4);
+      @include govuk-font(16);
+
+      // Keep the original compact page-number height below the tablet breakpoint.
+      @include govuk-media-query($until: tablet, $media-type: screen) {
+        line-height: 1;
+      }
     }
 
   }
@@ -73,8 +77,8 @@
 
 
 .jui-casefile-list__item {
-  @include govuk-font(16);
   margin-bottom: govuk-spacing(1);
+  @include govuk-font(16);
 }
 
 
@@ -130,10 +134,10 @@
 }
 
 .jui-casefile-actions__list-item {
-  @include govuk-font(16);
   display: inline-block;
   margin-right: govuk-spacing(4);
 
+  @include govuk-font(16);
   &:last-child {
     margin-right: 0;
   }

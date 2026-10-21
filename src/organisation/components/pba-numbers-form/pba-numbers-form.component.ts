@@ -102,7 +102,6 @@ export class PbaNumbersFormComponent implements OnInit {
       return;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     this.router.navigate(['/organisation/update-pba-numbers-check']).then(() => { });
   }
 

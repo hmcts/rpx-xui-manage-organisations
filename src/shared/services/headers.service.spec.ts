@@ -15,7 +15,7 @@ const cookieService = {
   set: (key, value) => {
     cookieService[key] = value;
   },
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+
   removeAll: () => {}
 };
 

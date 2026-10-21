@@ -13,9 +13,9 @@ import { PbaNumbersFormComponent } from './pba-numbers-form.component';
 import { AppConstants } from '../../../app/app.constants';
 
 const storeMock = {
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+
   pipe: () => <unknown>{ },
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+
   dispatch: () => { }
 };
 

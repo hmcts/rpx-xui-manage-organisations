@@ -9,6 +9,7 @@ import * as fromStore from '../../store';
 import * as fromOrgStore from '../../../organisation/store';
 import { ActivatedRoute } from '@angular/router';
 import { ENVIRONMENT_CONFIG, EnvironmentConfig } from '../../../models/environmentConfig.model';
+import { OrganisationAccessType } from '../../../models';
 
 @Component({
   selector: 'app-prd-user-details-component',
@@ -79,34 +80,28 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
     this.user$ = this.userStore.pipe(select(fromStore.getUserDetails));
 
-    combineLatest([organisationAccessTypes$, this.user$, getOgdInviteUserFlowFeatureIsEnabled$])
+    combineLatest([
+      organisationAccessTypes$,
+      this.user$,
+      getOgdInviteUserFlowFeatureIsEnabled$
+    ])
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(([organisationAccessTypes, user, isFeatureEnabled]) => {
         this.userAccessTypes = [];
-        if (isFeatureEnabled && user?.roles?.includes('pui-case-manager')) {
-          const enabledUserAccessTypes: UserAccessType[] =
-            user?.userAccessTypes?.filter((x: UserAccessType) => x.enabled) ?? [];
 
-          for (const jurisdiction of organisationAccessTypes) {
-            for (const ac of jurisdiction.accessTypes) {
-              if (ac.accessMandatory) {
-                this.userAccessTypes.push(
-                  `${jurisdiction.jurisdictionName} - ${ac.description}`
-                );
-                continue;
-              }
-              if (
-                ac.display &&
-                enabledUserAccessTypes.some(
-                  (x) =>
-                    x.accessTypeId === ac.accessTypeId &&
-                    x.organisationProfileId === ac.organisationProfileId
-                )
-              ) {
-                this.userAccessTypes.push(
-                  `${jurisdiction.jurisdictionName} - ${ac.description}`
-                );
-              }
+        if (!isFeatureEnabled || !user?.roles?.includes('pui-case-manager')) {
+          return;
+        }
+
+        const enabledUserAccessTypes: UserAccessType[] =
+          user.userAccessTypes?.filter((userType: UserAccessType) => userType.enabled) ?? [];
+
+        for (const jurisdiction of organisationAccessTypes) {
+          for (const accessType of jurisdiction.accessTypes) {
+            if (this.shouldIncludeAccessType(accessType, enabledUserAccessTypes)) {
+              this.userAccessTypes.push(
+                `${jurisdiction.jurisdictionName} - ${accessType.description}`
+              );
             }
           }
         }
@@ -194,5 +189,20 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
   public reinviteUser(user: User) {
     this.userStore.dispatch(new fromStore.ReinvitePendingUser(user));
+  }
+
+  private shouldIncludeAccessType(
+    accessType: OrganisationAccessType,
+    enabledUserAccessTypes: UserAccessType[]
+  ): boolean {
+    return (
+      accessType.accessMandatory ||
+      (accessType.display &&
+        enabledUserAccessTypes.some(
+          (userAccessType) =>
+            userAccessType.accessTypeId === accessType.accessTypeId &&
+            userAccessType.organisationProfileId === accessType.organisationProfileId
+        ))
+    );
   }
 }

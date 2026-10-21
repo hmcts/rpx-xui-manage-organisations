@@ -12,7 +12,7 @@ export function handleCondition(conditionNode, variables): any {
   const key = Object.keys(conditionNode.condition[0])[0];
 
   if (variables[key] === conditionNode.condition[0][key]) {
-    return conditionNode.result; // eslint-disable-line no-param-reassign
+    return conditionNode.result;
   }
   return null;
 }

@@ -15,7 +15,7 @@ export class UserService {
 
   constructor(
     private readonly http: HttpClient,
-    private readonly rootStore: Store<fromRoot.State>,
+    private readonly rootStore: Store<fromRoot.State>
   ) {}
 
   public editUserPermissions(editUser): Observable<any> {

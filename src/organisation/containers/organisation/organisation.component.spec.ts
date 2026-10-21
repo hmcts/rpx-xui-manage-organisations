@@ -11,16 +11,16 @@ import { buildMockStoreProviders } from '../../../register-org/testing/mock-stor
 import { OrganisationComponent } from './organisation.component';
 
 const storeMock = {
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+
   pipe: () => <unknown>{ },
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+
   dispatch: () => { }
 };
 
 const authStoreMock = {
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+
   pipe: () => { },
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+
   dispatch: () => { }
 };
 

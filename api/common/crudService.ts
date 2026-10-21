@@ -15,7 +15,6 @@ const logger: JUILogger = log4jui.getLogger('crud-service');
  */
 export async function handleGet(path: string, req: EnhancedRequest, next: NextFunction): Promise<AxiosResponse> {
   try {
-    logger.info('handle get:', path);
     return await req.http.get(path);
   } catch (e) {
     next(e);
@@ -31,7 +30,6 @@ export async function handleGet(path: string, req: EnhancedRequest, next: NextFu
  */
 export async function handlePost<T>(path: string, body: T, req: EnhancedRequest): Promise<AxiosResponse> {
   try {
-    logger.info('handle post:', path);
     return await req.http.post(path, body);
   } catch (e) {
     logger.error(e.status, e.statusText, JSON.stringify(e.data));
@@ -48,7 +46,6 @@ export async function handlePost<T>(path: string, body: T, req: EnhancedRequest)
  */
 export async function handlePut<T>(path: string, body: T, req: EnhancedRequest): Promise<AxiosResponse> {
   try {
-    logger.info('handle put:', path);
     return await req.http.put(path, body);
   } catch (e) {
     logger.error(e.status, e.statusText, JSON.stringify(e.data));
@@ -65,7 +62,6 @@ export async function handlePut<T>(path: string, body: T, req: EnhancedRequest):
  */
 export async function handleDelete<T>(path: string, body: T, req: EnhancedRequest): Promise<AxiosResponse> {
   try {
-    logger.info('handle delete:', path);
     return await req.http.delete(path, {
       data: body
     });

@@ -2,6 +2,9 @@ import { CaaCasesPageType } from '../caaCases/enums';
 import { searchCasesString } from './caaCaseTypes.constants';
 import { getConfigValue } from '../configuration';
 import { UNASSIGNED_CASE_TYPES } from '../configuration/references';
+import * as log4jui from '../lib/log4jui';
+
+const logger = log4jui.getLogger('caa-case-types');
 
 export function getRequestBody(organisationID: string, caaCasesPageType: string, caaCasesFilterValue?: string | string[]) {
   const organisationAssignedUsersKey = `supplementary_data.orgs_assigned_users.${organisationID}`;
@@ -118,7 +121,7 @@ function setupCaseConfig() {
 export function addCaseConfiguration(response) {
   const resData = response.data;
   const unassignedCaseConfig = setupCaseConfig();
-  console.log(unassignedCaseConfig);
+  logger.debug('Unassigned case configuration loaded', unassignedCaseConfig);
   resData.case_types_results.forEach((caseTypeResult) => {
     const { case_type_id } = caseTypeResult;
     if (unassignedCaseConfig[case_type_id]) {

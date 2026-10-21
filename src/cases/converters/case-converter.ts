@@ -8,14 +8,15 @@ export function toShareCaseConverter(selectedCases: any[], theCaseTypeId: string
   const sharedCases: SharedCase[] = [];
   for (const selectCase of selectedCases) {
     const caseTypeId = getValueByPropertyName(selectCase, 'caseType') ? getValueByPropertyName(selectCase, 'caseType') : theCaseTypeId;
-    let caseTitle = getValueByPropertyName(selectCase, 'case_title');
+    let caseTitle = getValueByPropertyName(selectCase, 'case_title')
+      || getValueByPropertyName(selectCase, 'allPartyNames');
     if (!caseTitle) {
       caseTitle = combineCaseTitleByCaseType(caseTypeId, selectCase);
     }
 
     const shareCase = {
       caseId: selectCase.case_id,
-      caseTitle: caseTitle ? caseTitle : combineCaseTitleByCaseType(caseTypeId, selectCase),
+      caseTitle: caseTitle || combineCaseTitleByCaseType(caseTypeId, selectCase),
       caseTypeId
     };
     sharedCases.push(shareCase);

@@ -24,26 +24,26 @@ describe('Handle unassigned case types ', () => {
             },
             {
               bool: {
-                ...(true && {
+                ...{
                   must: [
                     { range: { 'key': { gt: 0 } } }
                   ]
-                }),
-                ...(true && {
+                },
+                ...{
                   must_not: [
                     { range: { 'key': { gt: 0 } } }
                   ]
-                })
+                }
               }
             },
             {
               bool: {
-                ...(true && {
+                ...{
                   must: {}
-                }),
-                ...(true && {
+                },
+                ...{
                   should: {}
-                })
+                }
               }
             }
           ]

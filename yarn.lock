@@ -673,17 +673,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/router@npm:20.3.31":
-  version: 20.3.31
-  resolution: "@angular/router@npm:20.3.31"
+"@angular/router@npm:20.3.33":
+  version: 20.3.33
+  resolution: "@angular/router@npm:20.3.33"
   dependencies:
     tslib: "npm:^2.3.0"
   peerDependencies:
-    "@angular/common": 20.3.31
-    "@angular/core": 20.3.31
-    "@angular/platform-browser": 20.3.31
+    "@angular/common": 20.3.33
+    "@angular/core": 20.3.33
+    "@angular/platform-browser": 20.3.33
     rxjs: ^6.5.3 || ^7.4.0
-  checksum: 10/6716e83aa4b827134deac58f8681dbd002fc8c3f7ed230015019d5de8952bb40865f090b48b7c46c306ea8b60e908b82b1d8651ba5caaa803f52b41e4c391a94
+  checksum: 10/8eac7d00f7d99c763e17ea95ccc820bb605fcd0b76297fd01f146a674286428d5a2a01e71bdbe72a77f6236acda7ddca1027264da004f6f95c66e218ff9ea3e5
   languageName: node
   linkType: hard
 
@@ -14072,13 +14072,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.0.0, follow-redirects@npm:^1.16.0":
-  version: 1.16.0
-  resolution: "follow-redirects@npm:1.16.0"
+"follow-redirects@npm:1.16.1":
+  version: 1.16.1
+  resolution: "follow-redirects@npm:1.16.1"
   peerDependenciesMeta:
     debug:
       optional: true
-  checksum: 10/3fbe3d80b3b544c22705d837aa5d4a0d07a740d913534a2620b0a004c610af4148e3b58723536dd099aaa1c9d3a155964bde9665d6e5cb331460809a1fc572fd
+  checksum: 10/269c9f38e4bb413d7ab224fb5aa733118288a18e84d4d0a22821a850574624a55d45f2c6735fc09fc1cceedb6343a5539daf6d2dd70bce8980c8336d230a2f50
   languageName: node
   linkType: hard
 
@@ -16093,14 +16093,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"katex@npm:^0.16.0, katex@npm:^0.16.47":
-  version: 0.16.47
-  resolution: "katex@npm:0.16.47"
+"katex@npm:0.18.2":
+  version: 0.18.2
+  resolution: "katex@npm:0.18.2"
   dependencies:
     commander: "npm:^8.3.0"
   bin:
     katex: cli.js
-  checksum: 10/e0286b45d9e0c8443cf0381205619ecbab3919ea5fb6616408f46f0cb471ce2222e83f46aef52cdaacdcbfd4485e00fcfbcf36bd85a8a9a81e22b45827c27ced
+  checksum: 10/13c4c65ba80135d84fb2d34840092d191f3737a8d0623aadf70bd5d1cbcc091aa0e3e423123aa06ae8c518c35eb7c939461ff3740f9425998392d919f65bd063
   languageName: node
   linkType: hard
 
@@ -20223,7 +20223,7 @@ __metadata:
     "@angular/language-service": "npm:20.3.31"
     "@angular/material": "npm:^17.3.8"
     "@angular/platform-browser": "npm:20.3.31"
-    "@angular/router": "npm:20.3.31"
+    "@angular/router": "npm:20.3.33"
     "@axe-core/playwright": "npm:^4.11.0"
     "@babel/runtime": "npm:7.29.10"
     "@edium/fsm": "npm:^3.0.2"
@@ -21087,10 +21087,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"source-map-js@npm:>=0.6.2 <2.0.0, source-map-js@npm:^1.0.2, source-map-js@npm:^1.2.1":
-  version: 1.2.1
-  resolution: "source-map-js@npm:1.2.1"
-  checksum: 10/ff9d8c8bf096d534a5b7707e0382ef827b4dd360a577d3f34d2b9f48e12c9d230b5747974ee7c607f0df65113732711bb701fe9ece3c7edbd43cb2294d707df3
+"source-map-js@npm:1.2.2":
+  version: 1.2.2
+  resolution: "source-map-js@npm:1.2.2"
+  checksum: 10/4807c894bb6280c8b84886159b96080e3996f42c6e8015e647881edfd4f955f6024ceebb8bb40d33ce8b106e24b2e29c133575e1c60c01c8aae57a05fdf17761
   languageName: node
   linkType: hard
 

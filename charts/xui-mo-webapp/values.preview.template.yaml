@@ -43,9 +43,9 @@ nodejs:
   autoscaling:
     enabled: false
   devmemoryRequests: 1Gi
-  devcpuRequests: 25m
+  devcpuRequests: 100m
   devmemoryLimits: 2Gi
-  devcpuLimits: 50m
+  devcpuLimits: 200m
 redis:
   enabled: true
 idam-pr:

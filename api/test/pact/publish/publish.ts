@@ -4,19 +4,20 @@ import * as path from 'path';
 import { getConfigValue } from '../../../configuration';
 import { PACT_BROKER_PASSWORD, PACT_BROKER_URL, PACT_BROKER_USERNAME } from '../../../configuration/references';
 
-export interface GitSource { version: string; branch: string; dirty: boolean; ciInstallMarkerUntracked?: boolean; }
+export interface GitSource { version: string; branch: string; dirty: boolean; ciInstallMarkerUntracked?: boolean; gitStatus?: string; }
 export interface PublicationSettings { broker: string; version?: string; branch?: string; username?: string; password?: string; }
 
 export function readGitSource(): GitSource {
   const git = (args: string[]) => execFileSync('git', args, { encoding: 'utf8' }).trim();
-  const status = git(['status', '--porcelain']);
+  const status = execFileSync('git', ['status', '--porcelain'], { encoding: 'utf8' }).trimEnd();
   return {
     version: git(['rev-parse', 'HEAD']), branch: git(['branch', '--show-current']), dirty: status.length > 0,
-    ciInstallMarkerUntracked: status.split('\n').includes('?? .yarn_dependencies_installed')
+    ciInstallMarkerUntracked: status.split('\n').includes('?? .yarn_dependencies_installed'),
+    gitStatus: status
   };
 }
 
-/** Deliberately excludes credentials, Broker URLs, file paths and arbitrary environment values. */
+/** Deliberately excludes credentials, Broker URLs, file contents and arbitrary environment values. */
 export function publicationDiagnostics(settings: PublicationSettings, source: GitSource) {
   const configuredVersion = settings.version || source.version;
   return {
@@ -26,6 +27,7 @@ export function publicationDiagnostics(settings: PublicationSettings, source: Gi
     configuredVersionMatchesHead: configuredVersion === source.version,
     versionOverridePresent: Boolean(settings.version),
     dirtySource: source.dirty,
+    gitStatus: source.gitStatus ? source.gitStatus.split('\n') : [],
     ciInstallMarkerUntracked: source.ciInstallMarkerUntracked === true,
     branchPresent: Boolean(settings.branch || source.branch)
   };

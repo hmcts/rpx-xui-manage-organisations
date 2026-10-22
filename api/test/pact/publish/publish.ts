@@ -63,7 +63,7 @@ export function publicationOptions(settings: PublicationSettings, source: GitSou
     throw new Error('Configure an HTTP(S) Pact Broker without credentials embedded in its URL.');
   }
   return {
-    consumerVersion: version, branch, tags: [branch], pactBroker: settings.broker,
+    consumerVersion: version, branch, pactBroker: settings.broker,
     pactBrokerUsername: settings.username, pactBrokerPassword: settings.password,
     pactFilesOrDirs: [path.resolve(__dirname, '../pacts/')]
   };

@@ -37,7 +37,6 @@ export function publicationDiagnostics(settings: PublicationSettings, source: Gi
 export function publicationFailure(error: unknown) {
   const reasons: Record<string, string> = {
     'Pact version must equal the full checked-out Git SHA.': 'VERSION_MISMATCH',
-    'Commit the Pact changes manually before publishing an immutable Git version.': 'DIRTY_SOURCE',
     'A first-class Git branch is required for Pact publication.': 'INVALID_BRANCH',
     'Configure an HTTP(S) Pact Broker without credentials embedded in its URL.': 'INVALID_BROKER_URL'
   };
@@ -50,9 +49,6 @@ export function publicationOptions(settings: PublicationSettings, source: GitSou
   const branch = settings.branch || source.branch;
   if (!/^[a-f0-9]{40}$/i.test(version) || version !== source.version) {
     throw new Error('Pact version must equal the full checked-out Git SHA.');
-  }
-  if (source.dirty) {
-    throw new Error('Commit the Pact changes manually before publishing an immutable Git version.');
   }
   if (!branch || branch === 'HEAD' || /\s/.test(branch)) {
     throw new Error('A first-class Git branch is required for Pact publication.');

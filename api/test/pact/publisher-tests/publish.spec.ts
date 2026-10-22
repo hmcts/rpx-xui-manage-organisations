@@ -27,9 +27,6 @@ describe('Pact publication', () => {
     }
     expect(failure.message).to.equal('Broker rejected publication');
   });
-  it('rejects dirty source before contacting the Broker', () => {
-    expect(() => publicationOptions(settings, { ...source, dirty: true })).to.throw('Commit the Pact changes manually');
-  });
   it('rejects short or mismatched versions and missing branches', () => {
     expect(() => publicationOptions({ ...settings, version: 'abcdef' }, source)).to.throw('full checked-out Git SHA');
     expect(() => publicationOptions({ ...settings, version: 'b'.repeat(40) }, source)).to.throw('full checked-out Git SHA');

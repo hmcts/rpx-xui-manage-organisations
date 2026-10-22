@@ -79,8 +79,7 @@
     "test:setup:playwright-install-browsers": "npx playwright install chromium firefox webkit",
     "test:setup:playwright-install-chromium": "npx playwright install chromium",
     "test:setup:playwright-verify-all": "node scripts/verify-playwright-browsers.js chromium firefox webkit",
-    "test:setup:playwright-verify-chromium": "node scripts/verify-playwright-browsers.js chromium",
-    "test:pact:publisher": "NODE_PATH=. NODE_ENV=pacttesting mocha --timeout 10000 -r ts-node/register 'api/test/pact/publisher-tests/*.spec.ts'"
+    "test:setup:playwright-verify-chromium": "node scripts/verify-playwright-browsers.js chromium"
   },
   "private": true,
   "dependencies": {

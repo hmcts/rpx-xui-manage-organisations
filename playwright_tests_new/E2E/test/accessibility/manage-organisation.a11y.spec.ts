@@ -1,5 +1,18 @@
-import { AxeUtils } from '@hmcts/playwright-common';
 import { expect, test } from '../../fixtures';
+import { auditAccessibilityPage, type AccessibilityEngine } from '../../utils/accessibility/accessibilityAudit';
+
+const accessibilityEngines: AccessibilityEngine[] = ['axe', 'wave-like', 'screen-reader'];
+
+const auditManageOrganisationPage = async (
+  page: Parameters<typeof auditAccessibilityPage>[0],
+  testInfo: Parameters<typeof auditAccessibilityPage>[1],
+  pageState: string
+): Promise<void> =>
+  auditAccessibilityPage(page, testInfo, {
+    defaultEngines: accessibilityEngines,
+    feature: 'Manage Organisations',
+    pageState
+  });
 
 test.describe('authenticated Manage Organisation accessibility @a11y', () => {
   test.beforeEach(async ({ signedInPage }) => {
@@ -14,9 +27,7 @@ test.describe('authenticated Manage Organisation accessibility @a11y', () => {
 
       await expect(organisationPage.heading).toBeVisible();
       await expect(organisationPage.root).toBeVisible();
-      const axeUtils = new AxeUtils(signedInPage);
-      await axeUtils.audit();
-      await axeUtils.generateReport(testInfo, 'organisation details accessibility report');
+      await auditManageOrganisationPage(signedInPage, testInfo, 'organisation details');
     }
   );
 
@@ -29,9 +40,7 @@ test.describe('authenticated Manage Organisation accessibility @a11y', () => {
       await expect(usersPage.heading).toBeVisible();
       await expect(usersPage.inviteUserButton).toBeVisible();
       await expect(usersPage.userList).toBeVisible();
-      const axeUtils = new AxeUtils(signedInPage);
-      await axeUtils.audit();
-      await axeUtils.generateReport(testInfo, 'users list accessibility report');
+      await auditManageOrganisationPage(signedInPage, testInfo, 'users list');
     }
   );
 
@@ -46,9 +55,7 @@ test.describe('authenticated Manage Organisation accessibility @a11y', () => {
       await expect(usersPage.firstNameInput).toBeVisible();
       await expect(usersPage.lastNameInput).toBeVisible();
       await expect(usersPage.emailInput).toBeVisible();
-      const axeUtils = new AxeUtils(signedInPage);
-      await axeUtils.audit();
-      await axeUtils.generateReport(testInfo, 'invite user accessibility report');
+      await auditManageOrganisationPage(signedInPage, testInfo, 'invite user form');
     }
   );
 
@@ -66,9 +73,19 @@ test.describe('authenticated Manage Organisation accessibility @a11y', () => {
       if (!(await usersPage.isManageUserPage())) {
         await expect(usersPage.validationSummaryError('You must select at least one action')).toBeVisible();
       }
-      const axeUtils = new AxeUtils(signedInPage);
-      await axeUtils.audit();
-      await axeUtils.generateReport(testInfo, 'invite user validation accessibility report');
+      await auditManageOrganisationPage(signedInPage, testInfo, 'invite user validation');
+    }
+  );
+
+  test(
+    'active user details page has actionable accessibility evidence',
+    { tag: ['@e2e', '@a11y', '@user-admin'] },
+    async ({ signedInPage, usersPage }, testInfo) => {
+      await usersPage.open();
+      await usersPage.openFirstActiveUser();
+
+      await expect(usersPage.userDetails.or(usersPage.userDetailsHeading).first()).toBeVisible();
+      await auditManageOrganisationPage(signedInPage, testInfo, 'active user details');
     }
   );
 });

@@ -53,15 +53,21 @@ export async function publishPacts(settings: PublicationSettings, source: GitSou
   await pactNode.publishPacts(options);
 }
 
-if (require.main === module) {
-  const settings: PublicationSettings = {
-    broker: getConfigValue(PACT_BROKER_URL),
-    version: process.env.PACT_CONSUMER_VERSION,
-    branch: process.env.PACT_BRANCH_NAME || process.env.CHANGE_BRANCH || process.env.BRANCH_NAME,
-    username: getConfigValue(PACT_BROKER_USERNAME), password: getConfigValue(PACT_BROKER_PASSWORD)
-  };
-  publishPacts(settings).then(() => console.log('Pact contract publishing complete!')).catch((error: unknown) => {
-    console.error('Pact publication failed; no successful publication is claimed. Reason:', publicationFailure(error));
-    process.exitCode = 1;
+describe('Pact publication', function () {
+  this.timeout(15000);
+
+  it('publishes Pact contracts to the configured broker', async () => {
+    try {
+      const settings: PublicationSettings = {
+        broker: getConfigValue(PACT_BROKER_URL),
+        version: process.env.PACT_CONSUMER_VERSION,
+        branch: process.env.PACT_BRANCH_NAME || process.env.CHANGE_BRANCH || process.env.BRANCH_NAME,
+        username: getConfigValue(PACT_BROKER_USERNAME), password: getConfigValue(PACT_BROKER_PASSWORD)
+      };
+      await publishPacts(settings);
+      console.log('Pact contract publishing complete!');
+    } catch (error: unknown) {
+      throw new Error(`Pact publication failed; no successful publication is claimed. Reason: ${publicationFailure(error)}`);
+    }
   });
-}
+});

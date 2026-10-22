@@ -4,33 +4,12 @@ import * as path from 'path';
 import { getConfigValue } from '../../../configuration';
 import { PACT_BROKER_PASSWORD, PACT_BROKER_URL, PACT_BROKER_USERNAME } from '../../../configuration/references';
 
-export interface GitSource { version: string; branch: string; dirty: boolean; ciInstallMarkerUntracked?: boolean; gitStatus?: string; }
+export interface GitSource { version: string; branch: string; }
 export interface PublicationSettings { broker: string; version?: string; branch?: string; username?: string; password?: string; }
 
 export function readGitSource(): GitSource {
   const git = (args: string[]) => execFileSync('git', args, { encoding: 'utf8' }).trim();
-  const status = execFileSync('git', ['status', '--porcelain'], { encoding: 'utf8' }).trimEnd();
-  return {
-    version: git(['rev-parse', 'HEAD']), branch: git(['branch', '--show-current']), dirty: status.length > 0,
-    ciInstallMarkerUntracked: status.split('\n').includes('?? .yarn_dependencies_installed'),
-    gitStatus: status
-  };
-}
-
-/** Deliberately excludes credentials, Broker URLs, file contents and arbitrary environment values. */
-export function publicationDiagnostics(settings: PublicationSettings, source: GitSource) {
-  const configuredVersion = settings.version || source.version;
-  return {
-    checkedOutSha: /^[a-f0-9]{40}$/i.test(source.version) ? source.version : 'INVALID',
-    configuredVersionLength: configuredVersion.length,
-    configuredVersionIsFullSha: /^[a-f0-9]{40}$/i.test(configuredVersion),
-    configuredVersionMatchesHead: configuredVersion === source.version,
-    versionOverridePresent: Boolean(settings.version),
-    dirtySource: source.dirty,
-    gitStatus: source.gitStatus ? source.gitStatus.split('\n') : [],
-    ciInstallMarkerUntracked: source.ciInstallMarkerUntracked === true,
-    branchPresent: Boolean(settings.branch || source.branch)
-  };
+  return { version: git(['rev-parse', 'HEAD']), branch: git(['branch', '--show-current']) };
 }
 
 /** Report known validation reasons; never forward raw publisher/HTTP exceptions to CI output. */
@@ -70,9 +49,7 @@ export function publicationOptions(settings: PublicationSettings, source: GitSou
 }
 
 export async function publishPacts(settings: PublicationSettings, source: GitSource = readGitSource()): Promise<void> {
-  console.log('Pact publication preflight:', JSON.stringify(publicationDiagnostics(settings, source)));
   const options = publicationOptions(settings, source);
-  console.log('Pact publication validation passed; Broker upload starting.');
   await pactNode.publishPacts(options);
 }
 

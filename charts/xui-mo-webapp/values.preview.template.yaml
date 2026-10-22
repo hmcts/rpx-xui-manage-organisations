@@ -42,10 +42,10 @@ nodejs:
         - mo-session-secret
   autoscaling:
     enabled: false
-  devmemoryRequests: 512Mi
-  devcpuRequests: 12m
-  devmemoryLimits: 1Gi
-  devcpuLimits: 24m
+  devmemoryRequests: 1Gi
+  devcpuRequests: 25m
+  devmemoryLimits: 2Gi
+  devcpuLimits: 50m
 redis:
   enabled: true
 idam-pr:

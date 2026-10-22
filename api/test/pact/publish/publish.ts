@@ -12,17 +12,6 @@ export function readGitSource(): GitSource {
   return { version: git(['rev-parse', 'HEAD']), branch: git(['branch', '--show-current']) };
 }
 
-/** Report known validation reasons; never forward raw publisher/HTTP exceptions to CI output. */
-export function publicationFailure(error: unknown) {
-  const reasons: Record<string, string> = {
-    'Pact version must equal the full checked-out Git SHA.': 'VERSION_MISMATCH',
-    'A first-class Git branch is required for Pact publication.': 'INVALID_BRANCH',
-    'Configure an HTTP(S) Pact Broker without credentials embedded in its URL.': 'INVALID_BROKER_URL'
-  };
-  return error instanceof Error && Object.prototype.hasOwnProperty.call(reasons, error.message)
-    ? reasons[error.message] : 'UNCLASSIFIED_FAILURE';
-}
-
 export function publicationOptions(settings: PublicationSettings, source: GitSource) {
   const version = settings.version || source.version;
   const branch = settings.branch || source.branch;
@@ -66,8 +55,8 @@ describe('Pact publication', function () {
       };
       await publishPacts(settings);
       console.log('Pact contract publishing complete!');
-    } catch (error: unknown) {
-      throw new Error(`Pact publication failed; no successful publication is claimed. Reason: ${publicationFailure(error)}`);
+    } catch {
+      throw new Error('Pact publication failed; no successful publication is claimed.');
     }
   });
 });

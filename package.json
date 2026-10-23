@@ -94,7 +94,7 @@
     "@angular/platform-browser-dynamic": "20.3.31",
     "@angular/router": "20.3.33",
     "@edium/fsm": "^3.0.2",
-    "@hmcts/ccd-case-ui-toolkit": "7.4.11-CME-1008-dart-sass-rc2",
+    "@hmcts/ccd-case-ui-toolkit": "7.4.14-CME-1008-dart-sass-rc3",
     "@hmcts/ccpay-web-component": "6.5.28-cme-1118-v1",
     "@hmcts/frontend": "0.0.50-alpha",
     "@hmcts/media-viewer": "4.2.42-CME-776-dart-angular-20-rc2",

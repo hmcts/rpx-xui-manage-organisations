@@ -29,6 +29,7 @@ describe('Get cases from acc', () => {
         headers: { 'Content-Type': 'application/json' },
         body: { case_assignments: [{
           case_id: somethingLike('123456789'),
+          case_title: somethingLike('Case 1'),
           shared_with: [{
             case_roles: somethingLike([]),
             email: somethingLike('test@email.com'),
@@ -52,10 +53,12 @@ describe('Get cases from acc', () => {
       const dto = context.rawResponse.case_assignments;
       expect(dto).to.be.not.null;
       expect(dto[0].case_id).to.equal('123456789');
+      expect(dto[0].case_title).to.equal('Case 1');
       expect(dto[0].shared_with[0].case_roles).to.deep.equal([]);
       expect(dto[0].shared_with[0].first_name).to.equal('Joe');
       const sharedCases = context.sent.firstCall.args[0];
       expect(sharedCases[0].caseId).to.equal('123456789');
+      expect(sharedCases[0].caseTitle).to.equal('Case 1');
       expect(sharedCases[0].sharedWith[0].firstName).to.equal('Joe');
       const state = shareCasesReducer({
         shareCases: [{ caseId: '123456789', caseTitle: 'Case 1' }],

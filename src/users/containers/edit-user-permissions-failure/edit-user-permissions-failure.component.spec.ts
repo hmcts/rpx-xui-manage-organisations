@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { EditUserFailureReset } from '../../store/actions';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { EditUserPermissionsFailureComponent } from './edit-user-permissions-failure.component';
 
 describe('EditUserPermissionsFailureComponent', () => {
@@ -22,6 +23,7 @@ describe('EditUserPermissionsFailureComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [EditUserPermissionsFailureComponent],
       imports: [
+        RpxTranslationTestingModule,
         RouterTestingModule
       ],
       providers: [

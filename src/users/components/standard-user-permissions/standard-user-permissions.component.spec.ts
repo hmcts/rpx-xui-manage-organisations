@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { StandardUserPermissionsComponent } from './standard-user-permissions.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ExuiCommonLibModule, FeatureToggleService, User } from '@hmcts/rpx-xui-common-lib';
@@ -35,7 +36,7 @@ describe('StaticUserPermissionsComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [StandardUserPermissionsComponent],
-      imports: [ReactiveFormsModule, ExuiCommonLibModule],
+      imports: [RpxTranslationTestingModule, ReactiveFormsModule, ExuiCommonLibModule],
       providers: [
         { provide: FeatureToggleService, useValue: featureToggleServiceSpy },
         { provide: RpxTranslationService, useValue: translationMockService }

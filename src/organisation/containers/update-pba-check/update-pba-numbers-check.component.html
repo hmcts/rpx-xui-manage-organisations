@@ -2,12 +2,12 @@
   @if (errors.length) {
     <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
       data-module="govuk-error-summary">
-      <h2 class="govuk-error-summary__title" id="error-summary-title">There is a problem</h2>
+      <h2 class="govuk-error-summary__title" id="error-summary-title">{{ 'There is a problem' | rpxTranslate }}</h2>
       <div class="govuk-error-summary__body">
         <ul class="govuk-list govuk-error-summary__list">
           @for (error of errors; track trackByPbaError($index, error)) {
             <li>
-              <a routerLink="." [fragment]="'heading'"> {{error.headerError}}</a>
+              <a routerLink="." [fragment]="'heading'"> {{ error.headerError | rpxTranslate }}</a>
             </li>
           }
         </ul>
@@ -19,27 +19,25 @@
       <!-- Accounts to be added -->
       @if (organisationDetails.pendingAddPaymentAccount.length > 0) {
         <tr class="govuk-table__row">
-          <th class="govuk-table__header nowrap">Accounts to be added</th>
+          <th class="govuk-table__header nowrap">{{ 'Accounts to be added' | rpxTranslate }}</th>
           <td class="govuk-table__cell">
             @for (pba of organisationDetails.pendingAddPaymentAccount; track trackByPendingAddPba($index, pba)) {
               <div>{{pba.pbaNumber}}
                 @if (getError(pba)) {
                   <div style="color:red">
-                    {{ getError(pba) }}
+                    {{ getError(pba) | rpxTranslate }}
                   </div>
                 }
               </div>
             }
             @if (alreadyUsedError) {
-              <div class="already-used-pba">{{alreadyUsedError}}
-                <br />You should check that the PBA has been entered correctly.
-                If you're still having problems, contact HMCTS.
-              </div>
+              <div class="already-used-pba">{{ alreadyUsedError | rpxTranslate }}
+                <br />{{ 'You should check that the PBA has been entered correctly. If you\'re still having problems, contact HMCTS.' | rpxTranslate }} </div>
             }
           </td>
           <td class="govuk-table__cell">
             <a class="govuk-link fright" routerLink="/organisation/update-pba-numbers"
-            id="change-pending-add-pba-numbers__link" aria-label="Change PBA account numbers">Change</a>
+            id="change-pending-add-pba-numbers__link" [attr.aria-label]="'Change PBA account numbers' | rpxTranslate">{{ 'Change' | rpxTranslate }}</a>
           </td>
         </tr>
       }
@@ -47,13 +45,13 @@
       <!-- Accounts to be remove -->
       @if (organisationDetails.pendingRemovePaymentAccount.length > 0) {
         <tr class="govuk-table__row">
-          <th class="govuk-table__header" scope="row">Accounts to be removed</th>
+          <th class="govuk-table__header" scope="row">{{ 'Accounts to be removed' | rpxTranslate }}</th>
           <td class="govuk-table__cell">
             @for (pba of organisationDetails.pendingRemovePaymentAccount; track trackByPendingRemovePba($index, pba)) {
               <div>{{pba.pbaNumber}}
                 @if (getError(pba)) {
                   <div style="color:red">
-                    {{ getError(pba) }}
+                    {{ getError(pba) | rpxTranslate }}
                   </div>
                 }
               </div>
@@ -61,7 +59,7 @@
           </td>
           <td class="govuk-table__cell">
             <a class="govuk-link fright" routerLink="/organisation/update-pba-numbers"
-            id="change-pending-remove-pba-numbers__link" aria-label="Change PBA account numbers">Change</a>
+            id="change-pending-remove-pba-numbers__link" [attr.aria-label]="'Change PBA account numbers' | rpxTranslate">{{ 'Change' | rpxTranslate }}</a>
           </td>
         </tr>
       }
@@ -72,15 +70,14 @@
     <div class="govuk-warning-text">
       <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
       <strong class="govuk-warning-text__text">
-        <span class="govuk-visually-hidden">Warning</span>
-        You won't be able to use removed PBA accounts, unless they are verified again.
+        <span class="govuk-visually-hidden">{{ 'Warning' | rpxTranslate }}</span>
+        {{ 'You won\'t be able to use removed PBA accounts, unless they are verified again.' | rpxTranslate }}
       </strong>
     </div>
   }
 
   <div>
     <button type="submit" class="govuk-button" (click)="onSubmitClicked()">
-      Submit PBA accounts
-    </button>
+       {{ 'Submit PBA accounts' | rpxTranslate }} </button>
   </div>
 </app-hmcts-main-wrapper>

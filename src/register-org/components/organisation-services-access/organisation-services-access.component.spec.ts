@@ -8,8 +8,10 @@ import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { OrganisationServicesMessage } from '../../../register-org/models';
 import { EnvironmentService } from '../../../shared/services/environment.service';
 import { ENVIRONMENT_CONFIG } from '../../../models/environmentConfig.model';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { OrganisationServicesAccessComponent } from './organisation-services-access.component';
 import { RegisterOrgModule } from '../../register-org.module';
+import { RegisterOrgService } from '../../services';
 import { buildMockStoreProviders } from '../../testing/mock-store-state';
 import { mockEnvironmentConfig } from '../../../shared/services/environment.service.spec';
 
@@ -18,12 +20,21 @@ describe('OrganisationServicesAccessComponent', () => {
   let fixture: ComponentFixture<OrganisationServicesAccessComponent>;
   let router: Router;
   let nativeElement: any;
+  const registerOrgServiceMock = {
+    REGISTER_ORG_NEW_ROUTE: 'register-org-new',
+    CHECK_YOUR_ANSWERS_ROUTE: 'check-your-answers',
+    getRegistrationData: jasmine.createSpy('getRegistrationData'),
+    persistRegistrationData: jasmine.createSpy('persistRegistrationData'),
+    removeRegistrationData: jasmine.createSpy('removeRegistrationData')
+  };
 
   beforeEach(async () => {
+    registerOrgServiceMock.getRegistrationData.and.callFake(() => ({ services: [] }));
     await TestBed.configureTestingModule({
       // RegisterOrgModule declares OrganisationServicesAccessComponent and dependencies.
-      imports: [RouterTestingModule, ReactiveFormsModule, ExuiCommonLibModule, RegisterOrgModule],
+      imports: [RpxTranslationTestingModule, RouterTestingModule, ReactiveFormsModule, ExuiCommonLibModule, RegisterOrgModule],
       providers: [
+        { provide: RegisterOrgService, useValue: registerOrgServiceMock },
         EnvironmentService,
         { provide: ENVIRONMENT_CONFIG, useValue: mockEnvironmentConfig },
         provideHttpClient(withInterceptorsFromDi()),

@@ -9,6 +9,7 @@ import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 import { of } from 'rxjs';
 
 import { OrganisationDetails } from '../../../models/organisation.model';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { PbaNumbersFormComponent } from './pba-numbers-form.component';
 import { AppConstants } from '../../../app/app.constants';
 
@@ -65,6 +66,7 @@ describe('PbaNumbersFormComponent', () => {
 
     TestBed.configureTestingModule({
       imports: [
+        RpxTranslationTestingModule,
         RouterModule,
         ReactiveFormsModule,
         ExuiCommonLibModule,

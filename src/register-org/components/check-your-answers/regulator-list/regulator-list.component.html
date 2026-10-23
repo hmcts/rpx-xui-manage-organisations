@@ -1,24 +1,24 @@
 <dl class="govuk-summary-list">
   @if (regulatorType === regulatorTypeEnum.Individual) {<div class="govuk-summary-list__row"
     [ngClass]="{'govuk-summary-list__row--no-border':hasIndividualRegulator}">
-    <dt class="govuk-summary-list__key">Are you (as an individual) registered with a regulator?</dt>
+    <dt class="govuk-summary-list__key">{{ 'Are you (as an individual) registered with a regulator?' | rpxTranslate }}</dt>
     <dd class="govuk-summary-list__value">
-      {{ hasIndividualRegulator ? 'Yes' : 'No'}}
+      {{ (hasIndividualRegulator ? 'Yes' : 'No') | rpxTranslate }}
     </dd>
     <dd class="govuk-summary-list__actions">
       <a class="govuk-link"
         [routerLink]="['/', registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator']">
-        Change<span class="govuk-visually-hidden">Individual regulator</span>
+        {{ 'Change' | rpxTranslate }}<span class="govuk-visually-hidden">{{ 'Individual regulator' | rpxTranslate }}</span>
       </a>
     </dd>
   </div>}
   @if (regulators?.length > 0) {<div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">
       @if (regulatorType === regulatorTypeEnum.Individual) {<span>
-        What regulators are you (as an individual) registered with?
+        {{ 'What regulators are you (as an individual) registered with?' | rpxTranslate }}
       </span>}
       @if (regulatorType === regulatorTypeEnum.Organisation) {<span>
-        Regulatory organisation type
+        {{ 'Regulatory organisation type' | rpxTranslate }}
       </span>}
     </dt>
     <dd class="govuk-summary-list__value">
@@ -26,13 +26,13 @@
       <div>
         <ng-container [ngSwitch]="regulator.regulatorType">
           <span *ngSwitchCase="regulatoryTypeEnum.Other">
-            {{regulator.regulatorType}}: {{regulator.regulatorName}} ref: {{regulator.organisationRegistrationNumber}}
+            {{ regulator.regulatorType | rpxTranslate }}: {{regulator.regulatorName}} {{ 'ref:' | rpxTranslate }} {{regulator.organisationRegistrationNumber}}
           </span>
           <span *ngSwitchCase="regulatoryTypeEnum.NotApplicable">
-            {{regulator.regulatorType}}
+            {{ regulator.regulatorType | rpxTranslate }}
           </span>
           <span *ngSwitchDefault>
-            {{regulator.regulatorType}} ref: {{regulator.organisationRegistrationNumber}}
+            {{ regulator.regulatorType | rpxTranslate }} {{ 'ref:' | rpxTranslate }} {{regulator.organisationRegistrationNumber}}
           </span>
           <br />
         </ng-container>
@@ -42,11 +42,11 @@
     <dd class="govuk-summary-list__actions">
       @if (regulatorType === regulatorTypeEnum.Individual) {<a class="govuk-link"
         [routerLink]="['/', registerOrgNewRoute, 'individual-registered-with-regulator-details']">
-        Change<span class="govuk-visually-hidden">What regulators are you (as an individual) registered with?</span>
+        {{ 'Change' | rpxTranslate }}<span class="govuk-visually-hidden">{{ 'What regulators are you (as an individual) registered with?' | rpxTranslate }}</span>
       </a>}
       @if (regulatorType === regulatorTypeEnum.Organisation) {<a class="govuk-link"
         [routerLink]="['/', registerOrgNewRoute, 'regulatory-organisation-type']">
-        Change<span class="govuk-visually-hidden">Regulatory organisation type</span>
+        {{ 'Change' | rpxTranslate }}<span class="govuk-visually-hidden">{{ 'Regulatory organisation type' | rpxTranslate }}</span>
       </a>}
     </dd>
   </div>}

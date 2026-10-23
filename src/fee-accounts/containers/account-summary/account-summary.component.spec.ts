@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { reducers } from '../../../fee-accounts/store/reducers';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { AccountSummaryComponent } from './account-summary.component';
 
 describe('AccountSummaryComponent', () => {
@@ -21,6 +22,7 @@ describe('AccountSummaryComponent', () => {
     };
     TestBed.configureTestingModule({
       imports: [
+        RpxTranslationTestingModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature('feeAccounts', reducers)
       ],

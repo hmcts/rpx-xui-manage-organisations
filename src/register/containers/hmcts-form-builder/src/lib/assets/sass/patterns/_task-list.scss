@@ -1,5 +1,5 @@
 // Task list pattern
-
+@use "govuk-frontend/dist/govuk/base" as *;
 @use "sass:math";
 
 // Override column width for tablet and up

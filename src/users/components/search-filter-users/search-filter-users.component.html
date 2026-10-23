@@ -2,16 +2,16 @@
       <div class="govuk-grid-column-two-thirds govuk-!-padding-0">
 
             <div class="govuk-form-group">
-                  <h2 class="govuk-label-wrapper">
+                  <div class="govuk-label-wrapper">
                         <label class="govuk-label govuk-label--l" for="event-name">
                               Filter by name
                         </label>
-                  </h2>
+                  </div>
                   <div id="event-name-hint" class="govuk-hint">
                         Enter at least 3 characters to begin filtering by name or email address
                   </div>
-                  <input id="event-name" class="govuk-input" formControlName="nameFilter" [matAutocomplete]="autoComplete"
-                        (blur)="onBlur($event)" aria-describedby="event-name-hint">
+                  <input id="event-name" aria-describedby="event-name-hint" class="govuk-input" formControlName="nameFilter" [matAutocomplete]="autoComplete"
+                        (blur)="onBlur($event)" aria-label="Filter by name">
                   <mat-autocomplete #autoComplete="matAutocomplete" [displayWith]="displayJudicialUser"
                         [hidden]="searchTerm.length < 3">
                         <div [ngClass]="{'hide-autocomplete': !showAutocomplete}">

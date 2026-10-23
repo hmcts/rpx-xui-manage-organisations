@@ -7,6 +7,7 @@ import { CaseListModule } from '@hmcts/ccd-case-ui-toolkit';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { RpxTranslationModule } from 'rpx-xui-translation';
 import { OrganisationService, PBAService } from '../organisation/services';
 import { effects as orgEffects, reducers as orgReducers } from '../organisation/store';
 import { SharedModule } from '../shared/shared.module';
@@ -24,6 +25,7 @@ import { effects, reducers } from './store';
   imports: [
     CommonModule,
     ExuiCommonLibModule,
+    RpxTranslationModule,
     SharedModule,
     casesRouting,
     StoreModule.forFeature('org', orgReducers),

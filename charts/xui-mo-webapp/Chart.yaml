@@ -1,7 +1,7 @@
 apiVersion: v2
 name: xui-mo-webapp
 home: https://github.com/hmcts/rpx-xui-manage-organisations
-version: 1.1.32
+version: 1.1.33
 description: Expert UI
 maintainers:
   - name: HMCTS RPX XUI
@@ -10,6 +10,6 @@ dependencies:
     version: 3.3.1
     repository: 'oci://hmctsprod.azurecr.io/helm'
   - name: redis
-    version: 20.11.3
+    version: 20.13.4
     repository: "oci://registry-1.docker.io/bitnamicharts"
     condition: redis.enabled

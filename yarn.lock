@@ -3447,9 +3447,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-node-lib@npm:2.30.33":
-  version: 2.30.33
-  resolution: "@hmcts/rpx-xui-node-lib@npm:2.30.33"
+"@hmcts/rpx-xui-node-lib@npm:2.30.34":
+  version: 2.30.34
+  resolution: "@hmcts/rpx-xui-node-lib@npm:2.30.34"
   dependencies:
     "@dr.pogodin/csurf": "npm:^1.17.1"
     axios: "npm:^1.20.0"
@@ -3468,7 +3468,7 @@ __metadata:
     session-file-store: "npm:^1.5.0"
   peerDependencies:
     helmet: ^7.0.0
-  checksum: 10/032be4a5a506cdb3d8b17d9053683ef388befe67cd9a8457d83007bc5e6d94a6443aa69a75d70a8278a83de7eb21dc0fdd42dd033b1419d78611bacc1274c471
+  checksum: 10/2ac1ca53b4d7f771ba482ff92b65c37c72fa5d29f364c46e9e6acd5a2e1a9281f83d622b4bbf5860ae3f31be22d546773dbfb5422e4abef748be3b8e6a98164f
   languageName: node
   linkType: hard
 
@@ -19584,7 +19584,7 @@ __metadata:
     "@hmcts/playwright-common": "npm:1.1.5"
     "@hmcts/properties-volume": "npm:^1.4.1"
     "@hmcts/rpx-xui-common-lib": "npm:3.2.20-CME-1008-dart-sass-rc2"
-    "@hmcts/rpx-xui-node-lib": "npm:2.30.33"
+    "@hmcts/rpx-xui-node-lib": "npm:2.30.34"
     "@microsoft/applicationinsights-web": "npm:^3.4.3"
     "@ng-idle/core": "npm:^16.0.0"
     "@ng-idle/keepalive": "npm:^16.0.0"
@@ -19668,7 +19668,7 @@ __metadata:
     playwright-core: "npm:1.64.1"
     prettier: "npm:^3.8.0"
     redis: "npm:^6.1.0"
-    rpx-xui-translation: "npm:1.2.16"
+    rpx-xui-translation: "npm:1.2.17"
     rx-polling-hmcts: "npm:1.1.1"
     rxjs: "npm:^7.8.2"
     session-file-store: "npm:^1.5.0"
@@ -19690,9 +19690,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"rpx-xui-translation@npm:1.2.16":
-  version: 1.2.16
-  resolution: "rpx-xui-translation@npm:1.2.16"
+"rpx-xui-translation@npm:1.2.17":
+  version: 1.2.17
+  resolution: "rpx-xui-translation@npm:1.2.17"
   dependencies:
     dexie: "npm:^4.4.4"
     luxon: "npm:^2.5.2"
@@ -19701,7 +19701,7 @@ __metadata:
     "@angular/common": ^20.3.27
     "@angular/core": ^20.3.27
     rxjs: ^7.8.0
-  checksum: 10/d2016adbeb278c92eb393463c78a67aac1b8ac198fe4f521933f2d7edaf4146ce0d1bec3e1a80529b0b93a08bfcc7c2ea9c51a429b62e58e0c76aec4c551112f
+  checksum: 10/647a82a6cdef9d20abb83bb1940720fe3babec45275050542f8cfab6fb50d1cd4afc3b677b03b02b41650144e29e45b340fb4d7091facb0309ad8777155634c4
   languageName: node
   linkType: hard
 

@@ -42,7 +42,9 @@ export class PbaManagementPage {
   }
 
   public pbaRow(pbaNumber: string): Locator {
-    return this.page.locator('tbody tr').filter({ hasText: pbaNumber });
+    return this.page.locator('tbody tr').filter({
+      has: this.page.getByRole('rowheader', { name: pbaNumber, exact: true })
+    });
   }
 
   public async openOrganisation(): Promise<void> {

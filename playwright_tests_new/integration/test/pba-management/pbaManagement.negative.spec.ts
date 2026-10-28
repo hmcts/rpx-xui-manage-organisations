@@ -107,7 +107,7 @@ test.describe('PBA management validation', {
       }
     });
     await expect(page).toHaveURL(/\/service-down$/);
-    await expect(page.getByRole('heading', { name: 'Sorry, there is a problem with the service' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Sorry, there is a problem' })).toBeVisible();
     await expect(pbaManagementPage.successBanner).toHaveCount(0);
 
     await pbaManagementPage.openOrganisation();

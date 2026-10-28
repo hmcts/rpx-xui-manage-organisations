@@ -86,6 +86,10 @@ export class AppUtils {
     /**
      * it sets correct page titles based on the url.
      */
+    if (url.includes('service-down')) {
+      const serviceName = url.includes('register-org') ? 'Register organisation' : 'Manage organisation';
+      return `Sorry, there is a problem with the service – ${serviceName} – GOV.UK`;
+    }
     if (url.indexOf('register-org') !== -1 || url.indexOf('register-org-new') !== -1) {
       return AppUtils.getPageTitleForRegisterOrganisation(url);
     }

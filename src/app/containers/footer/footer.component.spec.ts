@@ -1,5 +1,6 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { firstValueFrom } from 'rxjs';
@@ -64,6 +65,33 @@ describe('FooterComponent', () => {
     expect(fixture).not.toBeNull();
   });
 
+  it('should hide the sitemap link throughout the new registration journey', () => {
+    const routerUrl = spyOnProperty(TestBed.inject(Router), 'url', 'get');
+    routerUrl.and.returnValue('/register-org-new/register');
+    expect(component.navigationData.items.map((item) => item.href)).not.toContain('sitemap');
+
+    routerUrl.and.returnValue('/register-org-new/organisation-type');
+    expect(component.navigationData.items.map((item) => item.href)).not.toContain('sitemap');
+  });
+
+  it('should hide the sitemap link on the legacy registration route', () => {
+    spyOnProperty(TestBed.inject(Router), 'url', 'get').and.returnValue('/register-org/register');
+
+    expect(component.navigationData.items.map((item) => item.href)).not.toContain('sitemap');
+  });
+
+  it('should keep the sitemap link outside the registration journeys', () => {
+    spyOnProperty(TestBed.inject(Router), 'url', 'get').and.returnValue('/home');
+
+    expect(component.navigationData.items.map((item) => item.href)).toContain('sitemap');
+  });
+
+  it('should keep the sitemap link when the current URL has no primary route segment', () => {
+    spyOnProperty(TestBed.inject(Router), 'url', 'get').and.returnValue('');
+
+    expect(component.navigationData.items.map((item) => item.href)).toContain('sitemap');
+  });
+
   it('should provide the logged-in user email in a lower environment', async () => {
     store.overrideSelector(fromUserProfile.getUser, { email: 'user@example.com' } as any);
     store.refreshState();
@@ -72,7 +100,7 @@ describe('FooterComponent', () => {
   });
 
   it('should not provide the logged-in user email in production', async () => {
-    const productionFooter = new FooterComponent(store as any, { environment: 'prod' } as any);
+    const productionFooter = new FooterComponent(store as any, { environment: 'prod' } as any, TestBed.inject(Router));
 
     await expectAsync(firstValueFrom(productionFooter.userEmail$)).toBeResolvedTo(null);
   });

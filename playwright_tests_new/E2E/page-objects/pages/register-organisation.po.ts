@@ -26,7 +26,7 @@ export class RegisterOrganisationPage extends BasePage {
   public readonly manageOrganisationLink = this.page.getByRole('link', { name: 'manage your organisation' });
 
   public readonly confirmedOrganisationAccountCheckbox = this.page.locator('#confirmed-organisation-account');
-  public readonly solicitorOrganisationTypeRadio = this.page.getByLabel('Solicitor', { exact: true });
+  public readonly solicitorOrganisationTypeRadio = this.page.getByLabel(/Solicitor/);
   public readonly organisationNameInput = this.page.locator('#company-name');
   public readonly companyHouseNumberInput = this.page.locator('#company-house-number');
   public readonly postcodeInput = this.page.locator('#postcodeInput');

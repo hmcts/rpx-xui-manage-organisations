@@ -208,7 +208,7 @@ test.describe('User administration negative paths', {
 
     await expect.poll(() => routeState.ogdEditUserPermissionRequests.length).toBe(1);
     await expect(page).toHaveURL(/\/service-down$/);
-    await expect(page.getByRole('heading', { name: 'Sorry, there is a problem with the service' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Sorry, there is a problem' })).toBeVisible();
   });
 
   test('routes OGD manage-user invite failure to the service failure page', async ({
@@ -240,7 +240,7 @@ test.describe('User administration negative paths', {
     expect(routeState.inviteUserRequests).toHaveLength(0);
     expect(routeState.ogdInviteUserRequests[0].orgIdsPayload).toEqual(userAdminOrganisationProfileIds);
     await expect(page).toHaveURL(/\/service-down$/);
-    await expect(page.getByRole('heading', { name: 'Sorry, there is a problem with the service' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Sorry, there is a problem' })).toBeVisible();
   });
 
   test('blocks removal of every standard user permission without sending an update', async ({

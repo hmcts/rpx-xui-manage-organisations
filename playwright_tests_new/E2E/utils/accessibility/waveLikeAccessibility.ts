@@ -1,10 +1,20 @@
 import type { Page, TestInfo } from '@playwright/test';
-import * as fs from 'fs/promises';
-import * as path from 'path';
+import { escapeAttribute, escapeHtml, publishAccessibilityEvidence, sanitiseMarkup } from './accessibilityEvidencePublisher';
 
 export const WAVE_LIKE_A11Y_TAG = '@wave-a11y';
+export const waveLikeA11ySpecPattern = '**/*.wave-a11y.spec.ts';
 
-export type WaveLikeViolation = {
+const splitTags = (raw: string | undefined): string[] =>
+  (raw ?? '')
+    .split(',')
+    .map((tag) => tag.trim())
+    .filter(Boolean);
+
+export const includesWaveLikeA11y = (env: NodeJS.ProcessEnv): boolean =>
+  env.PLAYWRIGHT_INCLUDE_WAVE_A11Y === 'true' ||
+  [...splitTags(env.E2E_PW_INCLUDE_TAGS), ...splitTags(env.PLAYWRIGHT_TAGS)].includes(WAVE_LIKE_A11Y_TAG);
+
+type WaveLikeViolation = {
   rule: string;
   message: string;
   advice?: string;
@@ -23,18 +33,18 @@ export type WaveLikeViolation = {
   };
 };
 
-type PublishedEvidenceEntry = {
-  testTitle: string;
-  attachmentPrefix: string;
-  htmlFileName: string;
-  jsonFileName: string;
-  screenshotFileName: string;
-  violationCount: number;
-  rules: string[];
-  targets: string[];
+type PublishedEvidenceMetadata = {
+  engine: 'wave-like';
+  feature: string;
+  pageState: string;
 };
 
-const EVIDENCE_ENTRY_PREFIX = 'manifest-entry-';
+type WaveLikePageSnapshot = {
+  title: string;
+  headings: Array<{ level: number; text: string }>;
+  landmarks: Array<{ role: string; text: string }>;
+  order: Array<{ type: string; name: string; selector: string }>;
+};
 
 export async function collectWaveLikeAccessibilityViolations(page: Page): Promise<WaveLikeViolation[]> {
   return page.evaluate<WaveLikeViolation[]>(() => {
@@ -53,20 +63,20 @@ export async function collectWaveLikeAccessibilityViolations(page: Page): Promis
     };
 
     const text = (element: Element | null): string => element?.textContent?.replace(/\s+/g, ' ').trim() ?? '';
-    const cssString = (value: string): string => value.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
     const selectorFor = (element: Element): string => {
       const id = element.getAttribute('id');
       if (id) {
         return `#${CSS.escape(id)}`;
       }
-      const testIdAttr = element.hasAttribute('data-testid') ? 'data-testid' : 'data-test-id';
-      const testId = element.getAttribute(testIdAttr);
+      const testIdAttribute = element.hasAttribute('data-testid') ? 'data-testid' : 'data-test-id';
+      const testId = element.getAttribute(testIdAttribute);
       if (testId) {
-        return `[${testIdAttr}="${cssString(testId)}"]`;
+        return `[${testIdAttribute}="${testId.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"]`;
       }
       return element.tagName.toLowerCase();
     };
-    const htmlFor = (element: Element): string => element.outerHTML.slice(0, 500);
+    const htmlFor = (element: Element): string =>
+      `<${element.tagName.toLowerCase()}>[content redacted]</${element.tagName.toLowerCase()}>`;
     const labelledByText = (element: Element): string =>
       (element.getAttribute('aria-labelledby') ?? '')
         .split(/\s+/)
@@ -145,6 +155,10 @@ export async function collectWaveLikeAccessibilityViolations(page: Page): Promis
         .filter((name) => name.startsWith('_ng') || name.startsWith('ng-reflect-'))
         .join(' ');
 
+      const name = accessibleName(element);
+      const heading = nearestHeading(element);
+      const landmark = nearestLandmark(element);
+
       return {
         tag: element.tagName.toLowerCase(),
         ...(element.id ? { id: element.id } : {}),
@@ -154,9 +168,9 @@ export async function collectWaveLikeAccessibilityViolations(page: Page): Promis
           ? { testId: element.getAttribute('data-testid') ?? element.getAttribute('data-test-id') ?? '' }
           : {}),
         ...(angularAttrs ? { angularAttrs } : {}),
-        ...(accessibleName(element) ? { accessibleName: accessibleName(element).slice(0, 160) } : {}),
-        ...(nearestHeading(element) ? { nearestHeading: nearestHeading(element).slice(0, 160) } : {}),
-        ...(nearestLandmark(element) ? { nearestLandmark: nearestLandmark(element).slice(0, 160) } : {})
+        ...(name ? { accessibleName: name.slice(0, 160) } : {}),
+        ...(heading ? { nearestHeading: heading.slice(0, 160) } : {}),
+        ...(landmark ? { nearestLandmark: landmark.slice(0, 160) } : {})
       };
     };
     const add = (violations: WaveLikeViolation[], rule: string, message: string, element?: Element) => {
@@ -254,27 +268,44 @@ export async function attachWaveLikeAccessibilityEvidence(
   page: Page,
   testInfo: TestInfo | undefined,
   violations: WaveLikeViolation[],
-  attachmentPrefix = 'wave-accessibility-issues'
+  attachmentPrefix = 'wave-accessibility-issues',
+  metadata?: PublishedEvidenceMetadata
 ): Promise<void> {
   if (!testInfo) {
     return;
   }
 
   const evidencedViolations = withDeveloperAdvice(violations);
-  const summary = { url: page.url(), violationCount: evidencedViolations.length, violations: evidencedViolations };
+  const safeViolations = evidencedViolations.map((violation) => ({
+    ...violation,
+    html: violation.html ? sanitiseMarkup(violation.html) : undefined
+  }));
+  const json = JSON.stringify(
+    { url: page.url(), violationCount: safeViolations.length, violations: safeViolations },
+    null,
+    2
+  );
   await testInfo.attach(`${attachmentPrefix}.json`, {
-    body: JSON.stringify(summary, null, 2),
+    body: json,
     contentType: 'application/json'
   });
-  await testInfo.attach(`${attachmentPrefix}.html`, {
-    body: buildIssueSummaryHtml(page.url(), evidencedViolations),
-    contentType: 'text/html'
-  });
 
-  const cleanup = evidencedViolations.length > 0 ? await markViolationsOnPage(page, evidencedViolations) : async () => {};
+  const canInspectPage = typeof page.evaluate === 'function';
+  const pageSnapshot =
+    evidencedViolations.length > 0 && canInspectPage
+      ? ((await collectWaveLikePageSnapshot(page)) ?? { title: '', headings: [], landmarks: [], order: [] })
+      : { title: '', headings: [], landmarks: [], order: [] };
+  const cleanup =
+    evidencedViolations.length > 0 && canInspectPage
+      ? await markViolationsOnPage(page, evidencedViolations)
+      : async () => undefined;
   let screenshot: Buffer;
   try {
     screenshot = await page.screenshot({ fullPage: true });
+    await testInfo.attach(`${attachmentPrefix}.html`, {
+      body: buildIssueSummaryHtml(page.url(), safeViolations, pageSnapshot, screenshot),
+      contentType: 'text/html'
+    });
     await testInfo.attach(`${attachmentPrefix}-highlighted-screenshot.png`, {
       body: screenshot,
       contentType: 'image/png'
@@ -283,13 +314,152 @@ export async function attachWaveLikeAccessibilityEvidence(
     await cleanup();
   }
 
-  await writePublishedEvidence(testInfo, page.url(), evidencedViolations, screenshot, attachmentPrefix);
+  await writePublishedEvidence(testInfo, page.url(), safeViolations, pageSnapshot, screenshot, attachmentPrefix, metadata);
 }
 
-function buildIssueSummaryHtml(url: string, violations: WaveLikeViolation[]): string {
-  const hasViolations = violations.length > 0;
+async function collectWaveLikePageSnapshot(page: Page): Promise<WaveLikePageSnapshot> {
+  return page.evaluate<WaveLikePageSnapshot>(() => {
+    const visible = (element: Element): element is HTMLElement => {
+      if (!(element instanceof HTMLElement)) {
+        return false;
+      }
+      if (element.hidden || element.getAttribute('aria-hidden') === 'true') {
+        return false;
+      }
+      if (element instanceof HTMLInputElement && element.type === 'hidden') {
+        return false;
+      }
+      const style = window.getComputedStyle(element);
+      return style.visibility !== 'hidden' && style.display !== 'none' && element.getClientRects().length > 0;
+    };
+    const text = (element: Element | null): string => element?.textContent?.replace(/\s+/g, ' ').trim() ?? '';
+    const selectorFor = (element: Element): string => {
+      const id = element.getAttribute('id');
+      if (id) {
+        return `#${CSS.escape(id)}`;
+      }
+      const testIdAttribute = element.hasAttribute('data-testid') ? 'data-testid' : 'data-test-id';
+      const testId = element.getAttribute(testIdAttribute);
+      if (testId) {
+        return `[${testIdAttribute}="${testId.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"]`;
+      }
+      return element.tagName.toLowerCase();
+    };
+    const labelledByText = (element: Element): string =>
+      (element.getAttribute('aria-labelledby') ?? '')
+        .split(/\s+/)
+        .filter(Boolean)
+        .map((id) => text(document.getElementById(id)))
+        .filter(Boolean)
+        .join(' ');
+    const controlLabels = (element: Element): string => {
+      if (
+        element instanceof HTMLInputElement ||
+        element instanceof HTMLSelectElement ||
+        element instanceof HTMLTextAreaElement ||
+        element instanceof HTMLButtonElement ||
+        element instanceof HTMLOutputElement
+      ) {
+        return Array.from(element.labels ?? [])
+          .map((label) => text(label))
+          .filter(Boolean)
+          .join(' ');
+      }
+      return '';
+    };
+    const accessibleName = (element: Element): string => {
+      const ariaLabel = element.getAttribute('aria-label')?.trim() ?? '';
+      const labelledBy = labelledByText(element);
+      const labelText = controlLabels(element);
+      const title = element.getAttribute('title')?.trim() ?? '';
+      const value =
+        element instanceof HTMLInputElement && ['button', 'submit', 'reset'].includes(element.type) ? element.value.trim() : '';
+      const imageAlt = Array.from(element.querySelectorAll('img'))
+        .map((image) => image.getAttribute('alt')?.trim() ?? '')
+        .filter(Boolean)
+        .join(' ');
+      return [ariaLabel, labelledBy, labelText, title, value, imageAlt, text(element)].filter(Boolean).join(' ').trim();
+    };
+
+    const headings = Array.from(document.querySelectorAll('h1, h2, h3, h4, h5, h6'))
+      .filter(visible)
+      .map((heading) => ({ level: Number(heading.tagName.slice(1)), text: text(heading).slice(0, 160) }));
+    const landmarks = Array.from(document.querySelectorAll('header, nav, main, aside, footer, [role]'))
+      .filter(visible)
+      .map((landmark) => ({
+        role: landmark.getAttribute('role') || landmark.tagName.toLowerCase(),
+        text: (landmark.getAttribute('aria-label') || text(landmark)).slice(0, 160)
+      }))
+      .filter((landmark) =>
+        ['banner', 'navigation', 'main', 'complementary', 'contentinfo', 'header', 'nav', 'main', 'aside', 'footer'].includes(
+          landmark.role
+        )
+      );
+    const order = Array.from(document.querySelectorAll('a[href], button, input, select, textarea, [tabindex]'))
+      .filter(visible)
+      .filter((element) => element.getAttribute('tabindex') !== '-1')
+      .map((element) => ({
+        type:
+          element instanceof HTMLInputElement
+            ? `${element.type || 'input'} input`
+            : element.tagName.toLowerCase() === 'a'
+              ? 'link'
+              : element.tagName.toLowerCase(),
+        name: accessibleName(element).slice(0, 160) || '(no accessible name)',
+        selector: selectorFor(element)
+      }));
+
+    return {
+      title: document.title.trim(),
+      headings,
+      landmarks,
+      order
+    };
+  });
+}
+
+function buildIssueSummaryHtml(
+  url: string,
+  violations: WaveLikeViolation[],
+  pageSnapshot: WaveLikePageSnapshot,
+  screenshot: Buffer
+): string {
+  const screenshotDataUrl = `data:image/png;base64,${screenshot.toString('base64')}`;
   const odhinIndexFileName = process.env.PLAYWRIGHT_REPORT_INDEX_FILENAME || 'xui-playwright-accessibility.html';
-  const odhinReportHref = `../${escapeHtml(odhinIndexFileName)}`;
+  const odhinReportHref = `../${escapeAttribute(odhinIndexFileName)}`;
+  const ruleCounts = new Map<string, number>();
+  for (const violation of violations) {
+    ruleCounts.set(violation.rule, (ruleCounts.get(violation.rule) ?? 0) + 1);
+  }
+  const ruleRows = Array.from(ruleCounts.entries())
+    .sort((a, b) => a[0].localeCompare(b[0]))
+    .map(
+      ([rule, count]) => `
+        <li><span class="count">${count}</span>${escapeHtml(rule)}</li>
+      `
+    )
+    .join('');
+  const orderRows = pageSnapshot.order
+    .map(
+      (item, index) => `
+        <li>
+          <span class="marker">${index + 1}</span>
+          <strong>${escapeHtml(item.type)}</strong>: ${escapeHtml(item.name)}
+          <code>${escapeHtml(item.selector)}</code>
+        </li>
+      `
+    )
+    .join('');
+  const structureRows = [
+    ...pageSnapshot.headings.map(
+      (heading) =>
+        `<li><span class="structure-token">h${heading.level}</span>${escapeHtml(heading.text || '(empty heading)')}</li>`
+    ),
+    ...pageSnapshot.landmarks.map(
+      (landmark) =>
+        `<li><span class="structure-token">${escapeHtml(landmark.role)}</span>${escapeHtml(landmark.text || '(unlabelled)')}</li>`
+    )
+  ].join('');
   const cards = violations
     .map(
       (violation, index) => `
@@ -309,9 +479,24 @@ function buildIssueSummaryHtml(url: string, violations: WaveLikeViolation[]): st
       <head>
         <title>WAVE-like Accessibility Issues</title>
         <style>
-          body { font-family: Arial, sans-serif; margin: 24px; color: #0b0c0c; }
-          .banner { background: ${hasViolations ? '#d4351c' : '#00703c'}; color: #fff; padding: 16px; margin-bottom: 24px; }
-          .issue { border: 4px solid #d4351c; padding: 16px; margin-bottom: 18px; }
+          body { font-family: Arial, sans-serif; margin: 0; color: #0b0c0c; background: #f3f2f1; }
+          .layout { display: grid; grid-template-columns: minmax(280px, 360px) 1fr; min-height: 100vh; }
+          .panel { background: #d5dce0; border-right: 1px solid #b1b4b6; padding: 12px; position: sticky; top: 0; height: 100vh; overflow: auto; }
+          .panel h1 { font-size: 22px; margin: 0 0 12px; }
+          .toolbar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin-bottom: 12px; }
+          .toolbar span { background: #fff; border-bottom: 3px solid #1d70b8; padding: 8px 4px; text-align: center; font-weight: bold; font-size: 12px; }
+          .scorecard { background: #fff; border-radius: 4px; padding: 12px; margin-bottom: 12px; }
+          .metric-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+          .metric { border-left: 6px solid #f47738; padding-left: 8px; font-size: 14px; }
+          .metric strong { display: block; font-size: 26px; }
+          .count { display: inline-block; min-width: 24px; margin-right: 8px; background: #1d70b8; color: #fff; border-radius: 3px; text-align: center; font-weight: bold; }
+          .marker { display: inline-block; min-width: 24px; margin-right: 8px; background: #1d70b8; color: #fff; border-radius: 3px; text-align: center; font-weight: bold; }
+          .structure-token { display: inline-block; min-width: 42px; margin-right: 8px; background: #4c2c92; color: #fff; border-radius: 3px; text-align: center; font-weight: bold; }
+          .content { background: #fff; padding: 24px; overflow: auto; }
+          .banner { background: #d4351c; color: #fff; padding: 16px; margin-bottom: 24px; }
+          .visual { border: 1px solid #b1b4b6; margin-bottom: 24px; background: #f3f2f1; }
+          .visual img { display: block; max-width: 100%; height: auto; }
+          .issue { border: 4px solid #d4351c; padding: 16px; margin-bottom: 18px; background: #fff; }
           .issue h2 { margin-top: 0; }
           .report-nav { margin: 0 0 18px; }
           .report-nav a { color: #1d70b8; font-weight: bold; }
@@ -319,16 +504,60 @@ function buildIssueSummaryHtml(url: string, violations: WaveLikeViolation[]): st
           .advice dt { font-weight: bold; margin-top: 8px; }
           .advice dd { margin-left: 0; }
           code, pre { background: #f3f2f1; padding: 4px; white-space: pre-wrap; }
+          li { margin-bottom: 8px; }
+          details { background: #fff; border: 1px solid #b1b4b6; margin-bottom: 12px; padding: 8px; }
+          summary { cursor: pointer; font-weight: bold; }
         </style>
       </head>
       <body>
-        <div class="banner">
-          <h1>${hasViolations ? 'WAVE-LIKE ACCESSIBILITY ISSUES FOUND' : 'NO WAVE-LIKE ACCESSIBILITY ISSUES FOUND'}</h1>
-          <p>${violations.length} issue(s) on ${escapeHtml(url)}.${hasViolations ? ' Match marker numbers here to the highlighted screenshot.' : ' Screenshot captured for page-state evidence.'}</p>
+        <div class="layout">
+          <aside class="panel">
+            <h1>WAVE-like panel</h1>
+            <div class="toolbar">
+              <span>Details</span>
+              <span>Order</span>
+              <span>Structure</span>
+              <span>Contrast</span>
+            </div>
+            <div class="scorecard">
+              <p><strong>${escapeHtml(pageSnapshot.title || 'Untitled page')}</strong></p>
+              <div class="metric-grid">
+                <div class="metric"><strong>${violations.length}</strong>Issues</div>
+                <div class="metric"><strong>${ruleCounts.size}</strong>Rules</div>
+                <div class="metric"><strong>${pageSnapshot.order.length}</strong>Order</div>
+                <div class="metric"><strong>${pageSnapshot.headings.length}</strong>Headings</div>
+              </div>
+            </div>
+            <details open>
+              <summary>Details</summary>
+              <ol>${ruleRows || '<li>NO WAVE-LIKE ACCESSIBILITY ISSUES FOUND.</li>'}</ol>
+            </details>
+            <details open>
+              <summary>Order</summary>
+              <ol>${orderRows || '<li>No keyboard-order items detected.</li>'}</ol>
+            </details>
+            <details open>
+              <summary>Structure</summary>
+              <ol>${structureRows || '<li>No headings or landmarks detected.</li>'}</ol>
+            </details>
+            <details>
+              <summary>Contrast</summary>
+              <p>Contrast signal is provided by axe in the unified pack. This WAVE-like panel focuses on structure, order, names, labels, and target evidence.</p>
+            </details>
+          </aside>
+          <main class="content">
+            <div class="banner">
+              <h1>WAVE-like accessibility evidence</h1>
+              <p>${violations.length} issue(s) on ${escapeHtml(url)}. Match marker numbers here to the highlighted page image.</p>
+            </div>
+            <p class="report-nav"><a href="${odhinReportHref}">Back to Odhín report</a></p>
+            <section class="visual">
+              <img alt="Highlighted page screenshot with WAVE-like issue markers" src="${screenshotDataUrl}" />
+            </section>
+            ${cards}
+            <p class="report-nav"><a href="${odhinReportHref}">Back to Odhín report</a></p>
+          </main>
         </div>
-        <p class="report-nav"><a href="${odhinReportHref}">Back to Odhín report</a></p>
-        ${cards}
-        <p class="report-nav"><a href="${odhinReportHref}">Back to Odhín report</a></p>
       </body>
     </html>
   `;
@@ -393,7 +622,7 @@ function buildFixPathHtml(violation: WaveLikeViolation): string {
   ].filter(Boolean);
 
   return escapeHtml(
-    hints.length > 0 ? hints.join('; ') : 'Start with the route component/template that renders this page state.'
+    hints.length > 0 ? hints.join('; ') : 'Start with the route component or template that renders this page state.'
   );
 }
 
@@ -434,8 +663,11 @@ async function markViolationsOnPage(page: Page, violations: WaveLikeViolation[])
       overlayRoot.style.pointerEvents = 'none';
       document.body.appendChild(overlayRoot);
 
+      const unresolved: Array<{ index: number; rule: string; selector?: string }> = [];
+
       for (const item of items) {
         if (!item.selector) {
+          unresolved.push(item);
           continue;
         }
         let element: Element | null = null;
@@ -445,6 +677,7 @@ async function markViolationsOnPage(page: Page, violations: WaveLikeViolation[])
           element = null;
         }
         if (!element) {
+          unresolved.push(item);
           continue;
         }
         const rect = element.getBoundingClientRect();
@@ -472,6 +705,25 @@ async function markViolationsOnPage(page: Page, violations: WaveLikeViolation[])
         marker.appendChild(label);
         overlayRoot.appendChild(marker);
       }
+
+      if (unresolved.length > 0) {
+        const banner = document.createElement('div');
+        banner.style.position = 'absolute';
+        banner.style.left = `${window.scrollX + 16}px`;
+        banner.style.top = `${window.scrollY + 16}px`;
+        banner.style.maxWidth = '760px';
+        banner.style.background = '#d4351c';
+        banner.style.color = '#fff';
+        banner.style.border = '6px solid #ffdd00';
+        banner.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.35)';
+        banner.style.font = 'bold 18px Arial, sans-serif';
+        banner.style.padding = '12px 16px';
+        banner.textContent = `Page-level WAVE-like finding(s): ${unresolved
+          .slice(0, 5)
+          .map((item) => `${item.index + 1} ${item.rule}${item.selector ? ` (${item.selector})` : ''}`)
+          .join('; ')}${unresolved.length > 5 ? '; ...' : ''}`;
+        overlayRoot.appendChild(banner);
+      }
     },
     violations.map((violation, index) => ({ ...violation, index }))
   );
@@ -487,55 +739,35 @@ async function writePublishedEvidence(
   testInfo: TestInfo,
   url: string,
   violations: WaveLikeViolation[],
+  pageSnapshot: WaveLikePageSnapshot,
   screenshot: Buffer,
-  attachmentPrefix: string
+  attachmentPrefix: string,
+  metadata?: PublishedEvidenceMetadata
 ): Promise<void> {
-  const evidenceDir = path.resolve(
-    process.env.PW_A11Y_EVIDENCE_DIR ||
-      path.join(
-        process.env.PLAYWRIGHT_REPORT_FOLDER || 'functional-output/tests/playwright-wave-a11y/odhin-report',
-        'accessibility-evidence'
-      )
-  );
-  const safeTitle = sanitiseFileName(testInfo.title);
-  const baseName = `${safeTitle}-${attachmentPrefix}`;
-  const htmlFileName = `${baseName}.html`;
-  const jsonFileName = `${baseName}.json`;
-  const screenshotFileName = `${baseName}-highlighted-screenshot.png`;
-  const entry: PublishedEvidenceEntry = {
-    testTitle: testInfo.title,
-    attachmentPrefix,
-    htmlFileName,
-    jsonFileName,
-    screenshotFileName,
-    violationCount: violations.length,
-    rules: violations.map((violation) => violation.rule),
-    targets: violations.map((violation) => violation.selector ?? url)
+  const safeViolations = violations.map((violation) => ({
+    ...violation,
+    html: violation.html ? sanitiseMarkup(violation.html) : undefined
+  }));
+  const safePageSnapshot = {
+    ...pageSnapshot,
+    order: pageSnapshot.order.map((item) => ({
+      ...item,
+      selector: item.selector.replace(/#\S+|\.\S+|\[[^\]]*\]/g, '[selector]')
+    }))
   };
-
-  await fs.mkdir(evidenceDir, { recursive: true });
-  await fs.writeFile(path.join(evidenceDir, htmlFileName), buildIssueSummaryHtml(url, violations));
-  await fs.writeFile(
-    path.join(evidenceDir, jsonFileName),
-    JSON.stringify({ url, violationCount: violations.length, violations }, null, 2)
-  );
-  await fs.writeFile(path.join(evidenceDir, screenshotFileName), screenshot);
-  await writeEvidenceEntry(evidenceDir, baseName, entry);
-}
-
-async function writeEvidenceEntry(evidenceDir: string, baseName: string, entry: PublishedEvidenceEntry): Promise<void> {
-  await fs.writeFile(path.join(evidenceDir, `${EVIDENCE_ENTRY_PREFIX}${baseName}.json`), JSON.stringify(entry, null, 2));
-}
-
-function escapeHtml(value: string): string {
-  return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-}
-
-function sanitiseFileName(value: string): string {
-  return (
-    value
-      .replace(/[^a-z0-9._-]+/gi, '-')
-      .replace(/^-+|-+$/g, '')
-      .slice(0, 120) || 'wave-accessibility'
-  );
+  await publishAccessibilityEvidence(testInfo, {
+    attachmentPrefix,
+    entry: {
+      engine: 'wave-like',
+      feature: metadata?.feature,
+      pageState: metadata?.pageState,
+      violationCount: safeViolations.length,
+      rules: safeViolations.map((violation) => violation.rule),
+      targets: safeViolations.map((violation) => (violation.selector ? '[element selector]' : 'page'))
+    },
+    html: buildIssueSummaryHtml(url, safeViolations, safePageSnapshot, screenshot),
+    json: { url, violationCount: safeViolations.length, pageSnapshot: safePageSnapshot, violations: safeViolations },
+    screenshot,
+    screenshotSuffix: '-highlighted-screenshot.png'
+  });
 }

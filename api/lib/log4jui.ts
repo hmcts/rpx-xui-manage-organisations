@@ -103,7 +103,16 @@ function error(...messages: any[]) {
 
   const category = this._logger.category;
   if (client) {
-    client.trackException({ exception: new Error(`[ERROR] ${category} - ${fullMessage}`) });
+    const reportedError = messages.find((message) => message instanceof Error) ||
+      new Error(`[ERROR] ${category} - ${fullMessage}`);
+
+    client.trackException({
+      exception: reportedError,
+      properties: {
+        category,
+        message: fullMessage
+      }
+    });
   }
   this._logger.error(fullMessage);
 }

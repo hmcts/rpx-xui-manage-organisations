@@ -1,6 +1,6 @@
 <div [attr.validate]="validate" [attr.data]="data" [attr.group]="group">
   <!--JUI FORM builder component -->
-  @if (data.legend) {
+  @if (showLegend && data.legend) {
     <app-legend [classes]="data.legend.classes">
       {{data.legend.text}}
     </app-legend>

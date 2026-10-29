@@ -1,14 +1,23 @@
 <fieldset [attr.validate]="validate" [class]="classes" [attr.data]="data" [attr.group]="group">
-  @for (item of data; track trackByFieldsetItem(item, $index)) {
-    @if (item.legend) {
-      <legend [class]="'govuk-fieldset__legend ' + item.legend.classes">
-        <h2 class="govuk-heading-xl">
-          {{item.legend.text}}
-        </h2>
-      </legend>
+  @if (legendItem) {
+    <legend [class]="'govuk-fieldset__legend ' + (legendItem.legend.classes || 'govuk-fieldset__legend--m')">
+      @if (isPageHeading) {
+        <h1 class="govuk-fieldset__heading">{{legendItem.legend.text}}</h1>
+      } @else {
+        <h2 class="govuk-fieldset__heading">{{legendItem.legend.text}}</h2>
+      }
+    </legend>
+  }
+  @for (item of data; track trackByFieldsetItem($index, item)) {
+    @if (item.legend && item !== legendItem) {
+      @if (isPageHeading) {
+        <h2 class="govuk-heading-m">{{item.legend.text}}</h2>
+      } @else {
+        <h3 class="govuk-heading-s">{{item.legend.text}}</h3>
+      }
     }
-    <app-jui-form-elements [validate]="validate" [group]="group" [data]="item"></app-jui-form-elements>
+    <app-jui-form-elements [validate]="validate" [group]="group" [data]="item" [showLegend]="false"></app-jui-form-elements>
     <br>
-    }
-    <ng-content></ng-content>
-  </fieldset>
+  }
+  <ng-content></ng-content>
+</fieldset>

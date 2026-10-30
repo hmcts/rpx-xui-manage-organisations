@@ -132,7 +132,8 @@
                             form.controls.caseReferenceNumber.invalid &&
                             form.controls.caseReferenceNumber.touched
                         }" formControlName="caseReferenceNumber" id="case-reference-number" name="caseReferenceNumber"
-                        type="text" aria-describedby="case-reference-number-error-message" />
+                        type="text" [attr.aria-describedby]="form.controls.caseReferenceNumber.invalid &&
+                          form.controls.caseReferenceNumber.touched ? 'case-reference-number-error-message' : null" />
                     </div>
                   </div>
                 </div>

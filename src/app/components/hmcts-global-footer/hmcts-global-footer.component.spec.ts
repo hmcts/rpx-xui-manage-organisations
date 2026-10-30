@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { AppConstants } from '../../app.constants';
 import { Helper, Navigation } from '../../containers/footer/footer.model';
 import { HmctsGlobalFooterComponent } from './hmcts-global-footer.component';
@@ -15,6 +16,7 @@ describe('HmctsGlobalFooterComponent', () => {
     TestBed.configureTestingModule({
       declarations: [HmctsGlobalFooterComponent],
       imports: [
+        RpxTranslationTestingModule,
         RouterTestingModule
       ]
     })

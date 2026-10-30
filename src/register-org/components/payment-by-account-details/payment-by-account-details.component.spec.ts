@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EnvironmentService } from '../../../shared/services/environment.service';
 import { ENVIRONMENT_CONFIG } from '../../../models/environmentConfig.model';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { PaymentByAccountDetailsComponent } from './payment-by-account-details.component';
 import { buildMockStoreProviders } from '../../testing/mock-store-state';
 import { mockEnvironmentConfig } from '../../../shared/services/environment.service.spec';
@@ -24,7 +25,7 @@ describe('PaymentByAccountDetailsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [PaymentByAccountDetailsComponent],
-      imports: [RouterTestingModule, ReactiveFormsModule, ExuiCommonLibModule],
+      imports: [RpxTranslationTestingModule, RouterTestingModule, ReactiveFormsModule, ExuiCommonLibModule],
       providers: [
         EnvironmentService,
         { provide: ENVIRONMENT_CONFIG, useValue: mockEnvironmentConfig },

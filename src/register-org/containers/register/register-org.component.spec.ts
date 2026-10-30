@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RegistrationData } from '../../models/registration-data.model';
 import { RegisterOrgService } from '../../services';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { RegisterComponent } from './register-org.component';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
@@ -45,7 +46,7 @@ describe('RegisterComponent', () => {
     mockRegisterOrgService.getRegistrationData.and.returnValue(registrationData);
     await TestBed.configureTestingModule({
       declarations: [RegisterComponent],
-      imports: [RouterTestingModule],
+      imports: [RpxTranslationTestingModule, RouterTestingModule],
       providers: [
         { provide: Router, useValue: mockRouter },
         { provide: RegisterOrgService, useValue: mockRegisterOrgService },

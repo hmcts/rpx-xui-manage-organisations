@@ -8,6 +8,7 @@ import * as fromRoot from '../../../app/store';
 import { DxAddress, OrganisationContactInformation, OrganisationDetails, PBANumberModel } from '../../../models';
 import { PBAService } from '../../services/pba.service';
 import * as fromStore from '../../store';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { UpdatePbaNumbersCheckComponent } from './update-pba-numbers-check.component';
 import { AppConstants } from '../../../app/app.constants';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
@@ -93,7 +94,7 @@ describe('UpdatePbaNumbersCheckComponent', () => {
     TestBed.configureTestingModule({
       declarations: [UpdatePbaNumbersCheckComponent, MockComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [RouterModule,
+      imports: [RpxTranslationTestingModule, RouterModule,
         StoreModule.forRoot({
           ...fromRoot.reducers,
           feature: combineReducers(fromStore.reducers)

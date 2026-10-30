@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { provideHttpClient } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { RpxTranslationModule } from 'rpx-xui-translation';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CaseListModule } from '@hmcts/ccd-case-ui-toolkit';
@@ -23,6 +24,7 @@ import { effects, reducers } from './store';
 @NgModule({
   imports: [
     CommonModule,
+    RpxTranslationModule.forChild(),
     ExuiCommonLibModule,
     SharedModule,
     casesRouting,

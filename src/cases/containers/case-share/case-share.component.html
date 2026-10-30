@@ -1,5 +1,5 @@
 @if (backLink) {
-  <a [routerLink]="backLink" class="govuk-back-link">Back</a>
+  <a [routerLink]="backLink" class="govuk-back-link">{{ 'Back' | rpxTranslate }}</a>
 }
 <xuilib-share-case
   [shareCases$] = "shareCases$"

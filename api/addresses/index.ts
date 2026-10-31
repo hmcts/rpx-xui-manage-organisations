@@ -8,7 +8,7 @@ export async function handleAddressesRoute(req: Request, res: Response) {
   try {
     const apiUrl = getAddressUrl(ccdComponentPath, req.query.postcode as string);
     const response = await req.http.get(apiUrl);
-    res.status(200).send(response.data);
+    res.status(200).json(response.data);
   } catch (error) {
     const status = exists(error, 'statusCode') ? error.statusCode : 500;
 
@@ -17,7 +17,7 @@ export async function handleAddressesRoute(req: Request, res: Response) {
       apiStatusCode: status,
       message: 'External address route error'
     };
-    res.status(status).send(errReport);
+    res.status(status).json(errReport);
   }
 }
 

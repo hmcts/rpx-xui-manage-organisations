@@ -69,7 +69,7 @@
               @if ((cases$ | async)?.length > 0) {
                 <div>
                   <div class="govuk-!-margin-top-7 govuk-!-margin-bottom-2">
-                    <div>
+                    <div role="status" aria-live="polite">
                       <p class="govuk-body">Showing <strong>{{ getFirstResult() }}</strong> to <strong>{{ getLastResult() }}</strong> of <strong>{{ getTotalResults() }} {{ currentCaseType }}</strong> cases</p>
                     </div>
                     <p class="govuk-body">Select any <strong>{{ currentCaseType }}</strong> cases you want to manage case sharing for.</p>
@@ -108,7 +108,7 @@
         </mat-tab-group>
       }
       @if (noCasesFoundMessage.length > 0) {
-        <div class="govuk-body govuk-!-margin-top-4">
+        <div class="govuk-body govuk-!-margin-top-4" role="status" aria-live="polite">
           {{ noCasesFoundMessage }}
         </div>
       }

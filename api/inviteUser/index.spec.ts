@@ -8,7 +8,7 @@ import * as configuration from '../configuration';
 import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references';
 import { http } from '../lib/http';
 import * as refdataUserCommonUrlUtil from '../refdataUserCommonUrlUtil';
-import { inviteUserRoute } from './index';
+import { inviteUserRoute, inviteUserRouteOGD } from './index';
 
 chai.use(sinonChai);
 
@@ -70,5 +70,40 @@ describe('inviteUser index', () => {
     await inviteUserRoute(req, res);
     expect(res.status).to.be.calledWith(errorCode);
     expect(res.send).to.be.calledWith(errorReport);
+  });
+
+  it('posts only the OGD user payload and returns the invited user identifier', async () => {
+    const userPayload = { email: 'user@example.invalid', roles: ['pui-case-manager'] };
+    req.body = { orgIdsPayload: ['profile-1'], userPayload };
+    sinon.stub(req.http, 'post').resolves({ data: { userIdentifier: 'invited-user' } } as AxiosResponse);
+
+    const result = await inviteUserRouteOGD(req);
+
+    expect(req.http.post).to.be.calledWithExactly('apiPath', userPayload);
+    expect(result).to.deep.equal({ userIdentifier: 'invited-user' });
+  });
+
+  it('preserves the OGD invite error status and response body', async () => {
+    req.body = { userPayload: { email: 'user@example.invalid' } };
+    const upstreamError = {
+      data: { errorDescription: 'User already exists', errorMessage: 'Duplicate user' },
+      status: 409
+    };
+    sinon.stub(req.http, 'post').callsFake(async () => {
+      throw upstreamError;
+    });
+
+    try {
+      await inviteUserRouteOGD(req);
+      expect.fail('Expected the OGD invite to reject');
+    } catch (error) {
+      expect(error).to.be.instanceOf(Error);
+      expect(error.toJSON()).to.deep.equal({
+        apiError: 'Duplicate user',
+        apiStatusCode: 409,
+        message: 'User already exists'
+      });
+      expect(JSON.parse(JSON.stringify(error))).to.deep.equal(error.toJSON());
+    }
   });
 });

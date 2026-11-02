@@ -45,7 +45,12 @@ export async function compareAccessTypes(req: Request) {
     return (comparedUserSelections);
   } catch (error) {
     logger.error('Error in compareAccessTypes:', error);
-    return ({ error: 'An error occurred while processing your request.' });
+    const status = exists(error, 'status') ? error.status : 500;
+    throw {
+      apiError: valueOrNull(error, 'data.errorMessage'),
+      apiStatusCode: status,
+      message: valueOrNull(error, 'data.errorDescription')
+    };
   }
 }
 

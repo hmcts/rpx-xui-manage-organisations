@@ -4,14 +4,15 @@ export function processAccessTypes(currentOrganisationAccessTypes, userAccessTyp
   const accessTypesMap = new Map();
   currentOrganisationAccessTypes.forEach((jurisdiction) => {
     jurisdiction.accessTypes.forEach((accessType) => {
-      const key = `${jurisdiction.jurisdictionId}-${accessType.organisationProfileId}-${accessType.accessTypeId}`;
-      accessTypesMap.set(key, accessType);
+      const key = JSON.stringify([jurisdiction.jurisdictionId, accessType.organisationProfileId, accessType.accessTypeId]);
+      accessTypesMap.set(key, { accessType, jurisdictionId: jurisdiction.jurisdictionId });
     });
   });
 
   userAccessTypeOptions.userAccessTypes.forEach((userAccessType) => {
-    const key = `${userAccessType.jurisdictionId}-${userAccessType.organisationProfileId}-${userAccessType.accessTypeId}`;
-    const accessType = accessTypesMap.get(key);
+    const key = JSON.stringify([userAccessType.jurisdictionId, userAccessType.organisationProfileId, userAccessType.accessTypeId]);
+    const currentAccessType = accessTypesMap.get(key);
+    const accessType = currentAccessType?.accessType;
 
     if (accessType?.display) {
       if (accessType.accessMandatory && accessType.accessDefault) {
@@ -32,13 +33,12 @@ export function processAccessTypes(currentOrganisationAccessTypes, userAccessTyp
     accessTypesMap.delete(key);
   });
 
-  accessTypesMap.forEach((accessType, key) => {
+  accessTypesMap.forEach(({ accessType, jurisdictionId }) => {
     if (accessType.display) {
-      const [jurisdictionId, organisationProfileId, accessTypeId] = key.split('-');
       processedAccessTypes.push({
         jurisdictionId,
-        organisationProfileId,
-        accessTypeId,
+        organisationProfileId: accessType.organisationProfileId,
+        accessTypeId: accessType.accessTypeId,
         enabled: accessType.accessDefault
       });
     }

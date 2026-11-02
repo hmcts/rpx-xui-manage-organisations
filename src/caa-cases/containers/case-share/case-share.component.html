@@ -2,6 +2,7 @@
   <a [routerLink]="backLink" class="govuk-back-link">Back</a>
 }
 <xuilib-share-case
+  appCaseAccordionAccessibleNames
   [shareCases$] = "shareCases$"
   [users]="orgUsers$ | async"
   [removeUserFromCaseToggleOn]="removeUserFromCaseToggleOn$ | async"

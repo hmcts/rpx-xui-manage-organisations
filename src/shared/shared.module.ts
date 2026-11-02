@@ -12,6 +12,8 @@ import { HmctsErrorSummaryComponent } from './components/hmcts-error-summary/hmc
 import { HmctsMainWrapperComponent } from './components/hmcts-main-wrapper/hmcts-main-wrapper.component';
 import { SuccessIconComponent } from './components/icons/success-icon.component';
 import { WarningIconComponent } from './components/icons/warning-icon.component';
+import { CaseAccordionAccessibleNameDirective } from './directives/case-accordion-accessible-name.directive';
+import { CaseListAccessibleNamesDirective } from './directives/case-list-accessible-names.directive';
 import { HealthCheckGuard } from './guards/health-check.guard';
 import { UserRoleGuard } from './guards/user-role.guard';
 import { LoaderModule } from './modules/loader/loader.module';
@@ -27,7 +29,9 @@ import { RpxTranslationModule } from 'rpx-xui-translation';
     HmctsMainWrapperComponent,
     HmctsErrorSummaryComponent,
     SuccessIconComponent,
-    WarningIconComponent
+    WarningIconComponent,
+    CaseAccordionAccessibleNameDirective,
+    CaseListAccessibleNamesDirective
   ],
   imports: [
     ReactiveFormsModule,
@@ -43,6 +47,8 @@ import { RpxTranslationModule } from 'rpx-xui-translation';
     ReactiveFormsModule,
     SuccessIconComponent,
     WarningIconComponent,
+    CaseAccordionAccessibleNameDirective,
+    CaseListAccessibleNamesDirective,
     HmctsErrorSummaryComponent
   ],
   providers: [

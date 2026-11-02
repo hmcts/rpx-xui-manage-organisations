@@ -36,7 +36,7 @@
     }
     @if (showRemoveButton) {
       <div class="button-cell">
-        <button id="remove{{item.control}}" type="button" class="govuk-button hmcts-button--secondary" (click)="removeItem($event)">Remove
+        <button id="remove{{item.control}}" type="button" class="govuk-button hmcts-button--secondary" (click)="removeItem($event)">Remove <span class="govuk-visually-hidden">{{label?.text || item.control}}</span>
         </button>
       </div>
     }

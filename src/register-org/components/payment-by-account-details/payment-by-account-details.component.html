@@ -30,7 +30,7 @@
                     @if (pbaNumbers.controls.length > 1) {
                       <button (click)="onRemovePBANumber(i)"
                         class="govuk-button govuk-button--secondary govuk-!-margin-left-4 govuk-!-margin-bottom-0">
-                        Remove
+                        Remove <span class="govuk-visually-hidden">PBA number {{i + 1}}</span>
                       </button>
                     }
                   </div>

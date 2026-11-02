@@ -82,7 +82,11 @@ test.describe('authenticated Manage Organisation accessibility @a11y', () => {
     { tag: ['@e2e', '@a11y', '@user-admin'] },
     async ({ signedInPage, usersPage }, testInfo) => {
       await usersPage.open();
-      await usersPage.openFirstActiveUser();
+      const activeUserFound = await usersPage.openFirstActiveUser();
+      test.skip(
+        !activeUserFound,
+        'No Active user exists in the target organisation; active user detail coverage is scoped to available Active users.'
+      );
 
       await expect(usersPage.userDetails.or(usersPage.userDetailsHeading).first()).toBeVisible();
       await auditManageOrganisationPage(signedInPage, testInfo, 'active user details');

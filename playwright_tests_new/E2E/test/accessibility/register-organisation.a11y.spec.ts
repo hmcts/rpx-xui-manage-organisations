@@ -407,7 +407,7 @@ test.describe('register organisation accessibility @a11y', () => {
         }
 
         await expect(page.locator(validationState.component)).toBeVisible();
-        await expect(page.getByRole('alert')).toBeVisible();
+        await expect(page.getByRole('alert', { name: 'There is a problem' })).toBeVisible();
         for (const expectedError of validationState.expectedErrors) {
           await expect(registerOrganisationPage.validationSummaryError(expectedError)).toBeVisible();
         }

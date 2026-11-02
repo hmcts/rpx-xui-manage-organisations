@@ -84,8 +84,9 @@ export const protectedRouteInventory: ProtectedRouteInventoryEntry[] = [
   },
   {
     route: '/ogd-flow',
-    coverageType: 'documented-exclusion',
-    evidence: 'OGD invite/update orchestration guardrail coverage is intentionally outside this PBA-management/API-integrity slice.'
+    coverageType: 'guardrail-test',
+    evidence: 'rejects anonymous OGD invite requests before creating a user',
+    coverageFile: 'playwright_tests_new/api/ogd-flow.api.ts'
   },
   {
     route: '/payments/:account',

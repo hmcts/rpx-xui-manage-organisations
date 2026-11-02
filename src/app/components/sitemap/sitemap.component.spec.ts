@@ -1,0 +1,108 @@
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { provideMockStore, MockStore } from '@ngrx/store/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { BehaviorSubject, firstValueFrom, throwError } from 'rxjs';
+import * as fromRoot from '../../store';
+import * as fromAuthStore from '../../../user-profile/store';
+import { AuthService } from '../../../user-profile/services/auth.service';
+import { SitemapComponent } from './sitemap.component';
+
+describe('SitemapComponent', () => {
+  let component: SitemapComponent;
+  let fixture: ComponentFixture<SitemapComponent>;
+  let store: MockStore<fromRoot.State>;
+  let authService: jasmine.SpyObj<AuthService>;
+  let authState$: BehaviorSubject<boolean>;
+
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [SitemapComponent],
+      imports: [RouterTestingModule],
+      providers: [
+        provideMockStore<fromRoot.State>(),
+        {
+          provide: AuthService,
+          useValue: jasmine.createSpyObj<AuthService>('AuthService', ['isAuthenticated'])
+        }
+      ]
+    }).compileComponents();
+  }));
+
+  beforeEach(() => {
+    store = TestBed.inject(MockStore);
+    authService = TestBed.inject(AuthService) as jasmine.SpyObj<AuthService>;
+    authState$ = new BehaviorSubject(false);
+    authService.isAuthenticated.and.returnValue(authState$.asObservable());
+    store.overrideSelector(fromAuthStore.getUser, null);
+    store.overrideSelector(fromAuthStore.userLoaded, false);
+    store.overrideSelector(fromRoot.getFeatureFlag, []);
+    store.refreshState();
+    fixture = TestBed.createComponent(SitemapComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    store.resetSelectors();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should display only public links when the user is not logged in', () => {
+    const pageLinks = Array.from<HTMLAnchorElement>(fixture.nativeElement.querySelectorAll('[data-testid="sitemap-link"]'));
+
+    expect(pageLinks.map((link) => link.getAttribute('href'))).toEqual([
+      '/accessibility',
+      '/terms-and-conditions',
+      '/cookies',
+      '/privacy-policy',
+      '/get-help',
+      '/sitemap'
+    ]);
+  });
+
+  it('should display links allowed by the logged-in user role', () => {
+    authState$.next(true);
+    store.overrideSelector(fromAuthStore.getUser, { roles: ['pui-user-manager'] } as any);
+    store.refreshState();
+    fixture.detectChanges();
+
+    const pageLinks = Array.from<HTMLAnchorElement>(fixture.nativeElement.querySelectorAll('[data-testid="sitemap-link"]'));
+
+    expect(pageLinks.map((link) => link.getAttribute('href'))).toContain('/users');
+    expect(pageLinks.map((link) => link.getAttribute('href'))).not.toContain('/organisation');
+    expect(pageLinks.map((link) => link.getAttribute('href'))).not.toContain('/fee-accounts');
+  });
+
+  it('should show only public links when checking authentication fails', async () => {
+    authService.isAuthenticated.and.returnValue(throwError(() => new Error('Authentication status unavailable')));
+    const sitemap = new SitemapComponent(store, authService);
+
+    const sections = await firstValueFrom(sitemap.sections$);
+    const links = sections.flatMap((section) => section.links.map((link) => link.href));
+
+    expect(links).toContain('/accessibility');
+    expect(links).not.toContain('/users');
+  });
+
+  it('should use enabled feature links and feature-specific terms and conditions URL', () => {
+    authState$.next(true);
+    store.overrideSelector(fromAuthStore.getUser, { roles: ['pui-caa', 'pui-finance-manager'] } as any);
+    store.overrideSelector(fromRoot.getFeatureFlag, [
+      { featureName: 'fee-and-accounts', isEnabled: false },
+      { featureName: 'mo-new-cases', isEnabled: true },
+      { featureName: 'mo-new-register-org', isEnabled: true }
+    ] as any);
+    store.refreshState();
+    fixture.detectChanges();
+
+    const pageLinks = Array.from<HTMLAnchorElement>(fixture.nativeElement.querySelectorAll('[data-testid="sitemap-link"]'));
+    const hrefs = pageLinks.map((link) => link.getAttribute('href'));
+
+    expect(hrefs).toContain('/cases');
+    expect(hrefs).not.toContain('/fee-accounts');
+    expect(hrefs).toContain('/terms-and-conditions-register-other-org');
+  });
+});

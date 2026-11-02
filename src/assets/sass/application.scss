@@ -1,16 +1,16 @@
 // Path to assets for use with the file-url function
 // in the govuk frontend toolkit"s url-helpers partial
-$path: "/public/images/";
-
-// global styles for <a> and <p> tags
-$govuk-global-styles: true;
-
-
-// Width of main container
+@use "govuk-frontend/dist/govuk/index" as * with (
+$govuk-global-styles: true,
+$govuk-page-width: 1220px
+);
 $hmcts-page-width: 1220px;
-
-// Import GOV.UK Frontend
-@import "govuk-frontend/dist/govuk/index";
+@use "patterns/check-your-answers" as *;
+@use "patterns/task-list" as *;
+@use "patterns/related-items" as *;
+@use "patterns/pba" as *;
+@use "components/cookie-banner" as *;
+@use "jui/all" as *;
 
 // The current @hmcts/frontend package still references this removed IE8 mixin.
 // Its IE8-only declarations must not be emitted with GOV.UK Frontend 5.
@@ -26,21 +26,24 @@ $hmcts-page-width: 1220px;
     @content;
   }
 }
-
 @import "@hmcts/frontend/all";
 
+.jui-editor__content {
+  @extend .govuk-textarea;
+}
+
+$path: "/public/images/";
+
+// Width of main container
+
+// Import GOV.UK Frontend
+
 // Patterns that aren’t in Frontend
-@import "patterns/check-your-answers";
-@import "patterns/task-list";
-@import "patterns/related-items";
-@import "patterns/pba";
 
 // Components that aren’t in Frontend
-@import "components/cookie-banner";
 
 
 // JUI styles
-@import "jui/all";
 
 html {
   background-color: govuk-colour("light-grey");
@@ -172,7 +175,9 @@ html {
 
 }
 
-
+.govuk-footer {
+  border-top: 10px solid govuk-colour("blue");
+}
 
 // Panel (temp)
 

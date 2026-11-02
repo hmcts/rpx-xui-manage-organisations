@@ -83,6 +83,7 @@ describe('CheckYourAnswersComponent', () => {
   });
 
   afterEach(() => {
+    spyOn(registerOrgService, 'persistRegistrationData').and.stub();
     fixture.destroy();
   });
 

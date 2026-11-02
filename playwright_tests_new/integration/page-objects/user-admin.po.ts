@@ -11,6 +11,7 @@ export class UserAdminPage {
   public readonly inviteUserButton: Locator;
   public readonly inviteUserHeading: Locator;
   public readonly lastNameInput: Locator;
+  public readonly manageUserHeading: Locator;
   public readonly pendingUserDetailsHeading: Locator;
   public readonly resendInvitationButton: Locator;
   public readonly sendInvitationButton: Locator;
@@ -19,6 +20,7 @@ export class UserAdminPage {
   public readonly suspendAccountHeading: Locator;
   public readonly userList: Locator;
   public readonly userDetailsHeading: Locator;
+  public readonly usersLink: Locator;
 
   constructor(private readonly page: Page) {
     this.backLink = this.page.getByRole('link', { name: 'Back', exact: true });
@@ -31,6 +33,7 @@ export class UserAdminPage {
     this.inviteUserButton = this.page.getByRole('button', { name: 'Invite user' });
     this.inviteUserHeading = this.page.getByRole('heading', { name: /^(Invite user|Manage user)$/ });
     this.lastNameInput = this.page.locator('#lastName');
+    this.manageUserHeading = this.page.getByRole('heading', { name: 'Manage user', exact: true });
     this.pendingUserDetailsHeading = this.page.getByRole('heading', { name: 'Pending user details' });
     this.resendInvitationButton = this.page.locator('#resend-invite-button');
     this.sendInvitationButton = this.page.getByRole('button', { name: /^(Send invitation|Submit)$/ });
@@ -41,6 +44,7 @@ export class UserAdminPage {
     });
     this.userList = this.page.locator('table');
     this.userDetailsHeading = this.page.getByRole('heading', { name: 'User details' });
+    this.usersLink = this.page.getByRole('link', { name: 'Users', exact: true });
   }
 
   public validationSummaryError(message: string): Locator {

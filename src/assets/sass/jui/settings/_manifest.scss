@@ -2,5 +2,5 @@
    #SETTINGS
    ========================================================================== */
 
-@import "settings.general";
-@import "settings.aspect-ratio";
+@use "settings.general" as *;
+@use "settings.aspect-ratio" as *;

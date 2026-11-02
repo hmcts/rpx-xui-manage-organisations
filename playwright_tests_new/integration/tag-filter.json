@@ -10,6 +10,7 @@
     "@integration-register-organisation",
     "@integration-runtime-config",
     "@integration-terms",
-    "@integration-user-admin"
+    "@integration-user-admin",
+    "@srt-visual"
   ]
 }

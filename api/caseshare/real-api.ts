@@ -35,15 +35,10 @@ export async function getCases(req: EnhancedRequest, res: Response, next: NextFu
     const path = `${ccdUrl}/case-assignments?case_ids=${caseIds}`;
     const { status, data }: {status: number, data: any} = await handleGet(path, req, next);
     const caseUsers: CCDRawCaseUserModel[] = [...data.case_assignments];
-    const sharedCases: SharedCase[] = [];
-    for (const caseUser of caseUsers) {
-      const sharedCase: SharedCase = {
-        caseId: caseUser.case_id,
-        caseTitle: caseUser.case_title,
-        sharedWith: caseUser.shared_with.map((rawSharedWith) => ccdToUserDetails(rawSharedWith))
-      };
-      sharedCases.push(sharedCase);
-    }
+    const sharedCases = caseUsers.map((caseUser) => ({
+      caseId: caseUser.case_id,
+      sharedWith: caseUser.shared_with.map((rawSharedWith) => ccdToUserDetails(rawSharedWith))
+    }));
     return res.status(status).send(sharedCases);
   } catch (error) {
     next(error);

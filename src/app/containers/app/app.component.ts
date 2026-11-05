@@ -9,6 +9,7 @@ import { LoggerService } from '../../../shared/services/logger.service';
 import { AuthService } from '../../../user-profile/services/auth.service';
 import { UserService } from '../../../user-profile/services/user.service';
 import * as fromUserProfile from '../../../user-profile/store';
+import { AppUtils } from '../../utils/app-utils';
 import { AppTitlesModel } from '../../models/app-titles.model';
 import { UserNavModel } from '../../models/user-nav.model';
 import * as fromRoot from '../../store';
@@ -77,7 +78,7 @@ export class AppComponent implements OnInit, OnDestroy {
     });
 
     this.pageTitleSubscription = this.pageTitle$.subscribe((title) => {
-      this.titleService.setTitle(title ?? 'Manage organisation');
+      this.titleService.setTitle(title?.trim() || AppUtils.DEFAULT_PAGE_TITLE);
     });
 
     this.authService.isAuthenticated().subscribe((isAuthenticated) => {

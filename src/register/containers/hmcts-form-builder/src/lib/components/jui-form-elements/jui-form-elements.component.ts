@@ -11,6 +11,7 @@ export class JuiFormElementsComponent {
   @Input() public group: FormGroup;
   @Input() public data;
   @Input() public validate;
+  @Input() public showLegend = true;
   @Output() public btnClick = new EventEmitter();
   @Output() public blurCast = new EventEmitter();
 

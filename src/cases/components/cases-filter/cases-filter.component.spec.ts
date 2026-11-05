@@ -46,6 +46,43 @@ describe('CasesCasesFilterComponent', () => {
     fixture.detectChanges();
   });
 
+  it('should reference the case reference error only while its message is rendered', () => {
+    const control = component.form.controls.caseReferenceNumber;
+    const input: HTMLInputElement = fixture.nativeElement.querySelector('#case-reference-number');
+    const errorMessage = () => fixture.nativeElement.querySelector('#case-reference-number-error-message');
+
+    control.setErrors({ invalid: true });
+    control.markAsUntouched();
+    fixture.detectChanges();
+    expect(input.hasAttribute('aria-describedby')).toBeFalse();
+    expect(errorMessage()).toBeNull();
+
+    component.selectedFilterType = CaaCasesFilterType.CaseReferenceNumber;
+    control.markAsTouched();
+    fixture.detectChanges();
+    expect(input.getAttribute('aria-describedby')).toBe(errorMessage().id);
+
+    control.setErrors(null);
+    fixture.detectChanges();
+    expect(input.hasAttribute('aria-describedby')).toBeFalse();
+    expect(errorMessage()).toBeNull();
+  });
+
+  it('should return the case reference error message id only for a touched invalid control', () => {
+    const control = component.form.controls.caseReferenceNumber;
+
+    expect(component.getCaseReferenceNumberAriaDescribedBy()).toBeNull();
+
+    control.setErrors({ invalid: true });
+    expect(component.getCaseReferenceNumberAriaDescribedBy()).toBeNull();
+
+    control.markAsTouched();
+    expect(component.getCaseReferenceNumberAriaDescribedBy()).toBe('case-reference-number-error-message');
+
+    control.setErrors(null);
+    expect(component.getCaseReferenceNumberAriaDescribedBy()).toBeNull();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });

@@ -65,11 +65,11 @@ export class UpdateAddressCheckComponent implements OnInit, OnDestroy {
     const backRoute = this.draftAddress?.hasDxReference
       ? '/organisation/update-address/document-exchange-reference-details'
       : '/organisation/update-address/document-exchange-reference';
-    this.router.navigate([backRoute]);
+    void this.router.navigate([backRoute]);
   }
 
   public onCancel(): void {
     this.store.dispatch(new fromStore.ClearOrganisationAddressUpdate());
-    this.router.navigate(['/organisation']);
+    void this.router.navigate(['/organisation']);
   }
 }

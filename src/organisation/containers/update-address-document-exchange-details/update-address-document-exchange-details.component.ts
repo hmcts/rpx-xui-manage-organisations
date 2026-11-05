@@ -40,15 +40,15 @@ export class UpdateAddressDocumentExchangeDetailsComponent implements OnInit, On
 
   public onContinue(details: DocumentExchangeDetails): void {
     this.store.dispatch(new fromStore.UpdateOrganisationAddressDraft(details));
-    this.router.navigate(['/organisation/update-address/check']);
+    void this.router.navigate(['/organisation/update-address/check']);
   }
 
   public onBack(): void {
-    this.router.navigate(['/organisation/update-address/document-exchange-reference']);
+    void this.router.navigate(['/organisation/update-address/document-exchange-reference']);
   }
 
   public onCancel(): void {
     this.store.dispatch(new fromStore.ClearOrganisationAddressUpdate());
-    this.router.navigate(['/organisation']);
+    void this.router.navigate(['/organisation']);
   }
 }

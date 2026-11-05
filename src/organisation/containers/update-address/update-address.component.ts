@@ -41,17 +41,17 @@ export class UpdateAddressComponent implements OnInit, OnDestroy {
       inInternationalMode: result.inInternationalMode,
       showExistingAddress: true
     }));
-    this.router.navigate(['/organisation/update-address/document-exchange-reference']);
+    void this.router.navigate(['/organisation/update-address/document-exchange-reference']);
   }
 
   public onCancel(): void {
     this.store.dispatch(new fromStore.ClearOrganisationAddressUpdate());
-    this.router.navigate(['/organisation']);
+    void this.router.navigate(['/organisation']);
   }
 
   public onBack(resetAddressEntry: boolean): void {
     if (!resetAddressEntry) {
-      this.router.navigate(['/organisation']);
+      void this.router.navigate(['/organisation']);
     }
   }
 }

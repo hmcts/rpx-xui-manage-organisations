@@ -42,15 +42,15 @@ export class UpdateAddressDocumentExchangeComponent implements OnInit, OnDestroy
     const nextRoute = hasDxReference
       ? '/organisation/update-address/document-exchange-reference-details'
       : '/organisation/update-address/check';
-    this.router.navigate([nextRoute]);
+    void this.router.navigate([nextRoute]);
   }
 
   public onBack(): void {
-    this.router.navigate(['/organisation/update-address']);
+    void this.router.navigate(['/organisation/update-address']);
   }
 
   public onCancel(): void {
     this.store.dispatch(new fromStore.ClearOrganisationAddressUpdate());
-    this.router.navigate(['/organisation']);
+    void this.router.navigate(['/organisation']);
   }
 }

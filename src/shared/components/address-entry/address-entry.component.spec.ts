@@ -1,5 +1,6 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { SimpleChange } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { AddressMessageEnum } from '@hmcts/rpx-xui-common-lib';
 import { SharedModule } from '../../shared.module';
@@ -67,6 +68,131 @@ describe('AddressEntryComponent', () => {
     expect(component.addressChosen).toBeFalse();
     expect(component.formGroup.get('address')).toBeTruthy();
     expect(component.backRequested.emit).toHaveBeenCalledWith(true);
+  });
+
+  it('should preserve the current entry when back is requested without a reset', () => {
+    const component = new AddressEntryComponent();
+    component.initialAddress = address as any;
+    component.showExistingAddress = true;
+    component.ngOnInit();
+    spyOn(component.backRequested, 'emit');
+
+    component.onBack(false);
+
+    expect(component.addressChosen).toBeTrue();
+    expect(component.formGroup.get('address')?.value.addressLine1).toBe('1 High Street');
+    expect(component.backRequested.emit).toHaveBeenCalledWith(false);
+  });
+
+  it('should require the user to choose whether a manually entered address is international', () => {
+    const component = new AddressEntryComponent();
+    component.ngOnInit();
+    spyOn(component.submitted, 'emit');
+
+    component.onInternationalModeStart();
+    component.onContinue();
+
+    expect(component.isInternational).toBeUndefined();
+    expect(component.addressErrors).toEqual([{
+      id: 'govuk-radios',
+      message: AddressMessageEnum.NO_OPTION_SELECTED
+    }]);
+    expect(component.submissionAttempted).toBeTrue();
+    expect(component.submitted.emit).not.toHaveBeenCalled();
+  });
+
+  it('should emit a valid manually entered international address', () => {
+    const component = new AddressEntryComponent();
+    component.ngOnInit();
+    spyOn(component.submitted, 'emit');
+
+    component.onInternationalModeStart();
+    component.onOptionSelected(true);
+    component.formGroup.get('address')?.patchValue({
+      addressLine1: '10 Rue de Rivoli',
+      postTown: 'Paris',
+      country: 'France',
+      postCode: null
+    });
+    component.onContinue();
+
+    expect(component.submitted.emit).toHaveBeenCalledWith({
+      address: jasmine.objectContaining({
+        addressLine1: '10 Rue de Rivoli',
+        postTown: 'Paris',
+        country: 'France',
+        postCode: null
+      }),
+      inInternationalMode: true
+    });
+  });
+
+  it('should validate the postcode for a manually entered UK address', () => {
+    const component = new AddressEntryComponent();
+    component.ngOnInit();
+
+    component.onInternationalModeStart();
+    component.onOptionSelected(false);
+    component.formGroup.get('address')?.patchValue({
+      addressLine1: '1 High Street',
+      postTown: 'London',
+      postCode: 'invalid'
+    });
+    component.onContinue();
+
+    expect(component.addressErrors).toContain({
+      id: 'postCode',
+      message: AddressMessageEnum.INVALID_POSTCODE
+    });
+    expect(component.submissionAttempted).toBeTrue();
+  });
+
+  it('should ask the user to select an address when lookup results are available', () => {
+    const component = new AddressEntryComponent();
+    component.ngOnInit();
+
+    component.onAddressSelectable(true);
+    component.onContinue();
+
+    expect(component.addressErrors).toEqual([{
+      id: 'selectAddress',
+      message: AddressMessageEnum.SELECT_ADDRESS
+    }]);
+  });
+
+  it('should initialise an existing international address for editing', () => {
+    const component = new AddressEntryComponent();
+    component.initialAddress = {
+      ...address,
+      country: 'France',
+      postCode: null
+    } as any;
+    component.initialInternationalMode = true;
+    component.showExistingAddress = true;
+
+    component.ngOnInit();
+
+    expect(component.startedInternational).toBeTrue();
+    expect(component.addressChosen).toBeFalse();
+    expect(component.isInternational).toBeTrue();
+    expect(component.headingText).toBe('Is this a UK address?');
+    expect(component.formGroup.get('address')?.get('country')?.value).toBe('France');
+    expect(component.formGroup.get('address')?.get('postCode')?.valid).toBeTrue();
+  });
+
+  it('should reinitialise the form when an input changes after initialisation', () => {
+    const component = new AddressEntryComponent();
+    component.ngOnInit();
+    component.initialAddress = address as any;
+    component.showExistingAddress = true;
+
+    component.ngOnChanges({
+      initialAddress: new SimpleChange(null, address, false),
+      showExistingAddress: new SimpleChange(false, true, false)
+    });
+
+    expect(component.addressChosen).toBeTrue();
+    expect(component.formGroup.get('address')?.value.addressLine1).toBe('1 High Street');
   });
 });
 

@@ -27,3 +27,18 @@ export const getAccessTypes = createSelector(
   getOrganisationState,
   fromOrganisation.getOrganisationAccessTypes
 );
+
+export const getAddressUpdateDraft = createSelector(
+  getOrganisationState,
+  fromOrganisation.getAddressUpdateDraft
+);
+
+export const getAddressUpdating = createSelector(
+  getOrganisationState,
+  fromOrganisation.getAddressUpdating
+);
+
+export const getAddressUpdateError = createSelector(
+  getOrganisationState,
+  fromOrganisation.getAddressUpdateError
+);

@@ -75,6 +75,81 @@ describe('OrganisationReducer', () => {
     });
   });
 
+  describe('address update actions', () => {
+    const draftAddress = {
+      address: {
+        addressLine1: '1 High Street',
+        addressLine2: null,
+        addressLine3: null,
+        postTown: 'London',
+        county: null,
+        country: 'UK',
+        postCode: 'SW1A 1AA'
+      },
+      hasDxReference: false,
+      dxNumber: null,
+      dxExchange: null,
+      inInternationalMode: false,
+      showExistingAddress: false
+    };
+
+    it('should initialise and update a separate address draft', () => {
+      const initialised = fromOrganisation.reducer(
+        fromOrganisation.initialState,
+        new fromActions.InitialiseOrganisationAddressUpdate(draftAddress)
+      );
+      const updated = fromOrganisation.reducer(
+        initialised,
+        new fromActions.UpdateOrganisationAddressDraft({ hasDxReference: true, dxNumber: '123' })
+      );
+
+      expect(updated.addressUpdateDraft.address.addressLine1).toBe('1 High Street');
+      expect(updated.addressUpdateDraft.hasDxReference).toBeTrue();
+      expect(updated.addressUpdateDraft.dxNumber).toBe('123');
+    });
+
+    it('should update confirmed contact information only after a successful response', () => {
+      const previousState = {
+        ...fromOrganisation.initialState,
+        organisationDetails: {
+          contactInformation: [{ addressLine1: 'Old address' }]
+        } as any,
+        addressUpdateDraft: draftAddress,
+        addressUpdating: true
+      };
+      const contactInformation = {
+        addressLine1: '1 High Street',
+        addressLine2: null,
+        addressLine3: null,
+        townCity: 'London',
+        county: null,
+        country: 'UK',
+        postCode: 'SW1A 1AA',
+        dxAddress: []
+      };
+
+      const state = fromOrganisation.reducer(
+        previousState,
+        new fromActions.OrganisationUpdateAddressSuccess(contactInformation)
+      );
+
+      expect(state.organisationDetails.contactInformation[0]).toEqual(contactInformation);
+      expect(state.addressUpdateDraft).toBeNull();
+      expect(state.addressUpdating).toBeFalse();
+    });
+
+    it('should clear an abandoned draft without changing the organisation', () => {
+      const organisationDetails = { organisationIdentifier: 'ORG1' } as any;
+      const state = fromOrganisation.reducer(
+        { ...fromOrganisation.initialState, organisationDetails, addressUpdateDraft: draftAddress },
+        new fromActions.ClearOrganisationAddressUpdate()
+      );
+
+      expect(state.organisationDetails).toBe(organisationDetails);
+      expect(state.addressUpdateDraft).toBeNull();
+    });
+  });
+
   /* TO DO - fix the unit test
   // success
   describe('LOAD_ORGANISATION_SUCCESS action', () => {

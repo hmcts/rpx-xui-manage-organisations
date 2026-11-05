@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Observable, catchError, throwError } from 'rxjs';
+import { Observable, catchError, of, throwError } from 'rxjs';
 import { JurisdictionResponse } from 'src/models';
 
 export const ENVIRONMENT = {
@@ -18,6 +18,12 @@ export class OrganisationService {
 
   public fetchOrganisationV1(): Observable<any> {
     return this.http.get<any>(`${ENVIRONMENT.orgUri}/v1`);
+  }
+
+  public updateAddress(): Observable<any> {
+    return of(null);
+    // TODO: Implement the actual update address logic when required - below a possible example
+    //return this.http.put<any>(ENVIRONMENT.orgUri, { contactInformation: [contactInformation] });
   }
 
   private handleError(error: HttpErrorResponse) {

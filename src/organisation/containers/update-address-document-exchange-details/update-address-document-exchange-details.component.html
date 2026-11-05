@@ -1,0 +1,9 @@
+<app-document-exchange-details
+  caption="Update organisation address"
+  [dxNumber]="dxNumber"
+  [dxExchange]="dxExchange"
+  [useMainWrapperBackLink]="true"
+  (submitted)="onContinue($event)"
+  (backRequested)="onBack()"
+  (cancelled)="onCancel()">
+</app-document-exchange-details>

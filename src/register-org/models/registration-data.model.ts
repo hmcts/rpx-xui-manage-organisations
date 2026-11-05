@@ -7,8 +7,8 @@ export type RegistrationData = {
   companyName: string;
   companyHouseNumber?: string;
   hasDxReference: boolean;
-  dxNumber?: string;
-  dxExchange?: string;
+  dxNumber?: string | null;
+  dxExchange?: string | null;
   services: OrganisationService[];
   otherServices?: string;
   hasPBA: boolean;

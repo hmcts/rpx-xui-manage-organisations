@@ -1,5 +1,6 @@
 <app-hmcts-main-wrapper [title]="'Organisation'">
   <app-prd-pba-success [response]="organisationDetails.response"></app-prd-pba-success>
+  <app-prd-address-success [addressUpdated]="organisationDetails.pendingContactInformation"></app-prd-address-success>
   @if (isFeatureEnabled$ | async) {
   <!-- Organisation name -->
   <dl class="govuk-summary-list">
@@ -30,7 +31,14 @@
         <div>{{organisationContactInformation.townCity}}</div>
         <div>{{organisationContactInformation.county}}</div>
         @if (organisationContactInformation.postCode) {<div>{{organisationContactInformation.postCode}}</div>}
+        @if (organisationDetails.pendingContactInformation) {<span>(Pending approval)</span>}
       </dd>
+      @if (showChangeAddressLink) {
+      <dd class="govuk-summary-list__actions">
+        <a class="govuk-link organisation-address__change-link" routerLink="/organisation/update-address"
+          id="change-address__link" aria-label="Change address">Change address</a>
+      </dd>
+      }
     </div>
   </dl>
 
@@ -40,13 +48,13 @@
       <dt class="govuk-summary-list__key">DX reference</dt>
       <dd class="govuk-summary-list__value">
         {{organisationDxAddress.dxNumber}}
-        @if (organisationDxAddress.dxExchange) {<span>, {{organisationDxAddress.dxExchange}}</span>}
+        @if (organisationDxAddress.dxExchange) {<span>, {{organisationDxAddress.dxExchange}}</span>} @if (organisationDetails.pendingContactInformation) {<span> (Pending approval)</span>}
       </dd>
     </div>
   </dl>}
 
   <!-- Organisation type -->
-  @if (organisationType) {<dl id="organisation-type" class="govuk-summary-list">
+  @if (organisationType && organisationType !== '') {<dl id="organisation-type" class="govuk-summary-list">
     <div class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key">Organisation type</dt>
       <dd class="govuk-summary-list__value">{{orgTypeDescription}}</dd>
@@ -77,7 +85,7 @@
   </dl>
 
   <!-- Regulatory organisation type -->
-  @if (regulators?.length) {<dl id="regulators" class="govuk-summary-list">
+  @if (regulators?.length > 0) {<dl id="regulators" class="govuk-summary-list">
     <div class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key">
         Regulatory organisation type
@@ -139,14 +147,30 @@
       <tr class="govuk-table__row">
         <th class="govuk-table__header" scope="row">Address</th>
         <td class="govuk-table__cell">
-          <!-- Contact Information -->
-          <div>{{organisationContactInformation.addressLine1}}</div>
-          @if (organisationContactInformation.addressLine2) {<div>{{organisationContactInformation.addressLine2}}</div>}
-          @if (organisationContactInformation.addressLine3) {<div>{{organisationContactInformation.addressLine3}}</div>}
-          <div>{{organisationContactInformation.townCity}}</div>
-          <div>{{organisationContactInformation.county}}</div>
-          @if (organisationContactInformation.postCode) {<div>{{organisationContactInformation.postCode}}</div>}
-          <!-- !Contact Information -->
+          <div class="govuk-grid-row organisation-address">
+            <div class="govuk-grid-column-three-quarters organisation-address__details">
+              <!-- Contact Information -->
+              <div>{{organisationContactInformation.addressLine1}}</div>
+              @if (organisationContactInformation.addressLine2) {<div>{{organisationContactInformation.addressLine2}}
+              </div>}
+              @if (organisationContactInformation.addressLine3) {<div>{{organisationContactInformation.addressLine3}}
+              </div>}
+              <div>{{organisationContactInformation.townCity}}</div>
+              <div>{{organisationContactInformation.county}}</div>
+              @if (organisationContactInformation.postCode) {<div>{{organisationContactInformation.postCode}}</div>}
+              <!-- !Contact Information -->
+              @if (organisationDxAddress && organisationDxAddress.dxNumber) {<div> DX:{{organisationDxAddress.dxNumber}}
+              </div>}
+              @if (organisationDxAddress && organisationDxAddress.dxExchange) {<div>{{organisationDxAddress.dxExchange}}
+              </div>}
+              @if (organisationDetails.pendingContactInformation) {<div>(Pending approval)</div>}
+            </div>
+            <div class="govuk-grid-column-one-quarter govuk-!-text-align-right">
+              @if (showChangeAddressLink) {<a class="govuk-link fright organisation-address__change-link"
+                routerLink="/organisation/update-address" id="change-address__link" aria-label="Change address">Change
+                address</a>}
+            </div>
+          </div>
         </td>
       </tr>
       <!-- PBA Numbers -->
@@ -180,12 +204,6 @@
             <p>Until you've added one or more payment by account (PBA) numbers,
               you won't be able to make payments when creating a case or view your transactions.</p>
           </div>
-        </td>
-      </tr>}
-      @if (organisationDxAddress && organisationDxAddress.dxNumber) {<tr class="govuk-table__row">
-        <th class="govuk-table__header" scope="row">DX number</th>
-        <td class="govuk-table__cell">
-          <div>{{organisationDxAddress.dxNumber}}</div>
         </td>
       </tr>}
       @if (organisationDxAddress && organisationDxAddress.dxExchange) {<tr class="govuk-table__row">

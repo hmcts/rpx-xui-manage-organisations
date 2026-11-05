@@ -2,15 +2,21 @@
 import { ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { OrganisationComponent } from './containers';
+import { OrganisationGuard } from '../organisation/guards/organisation.guard';
+import { HealthCheckGuard } from '../shared/guards/health-check.guard';
+import { UserRoleGuard } from '../shared/guards/user-role.guard';
+import { AuthGuard } from '../user-profile/guards/auth.guard';
+import {
+  OrganisationComponent,
+  UpdateAddressCheckComponent,
+  UpdateAddressComponent,
+  UpdateAddressDocumentExchangeComponent,
+  UpdateAddressDocumentExchangeDetailsComponent
+} from './containers';
 import { UpdatePbaNumbersCheckComponent } from './containers/update-pba-check/update-pba-numbers-check.component';
 import { UpdatePbaNumbersComponent } from './containers/update-pba-numbers/update-pba-numbers.component';
-
-import { OrganisationGuard } from 'src/organisation/guards/organisation.guard';
-import { AuthGuard } from 'src/user-profile/guards/auth.guard';
-import { HealthCheckGuard } from 'src/shared/guards/health-check.guard';
-import { UserRoleGuard } from 'src/shared/guards/user-role.guard';
 import { OrganisationModule } from './organisation.module';
+import { AddressUpdateGuard } from './guards/address-update.guard';
 
 export const ROUTES: Routes = [
   {
@@ -20,6 +26,32 @@ export const ROUTES: Routes = [
       AuthGuard,
       OrganisationGuard,
       HealthCheckGuard
+    ]
+  },
+  {
+    path: 'organisation/update-address',
+    canActivate: [
+      AuthGuard,
+      AddressUpdateGuard,
+      HealthCheckGuard
+    ],
+    children: [
+      {
+        path: '',
+        component: UpdateAddressComponent
+      },
+      {
+        path: 'document-exchange-reference',
+        component: UpdateAddressDocumentExchangeComponent
+      },
+      {
+        path: 'document-exchange-reference-details',
+        component: UpdateAddressDocumentExchangeDetailsComponent
+      },
+      {
+        path: 'check',
+        component: UpdateAddressCheckComponent
+      }
     ]
   },
   {

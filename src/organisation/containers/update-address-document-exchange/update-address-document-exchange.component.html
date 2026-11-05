@@ -1,0 +1,8 @@
+<app-document-exchange-question
+  caption="Update organisation address"
+  [hasDxReference]="hasDxReference"
+  [useMainWrapperBackLink]="true"
+  (submitted)="onContinue($event)"
+  (backRequested)="onBack()"
+  (cancelled)="onCancel()">
+</app-document-exchange-question>

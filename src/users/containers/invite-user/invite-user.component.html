@@ -3,8 +3,7 @@
                          [title]="'Invite user'"
                          [showWarningMessage]="showWarningMessage">
 
-  <p class="govuk-body">When you send this invitation, the user will receive an email from HM Courts and
-     Tribunals Registrations so they can finish setting up their account.</p>
+  <p class="govuk-body">{{ 'When you send this invitation, the user will receive an email from HM Courts and Tribunals Registrations so they can finish setting up their account.' | rpxTranslate }}</p>
 
   <app-invite-user-form [errorMessages]="errors$ | async"
     [inviteUserForm]="inviteUserForm"

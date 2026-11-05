@@ -1,8 +1,8 @@
 @if (backLink && !backAction) {
-  <a [routerLink]="backLink" class="govuk-back-link">Back</a>
+  <a [routerLink]="backLink" class="govuk-back-link">{{ 'Back' | rpxTranslate }}</a>
 }
 @if (!backLink && backAction) {
-  <a (click)="backAction()" class="govuk-back-link">Back</a>
+  <a (click)="backAction()" class="govuk-back-link">{{ 'Back' | rpxTranslate }}</a>
 }
 <main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
   <div class="govuk-grid-row">
@@ -15,7 +15,7 @@
         </app-hmcts-error-summary>
       }
       @if (title) {
-        <h1 class="govuk-heading-xl">{{title}}</h1>
+        <h1 class="govuk-heading-xl">{{ title | rpxTranslate }}</h1>
       }
       <ng-content></ng-content>
     </div>
@@ -28,7 +28,7 @@
               tabindex="0"
               draggable="false"
               class="govuk-button {{ actionButton.class }}"
-            >{{ actionButton.name }}</button>
+            >{{ actionButton.name | rpxTranslate }}</button>
           }
         </div>
       </div>

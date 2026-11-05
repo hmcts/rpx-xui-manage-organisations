@@ -4,6 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import * as fromAppStore from '../../../app/store';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { ServiceDownComponent } from './service-down.component';
 
 const initialState = {
@@ -21,7 +22,7 @@ describe('ServiceDownComponent', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [ServiceDownComponent],
-      imports: [RouterTestingModule],
+      imports: [RpxTranslationTestingModule, RouterTestingModule],
       providers: [
         provideMockStore({ initialState })
       ]

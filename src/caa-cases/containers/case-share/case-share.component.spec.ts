@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { buildMockStoreProviders } from '../../../register-org/testing/mock-store-state';
 import { of } from 'rxjs';
 import { CaaCasesState } from '../../store/reducers';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { CaseShareComponent } from './case-share.component';
 import { CaaCasesPageType } from '../../models/caa-cases.enum';
 import * as fromCasesFeature from '../../store';
@@ -32,7 +33,7 @@ describe('CaseShareComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RpxTranslationTestingModule, RouterTestingModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [CaseShareComponent],
       providers: [

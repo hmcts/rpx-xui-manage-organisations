@@ -1,6 +1,6 @@
 @if (group) {
   <ng-container [formGroup]="group">
-    <input id="{{control}}" [class]="classes" [type]="typeBtn" [formControlName]="control" [value]="value"
+    <input id="{{control}}" [class]="classes" [type]="typeBtn" [formControlName]="control" [value]="value | rpxTranslate"
       (click)="onClick($event)">
   </ng-container>
 }

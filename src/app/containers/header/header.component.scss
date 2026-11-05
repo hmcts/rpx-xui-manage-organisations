@@ -9,6 +9,11 @@ app-phase-banner {
     width: 100%;
 }
 
+.govuk-phase-banner .language {
+    float: right;
+    font-family: "GDS Transport", Arial, sans-serif;
+}
+
 .hmcts-phase-banner__tag {
     color: #ffffff;
     background-color: #1d70b8;

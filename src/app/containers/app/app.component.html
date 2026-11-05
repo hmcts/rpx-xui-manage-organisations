@@ -7,7 +7,7 @@
   ></xuilib-cookie-banner>
 }
 
-<a [routerLink]="" fragment="{{mainContentId}}" class="govuk-skip-link" (click)="onFocusMainContent()">Skip to main content</a>
+<a [routerLink]="" fragment="{{mainContentId}}" class="govuk-skip-link" (click)="onFocusMainContent()">{{ 'Skip to main content' | rpxTranslate }}</a>
 <app-loader></app-loader>
 
 <app-header
@@ -26,16 +26,13 @@
 
 @if ((modalData$ | async).isVisible) {
   <xuilib-session-dialog positionTop="300px" (close)="onStaySignedIn()">
-    <p class="govuk-body">For your security, we will sign you out of your account in
-      <strong>{{(modalData$ | async).countdown}}</strong>
+    <p class="govuk-body">{{ 'For your security, we will sign you out of your account in' | rpxTranslate }} <strong>{{(modalData$ | async).countdown}}</strong>
     </p>
-    <p>Any information you have not saved will be lost</p>
+    <p>{{ 'Any information you have not saved will be lost' | rpxTranslate }}</p>
     <button type="submit" class="govuk-button stay-signed-in-button" (click)="onStaySignedIn()">
-      Stay signed in
-    </button>
+       {{ 'Stay signed in' | rpxTranslate }} </button>
     <button type="submit" class="govuk-button govuk-button--secondary" (click)="onNavigate('sign-out')">
-      Sign out
-    </button>
+       {{ 'Sign out' | rpxTranslate }} </button>
   </xuilib-session-dialog>
 }
 

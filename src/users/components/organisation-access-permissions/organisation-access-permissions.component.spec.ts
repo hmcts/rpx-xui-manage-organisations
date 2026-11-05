@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ExuiCommonLibModule, User, UserAccessType } from '@hmcts/rpx-xui-common-lib';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { OrganisationAccessPermissionsComponent } from './organisation-access-permissions.component';
 import { Jurisdiction } from 'src/models';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -100,7 +101,7 @@ describe('OrganisationAccessPermissionsComponent', () => {
       declarations: [OrganisationAccessPermissionsComponent, StandardUserPermissionsComponent,
         SolicitorProfileContentComponent,
         JurisdictionAccessOptionsComponent],
-      imports: [ReactiveFormsModule, ExuiCommonLibModule],
+      imports: [RpxTranslationTestingModule, ReactiveFormsModule, ExuiCommonLibModule],
       providers: [
         { provide: RpxTranslationService, useValue: translationMockService },
         { provide: ENVIRONMENT_CONFIG, useValue: mockEnvironmentConfig }

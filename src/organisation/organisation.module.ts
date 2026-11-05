@@ -1,4 +1,5 @@
 import { ErrorHandler, NgModule } from '@angular/core';
+import { RpxTranslationModule } from 'rpx-xui-translation';
 
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
@@ -28,6 +29,7 @@ import { effects, reducers } from './store';
 
 @NgModule({ exports: [...fromContainers.containers, ...fromComponent.components],
   declarations: [...fromContainers.containers, ...fromComponent.components], imports: [CommonModule,
+    RpxTranslationModule.forChild(),
     organisationRouting,
     SharedModule,
     StoreModule.forFeature('org', reducers),

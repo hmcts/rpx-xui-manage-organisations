@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { RpxTranslationModule } from 'rpx-xui-translation';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule } from '@angular/forms';
@@ -15,6 +16,7 @@ import * as fromComponents from './components';
 
 @NgModule({ exports: [...fromContainers.containers, ...fromComponents.components],
   declarations: [...fromContainers.containers, ...fromComponents.components], imports: [CommonModule,
+    RpxTranslationModule.forChild(),
     styleGuideRouting,
     SharedModule,
     StoreModule.forFeature('style-guide', reducers),

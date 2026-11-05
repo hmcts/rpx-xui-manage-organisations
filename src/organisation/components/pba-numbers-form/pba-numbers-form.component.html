@@ -1,12 +1,12 @@
 <app-hmcts-main-wrapper [backAction]="resetChanges()" [title]="title" [summaryErrors]="summaryErrors">
   <div>
-    <p>We will need to verify any new PBA numbers before they can be used to pay for a case.</p>
+    <p>{{ 'We will need to verify any new PBA numbers before they can be used to pay for a case.' | rpxTranslate }}</p>
 
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
 
         @if (noAccountsAdded) {
-          <p>No PBA accounts added.</p>
+          <p>{{ 'No PBA accounts added.' | rpxTranslate }}</p>
         }
 
         <table class="govuk-table">
@@ -16,8 +16,8 @@
                 <th class="govuk-table__header" scope="row">{{pba.pbaNumber}}</th>
                 <td class="govuk-table__cell">
                   <a class="govuk-link fright" id="remove-pba-account-number__link" [routerLink]=""
-                    aria-label="Remove PBA account number"
-                  (click)="onRemoveExistingPaymentByAccountNumberClicked(pba)">Remove</a>
+                    [attr.aria-label]="'Remove PBA account number' | rpxTranslate"
+                    (click)="onRemoveExistingPaymentByAccountNumberClicked(pba)">{{ 'Remove' | rpxTranslate }}</a>
                 </td>
               </tr>
             }
@@ -28,7 +28,7 @@
           <table class="govuk-table">
             <thead class="govuk-table__head">
               <tr class="govuk-table__row">
-                <th class="govuk-table__header" colspan="2">To be removed</th>
+                <th class="govuk-table__header" colspan="2">{{ 'To be removed' | rpxTranslate }}</th>
               </tr>
             </thead>
             <tbody class="govuk-table__body">
@@ -37,8 +37,8 @@
                   <th class="govuk-table__header" scope="row">{{pba.pbaNumber}}</th>
                   <td class="govuk-table__cell">
                     <a class="govuk-link fright" id="remove-pba-account-number__link" [routerLink]=""
-                      aria-label="Remove PBA account number"
-                    (click)="onCancelRemoveExistingPaymentByAccountNumberClicked(pba)">Cancel</a>
+                      [attr.aria-label]="'Remove PBA account number' | rpxTranslate"
+                      (click)="onCancelRemoveExistingPaymentByAccountNumberClicked(pba)">{{ 'Cancel' | rpxTranslate }}</a>
                   </td>
                 </tr>
               }
@@ -52,7 +52,7 @@
                 <div [formGroupName]="i">
                   <button type="button" class="govuk-button hmcts-button--secondary fright"
                     (click)="onRemoveNewPbaNumberClicked(i)">
-                    Remove
+                    {{ 'Remove' | rpxTranslate }}
                   </button>
                   <app-prd-pba-number-input-component [id]="'pba-number-input' + i" [group]="pbaNumberCtrl">
                   </app-prd-pba-number-input-component>
@@ -66,12 +66,10 @@
 
     <div>
       <button type="submit" class="govuk-button hmcts-button--secondary" (click)="onAddNewBtnClicked()">
-        Add another PBA number
-      </button>
+         {{ 'Add another PBA number' | rpxTranslate }} </button>
     </div>
 
     <button type="submit" class="govuk-button" [disabled]="pbaFormGroup.invalid" (click)="onClickContinue()">
-      Continue
-    </button>
+       {{ 'Continue' | rpxTranslate }} </button>
   </div>
 </app-hmcts-main-wrapper>

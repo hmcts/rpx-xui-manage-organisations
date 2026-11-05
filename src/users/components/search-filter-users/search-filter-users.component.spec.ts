@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { SearchFilterUserComponent } from './search-filter-users.component';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -14,6 +15,7 @@ describe('SearchFilterUserComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
+        RpxTranslationTestingModule,
         ReactiveFormsModule,
         ExuiCommonLibModule,
         MatAutocompleteModule

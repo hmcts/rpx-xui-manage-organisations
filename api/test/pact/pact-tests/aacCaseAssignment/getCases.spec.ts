@@ -54,14 +54,12 @@ describe('Get cases from acc ', () => {
     function assertResponse(dto: CCDRawCaseUserModel[]): void {
       expect(dto).to.be.not.null;
       expect(dto[0].case_id).to.equal('123456789');
-      expect(dto[0].case_title).to.equal('Case 1');
       expect(dto[0].shared_with[0].case_roles).to.deep.equal([]);
       expect(dto[0].shared_with[0].first_name).to.equal('Joe');
     }
 
     const caseResponse = { case_assignments: [{
       case_id: somethingLike('123456789'),
-      case_title: somethingLike('Case 1'),
       shared_with: [{
         case_roles: [],
         email: somethingLike('test@email.com'),

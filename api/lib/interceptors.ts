@@ -56,7 +56,6 @@ export function errorInterceptor(error) {
 
   const method = error.config.method.toUpperCase();
   const status = valueOrNull(error, 'response.status') || error.status;
-  const errorMessage = valueOrNull(error, 'response.data.message') || valueOrNull(error, 'response.data.errorMessage') || error.message;
 
   // application insights logging
   logger.trackRequest({
@@ -69,11 +68,10 @@ export function errorInterceptor(error) {
 
   logger.error('Outbound service call failed', {
     duration: error.duration,
-    message: errorMessage,
     method,
     status,
     target: formatServiceUrl(error.config.url)
   });
 
-  return Promise.reject(error.response);
+  return Promise.reject(error.response ?? error);
 }

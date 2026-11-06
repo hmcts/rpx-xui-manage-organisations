@@ -140,12 +140,36 @@ describe('AddressEntryComponent', () => {
     });
     component.onContinue();
 
-    expect(component.addressErrors).toContain({
+    expect(component.addressErrors).toEqual([{
       id: 'postCode',
       message: AddressMessageEnum.INVALID_POSTCODE
-    });
+    }]);
     expect(component.submissionAttempted).toBeTrue();
   });
+
+  for (const field of [
+    { name: 'addressLine1', international: false, message: AddressMessageEnum.NO_STREET_SELECTED },
+    { name: 'postTown', international: false, message: AddressMessageEnum.NO_CITY_SELECTED },
+    { name: 'country', international: true, message: AddressMessageEnum.NO_COUNTRY_SELECTED }
+  ]) {
+    it(`should reject whitespace-only ${field.name} without emitting an address`, () => {
+      const component = new AddressEntryComponent();
+      component.ngOnInit();
+      component.onInternationalModeStart();
+      component.onOptionSelected(field.international);
+      component.formGroup.get('address')?.patchValue({
+        ...address,
+        country: field.international ? 'France' : 'UK',
+        [field.name]: ' \t '
+      });
+      spyOn(component.submitted, 'emit');
+
+      component.onContinue();
+
+      expect(component.submitted.emit).not.toHaveBeenCalled();
+      expect(component.addressErrors).toEqual([{ id: field.name, message: field.message }]);
+    });
+  }
 
   it('should ask the user to select an address when lookup results are available', () => {
     const component = new AddressEntryComponent();

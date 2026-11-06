@@ -43,12 +43,12 @@
   </dl>
 
   <!-- DX reference -->
-  @if (organisationDxAddress?.dxNumber) {<dl class="govuk-summary-list">
+  @if (organisationDxAddress?.dxNumber || organisationDxAddress?.dxExchange) {<dl class="govuk-summary-list">
     <div class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key">DX reference</dt>
       <dd class="govuk-summary-list__value">
         {{organisationDxAddress.dxNumber}}
-        @if (organisationDxAddress.dxExchange) {<span>, {{organisationDxAddress.dxExchange}}</span>} @if (organisationDetails.pendingContactInformation) {<span> (Pending approval)</span>}
+        @if (organisationDxAddress.dxExchange) {<span>{{organisationDxAddress.dxNumber ? ', ' : ''}}{{organisationDxAddress.dxExchange}}</span>} @if (organisationDetails.pendingContactInformation) {<span> (Pending approval)</span>}
       </dd>
     </div>
   </dl>}
@@ -204,12 +204,6 @@
             <p>Until you've added one or more payment by account (PBA) numbers,
               you won't be able to make payments when creating a case or view your transactions.</p>
           </div>
-        </td>
-      </tr>}
-      @if (organisationDxAddress && organisationDxAddress.dxExchange) {<tr class="govuk-table__row">
-        <th class="govuk-table__header" scope="row">DX exchange</th>
-        <td class="govuk-table__cell">
-          <div>{{organisationDxAddress.dxExchange}}</div>
         </td>
       </tr>}
       @if (organisationDetails.superUser) {<tr class="govuk-table__row">

@@ -1,5 +1,5 @@
 // routes
-import { ModuleWithProviders } from '@angular/core';
+import { inject, ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { OrganisationGuard } from '../organisation/guards/organisation.guard';
@@ -30,6 +30,8 @@ export const ROUTES: Routes = [
   },
   {
     path: 'organisation/update-address',
+    data: { role: 'pui-organisation-manager' },
+    canActivateChild: [(route) => inject(UserRoleGuard).canActivate(route)],
     canActivate: [
       AuthGuard,
       AddressUpdateGuard,

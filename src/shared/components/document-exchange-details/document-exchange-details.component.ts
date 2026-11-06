@@ -16,6 +16,8 @@ export class DocumentExchangeDetailsComponent implements OnChanges {
   @Input() public dxNumber: string | null = null;
   @Input() public dxExchange: string | null = null;
   @Input() public useMainWrapperBackLink = false;
+  @Input() public dxExchangeMaxLength = 20;
+  @Input() public requirePairedDetails = false;
 
   @Output() public readonly submitted = new EventEmitter<DocumentExchangeDetails>();
   @Output() public readonly backRequested = new EventEmitter<void>();
@@ -39,6 +41,10 @@ export class DocumentExchangeDetailsComponent implements OnChanges {
   public dxExchangeError: { id: string, message: string } | null = null;
 
   public ngOnChanges(changes: SimpleChanges): void {
+    if (changes.dxExchangeMaxLength) {
+      this.formGroup.controls.dxExchange.setValidators(Validators.maxLength(this.dxExchangeMaxLength));
+      this.formGroup.controls.dxExchange.updateValueAndValidity({ emitEvent: false });
+    }
     if (changes.dxNumber || changes.dxExchange) {
       this.formGroup.patchValue({
         dxNumber: this.dxNumber ?? '',
@@ -59,12 +65,21 @@ export class DocumentExchangeDetailsComponent implements OnChanges {
     this.dxNumberError = null;
     this.dxExchangeError = null;
 
-    if (this.formGroup.get('dxNumber')?.invalid) {
+    const { dxNumber, dxExchange } = this.formGroup.getRawValue();
+    if (this.formGroup.controls.dxNumber.invalid || (this.requirePairedDetails && dxNumber && !dxNumber.trim())) {
       this.dxNumberError = { message: 'Enter valid DX number', id: 'dx-number' };
+    } else if (this.requirePairedDetails && dxExchange.trim() && !dxNumber) {
+      this.dxNumberError = { message: 'Enter DX number', id: 'dx-number' };
+    }
+    if (this.dxNumberError) {
       this.validationErrors.push(this.dxNumberError);
     }
-    if (this.formGroup.get('dxExchange')?.invalid) {
+    if (this.formGroup.controls.dxExchange.invalid || (this.requirePairedDetails && dxExchange && !dxExchange.trim())) {
       this.dxExchangeError = { message: 'Enter valid DX exchange', id: 'dx-exchange' };
+    } else if (this.requirePairedDetails && dxNumber.trim() && !dxExchange) {
+      this.dxExchangeError = { message: 'Enter DX exchange', id: 'dx-exchange' };
+    }
+    if (this.dxExchangeError) {
       this.validationErrors.push(this.dxExchangeError);
     }
     if (this.validationErrors.length) {

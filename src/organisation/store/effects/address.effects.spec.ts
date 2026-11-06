@@ -12,6 +12,7 @@ import {
   OrganisationUpdateAddressSuccess
 } from '../actions';
 import { AddressEffects } from './address.effects';
+import { Go } from '../../../app/store';
 
 describe('AddressEffects', () => {
   let actions$;
@@ -56,16 +57,29 @@ describe('AddressEffects', () => {
     expect(effects.updateAddress$).toBeObservable(cold('-b', {
       b: new OrganisationUpdateAddressSuccess(contactInformation)
     }));
+    expect(organisationService.updateAddress).toHaveBeenCalledWith(contactInformation);
   });
 
-  [401, 403, 502].forEach((status) => {
-    it(`should retain the draft and return an error action for a ${status} response`, () => {
+  [0, 400, 500].forEach((status) => {
+    it(`should return an error action for status ${status}`, () => {
       const error = new HttpErrorResponse({ status, statusText: 'Update failed' });
       organisationService.updateAddress.and.returnValue(throwError(() => error));
       actions$ = hot('-a', { a: new OrganisationUpdateAddress(contactInformation) });
 
       expect(effects.updateAddress$).toBeObservable(cold('-b', {
         b: new OrganisationUpdateAddressError(error)
+      }));
+    });
+  });
+
+  [401, 403, 502].forEach((status) => {
+    it(`should clear the pending request before routing HTTP ${status} to service down`, () => {
+      const error = new HttpErrorResponse({ status });
+      organisationService.updateAddress.and.returnValue(throwError(() => error));
+      actions$ = hot('-a', { a: new OrganisationUpdateAddress(contactInformation) });
+      expect(effects.updateAddress$).toBeObservable(cold('-(bc)', {
+        b: new OrganisationUpdateAddressError(error),
+        c: new Go({ path: ['/service-down'] })
       }));
     });
   });

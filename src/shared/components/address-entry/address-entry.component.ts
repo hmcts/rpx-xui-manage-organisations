@@ -5,6 +5,7 @@ import { postcodeValidator } from '../../../custom-validators/postcode.validator
 
 const POSTCODE_HEADING = 'What is the registered address of your organisation?';
 const INTERNATIONAL_HEADING = 'Is this a UK address?';
+const REQUIRED_TEXT_VALIDATORS = [Validators.required, Validators.pattern(/\S/)];
 
 export interface AddressEntryResult {
   address: AddressModel;
@@ -103,7 +104,7 @@ export class AddressEntryComponent implements OnInit, OnChanges {
   public onOptionSelected(isInternational: boolean): void {
     this.isInternational = isInternational;
     this.submissionAttempted = false;
-    this.formGroup.get('address')?.get('country')?.setValidators(this.isInternational ? [Validators.required] : null);
+    this.formGroup.get('address')?.get('country')?.setValidators(this.isInternational ? REQUIRED_TEXT_VALIDATORS : null);
     this.formGroup.get('address')?.get('postCode')?.setValidators(this.isInternational ? null : [Validators.required, postcodeValidator()]);
     this.formGroup.get('address')?.get('country')?.updateValueAndValidity();
     this.formGroup.get('address')?.get('postCode')?.updateValueAndValidity();
@@ -176,7 +177,8 @@ export class AddressEntryComponent implements OnInit, OnChanges {
   }
 
   private addErrorIfInvalid(controlName: string, message: AddressMessageEnum): void {
-    if (!this.formGroup.get('address')?.get(controlName)?.value) {
+    const control = this.formGroup.get('address')?.get(controlName);
+    if (control?.hasError('required') || control?.hasError('pattern')) {
       this.addressErrors.push({ id: controlName, message });
     }
   }
@@ -194,12 +196,12 @@ export class AddressEntryComponent implements OnInit, OnChanges {
     const country = givenAddress?.country ?? (this.isInternational ? null : 'UK');
     this.formGroup = new FormGroup({
       address: new FormGroup({
-        addressLine1: new FormControl(givenAddress?.addressLine1 ?? null, Validators.required),
+        addressLine1: new FormControl(givenAddress?.addressLine1 ?? null, REQUIRED_TEXT_VALIDATORS),
         addressLine2: new FormControl(givenAddress?.addressLine2 ?? null),
         addressLine3: new FormControl(givenAddress?.addressLine3 ?? null),
-        postTown: new FormControl(givenAddress?.postTown ?? null, Validators.required),
+        postTown: new FormControl(givenAddress?.postTown ?? null, REQUIRED_TEXT_VALIDATORS),
         county: new FormControl(givenAddress?.county ?? null),
-        country: new FormControl(country, this.isInternational ? Validators.required : null),
+        country: new FormControl(country, this.isInternational ? REQUIRED_TEXT_VALIDATORS : null),
         postCode: new FormControl(
           givenAddress?.postCode ?? null,
           this.isInternational ? null : [Validators.required, postcodeValidator()]

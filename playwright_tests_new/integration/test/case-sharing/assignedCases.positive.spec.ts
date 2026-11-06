@@ -38,6 +38,7 @@ test.describe('Assigned cases UI filtering and sharing payloads', { tag: ['@inte
 
     await page.goto('/');
     await page.getByRole('link', { name: 'Cases', exact: true }).click();
+    await assignedCasesPage.waitForReady();
 
     await expect(page).toHaveURL(/\/cases$/);
     await expect(assignedCasesPage.pageHeading).toBeVisible();

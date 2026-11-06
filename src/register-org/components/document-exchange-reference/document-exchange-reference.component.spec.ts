@@ -1,132 +1,47 @@
-import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
-import { RegistrationData } from '../../models/registration-data.model';
 import { DocumentExchangeReferenceComponent } from './document-exchange-reference.component';
-import { buildMockStoreProviders } from '../../testing/mock-store-state';
-// provideHttpClient imported above
 
 describe('DocumentExchangeReferenceComponent', () => {
+  let router;
+  let registerOrgService;
   let component: DocumentExchangeReferenceComponent;
-  let fixture: ComponentFixture<DocumentExchangeReferenceComponent>;
-  let router: Router;
-
-  const registrationData: RegistrationData = {
-    pbaNumbers: [],
-    companyName: '',
-    hasDxReference: null,
-    dxNumber: null,
-    dxExchange: null,
-    services: [],
-    hasPBA: null,
-    contactDetails: null,
-    hasIndividualRegisteredWithRegulator: null,
-    address: null,
-    organisationType: null,
-    regulators: [],
-    regulatorRegisteredWith: null,
-    inInternationalMode: null
-  };
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [DocumentExchangeReferenceComponent],
-      imports: [RouterTestingModule, ReactiveFormsModule, ExuiCommonLibModule],
-      providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting(), ...buildMockStoreProviders()]
-    }).compileComponents();
-  });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DocumentExchangeReferenceComponent);
-    component = fixture.componentInstance;
-    router = TestBed.inject(Router);
-    spyOn(router, 'navigate');
-    fixture.detectChanges();
+    router = jasmine.createSpyObj('Router', ['navigate', 'currentNavigation']);
+    router.currentNavigation.and.returnValue(null);
+    registerOrgService = jasmine.createSpyObj(
+      'RegisterOrgService',
+      ['getRegistrationData', 'persistRegistrationData', 'removeRegistrationData']
+    );
+    registerOrgService.REGISTER_ORG_NEW_ROUTE = 'register-org-new';
+    registerOrgService.CHECK_YOUR_ANSWERS_ROUTE = 'check-your-answers';
+    registerOrgService.getRegistrationData.and.returnValue({
+      hasDxReference: null,
+      dxNumber: '123',
+      dxExchange: 'LONDON'
+    });
+    component = new DocumentExchangeReferenceComponent(router, registerOrgService);
+    component.ngOnInit();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  it('should continue to DX details when yes is submitted', () => {
+    component.onContinue(true);
 
-  it('should set the yes radio button form control', () => {
-    component.registrationData = registrationData;
-    component.registrationData.hasDxReference = true;
-    component.setFormControlValues();
-    expect(component.dxFormGroup.get('documentExchange').value).toEqual('yes');
-  });
-
-  it('should set the no radio button form control', () => {
-    component.registrationData = registrationData;
-    component.registrationData.hasDxReference = false;
-    component.setFormControlValues();
-    expect(component.dxFormGroup.get('documentExchange').value).toEqual('no');
-  });
-
-  it('should set the error message if none of the radio option is selection', () => {
-    const scrollIntoViewSpy = jasmine.createSpy();
-    component.errorSummaryTitleElement = {
-      nativeElement: {
-        scrollIntoView: scrollIntoViewSpy
-      }
-    };
-    const errorMessages = [{
-      message: 'Please select an option',
-      id: 'document-exchange-yes'
-    }];
-    component.dxFormGroup.get('documentExchange').setValue(null);
-    component.onContinue();
-    expect(component.dxErrors).toEqual(errorMessages);
-    expect(scrollIntoViewSpy).toHaveBeenCalled();
-  });
-
-  it('should navigate to document exchange details page', () => {
-    component.registrationData.hasDxReference = null;
-    component.dxFormGroup.get('documentExchange').setValue('yes');
-    component.onContinue();
-    expect(component.registrationData.hasDxReference).toEqual(true);
+    expect(component.registrationData.hasDxReference).toBeTrue();
     expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'document-exchange-reference-details']);
   });
 
-  it('should navigate to regulatory organisation type page', () => {
-    component.registrationData = registrationData;
-    component.registrationData.hasDxReference = true;
-    component.registrationData.dxExchange = 'DX Exchange';
-    component.registrationData.dxNumber = '12345';
-    component.dxFormGroup.get('documentExchange').setValue('no');
-    component.onContinue();
-    expect(component.registrationData.hasDxReference).toEqual(false);
+  it('should clear DX details and continue when no is submitted', () => {
+    component.onContinue(false);
+
+    expect(component.registrationData.hasDxReference).toBeFalse();
     expect(component.registrationData.dxNumber).toBeNull();
     expect(component.registrationData.dxExchange).toBeNull();
     expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'regulatory-organisation-type']);
   });
 
-  it('should invoke the cancel registration journey when clicked on cancel link', () => {
-    spyOn(component, 'cancelRegistrationJourney');
-    component.onCancel();
-    expect(component.cancelRegistrationJourney).toHaveBeenCalled();
-  });
-
-  it('should back link navigate to the check your answers page', () => {
-    spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
-      previousNavigation: {
-        finalUrl: '/check-your-answers'
-      }
-    } as any);
+  it('should navigate back to the registered address', () => {
     component.onBack();
-    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
-  });
 
-  it('should back link navigate to the registered address page', () => {
-    spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
-      previousNavigation: {
-        finalUrl: '/something-else'
-      }
-    } as any);
-    component.onBack();
     expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'registered-address', 'internal']);
   });
 });

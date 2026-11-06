@@ -59,6 +59,7 @@ test.describe('SRT organisation visual baseline', {
 
     await page.goto('/');
     await page.getByRole('link', { name: 'Cases', exact: true }).click();
+    await casesPage.waitForReady();
     await expect(casesPage.pageHeading).toBeVisible();
     await expect(casesPage.caseList).toContainText(unassignedAsylumCase.caseReference);
     await page.evaluate(() => document.fonts.ready);

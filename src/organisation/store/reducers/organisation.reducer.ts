@@ -39,7 +39,7 @@ export function reducer(
     case fromOrganisation.LOAD_ORGANISATION_SUCCESS: {
       const paymentAccount: PBANumberModel[] = [];
       // if the users are loaded before organisation, the profile ids will be added since this is not provided by the GET operation
-      const newPayload = { ...action.payload, organisationProfileIds: state.organisationDetails?.organisationProfileIds ?? [] };
+      const newPayload = { ...action.payload, organisationProfileIds: state.organisationDetails?.organisationProfileIds };
       const newAction = { ...action, payload: newPayload };
       newPayload.paymentAccount.forEach((pba) => {
         let pbaNumberModel: PBANumberModel;
@@ -170,9 +170,6 @@ export function reducer(
 
     case fromOrganisation.ORGANISATION_UPDATE_PROFILE_IDS: {
       const organisationDetails = state.organisationDetails;
-      if (organisationDetails === null) {
-        throw new Error('Cannot update profile IDs before organisation details are loaded.');
-      }
       const existingProfileIds =
         organisationDetails?.organisationProfileIds ?? [];
 

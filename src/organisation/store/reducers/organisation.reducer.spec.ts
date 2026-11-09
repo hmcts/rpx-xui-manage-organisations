@@ -1,3 +1,4 @@
+import { OrganisationDetails } from '../../../models/organisation.model';
 import * as fromActions from '../actions/organisation.actions';
 import * as fromOrganisation from './organisation.reducer';
 
@@ -136,6 +137,28 @@ describe('OrganisationReducer', () => {
       expect(state.organisationDetails.contactInformation[0]).toEqual(contactInformation);
       expect(state.addressUpdateDraft).toBeNull();
       expect(state.addressUpdating).toBeFalse();
+    });
+
+    it('should keep the draft and confirmed organisation after an update fails', () => {
+      const organisationDetails = {
+        organisationIdentifier: 'ORG1',
+        contactInformation: [{ addressLine1: 'Original address' }]
+      } as OrganisationDetails;
+      const error = new Error('Update failed');
+      const state = fromOrganisation.reducer(
+        {
+          ...fromOrganisation.initialState,
+          organisationDetails,
+          addressUpdateDraft: draftAddress,
+          addressUpdating: true
+        },
+        new fromActions.OrganisationUpdateAddressError(error)
+      );
+
+      expect(state.organisationDetails).toBe(organisationDetails);
+      expect(state.addressUpdateDraft).toBe(draftAddress);
+      expect(state.addressUpdating).toBeFalse();
+      expect(state.addressUpdateError).toBe(error);
     });
 
     it('should clear an abandoned draft without changing the organisation', () => {

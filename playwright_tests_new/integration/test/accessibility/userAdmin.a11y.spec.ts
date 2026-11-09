@@ -42,6 +42,8 @@ test.describe('User administration accessibility', {
 
     await userAdminPage.openUsers();
     await userAdminPage.openUserDetails(userAdminActiveUser.email);
+    await expect(userAdminPage.userDetailsHeading).toBeVisible();
+    const userDetailsUrl = page.url();
     await userAdminPage.openSuspendConfirmation();
 
     await expect(userAdminPage.suspendAccountHeading).toBeVisible();
@@ -52,7 +54,15 @@ test.describe('User administration accessibility', {
       feature: 'User administration',
       pageState: 'suspend confirmation'
     });
-    await expect.soft(userAdminPage.backLink).toBeVisible();
+    await expect(userAdminPage.backLink).toBeVisible();
+    await userAdminPage.backLink.focus();
+    await expect(userAdminPage.backLink).toBeFocused();
+    await userAdminPage.backLink.press('Enter');
+
+    await expect(userAdminPage.userDetailsHeading).toBeVisible();
+    await expect(userAdminPage.suspendAccountHeading).not.toBeVisible();
+    await expect(page).toHaveURL(userDetailsUrl);
+    expect(new URL(page.url()).hash).toBe('');
 
     expect(routeState.suspendUserRequests).toHaveLength(0);
   });

@@ -1,8 +1,9 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable, catchError, of, throwError } from 'rxjs';
 import { JurisdictionResponse } from 'src/models';
+import { OrganisationContactInformation } from '../../models/organisation.model';
 
 export const ENVIRONMENT = {
   orgUri: '/api/organisation'
@@ -20,12 +21,6 @@ export class OrganisationService {
     return this.http.get<any>(`${ENVIRONMENT.orgUri}/v1`);
   }
 
-  public updateAddress(): Observable<any> {
-    return of(null);
-    // TODO: Implement the actual update address logic when required - below a possible example
-    //return this.http.put<any>(ENVIRONMENT.orgUri, { contactInformation: [contactInformation] });
-  }
-
   public updateName(): Observable<any> {
     return of(null);
     // TODO - Implement the actual update name logic when required
@@ -36,19 +31,27 @@ export class OrganisationService {
     // TODO - Implement the actual SRA ID update logic when required
   }
 
-  private handleError(error: HttpErrorResponse) {
-    if (error.error instanceof ErrorEvent) {
-      // A client-side or network error occurred. Handle it accordingly.
-      console.error('An error occurred:', error.error.message);
-    } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong,
-      console.error(
-        `Backend returned code ${error.status}, ` +
-        'body was:', error.error);
+  public updateAddress(contactInformation: OrganisationContactInformation): Observable<any> {
+    // Need to check the payload for non-empty fields before sending the update request
+    const payload: Record<string, string> = {};
+    const fields = ['addressLine1', 'addressLine2', 'addressLine3', 'townCity', 'county', 'country', 'postCode'] as const;
+    for (const field of fields) {
+      const value = contactInformation[field];
+      if (value?.trim()) {
+        payload[field] = value;
+      }
     }
-    // return an observable with a user-facing error message
-    return throwError(() => 'error please try again later.');
+    const dxAddress = contactInformation.dxAddress[0];
+    for (const field of ['dxNumber', 'dxExchange'] as const) {
+      const value = dxAddress?.[field];
+      if (value?.trim()) {
+        payload[field] = value;
+      }
+    }
+
+    return of(null);
+    // TODO: Implement the actual update address logic when required - below a possible example
+    //return this.http.put<any>(ENVIRONMENT.orgUri, { contactInformation: [contactInformation] });
   }
 
   public retrieveAccessType(organisationProfileIds: string[]): Observable<JurisdictionResponse> {

@@ -16,7 +16,7 @@ export class UpdateAddressCheckComponent implements OnInit, OnDestroy {
   public draftAddress: AddressUpdateDraft | null = null;
   public isSubmitting = false;
   public validationErrors: { id: string, message: string }[] = [];
-  public readonly apiErrorMessage = 'Sorry, there is a problem with the service. Try again later';
+  public readonly apiErrorMessage = 'There was a system error and your request could not be processed. Please try again.';
 
   private readonly destroy$ = new Subject<void>();
 

@@ -3,6 +3,8 @@
   [dxNumber]="dxNumber"
   [dxExchange]="dxExchange"
   [useMainWrapperBackLink]="true"
+  [dxExchangeMaxLength]="40"
+  [requirePairedDetails]="true"
   (submitted)="onContinue($event)"
   (backRequested)="onBack()"
   (cancelled)="onCancel()">

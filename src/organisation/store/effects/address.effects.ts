@@ -4,6 +4,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
 import { LoggerService } from '../../../shared/services/logger.service';
+import * as fromRoot from '../../../app/store';
 import { OrganisationService } from '../../services';
 import * as organisationActions from '../actions';
 
@@ -19,12 +20,15 @@ export class AddressEffects {
   public updateAddress$ = createEffect(() => this.actions$.pipe(
     ofType(organisationActions.ORGANISATION_UPDATE_ADDRESS),
     switchMap((action: organisationActions.OrganisationUpdateAddress) =>
-      this.organisationService.updateAddress().pipe(
+      this.organisationService.updateAddress(action.payload).pipe(
         take(1),
         map(() => new organisationActions.OrganisationUpdateAddressSuccess(action.payload)),
         catchError((error) => {
-          this.loggerService.error(error?.message || 'Unable to update organisation address');
-          return of(new organisationActions.OrganisationUpdateAddressError(error));
+          this.loggerService.error('Unable to update organisation address');
+          const errorAction = new organisationActions.OrganisationUpdateAddressError(error);
+          return [401, 403, 502].includes(error?.status)
+            ? of(errorAction, new fromRoot.Go({ path: ['/service-down'] }))
+            : of(errorAction);
         })
       )
     )

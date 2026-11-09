@@ -58,7 +58,7 @@ describe('UpdateAddressCheckComponent', () => {
 
     expect(component.validationErrors).toEqual([{
       id: 'submit-address-update',
-      message: 'Sorry, there is a problem with the service. Try again later'
+      message: 'There was a system error and your request could not be processed. Please try again.'
     }]);
     expect(router.navigate).not.toHaveBeenCalled();
   });

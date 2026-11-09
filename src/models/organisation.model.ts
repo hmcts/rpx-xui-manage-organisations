@@ -24,6 +24,8 @@ export interface OrganisationDetails {
   contactInformation: OrganisationContactInformation[];
   // Unsure how pending updates to contact information are handled but currently included as an optional boolean
   pendingContactInformation?: boolean;
+  pendingNameUpdate?: boolean;
+  pendingSraUpdate?: boolean;
   status: string;
   sraId: string;
   sraRegulated: boolean;

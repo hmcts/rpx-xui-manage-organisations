@@ -1,12 +1,12 @@
 <app-hmcts-main-wrapper [title]="'Organisation'">
   <app-prd-pba-success [response]="organisationDetails.response"></app-prd-pba-success>
-  <app-prd-address-success [addressUpdated]="organisationDetails.pendingContactInformation"></app-prd-address-success>
+  <app-prd-org-change-success [orgChangeUpdated]="orgChangeUpdated"></app-prd-org-change-success>
   @if (isFeatureEnabled$ | async) {
   <!-- Organisation name -->
   <dl class="govuk-summary-list">
     <div class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key">Name</dt>
-      <dd class="govuk-summary-list__value">{{organisationDetails.name}}</dd>
+      <dd class="govuk-summary-list__value">{{organisationDetails.name}} @if (organisationDetails.pendingNameUpdate) {<span>(Pending approval)</span>}</dd>
       @if (userIsOrgManager) {
       <dd class="govuk-summary-list__actions">
         <a class="govuk-link organisation-name__change-link" routerLink="/organisation/update-org-name"
@@ -148,7 +148,7 @@
         <th class="govuk-table__header" scope="row">Name</th>
         <td class="govuk-table__cell">
           <div class="govuk-grid-row">
-            <div class="govuk-grid-column-three-quarters organisation-name__details">{{organisationDetails.name}}</div>
+            <div class="govuk-grid-column-three-quarters organisation-name__details">{{organisationDetails.name}} @if (organisationDetails.pendingNameUpdate) {(Pending approval)}</div>
             <div class="govuk-grid-column-one-quarter organisation-change-action">
               @if (userIsOrgManager) {<a
                 class="govuk-link organisation-change-action__link organisation-name__change-link"
@@ -232,7 +232,7 @@
         <td class="govuk-table__cell">
           <div class="govuk-grid-row organisation-sra">
             <div class="govuk-grid-column-three-quarters organisation-sra__details">
-              <div>{{organisationDetails.sraId}}</div>
+              <div>{{organisationDetails.sraId}} @if (organisationDetails.pendingSraUpdate) {(Pending approval)}</div>
             </div>
             <div class="govuk-grid-column-one-quarter organisation-change-action">
               @if (userIsOrgManager) {<a

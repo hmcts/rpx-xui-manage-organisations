@@ -314,7 +314,8 @@ export function reducer(
         ...state,
         organisationDetails: {
           ...organisationDetails,
-          name: action.payload
+          name: action.payload,
+          pendingNameUpdate: true
         },
         nameUpdateDraft: null,
         nameUpdateDraftCompleted: false,
@@ -376,7 +377,8 @@ export function reducer(
         ...state,
         organisationDetails: {
           ...organisationDetails,
-          sraId: action.payload
+          sraId: action.payload,
+          pendingSraUpdate: true
         },
         sraUpdateDraft: null,
         sraUpdateDraftCompleted: false,

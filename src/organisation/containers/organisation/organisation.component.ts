@@ -38,6 +38,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
   public orgTypeDescription: string = '';
   public regulators: Regulator[] = [];
   public isFeatureEnabled$!: Observable<boolean>;
+  public orgChangeUpdated: boolean = false;
 
   private readonly untiDestroy = new Subject<void>();
 
@@ -57,7 +58,6 @@ export class OrganisationComponent implements OnInit, OnDestroy {
           map((orgTypes) => {
             this.orgTypes = orgTypes;
             this.setOrgTypeDescription();
-            // Only for testing purposes
             return newRegisterOrg;
           })
         ),
@@ -85,11 +85,12 @@ export class OrganisationComponent implements OnInit, OnDestroy {
       this.regulators = utils.getRegulators(organisationDetails);
       this.organisationDxAddress = this.organisationContactInformation ? utils.getDxAddress(this.organisationContactInformation) : null;
       this.organisationDetails = organisationDetails;
-      if (!this.organisationDetails.sraId) {
+      this.orgChangeUpdated = !!organisationDetails.pendingContactInformation || !!organisationDetails.pendingNameUpdate || !!organisationDetails.pendingSraUpdate;
+      /* if (!this.organisationDetails.sraId) {
         // TODO - Remove
         // Only for testing purposes
         this.organisationDetails.sraId = 'SRA123456';
-      }
+      } */
       this.canShowChangePbaNumbersLink();
     });
   }

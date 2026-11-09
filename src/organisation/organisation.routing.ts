@@ -1,5 +1,5 @@
 // routes
-import { inject, ModuleWithProviders } from '@angular/core';
+import { ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { OrganisationGuard } from '../organisation/guards/organisation.guard';

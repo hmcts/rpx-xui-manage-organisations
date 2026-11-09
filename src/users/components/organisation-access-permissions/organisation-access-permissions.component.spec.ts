@@ -154,6 +154,42 @@ describe('OrganisationAccessPermissionsComponent', () => {
       expect(jurisdiction.accessTypes[2].enabled).toBe(true); // mandatory must be enabled
     });
 
+    it('should retain each access type organisation profile when multiple profiles are available', () => {
+      component.jurisdictions = [
+        ...knownJurisdictions,
+        {
+          jurisdictionId: '6',
+          jurisdictionName: 'Another jurisdiction',
+          accessTypes: [{
+            ...knownJurisdictions[0].accessTypes[0],
+            organisationProfileId: AppConstants.OGD_PROFILE_TYPES.OGD_DWP_PROFILE
+          }]
+        }
+      ];
+      component.user = {
+        ...userWithCaseManagerRole,
+        userAccessTypes: [
+          ...knownExistingUserAccessType,
+          {
+            jurisdictionId: '6',
+            accessTypeId: '1',
+            enabled: true,
+            organisationProfileId: AppConstants.OGD_PROFILE_TYPES.OGD_DWP_PROFILE
+          }
+        ]
+      };
+
+      component.ngOnInit();
+
+      expect(component.permissions[1].accessTypes[0].enabled).toBe(true);
+      expect(component.mapPermissionsToUserAccessTypes()).toContain(jasmine.objectContaining({
+        jurisdictionId: '6',
+        organisationProfileId: AppConstants.OGD_PROFILE_TYPES.OGD_DWP_PROFILE,
+        accessTypeId: '1',
+        enabled: true
+      }));
+    });
+
     it('should emit permissions model when form is updated', () => {
       // arrange
       spyOn(component.selectedPermissionsChanged, 'emit');

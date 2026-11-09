@@ -11,7 +11,7 @@ import { OrganisationDetails } from '../../../models';
 import * as fromOrganisationStore from '../../../organisation/store';
 import { ErrorMessage } from '../../../shared/models/error-message.model';
 import * as fromUserStore from '../../../users/store';
-import * as converters from '../../converters/case-converter';
+import * as converters from '../../../cases/converters/case-converter';
 import {
   CaaCasesFilterType,
   CaaCasesNoDataMessage,

@@ -9,6 +9,7 @@ import { CaaCasesPageType } from '../../models/caa-cases.enum';
 import { CaseShareService } from '../../services';
 import * as shareCaseActions from '../actions/share-case.action';
 import * as shareCases from '../reducers/share-case.reducer';
+import { getShareCasePageType, getShareCasePath } from '../share-case.workflow';
 
 @Injectable()
 export class ShareCaseEffects {
@@ -28,7 +29,7 @@ export class ShareCaseEffects {
       map((action: shareCaseActions.AddShareCases) => action.payload),
       map((newCases) => {
         return new shareCaseActions.AddShareCaseGo({
-          path: this.getPathFromCaseConfig(newCases.caaPageType, newCases.group_access),
+          path: getShareCasePath(this.router.url, newCases.caaPageType, newCases.group_access),
           sharedCases: newCases.sharedCases,
           caaPageType: newCases.caaPageType,
           caseTypeId: newCases.caseTypeId
@@ -43,7 +44,7 @@ export class ShareCaseEffects {
       map((action: shareCaseActions.AddShareCaseGo) => action.payload),
       tap({ next: ({ path, query: queryParams, extras, sharedCases, caaPageType, caseTypeId }) => {
         const thatSharedCases = sharedCases;
-        const currentPageType = caaPageType === CaaCasesPageType.UnassignedCases ? CaaCasesPageType.UnassignedCases : CaaCasesPageType.AssignedCases;
+        const currentPageType = getShareCasePageType(caaPageType);
         queryParams = { init: true, pageType: currentPageType };
         if (caseTypeId) {
           queryParams = { ...queryParams, caseTypeId };
@@ -103,12 +104,4 @@ export class ShareCaseEffects {
       })
     )
   );
-
-  public getPathFromCaseConfig(caaCasesPageType: string, groupAccess?: boolean, newCases?: boolean) {
-    console.log(newCases);
-    if (groupAccess && caaCasesPageType === CaaCasesPageType.NewCases) {
-      return [`${this.router.url}/accept-cases`];
-    }
-    return [`${this.router.url}/case-share`];
-  }
 }

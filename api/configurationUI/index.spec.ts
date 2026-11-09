@@ -65,7 +65,6 @@ describe('configurationUI index', () => {
       manageOrgLink: '/manage-org',
       ogdUpdateRefreshUserEnabled: false,
       protocol: 'http',
-      servicesTandCPath: undefined,
       termsAndConditionsEnabled: true
     });
   });

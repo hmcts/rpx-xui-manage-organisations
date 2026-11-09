@@ -2,8 +2,19 @@
   .organisation-address__details {
     width: 75%;
   }
+  .organisation-name__details {
+    width: 75%;
+  }
+  .organisation-sra__details {
+    width: 75%;
+  }
 }
 
-.organisation-address__change-link {
+.organisation-change-action {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.organisation-change-action__link {
   white-space: nowrap;
 }

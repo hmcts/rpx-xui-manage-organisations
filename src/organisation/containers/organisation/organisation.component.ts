@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { buildCompositeTrackKey, buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { Store, select } from '@ngrx/store';
 import { iif, Observable, of, Subject } from 'rxjs';
@@ -9,6 +8,7 @@ import { DxAddress, OrganisationContactInformation, OrganisationDetails, PBANumb
 import { Regulator, RegulatorType, RegulatoryType } from '../../../register-org/models';
 import { LovRefDataModel } from '../../../shared/models/lovRefData.model';
 import { LovRefDataService } from '../../../shared/services/lov-ref-data.service';
+import { buildCompositeTrackKey, buildIdOrIndexKey } from '../../../shared/utils/track-by.util';
 import * as fromAuthStore from '../../../user-profile/store';
 import * as fromStore from '../../store';
 import { utils } from '../../utils';
@@ -29,7 +29,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
   public organisationPaymentAccount: PBANumberModel[] = [];
   public organisationPendingPaymentAccount: string[] = [];
   public showChangePbaNumberLink: boolean = false;
-  public showChangeAddressLink: boolean = false;
+  public userIsOrgManager: boolean = false;
   public regulatorType = RegulatorType;
   public regulatoryTypeEnum = RegulatoryType;
   // Check - below not actually used but possibly should be being used?
@@ -57,6 +57,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
           map((orgTypes) => {
             this.orgTypes = orgTypes;
             this.setOrgTypeDescription();
+            // Only for testing purposes
             return newRegisterOrg;
           })
         ),
@@ -84,6 +85,11 @@ export class OrganisationComponent implements OnInit, OnDestroy {
       this.regulators = utils.getRegulators(organisationDetails);
       this.organisationDxAddress = this.organisationContactInformation ? utils.getDxAddress(this.organisationContactInformation) : null;
       this.organisationDetails = organisationDetails;
+      if (!this.organisationDetails.sraId) {
+        // TODO - Remove
+        // Only for testing purposes
+        this.organisationDetails.sraId = 'SRA123456';
+      }
       this.canShowChangePbaNumbersLink();
     });
   }
@@ -95,7 +101,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
       });
     this.authStore.pipe(select(fromAuthStore.getIsUserPuiOrganisationManager))
       .pipe(takeUntil(this.untiDestroy)).subscribe((userIsPuiOrganisationManager: boolean) => {
-        this.showChangeAddressLink = userIsPuiOrganisationManager;
+        this.userIsOrgManager = userIsPuiOrganisationManager;
       });
   }
 

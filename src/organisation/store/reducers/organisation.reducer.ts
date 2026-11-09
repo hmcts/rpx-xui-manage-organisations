@@ -2,6 +2,8 @@ import { Jurisdiction, OrganisationDetails } from '../../../models/organisation.
 import { PBANumberModel } from '../../../models/pbaNumber.model';
 import * as fromOrganisation from '../actions/organisation.actions';
 import { AddressUpdateDraft } from '../../models/address-update.model';
+import { OrganisationNameUpdateDraft } from '../../models/name-update.model';
+import { OrganisationSraUpdateDraft } from '../../models/sra-update.model';
 
 export interface OrganisationState {
   organisationDetails: OrganisationDetails | null;
@@ -12,6 +14,14 @@ export interface OrganisationState {
   addressUpdateDraft: AddressUpdateDraft | null;
   addressUpdating: boolean;
   addressUpdateError?: any;
+  nameUpdateDraft: OrganisationNameUpdateDraft | null;
+  nameUpdateDraftCompleted: boolean;
+  nameUpdating: boolean;
+  nameUpdateError?: any;
+  sraUpdateDraft: OrganisationSraUpdateDraft | null;
+  sraUpdateDraftCompleted: boolean;
+  sraUpdating: boolean;
+  sraUpdateError?: any;
 }
 
 export const initialState: OrganisationState = {
@@ -20,7 +30,13 @@ export const initialState: OrganisationState = {
   loaded: false,
   loading: false,
   addressUpdateDraft: null,
-  addressUpdating: false
+  addressUpdating: false,
+  nameUpdateDraft: null,
+  nameUpdateDraftCompleted: false,
+  nameUpdating: false,
+  sraUpdateDraft: null,
+  sraUpdateDraftCompleted: false,
+  sraUpdating: false
 };
 
 export function reducer(
@@ -253,6 +269,130 @@ export function reducer(
       };
     }
 
+    case fromOrganisation.INITIALISE_ORGANISATION_NAME_UPDATE: {
+      return {
+        ...state,
+        nameUpdateDraft: action.payload,
+        nameUpdateDraftCompleted: false,
+        nameUpdateError: null
+      };
+    }
+
+    case fromOrganisation.UPDATE_ORGANISATION_NAME_DRAFT: {
+      return {
+        ...state,
+        nameUpdateDraft: action.payload,
+        nameUpdateDraftCompleted: true,
+        nameUpdateError: null
+      };
+    }
+
+    case fromOrganisation.CLEAR_ORGANISATION_NAME_UPDATE: {
+      return {
+        ...state,
+        nameUpdateDraft: null,
+        nameUpdateDraftCompleted: false,
+        nameUpdating: false,
+        nameUpdateError: null
+      };
+    }
+
+    case fromOrganisation.ORGANISATION_UPDATE_NAME: {
+      return {
+        ...state,
+        nameUpdating: true,
+        nameUpdateError: null
+      };
+    }
+
+    case fromOrganisation.ORGANISATION_UPDATE_NAME_SUCCESS: {
+      const organisationDetails = state.organisationDetails;
+      if (organisationDetails === null) {
+        throw new Error('Cannot successfully update the name before organisation details are loaded.');
+      }
+      return {
+        ...state,
+        organisationDetails: {
+          ...organisationDetails,
+          name: action.payload
+        },
+        nameUpdateDraft: null,
+        nameUpdateDraftCompleted: false,
+        nameUpdating: false,
+        nameUpdateError: null
+      };
+    }
+
+    case fromOrganisation.ORGANISATION_UPDATE_NAME_ERROR: {
+      return {
+        ...state,
+        nameUpdating: false,
+        nameUpdateError: action.payload
+      };
+    }
+
+    case fromOrganisation.INITIALISE_ORGANISATION_SRA_UPDATE: {
+      return {
+        ...state,
+        sraUpdateDraft: action.payload,
+        sraUpdateDraftCompleted: false,
+        sraUpdateError: null
+      };
+    }
+
+    case fromOrganisation.UPDATE_ORGANISATION_SRA_DRAFT: {
+      return {
+        ...state,
+        sraUpdateDraft: action.payload,
+        sraUpdateDraftCompleted: true,
+        sraUpdateError: null
+      };
+    }
+
+    case fromOrganisation.CLEAR_ORGANISATION_SRA_UPDATE: {
+      return {
+        ...state,
+        sraUpdateDraft: null,
+        sraUpdateDraftCompleted: false,
+        sraUpdating: false,
+        sraUpdateError: null
+      };
+    }
+
+    case fromOrganisation.ORGANISATION_UPDATE_SRA: {
+      return {
+        ...state,
+        sraUpdating: true,
+        sraUpdateError: null
+      };
+    }
+
+    case fromOrganisation.ORGANISATION_UPDATE_SRA_SUCCESS: {
+      const organisationDetails = state.organisationDetails;
+      if (organisationDetails === null) {
+        throw new Error('Cannot successfully update the SRA ID before organisation details are loaded.');
+      }
+      return {
+        ...state,
+        organisationDetails: {
+          ...organisationDetails,
+          sraId: action.payload
+        },
+        sraUpdateDraft: null,
+        sraUpdateDraftCompleted: false,
+        sraUpdating: false,
+        sraUpdateError: null
+      };
+    }
+
+    case fromOrganisation.ORGANISATION_UPDATE_SRA_ERROR: {
+      return {
+        ...state,
+        sraUpdating: false,
+        sraUpdateError: action.payload
+      };
+    }
+
     default:
       return state;
   }
@@ -265,3 +405,11 @@ export const getOrganisationAccessTypes = (state: OrganisationState) => state.or
 export const getAddressUpdateDraft = (state: OrganisationState) => state.addressUpdateDraft;
 export const getAddressUpdating = (state: OrganisationState) => state.addressUpdating;
 export const getAddressUpdateError = (state: OrganisationState) => state.addressUpdateError;
+export const getNameUpdateDraft = (state: OrganisationState) => state.nameUpdateDraft;
+export const getNameUpdateDraftCompleted = (state: OrganisationState) => state.nameUpdateDraftCompleted;
+export const getNameUpdating = (state: OrganisationState) => state.nameUpdating;
+export const getNameUpdateError = (state: OrganisationState) => state.nameUpdateError;
+export const getSraUpdateDraft = (state: OrganisationState) => state.sraUpdateDraft;
+export const getSraUpdateDraftCompleted = (state: OrganisationState) => state.sraUpdateDraftCompleted;
+export const getSraUpdating = (state: OrganisationState) => state.sraUpdating;
+export const getSraUpdateError = (state: OrganisationState) => state.sraUpdateError;

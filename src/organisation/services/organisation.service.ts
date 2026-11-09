@@ -26,6 +26,16 @@ export class OrganisationService {
     //return this.http.put<any>(ENVIRONMENT.orgUri, { contactInformation: [contactInformation] });
   }
 
+  public updateName(): Observable<any> {
+    return of(null);
+    // TODO - Implement the actual update name logic when required
+  }
+
+  public updateSra(): Observable<any> {
+    return of(null);
+    // TODO - Implement the actual SRA ID update logic when required
+  }
+
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.

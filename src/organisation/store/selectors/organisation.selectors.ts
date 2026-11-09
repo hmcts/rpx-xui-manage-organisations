@@ -42,3 +42,43 @@ export const getAddressUpdateError = createSelector(
   getOrganisationState,
   fromOrganisation.getAddressUpdateError
 );
+
+export const getNameUpdateDraft = createSelector(
+  getOrganisationState,
+  fromOrganisation.getNameUpdateDraft
+);
+
+export const getNameUpdateDraftCompleted = createSelector(
+  getOrganisationState,
+  fromOrganisation.getNameUpdateDraftCompleted
+);
+
+export const getNameUpdating = createSelector(
+  getOrganisationState,
+  fromOrganisation.getNameUpdating
+);
+
+export const getNameUpdateError = createSelector(
+  getOrganisationState,
+  fromOrganisation.getNameUpdateError
+);
+
+export const getSraUpdateDraft = createSelector(
+  getOrganisationState,
+  fromOrganisation.getSraUpdateDraft
+);
+
+export const getSraUpdateDraftCompleted = createSelector(
+  getOrganisationState,
+  fromOrganisation.getSraUpdateDraftCompleted
+);
+
+export const getSraUpdating = createSelector(
+  getOrganisationState,
+  fromOrganisation.getSraUpdating
+);
+
+export const getSraUpdateError = createSelector(
+  getOrganisationState,
+  fromOrganisation.getSraUpdateError
+);

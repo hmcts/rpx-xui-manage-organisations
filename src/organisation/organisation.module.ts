@@ -25,6 +25,9 @@ import { LoggerService } from '../shared/services/logger.service';
 import { MonitoringService } from '../shared/services/monitoring.service';
 import { OrganisationGuard } from './guards/organisation.guard';
 import { AddressUpdateGuard } from './guards/address-update.guard';
+import { AddressUpdateStepGuard } from './guards/address-update-step.guard';
+import { OrganisationDetailsUpdateGuard } from './guards/organisation-details-update.guard';
+import { OrganisationUpdateCheckGuard } from './guards/organisation-update-check.guard';
 import { effects, reducers } from './store';
 
 @NgModule({ exports: [...fromContainers.containers, ...fromComponent.components],
@@ -38,7 +41,8 @@ import { effects, reducers } from './store';
       disableConsoleLogging: false
     }),
     ExuiCommonLibModule,
-    RxReactiveFormsModule], providers: [...fromServices.services, OrganisationGuard, AddressUpdateGuard, AddressService,
+    RxReactiveFormsModule], providers: [...fromServices.services, OrganisationGuard, AddressUpdateGuard, AddressUpdateStepGuard,
+    OrganisationDetailsUpdateGuard, OrganisationUpdateCheckGuard, AddressService,
     JwtDecodeWrapper, MonitoringService, LoggerService,
     { provide: ErrorHandler, useClass: DefaultErrorHandler }, provideHttpClient(withInterceptorsFromDi())] })
 

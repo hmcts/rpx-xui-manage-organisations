@@ -150,6 +150,116 @@ describe('OrganisationReducer', () => {
     });
   });
 
+  describe('name update actions', () => {
+    it('should initialise and update the name draft', () => {
+      const initialised = fromOrganisation.reducer(
+        fromOrganisation.initialState,
+        new fromActions.InitialiseOrganisationNameUpdate({ name: 'Current organisation' })
+      );
+      expect(initialised.nameUpdateDraftCompleted).toBeFalse();
+      const updated = fromOrganisation.reducer(
+        initialised,
+        new fromActions.UpdateOrganisationNameDraft({ name: 'Updated organisation' })
+      );
+
+      expect(updated.nameUpdateDraft).toEqual({ name: 'Updated organisation' });
+      expect(updated.nameUpdateDraftCompleted).toBeTrue();
+    });
+
+    it('should update the organisation name after a successful mock submission', () => {
+      const previousState = {
+        ...fromOrganisation.initialState,
+        organisationDetails: {
+          name: 'Current organisation'
+        } as any,
+        nameUpdateDraft: { name: 'Updated organisation' },
+        nameUpdating: true
+      };
+
+      const state = fromOrganisation.reducer(
+        previousState,
+        new fromActions.OrganisationUpdateNameSuccess('Updated organisation')
+      );
+
+      expect(state.organisationDetails.name).toBe('Updated organisation');
+      expect(state.nameUpdateDraft).toBeNull();
+      expect(state.nameUpdateDraftCompleted).toBeFalse();
+      expect(state.nameUpdating).toBeFalse();
+    });
+
+    it('should retain the draft when the update fails', () => {
+      const error = new Error('failed');
+      const previousState = {
+        ...fromOrganisation.initialState,
+        nameUpdateDraft: { name: 'Updated organisation' },
+        nameUpdating: true
+      };
+
+      const state = fromOrganisation.reducer(
+        previousState,
+        new fromActions.OrganisationUpdateNameError(error)
+      );
+
+      expect(state.nameUpdateDraft).toEqual({ name: 'Updated organisation' });
+      expect(state.nameUpdating).toBeFalse();
+      expect(state.nameUpdateError).toBe(error);
+    });
+  });
+
+  describe('SRA update actions', () => {
+    it('should initialise and update the SRA draft', () => {
+      const initialised = fromOrganisation.reducer(
+        fromOrganisation.initialState,
+        new fromActions.InitialiseOrganisationSraUpdate({ sraId: 'SRA123456' })
+      );
+      expect(initialised.sraUpdateDraftCompleted).toBeFalse();
+      const updated = fromOrganisation.reducer(
+        initialised,
+        new fromActions.UpdateOrganisationSraDraft({ sraId: 'SRA654321' })
+      );
+
+      expect(updated.sraUpdateDraft).toEqual({ sraId: 'SRA654321' });
+      expect(updated.sraUpdateDraftCompleted).toBeTrue();
+    });
+
+    it('should update the organisation SRA ID after a successful mock submission', () => {
+      const previousState = {
+        ...fromOrganisation.initialState,
+        organisationDetails: { sraId: 'SRA123456' } as any,
+        sraUpdateDraft: { sraId: 'SRA654321' },
+        sraUpdating: true
+      };
+
+      const state = fromOrganisation.reducer(
+        previousState,
+        new fromActions.OrganisationUpdateSraSuccess('SRA654321')
+      );
+
+      expect(state.organisationDetails.sraId).toBe('SRA654321');
+      expect(state.sraUpdateDraft).toBeNull();
+      expect(state.sraUpdateDraftCompleted).toBeFalse();
+      expect(state.sraUpdating).toBeFalse();
+    });
+
+    it('should retain the SRA draft when the update fails', () => {
+      const error = new Error('failed');
+      const previousState = {
+        ...fromOrganisation.initialState,
+        sraUpdateDraft: { sraId: 'SRA654321' },
+        sraUpdating: true
+      };
+
+      const state = fromOrganisation.reducer(
+        previousState,
+        new fromActions.OrganisationUpdateSraError(error)
+      );
+
+      expect(state.sraUpdateDraft).toEqual({ sraId: 'SRA654321' });
+      expect(state.sraUpdating).toBeFalse();
+      expect(state.sraUpdateError).toBe(error);
+    });
+  });
+
   /* TO DO - fix the unit test
   // success
   describe('LOAD_ORGANISATION_SUCCESS action', () => {

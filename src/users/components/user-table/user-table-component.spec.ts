@@ -1,3 +1,4 @@
+import { SimpleChange } from '@angular/core';
 import { UserTableComponent, FilterValues } from './user-table.component';
 import { User } from '@hmcts/rpx-xui-common-lib';
 
@@ -17,6 +18,21 @@ describe('UserTableComponent', () => {
     component.ngOnInit();
     expect(component.filteredItems).toEqual(component.users);
     expect(component.pagination).toEqual({ itemsPerPage: 50, currentPage: 0, totalItems: component.users.length });
+  });
+
+  it('should apply the active filters when users arrive after initialization', () => {
+    component.users = [];
+    component.filterValues = { name: 'Jane' };
+    component.ngOnInit();
+
+    component.users = [
+      { fullName: 'Jane Doe', email: 'jane@example.com', status: 'active' },
+      { fullName: 'John Doe', email: 'john@example.com', status: 'active' }
+    ] as User[];
+    component.ngOnChanges({ users: { currentValue: component.users } as SimpleChange });
+
+    expect(component.filteredItems.map((user) => user.fullName)).toEqual(['Jane Doe']);
+    expect(component.pagination.totalItems).toBe(1);
   });
 
   it('should update pagination on updatePagination', () => {

@@ -8,6 +8,7 @@ import * as fromRoot from '../../../app/store';
 import * as fromStore from '../../store';
 import { map } from 'rxjs/operators';
 import { AppConstants } from 'src/app/app.constants';
+import { FilterValues } from '../../components/user-table/user-table.component';
 
 @Component({
   selector: 'app-prd-users-component',
@@ -24,7 +25,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   public currentPageNumber: number = 1;
   public pageTotalSize: number;
   public allUsersList$: Subscription;
-  public filterValues: string = '';
+  public filterValues: FilterValues = {};
   public userList: Array<object>;
   public searchFiltersEnabled$: Observable<boolean>;
   public ogdFeatureToggleName: string = AppConstants.FEATURE_NAMES.ogdInviteUserFlow;
@@ -55,7 +56,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.isLoading$ = this.store.pipe(select(fromStore.getGetUserLoading));
   }
 
-  public handleFilterUpdates(event){
+  public handleFilterUpdates(event: FilterValues): void {
     this.filterValues = event;
     this.tableUsersData$ = this.store.pipe(select(fromStore.getGetUserList));
     this.isLoading$ = this.store.pipe(select(fromStore.getGetUserLoading));

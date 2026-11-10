@@ -90,7 +90,7 @@
                       @if (regulators.controls.length > 1) {
                         <button (click)="onRemoveBtnClicked(i)" [id]="'remove-button' + i"
                           class="govuk-button govuk-button--secondary govuk-!-margin-left-4 govuk-!-margin-bottom-0">
-                          Remove
+                          Remove <span class="govuk-visually-hidden">regulator {{i + 1}}</span>
                         </button>
                       }
                       @if (regulators.controls[i].get('regulatorName')) {

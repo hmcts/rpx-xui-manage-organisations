@@ -30,7 +30,7 @@
         </button>
       </div>
       @if (cases.length > 0 && tableConfig) {
-      <ccd-case-list [cases]="cases" [selectedCases]="selectedCases" [tableConfig]="tableConfig"
+      <ccd-case-list appCaseListAccessibleNames [cases]="cases" [selectedCases]="selectedCases" [tableConfig]="tableConfig"
         [selectionEnabled]="true" (selection)="onCaseSelection($event)" (pageChange)="onPaginationHandler($event)"
         [currentPageNo]="currentPageNo" [totalResultsCount]="totalCases" [pageSize]="paginationPageSize">
       </ccd-case-list>

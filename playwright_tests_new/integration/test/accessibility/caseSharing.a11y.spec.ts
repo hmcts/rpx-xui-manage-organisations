@@ -22,7 +22,7 @@ import { CaseSharingPage } from '../../page-objects/case-sharing.po';
 import { UnassignedCasesPage } from '../../page-objects/unassigned-cases.po';
 
 const pendingProductA11yDefect =
-  'Skipped pending separate product defect fix: CAA case-list inactive tabs fail colour contrast and CCD case-list selection checkboxes have no accessible names. EXUI-4640 is test/CI retirement only and must not change src/** application code.';
+  'Skipped pending separate product defect fix: CAA case-list inactive tabs fail colour contrast. EXUI-4640 is test/CI retirement only and must not change src/** application code.';
 
 test.describe('case sharing accessibility - skipped pending product defect: tab contrast and checkbox accessible names', { tag: ['@integration', '@integration-case-sharing', '@a11y'] }, () => {
   test.skip(true, pendingProductA11yDefect);

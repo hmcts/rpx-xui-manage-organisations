@@ -40,6 +40,16 @@ describe('App routes', () => {
     }));
   });
 
+  it('should expose the protected history route', () => {
+    const historyRoute = ROUTES.find((route) => route.path === 'history');
+
+    expect(historyRoute).toEqual(jasmine.objectContaining({
+      path: 'history'
+    }));
+    expect(historyRoute?.canActivate?.length).toBe(3);
+    expect(historyRoute?.loadChildren).toBeDefined();
+  });
+
   it('should redirect unknown paths to home', () => {
     const wildcardRoute = ROUTES[ROUTES.length - 1];
 

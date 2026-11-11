@@ -47,6 +47,7 @@ test.describe('SRT organisation visual baseline', {
     await organisationPage.open();
     await expect(organisationPage.heading).toBeVisible();
     await expect(organisationPage.summaryValue('Name')).toContainText(manageOrgIntegrationOrganisationName);
+    await expect(organisationPage.summaryValue('Organisation type')).toHaveText('Solicitor');
     await expect(page.getByRole('link', { name: 'History', exact: true })).toBeVisible();
     await page.evaluate(() => document.fonts.ready);
 

@@ -20,7 +20,7 @@ const logger = log4jui.getLogger('organisation');
   dxExchange: 40
 }; */
 
-// TODO - Add proper API
+// TODO - Add proper API once available
 /* export async function handleUpdateContactInformationRoute(req: EnhancedRequest, res: Response, next: NextFunction) {
   const auth = req.session?.auth;
   if (!auth) {

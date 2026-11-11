@@ -45,7 +45,7 @@ export class AddressUpdatePage {
     this.cancelButton = page.getByRole('button', { name: 'Cancel', exact: true });
     this.backLink = page.getByRole('link', { name: 'Back', exact: true });
     this.submitButton = page.locator('#submit-address-update');
-    this.successBanner = page.locator('app-prd-address-success .hmcts-banner--success');
+    this.successBanner = page.locator('app-prd-org-change-success .hmcts-banner--success');
   }
 
   public async openOrganisation(): Promise<void> {

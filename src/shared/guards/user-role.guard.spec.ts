@@ -19,7 +19,7 @@ describe('UserRoleGuard', () => {
     guard = new UserRoleGuard(mockStore);
   });
 
-  it('should activate when the role matches', () => {
+  it('should activate when the role matches', (done) => {
     mockUser.roles = ['pui-finance-manager'];
     mockStore.pipe.and.returnValue(of(mockUser));
 
@@ -31,8 +31,25 @@ describe('UserRoleGuard', () => {
       data
     } as ActivatedRouteSnapshot;
 
-    const result = guard.canActivate(dummyRoute);
-    expect(result).toBeTruthy();
-    expect(mockStore.dispatch).not.toHaveBeenCalled();
+    guard.canActivate(dummyRoute).subscribe((result) => {
+      expect(result).toBeTrue();
+      expect(mockStore.dispatch).not.toHaveBeenCalled();
+      done();
+    });
+  });
+
+  it('should wait for the user before checking the role', (done) => {
+    mockUser.roles = ['pui-organisation-manager'];
+    mockStore.pipe.and.returnValue(of(null, mockUser));
+
+    const dummyRoute = {
+      data: { role: 'pui-organisation-manager' } as Data
+    } as ActivatedRouteSnapshot;
+
+    guard.canActivate(dummyRoute).subscribe((result) => {
+      expect(result).toBeTrue();
+      expect(mockStore.dispatch).not.toHaveBeenCalled();
+      done();
+    });
   });
 });

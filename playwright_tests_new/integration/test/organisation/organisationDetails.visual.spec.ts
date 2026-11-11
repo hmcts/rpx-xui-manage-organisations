@@ -1,3 +1,4 @@
+import { resolve } from 'node:path';
 import { expect, test } from '../../fixtures';
 import {
   setupOrganisationDetailsRoutes,
@@ -21,6 +22,8 @@ const visualCandidateUrl = process.env.TEST_URL?.trim();
 const visualCandidateSha = process.env.VISUAL_CANDIDATE_SHA?.trim();
 const visualRunEnabled = process.env.RUN_SRT_VISUAL === '1';
 const buildCommitSha = process.env.GIT_COMMIT?.trim();
+// Global navigation is asserted in the test but excluded from page-specific visual baselines.
+const visualSnapshotStyle = resolve(__dirname, 'organisationDetails.visual-snapshot.css');
 
 if (visualRunEnabled && (!visualCandidateUrl || !visualCandidateSha || !buildCommitSha)) {
   throw new Error(
@@ -44,12 +47,14 @@ test.describe('SRT organisation visual baseline', {
     await organisationPage.open();
     await expect(organisationPage.heading).toBeVisible();
     await expect(organisationPage.summaryValue('Name')).toContainText(manageOrgIntegrationOrganisationName);
+    await expect(page.getByRole('link', { name: 'History', exact: true })).toBeVisible();
     await page.evaluate(() => document.fonts.ready);
 
     await expect(page).toHaveScreenshot('organisation-details.png', {
       fullPage: true,
       animations: 'disabled',
-      caret: 'hide'
+      caret: 'hide',
+      stylePath: visualSnapshotStyle
     });
   });
 
@@ -61,12 +66,14 @@ test.describe('SRT organisation visual baseline', {
     await page.getByRole('link', { name: 'Cases', exact: true }).click();
     await expect(casesPage.pageHeading).toBeVisible();
     await expect(casesPage.caseList).toContainText(unassignedAsylumCase.caseReference);
+    await expect(page.getByRole('link', { name: 'History', exact: true })).toBeVisible();
     await page.evaluate(() => document.fonts.ready);
 
     await expect(page).toHaveScreenshot('case-list.png', {
       fullPage: true,
       animations: 'disabled',
-      caret: 'hide'
+      caret: 'hide',
+      stylePath: visualSnapshotStyle
     });
   });
 

@@ -21,7 +21,8 @@ const contactInformationFieldLimits = {
   dxExchange: 40
 };
 
-export async function handleUpdateContactInformationRoute(req: EnhancedRequest, res: Response, next: NextFunction) {
+// TODO - Add proper API
+/* export async function handleUpdateContactInformationRoute(req: EnhancedRequest, res: Response, next: NextFunction) {
   const auth = req.session?.auth;
   if (!auth) {
     return res.status(401).send({ message: 'Authentication required' });
@@ -50,7 +51,7 @@ export async function handleUpdateContactInformationRoute(req: EnhancedRequest, 
     return next(error?.status ? { status: error.status, data: error.data }
       : { status: 502, data: { message: 'Organisation update service unavailable' } });
   }
-}
+} */
 
 export async function handleOrganisationRoute(req: Request, res: Response, next: NextFunction) {
   try {
@@ -113,6 +114,6 @@ router.get('', handleOrganisationRoute);
 
 router.get('/users', handleOrganisationUsersRoute);
 
-router.put('/contact-information', handleUpdateContactInformationRoute);
+// router.put('/contact-information', handleUpdateContactInformationRoute);
 
 export default router;

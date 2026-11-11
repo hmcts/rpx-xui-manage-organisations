@@ -1,87 +1,13 @@
 import { expect, test } from '../../fixtures';
 import { setupAddressUpdateRoutes } from '../../helpers/addressUpdateMockRoutes.helper';
-import { addressUpdateCancellationStages, addressUpdateDx, addressUpdateNonManager, addressUpdatePaths, addressUpdateServiceDownStatuses, addressUpdateSystemError, correctedUkAddress, expectedUkAddressOnlyUpdate, expectedUkAddressUpdate, partialAddressUpdateDxCases, updatedUkAddress } from '../../mocks/addressUpdate.mock';
-import { completeAddressUpdateToCheck, openAddressUpdateStage } from '../../helpers/addressUpdateJourney.helper';
+import { addressUpdateCancellationStages, addressUpdateDx, addressUpdateNonManager, addressUpdatePaths, partialAddressUpdateDxCases, updatedUkAddress } from '../../mocks/addressUpdate.mock';
+import { openAddressUpdateStage } from '../../helpers/addressUpdateJourney.helper';
 import { manageOrgIntegrationOrganisation } from '../../mocks/manageOrgIntegration.mock';
 import { AddressUpdatePage } from '../../page-objects/address-update.po';
 import { OrganisationPage } from '../../page-objects/organisation.po';
 import { UserAdminPage } from '../../page-objects/user-admin.po';
 
 test.describe('Organisation address update negative paths', { tag: ['@integration', '@integration-organisation'] }, () => {
-  test('keeps the editable check page and shows the exact system error after an HTTP 500 submission', async ({ manageOrgIntegrationPage: page }) => {
-    const routeState = await setupAddressUpdateRoutes(page, { updateStatus: 500 });
-    const addressPage = new AddressUpdatePage(page);
-    await completeAddressUpdateToCheck(addressPage, updatedUkAddress);
-    await expect(addressPage.checkHeading).toBeVisible();
-    await addressPage.submitButton.click();
-
-    await test.info().attach('address-update-requests', {
-      body: JSON.stringify(routeState), contentType: 'application/json'
-    });
-    await expect(page).toHaveURL(/\/organisation\/update-address\/check$/);
-    await expect(addressPage.validationError(addressUpdateSystemError)).toBeVisible();
-    await expect(addressPage.submitButton).toBeEnabled();
-    await expect(addressPage.summaryChangeLink('Organisation address')).toBeVisible();
-    await expect(addressPage.summaryValue('Organisation address')).toContainText(updatedUkAddress.addressLine1);
-    await expect(addressPage.successBanner).toHaveCount(0);
-    await expect.poll(() => routeState.responseStatuses).toEqual([500]);
-    expect(routeState.updateRequests).toHaveLength(1);
-    expect(routeState.updateRequests[0]).toEqual({ method: 'PUT', body: expectedUkAddressOnlyUpdate });
-    await addressPage.summaryChangeLink('Organisation address').click();
-    await expect(addressPage.addressLine1Input).toHaveValue(updatedUkAddress.addressLine1);
-    await addressPage.addressLine1Input.fill(correctedUkAddress.addressLine1);
-    await addressPage.continueButton.click();
-    await expect(addressPage.dxNoRadio).toBeChecked();
-    await addressPage.continueButton.click();
-    await expect(addressPage.checkHeading).toBeVisible();
-    await expect(addressPage.summaryValue('Organisation address')).toContainText(correctedUkAddress.addressLine1);
-    await expect(addressPage.validationError(addressUpdateSystemError)).toHaveCount(0);
-    routeState.updateStatus = 204;
-    await addressPage.submitButton.click();
-
-    await expect.poll(() => routeState.responseStatuses).toEqual([500, 204]);
-    expect(routeState.updateRequests).toEqual([
-      { method: 'PUT', body: expectedUkAddressOnlyUpdate },
-      { method: 'PUT', body: { ...expectedUkAddressOnlyUpdate, addressLine1: correctedUkAddress.addressLine1 } }
-    ]);
-    await expect(page).toHaveURL(/\/organisation$/);
-    await expect(addressPage.successBanner).toBeVisible();
-  });
-
-  test('keeps the original organisation address after a rejected submission is cancelled', async ({ manageOrgIntegrationPage: page }) => {
-    const routeState = await setupAddressUpdateRoutes(page, { updateStatus: 500 });
-    const addressPage = new AddressUpdatePage(page);
-    const organisationPage = new OrganisationPage(page);
-    await completeAddressUpdateToCheck(addressPage, updatedUkAddress, addressUpdateDx);
-    await addressPage.submitButton.click();
-    await expect(addressPage.validationError(addressUpdateSystemError)).toBeVisible();
-    await addressPage.cancelButton.click();
-
-    await expect(page).toHaveURL(/\/organisation$/);
-    await expect(organisationPage.heading).toBeVisible();
-    await expect(organisationPage.summaryValue('Organisation address')).toContainText(manageOrgIntegrationOrganisation.contactInformation[0].addressLine1);
-    await expect(organisationPage.summaryValue('Organisation address')).not.toContainText(updatedUkAddress.addressLine1);
-    await expect(organisationPage.summaryValue('Organisation address')).not.toContainText('(Pending approval)');
-    await expect(addressPage.successBanner).toHaveCount(0);
-    await expect.poll(() => routeState.responseStatuses).toEqual([500]);
-    expect(routeState.updateRequests).toEqual([{ method: 'PUT', body: expectedUkAddressUpdate }]);
-  });
-
-  for (const status of addressUpdateServiceDownStatuses) {
-    test(`uses the existing service-down flow after HTTP ${status} without pending success`, async ({ manageOrgIntegrationPage: page }) => {
-      const routeState = await setupAddressUpdateRoutes(page, { updateStatus: status });
-      const addressPage = new AddressUpdatePage(page);
-      await completeAddressUpdateToCheck(addressPage, updatedUkAddress, addressUpdateDx);
-      await addressPage.submitButton.click();
-
-      await expect(page).toHaveURL(/\/service-down$/);
-      await expect(page.getByRole('heading', { name: 'Sorry, there is a problem with the service', exact: true })).toBeVisible();
-      await expect(addressPage.successBanner).toHaveCount(0);
-      await expect.poll(() => routeState.responseStatuses).toEqual([status]);
-      expect(routeState.updateRequests).toEqual([{ method: 'PUT', body: expectedUkAddressUpdate }]);
-    });
-  }
-
   for (const dxCase of partialAddressUpdateDxCases) {
     test(`requires the missing DX partner for ${dxCase.name} before submission`, async ({ manageOrgIntegrationPage: page }) => {
       const routeState = await setupAddressUpdateRoutes(page);

@@ -5,10 +5,9 @@ import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references';
 import { OrganisationUser } from '../interfaces/organisationPayload';
 import * as log4jui from '../lib/log4jui';
 import { objectContainsOnlySafeCharacters } from '../lib/util';
-import { EnhancedRequest } from '../models/enhanced-request.interface';
 
 const logger = log4jui.getLogger('organisation');
-const contactInformationFieldLimits = {
+/* const contactInformationFieldLimits = {
   uprn: 14,
   addressLine1: 150,
   addressLine2: 150,
@@ -19,7 +18,7 @@ const contactInformationFieldLimits = {
   postCode: 14,
   dxNumber: 13,
   dxExchange: 40
-};
+}; */
 
 // TODO - Add proper API
 /* export async function handleUpdateContactInformationRoute(req: EnhancedRequest, res: Response, next: NextFunction) {

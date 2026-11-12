@@ -1,10 +1,10 @@
-<p>Last updated on {{data && data[0] ? (data[0].effective_date | dateFormatAtTime) : ''}}</p>
+<p>{{ 'Last updated on' | rpxTranslate }} {{data && data[0] ? (data[0].effective_date | dateFormatAtTime) : ''}}</p>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <dl class="govuk-check-your-answers govuk-check-your-answers--pba-overview">
       <div class="govuk-check-your-answers__contents">
         <dt class="govuk-check-your-answers__question">
-          Available credit
+          {{ 'Available credit' | rpxTranslate }}
         </dt>
         @if (data && data [0] && data[0]?.credit_limit) {
           <dd class="govuk-check-your-answers__answer">
@@ -17,7 +17,7 @@
       </div>
       <div class="govuk-check-your-answers__contents">
         <dt class="govuk-check-your-answers__question">
-          Balance
+          {{ 'Balance' | rpxTranslate }}
         </dt>
         @if (data && data [0] && data[0]?.available_balance) {
           <dd class="govuk-check-your-answers__answer">

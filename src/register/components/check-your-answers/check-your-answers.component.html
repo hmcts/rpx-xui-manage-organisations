@@ -1,17 +1,17 @@
 @if (formDataValues) {
-  <h1 class="govuk-heading-xl">Check your answers before you register</h1>
+  <h1 class="govuk-heading-xl">{{ 'Check your answers before you register' | rpxTranslate }}</h1>
   <dl class="govuk-check-your-answers  govuk-check-your-answers--short  govuk-!-margin-bottom-6" [ngClass]="{ 'govuk-form-group--error': (errorMessageDetails | async) !== '' }">
     <div app-govuk-dl-list-item class="govuk-check-your-answers__contents">
-      <ng-container question>Organisation name</ng-container>
+      <ng-container question>{{ 'Organisation name' | rpxTranslate }}</ng-container>
       <ng-container answer>
         {{ formDataValues.orgName }}
       </ng-container>
       <ng-container button>
-        <a [routerLink]="'/register-org/register/organisation-name'">Change <span class="govuk-visually-hidden">organisation name</span></a>
+        <a [routerLink]="'/register-org/register/organisation-name'">{{ 'Change' | rpxTranslate }} <span class="govuk-visually-hidden">{{ 'organisation name' | rpxTranslate }}</span></a>
       </ng-container>
     </div>
     <div app-govuk-dl-list-item class="govuk-check-your-answers__contents">
-      <ng-container question>Organisation address</ng-container>
+      <ng-container question>{{ 'Organisation address' | rpxTranslate }}</ng-container>
       <ng-container answer>
         <div>{{ formDataValues.officeAddressOne }}</div>
         <div>{{ formDataValues.officeAddressTwo }}</div>
@@ -20,12 +20,12 @@
         <div>{{ formDataValues.postCode }}</div>
       </ng-container>
       <ng-container button>
-        <a [routerLink]="'/register-org/register/organisation-address'">Change <span class="govuk-visually-hidden">organisation address</span></a>
+        <a [routerLink]="'/register-org/register/organisation-address'">{{ 'Change' | rpxTranslate }} <span class="govuk-visually-hidden">{{ 'organisation address' | rpxTranslate }}</span></a>
       </ng-container>
     </div>
     @if (formDataValues.PBANumbers && formDataValues.PBANumbers.length >= 0) {
       <div app-govuk-dl-list-item class="govuk-check-your-answers__contents">
-        <ng-container question>PBA number</ng-container>
+        <ng-container question>{{ 'PBA number' | rpxTranslate }}</ng-container>
         <ng-container answer>
           @for (PBANumber of formDataValues.PBANumbers; track trackByPbaNumber(PBANumber, $index)) {
             <div>
@@ -34,96 +34,86 @@
           }
           @if ((errorMessageDetailsCode | async) == '6 : PBA_NUMBER Invalid or already exists') {
             <div>
-              <div class="detailed-cya-registration-message"> {{errorMessageDetails | async}} You should check that the PBA has been entered correctly.
-                You should also check if your organisation has already been registered.
-              If you're still having problems, contact HMCTS.</div>
+              <div class="detailed-cya-registration-message"> {{ errorMessageDetails | async | rpxTranslate }} {{ 'You should check that the PBA has been entered correctly. You should also check if your organisation has already been registered. If you\'re still having problems, contact HMCTS.' | rpxTranslate }}</div>
             </div>
           }
         </ng-container>
         <ng-container button>
-          <a [routerLink]="'/register-org/register/organisation-pba'">Change <span class="govuk-visually-hidden">PBA number</span></a>
+          <a [routerLink]="'/register-org/register/organisation-pba'">{{ 'Change' | rpxTranslate }} <span class="govuk-visually-hidden">{{ 'PBA number' | rpxTranslate }}</span></a>
         </ng-container>
       </div>
     }
     @if (formDataValues.DXnumber && formDataValues.DXexchange) {
       <div app-govuk-dl-list-item class="govuk-check-your-answers__contents">
-        <ng-container question>DX reference</ng-container>
+        <ng-container question>{{ 'DX reference' | rpxTranslate }}</ng-container>
         <ng-container answer>
-          <div>DX number: {{ formDataValues.DXnumber }}</div>
-          <div>DX exchange: {{ formDataValues.DXexchange }}</div>
+          <div>{{ 'DX number:' | rpxTranslate }} {{ formDataValues.DXnumber }}</div>
+          <div>{{ 'DX exchange:' | rpxTranslate }} {{ formDataValues.DXexchange }}</div>
         </ng-container>
         <ng-container button>
-          <a [routerLink]="'/register-org/register/organisation-dx'">Change <span class="govuk-visually-hidden">DX reference</span></a>
+          <a [routerLink]="'/register-org/register/organisation-dx'">{{ 'Change' | rpxTranslate }} <span class="govuk-visually-hidden">{{ 'DX reference' | rpxTranslate }}</span></a>
         </ng-container>
       </div>
     }
     @if (formDataValues.sraNumber) {
       <div app-govuk-dl-list-item class="govuk-check-your-answers__contents">
-        <ng-container question>SRA Number</ng-container>
+        <ng-container question>{{ 'SRA Number' | rpxTranslate }}</ng-container>
         <ng-container answer>
           {{ formDataValues.sraNumber }}
           @if ((errorMessageDetailsCode | async) == '6 : SRA_ID Invalid or already exists') {
             <div>
               <div class="detailed-cya-registration-message">
-                This SRA has already been used.
-                You should check that the SRA has been entered correctly.
-                You should also check if your organisation has already been registered.
-                If you're still having problems, contact HMCTS.
-              </div>
+                 {{ 'This SRA has already been used. You should check that the SRA has been entered correctly. You should also check if your organisation has already been registered. If you\'re still having problems, contact HMCTS.' | rpxTranslate }} </div>
             </div>
           }
         </ng-container>
         <ng-container button>
-          <a [routerLink]="'/register-org/register/sraNumber'">Change <span class="govuk-visually-hidden">SRA number</span></a>
+          <a [routerLink]="'/register-org/register/sraNumber'">{{ 'Change' | rpxTranslate }} <span class="govuk-visually-hidden">{{ 'SRA number' | rpxTranslate }}</span></a>
         </ng-container>
       </div>
     }
     <div app-govuk-dl-list-item class="govuk-check-your-answers__contents">
-      <ng-container question>First name</ng-container>
+      <ng-container question>{{ 'First name' | rpxTranslate }}</ng-container>
       <ng-container answer>
         {{ formDataValues.firstName }}
       </ng-container>
       <ng-container button>
-        <a [routerLink]="'/register-org/register/name'">Change <span class="govuk-visually-hidden">name</span></a>
+        <a [routerLink]="'/register-org/register/name'">{{ 'Change' | rpxTranslate }} <span class="govuk-visually-hidden">{{ 'name' | rpxTranslate }}</span></a>
       </ng-container>
     </div>
     <div app-govuk-dl-list-item class="govuk-check-your-answers__contents">
-      <ng-container question>Last name</ng-container>
+      <ng-container question>{{ 'Last name' | rpxTranslate }}</ng-container>
       <ng-container answer>
         {{ formDataValues.lastName }}
       </ng-container>
       <ng-container button>
-        <a [routerLink]="'/register-org/register/name'">Change <span class="govuk-visually-hidden">last name</span></a>
+        <a [routerLink]="'/register-org/register/name'">{{ 'Change' | rpxTranslate }} <span class="govuk-visually-hidden">{{ 'last name' | rpxTranslate }}</span></a>
       </ng-container>
     </div>
     <div app-govuk-dl-list-item class="govuk-check-your-answers__contents">
-      <ng-container question>Email address</ng-container>
+      <ng-container question>{{ 'Email address' | rpxTranslate }}</ng-container>
       <ng-container answer>
         {{ formDataValues.emailAddress }}
         @if ((errorMessageDetailsCode | async) == '6 : EMAIL Invalid or already exists') {
           <div>
             <div class="detailed-cya-registration-message">
-              A user with this email address already exists.
-              You should check that the email address has been entered correctly.
-              You should also check if your organisation has already been registered.
-              If you're still having problems, contact HMCTS.
-            </div>
+               {{ 'A user with this email address already exists. You should check that the email address has been entered correctly. You should also check if your organisation has already been registered. If you\'re still having problems, contact HMCTS.' | rpxTranslate }} </div>
           </div>
         }
       </ng-container>
       <ng-container button>
-        <a [routerLink]="'/register-org/register/email-address'">Change <span class="govuk-visually-hidden">email address</span></a>
+        <a [routerLink]="'/register-org/register/email-address'">{{ 'Change' | rpxTranslate }} <span class="govuk-visually-hidden">{{ 'email address' | rpxTranslate }}</span></a>
       </ng-container>
     </div>
   </dl>
-  <h2 class="govuk-heading-l">Now submit your registration details</h2>
+  <h2 class="govuk-heading-l">{{ 'Now submit your registration details' | rpxTranslate }}</h2>
   <ul class="govuk-list govuk-list--bullet">
-    <li>Your personal and organisation details are correct</li>
-    <li>You have read and understood the <a routerLink="/terms-and-conditions" rel="noopener noreferrer" target="_blank">terms and conditions (link opens a new window)</a> and are eligible for an account to manage your organisation and cases</li>
-    <li>You are creating an account for your organisation for the first time</li>
-    <li>You will be asked to accept the terms and conditions again when logging into a MyHMCTS application for the first time</li>
+    <li>{{ 'Your personal and organisation details are correct' | rpxTranslate }}</li>
+    <li>{{ 'You have read and understood the' | rpxTranslate }} <a routerLink="/terms-and-conditions" rel="noopener noreferrer" target="_blank">{{ 'terms and conditions (link opens a new window)' | rpxTranslate }}</a>  {{ 'and are eligible for an account to manage your organisation and cases' | rpxTranslate }}</li>
+    <li>{{ 'You are creating an account for your organisation for the first time' | rpxTranslate }}</li>
+    <li>{{ 'You will be asked to accept the terms and conditions again when logging into a MyHMCTS application for the first time' | rpxTranslate }}</li>
   </ul>
   <button role="button" draggable="false" (click)="onSubmitData()" class="govuk-button">
-    Confirm and submit details
+    {{ 'Confirm and submit details' | rpxTranslate }}
   </button>
 }

@@ -9,6 +9,7 @@ import { of } from 'rxjs';
 import { CaaCasesPageType } from '../../models/caa-cases.enum';
 import { ResetAssignedCaseSelection, ResetUnassignedCaseSelection } from '../../store';
 import { CaaCasesState } from '../../store/reducers';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { CaseShareCompleteComponent } from './case-share-complete.component';
 
 describe('CaaCaseShareCompleteComponent', () => {
@@ -30,7 +31,7 @@ describe('CaaCaseShareCompleteComponent', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [CaseShareCompleteComponent],
-      imports: [RouterTestingModule],
+      imports: [RpxTranslationTestingModule, RouterTestingModule],
       providers: [
         ...buildMockStoreProviders(),
         { provide: FeatureToggleService, useValue: mockFeatureToggleService },

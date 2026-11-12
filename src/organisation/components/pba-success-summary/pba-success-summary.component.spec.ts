@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SuccessIconComponent } from '../../../shared/components/icons';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { PbaSuccessSummaryComponent } from './pba-success-summary.component';
 
 describe('organisation.PbaSuccessSummaryComponent', () => {
@@ -9,6 +10,7 @@ describe('organisation.PbaSuccessSummaryComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [RpxTranslationTestingModule],
       declarations: [PbaSuccessSummaryComponent, SuccessIconComponent]
     }).compileComponents();
 

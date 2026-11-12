@@ -35,6 +35,7 @@
     "s2s": "http://rpe-service-auth-provider-prod.service.core-compute-prod.internal",
     "feeAndPayApi": "https://payment-api-prod.service.core-compute-prod.internal",
     "termsAndConditions": "http://xui-terms-and-conditions-aat.service.core-compute-aat.internal",
+    "translation": "http://ts-translation-service-prod.service.core-compute-prod.internal",
     "ccdDataApi": "http://ccd-data-store-api-prod.service.core-compute-prod.internal",
     "ccdDefinitionApi": "http://ccd-definition-store-api-prod.service.core-compute-prod.internal",
     "caseAssignmentApi": "http://aac-manage-case-assignment-prod.service.core-compute-prod.internal",

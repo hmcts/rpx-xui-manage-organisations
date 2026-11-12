@@ -1,22 +1,22 @@
 <main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
   <span class="govuk-caption-xl">{{ (selectedOrganisation$ | async)?.name }}</span>
-  <h1 class="govuk-heading-xl">{{ pageTitle }}</h1>
+  <h1 class="govuk-heading-xl">{{ pageTitle | rpxTranslate }}</h1>
   <div>
     <button type="submit" class="govuk-button govuk-button--secondary" (click)="toggleFilterSection()">
-      {{ caaShowHideFilterButtonText }}
+      {{ caaShowHideFilterButtonText | rpxTranslate }}
     </button>
     @if (caaShowHideFilterButtonText === caaShowHideFilterButtonTextLookup.AssignedCasesHide || caaShowHideFilterButtonText === caaShowHideFilterButtonTextLookup.UnassignedCasesHide) {
       <div>
         @if (isAnyError()) {
           <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
             <h2 class="govuk-error-summary__title" id="error-summary-title">
-              There is a problem
+              {{ 'There is a problem' | rpxTranslate }}
             </h2>
             <div class="govuk-error-summary__body">
               <ul class="govuk-list govuk-error-summary__list">
                 @for (errorMessage of errorMessages; track trackByCaaErrorMessage($index, errorMessage)) {
                   <li>
-                    <a href="{{caaCasesPageType}}#{{errorMessage.fieldId}}">{{errorMessage.description}}</a>
+                    <a href="{{caaCasesPageType}}#{{errorMessage.fieldId}}">{{ errorMessage.description | rpxTranslate }}</a>
                   </li>
                 }
               </ul>
@@ -38,24 +38,24 @@
       <details
         class="govuk-details govuk-!-margin-top-4" id="add-user-help" close>
         <summary class="govuk-details__summary">
-          <span class="govuk-details__summary-text" id="content-why-can-not-find-case">Can't find a case?
+          <span class="govuk-details__summary-text" id="content-why-can-not-find-case">{{ 'Can\'t find a case?' | rpxTranslate }}
           </span>
         </summary>
         <div class="govuk-details__text" id="content-reason-can-not-find-case">
-          You might not see any cases listed if either of the following apply:
+          {{ 'You might not see any cases listed if either of the following apply:' | rpxTranslate }}
           <ul>
-            <li>your service currently doesn't allow you to search for and select a respondent solicitor</li>
-            <li>your firm isn't named as a respondent on any new digital cases</li>
+            <li>{{ 'your service currently doesn\'t allow you to search for and select a respondent solicitor' | rpxTranslate }}</li>
+            <li>{{ 'your firm isn\'t named as a respondent on any new digital cases' | rpxTranslate }}</li>
           </ul>
         </div>
       </details>
     }
     @if (noCasesFoundMessage.length === 0 && caaCasesPageType === caaCasesPageTypeLookup.UnassignedCases) {
       <p>
-        You can share a case from your unassigned case list with yourself or a colleague.
+        {{ 'You can share a case from your unassigned case list with yourself or a colleague.' | rpxTranslate }}
         <br>
-          Your colleague must be registered with your organisation and have access to Manage Cases.
-        </p>
+        {{ 'Your colleague must be registered with your organisation and have access to Manage Cases.' | rpxTranslate }} 
+      </p>
       }
       @if (navItems && navItems.length > 0) {
         <mat-tab-group #tabGroup animationDuration="0ms" (selectedTabChange)="tabChanged($event)">
@@ -63,22 +63,22 @@
             <mat-tab [id]="navItem.id" [label]="navItem.text">
               @if ((casesError$ | async)) {
                 <div id="cases-error" class="govuk-!-margin-top-7">
-                  This view has not been configured for the case type.
+                  {{ 'This view has not been configured for the case type.' | rpxTranslate }}
                 </div>
               }
               @if ((cases$ | async)?.length > 0) {
                 <div>
                   <div class="govuk-!-margin-top-7 govuk-!-margin-bottom-2">
                     <div>
-                      <p class="govuk-body">Showing <strong>{{ getFirstResult() }}</strong> to <strong>{{ getLastResult() }}</strong> of <strong>{{ getTotalResults() }} {{ currentCaseType }}</strong> cases</p>
+                      <p class="govuk-body">{{ 'Showing' | rpxTranslate }} <strong>{{ getFirstResult() }}</strong>  {{ 'to' | rpxTranslate }} <strong>{{ getLastResult() }}</strong>  {{ 'of' | rpxTranslate }} <strong>{{ getTotalResults() }} {{ currentCaseType | rpxTranslate }}</strong>  {{ 'cases' | rpxTranslate }}</p>
                     </div>
-                    <p class="govuk-body">Select any <strong>{{ currentCaseType }}</strong> cases you want to manage case sharing for.</p>
+                    <p class="govuk-body">{{ 'Select any' | rpxTranslate }} <strong>{{ currentCaseType | rpxTranslate }}</strong>  {{ 'cases you want to manage case sharing for.' | rpxTranslate }}</p>
                     @if (caaCasesPageType === caaCasesPageTypeLookup.AssignedCases) {
                       <button
                         [disabled]="(shareAssignedCases$ | async)?.length === 0"
                         id="btn-share-assigned-case-button" class="govuk-button govuk-button--secondary govuk-!-margin-top-4 govuk-!-margin-bottom-4"
                         data-module="govuk-button" type="button" aria-haspopup="true" aria-expanded="false" (click)="shareAssignedCaseSubmit()">
-                        Manage case sharing
+                        {{ 'Manage case sharing' | rpxTranslate }}
                       </button>
                     }
                     @if (caaCasesPageType === caaCasesPageTypeLookup.UnassignedCases) {
@@ -86,7 +86,7 @@
                         [disabled]="(shareUnassignedCases$ | async)?.length === 0"
                         id="btn-share-unassigned-case-button" class="govuk-button govuk-button--secondary govuk-!-margin-top-4 govuk-!-margin-bottom-4"
                         data-module="govuk-button" type="button" aria-haspopup="true" aria-expanded="false" (click)="shareUnassignedCaseSubmit()">
-                        Share case
+                        {{ 'Share case' | rpxTranslate }}
                       </button>
                     }
                   </div>
@@ -109,7 +109,7 @@
       }
       @if (noCasesFoundMessage.length > 0) {
         <div class="govuk-body govuk-!-margin-top-4">
-          {{ noCasesFoundMessage }}
+          {{ noCasesFoundMessage | rpxTranslate }}
         </div>
       }
     </div>

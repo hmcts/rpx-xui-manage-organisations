@@ -8,6 +8,7 @@ import { Observable, of } from 'rxjs';
 import { DxAddress, OrganisationContactInformation } from '../../../models';
 import { LovRefDataService } from '../../../shared/services/lov-ref-data.service';
 import { buildMockStoreProviders } from '../../../register-org/testing/mock-store-state';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { OrganisationComponent } from './organisation.component';
 
 const storeMock = {
@@ -103,7 +104,7 @@ describe('OrganisationComponent', () => {
     lovRefDataServiceMock.getListOfValues.and.returnValue(of(mockOrgTypes));
 
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [RpxTranslationTestingModule],
       declarations: [OrganisationComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [

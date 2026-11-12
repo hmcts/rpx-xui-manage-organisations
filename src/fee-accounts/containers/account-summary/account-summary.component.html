@@ -3,7 +3,7 @@
   <div class="hmcts-page-heading__title-wrapper">
     <h1 class="govuk-body govuk-!-font-size-48 govuk-!-font-weight-bold">
       <span class="govuk-caption-xl">{{ accountName$ | async }}</span>
-      Summary
+      {{ 'Summary' | rpxTranslate }}
     </h1>
   </div>
   <div class="hmcts-page-heading__actions-wrapper"></div>
@@ -14,6 +14,6 @@
     [data]="accounts$ | async"
   ></app-prd-summary-component>
 } @else {
-  <div>Loading...</div>
+  <div>{{ 'Loading...' | rpxTranslate }}</div>
 }
 

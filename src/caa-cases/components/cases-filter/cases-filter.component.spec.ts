@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SimpleChange } from '@angular/core';
 import { CaaCasesFilterErrorMessage, CaaCasesFilterType } from 'src/caa-cases/models/caa-cases.enum';
 import { User } from '@hmcts/rpx-xui-common-lib';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 
 describe('CasesFilterComponent', () => {
   let component: CasesFilterComponent;
@@ -45,6 +46,7 @@ describe('CasesFilterComponent', () => {
         { provide: CaaCasesService, useValue: caaCasesService }
       ],
       imports: [
+        RpxTranslationTestingModule,
         ReactiveFormsModule,
         MatAutocompleteModule
       ]

@@ -8,6 +8,7 @@ import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { EnvironmentService } from '../../../shared/services/environment.service';
 import { ENVIRONMENT_CONFIG } from '../../../models/environmentConfig.model';
 import { RegistrationData } from '../../models/registration-data.model';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { PaymentByAccountComponent } from './payment-by-account.component';
 import { buildMockStoreProviders } from '../../testing/mock-store-state';
 import { mockEnvironmentConfig } from '../../../shared/services/environment.service.spec';
@@ -41,7 +42,7 @@ describe('PaymentByAccountComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [PaymentByAccountComponent],
-      imports: [RouterTestingModule, ReactiveFormsModule, ExuiCommonLibModule],
+      imports: [RpxTranslationTestingModule, RouterTestingModule, ReactiveFormsModule, ExuiCommonLibModule],
       providers: [
         EnvironmentService,
         { provide: ENVIRONMENT_CONFIG, useValue: mockEnvironmentConfig },

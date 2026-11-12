@@ -26,7 +26,7 @@ describe('User Details Component', () => {
     orgStoreSpyObject = jasmine.createSpyObj<Store<fromOrgStore.OrganisationState>>('Store', ['pipe', 'select', 'dispatch']);
 
     orgStoreSpyObject.pipe.and.callFake(() => {
-      return of({ organisation: { organisationJurisdications: [] } } as OrganisationState);
+      return of({ organisation: { organisationJurisdictions: [] } } as OrganisationState);
     });
 
     orgStoreSpyObject.pipe.and.callFake(() => {

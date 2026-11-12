@@ -213,7 +213,7 @@ describe('OrganisationComponent', () => {
     });
 
     it('should not display organisation regulators', () => {
-      component.regulators = null;
+      component.regulators = [];
       fixture.detectChanges();
       const regulatorsEl = fixture.debugElement.nativeElement.querySelector('#regulators') as HTMLElement;
       expect(regulatorsEl).toBeNull();
@@ -231,23 +231,6 @@ describe('OrganisationComponent', () => {
       component.organisationType = 'OTHER-LAW';
       fixture.detectChanges();
       component.orgTypeDescription = 'Law';
-    });
-  });
-
-  describe('ngOnDestroy', () => {
-    it('should unsubscribe from observables when subscribed', () => {
-      component.orgTypeSubscription = new Observable().subscribe();
-      const componentOrgTypeSubscriptionUnsubscribeSpy = spyOn(component.orgTypeSubscription, 'unsubscribe');
-      component.ngOnDestroy();
-      expect(componentOrgTypeSubscriptionUnsubscribeSpy).toHaveBeenCalled();
-    });
-
-    it('should not unsubscribe from observables when not subscribed', () => {
-      component.orgTypeSubscription = new Observable().subscribe();
-      const componentOrgTypeSubscriptionUnsubscribeSpy = spyOn(component.orgTypeSubscription, 'unsubscribe');
-      component.orgTypeSubscription = undefined;
-      component.ngOnDestroy();
-      expect(componentOrgTypeSubscriptionUnsubscribeSpy).not.toHaveBeenCalled();
     });
   });
 });

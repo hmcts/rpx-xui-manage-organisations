@@ -140,6 +140,43 @@ describe('interceptors', () => {
   });
 
   describe('errorInterceptor', () => {
+    it('excludes request, response and credential content from logs while retaining failure telemetry', async () => {
+      const log = sinon.spy();
+      const telemetry = sinon.spy();
+      sinon.stub(log4jui, 'getLogger').returns({ error: log, trackRequest: telemetry } as any);
+      const error = {
+        message: 'ADDRESS_MARKER',
+        config: {
+          metadata: { startTime: new Date() }, method: 'PUT',
+          url: 'https://rd.example.test/refdata/external/v2/organisations/contactinformation',
+          data: 'ADDRESS_MARKER', headers: { Authorization: 'TOKEN_MARKER' }
+        },
+        response: { status: 500, data: { message: 'ADDRESS_MARKER' } }
+      };
+
+      const rejected = await errorInterceptor(error).catch((failure) => failure);
+
+      expect(rejected).to.equal(error.response);
+      expect(JSON.stringify(log.args)).not.to.contain('ADDRESS_MARKER');
+      expect(JSON.stringify(log.args)).not.to.contain('TOKEN_MARKER');
+      expect(telemetry).to.have.been.calledOnceWithExactly({
+        duration: sinon.match.number, name: 'Service PUT call', resultCode: 500,
+        success: false, url: error.config.url
+      });
+    });
+
+    it('rejects the actual network error when no response exists', async () => {
+      sinon.stub(log4jui, 'getLogger').returns({ error: sinon.spy(), trackRequest: sinon.spy() } as any);
+      const error = {
+        message: 'Synthetic connection failure',
+        config: { metadata: { startTime: new Date() }, method: 'PUT', url: 'https://rd.example.test' }
+      };
+
+      const rejected = await errorInterceptor(error).catch((failure) => failure);
+
+      expect(rejected).to.equal(error);
+    });
+
     it('Should log returned response where response data details exist', () => {
       const spy = sinon.spy();
       const stub = sinon.stub();
@@ -154,7 +191,6 @@ describe('interceptors', () => {
         });
         expect(spy).to.be.calledWith('Outbound service call failed', {
           duration: sinon.match.number,
-          message: undefined,
           method: 'GET',
           status: 500,
           target: 'aac-manage-case-assignment /case-assignments'
@@ -176,7 +212,6 @@ describe('interceptors', () => {
         });
         expect(spy).to.be.calledWith('Outbound service call failed', {
           duration: sinon.match.number,
-          message: undefined,
           method: 'GET',
           status: 500,
           target: 'aac-manage-case-assignment /case-assignments'
@@ -198,7 +233,6 @@ describe('interceptors', () => {
         });
         expect(spy).to.be.calledWith('Outbound service call failed', {
           duration: sinon.match.number,
-          message: undefined,
           method: 'GET',
           status: 500,
           target: 'aac-manage-case-assignment /case-assignments'

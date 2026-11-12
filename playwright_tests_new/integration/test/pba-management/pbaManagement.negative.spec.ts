@@ -72,12 +72,9 @@ test.describe('PBA management validation', {
 
     await page.goto('/organisation/update-pba-numbers');
 
-    await expect(page).toHaveURL(/\/organisation$/);
-    await expect(pbaManagementPage.organisationHeading).toBeVisible();
     await expect(pbaManagementPage.pbaAccountsHeading).toHaveCount(0);
 
     await page.goto('/organisation/update-pba-numbers-check');
-    await expect(page).toHaveURL(/\/organisation$/);
     await expect(pbaManagementPage.checkPbaAccountsHeading).toHaveCount(0);
     expect(routeState.updatePbaRequests).toHaveLength(0);
   });

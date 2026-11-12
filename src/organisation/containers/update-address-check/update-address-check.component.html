@@ -1,0 +1,70 @@
+<main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <a href="#" class="govuk-back-link" (click)="onBack(); $event.preventDefault()">Back</a>
+      <xuilib-hmcts-error-summary [errorMessages]="validationErrors" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
+      <span class="govuk-caption-xl">Update organisation address</span>
+      <h1 class="govuk-heading-xl">Check your answers</h1>
+
+      @if (draftAddress) {
+        <dl class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Organisation address</dt>
+            <dd class="govuk-summary-list__value">
+              <div>{{draftAddress.address.addressLine1}}</div>
+              @if (draftAddress.address.addressLine2) {<div>{{draftAddress.address.addressLine2}}</div>}
+              @if (draftAddress.address.addressLine3) {<div>{{draftAddress.address.addressLine3}}</div>}
+              <div>{{draftAddress.address.postTown}}</div>
+              @if (draftAddress.address.county) {<div>{{draftAddress.address.county}}</div>}
+              @if (draftAddress.address.postCode) {<div>{{draftAddress.address.postCode}}</div>}
+              <div>{{draftAddress.address.country}}</div>
+            </dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" routerLink="/organisation/update-address">
+                Change<span class="govuk-visually-hidden"> organisation address</span>
+              </a>
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Document exchange reference</dt>
+            <dd class="govuk-summary-list__value">{{draftAddress.hasDxReference ? 'Yes' : 'No'}}</dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" routerLink="/organisation/update-address/document-exchange-reference">
+                Change<span class="govuk-visually-hidden"> document exchange reference</span>
+              </a>
+            </dd>
+          </div>
+          @if (draftAddress.dxNumber) {
+            <div class="govuk-summary-list__row" [ngClass]="{'govuk-summary-list__row--no-border': draftAddress.dxExchange}">
+              <dt class="govuk-summary-list__key">DX reference</dt>
+              <dd class="govuk-summary-list__value">
+                {{draftAddress.dxNumber}}
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" routerLink="/organisation/update-address/document-exchange-reference-details">
+                  Change<span class="govuk-visually-hidden"> DX reference details</span>
+                </a>
+              </dd>
+            </div>
+          }
+          @if (draftAddress.dxExchange) {
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">DX exchange</dt>
+              <dd class="govuk-summary-list__value">
+                {{draftAddress.dxExchange}}
+              </dd>
+            </div>
+          }
+        </dl>
+
+        <div class="govuk-button-group">
+          <button id="submit-address-update" type="button" class="govuk-button" data-module="govuk-button"
+            [disabled]="isSubmitting" (click)="onSubmit()">
+            {{isSubmitting ? 'Submitting…' : 'Submit changes'}}
+          </button>
+          <button type="button" class="govuk-js-link" [disabled]="isSubmitting" (click)="onCancel()">Cancel</button>
+        </div>
+      }
+    </div>
+  </div>
+</main>

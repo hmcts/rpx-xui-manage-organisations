@@ -1,0 +1,31 @@
+<main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <a href="#" class="govuk-back-link" (click)="onBack(); $event.preventDefault()">Back</a>
+      <xuilib-hmcts-error-summary [errorMessages]="validationErrors" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
+      <span class="govuk-caption-xl">Update SRA ID</span>
+      <h1 class="govuk-heading-xl">What is your new SRA ID?</h1>
+      <hr>
+      <form [formGroup]="sraFormGroup" (ngSubmit)="onContinue()">
+        <div class="govuk-form-group" #sraId [ngClass]="{'govuk-form-group--error': sraIdError}">
+          <label class="govuk-label govuk-!-font-weight-bold" for="sra-id">
+            Enter the new SRA ID
+          </label>
+          @if (sraIdError) {
+            <p class="govuk-error-message">
+              <span class="govuk-visually-hidden">Error:</span>{{ sraIdError.message }}
+            </p>
+          }
+          <input class="govuk-input" id="sra-id" name="sraId" type="text" formControlName="sraId">
+        </div>
+
+        <div class="govuk-button-group">
+          <button type="submit" class="govuk-button govuk-button--primary" data-module="govuk-button">
+            Continue
+          </button>
+          <button type="button" class="govuk-js-link" (click)="onCancel()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>

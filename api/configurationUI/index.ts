@@ -9,8 +9,7 @@ import {
   LINKS_MANAGE_CASES_LINK,
   LINKS_MANAGE_ORG_LINK,
   PROTOCOL,
-  SERVICES_IDAM_WEB,
-  SERVICES_TERMS_AND_CONDITIONS_API_PATH
+  SERVICES_IDAM_WEB
 } from '../configuration/references';
 
 export const router = Router({ mergeParams: true });
@@ -34,7 +33,6 @@ export async function configurationUIRoute(req, res): Promise<void> {
     manageOrgLink: getConfigValue(LINKS_MANAGE_ORG_LINK),
     ogdUpdateRefreshUserEnabled: showFeature(FEATURE_OGD_UPDATE_REFRESH_USER_ENABLED),
     protocol: getConfigValue(PROTOCOL),
-    servicesTandCPath: getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH),
     termsAndConditionsEnabled: showFeature(FEATURE_TERMS_AND_CONDITIONS_ENABLED)
   });
 }

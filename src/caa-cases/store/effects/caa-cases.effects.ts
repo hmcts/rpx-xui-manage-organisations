@@ -7,8 +7,8 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import * as fromRoot from '../../../app/store/index';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { CaaCasesPageType } from '../../models/caa-cases.enum';
-import { CaaCasesService } from '../../services/caa-cases.service';
-import { CaaCasesUtil } from '../../util/caa-cases.util';
+import { CaaCasesService } from '../../services';
+import { CaaCasesUtil } from '../../../cases/util/caa-cases.util';
 import * as fromCaaActions from '../actions/caa-cases.actions';
 
 @Injectable()

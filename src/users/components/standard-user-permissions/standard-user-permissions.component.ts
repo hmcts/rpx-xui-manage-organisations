@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { FeatureToggleService, User } from '@hmcts/rpx-xui-common-lib';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { BasicAccessTypes } from '../../models/basic-access-types.model';
 
 @Component({
@@ -70,7 +70,7 @@ export class StandardUserPermissionsComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToAccessTypesChanges() {
-    this.permissionsForm.valueChanges.subscribe((permissions) => {
+    this.permissionsForm.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe((permissions) => {
       this.permissions.isPuiUserManager = permissions.isPuiUserManager;
       this.permissions.isPuiOrganisationManager = permissions.isPuiOrganisationManager;
       this.permissions.isPuiFinanceManager = permissions.isPuiFinanceManager;

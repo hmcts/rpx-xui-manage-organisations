@@ -101,7 +101,6 @@ export class CasesComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.ogdUpdateRefreshUserEnabled = this.environmentConfig.ogdUpdateRefreshUserEnabled;
-    console.log('OGD update refresh user enabled: ', this.ogdUpdateRefreshUserEnabled);
     this.loadOrganisationFromStore();
 
     this.caaCasesStore.pipe(
@@ -249,24 +248,10 @@ export class CasesComponent implements OnInit, OnDestroy {
     this.checkShareButtonText();
   }
 
-  public getCaseType() {
-    const caseType = this.selectedCaseType;
-    let caseTypeConfig;
-    for (const caseTypeItem of this.allCaseTypes) {
-      if (caseTypeItem.text === caseType) {
-        caseTypeConfig = caseTypeItem;
-        break;
-      }
-    }
-    console.log(caseTypeConfig);
-    return caseTypeConfig;
-  }
-
   public checkShareButtonText(): void {
     if (this.cases && this.allCaseTypes) {
       if (this.selectedFilterType === CaaCasesFilterType.CaseReferenceNumber) {
         const foundCase = this.caseDataWithSupplementary[0];
-        console.log(foundCase);
         if (foundCase.supplementary_data?.new_case?.[this.orgIdentifier]) {
           this.caseResultsTableShareButtonText = 'Accept cases';
           this.caaCasesPageType = CaaCasesPageType.NewCases;
@@ -378,7 +363,6 @@ export class CasesComponent implements OnInit, OnDestroy {
 
   public retrieveSessionState(): void {
     this.sessionStateValue = this.service.retrieveSessionState(this.sessionStateKey);
-    console.log(this.sessionStateValue);
     if (this.sessionStateValue) {
       this.toggleFilterSection();
     } else {
@@ -420,57 +404,12 @@ export class CasesComponent implements OnInit, OnDestroy {
   }
 
   onShareButtonClicked($event: string) {
-    let newCasesEnabled = false;
-    let groupAccessEnabled = false;
-    //match the caseType ($event) to any in the allCaseTypes
-    this.allCaseTypes.forEach((caseType) => {
-      const { text, caseConfig } = caseType;
-      if (text === $event && caseConfig) {
-        newCasesEnabled = caseConfig.new_cases;
-        groupAccessEnabled = caseConfig.group_access;
-      }
-    });
-    console.log(this.selectedCaseType, this.selectedFilterType, this.selectedCases, newCasesEnabled, groupAccessEnabled);
-    // load cases types based on filter and value
-    if (this.selectedFilterType === CaaCasesFilterType.CaseReferenceNumber) {
-      // if returning new case then go to add recipient page
-      // else if returning non-new case then go to manage case assignments
-      this.caaCasesStore.dispatch(new caaCasesStore.AddShareCases({
-        sharedCases: converters.toShareCaseConverter(this.selectedCases, this.selectedCaseType),
-        caaPageType: this.caaCasesPageType
-      }));
-    }
-    if (this.selectedFilterType === CaaCasesFilterType.CasesAssignedToAUser) {
-      this.caaCasesStore.dispatch(new caaCasesStore.AddShareCases({
-        sharedCases: converters.toShareCaseConverter(this.selectedCases, this.selectedCaseType),
-        caaPageType: this.caaCasesPageType
-      }
-      ));
-    }
-    if (this.selectedFilterType === CaaCasesFilterType.AllAssignedCases) {
-      this.caaCasesStore.dispatch(new caaCasesStore.AddShareCases({
-        sharedCases: converters.toShareCaseConverter(this.selectedCases, this.selectedCaseType),
-        caaPageType: this.caaCasesPageType
-      }
-      ));
-    }
-    if (this.selectedFilterType === CaaCasesFilterType.NewCasesToAccept) {
-      // dispatch action to load new cases to accept
-      // if group_access is enabled then go to accept cases page
-      // else go to add recipient
-      this.caaCasesStore.dispatch(new caaCasesStore.AddShareCases({
-        sharedCases: converters.toShareCaseConverter(this.selectedCases, this.selectedCaseType),
-        caaPageType: this.caaCasesPageType,
-        group_access: true,
-        caseTypeId: this.selectedCaseType
-      }
-      ));
-    }
-    if (this.selectedFilterType === CaaCasesFilterType.UnassignedCases || this.selectedFilterType === 'none') {
-      this.caaCasesStore.dispatch(new caaCasesStore.AddShareCases({
-        sharedCases: converters.toShareCaseConverter(this.selectedCases, this.selectedCaseType),
-        caaPageType: this.caaCasesPageType
-      }));
-    }
+    const isNewCase = this.selectedFilterType === CaaCasesFilterType.NewCasesToAccept;
+    const groupAccess = this.allCaseTypes.find((caseType) => caseType.text === $event)?.caseConfig?.group_access ?? false;
+    this.caaCasesStore.dispatch(new caaCasesStore.AddShareCases({
+      sharedCases: converters.toShareCaseConverter(this.selectedCases, this.selectedCaseType),
+      caaPageType: this.caaCasesPageType,
+      ...(isNewCase && { group_access: groupAccess, caseTypeId: this.selectedCaseType })
+    }));
   }
 }

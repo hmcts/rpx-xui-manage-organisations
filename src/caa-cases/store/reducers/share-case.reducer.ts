@@ -1,5 +1,6 @@
 import { UserDetails, SharedCase } from '@hmcts/rpx-xui-common-lib';
 import * as ShareCasesActions from '../actions/share-case.action';
+import { addUniqueCases, mergeCasesWithTypes, removeCaseById, sortedUserInCases } from '../../../cases/store/share-case.workflow';
 
 export interface ShareCasesState {
   shareAssignedCases: SharedCase[];
@@ -158,75 +159,7 @@ export function shareCasesReducer(
   }
 }
 
-function addUniqueCases(
-  currentCases: SharedCase[],
-  newCases: SharedCase[]
-): SharedCase[] {
-  return newCases.reduce(
-    (cases, aCase) =>
-      cases.some((existingCase) => existingCase.caseId === aCase.caseId)
-        ? cases
-        : [...cases, aCase],
-    [...currentCases]
-  );
-}
-
-function removeCaseById(
-  cases: SharedCase[],
-  caseId: string
-): SharedCase[] {
-  return cases.filter((aCase) => aCase.caseId !== caseId);
-}
-
-function mergeCasesWithTypes(
-  casesInStore: SharedCase[],
-  casesFromNode: SharedCase[]
-): SharedCase[] {
-  return casesInStore.map((aCase) => {
-    const intersectionCase = casesFromNode.find(
-      (nodeCase) => nodeCase.caseId === aCase.caseId
-    );
-
-    if (!intersectionCase?.caseId) {
-      return aCase;
-    }
-
-    return {
-      ...intersectionCase,
-      caseTypeId: aCase.caseTypeId ?? null,
-      caseTitle: aCase.caseTitle ?? null
-    };
-  });
-}
-
-export function sortedUserInCases(pendingSortedCases: SharedCase[]): SharedCase[] {
-  const cases: SharedCase[] = [];
-  for (const aCase of pendingSortedCases) {
-    if (aCase.sharedWith) {
-      const sortedUsers: UserDetails[] = aCase.sharedWith
-        .slice()
-        .sort((user1, user2) => {
-          if (user1.firstName > user2.firstName) {
-            return 1;
-          }
-
-          if (user1.firstName < user2.firstName) {
-            return -1;
-          }
-
-          return 0;
-        });
-      const caseWithSortedUser = {
-        ...aCase,
-        sharedWith: sortedUsers
-      };
-      cases.push(caseWithSortedUser);
-    } else {
-      cases.push(aCase);
-    }
-  }
-  return cases;
-}
+export { sortedUserInCases } from '../../../cases/store/share-case.workflow';
 
 export const getShareAssignedCases = (state: ShareCasesState) => state.shareAssignedCases;
 export const getShareUnassignedCases = (state: ShareCasesState) => state.shareUnassignedCases;

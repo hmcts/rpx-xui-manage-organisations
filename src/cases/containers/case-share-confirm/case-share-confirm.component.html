@@ -1,7 +1,11 @@
-<exui-page-wrapper
-  [backLink]="backLink"
-  [fnTitle]="fnTitle"
-  [title]="'Check and confirm your selection'">
+<div class="page">
+  @if (backLink) {
+    <a [href]="backLink" class="govuk-back-link">{{ 'Back' | rpxTranslate }}</a>
+  }
+  <div class="govuk-width-container">
+    <div class="govuk-grid-row">
+      <span class="govuk-caption-xl">{{ fnTitle | rpxTranslate }}</span>
+      <h1 class="govuk-heading-xl">{{ 'Check and confirm your selection' | rpxTranslate }}</h1>
   @if(acceptCases){
   <table class="govuk-table">
     <thead class="govuk-table__head">
@@ -26,5 +30,6 @@
     [completeLink]="completeLink"
     [acceptCases]="acceptCases">
   </xuilib-share-case-confirm>
-  
-</exui-page-wrapper>
+    </div>
+  </div>
+</div>

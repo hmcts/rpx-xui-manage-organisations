@@ -20,7 +20,7 @@ import {HtmlTemplatesHelper} from '../../util/helpers/html-templates.helper';
       
         @if (isHeading) {
           <legend [class]="config.classes + ' govuk-fieldset__legend'">
-            <h1>{{config.legend}}</h1>
+            <h1 class="govuk-fieldset__heading">{{config.legend}}</h1>
           </legend>
         }
       

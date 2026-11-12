@@ -46,6 +46,11 @@ export const ROUTES: Routes = [
     loadChildren: () => import('../style-guide/style-guide.module').then((m) => m.StyleGuideModule)
   },
   {
+    path: 'history',
+    canActivate: [AuthGuard, TermsConditionGuard, HealthCheckGuard],
+    loadChildren: () => import('../audit-history/audit-history.module').then((m) => m.AuditHistoryModule)
+  },
+  {
     path: 'register-org',
     loadChildren: () => import('../register/register.module').then((m) => m.RegisterModule),
     canActivate: [FeatureToggleGuard],

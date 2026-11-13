@@ -30,6 +30,13 @@ describe('CookiePolicyComponentTest', () => {
     expect(component.countCookies(component.SECURITY)).toBe(4);
   });
 
+  it('announces when the about cookies link opens in a new tab', () => {
+    const link: HTMLAnchorElement = fixture.nativeElement.querySelector('a[target="_blank"]');
+
+    expect(link.href).toBe('http://www.aboutcookies.org/');
+    expect(link.querySelector('.govuk-visually-hidden')?.textContent).toContain('opens in a new tab');
+  });
+
   it('should return the __userid__ cookie as an identity cookie', () => {
     const cookieName = component.cookiesByCat(component.IDENTIFY)[0].name;
     expect(cookieName).toBe('__userid__');

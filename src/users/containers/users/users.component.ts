@@ -7,7 +7,7 @@ import { GovukTableColumnConfig } from '../../../../projects/gov-ui/src/lib/comp
 import * as fromRoot from '../../../app/store';
 import * as fromStore from '../../store';
 import { map } from 'rxjs/operators';
-import { AppConstants } from 'src/app/app.constants';
+import { AppConstants } from '../../../app/app.constants';
 import { FilterValues } from '../../components/user-table/user-table.component';
 
 @Component({

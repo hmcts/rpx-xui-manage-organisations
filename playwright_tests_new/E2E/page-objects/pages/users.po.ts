@@ -91,10 +91,13 @@ export class UsersPage extends BasePage {
   }
 
   public async openFirstActiveUser(): Promise<void> {
-    const selectedUser = await this.openFirstUserByStatus('Active');
-    if (!selectedUser) {
+    if (!(await this.tryOpenFirstActiveUser())) {
       throw new Error('No active user found in the users list');
     }
+  }
+
+  public async tryOpenFirstActiveUser(): Promise<boolean> {
+    return (await this.openFirstUserByStatus('Active')) !== null;
   }
 
   public async openInviteUser(): Promise<void> {

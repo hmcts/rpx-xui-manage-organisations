@@ -4,7 +4,7 @@ import { availableParallelism, cpus, totalmem } from 'node:os';
 
 type EnvMap = NodeJS.ProcessEnv;
 
-const MAX_LOCAL_WORKERS = 10;
+const MAX_LOCAL_WORKERS = 4;
 
 type ReporterOptions = {
   defaultIndexFilename: string;

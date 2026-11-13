@@ -29,7 +29,7 @@
         <ul class="hmcts-footer__list hmcts-footer__list--inline">
           @for (item of navigation.items; track trackByFooterNavItem($index, item)) {
             <li class="hmcts-footer__list-item">
-              <a class="govuk-footer__link" [routerLink]="item.href" [target]="item.target">{{item.text}}</a>
+              <a class="govuk-footer__link" [routerLink]="item.href" [target]="item.target">{{item.text}}@if (item.target === '_blank') {<span class="govuk-visually-hidden"> (opens in a new tab)</span>}</a>
             </li>
           }
         </ul>

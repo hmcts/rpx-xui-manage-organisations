@@ -54,7 +54,29 @@ test.describe('case sharing accessibility', { tag: ['@integration', '@integratio
     });
 
     await test.step('Audit unassigned share page', async () => {
-      await unassignedCasesPage.selectCase(unassignedCaseIds[0]);
+      const selectAllCheckbox = page.locator('#select-all');
+
+      await selectAllCheckbox.press('Space');
+      await expect(selectAllCheckbox).toBeFocused();
+      await expect(selectAllCheckbox).toBeChecked();
+      for (const caseId of unassignedCaseIds) {
+        await expect(unassignedCasesPage.caseCheckbox(caseId)).toBeChecked();
+      }
+      await expect(unassignedCasesPage.shareCaseButton).toBeEnabled();
+
+      await selectAllCheckbox.press('Space');
+      await expect(selectAllCheckbox).toBeFocused();
+      await expect(selectAllCheckbox).not.toBeChecked();
+      for (const caseId of unassignedCaseIds) {
+        await expect(unassignedCasesPage.caseCheckbox(caseId)).not.toBeChecked();
+      }
+      await expect(unassignedCasesPage.shareCaseButton).toBeDisabled();
+
+      const firstCaseCheckbox = unassignedCasesPage.caseCheckbox(unassignedCaseIds[0]);
+
+      await firstCaseCheckbox.press('Space');
+      await expect(firstCaseCheckbox).toBeFocused();
+      await expect(firstCaseCheckbox).toBeChecked();
       await unassignedCasesPage.selectCase(unassignedCaseIds[1]);
       await expect(unassignedCasesPage.shareCaseButton).toBeEnabled();
       await unassignedCasesPage.startCaseSharing();

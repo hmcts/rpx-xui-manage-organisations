@@ -131,6 +131,49 @@ test.describe('Playwright global exclusion policy', { tag: '@svc-internal' }, ()
     expect(filters.ignoredGlobalExcludedTags).toEqual(['@a11y']);
   });
 
+  const integrationAccessibilityTitles = [
+    'unassigned case-sharing list, share, confirm and complete states have no automatically detectable accessibility violations',
+    'assigned case-sharing list, share, confirm and complete states have no automatically detectable accessibility violations',
+    'invalid PBA feedback and add/remove check remain accessible',
+    'required-permission validation has accessible feedback',
+    'suspend confirmation exposes accessible actions and an axe report'
+  ];
+
+  for (const { name, includeTags, includeA11y, expectedTitles } of [
+    { name: 'default integration discovery includes both case-sharing accessibility tests', includeTags: '', includeA11y: '', expectedTitles: integrationAccessibilityTitles.slice(0, 2) },
+    { name: 'case-sharing tag discovery includes both accessibility tests', includeTags: '@integration-case-sharing', includeA11y: '', expectedTitles: integrationAccessibilityTitles.slice(0, 2) },
+    { name: 'explicit integration accessibility opt-in discovers all five tests', includeTags: '', includeA11y: 'true', expectedTitles: integrationAccessibilityTitles }
+  ]) {
+    test(name, () => {
+      const listing = execFileSync(process.execPath, [
+        path.resolve(process.cwd(), 'node_modules/@playwright/test/cli.js'),
+        'test',
+        '--config=playwright.integration.config.ts',
+        '--list',
+        '--reporter=list'
+      ], {
+        cwd: process.cwd(),
+        encoding: 'utf8',
+        env: {
+          ...process.env,
+          INTEGRATION_PW_INCLUDE_TAGS: includeTags,
+          INTEGRATION_PW_EXCLUDED_TAGS_OVERRIDE: '',
+          INTEGRATION_PW_TAG_FILTER_CONFIG: path.resolve(process.cwd(), 'playwright_tests_new/integration/tag-filter.json'),
+          PLAYWRIGHT_GLOBAL_EXCLUDED_TAGS: '',
+          PLAYWRIGHT_INCLUDE_A11Y: includeA11y,
+          PLAYWRIGHT_REPORTERS: 'list',
+          PW_ENABLE_PERFETTO: 'false'
+        }
+      });
+      const accessibilityTests = listing.split('\n').filter((line) => line.includes('.a11y.spec.ts:'));
+
+      expect(accessibilityTests).toHaveLength(expectedTitles.length);
+      for (const title of expectedTitles) {
+        expect(accessibilityTests.join('\n')).toContain(`› ${title}`);
+      }
+    });
+  }
+
   test('validates global exclusions against custom API, E2E and integration catalogs', () => {
     const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'playwright-tag-catalogs-'));
     const catalogPaths = {

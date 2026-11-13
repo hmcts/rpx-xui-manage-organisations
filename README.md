@@ -157,7 +157,7 @@ flowchart TB
   Pact["yarn test-pact\nConsumer contracts"]
   PwApi["yarn test:api:pw\nPlaywright node-api"]
   PwIntegration["yarn test:playwright:integration\nmock-backed browser"]
-  PwA11y["yarn test:a11y:playwright\nE2E and integration accessibility"]
+  PwA11y["yarn test:a11y:playwright\nE2E accessibility pack"]
   PwE2E["yarn test:playwrightE2E\nChromium deployed journeys"]
   PwCross["yarn test:crossbrowser:profile\nFirefox/WebKit deployed journeys"]
   Smoke["yarn test:playwright:smoke\nunauthenticated smoke"]
@@ -179,11 +179,11 @@ Playwright is split by test intent:
 | Lane           | Config                                     | Scope                                                              | Default target                                        |
 | -------------- | ------------------------------------------ | ------------------------------------------------------------------ | ----------------------------------------------------- |
 | API functional | `playwright.config.ts`, project `node-api` | API contracts, guard rails, internal support tests                 | `TEST_URL` or `http://localhost:3000/` in base config |
-| Integration    | `playwright.integration.config.ts`         | Mock-backed browser tests under `playwright_tests_new/integration` | `TEST_URL` or AAT                                     |
+| Integration    | `playwright.integration.config.ts`         | Mock-backed browser tests and case-sharing accessibility | `TEST_URL` or AAT                                     |
 | E2E            | `playwright.e2e.config.ts`                 | Deployed Chromium journeys under `playwright_tests_new/E2E`        | `TEST_URL` or AAT                                     |
 | Cross-browser  | `playwright-nightly.config.ts`             | Firefox/WebKit deployed journeys                                   | `TEST_URL` or AAT                                     |
 | Smoke          | `playwright.config.ts`, project `smoke`    | Unauthenticated login and protected-route checks                   | `TEST_URL` or local                                   |
-| Accessibility  | `scripts/run-playwright-a11y.js`           | Dedicated `@a11y` specs across E2E and integration                 | `TEST_URL` or AAT                                     |
+| Accessibility  | `scripts/run-playwright-a11y.js`           | Dedicated deployed E2E `@a11y` specs                 | `TEST_URL` or AAT                                     |
 
 ### Running Playwright Against AAT, DEMO, ITHC and LOCAL
 
@@ -416,7 +416,7 @@ The important CI contract is:
 - Functional lanes use the shared `PLAYWRIGHT_BROWSERS_PATH`.
 - Functional lanes set `PLAYWRIGHT_SKIP_INSTALL=true`, so they do not reinstall Chromium.
 - API, integration, E2E, and nightly cross-browser lanes publish Odhin, JUnit, HTML, and stable failure artifacts. CI system-load publishing is deliberately disabled in Manage Organisations because the extra monitor added pipeline noise without improving the release gate.
-- Accessibility findings publish HTML/JUnit evidence but do not fail the functional pipeline; API, integration, and E2E remain blocking gates.
+- The dedicated E2E accessibility lane publishes HTML/JUnit evidence without failing the functional pipeline. API, integration, and E2E remain blocking gates. Integration case-sharing axe findings fail their tests. PBA/user-admin integration audits remain opt-in; their existing helper reports findings unless `A11Y_STRICT=true`.
 - Jenkins worker pressure is fixed at `FUNCTIONAL_TESTS_WORKERS=6`.
 - Local runs compute worker count from the developer machine unless `FUNCTIONAL_TESTS_WORKERS` is set.
 
@@ -427,7 +427,7 @@ Every migrated Playwright journey should have one execution-pack tag and one dom
 - Execution-pack tags:
   - `@e2e` for end-to-end journeys.
   - `@e2e-smoke` for unauthenticated login and protected-route redirect smoke checks.
-  - `@a11y` for dedicated accessibility scans. `*.a11y.spec.ts` files are ignored by normal E2E and integration runs unless `PLAYWRIGHT_INCLUDE_A11Y=true`.
+  - `@a11y` for accessibility scans. Normal integration runs include both mocked case-sharing accessibility scenarios by default. The three PBA/user-admin integration scenarios and normal E2E accessibility files remain opt-in with `PLAYWRIGHT_INCLUDE_A11Y=true`.
 - Domain tags:
   - `@registration` for register organisation and register other organisation journeys.
   - `@organisation` for organisation details and organisation profile journeys.
@@ -437,7 +437,7 @@ Every migrated Playwright journey should have one execution-pack tag and one dom
   - `@api` for Playwright API-functional coverage.
   - `@integration` for Playwright mock-backed integration coverage.
 
-Jenkins CNP, nightly, and parameterized E2E stages set `PLAYWRIGHT_TAGS=@e2e` and exclude `@a11y`. Accessibility stays in `yarn test:a11y:playwright`. API and integration lanes use their dedicated Playwright projects, so E2E tag filtering does not remove them.
+Jenkins CNP, nightly, and parameterized E2E stages set `PLAYWRIGHT_TAGS=@e2e` and exclude `@a11y`. Deployed E2E accessibility stays in `yarn test:a11y:playwright`. Mocked case-sharing accessibility runs in `yarn test:playwright:integration`; API and integration lanes use their dedicated Playwright projects, so E2E tag filtering does not remove them.
 
 ## Legacy Codecept Retirement
 
@@ -445,7 +445,7 @@ Playwright API, integration, accessibility, and E2E lanes are now the Manage Org
 
 - Retired package aliases have been removed. That includes `test:api`, `test:codeceptE2E`, `test:a11yInTest`, `test:xuiIntegration`, `test:backendMock`, `test:ngIntegrationMockEnv`, `patch:static`, `testx`, and the placeholder mutation scripts.
 - `test:functional` and `test:fullfunctional` remain as no-op CNP compatibility hooks because the shared Jenkins library still invokes those script names during deploy functional-test stages. The real functional coverage is the Playwright API, integration, accessibility, E2E, and smoke lanes declared in the Jenkinsfiles.
-- `yarn test:a11y:playwright` runs the deployed E2E route scans and discovers the mocked integration case-sharing accessibility specs. Those integration specs stay skipped until the product accessibility fixes are delivered in a separate application PR.
+- `yarn test:a11y:playwright` runs the deployed E2E route scans. The ordinary integration lane includes two mocked case-sharing accessibility journeys (eight audited states). The existing two user-admin scenarios and one PBA scenario remain opt-in. Include all five integration audits with `PLAYWRIGHT_INCLUDE_A11Y=true INTEGRATION_PW_INCLUDE_TAGS=@a11y TEST_URL=http://localhost:3000/ yarn test:playwright:integration`.
 - Retired legacy assets have been deleted from the active tree: `test_codecept/**`, old `playwright_tests/**`, legacy pa11y accessibility tests, old API-functional tests, and old local mock assets. Historical evidence is available from git history and the migration Jira trail.
 - `test/java/**` remains because Fortify still owns that Java wrapper; it is not part of the retired functional framework estate.
 - `yarn lint:playwright:architecture` fails if package scripts, Jenkinsfiles, dependencies, legacy folders, old report publishers, or old Playwright paths are reintroduced.

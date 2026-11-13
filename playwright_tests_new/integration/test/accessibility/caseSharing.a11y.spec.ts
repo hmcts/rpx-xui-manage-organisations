@@ -6,8 +6,8 @@ import {
 } from '../../helpers';
 import {
   assignedAsylumCase,
-  assignedCaseIds,
   assignedImmigrationCase,
+  assignedSecondAsylumCase,
   buildRecipientName,
   buildRecipientOptionName,
   immigrationCaseType,
@@ -21,12 +21,7 @@ import { CaseShareConfirmPage } from '../../page-objects/case-share-confirm.po';
 import { CaseSharingPage } from '../../page-objects/case-sharing.po';
 import { UnassignedCasesPage } from '../../page-objects/unassigned-cases.po';
 
-const pendingProductA11yDefect =
-  'Skipped pending separate product defect fix: CAA case-list inactive tabs fail colour contrast and CCD case-list selection checkboxes have no accessible names. EXUI-4640 is test/CI retirement only and must not change src/** application code.';
-
-test.describe('case sharing accessibility - skipped pending product defect: tab contrast and checkbox accessible names', { tag: ['@integration', '@integration-case-sharing', '@a11y'] }, () => {
-  test.skip(true, pendingProductA11yDefect);
-
+test.describe('case sharing accessibility', { tag: ['@integration', '@integration-case-sharing', '@a11y'] }, () => {
   test('unassigned case-sharing list, share, confirm and complete states have no automatically detectable accessibility violations', async ({
     manageOrgIntegrationPage: page
   }, testInfo) => {
@@ -45,9 +40,17 @@ test.describe('case sharing accessibility - skipped pending product defect: tab 
       await expect(unassignedCasesPage.pageHeading).toBeVisible();
       await expect(unassignedCasesPage.caseList).toBeVisible();
       await expect(unassignedCasesPage.shareCaseButton).toBeDisabled();
+      await expect(page.locator('#select-all')).toHaveAccessibleName('Select all cases');
+      for (const caseId of unassignedCaseIds) {
+        await expect(unassignedCasesPage.caseCheckbox(caseId)).toHaveAccessibleName(`Select case ${caseId}`);
+      }
       await expect.poll(() => routeState.caseListRequests.length).toBeGreaterThan(0);
       await axeUtils.audit();
       await axeUtils.generateReport(testInfo, 'unassigned cases list accessibility report');
+      await testInfo.attach('unassigned cases list accessibility screenshot', {
+        body: await page.screenshot({ fullPage: true }),
+        contentType: 'image/png'
+      });
     });
 
     await test.step('Audit unassigned share page', async () => {
@@ -62,6 +65,10 @@ test.describe('case sharing accessibility - skipped pending product defect: tab 
       await expect(routeState.loadedShareCaseIds[0]).toEqual(unassignedCaseIds);
       await axeUtils.audit();
       await axeUtils.generateReport(testInfo, 'unassigned case-share form accessibility report');
+      await testInfo.attach('unassigned case-share form accessibility screenshot', {
+        body: await page.screenshot({ fullPage: true }),
+        contentType: 'image/png'
+      });
     });
 
     await test.step('Audit unassigned share confirmation page', async () => {
@@ -75,6 +82,10 @@ test.describe('case sharing accessibility - skipped pending product defect: tab 
       await expect(confirmPage.confirmCaseBlock(unassignedCaseIds[1])).toContainText(recipientName);
       await axeUtils.audit();
       await axeUtils.generateReport(testInfo, 'unassigned case-share confirmation accessibility report');
+      await testInfo.attach('unassigned case-share confirmation accessibility screenshot', {
+        body: await page.screenshot({ fullPage: true }),
+        contentType: 'image/png'
+      });
     });
 
     await test.step('Audit unassigned share complete page', async () => {
@@ -91,6 +102,10 @@ test.describe('case sharing accessibility - skipped pending product defect: tab 
       await expect(completePage.heading).toBeVisible();
       await axeUtils.audit();
       await axeUtils.generateReport(testInfo, 'unassigned case-share complete accessibility report');
+      await testInfo.attach('unassigned case-share complete accessibility screenshot', {
+        body: await page.screenshot({ fullPage: true }),
+        contentType: 'image/png'
+      });
     });
   });
 
@@ -106,32 +121,54 @@ test.describe('case sharing accessibility - skipped pending product defect: tab 
     const existingRecipientOptionName = buildRecipientOptionName(petSolicitorOne);
     const newRecipientName = buildRecipientName(petSolicitorTwo);
     const newRecipientOptionName = buildRecipientOptionName(petSolicitorTwo);
+    const expectedAssignedCaseIds = [assignedImmigrationCase.caseReference];
     const axeUtils = new AxeUtils(page);
 
     await test.step('Audit assigned cases list', async () => {
       await assignedCasesPage.gotoAssignedCases();
 
       await expect(assignedCasesPage.pageHeading).toBeVisible();
+      await assignedCasesPage.showAssignedCasesFilter();
+      await assignedCasesPage.selectAllAssignedCasesFilter();
+      await assignedCasesPage.applyFilter();
+
       await expect(assignedCasesPage.caseList).toBeVisible();
       await expect(assignedCasesPage.manageCaseSharingButton).toBeDisabled();
+      await expect(page.locator('#select-all')).toHaveAccessibleName('Select all cases');
+      for (const caseId of [assignedAsylumCase.caseReference, assignedSecondAsylumCase.caseReference]) {
+        await expect(assignedCasesPage.caseCheckbox(caseId)).toHaveAccessibleName(`Select case ${caseId}`);
+      }
       await expect.poll(() => routeState.caseListRequests.length).toBeGreaterThan(0);
       await axeUtils.audit();
       await axeUtils.generateReport(testInfo, 'assigned cases list accessibility report');
+      await testInfo.attach('assigned cases list accessibility screenshot', {
+        body: await page.screenshot({ fullPage: true }),
+        contentType: 'image/png'
+      });
     });
 
     await test.step('Audit assigned share page', async () => {
       await assignedCasesPage.selectCase(assignedAsylumCase.caseReference);
+      await expect(assignedCasesPage.caseCheckbox(assignedAsylumCase.caseReference)).toBeChecked();
       await assignedCasesPage.openCaseTypeTab(immigrationCaseType);
+      await expect(assignedCasesPage.caseCheckbox(assignedImmigrationCase.caseReference)).not.toBeChecked();
+      await expect(page.locator('#select-all')).toHaveAccessibleName('Select all cases');
+      await expect(assignedCasesPage.caseCheckbox(assignedImmigrationCase.caseReference))
+        .toHaveAccessibleName(`Select case ${assignedImmigrationCase.caseReference}`);
       await assignedCasesPage.selectCase(assignedImmigrationCase.caseReference);
       await expect(assignedCasesPage.manageCaseSharingButton).toBeEnabled();
       await assignedCasesPage.startCaseSharing();
 
-      await expect(page).toHaveURL(/\/assigned-cases\/case-share\?init=true&pageType=assigned-cases$/);
+      await expect(page).toHaveURL(/\/cases\/case-share\?init=true&pageType=assigned-cases$/);
       await expect(page.getByRole('heading', { name: 'Manage shared access to a case' })).toBeVisible();
       await expect.poll(() => routeState.loadedShareCaseIds.length).toBe(1);
-      await expect(routeState.loadedShareCaseIds[0]).toEqual(assignedCaseIds);
+      await expect(routeState.loadedShareCaseIds[0]).toEqual(expectedAssignedCaseIds);
       await axeUtils.audit();
       await axeUtils.generateReport(testInfo, 'assigned case-share form accessibility report');
+      await testInfo.attach('assigned case-share form accessibility screenshot', {
+        body: await page.screenshot({ fullPage: true }),
+        contentType: 'image/png'
+      });
     });
 
     await test.step('Audit assigned share confirmation page', async () => {
@@ -141,9 +178,9 @@ test.describe('case sharing accessibility - skipped pending product defect: tab 
       await caseSharingPage.removeRecipientFromAllCases(existingRecipientOptionName);
       await caseSharingPage.continueButton.click();
 
-      await expect(page).toHaveURL(/\/assigned-cases\/case-share-confirm\/assigned-cases$/);
+      await expect(page).toHaveURL(/\/cases\/case-share-confirm\/assigned-cases$/);
       await expect(confirmPage.heading).toBeVisible();
-      for (const caseId of assignedCaseIds) {
+      for (const caseId of expectedAssignedCaseIds) {
         const confirmBlock = confirmPage.confirmCaseBlock(caseId);
 
         await expect(confirmBlock).toContainText(newRecipientName);
@@ -151,6 +188,10 @@ test.describe('case sharing accessibility - skipped pending product defect: tab 
       }
       await axeUtils.audit();
       await axeUtils.generateReport(testInfo, 'assigned case-share confirmation accessibility report');
+      await testInfo.attach('assigned case-share confirmation accessibility screenshot', {
+        body: await page.screenshot({ fullPage: true }),
+        contentType: 'image/png'
+      });
     });
 
     await test.step('Audit assigned share complete page', async () => {
@@ -160,13 +201,19 @@ test.describe('case sharing accessibility - skipped pending product defect: tab 
       expect(routeState.caseAssignmentRequests).toEqual([
         {
           method: 'POST',
-          sharedCaseIds: assignedCaseIds
+          sharedCaseIds: expectedAssignedCaseIds
         }
       ]);
-      await expect(page).toHaveURL(/\/assigned-cases\/case-share-complete\/assigned-cases$/);
+      expect(routeState.submittedAssignments[0].sharedCases[0].pendingShares).toEqual([petSolicitorTwo]);
+      expect(routeState.submittedAssignments[0].sharedCases[0].pendingUnshares).toEqual([petSolicitorOne]);
+      await expect(page).toHaveURL(/\/cases\/case-share-complete\/assigned-cases$/);
       await expect(completePage.heading).toBeVisible();
       await axeUtils.audit();
       await axeUtils.generateReport(testInfo, 'assigned case-share complete accessibility report');
+      await testInfo.attach('assigned case-share complete accessibility screenshot', {
+        body: await page.screenshot({ fullPage: true }),
+        contentType: 'image/png'
+      });
     });
   });
 });

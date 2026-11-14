@@ -1,9 +1,9 @@
 import { test as base } from '@playwright/test';
 import type { BrowserContext, Locator, Page } from '@playwright/test';
-import { existsSync, mkdirSync, readFileSync, unlinkSync } from 'node:fs';
-import { tmpdir } from 'node:os';
-import { dirname, join, resolve } from 'node:path';
+import { existsSync, mkdirSync, readFileSync } from 'node:fs';
+import { dirname } from 'node:path';
 import { PageFixtures, pageFixtures } from './page-objects/pages/page.fixtures';
+import { publishSessionState, resolveSessionStatePath } from '../common/sessionState';
 
 type ManageOrgUserRole = 'base' | 'roo';
 
@@ -43,8 +43,7 @@ const userEnvByRole: Record<ManageOrgUserRole, { email: string; password: string
   }
 };
 
-const isManageOrgUserRole = (role: string | undefined): role is ManageOrgUserRole =>
-  role === 'base' || role === 'roo';
+const isManageOrgUserRole = (role: string | undefined): role is ManageOrgUserRole => role === 'base' || role === 'roo';
 
 const resolveConfiguredUserRole = (): ManageOrgUserRole => {
   const configuredRole = process.env.MANAGE_ORG_TEST_USER_ROLE;
@@ -72,12 +71,12 @@ const resolveTestUser = (role: ManageOrgUserRole = 'base'): ManageOrgTestUser =>
 };
 
 const resolveStorageStatePath = (role: ManageOrgUserRole, browserName: string, workerIndex: number): string => {
-  const configuredPath = process.env.MANAGE_ORG_STORAGE_STATE?.trim();
-  const stateFileName = `${browserName}-${role}-worker-${workerIndex}.json`;
-  if (configuredPath) {
-    return resolve(configuredPath, stateFileName);
-  }
-  return join(tmpdir(), 'rpx-xui-manage-organisations-playwright', stateFileName);
+  const identity = process.env[userEnvByRole[role].email] || role;
+  const host = new URL(process.env.TEST_URL || 'https://manage-org.aat.platform.hmcts.net/').hostname.replace(
+    /[^a-zA-Z0-9.-]/g,
+    '-'
+  );
+  return resolveSessionStatePath(`ui-${browserName}-${role}-${host}-worker-${workerIndex}`, identity);
 };
 
 const applyStoredAuthState = async (page: Page, storageStatePath: string): Promise<void> => {
@@ -89,11 +88,6 @@ const applyStoredAuthState = async (page: Page, storageStatePath: string): Promi
   try {
     state = JSON.parse(readFileSync(storageStatePath, 'utf-8')) as StoredAuthState;
   } catch {
-    try {
-      unlinkSync(storageStatePath);
-    } catch {
-      // Ignore cleanup races; the next login will write a fresh state file.
-    }
     return;
   }
 
@@ -114,15 +108,14 @@ const isVisibleWithin = async (locator: Locator, timeout: number): Promise<boole
 export const test = base.extend<PageFixtures & AuthFixtures, AuthWorkerFixtures>({
   ...pageFixtures,
   manageOrgUserRole: [resolveConfiguredUserRole(), { option: true, scope: 'worker' }],
-  manageOrgStorageStatePath: [async ({ browserName, manageOrgUserRole }, use, workerInfo) => {
-    const storageStatePath = resolveStorageStatePath(
-      manageOrgUserRole,
-      browserName,
-      workerInfo.workerIndex
-    );
-    mkdirSync(dirname(storageStatePath), { recursive: true });
-    await use(storageStatePath);
-  }, { scope: 'worker' }],
+  manageOrgStorageStatePath: [
+    async ({ browserName, manageOrgUserRole }, use, workerInfo) => {
+      const storageStatePath = resolveStorageStatePath(manageOrgUserRole, browserName, workerInfo.workerIndex);
+      mkdirSync(dirname(storageStatePath), { recursive: true, mode: 0o700 });
+      await use(storageStatePath);
+    },
+    { scope: 'worker' }
+  ],
   signedInUser: async ({ manageOrgUserRole }, use) => {
     const { email, role } = resolveTestUser(manageOrgUserRole);
     await use({ email, role });
@@ -137,7 +130,7 @@ export const test = base.extend<PageFixtures & AuthFixtures, AuthWorkerFixtures>
       await page.goto('');
       await idamPage.signIn(testUser.email, testUser.password);
       await organisationLink.waitFor({ state: 'visible' });
-      await page.context().storageState({ path: manageOrgStorageStatePath });
+      await publishSessionState(page.context(), manageOrgStorageStatePath);
     }
     await organisationLink.waitFor({ state: 'visible' });
     await use(page);

@@ -70,9 +70,9 @@ export class UserAdminPage {
   }
 
   public userDetailValue(label: string): Locator {
-    return this.page.locator('.govuk-table__row').filter({
-      has: this.page.locator('.govuk-table__header', { hasText: label })
-    }).locator('.govuk-table__cell').first();
+    return this.page.locator('.govuk-summary-list__row, .govuk-table__row').filter({
+      has: this.page.locator('.govuk-summary-list__key, .govuk-table__header', { hasText: label })
+    }).locator('.govuk-summary-list__value, .govuk-table__cell').first();
   }
 
   public async openUsers(): Promise<void> {

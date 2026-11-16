@@ -52,9 +52,9 @@ describe('UsersComponent', () => {
   it('should update filter values and observable sources', () => {
     store.pipe.and.callFake((...operators) => applyOperators(of(usersState), operators));
 
-    component.handleFilterUpdates('smith');
+    component.handleFilterUpdates({ name: 'smith', email: '', status: '' });
 
-    expect(component.filterValues).toBe('smith');
+    expect(component.filterValues).toEqual({ name: 'smith', email: '', status: '' });
     expect(component.tableUsersData$).toBeTruthy();
     expect(component.isLoading$).toBeTruthy();
   });

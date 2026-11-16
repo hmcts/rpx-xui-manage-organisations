@@ -17,30 +17,32 @@ export class UserTableComponent implements OnChanges, OnInit {
     @Input() users: User[] = [];
     @Input() moreItems: boolean;
     @Input() firstRecord: number;
-    @Input() filterValues: FilterValues;
+    @Input() filterValues: FilterValues = {};
 
     @Output() userClick = new EventEmitter<User>();
 
     pagination: Pagination;
     currentPage = 0;
-    filteredItems: any;
+    filteredItems: User[] = [];
 
     ngOnInit() {
-      this.filteredItems = this.users;
-      this.pagination = { itemsPerPage: 50, currentPage: this.currentPage, totalItems: this.filteredItems.length };
+      this.applyFilter();
     }
 
     ngOnChanges(changes: SimpleChanges) {
-      if (changes.filterValues) {
+      if (changes.users || changes.filterValues) {
         this.applyFilter();
       }
     }
 
     applyFilter() {
-      this.filteredItems = this.users.filter((user) => {
-        return (!this.filterValues.name || user.fullName.includes(this.filterValues.name)) &&
-                (!this.filterValues.email || user.email.includes(this.filterValues.email)) &&
-                (!this.filterValues.status || user.status.toLowerCase() === this.filterValues.status.toLowerCase());
+      const users = this.users ?? [];
+      const filterValues = this.filterValues ?? {};
+
+      this.filteredItems = users.filter((user) => {
+        return (!filterValues.name || user.fullName.includes(filterValues.name)) &&
+                (!filterValues.email || user.email.includes(filterValues.email)) &&
+                (!filterValues.status || user.status.toLowerCase() === filterValues.status.toLowerCase());
       });
       this.currentPage = 0;
       this.updatePagination();

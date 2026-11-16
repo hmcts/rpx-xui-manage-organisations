@@ -5,7 +5,12 @@
       @for (error of currentError.errors; track trackByServiceDownError($index, error)) {
         <p class="govuk-body">
           @if (error.urlText) {
-            <a routerLink="{{error.url}}" target="{{showErrorLinkWithNewTab(error.newTab)}}">{{error.urlText}} </a>
+            <a routerLink="{{error.url}}" target="{{showErrorLinkWithNewTab(error.newTab)}}">
+              {{error.urlText}}
+              @if (error.newTab) {
+                <span class="govuk-visually-hidden"> (opens in a new tab)</span>
+              }
+            </a>
           }
           {{ error.bodyText }}
         </p>

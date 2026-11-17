@@ -18,9 +18,12 @@ const envKeys = [
   'TEST_URL'
 ] as const;
 
-type TestEnvKey = typeof envKeys[number];
+type TestEnvKey = (typeof envKeys)[number];
 
-const withEnv = async (updates: Partial<Record<TestEnvKey, string | undefined>>, body: () => Promise<void> | void): Promise<void> => {
+const withEnv = async (
+  updates: Partial<Record<TestEnvKey, string | undefined>>,
+  body: () => Promise<void> | void
+): Promise<void> => {
   const previous = Object.fromEntries(envKeys.map((key) => [key, process.env[key]])) as Record<TestEnvKey, string | undefined>;
 
   try {
@@ -89,8 +92,10 @@ test.describe('Manage Org API auth support', { tag: '@svc-internal' }, () => {
           TEST_URL: 'https://manage-org-preview-pr-1532.service.core-compute-preview.internal/'
         },
         () => {
-          expect(resolveApiStorageStatePath(4)).toBe(
-            path.join(storageRoot, 'api-roo-manage-org-preview-pr-1532.service.core-compute-preview.internal-worker-4.json')
+          const storagePath = resolveApiStorageStatePath(4);
+          expect(path.dirname(path.dirname(storagePath))).toBe(storageRoot);
+          expect(path.basename(storagePath)).toMatch(
+            /^api-roo-manage-org-preview-pr-1532\.service\.core-compute-preview\.internal-worker-4-[a-f0-9]{20}\.json$/
           );
         }
       );
@@ -117,7 +122,12 @@ test.describe('Manage Org API auth support', { tag: '@svc-internal' }, () => {
         expect(apiAuthTest.hasSessionCookies(storagePath)).toBe(false);
 
         writeStorageState(storagePath, [
-          { name: 'xui-mo-webapp', domain: '.aat.platform.hmcts.net', value: 'expired-auth', expires: Math.floor(Date.now() / 1000) - 60 }
+          {
+            name: 'xui-mo-webapp',
+            domain: '.aat.platform.hmcts.net',
+            value: 'expired-auth',
+            expires: Math.floor(Date.now() / 1000) - 60
+          }
         ]);
         expect(apiAuthTest.hasSessionCookies(storagePath)).toBe(false);
       });

@@ -12,16 +12,12 @@ describe('Router Effects', () => {
   let actions$;
   let effects: RouterEffects;
 
-  const routerMock = jasmine.createSpyObj('Router', [
-    'navigate'
-  ]);
-
-  const locationMock = jasmine.createSpyObj('Location', [
-    'back',
-    'forward'
-  ]);
+  let routerMock: jasmine.SpyObj<Router>;
+  let locationMock: jasmine.SpyObj<Location>;
 
   beforeEach(() => {
+    routerMock = jasmine.createSpyObj<Router>('Router', ['navigate']);
+    locationMock = jasmine.createSpyObj<Location>('Location', ['back', 'forward']);
     routerMock.navigate.and.returnValue(Promise.resolve(true));
     TestBed.configureTestingModule({
       providers: [

@@ -16,6 +16,12 @@
         [ogdUpdateRefreshUserEnabled]="ogdUpdateRefreshUserEnabled"
         (reinvite)="reinviteUser($event)">
       </xuilib-user-details>
+      @if (user?.status) {
+        <section aria-labelledby="user-status-heading">
+          <h2 id="user-status-heading" class="govuk-heading-m">Status</h2>
+          <p class="govuk-body">{{ user.status }}</p>
+        </section>
+      }
     } @else {
       <div>Loading...</div>
     }

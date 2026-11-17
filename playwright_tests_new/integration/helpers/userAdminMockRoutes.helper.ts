@@ -8,6 +8,8 @@ import {
   userAdminOrganisationProfileIds,
   userAdminPendingUser,
   userAdminPendingUserDetails,
+  userAdminSuspendedUser,
+  userAdminSuspendedUserDetails,
   userAdminUsersWithoutRolesResponse
 } from '../mocks/userAdmin.mock';
 import {
@@ -127,7 +129,8 @@ const rejectUnexpectedMethod = async (
 
 const userDetailsById = new Map([
   [userAdminActiveUser.userIdentifier, userAdminActiveUserDetails],
-  [userAdminPendingUser.userIdentifier, userAdminPendingUserDetails]
+  [userAdminPendingUser.userIdentifier, userAdminPendingUserDetails],
+  [userAdminSuspendedUser.userIdentifier, userAdminSuspendedUserDetails]
 ]);
 
 const pathSegmentAfter = (requestUrl: string, segment: string): string => {

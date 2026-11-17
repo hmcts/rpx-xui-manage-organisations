@@ -84,6 +84,18 @@ const userDetails = {
 };
 
 describe('Users Reducer', () => {
+  for (const status of ['Active', 'Pending', 'Suspended']) {
+    it(`normalizes ${status} consistently for list and direct detail loads @EXUI-4006`, () => {
+      const user = { ...mockUserList[0], idamStatus: status.toUpperCase() };
+      const list = fromUsers.reducer(undefined, new fromUserActions.LoadAllUsersNoRoleDataSuccess({ users: [user] }));
+      const detail = fromUsers.reducer(undefined, new fromUserActions.LoadUserDetailsSuccess(user));
+
+      expect(list.userList[0].status).toBe(status);
+      expect(detail.userDetails.status).toBe(status);
+      expect(user.idamStatus).toBe(status.toUpperCase());
+    });
+  }
+
   it('undefined action should return the default state', () => {
     const { initialState } = fromUsers;
     const action = {} as any;

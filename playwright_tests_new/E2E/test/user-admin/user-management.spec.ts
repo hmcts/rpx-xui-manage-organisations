@@ -5,7 +5,7 @@ test.describe('User administration', () => {
     await expect(signedInPage.getByRole('link', { name: 'Organisation', exact: true })).toBeVisible();
   });
 
-  test('active user details expose permission and suspend controls', { tag: ['@e2e', '@user-admin'] }, async ({ usersPage }) => {
+  test('active user details expose status, permission and suspend controls', { tag: ['@e2e', '@user-admin', '@EXUI-4006'] }, async ({ usersPage }) => {
     await usersPage.open();
     await expect(usersPage.heading).toBeVisible();
     await expect(usersPage.inviteUserButton).toBeVisible();
@@ -13,6 +13,7 @@ test.describe('User administration', () => {
 
     await expect(usersPage.userDetailsHeading).toBeVisible();
     await expect(usersPage.userDetails).toBeVisible();
+    await expect(usersPage.userStatus).toHaveText('Active');
     await expect(usersPage.changePermissionsLink).toBeVisible();
     await expect(usersPage.suspendAccountButton).toBeVisible();
 

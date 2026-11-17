@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ErrorHandler, inject } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
@@ -14,6 +14,8 @@ import * as fromStore from '../../store';
   standalone: false
 })
 export class PbaNumbersFormComponent implements OnInit {
+  private readonly errorHandler = inject(ErrorHandler);
+
   public readonly title = 'Add or remove PBA accounts';
 
   public pbaFormGroup: FormGroup;
@@ -44,7 +46,7 @@ export class PbaNumbersFormComponent implements OnInit {
     return () => {
       this.orgStore.dispatch(new fromStore.UpdateOrganisationPendingAddPBAs([]));
       this.orgStore.dispatch(new fromStore.UpdateOrganisationPendingRemovePBAs([]));
-      this.router.navigate(['/organisation']);
+      this.router.navigate(['/organisation']).catch((error) => this.errorHandler.handleError(error));
     };
   }
 
@@ -102,7 +104,7 @@ export class PbaNumbersFormComponent implements OnInit {
       return;
     }
 
-    this.router.navigate(['/organisation/update-pba-numbers-check']).then(() => { });
+    this.router.navigate(['/organisation/update-pba-numbers-check']).catch((error) => this.errorHandler.handleError(error));
   }
 
   private initialiseForm(): void {

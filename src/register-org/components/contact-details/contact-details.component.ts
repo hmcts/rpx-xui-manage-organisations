@@ -46,18 +46,18 @@ export class ContactDetailsComponent extends RegisterComponent implements OnInit
         lastName: this.contactDetailsFormGroup.get('lastName').value,
         workEmailAddress: this.contactDetailsFormGroup.get('workEmailAddress').value
       };
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator']);
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator']).catch((error) => this.errorHandler.handleError(error));
     }
   }
 
   public onBack(): void {
     const previousUrl = this.currentNavigation?.previousNavigation?.finalUrl?.toString();
     if (previousUrl?.includes(this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE)) {
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]).catch((error) => this.errorHandler.handleError(error));
     } else if (this.registrationData.hasPBA) {
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'payment-by-account-details']);
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'payment-by-account-details']).catch((error) => this.errorHandler.handleError(error));
     } else {
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'payment-by-account']);
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'payment-by-account']).catch((error) => this.errorHandler.handleError(error));
     }
   }
 

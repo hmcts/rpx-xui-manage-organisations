@@ -44,16 +44,16 @@ export class DocumentExchangeReferenceDetailsComponent extends RegisterComponent
       this.registrationData.dxNumber = this.dxFormGroup.get('dxNumber').value;
       this.registrationData.dxExchange = this.dxFormGroup.get('dxExchange').value;
       // Navigate to office address page
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'regulatory-organisation-type']);
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'regulatory-organisation-type']).catch((error) => this.errorHandler.handleError(error));
     }
   }
 
   public onBack(): void {
     const previousUrl = this.currentNavigation?.previousNavigation?.finalUrl?.toString();
     if (previousUrl?.includes(this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE)) {
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]).catch((error) => this.errorHandler.handleError(error));
     } else {
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference']);
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference']).catch((error) => this.errorHandler.handleError(error));
     }
   }
 

@@ -15,7 +15,7 @@ describe('ContactDetailsComponent', () => {
   let fixture: ComponentFixture<ContactDetailsComponent>;
 
   const mockRouter = {
-    navigate: jasmine.createSpy('navigate'),
+    navigate: jasmine.createSpy('navigate').and.returnValue(Promise.resolve(true)),
     getCurrentNavigation: jasmine.createSpy('getCurrentNavigation')
   };
 

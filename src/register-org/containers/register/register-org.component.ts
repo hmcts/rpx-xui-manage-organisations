@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ErrorHandler, inject } from '@angular/core';
 import { Navigation, Router } from '@angular/router';
 import { RegistrationData } from '../../models/registration-data.model';
 import { RegisterOrgService } from '../../services/index';
@@ -10,6 +10,8 @@ import { RegisterOrgService } from '../../services/index';
 })
 
 export class RegisterComponent implements OnInit, OnDestroy {
+  protected readonly errorHandler = inject(ErrorHandler);
+
   private isRegistrationJourneyCancelled = false;
   private readonly routerCurrentNavigation: Navigation | null;
   public registrationData: RegistrationData;
@@ -41,7 +43,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     if (confirmed) {
       this.isRegistrationJourneyCancelled = true;
       this.registerOrgService.removeRegistrationData();
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'register']);
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'register']).catch((error) => this.errorHandler.handleError(error));
     }
   }
 

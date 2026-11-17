@@ -46,7 +46,7 @@ export class BeforeYouStartComponent extends RegisterComponent implements OnInit
 
   public onStart(): void {
     if (this.isFormValid()) {
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'organisation-type']);
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'organisation-type']).catch((error) => this.errorHandler.handleError(error));
     }
   }
 

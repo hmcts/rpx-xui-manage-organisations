@@ -1,3 +1,4 @@
+import { TestBed } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -13,6 +14,7 @@ describe('AcceptCasesComponent', () => {
 
   beforeEach(() => {
     router = jasmine.createSpyObj<Router>('Router', ['navigate']);
+    router.navigate.and.returnValue(Promise.resolve(true));
     store = jasmine.createSpyObj<Store<any>>('Store', ['dispatch', 'pipe']);
     store.pipe.and.returnValue(of(null));
     route = {
@@ -23,7 +25,7 @@ describe('AcceptCasesComponent', () => {
       }
     };
     sessionStorage.removeItem('newCases');
-    component = new AcceptCasesComponent(store, route as ActivatedRoute, new FormBuilder(), router);
+    component = TestBed.runInInjectionContext(() => new AcceptCasesComponent(store, route as ActivatedRoute, new FormBuilder(), router));
   });
 
   afterEach(() => {

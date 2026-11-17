@@ -44,7 +44,7 @@ describe('DocumentExchangeReferenceComponent', () => {
     fixture = TestBed.createComponent(DocumentExchangeReferenceComponent);
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
-    spyOn(router, 'navigate');
+    spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
     fixture.detectChanges();
   });
 

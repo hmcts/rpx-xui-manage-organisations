@@ -75,7 +75,7 @@ export class RegisteredAddressComponent extends RegisterComponent implements OnI
       }
       this.registrationData.inInternationalMode = this.startedInternational;
 
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference']);
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference']).catch((error) => this.errorHandler.handleError(error));
     } else {
       this.submissionAttempted = true;
     }
@@ -88,14 +88,14 @@ export class RegisteredAddressComponent extends RegisterComponent implements OnI
   public onBack(refreshPage: boolean): void {
     const previousUrl = this.currentNavigation?.previousNavigation?.finalUrl?.toString();
     if (previousUrl?.includes(this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE)) {
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]).catch((error) => this.errorHandler.handleError(error));
     } else if (refreshPage) {
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registered-address', 'external']);
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registered-address', 'external']).catch((error) => this.errorHandler.handleError(error));
       this.headingText = POSTCODE_HEADING;
       this.startedInternational = false;
       this.addressChosen = false;
     } else {
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'company-house-details']);
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'company-house-details']).catch((error) => this.errorHandler.handleError(error));
     }
   }
 

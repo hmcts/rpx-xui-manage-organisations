@@ -37,7 +37,7 @@ describe('CompanyHouseDetailsComponent', () => {
     fixture = TestBed.createComponent(CompanyHouseDetailsComponent);
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
-    spyOn(router, 'navigate');
+    spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
     fixture.detectChanges();
   });
 

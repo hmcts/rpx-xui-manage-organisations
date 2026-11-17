@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ErrorHandler, inject } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import * as organisationStore from '../../../organisation/store';
 import { OrganisationDetails } from 'src/models/organisation.model';
@@ -14,6 +14,8 @@ import { CaaCasesPageType } from '../../models/caa-cases.enum';
   standalone: false
 })
 export class AcceptCasesComponent implements OnInit {
+  private readonly errorHandler = inject(ErrorHandler);
+
   public permissionsForm: any;
   public selectedOrganisation$: Observable<OrganisationDetails>;
   public pageTitle: string;
@@ -53,14 +55,14 @@ export class AcceptCasesComponent implements OnInit {
     sessionStorage.setItem('newCases', JSON.stringify(newCaseOptions));
     if (this.permissionsForm.value.assignmentType === 'assigning'){
       const queryParams = { init: true, pageType: 'unassigned-cases', caseAccept: true };
-      this.router.navigate([this.caseShare], { queryParams });
+      this.router.navigate([this.caseShare], { queryParams }).catch((error) => this.errorHandler.handleError(error));
     } else {
       const queryParams = { caseAccept: true, pageType: CaaCasesPageType.NewCases };
-      this.router.navigate([this.caseShareConfirmUrl], { queryParams });
+      this.router.navigate([this.caseShareConfirmUrl], { queryParams }).catch((error) => this.errorHandler.handleError(error));
     }
   }
 
   public goBack(){
-    this.router.navigate(['/cases']);
+    this.router.navigate(['/cases']).catch((error) => this.errorHandler.handleError(error));
   }
 }

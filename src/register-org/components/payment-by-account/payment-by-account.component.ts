@@ -41,13 +41,13 @@ export class PaymentByAccountComponent extends RegisterComponent implements OnIn
         // Set corresponding registration data
         this.registrationData.hasPBA = true;
         // Navigate to collect PBA details
-        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'payment-by-account-details']);
+        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'payment-by-account-details']).catch((error) => this.errorHandler.handleError(error));
       } else {
         // Set corresponding registration data
         this.registrationData.hasPBA = false;
         this.registrationData.pbaNumbers = [];
         // Navigate to collect contact details
-        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'contact-details']);
+        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'contact-details']).catch((error) => this.errorHandler.handleError(error));
       }
     }
   }
@@ -59,9 +59,9 @@ export class PaymentByAccountComponent extends RegisterComponent implements OnIn
   public onBack(): void {
     const previousUrl = this.currentNavigation?.previousNavigation?.finalUrl?.toString();
     if (previousUrl?.includes(this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE)) {
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]).catch((error) => this.errorHandler.handleError(error));
     } else {
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'organisation-services-access']);
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'organisation-services-access']).catch((error) => this.errorHandler.handleError(error));
     }
   }
 

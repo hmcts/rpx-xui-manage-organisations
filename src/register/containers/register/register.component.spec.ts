@@ -1,6 +1,6 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { CUSTOM_ELEMENTS_SCHEMA, ErrorHandler } from '@angular/core';
+import { ComponentFixture, fakeAsync, flushMicrotasks, TestBed, waitForAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
@@ -77,13 +77,25 @@ describe('RegisterComponent', () => {
   });
 
   it('should navigate to confirmation page if form is submitted', () => {
-    const navigateSpy = spyOn(router, 'navigateByUrl');
+    const navigateSpy = spyOn(router, 'navigateByUrl').and.returnValue(Promise.resolve(true));
     component.isFromSubmitted$ = of(true);
     component.subscribeFormSubmission();
     component.isFromSubmitted$.toPromise().then(() => {
       expect(navigateSpy).toHaveBeenCalledWith('/register-org/confirmation');
     });
   });
+
+  it('should report rejected confirmation navigation by URL', fakeAsync(() => {
+    const error = new Error('Confirmation navigation failed');
+    const handleError = spyOn(TestBed.inject(ErrorHandler), 'handleError');
+    spyOn(router, 'navigateByUrl').and.returnValue(Promise.reject(error));
+    component.isFromSubmitted$ = of(true);
+
+    component.subscribeFormSubmission();
+    flushMicrotasks();
+
+    expect(handleError).toHaveBeenCalledOnceWith(error);
+  }));
 
   it('should navigate to next page if next url is available', () => {
     pipeSpy.and.returnValue(of('next'));

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ErrorHandler, inject } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -18,6 +18,8 @@ import * as fromStore from '../../store/';
   standalone: false
 })
 export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
+  private readonly errorHandler = inject(ErrorHandler);
+
   constructor(
     private readonly router: Router,
     private readonly store: Store<fromStore.RegistrationState>,
@@ -77,7 +79,7 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
   public subscribeFormSubmission(): void {
     this.$formSubmitSubscription = this.isFromSubmitted$.subscribe((submitted: boolean) => {
       if (submitted) {
-        this.router.navigateByUrl('/register-org/confirmation');
+        this.router.navigateByUrl('/register-org/confirmation').catch((error) => this.errorHandler.handleError(error));
       }
     });
   }

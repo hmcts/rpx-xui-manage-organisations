@@ -1,5 +1,6 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ErrorHandler } from '@angular/core';
+import { ComponentFixture, fakeAsync, flushMicrotasks, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RegistrationData } from '../../models/registration-data.model';
@@ -19,7 +20,7 @@ describe('RegisterComponent', () => {
   mockRegisterOrgService.REGISTER_ORG_NEW_ROUTE = 'register-org-new';
 
   const mockRouter = {
-    navigate: jasmine.createSpy('navigate'),
+    navigate: jasmine.createSpy('navigate').and.returnValue(Promise.resolve(true)),
     getCurrentNavigation: jasmine.createSpy('getCurrentNavigation')
   };
 
@@ -40,6 +41,7 @@ describe('RegisterComponent', () => {
   } as RegistrationData;
 
   beforeEach(async() => {
+    mockRouter.navigate.and.returnValue(Promise.resolve(true));
     mockRegisterOrgService.removeRegistrationData.and.callThrough();
     mockRegisterOrgService.persistRegistrationData.and.callThrough();
     mockRegisterOrgService.getRegistrationData.and.returnValue(registrationData);
@@ -91,6 +93,22 @@ describe('RegisterComponent', () => {
     expect(mockRegisterOrgService.removeRegistrationData).toHaveBeenCalled();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'register']);
   });
+
+  it('should report failed cancellation navigation without persisting cleared registration data', fakeAsync(() => {
+    const error = new Error('Cancellation navigation failed');
+    const handleError = spyOn(TestBed.inject(ErrorHandler), 'handleError');
+    mockRouter.navigate.and.returnValue(Promise.reject(error));
+    mockRegisterOrgService.persistRegistrationData.calls.reset();
+    spyOn(globalThis, 'confirm').and.returnValue(true);
+
+    component.cancelRegistrationJourney();
+    flushMicrotasks();
+    component.ngOnDestroy();
+
+    expect(handleError).toHaveBeenCalledOnceWith(error);
+    expect(mockRegisterOrgService.removeRegistrationData).toHaveBeenCalled();
+    expect(mockRegisterOrgService.persistRegistrationData).not.toHaveBeenCalled();
+  }));
 
   it('should cancelRegistrationJourney not confirmed by the user', () => {
     mockRouter.navigate.calls.reset();

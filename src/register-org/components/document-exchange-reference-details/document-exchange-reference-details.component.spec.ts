@@ -1,6 +1,7 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ErrorHandler } from '@angular/core';
+import { ComponentFixture, fakeAsync, flushMicrotasks, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -91,6 +92,21 @@ describe('DocumentExchangeReferenceComponent', () => {
     component.onBack();
     expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'document-exchange-reference']);
   });
+
+  it('should report rejected back navigation and allow another attempt', fakeAsync(() => {
+    const error = new Error('Back navigation failed');
+    const handleError = spyOn(TestBed.inject(ErrorHandler), 'handleError');
+    (router.navigate as jasmine.Spy).and.returnValues(Promise.reject(error), Promise.resolve(true));
+
+    component.onBack();
+    flushMicrotasks();
+    expect(handleError).toHaveBeenCalledOnceWith(error);
+
+    component.onBack();
+    flushMicrotasks();
+    expect(router.navigate).toHaveBeenCalledTimes(2);
+    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'document-exchange-reference']);
+  }));
 
   it('should set the validation error if DX number is invalid', () => {
     component.registrationData.dxNumber = '12345678912345';

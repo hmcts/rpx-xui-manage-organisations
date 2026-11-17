@@ -55,12 +55,7 @@ export class DocumentExchangeReferenceComponent extends RegisterComponent implem
   }
 
   public onBack(): void {
-    const previousUrl = this.currentNavigation?.previousNavigation?.finalUrl?.toString();
-    if (previousUrl?.includes(this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE)) {
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]).catch((error) => this.errorHandler.handleError(error));
-    } else {
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registered-address', 'internal']).catch((error) => this.errorHandler.handleError(error));
-    }
+    this.navigateBack('registered-address', 'internal');
   }
 
   public onCancel(): void {

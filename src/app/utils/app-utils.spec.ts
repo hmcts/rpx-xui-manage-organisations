@@ -132,129 +132,175 @@ describe('AppUtils', () => {
   });
 
   describe('Page title', () => {
+    const routeTitles = [
+      ['/organisation/update-pba-numbers', 'Update PBA accounts'],
+      ['/organisation/update-pba-numbers-check', 'Check your PBA accounts'],
+      ['/users/invite-user-success', 'User invitation sent'],
+      ['/users/updated-user-success', 'User updated'],
+      ['/users/user/123', 'User details'],
+      ['/users/user/123/editpermission', 'Edit user permissions'],
+      ['/users/user/123/manage', 'Manage user'],
+      ['/users/manage', 'Manage user'],
+      ['/users/user/123/editpermission-failure', 'Sorry, there is a problem with the service'],
+      ['/users/user/123/manage-user-failure', 'Sorry, there is a problem with the service'],
+      ['/fee-accounts', 'Payment by account'],
+      ['/fee-accounts/account/123', 'Account summary'],
+      ['/fee-accounts/account/123/transactions', 'Account transactions'],
+      ['/cases', 'Cases'],
+      ['/cases/accept-cases', 'Accept cases'],
+      ['/cases/case-share', 'Share cases'],
+      ['/assigned-cases/case-share-confirm/assigned-cases', 'Check and confirm your case selection'],
+      ['/unassigned-cases/case-share-complete/unassigned-cases', 'Case update results'],
+      ['/register-org/confirmation', 'Registration submitted'],
+      ['/register-org-new/registration-submitted', 'Registration submitted'],
+      ['/register-org-new/registered-address/true', 'Registered address'],
+      ['/register-org-new/registered-address/false', 'Registered address'],
+      ['/register-org-new/document-exchange-reference-details', 'Document exchange reference details'],
+      ['/register-org-new/payment-by-account-details', 'Payment by account details'],
+      ['/register-org-new/individual-registered-with-regulator-details/true', 'Individual regulator details'],
+      ['/register-org-new/service-down', 'Sorry, there is a problem with the service'],
+      ['/cookies', 'Cookies'],
+      ['/privacy-policy', 'Privacy policy'],
+      ['/terms-and-conditions', 'Terms and conditions'],
+      ['/terms-and-conditions-register-other-org', 'Terms and conditions for registering an organisation'],
+      ['/accept-terms-and-conditions', 'Accept terms and conditions'],
+      ['/accessibility', 'Accessibility statement'],
+      ['/get-help', 'Get help'],
+      ['/service-down', 'Sorry, there is a problem with the service'],
+      ['/access-denied', 'You cannot use Manage Organisations with this account'],
+      ['/idle-sign-out', 'We have signed you out'],
+      ['/style-guide', 'Style guide'],
+      ['/users/?returnUrl=/register-org/register#organisation', 'Users']
+    ];
+    routeTitles.forEach(([url, title]) => {
+      it(`should describe ${url} using the service title format`, () => {
+        expect(AppUtils.setPageTitle(url)).toBe(`${title} - Manage Organisation - HM Courts & Tribunals Service - GOV.UK`);
+      });
+    });
+
     it('should set correct page title', () => {
       const array = AppUtils.setPageTitle('register-org-new/register');
-      expect(array).toEqual('Register organisation - Register - GOV.UK');
+      expect(array).toEqual('Register organisation - Manage Organisation - HM Courts & Tribunals Service - GOV.UK');
     });
 
     it('should set correct page title', () => {
       const array = AppUtils.setPageTitle('register-org-new/organisation-type');
-      expect(array).toEqual('Register organisation - Organisation type - GOV.UK');
+      expect(array).toEqual('Organisation type - Manage Organisation - HM Courts & Tribunals Service - GOV.UK');
     });
 
     it('should set correct page title', () => {
       const array = AppUtils.setPageTitle('register-org-new/company-house-details');
-      expect(array).toEqual('Register organisation - Company house details - GOV.UK');
+      expect(array).toEqual('Company house details - Manage Organisation - HM Courts & Tribunals Service - GOV.UK');
     });
 
     it('should set correct page title', () => {
       const array = AppUtils.setPageTitle('register-org-new/document-exchange-reference');
-      expect(array).toEqual('Register organisation - Document exchange reference - GOV.UK');
+      expect(array).toEqual('Do you have a document exchange reference? - Manage Organisation - HM Courts & Tribunals Service - GOV.UK');
     });
 
     it('should set correct page title', () => {
       const array = AppUtils.setPageTitle('register-org-new/regulatory-organisation-type');
-      expect(array).toEqual('Register organisation - Organisation regulators - GOV.UK');
+      expect(array).toEqual('Organisation regulators - Manage Organisation - HM Courts & Tribunals Service - GOV.UK');
     });
 
     it('should set correct page title', () => {
       const array = AppUtils.setPageTitle('register-org-new/organisation-services-access');
-      expect(array).toEqual('Register organisation - Services to access - GOV.UK');
+      expect(array).toEqual('Services to access - Manage Organisation - HM Courts & Tribunals Service - GOV.UK');
     });
 
     it('should set correct page title', () => {
       const array = AppUtils.setPageTitle('register-org-new/payment-by-account');
-      expect(array).toEqual('Register organisation - Payment by account - GOV.UK');
+      expect(array).toEqual('Do you have payment by account numbers? - Manage Organisation - HM Courts & Tribunals Service - GOV.UK');
     });
 
     it('should set correct page title', () => {
       const array = AppUtils.setPageTitle('register-org-new/individual-registered-with-regulator');
-      expect(array).toEqual('Register organisation - Individual regulators - GOV.UK');
+      expect(array).toEqual('Are you registered with a regulator? - Manage Organisation - HM Courts & Tribunals Service - GOV.UK');
     });
 
     it('should set correct page title', () => {
       const array = AppUtils.setPageTitle('register-org-new/check-your-answers');
-      expect(array).toEqual('Register organisation - Check your answers - GOV.UK');
+      expect(array).toEqual('Check your answers - Manage Organisation - HM Courts & Tribunals Service - GOV.UK');
     });
 
     it('should set correct page title', () => {
       const array = AppUtils.setPageTitle('register-org/register/organisation-name');
-      expect(array).toEqual('Register organisation - Organisation name - GOV.UK');
+      expect(array).toEqual('Organisation name - Manage Organisation - HM Courts & Tribunals Service - GOV.UK');
     });
 
     it('should set correct page title', () => {
       const array = AppUtils.setPageTitle('register-org/register/organisation-address');
-      expect(array).toEqual('Register organisation - Organisation address - GOV.UK');
+      expect(array).toEqual('Organisation address - Manage Organisation - HM Courts & Tribunals Service - GOV.UK');
     });
 
     it('should set correct page title', () => {
       const array = AppUtils.setPageTitle('register-org/register/organisation-pba');
-      expect(array).toEqual('Register organisation - PBA - GOV.UK');
+      expect(array).toEqual('PBA - Manage Organisation - HM Courts & Tribunals Service - GOV.UK');
     });
 
     it('should set correct page title', () => {
       const array = AppUtils.setPageTitle('register-org/register/organisation-have-dx');
-      expect(array).toEqual('Register organisation - DX - GOV.UK');
+      expect(array).toEqual('DX - Manage Organisation - HM Courts & Tribunals Service - GOV.UK');
     });
 
     it('should set correct page title', () => {
       const array = AppUtils.setPageTitle('register-org/register/organisation-dx');
-      expect(array).toEqual('Register organisation - DX reference - GOV.UK');
+      expect(array).toEqual('DX reference - Manage Organisation - HM Courts & Tribunals Service - GOV.UK');
     });
 
     it('should set correct page title', () => {
       const array = AppUtils.setPageTitle('register-org/register/haveSra');
-      expect(array).toEqual('Register organisation - SRA - GOV.UK');
+      expect(array).toEqual('SRA - Manage Organisation - HM Courts & Tribunals Service - GOV.UK');
     });
 
     it('should set correct page title', () => {
       const array = AppUtils.setPageTitle('register-org/register/sraNumber');
-      expect(array).toEqual('Register organisation - SRA number - GOV.UK');
+      expect(array).toEqual('SRA number - Manage Organisation - HM Courts & Tribunals Service - GOV.UK');
     });
 
     it('should set correct page title', () => {
       const array = AppUtils.setPageTitle('register-org/register/name');
-      expect(array).toEqual('Register organisation - Name - GOV.UK');
+      expect(array).toEqual('Name - Manage Organisation - HM Courts & Tribunals Service - GOV.UK');
     });
 
     it('should set correct page title', () => {
       const array = AppUtils.setPageTitle('register-org/register/email-address');
-      expect(array).toEqual('Register organisation - Email - GOV.UK');
+      expect(array).toEqual('Email - Manage Organisation - HM Courts & Tribunals Service - GOV.UK');
     });
 
     it('should set correct page title', () => {
       const array = AppUtils.setPageTitle('register-org/register/check');
-      expect(array).toEqual('Register organisation - Check answers - GOV.UK');
+      expect(array).toEqual('Check answers - Manage Organisation - HM Courts & Tribunals Service - GOV.UK');
     });
 
     it('should set correct page title', () => {
       const array = AppUtils.setPageTitle('register-org/register');
-      expect(array).toEqual('Register organisation - Register - GOV.UK');
+      expect(array).toEqual('Register organisation - Manage Organisation - HM Courts & Tribunals Service - GOV.UK');
     });
 
     it('should set correct page title', () => {
-      const array = AppUtils.setPageTitle('invite-users');
-      expect(array).toEqual('Manage organisation - Invite user - GOV.UK');
+      const array = AppUtils.setPageTitle('users/invite-user');
+      expect(array).toEqual('Invite user - Manage Organisation - HM Courts & Tribunals Service - GOV.UK');
     });
 
     it('should set correct page title', () => {
       const array = AppUtils.setPageTitle('organisation');
-      expect(array).toEqual('Manage organisation - Organisation details - GOV.UK');
+      expect(array).toEqual('Organisation details - Manage Organisation - HM Courts & Tribunals Service - GOV.UK');
     });
 
     it('should set correct page title', () => {
       const array = AppUtils.setPageTitle('users');
-      expect(array).toEqual('Manage organisation - Users - GOV.UK');
+      expect(array).toEqual('Users - Manage Organisation - HM Courts & Tribunals Service - GOV.UK');
     });
 
     it('should set correct page title', () => {
       const array = AppUtils.setPageTitle('unassigned-cases');
-      expect(array).toEqual('Manage organisation - Unassigned cases - GOV.UK');
+      expect(array).toEqual('Unassigned cases - Manage Organisation - HM Courts & Tribunals Service - GOV.UK');
     });
 
     it('should set correct page title', () => {
       const array = AppUtils.setPageTitle('assigned-cases');
-      expect(array).toEqual('Manage organisation - Assigned cases - GOV.UK');
+      expect(array).toEqual('Assigned cases - Manage Organisation - HM Courts & Tribunals Service - GOV.UK');
     });
   });
 

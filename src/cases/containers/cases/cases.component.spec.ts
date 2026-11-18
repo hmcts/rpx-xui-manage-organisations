@@ -211,18 +211,6 @@ describe('CasesComponent', () => {
     expect(component.checkShareButtonText).toHaveBeenCalled();
   });
 
-  it('should get selected case type config', () => {
-    store.overrideSelector(organisationStore.getOrganisationSel, null);
-    createComponent();
-    component.selectedCaseType = 'Civil';
-    component.allCaseTypes = [
-      { text: 'Asylum', caseConfig: { new_cases: false } },
-      { text: 'Civil', caseConfig: { new_cases: true } }
-    ] as any;
-
-    expect(component.getCaseType()).toEqual({ text: 'Civil', caseConfig: { new_cases: true } } as any);
-  });
-
   it('should update share button text for case reference results', () => {
     store.overrideSelector(organisationStore.getOrganisationSel, {
       organisationIdentifier: 'org-id'
@@ -361,9 +349,17 @@ describe('CasesComponent', () => {
       component.onShareButtonClicked('Asylum');
     });
 
-    const addShareCasesCount = dispatchSpy.calls.allArgs()
-      .filter(([action]) => action instanceof caaCasesStore.AddShareCases).length;
-    expect(addShareCasesCount).toEqual(5);
+    const addShareCasesActions = dispatchSpy.calls.allArgs()
+      .map(([action]) => action)
+      .filter((action) => action instanceof caaCasesStore.AddShareCases) as caaCasesStore.AddShareCases[];
+    expect(addShareCasesActions.length).toEqual(5);
+    expect(addShareCasesActions[3].payload.group_access).toBe(true);
+
+    component.allCaseTypes = [{ text: 'Asylum', caseConfig: { new_cases: true, group_access: false } }] as any;
+    component.selectedFilterType = CaaCasesFilterType.NewCasesToAccept;
+    component.onShareButtonClicked('Asylum');
+    const lastAction = dispatchSpy.calls.mostRecent().args[0] as caaCasesStore.AddShareCases;
+    expect(lastAction.payload.group_access).toBe(false);
   });
 
   it('should complete destroy subject on destroy', () => {

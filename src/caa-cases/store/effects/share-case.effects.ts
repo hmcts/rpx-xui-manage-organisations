@@ -9,6 +9,7 @@ import { CaaCasesPageType } from '../../models/caa-cases.enum';
 import { CaseShareService } from '../../services';
 import * as shareCaseActions from '../actions/share-case.action';
 import * as shareCases from '../reducers/share-case.reducer';
+import { getShareCasePath } from '../../../cases/store/share-case.workflow';
 
 @Injectable()
 export class ShareCaseEffects {
@@ -28,7 +29,7 @@ export class ShareCaseEffects {
       map((action: shareCaseActions.AddShareAssignedCases) => action.payload),
       map((newCases) => {
         return new shareCaseActions.AddShareAssignedCaseGo({
-          path: [`${this.router.url}/case-share`],
+          path: getShareCasePath(this.router.url, CaaCasesPageType.AssignedCases),
           sharedCases: newCases.sharedCases
         });
       })
@@ -41,7 +42,7 @@ export class ShareCaseEffects {
       map((action: shareCaseActions.AddShareUnassignedCases) => action.payload),
       map((newCases) => {
         return new shareCaseActions.AddShareUnassignedCaseGo({
-          path: [`${this.router.url}/case-share`],
+          path: getShareCasePath(this.router.url, CaaCasesPageType.UnassignedCases),
           sharedCases: newCases.sharedCases
         });
       })

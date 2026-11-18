@@ -91,11 +91,11 @@ describe('organisation.utils', () => {
   });
 
   describe('getCompanyRegistrationNumber', () => {
-    it('should return null if there is no company registration number', () => {
+    it('should return empty string if there is no company registration number', () => {
       const organisationDetails = {
         companyRegistrationNumber: ''
       };
-      expect(utils.getCompanyRegistrationNumber(organisationDetails)).toBeNull();
+      expect(utils.getCompanyRegistrationNumber(organisationDetails)).toEqual('');
     });
 
     it('should return company registration number', () => {
@@ -107,11 +107,11 @@ describe('organisation.utils', () => {
   });
 
   describe('getOrganisationType', () => {
-    it('should return null if there is no organisation type', () => {
+    it('should return empty string if there is no organisation type', () => {
       const organisationDetails = {
         organisationType: ''
       };
-      expect(utils.getOrganisationType(organisationDetails)).toBeNull();
+      expect(utils.getOrganisationType(organisationDetails)).toEqual('');
     });
 
     it('should return organisation type', () => {
@@ -123,11 +123,11 @@ describe('organisation.utils', () => {
   });
 
   describe('getRegulators', () => {
-    it('should return null if there are no regulators', () => {
+    it('should return [] if there are no regulators', () => {
       const organisationDetails = {
         regulators: []
       };
-      expect(utils.getRegulators(organisationDetails)).toBeNull();
+      expect(utils.getRegulators(organisationDetails)).toEqual([]);
     });
 
     it('should return regulators', () => {
@@ -157,18 +157,18 @@ describe('organisation.utils', () => {
   });
 
   describe('getPaymentAccount', () => {
-    it('should return null if there is no paymentAccount', () => {
+    it('should return empty list if there is no paymentAccount', () => {
       const organisationDetails = {};
       const result = utils.getPaymentAccount(organisationDetails);
-      expect(result).toBeNull();
+      expect(result).toEqual([]);
     });
 
-    it('should return an empty if the length of paymentAccount is 0', () => {
+    it('should return an empty list if the length of paymentAccount is 0', () => {
       const organisationDetails = {
         paymentAccount: []
       };
       const result = utils.getPaymentAccount(organisationDetails);
-      expect(result).toBeNull();
+      expect(result).toEqual([]);
     });
 
     it('should return paymentAccounts', () => {
@@ -184,6 +184,57 @@ describe('organisation.utils', () => {
       result.forEach((item, index) => {
         expect(item).toEqual(organisationDetails.paymentAccount[index]);
       });
+    });
+  });
+
+  describe('address update mapping', () => {
+    const contactInformation = {
+      addressLine1: '1 High Street',
+      addressLine2: 'Suite 2',
+      addressLine3: null,
+      townCity: 'London',
+      county: 'Greater London',
+      country: 'UK',
+      postCode: 'SW1A 1AA',
+      dxAddress: [{ dxNumber: '123', dxExchange: 'LONDON' }]
+    };
+    const draftAddress = {
+      ...utils.getEmptyAddressUpdateDraft(),
+      address: {
+        addressLine1: contactInformation.addressLine1,
+        addressLine2: contactInformation.addressLine2,
+        addressLine3: contactInformation.addressLine3,
+        postTown: contactInformation.townCity,
+        county: contactInformation.county,
+        country: contactInformation.country,
+        postCode: contactInformation.postCode
+      },
+      hasDxReference: true,
+      dxNumber: '123',
+      dxExchange: 'LONDON'
+    };
+
+    it('should create an empty address update draft', () => {
+      const emptyDraftAddress = utils.getEmptyAddressUpdateDraft();
+
+      expect(emptyDraftAddress.address.addressLine1).toBeNull();
+      expect(emptyDraftAddress.hasDxReference).toBeNull();
+      expect(emptyDraftAddress.showExistingAddress).toBeFalse();
+    });
+
+    it('should map an address update draft back to organisation contact information', () => {
+      const result = utils.getContactInformationFromAddressUpdate(draftAddress);
+
+      expect(result).toEqual(contactInformation);
+    });
+
+    it('should omit DX details when the user selects no', () => {
+      const draftAddressWithoutDx = {
+        ...draftAddress,
+        hasDxReference: false
+      };
+
+      expect(utils.getContactInformationFromAddressUpdate(draftAddressWithoutDx).dxAddress).toEqual([]);
     });
   });
 });

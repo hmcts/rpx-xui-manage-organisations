@@ -1,0 +1,32 @@
+<main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <a href="#" class="govuk-back-link" (click)="onBack(); $event.preventDefault()">Back</a>
+      <xuilib-hmcts-error-summary [errorMessages]="validationErrors" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
+      <span class="govuk-caption-xl">Update organisation name</span>
+      <h1 class="govuk-heading-xl">Check your answers</h1>
+
+      @if (draft) {
+        <dl class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Organisation name</dt>
+            <dd class="govuk-summary-list__value">{{draft.name}}</dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" routerLink="/organisation/update-org-name">
+                Change<span class="govuk-visually-hidden"> organisation name</span>
+              </a>
+            </dd>
+          </div>
+        </dl>
+
+        <div class="govuk-button-group">
+          <button id="submit-name-update" type="button" class="govuk-button" data-module="govuk-button"
+            [disabled]="isSubmitting" (click)="onSubmit()">
+            {{isSubmitting ? 'Submitting…' : 'Submit changes'}}
+          </button>
+          <button type="button" class="govuk-js-link" [disabled]="isSubmitting" (click)="onCancel()">Cancel</button>
+        </div>
+      }
+    </div>
+  </div>
+</main>

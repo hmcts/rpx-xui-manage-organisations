@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, filter, map, switchMap, take } from 'rxjs/operators';
 import { UserModel } from 'src/user-profile/models/user.model';
 import * as fromRoot from '../../app/store';
 import * as fromAuthStore from '../../user-profile/store/index';
@@ -31,6 +31,8 @@ export class UserRoleGuard {
 
   public checkRole(role: string): Observable<boolean> {
     return this.store.pipe(select(fromAuthStore.getUser)).pipe(
+      filter((user): user is UserModel => Boolean(user)),
+      take(1),
       map((user: UserModel) => {
         return user.roles.includes(role);
       })

@@ -1,0 +1,12 @@
+@if (draftAddress) {
+  <app-address-entry
+    caption="Update organisation address"
+    [initialAddress]="draftAddress.address"
+    [initialInternationalMode]="draftAddress.inInternationalMode"
+    [showExistingAddress]="draftAddress.showExistingAddress"
+    [useMainWrapperBackLink]="true"
+    (submitted)="onContinue($event)"
+    (backRequested)="onBack($event)"
+    (cancelled)="onCancel()">
+  </app-address-entry>
+}

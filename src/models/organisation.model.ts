@@ -2,18 +2,18 @@ import { Regulator } from '../register-org/models';
 import { PBANumberModel } from './pbaNumber.model';
 
 export interface DxAddress {
-  dxNumber: string;
-  dxExchange: string;
+  dxNumber: string | null;
+  dxExchange: string | null;
 }
 
 export interface OrganisationContactInformation {
-  addressLine1: string;
-  addressLine2: string;
-  addressLine3: string;
-  townCity: string;
-  county: string;
-  country: string;
-  postCode: string;
+  addressLine1: string | null;
+  addressLine2: string | null;
+  addressLine3: string | null;
+  townCity: string | null;
+  county: string | null;
+  country: string | null;
+  postCode: string | null;
   dxAddress: DxAddress[];
 }
 
@@ -22,6 +22,10 @@ export interface OrganisationDetails {
   organisationIdentifier: string;
   organisationProfileIds: string[];
   contactInformation: OrganisationContactInformation[];
+  // Unsure how pending updates to contact information are handled but currently included as an optional boolean
+  pendingContactInformation?: boolean;
+  pendingNameUpdate?: boolean;
+  pendingSraUpdate?: boolean;
   status: string;
   sraId: string;
   sraRegulated: boolean;

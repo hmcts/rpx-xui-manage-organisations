@@ -11,6 +11,7 @@ export class AssignedCasesPage extends CaseListPage {
 
   public async gotoAssignedCases(): Promise<void> {
     await this.page.goto('/cases');
+    await this.waitForReady();
   }
 
   public async showAssignedCasesFilter(): Promise<void> {

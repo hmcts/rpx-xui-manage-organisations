@@ -38,6 +38,11 @@ test.describe('Organisation details', { tag: ['@integration', '@integration-orga
       await expect(addressSummary).toContainText(addressLine);
     }
 
+    const changeAddressLink = organisationPage.summaryAction('Organisation address');
+    await expect(changeAddressLink).toBeVisible();
+    await expect(changeAddressLink).toHaveText('Change address');
+    await expect(changeAddressLink).toHaveAttribute('href', '/organisation/update-address');
+
     await expect(organisationPage.summaryValue('DX reference')).toContainText(dxAddress.dxNumber);
     await expect(organisationPage.summaryValue('DX reference')).toContainText(dxAddress.dxExchange);
     await expect(organisationPage.summaryValue('Organisation type')).toContainText('Solicitor');

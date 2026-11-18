@@ -1,360 +1,62 @@
-import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute, Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-import { AddressMessageEnum } from '@hmcts/rpx-xui-common-lib';
-import { INTERNATIONAL_HEADING, POSTCODE_HEADING } from '../../constants/register-org-constants';
-import { RegisterOrgService } from '../../services';
 import { RegisteredAddressComponent } from './registered-address.component';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('RegisteredAddressComponent', () => {
+  const address = {
+    addressLine1: '1 High Street',
+    addressLine2: null,
+    addressLine3: null,
+    postTown: 'London',
+    county: null,
+    country: 'UK',
+    postCode: 'SW1A 1AA'
+  };
+  let router;
+  let registerOrgService;
   let component: RegisteredAddressComponent;
-  let fixture: ComponentFixture<RegisteredAddressComponent>;
-  let mockRegisterOrgService: any;
-
-  const mockRoute = {
-    snapshot: {
-      params: {
-        internal: 'internal'
-      }
-    }
-  };
-
-  const mockRouter = {
-    navigate: jasmine.createSpy('navigate'),
-    getCurrentNavigation: jasmine.createSpy('getCurrentNavigation')
-  };
-
-  beforeEach(async () => {
-    mockRegisterOrgService = jasmine.createSpyObj('mockRegisterOrgService', ['getRegistrationData', 'persistRegistrationData', 'REGISTER_ORG_NEW_ROUTE', 'CHECK_YOUR_ANSWERS_ROUTE']);
-    mockRegisterOrgService.getRegistrationData.and.returnValue({ address: null });
-    mockRegisterOrgService.REGISTER_ORG_NEW_ROUTE = 'register-org-new';
-    mockRegisterOrgService.CHECK_YOUR_ANSWERS_ROUTE = 'check-your-answers';
-    await TestBed.configureTestingModule({
-      declarations: [RegisteredAddressComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [RouterTestingModule],
-      providers: [{ provide: RegisterOrgService, useValue: mockRegisterOrgService },
-        {
-          provide: Router, useValue: mockRouter
-        },
-        { provide: ActivatedRoute, useValue: mockRoute }, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
-    })
-      .compileComponents();
-  });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RegisteredAddressComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should start an international mode (radio buttons)', () => {
-    component.startedInternational = false;
-    component.headingText = POSTCODE_HEADING;
-
-    component.onInternationalModeStart();
-    fixture.detectChanges();
-
-    expect(component.startedInternational).toBe(true);
-    expect(component.addressChosen).toBe(false);
-    expect(component.headingText).toBe(INTERNATIONAL_HEADING);
-  });
-
-  it('should get a persisted address', () => {
-    const mockRegData = {
-      address: {
-        addressLine1: 'street',
-        addressLine2: 'street2',
-        addressLine3: 'extraStreet',
-        postTown: 'city',
-        country: 'unknown',
-        postCode: 'L12 7RT'
-      },
+    router = jasmine.createSpyObj('Router', ['navigate', 'currentNavigation']);
+    router.currentNavigation.and.returnValue(null);
+    registerOrgService = jasmine.createSpyObj(
+      'RegisterOrgService',
+      ['getRegistrationData', 'persistRegistrationData', 'removeRegistrationData']
+    );
+    registerOrgService.REGISTER_ORG_NEW_ROUTE = 'register-org-new';
+    registerOrgService.CHECK_YOUR_ANSWERS_ROUTE = 'check-your-answers';
+    registerOrgService.getRegistrationData.and.returnValue({
+      address,
       inInternationalMode: false
-    };
-    mockRegisterOrgService.getRegistrationData.and.returnValue(mockRegData);
+    });
+    component = new RegisteredAddressComponent(
+      router,
+      registerOrgService,
+      { snapshot: { params: { internal: 'internal' } } } as any
+    );
     component.ngOnInit();
-    expect(component.formGroup.get('address').get('addressLine1').value).toBe('street');
-    mockRegData.inInternationalMode = true;
-    mockRegisterOrgService.getRegistrationData.and.returnValue(mockRegData);
-    component.ngOnInit();
-    expect(component.formGroup.get('address').get('addressLine1').value).toBe('street');
-    expect(component.startedInternational).toBeTruthy();
-    expect(component.isInternational).toBeTruthy();
-    expect(component.registrationData.inInternationalMode).toBeTruthy();
   });
 
-  it('should get a persisted postcode', () => {
-    const mockRegData = {
-      address: {
-        addressLine1: 'street',
-        addressLine2: 'street2',
-        addressLine3: 'extraStreet',
-        postTown: 'city',
-        country: 'unknown',
-        postCode: 'L12 7RT'
-      },
-      inInternationalMode: false
-    };
-    mockRegisterOrgService.getRegistrationData.and.returnValue(mockRegData);
-    component.isInternal = false;
-    component.ngOnInit();
-    expect(component.formGroup.get('address').get('postCode').value).toBe('L12 7RT');
+  it('should expose the persisted address to the shared entry component', () => {
+    expect(component.initialAddress).toBe(address as any);
+    expect(component.initialInternationalMode).toBeFalse();
+    expect(component.isInternal).toBeTrue();
   });
 
-  it('should check the form on continue', () => {
-    component.startedInternational = true;
-    component.isInternational = undefined;
+  it('should persist the submitted address and continue', () => {
+    component.onContinue({ address: address as any, inInternationalMode: false });
 
-    component.onContinue();
-
-    component.addressErrors = [{
-      id: 'govuk-radios',
-      message: AddressMessageEnum.NO_OPTION_SELECTED
-    }];
-    component.submissionAttempted = true;
-
-    const mockRegData = {
-      address: {
-        addressLine1: 'street',
-        addressLine2: 'street2',
-        addressLine3: 'extraStreet',
-        postTown: 'city',
-        country: 'unknown',
-        postCode: 'L12 7RT'
-      },
-      inInternationalMode: false
-    };
-    mockRegisterOrgService.getRegistrationData.and.returnValue(mockRegData);
-    component.startedInternational = true;
-    component.isInternational = true;
-    component.submissionAttempted = false;
-    component.ngOnInit();
-    component.onContinue();
-
-    expect(component.registrationData.address).toBe(mockRegData.address);
-    expect(component.registrationData.inInternationalMode).toBeTruthy();
-    expect(component.submissionAttempted).toBeFalsy();
-    expect(mockRouter.navigate).toHaveBeenCalled();
+    expect(component.registrationData.address).toBe(address as any);
+    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'document-exchange-reference']);
   });
 
-  it('should set postcode to null when a valid international address has an empty postcode', () => {
-    component.addressChosen = false;
-    component.startedInternational = true;
-    component.isInternational = true;
-    (component as any).setFormGroup({
-      addressLine1: 'street',
-      postTown: 'city',
-      country: 'France',
-      postCode: ''
-    });
-
-    component.onContinue();
-
-    expect(component.registrationData.address.postCode).toBeNull();
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'document-exchange-reference']);
-  });
-
-  it('should set selection error when continuing without selecting an address', () => {
-    component.addressChosen = false;
-    component.startedInternational = false;
-    component.onAddressSelectable(true);
-
-    component.onContinue();
-
-    expect(component.addressErrors).toEqual([{
-      id: 'selectAddress',
-      message: AddressMessageEnum.SELECT_ADDRESS
-    }]);
-    expect(component.submissionAttempted).toBe(true);
-  });
-
-  it('should set form control errors for an invalid UK address', () => {
-    component.addressChosen = true;
-    component.startedInternational = false;
-    component.isInternational = false;
-    (component as any).setFormGroup({
-      addressLine1: '',
-      postTown: '',
-      country: 'UK',
-      postCode: 'NOTAPOSTCODE'
-    });
-
-    component.onContinue();
-
-    expect(component.addressErrors).toContain({
-      id: 'addressLine1',
-      message: AddressMessageEnum.NO_STREET_SELECTED
-    });
-    expect(component.addressErrors).toContain({
-      id: 'postTown',
-      message: AddressMessageEnum.NO_CITY_SELECTED
-    });
-    expect(component.addressErrors).toContain({
-      id: 'postCode',
-      message: AddressMessageEnum.INVALID_POSTCODE
-    });
-  });
-
-  it('should set country error for an invalid international address', () => {
-    component.addressChosen = false;
-    component.startedInternational = true;
-    component.isInternational = true;
-    (component as any).setFormGroup({
-      addressLine1: 'street',
-      postTown: 'city',
-      country: '',
-      postCode: null
-    });
-
-    component.onContinue();
-
-    expect(component.addressErrors).toContain({
-      id: 'country',
-      message: AddressMessageEnum.NO_COUNTRY_SELECTED
-    });
-  });
-
-  it('should set international or non-international when option selected', () => {
-    const mockRegData = {
-      address: {
-        addressLine1: 'street',
-        addressLine2: 'street2',
-        addressLine3: 'extraStreet',
-        postTown: 'city',
-        country: 'unknown',
-        postCode: 'L12 7RT'
-      },
-      inInternationalMode: false
-    };
-    mockRegisterOrgService.getRegistrationData.and.returnValue(mockRegData);
-    component.isInternal = true;
-    component.ngOnInit();
-    component.onOptionSelected(true);
-
-    expect(component.isInternational).toBeTruthy();
-    expect(component.submissionAttempted).toBeFalsy();
-    expect(component.formGroup.get('address').get('country').value).toBe('');
-  });
-
-  it('should set UK postcode validators when non-international option is selected', () => {
-    component.onPostcodeOptionSelected();
-
-    component.onOptionSelected(false);
-
-    expect(component.isInternational).toBe(false);
-    expect(component.formGroup.get('address').get('country').value).toBe('UK');
-    expect(component.formGroup.get('address').get('postCode').valid).toBe(false);
-  });
-
-  it('should keep the existing address when postcode option is selected with a postcode', () => {
-    (component as any).setFormGroup({
-      addressLine1: 'existing street',
-      postTown: 'existing city',
-      country: 'UK',
-      postCode: 'SW1A 1AA'
-    });
-
-    component.onPostcodeOptionSelected();
-
-    expect(component.formGroup.get('address').get('addressLine1').value).toBe('existing street');
-  });
-
-  it('should reset the address form when postcode option is selected without a postcode', () => {
-    (component as any).setFormGroup({
-      addressLine1: 'existing street',
-      postTown: 'existing city',
-      country: 'UK',
-      postCode: ''
-    });
-
-    component.onPostcodeOptionSelected();
-
-    expect(component.formGroup.get('address').get('addressLine1').value).toBeNull();
-  });
-
-  it('should restore existing address when international mode starts with persisted data', () => {
-    component.registrationData.address = {
-      addressLine1: 'stored street',
-      postTown: 'stored city',
-      country: 'France',
-      postCode: null
-    } as any;
-    component.registrationData.inInternationalMode = true;
-
-    component.onInternationalModeStart();
-
-    expect(component.formGroup.get('address').get('addressLine1').value).toBe('stored street');
-    expect(component.startedInternational).toBe(true);
-    expect(component.headingText).toBe(INTERNATIONAL_HEADING);
-  });
-
-  it('should invoke the cancel registration journey when clicked on cancel link', () => {
-    spyOn(component, 'cancelRegistrationJourney');
-    component.onCancel();
-    expect(component.cancelRegistrationJourney).toHaveBeenCalled();
-  });
-
-  it('should set postcode option details correctly', () => {
-    component.onPostcodeOptionSelected();
-    expect(component.submissionAttempted).toBe(false);
-    expect(component.addressChosen).toBe(true);
-    expect(component.addressErrors).toEqual([]);
-  });
-
-  it('should reset submission', () => {
-    component.submissionAttempted = true;
-    component.onResetSubmission();
-    expect(component.submissionAttempted).toBe(false);
-  });
-
-  it('should back link navigate to the check your answers page', () => {
-    spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
-      previousNavigation: {
-        finalUrl: '/check-your-answers'
-      }
-    } as any);
+  it('should navigate back to the external address entry when resetting', () => {
     component.onBack(true);
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
+
+    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'registered-address', 'external']);
   });
 
-  it('should back link navigate to the registered address page', () => {
-    spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
-      previousNavigation: {
-        finalUrl: '/something-else'
-      }
-    } as any);
-    component.onBack(true);
-    expect(component.headingText).toEqual('What is the registered address of your organisation?');
-    expect(component.startedInternational).toEqual(false);
-    expect(component.addressChosen).toBe(false);
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'registered-address', 'external']);
-  });
-
-  it('should back link navigate to the company house details page', () => {
-    spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
-      previousNavigation: {
-        finalUrl: '/something-else'
-      }
-    } as any);
+  it('should navigate back to company details from postcode entry', () => {
     component.onBack(false);
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'company-house-details']);
-  });
 
-  it('should back link navigate to the company house details page without a previousUrl', () => {
-    spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
-      previousNavigation: {
-        finalUrl: undefined
-      }
-    } as any);
-    component.onBack(false);
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'company-house-details']);
+    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'company-house-details']);
   });
 });

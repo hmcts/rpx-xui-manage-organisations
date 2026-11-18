@@ -20,11 +20,11 @@ export default function errorHandler(err, req: Request, res: Response, next: Nex
     // remove any sensitive data
     delete err.request._header;
   }
-  // Use the App Insights-aware logger so handled Express errors are recorded as
-  // exception telemetry as well as being written to the application log.
-  logger.error(err);
-
   const errorStatus = err.status ? err.status : 500;
+  // Preserve internal throw sites; provider errors can carry submitted addresses and credentials.
+  const loggedError = err instanceof Error && !('config' in err || 'request' in err || 'response' in err)
+    ? err : 'Request failed';
+  logger.error(loggedError, { method: req.method, status: errorStatus });
   const errorContent = err.data ? err.data : { message: 'Internal Server Error' };
   res.status(errorStatus).send(errorContent);
 }

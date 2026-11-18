@@ -11,6 +11,7 @@ export class UnassignedCasesPage extends CaseListPage {
 
   public async gotoUnassignedCases(): Promise<void> {
     await this.page.goto('/unassigned-cases');
+    await this.waitForReady();
   }
 
   public async showUnassignedCasesFilter(): Promise<void> {

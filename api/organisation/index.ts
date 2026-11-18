@@ -7,6 +7,50 @@ import * as log4jui from '../lib/log4jui';
 import { objectContainsOnlySafeCharacters } from '../lib/util';
 
 const logger = log4jui.getLogger('organisation');
+/* const contactInformationFieldLimits = {
+  uprn: 14,
+  addressLine1: 150,
+  addressLine2: 150,
+  addressLine3: 50,
+  townCity: 50,
+  county: 50,
+  country: 50,
+  postCode: 14,
+  dxNumber: 13,
+  dxExchange: 40
+}; */
+
+// TODO - Add proper API once available
+/* export async function handleUpdateContactInformationRoute(req: EnhancedRequest, res: Response, next: NextFunction) {
+  const auth = req.session?.auth;
+  if (!auth) {
+    return res.status(401).send({ message: 'Authentication required' });
+  }
+  if (!Array.isArray(auth.roles) || !auth.roles.includes('pui-organisation-manager')) {
+    return res.status(403).send({ message: 'Organisation manager role required' });
+  }
+
+  const body = req.body;
+  if (!body || typeof body !== 'object' || Array.isArray(body)
+    || typeof body.addressLine1 !== 'string' || !body.addressLine1.trim()
+    || Object.entries(body).some(([field, value]) => !Object.prototype.hasOwnProperty.call(contactInformationFieldLimits, field)
+      || typeof value !== 'string' || !value.trim() || value.length > contactInformationFieldLimits[field])
+    || Boolean(body.dxNumber) !== Boolean(body.dxExchange)) {
+    return res.status(400).send({ message: 'Invalid contact information' });
+  }
+
+  try {
+    const apiUrl = `${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/refdata/external/v2/organisations/contactinformation`;
+    const response = await req.http.put(apiUrl, body);
+    if (response.status !== 204) {
+      return next({ status: 502, data: { message: 'Unexpected organisation update response' } });
+    }
+    return res.status(204).end();
+  } catch (error) {
+    return next(error?.status ? { status: error.status, data: error.data }
+      : { status: 502, data: { message: 'Organisation update service unavailable' } });
+  }
+} */
 
 export async function handleOrganisationRoute(req: Request, res: Response, next: NextFunction) {
   try {
@@ -68,5 +112,7 @@ router.get('/v1', handleOrganisationV1Route);
 router.get('', handleOrganisationRoute);
 
 router.get('/users', handleOrganisationUsersRoute);
+
+// router.put('/contact-information', handleUpdateContactInformationRoute);
 
 export default router;

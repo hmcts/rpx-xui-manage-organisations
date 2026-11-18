@@ -36,6 +36,11 @@ export const getIsUserPuiFinanceManager = createSelector(
   (user) => user?.roles?.includes('pui-finance-manager') ?? false
 );
 
+export const getIsUserPuiOrganisationManager = createSelector(
+  getUser,
+  (user) => user?.roles?.includes('pui-organisation-manager') ?? false
+);
+
 export const getUid = createSelector(
   getUser,
   (user) => {

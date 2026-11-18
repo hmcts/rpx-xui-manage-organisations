@@ -23,6 +23,11 @@ export class CaseListPage {
     this.pageHeading = this.page.getByRole('heading', { name: heading, exact: true });
   }
 
+  public async waitForReady(): Promise<void> {
+    await this.pageHeading.waitFor({ state: 'visible' });
+    await this.caseList.waitFor({ state: 'visible' });
+  }
+
   public filterButton(name: string): Locator {
     return this.page.getByRole('button', { name, exact: true });
   }

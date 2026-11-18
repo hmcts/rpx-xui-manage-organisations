@@ -1,10 +1,10 @@
 import { chromium, request, type BrowserContext } from '@playwright/test';
-import { existsSync, mkdirSync, readFileSync, unlinkSync } from 'node:fs';
-import { tmpdir } from 'node:os';
-import { dirname, join, resolve } from 'node:path';
+import { existsSync, mkdirSync, readFileSync } from 'node:fs';
+import { dirname } from 'node:path';
 import { setTimeout as delay } from 'node:timers/promises';
 import { IdamPage } from '../../E2E/page-objects/pages/idam.po';
 import { OrganisationPage } from '../../E2E/page-objects/pages/organisation.po';
+import { captureSessionOnce, publishSessionState, resolveSessionStatePath } from '../../common/sessionState';
 
 export type ManageOrgUserRole = 'base' | 'roo';
 
@@ -45,7 +45,9 @@ const sanitizeStorageScope = (value: string): string => value.replace(/[^a-zA-Z0
 
 const cookieMatchesHost = (cookieDomain: string | undefined, hostname: string): boolean => {
   const normalizedDomain = normalizeCookieDomain(cookieDomain);
-  return Boolean(normalizedDomain && (hostname.toLowerCase() === normalizedDomain || hostname.toLowerCase().endsWith(`.${normalizedDomain}`)));
+  return Boolean(
+    normalizedDomain && (hostname.toLowerCase() === normalizedDomain || hostname.toLowerCase().endsWith(`.${normalizedDomain}`))
+  );
 };
 
 const cookieIsNotExpired = (expires: number | undefined): boolean => {
@@ -80,13 +82,12 @@ export const resolveTestUser = (role: ManageOrgUserRole = resolveConfiguredUserR
   return { email, password };
 };
 
-export const resolveApiStorageStatePath = (workerIndex: number, role: ManageOrgUserRole = resolveConfiguredUserRole()): string => {
-  const configuredPath = process.env.MANAGE_ORG_STORAGE_STATE?.trim();
-  const stateFileName = `api-${role}-${sanitizeStorageScope(resolveBaseHostname())}-worker-${workerIndex}.json`;
-  if (configuredPath) {
-    return resolve(configuredPath, stateFileName);
-  }
-  return join(tmpdir(), 'rpx-xui-manage-organisations-playwright', stateFileName);
+export const resolveApiStorageStatePath = (
+  workerIndex: number,
+  role: ManageOrgUserRole = resolveConfiguredUserRole()
+): string => {
+  const identity = process.env[userEnvByRole[role].email] || role;
+  return resolveSessionStatePath(`api-${role}-${sanitizeStorageScope(resolveBaseHostname())}-worker-${workerIndex}`, identity);
 };
 
 const readStoredAuthState = (storageStatePath: string): StoredAuthState | undefined => {
@@ -96,11 +97,6 @@ const readStoredAuthState = (storageStatePath: string): StoredAuthState | undefi
   try {
     return JSON.parse(readFileSync(storageStatePath, 'utf-8')) as StoredAuthState;
   } catch {
-    try {
-      unlinkSync(storageStatePath);
-    } catch {
-      // Ignore cleanup races; the next login will write a fresh state file.
-    }
     return undefined;
   }
 };
@@ -122,7 +118,8 @@ export const xsrfHeadersFromStorageState = (storageStatePath: string): Record<st
   const state = readStoredAuthState(storageStatePath);
   const baseHostname = resolveBaseHostname();
   const xsrf = state?.cookies?.find(
-    (cookie) => cookie.name === 'XSRF-TOKEN' && cookieMatchesHost(cookie.domain, baseHostname) && cookieIsNotExpired(cookie.expires)
+    (cookie) =>
+      cookie.name === 'XSRF-TOKEN' && cookieMatchesHost(cookie.domain, baseHostname) && cookieIsNotExpired(cookie.expires)
   )?.value;
   return xsrf ? { 'X-XSRF-TOKEN': xsrf } : {};
 };
@@ -154,21 +151,32 @@ const storageStateHasAuthenticatedApiSession = async (storageStatePath: string):
   }
 };
 
-export const ensureApiStorageState = async (workerIndex: number, role: ManageOrgUserRole = resolveConfiguredUserRole()): Promise<string> => {
+const unconfirmedBrowserPaths = new Set<string>();
+
+export const ensureApiStorageState = (
+  workerIndex: number,
+  role: ManageOrgUserRole = resolveConfiguredUserRole()
+): Promise<string> => {
   const storageStatePath = resolveApiStorageStatePath(workerIndex, role);
-  mkdirSync(dirname(storageStatePath), { recursive: true });
-  if (hasSessionCookies(storageStatePath) && await storageStateHasAuthenticatedApiSession(storageStatePath)) {
+  return captureSessionOnce(storageStatePath, () => captureApiStorageState(storageStatePath, role));
+};
+
+const captureApiStorageState = async (storageStatePath: string, role: ManageOrgUserRole): Promise<string> => {
+  if (unconfirmedBrowserPaths.has(storageStatePath)) {
+    throw new Error('Previous session browser cleanup was not confirmed; restart the worker before capturing again.');
+  }
+  mkdirSync(dirname(storageStatePath), { recursive: true, mode: 0o700 });
+  if (hasSessionCookies(storageStatePath) && (await storageStateHasAuthenticatedApiSession(storageStatePath))) {
     return storageStatePath;
   }
 
   const user = resolveTestUser(role);
   const browser = await chromium.launch({ headless: process.env.HEAD !== 'true' });
   let context: BrowserContext | undefined;
+  let captureFailed = false;
+  let captureFailure = 'Manage Org session capture failed.';
   try {
-    context = await browser.newContext({
-      baseURL: resolveBaseUrl(),
-      ignoreHTTPSErrors: true
-    });
+    context = await browser.newContext({ baseURL: resolveBaseUrl(), ignoreHTTPSErrors: true });
     const page = await context.newPage();
     const idamPage = new IdamPage(page);
     const organisationPage = new OrganisationPage(page);
@@ -176,12 +184,39 @@ export const ensureApiStorageState = async (workerIndex: number, role: ManageOrg
     await idamPage.signIn(user.email, user.password);
     await organisationPage.navigationLink.waitFor({ state: 'visible', timeout: 30 * 1000 });
     await waitForAuthenticatedApiSession(context);
-    await context.storageState({ path: storageStatePath });
-    return storageStatePath;
-  } finally {
-    await context?.close();
-    await browser.close();
+    await publishSessionState(context, storageStatePath);
+  } catch (error) {
+    captureFailed = true;
+    if (error instanceof Error && error.name === 'TimeoutError') {
+      captureFailure = 'Manage Org session capture timed out.';
+    } else if (
+      error instanceof Error &&
+      /^Authenticated API session was not ready after login\. Last status: [1-5][0-9]{2}$/.test(error.message)
+    ) {
+      captureFailure = error.message;
+    }
   }
+  const cleanupFailures: string[] = [];
+  try {
+    await context?.close();
+  } catch {
+    cleanupFailures.push('context');
+  }
+  try {
+    await browser.close();
+  } catch {
+    cleanupFailures.push('browser');
+    unconfirmedBrowserPaths.add(storageStatePath);
+  }
+  if (cleanupFailures.length) {
+    throw new Error(
+      `${captureFailed ? `${captureFailure} ` : ''}${cleanupFailures.join(' and ')} cleanup was not confirmed.`
+    );
+  }
+  if (captureFailed) {
+    throw new Error(captureFailure);
+  }
+  return storageStatePath;
 };
 
 export const __test__ = {

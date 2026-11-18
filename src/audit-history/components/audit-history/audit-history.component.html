@@ -1,0 +1,44 @@
+<div class="hmcts-width-container">
+  <main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
+    <h1 class="govuk-heading-xl">Organisation history</h1>
+
+    <table class="govuk-table">
+      <caption class="govuk-table__caption govuk-visually-hidden">Audit history</caption>
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th class="govuk-table__header" scope="col">User</th>
+          <th class="govuk-table__header" scope="col">Name</th>
+          <th class="govuk-table__header" scope="col">Address</th>
+          <th class="govuk-table__header" scope="col">SRA ID</th>
+          <th class="govuk-table__header" scope="col">Created/Updated</th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        <!-- Loop through fullHistory array and display each row - ideally could use unique ID for tracking -->
+        @for (row of fullHistory; track $index) {
+        <ng-container>
+          <tr class="govuk-table__row" data-selector="table-row">
+            <td class="govuk-table__cell" data-selector="table-cell">{{ row.user }}</td>
+            <td class="govuk-table__cell" data-selector="table-cell">{{ row.name }}</td>
+            <td class="govuk-table__cell" data-selector="table-cell">
+              <div>{{row.address.addressLine1}}</div>
+              @if (row.address.addressLine2) {<div>{{row.address.addressLine2}}</div>}
+              @if (row.address.addressLine3) {<div>{{row.address.addressLine3}}</div>}
+              <div>{{row.address.postTown}}</div>
+              <div>{{row.address.county}}</div>
+              @if (row.address.postCode) {<div>{{row.address.postCode}}</div>}
+            </td>
+            <td class="govuk-table__cell" data-selector="table-cell">{{ row.sraId }}</td>
+            <td class="govuk-table__cell" data-selector="table-cell">{{ row.createdUpdated | date:'dd/MM/yyyy HH:mm' }}</td>
+          </tr>
+        </ng-container>
+        }
+        @if (fullHistory.length == 0) {
+        <tr>
+          <td colspan="5" class="govuk-table__cell">No audit history available</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </main>
+</div>

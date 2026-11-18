@@ -74,11 +74,17 @@ const navItemsArray: NavItemModel[] = [
     featureToggle: {
       featureName: featureNames.newCasesItems
     }
+  },
+  {
+    text: 'History',
+    href: '/history',
+    orderId: 7,
+    active: false
   }
 ];
 
 const roleBasedNav = {
-  'pui-organisation-manager': navItemsArray[0],
+  'pui-organisation-manager': [navItemsArray[0], navItemsArray[6]],
   'pui-user-manager': navItemsArray[1],
   'pui-finance-manager': navItemsArray[2],
   'pui-caa': [navItemsArray[3], navItemsArray[4], navItemsArray[5]]

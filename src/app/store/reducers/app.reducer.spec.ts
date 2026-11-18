@@ -108,6 +108,12 @@ describe('AppReducer', () => {
         featureToggle: {
           featureName: AppConstants.FEATURE_NAMES.newCasesItems
         }
+      },
+      {
+        text: 'History',
+        href: '/history',
+        orderId: 7,
+        active: false
       }
     ];
     const action = new fromAppActions.SetUserRoles(payload);

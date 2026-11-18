@@ -256,6 +256,11 @@ describe('AppUtils', () => {
       const array = AppUtils.setPageTitle('assigned-cases');
       expect(array).toEqual('Manage organisation - Assigned cases - GOV.UK');
     });
+
+    it('should set the history page title', () => {
+      const array = AppUtils.setPageTitle('history');
+      expect(array).toEqual('Manage organisation - Organisation history - GOV.UK');
+    });
   });
 
   it('should switch title', () => {

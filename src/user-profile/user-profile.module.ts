@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { RpxTranslationModule } from 'rpx-xui-translation';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { AcceptTcService } from '../accept-tc/services/accept-tc.service';
@@ -18,6 +19,7 @@ const SERVICES = [AuthService, UserService, AcceptTcService];
 @NgModule({
   imports: [
     CommonModule,
+    RpxTranslationModule.forChild(),
     userProfileRouting,
     StoreModule.forFeature('userProfile', reducer),
     EffectsModule.forFeature(effects)

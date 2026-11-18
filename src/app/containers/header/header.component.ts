@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { RpxLanguage, RpxTranslationService } from 'rpx-xui-translation';
 import { Observable } from 'rxjs';
 
 import * as fromAuth from '../../../user-profile/store';
@@ -23,7 +24,18 @@ export class HeaderComponent implements OnInit {
   public isUserLoggedIn$: Observable<boolean>;
   public showHeaderItems$: Observable<boolean>;
 
-  constructor(public store: Store<fromRoot.State>) {}
+  constructor(
+    public store: Store<fromRoot.State>,
+    private readonly langService: RpxTranslationService
+  ) {}
+
+  public get currentLang(): RpxLanguage {
+    return this.langService.language;
+  }
+
+  public toggleLanguage(lang: RpxLanguage): void {
+    this.langService.language = lang;
+  }
 
   public ngOnInit(): void {
     this.isUserLoggedIn$ = this.store.pipe(select(fromAuth.getIsAuthenticated));

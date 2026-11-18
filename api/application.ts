@@ -24,6 +24,7 @@ import {
 import * as log4jui from './lib/log4jui';
 import * as tunnel from './lib/tunnel';
 import openRoutes from './openRoutes';
+import { initProxy } from './proxy.config';
 import routes from './routes';
 import { idamCheck } from './idamCheck';
 import { MO_CSP } from './interfaces/csp-config';
@@ -89,6 +90,8 @@ app.use(cookieParser(getConfigValue(SESSION_SECRET)));
 
 tunnel.init();
 app.use(getXuiNodeMiddleware());
+
+initProxy(app);
 
 app.use(bodyParser.json({ limit: '5mb' }));
 app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));

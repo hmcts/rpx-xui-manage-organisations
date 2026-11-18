@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { RpxTranslationTestingModule } from '../../../../testing/rpx-translation-testing.module';
 import { LoaderComponent } from './loader.component';
 
 describe('LoaderComponent', () => {
@@ -7,6 +8,7 @@ describe('LoaderComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      imports: [RpxTranslationTestingModule],
       declarations: [LoaderComponent]
     })
       .compileComponents();

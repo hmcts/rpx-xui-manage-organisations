@@ -2,29 +2,28 @@
   <span class="govuk-caption-xl">{{
     (selectedOrganisation$ | async)?.name
     }}</span>
-  <h1 class="govuk-heading-xl">{{ pageTitle }}</h1>
+  <h1 class="govuk-heading-xl">{{ pageTitle | rpxTranslate }}</h1>
 
   <div class="cases-content" [class.cases-content--loading]="isPageLoading$ | async">
     @if (showCasesLoadingOverlay$ | async) {
     <div class="cases-loading-overlay" role="status" aria-live="polite">
-      <img src="./../../../../assets/images/loading.gif" alt="Loading">
+      <img src="./../../../../assets/images/loading.gif" [alt]="'Loading' | rpxTranslate">
     </div>
     }
     <button type="submit" class="govuk-button govuk-button--secondary" (click)="toggleFilterSection()">
-      {{ showFilterSection ? "Hide cases filter" : "Show cases filter" }}
+      {{ (showFilterSection ? 'Hide cases filter' : 'Show cases filter') | rpxTranslate }}
     </button>
     @if (showFilterSection) {
     @if (this.errorMessages.length > 0) {
     <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
       data-module="govuk-error-summary">
       <h2 class="govuk-error-summary__title" id="error-summary-title">
-        There is a problem
-      </h2>
+         {{ 'There is a problem' | rpxTranslate }} </h2>
       <div class="govuk-error-summary__body">
         <ul class="govuk-list govuk-error-summary__list">
           @for (errorMessage of errorMessages; track errorMessage.fieldId){
           <li>
-            <a href="cases/all#{{ errorMessage.fieldId }}">{{ errorMessage.description }}</a>
+            <a href="cases/all#{{ errorMessage.fieldId }}">{{ errorMessage.description | rpxTranslate }}</a>
           </li>
           }
         </ul>
@@ -40,9 +39,9 @@
         <div class="govuk-warning-text">
           <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
           <strong class="govuk-warning-text__text">
-            <span class="govuk-visually-hidden">Warning</span>
+            <span class="govuk-visually-hidden">{{ 'Warning' | rpxTranslate }}</span>
             @for (warningTextLine of casesWarningText; track warningTextLine; let isLast = $last) {
-            {{ warningTextLine }}
+            {{ warningTextLine | rpxTranslate }}
             @if (!isLast) {
             <br aria-hidden="true" /><br aria-hidden="true" />
             }

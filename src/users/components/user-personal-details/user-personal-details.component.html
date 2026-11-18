@@ -1,7 +1,7 @@
-<h2 class="govuk-heading-m">User Details</h2>
+<h2 class="govuk-heading-m">{{ 'User Details' | rpxTranslate }}</h2>
 
 @if (inviteMode) {
-<p class="govuk-caption-m">Add details of the user you want to invite</p>
+<p class="govuk-caption-m">{{ 'Add details of the user you want to invite' | rpxTranslate }}</p>
 <ng-container>
   @if (personalDetailForm) {
   <form [formGroup]="personalDetailForm">
@@ -47,17 +47,17 @@
 @if (!inviteMode) {
   <div class="govuk-grid-column-full govuk-!-margin-bottom-4">
     <div class="govuk-grid-row">
-      <label class="govuk-label govuk-label--m" for="firstName"><span>First name</span></label>
+      <label class="govuk-label govuk-label--m" for="firstName"><span>{{ 'First name' | rpxTranslate }}</span></label>
       <p id="firstName" class="govuk-body">{{ user.firstName }}</p>
     </div>
 
     <div class="govuk-grid-row">
-      <label class="govuk-label govuk-label--m" for="lastName"><span>Last name</span></label>
+      <label class="govuk-label govuk-label--m" for="lastName"><span>{{ 'Last name' | rpxTranslate }}</span></label>
       <p id="lastName" class="govuk-body">{{ user.lastName }}</p>
     </div>
 
     <div class="govuk-grid-row">
-      <label class="govuk-label govuk-label--m" for="email"><span>Email address</span></label>
+      <label class="govuk-label govuk-label--m" for="email"><span>{{ 'Email address' | rpxTranslate }}</span></label>
       <p id="email" class="govuk-body">{{ user.email }}</p>
     </div>
   </div>

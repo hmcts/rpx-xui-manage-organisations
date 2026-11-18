@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CasesResultsTableComponent } from './cases-results-table.component';
 import { CaaCasesService } from 'src/caa-cases/services';
 import { provideMockStore } from '@ngrx/store/testing';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 describe('CasesResultsTableComponent', () => {
@@ -27,6 +28,7 @@ describe('CasesResultsTableComponent', () => {
         { provide: CaaCasesService, useValue: caaCasesService }
       ],
       imports: [
+        RpxTranslationTestingModule,
         MatAutocompleteModule
       ]
     })

@@ -8,20 +8,17 @@
       <div class="govuk-grid-column-two-thirds">
         <div class="govuk-panel govuk-panel--confirmation">
           <h1 id="confirmationHeader" class="govuk-panel__title">
-            {{ "User account updated" | rpxTranslate }}
+            {{ 'User account updated' | rpxTranslate }}
           </h1>
           <div id="confirmationBody" class="govuk-panel__body">
             {{ (this.user$ | async).email }}
           </div>
         </div>
         <p class="govuk-body">
-          Changes to this account have been saved. These changes will be applied
-          immediately however the user may need to log out and back in to their
-          account for the changes to take effect.
-        </p>
+           {{ 'Changes to this account have been saved. These changes will be applied immediately however the user may need to log out and back in to their account for the changes to take effect.' | rpxTranslate }} </p>
         <p class="govuk-body">
           <span text
-            ><a [routerLink]="['/users']">Go back to manage users</a></span
+            ><a [routerLink]="['/users']">{{ 'Go back to manage users' | rpxTranslate }}</a></span
           >
         </p>
       </div>

@@ -7,11 +7,10 @@
             <div class="govuk-form-group">
               <fieldset class="govuk-fieldset">
                 <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                  <h1 class="govuk-fieldset__heading">Filter cases</h1>
+                  <h1 class="govuk-fieldset__heading">{{ 'Filter cases' | rpxTranslate }}</h1>
                 </legend>
                 <div id="filter-cases-hint" class="govuk-hint">
-                  Filter your organisation's assigned cases by either;
-                </div>
+                   {{ 'Filter your organisation\'s assigned cases by either;' | rpxTranslate }} </div>
 
                 <div class="govuk-radios" data-module="govuk-radios">
 
@@ -20,8 +19,7 @@
                     <input class="govuk-radios__input" id="AssigneeName" name="filterOption" type="radio"
                       formControlName="filterOption" [value]="caaCasesFilterType.AssigneeName" />
                     <label class="govuk-label govuk-radios__label" for="AssigneeName">
-                      Cases assigned to a user
-                    </label>
+                       {{ 'Cases assigned to a user' | rpxTranslate }} </label>
                   </div>
                   <div class="govuk-radios__conditional" [ngClass]="{
                       'govuk-radios__conditional--hidden':
@@ -32,12 +30,11 @@
                           form.controls.assigneePerson.invalid
                       }">
                       <label class="govuk-label" for="assignee-person">
-                        Type the name and select an available match option
-                      </label>
+                         {{ 'Type the name and select an available match option' | rpxTranslate }} </label>
                       @if (form.controls.assigneePerson.invalid) {
                       <p id="case-assignee-error-message" class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span>
-                        {{ assigneeNameErrorMessage }}
+                        <span class="govuk-visually-hidden">{{ 'Error:' | rpxTranslate }}</span>
+                        {{ assigneeNameErrorMessage | rpxTranslate }}
                       </p>
                       }
                       <input class="govuk-input" formControlName="assigneePerson" id="assignee-person"
@@ -60,7 +57,7 @@
                           </mat-option>
                           }
                           @if (!filteredAndGroupedUser.value.length && showAutocomplete) {
-                          <mat-option>No matches</mat-option>
+                          <mat-option>{{ 'No matches' | rpxTranslate }}</mat-option>
                           }
                         </mat-optgroup>
                         }
@@ -73,7 +70,7 @@
                     <input class="govuk-radios__input" id="AllAssignees" name="filterOption" type="radio"
                       formControlName="filterOption" [value]="caaCasesFilterType.AllAssignees" />
                     <label class="govuk-label govuk-radios__label" for="AllAssignees">
-                      All assigned cases
+                      {{ 'All assigned cases' | rpxTranslate }}
                     </label>
                   </div>
 
@@ -82,7 +79,7 @@
                     <input class="govuk-radios__input" id="findCaseByReferenceNumber" name="filterOption" type="radio"
                       formControlName="filterOption" [value]="caaCasesFilterType.CaseReferenceNumber" />
                     <label class="govuk-label govuk-radios__label" for="findCaseByReferenceNumber">
-                      Find case by reference number
+                      {{ 'Find case by reference number' | rpxTranslate }}
                     </label>
                   </div>
 
@@ -97,12 +94,12 @@
                           form.controls.caseReferenceNumber.touched
                       }">
                       <label class="govuk-label" for="case-reference-number">
-                        Enter the 16-digit case reference number
+                        {{ 'Enter the 16-digit case reference number' | rpxTranslate }}
                       </label>
                       @if (form.controls.caseReferenceNumber.invalid && form.controls.caseReferenceNumber.touched) {
                       <p id="case-reference-number-error-message" class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span>
-                        {{ caseReferenceNumberErrorMessage }}
+                        <span class="govuk-visually-hidden">{{ 'Error:' | rpxTranslate }}</span>
+                        {{ caseReferenceNumberErrorMessage | rpxTranslate }}
                       </p>
                       }
                       <input class="govuk-input" [ngClass]="{
@@ -119,11 +116,11 @@
 
             <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible" />
             <button class="govuk-button govuk-!-margin-right-3" (click)="onSearch()">
-              Apply filter
+              {{ 'Apply filter' | rpxTranslate }}
             </button>
             @if (!form.pristine) {
             <button class="govuk-button govuk-button--secondary govuk-!-margin-right-3" (click)="onReset()">
-              Reset
+              {{ 'Reset' | rpxTranslate }}
             </button>
             }
           </form>

@@ -7,6 +7,7 @@ import { StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { reducers } from '../../../fee-accounts/store/reducers';
 import { DateFormatAtTimePipe } from '../../../shared/components/custom-pipe/date-pipe-with-to';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { AccountTransactionsComponent } from './account-transactions.component';
 
 describe('AccountTransactionsComponent', () => {
@@ -23,6 +24,7 @@ describe('AccountTransactionsComponent', () => {
     };
     TestBed.configureTestingModule({
       imports: [
+        RpxTranslationTestingModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature('feeAccounts', reducers),
         RouterTestingModule

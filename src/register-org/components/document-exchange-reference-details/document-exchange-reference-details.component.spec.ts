@@ -7,6 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { DxDetailsMessage } from '../../../register-org/models';
 import { RegistrationData } from '../../models/registration-data.model';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { DocumentExchangeReferenceDetailsComponent } from './document-exchange-reference-details.component';
 import { buildMockStoreProviders } from '../../testing/mock-store-state';
 // provideHttpClient imported above
@@ -38,7 +39,7 @@ describe('DocumentExchangeReferenceComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [DocumentExchangeReferenceDetailsComponent],
-      imports: [RouterTestingModule, ReactiveFormsModule, ExuiCommonLibModule],
+      imports: [RpxTranslationTestingModule, RouterTestingModule, ReactiveFormsModule, ExuiCommonLibModule],
       providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting(), ...buildMockStoreProviders()]
     })
       .compileComponents();

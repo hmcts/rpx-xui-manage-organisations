@@ -6,6 +6,7 @@ export class UsersPage extends BasePage {
   public readonly inviteUserButton: Locator;
   public readonly userList: Locator;
   public readonly userDetails: Locator;
+  public readonly userStatus: Locator;
   public readonly userDetailsHeading: Locator;
   public readonly pendingUserDetailsHeading: Locator;
   public readonly changePermissionsLink: Locator;
@@ -25,6 +26,7 @@ export class UsersPage extends BasePage {
     this.heading = page.getByRole('heading', { name: 'Users' });
     this.inviteUserButton = page.getByRole('button', { name: 'Invite user' });
     this.userList = page.locator('table.govuk-table');
+    this.userStatus = page.getByRole('region', { name: 'Status', exact: true }).locator('p');
     this.userDetails = page.locator('xuilib-user-details');
     this.userDetailsHeading = page.getByRole('heading', { name: 'User details' });
     this.pendingUserDetailsHeading = page.getByRole('heading', { name: 'Pending user details' });

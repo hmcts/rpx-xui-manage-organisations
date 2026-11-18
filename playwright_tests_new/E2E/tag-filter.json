@@ -1,6 +1,7 @@
 {
   "excludedTags": [],
   "availableTags": [
+    "@EXUI-4006",
     "@a11y",
     "@auth",
     "@e2e",

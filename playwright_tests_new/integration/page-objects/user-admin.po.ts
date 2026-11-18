@@ -18,8 +18,11 @@ export class UserAdminPage {
   public readonly submitButton: Locator;
   public readonly suspendAccountButton: Locator;
   public readonly suspendAccountHeading: Locator;
+  public readonly suspendedAccountWarning: Locator;
   public readonly userList: Locator;
+  public readonly userListHeaders: Locator;
   public readonly userDetailsHeading: Locator;
+  public readonly userStatus: Locator;
   public readonly usersLink: Locator;
 
   constructor(private readonly page: Page) {
@@ -39,10 +42,13 @@ export class UserAdminPage {
     this.sendInvitationButton = this.page.getByRole('button', { name: /^(Send invitation|Submit)$/ });
     this.submitButton = this.page.getByRole('button', { name: 'Submit' });
     this.suspendAccountButton = this.page.getByRole('button', { name: 'Suspend account' });
+    this.suspendedAccountWarning = this.page.getByText('This user\'s account has been suspended.', { exact: true });
     this.suspendAccountHeading = this.page.getByRole('heading', {
       name: 'Are you sure you want to suspend this account?'
     });
     this.userList = this.page.locator('table');
+    this.userListHeaders = this.userList.getByRole('columnheader');
+    this.userStatus = this.page.getByRole('region', { name: 'Status', exact: true }).locator('p');
     this.userDetailsHeading = this.page.getByRole('heading', { name: 'User details' });
     this.usersLink = this.page.getByRole('link', { name: 'Users', exact: true });
   }

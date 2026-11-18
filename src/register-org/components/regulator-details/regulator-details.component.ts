@@ -157,9 +157,9 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
       // Set corresponding registration data
       this.setRegulatorData();
       if (this.regulatorType === RegulatorType.Individual) {
-        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);
+        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]).catch((error) => this.errorHandler.handleError(error));
       } else {
-        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'organisation-services-access']);
+        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'organisation-services-access']).catch((error) => this.errorHandler.handleError(error));
       }
     }
   }
@@ -172,19 +172,19 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
     if (this.route.snapshot?.params?.backLinkTriggeredFromCYA) {
       // Back link clicked on CYA page
       // Navigate to individual regulators yes or no screen
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator']);
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator']).catch((error) => this.errorHandler.handleError(error));
     } else if (this.previousUrl?.includes(this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE)) {
       // Change link clicked on CYA page
       // Navigate to CYA page
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]).catch((error) => this.errorHandler.handleError(error));
     } else if (this.regulatorType === RegulatorType.Individual) {
       // Currently displayed screen is individual regulator details
       // Navigate to individual regulators yes or no screen
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator']);
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator']).catch((error) => this.errorHandler.handleError(error));
     } else if (this.registrationData.hasDxReference) {
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference-details']);
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference-details']).catch((error) => this.errorHandler.handleError(error));
     } else {
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference']);
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference']).catch((error) => this.errorHandler.handleError(error));
     }
   }
 
@@ -234,7 +234,7 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
         break;
       }
       default: {
-        this.router.navigate(['/service-down']);
+        this.router.navigate(['/service-down']).catch((error) => this.errorHandler.handleError(error));
         break;
       }
     }

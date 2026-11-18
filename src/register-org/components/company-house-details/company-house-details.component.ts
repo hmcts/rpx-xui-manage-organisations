@@ -6,7 +6,7 @@ import { RegisterComponent } from '../../containers/register/register-org.compon
 import { RegisterOrgService } from '../../services/register-org.service';
 
 // General company house number validation prefixes
-const COMPANY_HOUSE_PREFIXES = [
+const COMPANY_HOUSE_PREFIXES = new Set([
   'AC', 'ZC', 'FC', 'GE', 'LP', 'OC', 'SE', 'SA', 'SZ', 'SF', 'GS', 'SL', 'SO', 'SC', 'ES',
   'NA', 'NZ', 'NF', 'GN', 'NL', 'NC', 'R0', 'NI', 'EN',
   // EXUI-5219 - Added additional company house number based on document (in ticket)
@@ -15,7 +15,7 @@ const COMPANY_HOUSE_PREFIXES = [
   'SG', 'FE',
   // EXUI-5082 - Not present in document but requested by HALO ticket
   'BR', 'OE', 'RS'
-];
+]);
 
 // Special company house number validation patterns (e.g. RS12345, RS1234FI, RS123CUS, NI12345A)
 const COMPANY_HOUSE_PATTERNS = [
@@ -55,7 +55,7 @@ const companyHouseNumberValidator: ValidatorFn = (control: AbstractControl): Val
     return null;
   }
 
-  const hasKnownPrefix = COMPANY_HOUSE_PREFIXES.includes(companyHouseNumber.slice(0, 2));
+  const hasKnownPrefix = COMPANY_HOUSE_PREFIXES.has(companyHouseNumber.slice(0, 2));
   const hasNumberPrefix = /^\d{2}$/.test(companyHouseNumber.slice(0, 2));
   const hasValidStandardFormat = (hasKnownPrefix || hasNumberPrefix) && /^\d{5}[\dCR]$/.test(companyHouseNumber.slice(2));
   const hasValidSpecialFormat = COMPANY_HOUSE_PATTERNS.some((pattern) => pattern.test(companyHouseNumber));
@@ -99,17 +99,12 @@ export class CompanyHouseDetailsComponent extends RegisterComponent implements O
     if (this.validateForm()) {
       this.registrationData.companyName = this.companyHouseFormGroup.get('companyName').value;
       this.registrationData.companyHouseNumber = this.companyHouseFormGroup.get('companyHouseNumber').value;
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registered-address', 'external']);
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registered-address', 'external']).catch((error) => this.errorHandler.handleError(error));
     }
   }
 
   public onBack(): void {
-    const previousUrl = this.currentNavigation?.previousNavigation?.finalUrl?.toString();
-    if (previousUrl?.includes(this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE)) {
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);
-    } else {
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'organisation-type']);
-    }
+    this.navigateBack('organisation-type');
   }
 
   public onCancel(): void {

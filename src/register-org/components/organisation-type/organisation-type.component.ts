@@ -62,7 +62,7 @@ export class OrganisationTypeComponent extends RegisterComponent implements OnIn
           this.router.navigate([
             this.registerOrgService.REGISTER_ORG_NEW_ROUTE,
             'service-down'
-          ]);
+          ]).catch((error) => this.errorHandler.handleError(error));
         }
       });
   }
@@ -87,7 +87,7 @@ export class OrganisationTypeComponent extends RegisterComponent implements OnIn
         this.registrationData.otherOrganisationDetail = this.organisationTypeFormGroup.get('otherOrganisationDetail').value;
       }
       this.registerOrgService.persistRegistrationData(this.registrationData);
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'company-house-details']);
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'company-house-details']).catch((error) => this.errorHandler.handleError(error));
     }
   }
 
@@ -96,12 +96,7 @@ export class OrganisationTypeComponent extends RegisterComponent implements OnIn
   }
 
   public onBack(): void {
-    const previousUrl = this.currentNavigation?.previousNavigation?.finalUrl?.toString();
-    if (previousUrl?.includes(this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE)) {
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);
-    } else {
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE]);
-    }
+    this.navigateBack();
   }
 
   private isFormValid(): boolean {

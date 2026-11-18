@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ErrorHandler, inject } from '@angular/core';
 import { MatTabGroup } from '@angular/material/tabs';
 import { Router } from '@angular/router';
 import { TableConfig } from '@hmcts/ccd-case-ui-toolkit';
@@ -29,6 +29,8 @@ import { buildCompositeTrackKey } from '../../../shared/utils/track-by.util';
   standalone: false
 })
 export class CaaCasesComponent implements OnInit {
+  private readonly errorHandler = inject(ErrorHandler);
+
   public cases$: Observable<any>;
   public casesError$: Observable<HttpErrorResponse>;
   public selectedOrganisation$: Observable<OrganisationDetails>;
@@ -128,7 +130,7 @@ export class CaaCasesComponent implements OnInit {
       this.caaCasesPageType = CaaCasesPageType.AssignedCases;
     } else {
       // Invalid request, redirect to error page
-      this.router.navigateByUrl('/service-down');
+      this.router.navigateByUrl('/service-down').catch((error) => this.errorHandler.handleError(error));
     }
   }
 
@@ -159,7 +161,7 @@ export class CaaCasesComponent implements OnInit {
         break;
 
       default:
-        this.router.navigateByUrl('/service-down');
+        this.router.navigateByUrl('/service-down').catch((error) => this.errorHandler.handleError(error));
         break;
     }
   }

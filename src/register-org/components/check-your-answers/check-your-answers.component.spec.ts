@@ -1,13 +1,14 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ErrorHandler } from '@angular/core';
+import { ComponentFixture, fakeAsync, flushMicrotasks, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { RegisterOrgModule } from '../../register-org.module';
 import { buildMockStoreProviders } from '../../testing/mock-store-state';
-import { throwError } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { RegistrationData } from '../../models/registration-data.model';
 import { RegisterOrgService } from '../../services';
@@ -77,7 +78,7 @@ describe('CheckYourAnswersComponent', () => {
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
     registerOrgService = TestBed.inject(RegisterOrgService);
-    spyOn(router, 'navigate');
+    spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
     spyOn(registerOrgService, 'getRegistrationData').and.returnValue(registrationData);
     fixture.detectChanges();
   });
@@ -90,6 +91,21 @@ describe('CheckYourAnswersComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should report failed confirmation navigation after a successful registration without resubmitting', fakeAsync(() => {
+    const error = new Error('Confirmation navigation failed');
+    const handleError = spyOn(TestBed.inject(ErrorHandler), 'handleError');
+    const postRegistration = spyOn(registerOrgService, 'postRegistration').and.returnValue(of({ organisationIdentifier: 'ORG123' }));
+    (router.navigate as jasmine.Spy).and.returnValue(Promise.reject(error));
+    component.cyaFormGroup.get('confirmTermsAndConditions').setValue(true);
+
+    component.onSubmitData();
+    flushMicrotasks();
+
+    expect(postRegistration).toHaveBeenCalledTimes(1);
+    expect(handleError).toHaveBeenCalledOnceWith(error);
+    expect(component.validationErrors).toEqual([]);
+  }));
 
   it('should getOrganisationType return the correct organisation type from the ref data', () => {
     const organisationType = component.getOrganisationType('SolicitorOrganisation');

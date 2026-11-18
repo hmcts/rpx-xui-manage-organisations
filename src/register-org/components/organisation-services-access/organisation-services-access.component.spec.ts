@@ -38,7 +38,7 @@ describe('OrganisationServicesAccessComponent', () => {
     fixture = TestBed.createComponent(OrganisationServicesAccessComponent);
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
-    spyOn(router, 'navigate');
+    spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
     nativeElement = fixture.debugElement.nativeElement;
     fixture.detectChanges();
   });

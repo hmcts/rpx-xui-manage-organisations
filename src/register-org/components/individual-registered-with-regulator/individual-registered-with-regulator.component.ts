@@ -39,12 +39,12 @@ export class IndividualRegisteredWithRegulatorComponent extends RegisterComponen
         // Set corresponding registration data
         this.registrationData.hasIndividualRegisteredWithRegulator = true;
         // Navigate to what regulator are you registered with page
-        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator-details']);
+        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator-details']).catch((error) => this.errorHandler.handleError(error));
       } else {
         // Set corresponding registration data
         this.registrationData.hasIndividualRegisteredWithRegulator = false;
         this.registrationData.individualRegulators = [];
-        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);
+        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]).catch((error) => this.errorHandler.handleError(error));
       }
     }
   }
@@ -54,12 +54,7 @@ export class IndividualRegisteredWithRegulatorComponent extends RegisterComponen
   }
 
   public onBack(): void {
-    const previousUrl = this.currentNavigation?.previousNavigation?.finalUrl?.toString();
-    if (previousUrl?.includes(this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE)) {
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);
-    } else {
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'contact-details']);
-    }
+    this.navigateBack('contact-details');
   }
 
   public setFormControlValues(): void {

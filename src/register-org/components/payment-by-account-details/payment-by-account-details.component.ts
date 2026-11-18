@@ -51,17 +51,12 @@ export class PaymentByAccountDetailsComponent extends RegisterComponent implemen
     if (this.isFormValid()) {
       const pbaNumbers = this.pbaDetailsFormGroup.value.pbaNumbers.filter((pba) => pba.pbaNumber !== '');
       this.registrationData.pbaNumbers = pbaNumbers.map((pba) => pba.pbaNumber);
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'contact-details']);
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'contact-details']).catch((error) => this.errorHandler.handleError(error));
     }
   }
 
   public onBack(): void {
-    const previousUrl = this.currentNavigation?.previousNavigation?.finalUrl?.toString();
-    if (previousUrl?.includes(this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE)) {
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);
-    } else {
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'payment-by-account']);
-    }
+    this.navigateBack('payment-by-account');
   }
 
   public onCancel(): void {

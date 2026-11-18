@@ -86,7 +86,7 @@ describe('RegulatorDetailsComponent', () => {
     component.registrationData = registrationData;
     spyOn(component, 'onOptionSelected').and.callThrough();
     router = TestBed.inject(Router);
-    spyOn(router, 'navigate');
+    spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
     fixture.detectChanges();
   });
 

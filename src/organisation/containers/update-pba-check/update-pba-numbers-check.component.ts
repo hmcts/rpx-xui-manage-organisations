@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ErrorHandler, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -16,6 +16,8 @@ import * as organisationActions from '../../store/actions';
   standalone: false
 })
 export class UpdatePbaNumbersCheckComponent implements OnInit, OnDestroy {
+  private readonly errorHandler = inject(ErrorHandler);
+
   public readonly title: string = 'Check your PBA accounts';
   public organisationDetails: OrganisationDetails;
   public errors: ErrorMessage[] = [];
@@ -90,7 +92,7 @@ export class UpdatePbaNumbersCheckComponent implements OnInit, OnDestroy {
       this.organisationDetails = organisationDetails;
 
       if (!this.hasPendingChanges) {
-        this.router.navigate(['/organisation/update-pba-numbers']).then(() => {});
+        this.router.navigate(['/organisation/update-pba-numbers']).catch((error) => this.errorHandler.handleError(error));
       }
     });
   }

@@ -1,6 +1,7 @@
 @if (backLink) {
   <a [routerLink]="backLink" class="govuk-back-link">Back</a>
 }
+<span class="govuk-caption-xl">{{ fnTitle | rpxTranslate }}</span>
 <xuilib-share-case
   [shareCases$] = "shareCases$"
   [users]="orgUsers$ | async"
@@ -11,7 +12,6 @@
   [cancelLink]="backLink"
   [addUserLabel]="addUserLabel"
   [showRemoveUsers]="showRemoveUsers"
-  [fnTitle]="fnTitle"
   [title]="title"
   >
 </xuilib-share-case>

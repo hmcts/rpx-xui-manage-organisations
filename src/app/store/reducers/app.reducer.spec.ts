@@ -16,30 +16,30 @@ describe('AppReducer', () => {
     let action;
     let state;
 
-    action = new fromAppActions.SetPageTitle('invite-user');
+    action = new fromAppActions.SetPageTitle('users/invite-user');
     state = fromApp.reducer(initialState, action);
 
-    expect(state.pageTitle).toEqual('Manage organisation - Invite user - GOV.UK');
+    expect(state.pageTitle).toEqual('Invite user - Manage Organisation - HM Courts & Tribunals Service - GOV.UK');
 
     action = new fromAppActions.SetPageTitle('organisation');
     state = fromApp.reducer(initialState, action);
 
-    expect(state.pageTitle).toEqual('Manage organisation - Organisation details - GOV.UK');
+    expect(state.pageTitle).toEqual('Organisation details - Manage Organisation - HM Courts & Tribunals Service - GOV.UK');
 
     action = new fromAppActions.SetPageTitle('profile');
     state = fromApp.reducer(initialState, action);
 
-    expect(state.pageTitle).toEqual('Manage organisation - Profile - GOV.UK');
+    expect(state.pageTitle).toEqual('Profile - Manage Organisation - HM Courts & Tribunals Service - GOV.UK');
 
     action = new fromAppActions.SetPageTitle('users');
     state = fromApp.reducer(initialState, action);
 
-    expect(state.pageTitle).toEqual('Manage organisation - Users - GOV.UK');
+    expect(state.pageTitle).toEqual('Users - Manage Organisation - HM Courts & Tribunals Service - GOV.UK');
 
     action = new fromAppActions.SetPageTitle('dummy');
     state = fromApp.reducer(initialState, action);
 
-    expect(state.pageTitle).toEqual('Manage organisation - GOV.UK');
+    expect(state.pageTitle).toEqual('Manage Organisation - HM Courts & Tribunals Service - GOV.UK');
   });
 
   it('setTitleError action should return correct state', () => {
@@ -48,7 +48,7 @@ describe('AppReducer', () => {
     const action = new fromAppActions.SetPageTitleErrors();
     const state = fromApp.reducer(initialState, action);
 
-    expect(state.pageTitle).toEqual('Error: ');
+    expect(state.pageTitle).toEqual('Error: Manage Organisation - HM Courts & Tribunals Service - GOV.UK');
   });
 
   it('should set correct user roles', () => {

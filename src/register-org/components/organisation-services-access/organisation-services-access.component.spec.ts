@@ -10,6 +10,7 @@ import { EnvironmentService } from '../../../shared/services/environment.service
 import { ENVIRONMENT_CONFIG } from '../../../models/environmentConfig.model';
 import { OrganisationServicesAccessComponent } from './organisation-services-access.component';
 import { RegisterOrgModule } from '../../register-org.module';
+import { RegisterOrgService } from '../../services';
 import { buildMockStoreProviders } from '../../testing/mock-store-state';
 import { mockEnvironmentConfig } from '../../../shared/services/environment.service.spec';
 
@@ -35,6 +36,7 @@ describe('OrganisationServicesAccessComponent', () => {
   });
 
   beforeEach(() => {
+    TestBed.inject(RegisterOrgService).removeRegistrationData();
     fixture = TestBed.createComponent(OrganisationServicesAccessComponent);
     component = fixture.componentInstance;
     router = TestBed.inject(Router);

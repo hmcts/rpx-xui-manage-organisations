@@ -1,4 +1,5 @@
-@use "govuk-frontend/dist/govuk/base" as *;
+@use "govuk-frontend/dist/govuk/base" as govuk;
+
 @use "sass:math";
 
 /* ==========================================================================
@@ -6,8 +7,8 @@
    ========================================================================== */
 
 $jui-page-width: 1220px;
-$jui-gutter: govuk-spacing(6);
-$jui-gutter-half: math.div($govuk-gutter, 2);
+$jui-gutter: govuk.govuk-spacing(6);
+$jui-gutter-half: math.div(govuk.govuk-spacing(6), 2);
 
 // Assets path
 $jui-assets-path : "/public/images/";
@@ -21,13 +22,13 @@ $jui-assets-path : "/public/images/";
   margin: 0 $jui-gutter-half;
 
   // On tablet, add full width gutters
-  @include govuk-media-query($from: tablet) {
+  @include govuk.govuk-media-query($from: tablet) {
     margin: 0 $jui-gutter;
   }
 
   // As soon as the viewport is greater than the width of the page plus the
   // gutters, just centre the content instead of adding gutters.
-  @include govuk-media-query($and: "(min-width: #{($jui-page-width + $jui-gutter * 2)})") {
+  @include govuk.govuk-media-query($and: "(min-width: #{($jui-page-width + $jui-gutter * 2)})") {
     margin: 0 auto;
   }
 }

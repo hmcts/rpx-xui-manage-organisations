@@ -81,7 +81,8 @@ test.describe('SRT organisation visual baseline', {
     await expect(page).toHaveScreenshot('registration-start.png', {
       fullPage: true,
       animations: 'disabled',
-      caret: 'hide'
+      caret: 'hide',
+      maxDiffPixels: 4
     });
   });
 

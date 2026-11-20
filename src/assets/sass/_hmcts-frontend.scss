@@ -5,6 +5,7 @@
 $hmcts-page-width: 1220px !default;
 $hmcts-gutter: 30px;
 $hmcts-gutter-half: 15px;
+$hmcts-navigation-background: var(--govuk-surface-background-colour, #f4f8fb);
 
 @mixin hmcts-width-container($width: $hmcts-page-width) {
   max-width: $width;
@@ -25,7 +26,7 @@ $hmcts-gutter-half: 15px;
 
 // Header
 .hmcts-header {
-  background-color: govuk-colour("black");
+  background-color: govuk-colour("blue");
   padding-top: govuk-spacing(2);
 }
 
@@ -123,7 +124,13 @@ $hmcts-gutter-half: 15px;
 
 // Primary navigation
 .hmcts-primary-navigation {
-  background-color: govuk-colour("black");
+  background-color: $hmcts-navigation-background;
+  border-bottom: 1px solid govuk-colour("blue");
+}
+
+.hmcts-primary-navigation__container.hmcts-header {
+  background-color: $hmcts-navigation-background;
+  padding-top: 0;
 }
 
 .hmcts-primary-navigation__container {
@@ -149,7 +156,7 @@ $hmcts-gutter-half: 15px;
   display: inline-block;
   margin-right: govuk-spacing(4);
   margin-top: 0;
-  @include govuk-font($size: 19, $weight: bold);
+  @include govuk-font($size: 19);
 
   &:last-child {
     margin-right: 0;
@@ -160,30 +167,35 @@ $hmcts-gutter-half: 15px;
   display: block;
   padding-bottom: 13px;
   padding-top: 12px;
-  text-decoration: underline;
+  text-decoration: none;
 
   &:link,
   &:visited {
-    color: govuk-colour("white");
+    color: govuk-colour("blue");
+  }
+
+  &:hover {
+    color: govuk-colour("dark-blue");
+    text-decoration: underline;
   }
 
   &:focus {
     color: govuk-colour("black");
     position: relative;
     z-index: 1;
+    text-decoration: underline;
   }
 
   &[aria-current] {
-    color: govuk-colour("white");
+    color: govuk-colour("blue");
     position: relative;
     text-decoration: none;
 
     &::before {
-      background-color: govuk-colour("white");
+      background-color: var(--govuk-link-colour, #1a65a6);
       bottom: 0;
       content: "";
       display: block;
-      height: 5px;
       left: 0;
       position: absolute;
       width: 100%;
@@ -193,7 +205,7 @@ $hmcts-gutter-half: 15px;
       color: govuk-colour("black");
 
       &::before {
-        background-color: govuk-colour("black");
+        background-color: var(--govuk-link-colour, #1a65a6);
       }
     }
   }

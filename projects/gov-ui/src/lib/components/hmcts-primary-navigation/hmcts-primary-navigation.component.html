@@ -1,6 +1,6 @@
 @if (isUserLoggedIn) {
   <nav class="hmcts-primary-navigation" [attr.aria-label]="label">
-    <div class="hmcts-primary-navigation__container">
+    <div class="hmcts-primary-navigation__container hmcts-header">
       @if (isBrandedHeader) {
         <div class="govuk-header__logo"></div>
       }
@@ -14,4 +14,3 @@
     </div>
   </nav>
 }
-

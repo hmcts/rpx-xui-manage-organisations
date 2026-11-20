@@ -507,6 +507,19 @@ Extended version of script below:
  |---------------------------------------|
 ```
 
+## GitHub release notes
+
+GitHub's automatically generated release notes use [`.github/release.yml`](.github/release.yml)
+to group merged pull requests into Features (`enhancement`), Bug fixes (`bug`),
+Dependencies (`dependencies`), and Other changes. Pull requests without a matching
+label are included under Other changes.
+
+After the configuration is merged into `master`, open **Releases > Draft a new release**
+on GitHub, select the release tag and previous tag, then click **Generate release notes**.
+Review the generated notes before saving the draft or publishing the release.
+This configuration customizes the generated notes; it does not create or publish releases.
+See [GitHub's documentation](https://docs.github.com/en/repositories/releasing-projects-on-github/automatically-generated-release-notes).
+
 ## Configuration Path
 
 The application uses the Node `config` package. The current repo has these configuration files:

@@ -1,28 +1,32 @@
 {
-    "compileOnSave": false,
-    "compilerOptions": {
-        "outDir": "../dist/rpx-xui-manage-organisations/api",
-        "target": "es5",
-        "esModuleInterop": true,
-        "types": [
-            "node",
-            "mocha",
-            "rxjs"
-        ],
-        "baseUrl": ".",
-        "lib": [
-            "es2017",
-            "dom"
-        ]
-    },
-    "include": [
-        "**/*.ts",
-        "../*.ts"
+  "compileOnSave": false,
+  "compilerOptions": {
+    "outDir": "../dist/rpx-xui-manage-organisations/api",
+    "target": "es2022",
+    "esModuleInterop": true,
+    "types": [
+      "node",
+      "mocha",
+      "rxjs"
     ],
-    "exclude": [
-        "**/*.spec.ts"
+    "lib": [
+      "es2022",
+      "dom"
     ],
-    "files": [
-        "./customTypings/customExpress/index.d.ts"
-    ]
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "ignoreDeprecations": "6.0",
+    "strict": false,
+    "rootDir": ".."
+  },
+  "include": [
+    "**/*.ts",
+    "../*.ts"
+  ],
+  "exclude": [
+    "**/*.spec.ts"
+  ],
+  "files": [
+    "./customTypings/customExpress/index.d.ts"
+  ]
 }

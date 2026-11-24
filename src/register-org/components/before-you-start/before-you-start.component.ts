@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -10,6 +10,7 @@ import { RegisterOrgService } from '../../services/register-org.service';
 @Component({
   selector: 'app-before-you-start',
   templateUrl: './before-you-start.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class BeforeYouStartComponent extends RegisterComponent implements OnInit, OnDestroy {
@@ -18,7 +19,7 @@ export class BeforeYouStartComponent extends RegisterComponent implements OnInit
   public manageCaseLink$: Observable<string>;
   public manageOrgLink$: Observable<string>;
   public beforeYouStartForm: FormGroup;
-  public beforeYouStartErrors: { id: string, message: string }[] = [];
+  public beforeYouStartErrors: { id: string; message: string }[] = [];
   public errorPresent = false;
 
   constructor(

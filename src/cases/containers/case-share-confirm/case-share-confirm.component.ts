@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SharedCase } from '@hmcts/rpx-xui-common-lib';
 import { select, Store } from '@ngrx/store';
@@ -11,6 +11,7 @@ import * as fromCaseList from '../../store/reducers';
   selector: 'app-exui-case-share-confirm',
   templateUrl: './case-share-confirm.component.html',
   styleUrls: ['./case-share-confirm.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class CaseShareConfirmComponent implements OnInit, OnDestroy {
@@ -41,7 +42,7 @@ export class CaseShareConfirmComponent implements OnInit, OnDestroy {
     this.changeLink = this.acceptCases ? this.acceptLinks : this.caseShareLinks;
     this.completeLink = `/cases/case-share-complete/${this.pageType}`;
     this.shareCases$ = this.store.pipe(select(fromCasesFeature.getShareCaseListState));
-    this.shareCases$.pipe(takeUntil(this.destroy$)).subscribe((shareCases) => this.shareCases = shareCases);
+    this.shareCases$.pipe(takeUntil(this.destroy$)).subscribe((shareCases) => (this.shareCases = shareCases));
   }
 
   public ngOnDestroy(): void {

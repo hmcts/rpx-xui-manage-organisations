@@ -4,7 +4,7 @@ import { StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { AppConstants } from '../../app/app.constants';
 import { AuthService } from './auth.service';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 
 describe('AuthService', () => {
   beforeEach(() => {
@@ -12,7 +12,7 @@ describe('AuthService', () => {
       imports: [StoreModule.forRoot({})],
       providers: [
         AuthService,
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting()
       ]
     });
@@ -72,7 +72,8 @@ describe('AuthService', () => {
       const req = httpMock.expectOne('/auth/logout?noredirect=true');
       expect(req.request.method).toEqual('GET');
       req.flush(null);
-    }));
+    }
+    ));
   });
 
   describe('signOut', () => {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
@@ -11,10 +11,11 @@ import * as fromRoot from '../../store';
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class HeaderComponent implements OnInit {
-  @Input() public navItems: {navItems: { active: boolean; href: string; }[]};
+  @Input() public navItems: {navItems: { active: boolean; href: string}[]};
   @Input() public title: AppTitlesModel;
   @Input() public userNav: UserNavModel;
   @Output() public navigate = new EventEmitter<string>();

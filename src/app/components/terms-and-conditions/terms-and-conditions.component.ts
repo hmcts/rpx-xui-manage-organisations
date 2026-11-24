@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FeatureToggleService, TCDocument } from '@hmcts/rpx-xui-common-lib';
 import { Store, select } from '@ngrx/store';
@@ -10,6 +10,7 @@ import * as fromRoot from '../../store';
 @Component({
   selector: 'app-terms-and-conditions',
   templateUrl: './terms-and-conditions.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class TermsAndConditionsComponent implements OnInit, OnDestroy {

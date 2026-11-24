@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { AbstractControlOptions, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { User } from '@hmcts/rpx-xui-common-lib';
 import { Actions, ofType } from '@ngrx/effects';
@@ -18,13 +18,14 @@ import * as fromStore from '../../store';
 @Component({
   selector: 'app-prd-invite-user-component',
   templateUrl: './invite-user.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class InviteUserComponent implements OnInit, OnDestroy {
   public inviteUserForm: FormGroup;
   public backLink: string;
   public errors$: Observable<any>;
-  public errorsArray$: Observable<{ isFromValid: boolean; items: { id: string; message: any; } []}>;
+  public errorsArray$: Observable<{ isFromValid: boolean; items: { id: string; message: any} []}>;
   public errorMessages = {
     firstName: ['Enter first name'],
     lastName: ['Enter last name'],
@@ -211,10 +212,7 @@ export class InviteUserComponent implements OnInit, OnDestroy {
   }
 
   private callInviteuser(permissions: string[], ccdRoles: string[], value) {
-    const roles = [
-      ...permissions,
-      ...ccdRoles
-    ];
+    const roles = [...permissions, ...ccdRoles];
     value = {
       ...value,
       roles,
@@ -228,10 +226,10 @@ export class InviteUserComponent implements OnInit, OnDestroy {
     // set form errors
     const formValidationData = {
       isInvalid: {
-        firstName: [(this.f.firstName.errors?.required)],
-        lastName: [(this.f.lastName.errors?.required)],
-        email: [(this.f.email.errors && (this.f.email.errors.required || this.f.email.errors.email))],
-        roles: [(this.f.roles.errors?.requireOneCheckboxToBeChecked)]
+        firstName: [this.f.firstName.errors?.required],
+        lastName: [this.f.lastName.errors?.required],
+        email: [this.f.email.errors && (this.f.email.errors.required || this.f.email.errors.email)],
+        roles: [this.f.roles.errors?.requireOneCheckboxToBeChecked]
       },
       errorMessages: this.errorMessages,
       isSubmitted: true

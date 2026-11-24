@@ -1,11 +1,13 @@
-import { Component, Input } from '@angular/core';
-import { buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { buildIdOrIndexKey } from '../../util/track-by.util';
 
 @Component({
   selector: 'app-hmcts-sub-navigation',
   templateUrl: './hmcts-sub-navigation.component.html',
   styleUrls: ['./hmcts-sub-navigation.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
+
 })
 export class HmctsSubNavigationComponent {
     @Input() label: string;

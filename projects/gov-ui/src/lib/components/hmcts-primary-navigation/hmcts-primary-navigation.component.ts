@@ -1,12 +1,14 @@
-import { Component, Input } from '@angular/core';
-import { buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { buildIdOrIndexKey } from '../../util/track-by.util';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-hmcts-primary-navigation',
   templateUrl: './hmcts-primary-navigation.component.html',
   styleUrls: ['./hmcts-primary-navigation.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
+
 })
 export class HmctsPrimaryNavigationComponent {
   @Input() set userLoggedIn(value) {

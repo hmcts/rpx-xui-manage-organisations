@@ -1,5 +1,5 @@
-import {Component, Input} from '@angular/core';
-import {HtmlTemplatesHelper} from '../../util/helpers/html-templates.helper';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { HtmlTemplatesHelper } from '../../util/helpers/html-templates.helper';
 /*
 * Gov Uk Fieldset Component
 * Used to wrap group fieldset elements
@@ -9,34 +9,36 @@ import {HtmlTemplatesHelper} from '../../util/helpers/html-templates.helper';
 * @param errorMessage - used for aria tag
 * */
 @Component({
-    selector: 'lib-gov-uk-fieldset',
-    template: `
-      <fieldset class="govuk-fieldset" [attr.aria-describedby]="setDescribedBy()">
-        @if (!isHeading) {
-          <legend [class]="config.classes + ' govuk-fieldset__legend'">
-            {{config.legend}}
-          </legend>
-        }
-      
-        @if (isHeading) {
-          <legend [class]="config.classes + ' govuk-fieldset__legend'">
-            <h1>{{config.legend}}</h1>
-          </legend>
-        }
-      
-        @if (config.hint) {
-          <span [id]="config.id+'-hint'" class="govuk-hint">
-            {{config.hint}}
-          </span>
-        }
-        <ng-content></ng-content>
-      </fieldset>
-      `,
-    standalone: false
+  selector: 'lib-gov-uk-fieldset',
+  template: `
+    <fieldset class="govuk-fieldset" [attr.aria-describedby]="setDescribedBy()">
+      @if (!isHeading) {
+        <legend [class]="config.classes + ' govuk-fieldset__legend'">
+          {{ config.legend }}
+        </legend>
+      }
+
+      @if (isHeading) {
+        <legend [class]="config.classes + ' govuk-fieldset__legend'">
+          <h1>{{ config.legend }}</h1>
+        </legend>
+      }
+
+      @if (config.hint) {
+        <span [id]="config.id + '-hint'" class="govuk-hint">
+          {{ config.hint }}
+        </span>
+      }
+      <ng-content></ng-content>
+    </fieldset>
+  `,
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
+
 })
 export class GovUkFieldsetComponent {
   constructor () {}
-  @Input() config: {legend: string; classes: string, id: string, hint: string, key: string};
+  @Input() config: {legend: string; classes: string; id: string; hint: string; key: string};
   @Input() isHeading: boolean;
   @Input() errorMessage: string[];
 

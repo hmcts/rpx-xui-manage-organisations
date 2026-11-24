@@ -1,10 +1,11 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-privacy-policy',
   templateUrl: './privacy-policy.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class PrivacyPolicyComponent implements OnInit {
@@ -21,7 +22,7 @@ export class PrivacyPolicyComponent implements OnInit {
     });
   }
 
-  @HostListener('document:click', ['$event'])
+  @HostListener('document:click')
   public clickout() {
     if (this.subscription) {
       this.subscription.unsubscribe();

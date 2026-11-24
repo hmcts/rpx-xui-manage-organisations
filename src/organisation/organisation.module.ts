@@ -15,7 +15,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import * as fromServices from './services';
 
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
@@ -39,6 +39,6 @@ import { effects, reducers } from './store';
     ExuiCommonLibModule,
     RxReactiveFormsModule], providers: [...fromServices.services, OrganisationGuard,
     JwtDecodeWrapper, MonitoringService, LoggerService,
-    { provide: ErrorHandler, useClass: DefaultErrorHandler }, provideHttpClient(withInterceptorsFromDi())] })
+    { provide: ErrorHandler, useClass: DefaultErrorHandler }, provideHttpClient(withXhr(), withInterceptorsFromDi())] })
 
 export class OrganisationModule {}

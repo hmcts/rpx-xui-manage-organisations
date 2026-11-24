@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ValidationService } from '../../services/form-builder-validation.service';
 import { buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
@@ -6,6 +6,7 @@ import { buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
 @Component({
   selector: 'app-validation-header',
   templateUrl: './validation-header.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 /**

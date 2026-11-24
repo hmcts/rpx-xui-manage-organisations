@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SharedCase, FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { select, Store } from '@ngrx/store';
@@ -14,6 +14,7 @@ import { CaaCasesPageType } from 'src/cases/models/caa-cases.enum';
   selector: 'app-exui-case-share-complete',
   templateUrl: './case-share-complete.component.html',
   styleUrls: ['case-share-complete.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class CaseShareCompleteComponent implements OnInit, OnDestroy {
@@ -50,9 +51,9 @@ export class CaseShareCompleteComponent implements OnInit, OnDestroy {
       }
     }
     this.shareCaseState$ = this.store.pipe(select(fromCasesFeature.getCaseShareState));
-    this.shareCaseState$.pipe(takeUntil(this.destroy$)).subscribe((state) => this.isLoading = state.loading);
+    this.shareCaseState$.pipe(takeUntil(this.destroy$)).subscribe((state) => (this.isLoading = state.loading));
     this.shareCases$ = this.store.pipe(select(fromCasesFeature.getShareCaseListState));
-    this.shareCases$.pipe(takeUntil(this.destroy$)).subscribe((shareCases) => this.shareCases = shareCases);
+    this.shareCases$.pipe(takeUntil(this.destroy$)).subscribe((shareCases) => (this.shareCases = shareCases));
     this.organisationStore.dispatch(new organisationStore.LoadOrganisation());
     this.selectedOrganisation$ = this.organisationStore.pipe(select(organisationStore.getOrganisationSel));
     // Use first() to ensure this only runs once

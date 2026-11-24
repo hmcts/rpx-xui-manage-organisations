@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SharedCase } from '@hmcts/rpx-xui-common-lib';
 import { select, Store } from '@ngrx/store';
@@ -11,6 +11,7 @@ import * as fromCaseList from '../../store/reducers';
   selector: 'app-exui-case-share-confirm',
   templateUrl: './case-share-confirm.component.html',
   styleUrls: ['./case-share-confirm.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class CaseShareConfirmComponent implements OnInit {
@@ -44,9 +45,10 @@ export class CaseShareConfirmComponent implements OnInit {
       this.changeLink = '/assigned-cases/case-share';
       this.completeLink = `/assigned-cases/case-share-complete/${this.pageType}`;
     }
-    this.shareCases$ = this.pageType === CaaCasesPageType.UnassignedCases
-      ? this.store.pipe(select(fromCasesFeature.getShareUnassignedCaseListState))
-      : this.store.pipe(select(fromCasesFeature.getShareAssignedCaseListState));
-    this.shareCases$.subscribe((shareCases) => this.shareCases = shareCases);
+    this.shareCases$ =
+      this.pageType === CaaCasesPageType.UnassignedCases
+        ? this.store.pipe(select(fromCasesFeature.getShareUnassignedCaseListState))
+        : this.store.pipe(select(fromCasesFeature.getShareAssignedCaseListState));
+    this.shareCases$.subscribe((shareCases) => (this.shareCases = shareCases));
   }
 }

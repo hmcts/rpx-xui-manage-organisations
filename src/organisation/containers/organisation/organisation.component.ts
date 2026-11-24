@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { buildCompositeTrackKey, buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { Store, select } from '@ngrx/store';
@@ -16,6 +16,7 @@ import { utils } from '../../utils';
 @Component({
   selector: 'app-prd-organisation-component',
   templateUrl: './organisation.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class OrganisationComponent implements OnInit, OnDestroy {

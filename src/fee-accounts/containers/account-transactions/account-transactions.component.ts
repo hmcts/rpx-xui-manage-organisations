@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MemoizedSelector, select, Store } from '@ngrx/store';
 import { Observable, of, Subscription } from 'rxjs';
@@ -11,6 +11,7 @@ import * as fromfeatureStore from '../../store';
   selector: 'app-account-transactions',
   templateUrl: './account-transactions.component.html',
   styleUrls: ['./account-transactions.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class AccountTransactionsComponent implements OnInit, OnDestroy {
@@ -86,7 +87,9 @@ export class AccountTransactionsComponent implements OnInit, OnDestroy {
     return `/fee-accounts/account/${id}`;
   }
 
-  public getAccountTransactions(pbaAccountTransactions: MemoizedSelector<object, object | SingleAccountSummary>): Observable<object | SingleAccountSummary> {
+  public getAccountTransactions(
+    pbaAccountTransactions: MemoizedSelector<object, object | SingleAccountSummary>
+  ): Observable<object | SingleAccountSummary> {
     return this.store.pipe(select(pbaAccountTransactions));
   }
 

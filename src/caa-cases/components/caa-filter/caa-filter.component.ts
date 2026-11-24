@@ -1,4 +1,6 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges,
+  ChangeDetectionStrategy
+} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from '@hmcts/rpx-xui-common-lib';
 import { Observable, Subscription, of } from 'rxjs';
@@ -18,6 +20,7 @@ import { buildCompositeTrackKey, buildIdOrIndexKey } from '../../../shared/utils
   selector: 'app-caa-filter',
   templateUrl: './caa-filter.component.html',
   styleUrls: ['./caa-filter.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class CaaFilterComponent implements OnInit, OnChanges, OnDestroy {
@@ -78,16 +81,17 @@ export class CaaFilterComponent implements OnInit, OnChanges, OnDestroy {
       });
       // Subscribe to assignee person form control to filter and display users based on user input
       this.assigneePersonFormControlSubscription = this.caaFormGroup.get(this.assigneePersonFormControl).valueChanges.pipe(
-        tap({ next: () => this.showAutocomplete = false }),
-        tap({ next: () => this.filteredAndGroupedUsers = null }),
+        tap({ next: () => (this.showAutocomplete = false) }),
+        tap({ next: () => (this.filteredAndGroupedUsers = null) }),
         debounceTime(300),
         switchMap((searchTerm: any) => this.filterSelectedOrganisationUsers(searchTerm).pipe(
-          tap({ next: () => this.showAutocomplete = true }),
-          catchError(() => this.filteredAndGroupedUsers = null)
+          tap({ next: () => (this.showAutocomplete = true) }),
+          catchError(() => (this.filteredAndGroupedUsers = null)
+          ))
         ))
-      ).subscribe((filteredAndGroupedUsers: Map<string, User[]>) => {
-        this.filteredAndGroupedUsers = filteredAndGroupedUsers;
-      });
+        .subscribe((filteredAndGroupedUsers: Map<string, User[]>) => {
+          this.filteredAndGroupedUsers = filteredAndGroupedUsers;
+        });
     }
   }
 
@@ -210,7 +214,9 @@ export class CaaFilterComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public onSelectionChange(selectedUser: User): void {
-    this.caaFormGroup.get(this.assigneePersonFormControl).setValue(this.getDisplayName(selectedUser), { emitEvent: false, onlySelf: true });
+    this.caaFormGroup
+      .get(this.assigneePersonFormControl)
+      .setValue(this.getDisplayName(selectedUser), { emitEvent: false, onlySelf: true });
   }
 
   public ngOnDestroy(): void {
@@ -229,11 +235,22 @@ export class CaaFilterComponent implements OnInit, OnChanges, OnDestroy {
 
     if (this.caaFormGroup.invalid) {
       if (this.caaFormGroup.get(this.caseRefFormControl).invalid) {
-        this.errorMessages.push({ title: '', description: CaaCasesFilterErrorMessage.InvalidCaseReference, fieldId: this.caseRefFormControl });
+        this.errorMessages.push({
+          title: '',
+          description: CaaCasesFilterErrorMessage.InvalidCaseReference,
+          fieldId: this.caseRefFormControl
+        });
         this.caseReferenceNumberErrorMessage = CaaCasesFilterErrorMessage.InvalidCaseReference;
       }
-      if (this.caaCasesPageType === CaaCasesPageType.AssignedCases && this.caaFormGroup.get(this.assigneePersonFormControl).invalid) {
-        this.errorMessages.push({ title: '', description: CaaCasesFilterErrorMessage.InvalidAssigneeName, fieldId: this.assigneePersonFormControl });
+      if (
+        this.caaCasesPageType === CaaCasesPageType.AssignedCases &&
+        this.caaFormGroup.get(this.assigneePersonFormControl).invalid
+      ) {
+        this.errorMessages.push({
+          title: '',
+          description: CaaCasesFilterErrorMessage.InvalidAssigneeName,
+          fieldId: this.assigneePersonFormControl
+        });
         this.assigneeNameErrorMessage = CaaCasesFilterErrorMessage.InvalidAssigneeName;
       }
 
@@ -257,7 +274,8 @@ export class CaaFilterComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public trackByFilteredUser(index: number, user: User): string | number {
-    return buildCompositeTrackKey(index,
+    return buildCompositeTrackKey(
+      index,
       (user as any)?.idamId,
       (user as any)?.userIdentifier,
       user?.email,

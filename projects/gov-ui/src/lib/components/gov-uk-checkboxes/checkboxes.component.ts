@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { CheckboxesModel } from '../../models/checkboxesModel';
 
@@ -30,15 +30,13 @@ type CheckboxOptions = Omit<CheckboxesModel, 'items'> & { items: CheckboxItem[] 
   selector: 'lib-gov-uk-checkboxes, lib-gov-checkbox',
   template: `
     @if (options) {
-      <lib-gov-uk-form-group-wrapper
-        [error]="errors"
-        [config]="options.config"
-        [group]="options.key">
+      <lib-gov-uk-form-group-wrapper [error]="errors" [config]="options.config" [group]="options.key">
         <div class="govuk-checkboxes">
           @for (item of options.items; track item) {
             <ng-container
               [ngTemplateOutlet]="checkbox"
-              [ngTemplateOutletContext]="{ group: item.group, config: item.config, isChecked: false }">
+              [ngTemplateOutletContext]="{ group: item.group, config: item.config, isChecked: false }"
+            >
             </ng-container>
           }
         </div>
@@ -46,7 +44,8 @@ type CheckboxOptions = Omit<CheckboxesModel, 'items'> & { items: CheckboxItem[] 
     } @else {
       <ng-container
         [ngTemplateOutlet]="checkbox"
-        [ngTemplateOutletContext]="{ group: group, config: config, isChecked: isChecked }">
+        [ngTemplateOutletContext]="{ group: group, config: config, isChecked: isChecked }"
+      >
       </ng-container>
     }
 
@@ -59,15 +58,18 @@ type CheckboxOptions = Omit<CheckboxesModel, 'items'> & { items: CheckboxItem[] 
           [id]="checkboxConfig.id"
           [name]="checkboxConfig.name"
           [formControlName]="checkboxConfig.value"
-          [checked]="checked">
+          [checked]="checked"
+        />
         <lib-gov-label appRemoveHost [config]="checkboxConfig"></lib-gov-label>
         <span [id]="checkboxConfig.value + '-item-hint'" class="govuk-hint govuk-checkboxes__hint">
-          {{checkboxConfig.hint}}
+          {{ checkboxConfig.hint }}
         </span>
       </div>
     </ng-template>
-    `,
+  `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
+
 })
 export class CheckboxesComponent implements OnInit {
   @Input() options: CheckboxOptions;

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import * as organisationStore from '../../../organisation/store';
 import { OrganisationDetails } from 'src/models/organisation.model';
@@ -11,6 +11,7 @@ import { CaaCasesPageType } from '../../models/caa-cases.enum';
   selector: 'app-exui-case-accept',
   templateUrl: './accept-cases.component.html',
   styleUrls: ['./accept-cases.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class AcceptCasesComponent implements OnInit {
@@ -44,14 +45,14 @@ export class AcceptCasesComponent implements OnInit {
     });
   }
 
-  public continue(){
+  public continue() {
     const newCaseOptions = {
       caseTypeId: this.caseType,
       caaPageType: CaaCasesPageType.NewCases,
       assignCases: this.permissionsForm.value.assignmentType === 'assigning' ? 'assigning' : 'notAssigning'
     };
     sessionStorage.setItem('newCases', JSON.stringify(newCaseOptions));
-    if (this.permissionsForm.value.assignmentType === 'assigning'){
+    if (this.permissionsForm.value.assignmentType === 'assigning') {
       const queryParams = { init: true, pageType: 'unassigned-cases', caseAccept: true };
       this.router.navigate([this.caseShare], { queryParams });
     } else {
@@ -60,7 +61,7 @@ export class AcceptCasesComponent implements OnInit {
     }
   }
 
-  public goBack(){
+  public goBack() {
     this.router.navigate(['/cases']);
   }
 }

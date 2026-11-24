@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -9,6 +9,7 @@ import { ValidationService } from '../../services/form-builder-validation.servic
   selector: 'app-input-button',
   templateUrl: './input-button.component.html',
   styleUrls: ['./input-button.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class InputButtonComponent implements OnInit {

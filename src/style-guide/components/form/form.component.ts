@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { StyleGuideFormConstants as CONST } from '../../constants/style-guide-form.constants';
@@ -6,6 +6,7 @@ import { StyleGuideFormConstants as CONST } from '../../constants/style-guide-fo
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class FormComponent implements OnInit {

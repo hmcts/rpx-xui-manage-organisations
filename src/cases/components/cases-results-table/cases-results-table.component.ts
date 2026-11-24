@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatTabGroup } from '@angular/material/tabs';
 import { TableConfig } from '@hmcts/ccd-case-ui-toolkit';
 import { SubNavigation } from '@hmcts/rpx-xui-common-lib';
@@ -14,6 +14,7 @@ import { CaaCasesNoDataMessage } from 'src/cases/models/caa-cases.enum';
   selector: 'app-cases-results-table',
   templateUrl: './cases-results-table.component.html',
   styleUrls: ['./cases-results-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class CasesResultsTableComponent {
@@ -96,7 +97,7 @@ export class CasesResultsTableComponent {
   }
 
   public getFirstResult(): number {
-    return ((this.currentPageNo - 1) * this.paginationPageSize) + 1;
+    return (this.currentPageNo - 1) * this.paginationPageSize+ 1;
   }
 
   public getLastResult(): number {

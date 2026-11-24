@@ -1,4 +1,4 @@
-import { enableProdMode, CSP_NONCE } from '@angular/core';
+import { enableProdMode, CSP_NONCE, provideZoneChangeDetection } from '@angular/core';
 import { platformBrowser } from '@angular/platform-browser';
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
@@ -20,6 +20,8 @@ fetch('/external/configuration-ui/')
     platformBrowser([
       { provide: ENVIRONMENT_CONFIG, useValue: config },
       { provide: CSP_NONCE, useValue: nonce }
-    ]).bootstrapModule(AppModule)
+    ]).bootstrapModule(AppModule, {
+      applicationProviders: [provideZoneChangeDetection()]
+    })
   )
   .catch((err) => console.error(err));

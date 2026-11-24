@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
 
 @Component({
   selector: 'app-cookie-policy',
   templateUrl: './cookie-policy.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 
@@ -37,12 +38,12 @@ export class CookiePolicyComponent {
     return this.cookiesByCat(category).length;
   }
 
-  public cookiesByCat(category: string): {name: string, cat: string, purpose: string, expires: string}[] {
+  public cookiesByCat(category: string): {name: string; cat: string; purpose: string; expires: string}[] {
     return this.cookieDetails.filter((c) => c.cat === category);
   }
 
   // trackBy helper to avoid NG0956 re-render warnings
-  public trackByCookie(index: number, cookie: {name: string, cat: string}): string | number {
+  public trackByCookie(index: number, cookie: {name: string; cat: string}): string | number {
     return buildIdOrIndexKey(index, cookie as any, 'name');
   }
 }

@@ -18,7 +18,7 @@ import * as fromRoot from '../../store';
 import { Logout, reducers } from '../../store';
 import { HeaderComponent } from '../header/header.component';
 import { AppComponent } from './app.component';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 
 const windowMock: Window = { gtag: () => {} } as any;
 
@@ -144,7 +144,7 @@ describe('AppComponent', () => {
           provide: GoogleAnalyticsService,
           useValue: googleAnalyticsService
         },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting()
       ]
     }).compileComponents();

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CompanyHouseDetailsMessage } from '../../../register-org/models';
@@ -67,13 +67,14 @@ const companyHouseNumberValidator: ValidatorFn = (control: AbstractControl): Val
 @Component({
   selector: 'app-company-house-details',
   templateUrl: './company-house-details.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class CompanyHouseDetailsComponent extends RegisterComponent implements OnInit, OnDestroy {
-  public validationErrors: { id: string, message: string }[] = [];
+  public validationErrors: { id: string; message: string }[] = [];
   public companyHouseFormGroup: FormGroup;
-  public companyNameError: { id: string, message: string } = null;
-  public companyNumberError: { id: string, message: string } = null;
+  public companyNameError: { id: string; message: string } = null;
+  public companyNumberError: { id: string; message: string } = null;
 
   constructor(public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService

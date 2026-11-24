@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UserDetails, SharedCase, FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { RouterReducerState } from '@ngrx/router-store';
 import { select, Store } from '@ngrx/store';
@@ -14,6 +14,7 @@ import * as fromCaseList from '../../store/reducers';
   selector: 'app-exui-case-share',
   templateUrl: './case-share.component.html',
   styleUrls: ['./case-share.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class CaseShareComponent implements OnInit {
@@ -62,10 +63,11 @@ export class CaseShareComponent implements OnInit {
         this.showRemoveUsers = true;
       }
 
-      this.shareCases$ = this.pageType === CaaCasesPageType.UnassignedCases
-        ? this.store.pipe(select(fromCasesFeature.getShareUnassignedCaseListState))
-        : this.store.pipe(select(fromCasesFeature.getShareAssignedCaseListState));
-      this.shareCases$.subscribe((shareCases) => this.shareCases = shareCases);
+      this.shareCases$ =
+        this.pageType === CaaCasesPageType.UnassignedCases
+          ? this.store.pipe(select(fromCasesFeature.getShareUnassignedCaseListState))
+          : this.store.pipe(select(fromCasesFeature.getShareAssignedCaseListState));
+      this.shareCases$.subscribe((shareCases) => (this.shareCases = shareCases));
     });
 
     this.orgUsers$ = this.store.pipe(select(fromCasesFeature.getOrganisationUsersState));

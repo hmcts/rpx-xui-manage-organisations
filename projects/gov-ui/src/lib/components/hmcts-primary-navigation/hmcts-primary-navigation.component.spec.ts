@@ -9,12 +9,12 @@ describe('HmctsPrimaryNavigationComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HmctsPrimaryNavigationComponent ],
+      declarations: [HmctsPrimaryNavigationComponent],
       imports: [
         RouterTestingModule
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

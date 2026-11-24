@@ -1,5 +1,5 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -26,7 +26,7 @@ describe('OrganisationServicesAccessComponent', () => {
       providers: [
         EnvironmentService,
         { provide: ENVIRONMENT_CONFIG, useValue: mockEnvironmentConfig },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
         ...buildMockStoreProviders()
       ]
@@ -137,7 +137,7 @@ describe('OrganisationServicesAccessComponent', () => {
   it('should set the error message and stay on the page', () => {
     component.selectedServices = [];
     component.showOtherServicesInput = false;
-    component.services.forEach((s) => s.selected = false);
+    component.services.forEach((s) => (s.selected = false));
     fixture.detectChanges();
     component.onContinue();
     expect(component.noServicesError).toEqual(OrganisationServicesMessage.NO_ORG_SERVICES);

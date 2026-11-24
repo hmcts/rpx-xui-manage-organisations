@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 /*
 * Gov UK Label component
@@ -7,30 +7,31 @@ import {Component, Input} from '@angular/core';
 * @prop config - obj with properties
 * */
 @Component({
-    selector: 'lib-gov-label',
-    template: `@if (config.isPageHeading) {
-  <h1>
-    @if (config.label) {
-      <label [class]="config.classes + ' govuk-label'" [for]="config.id">
-        @if (config.hiddenLabelContext) {
-          <span class="govuk-visually-hidden">{{config.hiddenLabelContext}}</span>
+  selector: 'lib-gov-label',
+  template: `@if (config.isPageHeading) {
+      <h1>
+        @if (config.label) {
+          <label [class]="config.classes + ' govuk-label'" [for]="config.id">
+            @if (config.hiddenLabelContext) {
+              <span class="govuk-visually-hidden">{{ config.hiddenLabelContext }}</span>
+            }
+            {{ config.label }}
+          </label>
         }
-        {{config.label}}
-      </label>
-    }
-  </h1>
-} @else {
-  @if (config.label) {
-    <label [class]="config.classes + ' govuk-label'" [for]="config.id">
-      @if (config.hiddenLabelContext) {
-        <span class="govuk-visually-hidden">{{config.hiddenLabelContext}}</span>
+      </h1>
+    } @else {
+      @if (config.label) {
+        <label [class]="config.classes + ' govuk-label'" [for]="config.id">
+          @if (config.hiddenLabelContext) {
+            <span class="govuk-visually-hidden">{{ config.hiddenLabelContext }}</span>
+          }
+          {{ config.label }}
+        </label>
       }
-      {{config.label}}
-    </label>
-  }
-}
-`,
-    standalone: false
+    } `,
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
+
 })
 export class GovUkLabelComponent {
   constructor () {}
@@ -41,6 +42,6 @@ export class GovUkLabelComponent {
     isPageHeading;
     classes: string;
     hiddenLabelContext: string
+  ;
   };
-
 }

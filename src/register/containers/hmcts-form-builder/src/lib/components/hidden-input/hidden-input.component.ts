@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-hidden-input',
   templateUrl: './hidden-input.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class HiddenInputComponent implements OnInit{
@@ -11,6 +12,7 @@ export class HiddenInputComponent implements OnInit{
   @Input() public item: {
     control: string;
     classes: Array<string>
+  ;
   };
 
   @Input() public value;

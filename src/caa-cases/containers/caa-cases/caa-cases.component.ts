@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatTabGroup } from '@angular/material/tabs';
 import { Router } from '@angular/router';
 import { TableConfig } from '@hmcts/ccd-case-ui-toolkit';
@@ -26,6 +26,7 @@ import { buildCompositeTrackKey } from '../../../shared/utils/track-by.util';
 @Component({
   selector: 'app-caa-cases-component',
   templateUrl: './caa-cases.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class CaaCasesComponent implements OnInit {
@@ -258,7 +259,7 @@ export class CaaCasesComponent implements OnInit {
   }
 
   public getFirstResult(): number {
-    return ((this.currentPageNo - 1) * this.paginationPageSize) + 1;
+    return (this.currentPageNo - 1) * this.paginationPageSize+ 1;
   }
 
   public getLastResult(): number {

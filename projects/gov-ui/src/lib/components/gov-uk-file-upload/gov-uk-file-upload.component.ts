@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { HtmlTemplatesHelper } from '../../util/helpers/html-templates.helper';
@@ -11,37 +11,44 @@ import { HtmlTemplatesHelper } from '../../util/helpers/html-templates.helper';
 * @prop config - adding configuration
 * */
 @Component({
-    selector: 'lib-gov-uk-file-upload',
-    template: `
-    <div class="govuk-form-group" [formGroup]="group"
-      [ngClass]="{'govuk-form-group--error': errorMessage?.isInvalid}">
-    
+  selector: 'lib-gov-uk-file-upload',
+  template: `
+    <div
+      class="govuk-form-group"
+      [formGroup]="group"
+      [ngClass]="{ 'govuk-form-group--error': $safeNavigationMigration(errorMessage?.isInvalid) }"
+    >
       <lib-gov-label [config]="config"></lib-gov-label>
-    
+
       @if (config.hint) {
-        <span [id]="config.id +'-hint'" class="govuk-hint">
-          {{config.hint}}
+        <span [id]="config.id + '-hint'" class="govuk-hint">
+          {{ config.hint }}
         </span>
       }
-    
+
       <lib-gov-uk-error-message [config]="config" [errorMessage]="errorMessage"></lib-gov-uk-error-message>
-    
+
       @if (reloadInput) {
-        <input class="govuk-file-upload"
+        <input
+          class="govuk-file-upload"
           [formControlName]="config.id"
-          [ngClass]="{'govuk-file-upload--error': errorMessage?.isInvalid}"
-          [id]="config.id" [name]="config.name"
+          [ngClass]="{ 'govuk-file-upload--error': $safeNavigationMigration(errorMessage?.isInvalid) }"
+          [id]="config.id"
+          [name]="config.name"
           [attr.aria-describedby]="setDescribedBy()"
-          type="file">
+          type="file"
+        />
       }
     </div>
-    `,
-    standalone: false
+  `,
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
+
 })
 export class GovUkFileUploadComponent implements OnInit {
   @Input() public errorMessage;
   @Input() public group: FormGroup;
-  @Input() public config: { label: string, hint: string; name: string; id: string, type: string; isPageHeading, classes: string };
+  @Input() public config: { label: string; hint: string; name: string; id: string; type: string; isPageHeading; classes: string };
 
   public reloadInput = true;
 

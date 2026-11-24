@@ -11,7 +11,7 @@ import { RegistrationData } from '../../models';
 import { OrgTypeMessageEnum } from '../../models/organisation-type.enum';
 import { OrganisationTypeComponent } from './organisation-type.component';
 import { buildMockStoreProviders } from '../../testing/mock-store-state';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 
 describe('OrganisationTypeComponent', () => {
   let component: OrganisationTypeComponent;
@@ -120,7 +120,7 @@ describe('OrganisationTypeComponent', () => {
       providers: [
         { provide: LovRefDataService, useValue: mockLovRefDataService },
         { provide: Router, useValue: mockRouter },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
         ...buildMockStoreProviders()
       ]

@@ -1,4 +1,8 @@
-import { of, Subscription } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { Store } from '@ngrx/store';
+import { BehaviorSubject, of, Subscription } from 'rxjs';
 import { UsersComponent } from './users.component';
 import * as fromStore from '../../store';
 import * as fromUsersReducer from '../../store/reducers/users.reducer';
@@ -76,5 +80,33 @@ describe('UsersComponent', () => {
     component.ngOnDestroy();
 
     expect(unsubscribeSpy).toHaveBeenCalled();
+  });
+});
+describe('UsersComponent template', () => {
+  it('should show loading feedback until the users table is ready', () => {
+    TestBed.configureTestingModule({
+      declarations: [UsersComponent],
+      imports: [CommonModule],
+      providers: [{ provide: Store, useValue: { pipe: () => of(false) } }],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    });
+    const fixture = TestBed.createComponent(UsersComponent);
+    const component = fixture.componentInstance;
+    const loading$ = new BehaviorSubject(true);
+    spyOn(component, 'loadUsers').and.stub();
+    component.isLoading$ = loading$;
+    component.searchFiltersEnabled$ = of(false);
+    component.tableUsersData$ = of([]);
+
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.textContent).toContain('Loading...');
+    expect(fixture.nativeElement.querySelector('app-prd-users-table')).toBeNull();
+
+    loading$.next(false);
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.textContent).not.toContain('Loading...');
+    expect(fixture.nativeElement.querySelector('app-prd-users-table')).toBeTruthy();
   });
 });

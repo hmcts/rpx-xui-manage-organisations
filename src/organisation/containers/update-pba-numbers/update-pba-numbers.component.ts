@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 
 import { OrganisationDetails } from '../../../models';
@@ -8,6 +8,7 @@ import * as organisationActions from '../../store/actions';
 @Component({
   selector: 'app-prd-update-pba-numbers-component',
   templateUrl: './update-pba-numbers.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class UpdatePbaNumbersComponent implements OnInit {

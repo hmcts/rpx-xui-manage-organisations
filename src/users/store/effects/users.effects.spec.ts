@@ -13,7 +13,7 @@ import * as fromRoot from '../../../app/store';
 import * as fromUsersEffects from './users.effects';
 import * as usersSelectors from '../selectors/user.selectors';
 import { RawPrdUser, RawPrdUserListWithoutRoles, RawPrdUserLite, RawPrdUsersList } from 'src/users/models/prd-users.model';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 
 describe('Users Effects', () => {
   let actions$;
@@ -42,7 +42,7 @@ describe('Users Effects', () => {
         fromUsersEffects.UsersEffects,
         provideMockActions(() => actions$),
         provideMockStore(),
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting()
       ]
     });
@@ -99,7 +99,7 @@ describe('Users Effects', () => {
         idamStatus: 'PENDING',
         userIdentifier: '123'
       };
-      const payload:RawPrdUsersList = {
+      const payload: RawPrdUsersList = {
         organisationIdentifier: 'ABC123',
         users: [prdUser]
       };
@@ -133,7 +133,7 @@ describe('Users Effects', () => {
       userIdentifier: '123',
       userAccessTypes: [{ organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }]
     };
-    const payload:RawPrdUsersList = {
+    const payload: RawPrdUsersList = {
       organisationIdentifier: 'ABC123',
       users: [prdUser]
     };
@@ -147,7 +147,9 @@ describe('Users Effects', () => {
           fullName: 'John Doe',
           routerLink: `user/${prdUser.userIdentifier}`,
           routerLinkTitle: 'User details for John Doe with id 123',
-          userAccessTypes: [{ organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }]
+          userAccessTypes: [
+            { organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }
+          ]
         }
       ]
     });
@@ -206,8 +208,12 @@ describe('Users Effects', () => {
   describe('loadUserDetails$', () => {
     it('should return a details of the selected user - LoadUserDetails', () => {
       const payload = { users: [{ payload: 'something' }] };
-      const users = { payload: 'something', fullName: 'undefined undefined', routerLink: 'user/undefined',
-        routerLinkTitle: 'User details for undefined undefined with id undefined' };
+      const users = {
+        payload: 'something',
+        fullName: 'undefined undefined',
+        routerLink: 'user/undefined',
+        routerLinkTitle: 'User details for undefined undefined with id undefined'
+      };
       usersServiceMock.getUserDetailsWithPermission.and.returnValue(of(payload));
       const action = new LoadUserDetails(payload);
       const completion = new LoadUserDetailsSuccess(users);
@@ -255,7 +261,7 @@ describe('Users Effects', () => {
           idamStatus: 'ACTIVE',
           userIdentifier: '123'
         };
-        const payload : RawPrdUserListWithoutRoles = {
+        const payload: RawPrdUserListWithoutRoles = {
           organisationIdentifier: 'ABC123',
           organisationProfileIds: [],
           users: [prdUser]
@@ -276,7 +282,11 @@ describe('Users Effects', () => {
           ]
         });
         actions$ = hot('-a', { a: action });
-        const expected = cold('-(bcd)', { b: orgUpdateProfileIdsActionCompletion, c: orgLoadOrgAccessTypesCompletion, d: loadUserSuccessActionCompletion });
+        const expected = cold('-(bcd)', {
+          b: orgUpdateProfileIdsActionCompletion,
+          c: orgLoadOrgAccessTypesCompletion,
+          d: loadUserSuccessActionCompletion
+        });
         expect(effects.loadAllUsersNoRoleData$).toBeObservable(expected);
       }));
 
@@ -287,9 +297,11 @@ describe('Users Effects', () => {
           lastName: 'Doe',
           idamStatus: 'ACTIVE',
           userIdentifier: '123',
-          userAccessTypes: [{ organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }]
+          userAccessTypes: [
+            { organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }
+          ]
         };
-        const payload : RawPrdUserListWithoutRoles = {
+        const payload: RawPrdUserListWithoutRoles = {
           organisationIdentifier: 'ABC123',
           organisationProfileIds: ['orgProfileId'],
           users: [prdUser]
@@ -305,12 +317,18 @@ describe('Users Effects', () => {
               fullName: 'John Doe',
               routerLink: `user/${prdUser.userIdentifier}`,
               routerLinkTitle: 'User details for John Doe with id 123',
-              userAccessTypes: [{ organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }]
+              userAccessTypes: [
+                { organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }
+              ]
             }
           ]
         });
         actions$ = hot('-a', { a: action });
-        const expected = cold('-(bcd)', { b: orgUpdateProfileIdsActionCompletion, c: orgLoadOrgAccessTypesCompletion, d: loadUserSuccessActionCompletion });
+        const expected = cold('-(bcd)', {
+          b: orgUpdateProfileIdsActionCompletion,
+          c: orgLoadOrgAccessTypesCompletion,
+          d: loadUserSuccessActionCompletion
+        });
         expect(effects.loadAllUsersNoRoleData$).toBeObservable(expected);
       }));
     });
@@ -328,7 +346,7 @@ describe('Users Effects', () => {
           idamStatus: 'ACTIVE',
           userIdentifier: '123'
         };
-        const payload : RawPrdUserListWithoutRoles = {
+        const payload: RawPrdUserListWithoutRoles = {
           organisationIdentifier: 'ABC123',
           organisationProfileIds: [],
           users: [prdUser]
@@ -359,9 +377,11 @@ describe('Users Effects', () => {
           lastName: 'Doe',
           idamStatus: 'ACTIVE',
           userIdentifier: '123',
-          userAccessTypes: [{ organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }]
+          userAccessTypes: [
+            { organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }
+          ]
         };
-        const payload : RawPrdUserListWithoutRoles = {
+        const payload: RawPrdUserListWithoutRoles = {
           organisationIdentifier: 'ABC123',
           organisationProfileIds: ['orgProfileId'],
           users: [prdUser]
@@ -376,7 +396,9 @@ describe('Users Effects', () => {
               fullName: 'John Doe',
               routerLink: `user/${prdUser.userIdentifier}`,
               routerLinkTitle: 'User details for John Doe with id 123',
-              userAccessTypes: [{ organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }]
+              userAccessTypes: [
+                { organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }
+              ]
             }
           ]
         });

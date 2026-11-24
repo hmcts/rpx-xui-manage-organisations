@@ -1,10 +1,11 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, ChangeDetectionStrategy } from '@angular/core';
 import { Accordion, isSupported } from 'govuk-frontend';
 
 @Component({
   selector: 'app-solicitor-profile-content',
   templateUrl: './solicitor-profile-content.component.html',
   styleUrls: ['./solicitor-profile-content.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class SolicitorProfileContentComponent implements AfterViewInit {

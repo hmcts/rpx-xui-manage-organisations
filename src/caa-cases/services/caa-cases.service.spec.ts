@@ -4,7 +4,7 @@ import { of } from 'rxjs';
 import { CaaCasesFilterType, CaaCasesPageType } from '../models/caa-cases.enum';
 import { CaaCasesSessionState, CaaCasesSessionStateValue } from '../models/caa-cases.model';
 import { CaaCasesService } from './caa-cases.service';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 
 describe('CaaCasesService', () => {
   let service: CaaCasesService;
@@ -32,7 +32,7 @@ describe('CaaCasesService', () => {
     };
     TestBed.configureTestingModule({
       imports: [],
-      providers: [CaaCasesService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+      providers: [CaaCasesService, provideHttpClient(withXhr(), withInterceptorsFromDi()), provideHttpClientTesting()]
     });
     mockHttp = jasmine.createSpyObj('http', ['post']);
     mockHttp.post.and.returnValue(of({}));
@@ -41,22 +41,48 @@ describe('CaaCasesService', () => {
 
   it('should getCaaAssignedCases', () => {
     service.getCaaCases('caseTypeId1', 1, 10, CaaCasesPageType.AssignedCases, null, null);
-    expect(mockHttp.post).toHaveBeenCalledWith(`${CaaCasesService.caaCasesUrl}?caseTypeId=caseTypeId1&pageNo=1&pageSize=10&caaCasesPageType=assigned-cases`, null);
+    expect(mockHttp.post).toHaveBeenCalledWith(
+      `${CaaCasesService.caaCasesUrl}?caseTypeId=caseTypeId1&pageNo=1&pageSize=10&caaCasesPageType=assigned-cases`,
+      null
+    );
   });
 
   it('should getCaaAssignedCases with filter value', () => {
-    service.getCaaCases('caseTypeId1', 1, 10, CaaCasesPageType.AssignedCases, CaaCasesFilterType.CaseReferenceNumber, '1111222233334444');
-    expect(mockHttp.post).toHaveBeenCalledWith(`${CaaCasesService.caaCasesUrl}?caseTypeId=caseTypeId1&pageNo=1&pageSize=10&caaCasesPageType=assigned-cases&caaCasesFilterType=case-reference-number&caaCasesFilterValue=1111222233334444`, null);
+    service.getCaaCases(
+      'caseTypeId1',
+      1,
+      10,
+      CaaCasesPageType.AssignedCases,
+      CaaCasesFilterType.CaseReferenceNumber,
+      '1111222233334444'
+    );
+    expect(mockHttp.post).toHaveBeenCalledWith(
+      `${CaaCasesService.caaCasesUrl}?caseTypeId=caseTypeId1&pageNo=1&pageSize=10&caaCasesPageType=assigned-cases&caaCasesFilterType=case-reference-number&caaCasesFilterValue=1111222233334444`,
+      null
+    );
   });
 
   it('should getCaaUnassignedCases', () => {
     service.getCaaCases('caseTypeId1', 1, 10, CaaCasesPageType.UnassignedCases, null, null);
-    expect(mockHttp.post).toHaveBeenCalledWith(`${CaaCasesService.caaCasesUrl}?caseTypeId=caseTypeId1&pageNo=1&pageSize=10&caaCasesPageType=unassigned-cases`, null);
+    expect(mockHttp.post).toHaveBeenCalledWith(
+      `${CaaCasesService.caaCasesUrl}?caseTypeId=caseTypeId1&pageNo=1&pageSize=10&caaCasesPageType=unassigned-cases`,
+      null
+    );
   });
 
   it('should getCaaUnassignedCases with filter value', () => {
-    service.getCaaCases('caseTypeId1', 1, 10, CaaCasesPageType.UnassignedCases, CaaCasesFilterType.CaseReferenceNumber, '1111222233334444');
-    expect(mockHttp.post).toHaveBeenCalledWith(`${CaaCasesService.caaCasesUrl}?caseTypeId=caseTypeId1&pageNo=1&pageSize=10&caaCasesPageType=unassigned-cases&caaCasesFilterType=case-reference-number&caaCasesFilterValue=1111222233334444`, null);
+    service.getCaaCases(
+      'caseTypeId1',
+      1,
+      10,
+      CaaCasesPageType.UnassignedCases,
+      CaaCasesFilterType.CaseReferenceNumber,
+      '1111222233334444'
+    );
+    expect(mockHttp.post).toHaveBeenCalledWith(
+      `${CaaCasesService.caaCasesUrl}?caseTypeId=caseTypeId1&pageNo=1&pageSize=10&caaCasesPageType=unassigned-cases&caaCasesFilterType=case-reference-number&caaCasesFilterValue=1111222233334444`,
+      null
+    );
   });
 
   it('should getCaaCaseTypes for assigned cases', () => {
@@ -66,7 +92,10 @@ describe('CaaCasesService', () => {
 
   it('should getCaaCaseTypes for assigned cases with filter value', () => {
     service.getCaaCaseTypes(CaaCasesPageType.AssignedCases, CaaCasesFilterType.CaseReferenceNumber, '1111222233334444');
-    expect(mockHttp.post).toHaveBeenCalledWith(`${CaaCasesService.caaCaseTypesUrl}?caaCasesPageType=assigned-cases&caaCasesFilterType=case-reference-number&caaCasesFilterValue=1111222233334444`, null);
+    expect(mockHttp.post).toHaveBeenCalledWith(
+      `${CaaCasesService.caaCaseTypesUrl}?caaCasesPageType=assigned-cases&caaCasesFilterType=case-reference-number&caaCasesFilterValue=1111222233334444`,
+      null
+    );
   });
 
   it('should getCaaCaseTypes for unassigned cases', () => {
@@ -76,7 +105,10 @@ describe('CaaCasesService', () => {
 
   it('should getCaaCaseTypes for unassigned cases with filter value', () => {
     service.getCaaCaseTypes(CaaCasesPageType.UnassignedCases, CaaCasesFilterType.CaseReferenceNumber, '1111222233334444');
-    expect(mockHttp.post).toHaveBeenCalledWith(`${CaaCasesService.caaCaseTypesUrl}?caaCasesPageType=unassigned-cases&caaCasesFilterType=case-reference-number&caaCasesFilterValue=1111222233334444`, null);
+    expect(mockHttp.post).toHaveBeenCalledWith(
+      `${CaaCasesService.caaCaseTypesUrl}?caaCasesPageType=unassigned-cases&caaCasesFilterType=case-reference-number&caaCasesFilterValue=1111222233334444`,
+      null
+    );
   });
 
   it('should store session state', () => {

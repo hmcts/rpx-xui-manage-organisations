@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 /*
@@ -7,23 +7,31 @@ import { FormGroup } from '@angular/forms';
 *
 * */
 @Component({
-    selector: 'lib-gov-radio',
-    template: `
+  selector: 'lib-gov-radio',
+  template: `
     <div class="govuk-radios__item" [formGroup]="group">
-      <input [className]="'govuk-radios__input ' + config.classes"
-             [id]="config.id"
-             [value]="config.value" type="radio"
-             [attr.data-aria-controls]="config.id"
-             [name]="config.name"
-             [formControl]="group.controls[config.name]">
+      <input
+        [className]="'govuk-radios__input ' + config.classes"
+        [id]="config.id"
+        [value]="config.value"
+        type="radio"
+        [attr.data-aria-controls]="config.id"
+        [name]="config.name"
+        [formControl]="group.controls[config.name]"
+      />
       <lib-gov-label appRemoveHost [config]="config"></lib-gov-label>
     </div>
   `,
-    standalone: false
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
+
 })
 export class GovUkRadioComponent implements OnInit {
   @Input() public group: FormGroup;
-  @Input() public config: {value: string, label: string, hint: string; name: string; focusOn: string; id: string; classes: string}; // TODO create interface
+  @Input() public config: {value: string;
+    label: string;
+    hint: string; name: string; focusOn: string; id: string; classes: string;
+  }; // TODO create interface
 
   public id: string;
   /**
@@ -32,10 +40,9 @@ export class GovUkRadioComponent implements OnInit {
    * si it can focus on element when user clicks on error message in the header.
    * */
   public ngOnInit(): void {
-    const id =  this.config.focusOn ? this.config.focusOn : this.config.value;
+    const id = this.config.focusOn ? this.config.focusOn : this.config.value;
     this.config.id = id;
     this.config.classes = this.config.classes ?
       this.config.classes.concat(' govuk-radios__label') : 'govuk-radios__label';
   }
-
 }

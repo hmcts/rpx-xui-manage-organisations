@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -13,6 +13,7 @@ import * as organisationActions from '../../store/actions';
   selector: 'app-prd-update-pba-numbers-check-component',
   templateUrl: './update-pba-numbers-check.component.html',
   styleUrls: ['./update-pba-numbers-check.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class UpdatePbaNumbersCheckComponent implements OnInit, OnDestroy {

@@ -12,10 +12,10 @@ export class HtmlTemplatesHelper {
     if (!errorMessage) {
       return config.hint ? `${config.id}-hint` : null;
     } else if (errorMessage && errorMessage.isInvalid) {
-      return  config.hint ? `${config.id}-hint ${config.id}-error` : `${config.id}-error`;
-    } else {
-      return config.hint ? `${config.id}-hint` : null;
+      return config.hint ? `${config.id}-hint ${config.id}-error` : `${config.id}-error`;
     }
+    return config.hint ? `${config.id}-hint` : null;
+
     return null;
   }
 }

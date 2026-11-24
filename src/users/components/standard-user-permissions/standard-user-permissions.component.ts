@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { FeatureToggleService, User } from '@hmcts/rpx-xui-common-lib';
 import { Observable, Subject } from 'rxjs';
@@ -7,6 +7,7 @@ import { BasicAccessTypes } from '../../models/basic-access-types.model';
 @Component({
   selector: 'app-standard-user-permissions',
   templateUrl: './standard-user-permissions.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class StandardUserPermissionsComponent implements OnInit, OnDestroy {

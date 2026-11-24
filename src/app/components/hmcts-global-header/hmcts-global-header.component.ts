@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
 import { Store } from '@ngrx/store';
 
@@ -9,6 +9,7 @@ import * as fromRoot from '../../store';
   selector: 'app-hmcts-global-header',
   templateUrl: './hmcts-global-header.component.html',
   styleUrls: ['./hmcts-global-header.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class HmctsGlobalHeaderComponent {

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
@@ -11,6 +11,7 @@ import * as fromStore from '../../store';
 @Component({
   selector: 'app-prd-pba-numbers-form-component',
   templateUrl: './pba-numbers-form.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class PbaNumbersFormComponent implements OnInit {
@@ -24,6 +25,7 @@ export class PbaNumbersFormComponent implements OnInit {
       id: string;
       message: any;
     }[]
+  ;
   };
 
   @Input()
@@ -53,7 +55,8 @@ export class PbaNumbersFormComponent implements OnInit {
   }
 
   public get hasPendingChanges(): boolean {
-    return this.organisationDetails.pendingAddPaymentAccount.length > 0 || this.organisationDetails.pendingRemovePaymentAccount.length > 0;
+    return (
+      this.organisationDetails.pendingAddPaymentAccount.length > 0 || this.organisationDetails.pendingRemovePaymentAccount.length > 0);
   }
 
   /**

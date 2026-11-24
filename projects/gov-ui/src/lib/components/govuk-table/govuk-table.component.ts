@@ -1,13 +1,14 @@
 import { formatDate } from '@angular/common';
-import { Component, Input } from '@angular/core';
-import { AppUtils } from '../../../../../../src/app/utils/app-utils';
-import { buildCompositeTrackKey, buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { buildCompositeTrackKey, buildIdOrIndexKey } from '../../util/track-by.util';
 
 @Component({
   selector: 'app-govuk-table',
   templateUrl: './govuk-table.component.html',
   styleUrls: ['./govuk-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
+
 })
 export class GovukTableComponent {
     @Input() classes = '';
@@ -20,6 +21,7 @@ export class GovukTableComponent {
     @Input() columnConfig: GovukTableColumnConfig[] = [
       { header: 'Date', key: 'date', type: 'text' },
       { header: 'Amount', key: 'amount' }
+
     ];
 
     constructor() {}
@@ -29,7 +31,7 @@ export class GovukTableComponent {
     }
 
     public formatDateAtTime(date: Date): string {
-      return AppUtils.formatDateAtTime(date, false);
+      return `${formatDate(date, 'dd MMM yyyy', 'en-UK')} at ${formatDate(date, 'h:mm a', 'en-UK').toLowerCase()}`;
     }
 
     public trackByColumn(index: number, col: GovukTableColumnConfig): string | number {
@@ -44,12 +46,12 @@ export class GovukTableComponent {
 }
 
 export class GovukTableColumnConfig {
-    header: string;
-    key: string;
-    type?: string;
-    constructor() {
-        this.header = '';
-        this.key = '';
-        this.type = 'text';
-    }
+  header: string;
+  key: string;
+  type?: string;
+  constructor() {
+    this.header = '';
+    this.key = '';
+    this.type = 'text';
   }
+}

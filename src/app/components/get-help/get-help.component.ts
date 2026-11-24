@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ContactDetailsDataModel } from '@hmcts/rpx-xui-common-lib';
 import { AppConstants } from '../../app.constants';
 import { buildCompositeTrackKey } from 'src/shared/utils/track-by.util';
@@ -6,6 +6,7 @@ import { buildCompositeTrackKey } from 'src/shared/utils/track-by.util';
 @Component({
   selector: 'app-get-help',
   templateUrl: './get-help.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class GetHelpComponent {

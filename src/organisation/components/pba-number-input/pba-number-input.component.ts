@@ -1,10 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { ErrorMessagesModel } from '@hmcts/rpx-xui-common-lib';
 
 @Component({
   selector: 'app-prd-pba-number-input-component',
   templateUrl: './pba-number-input.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class PbaNumberInputComponent implements OnInit {

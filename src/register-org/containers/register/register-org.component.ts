@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Navigation, Router } from '@angular/router';
 import { RegistrationData } from '../../models/registration-data.model';
 import { RegisterOrgService } from '../../services/index';
@@ -6,6 +6,7 @@ import { RegisterOrgService } from '../../services/index';
 @Component({
   selector: 'app-prd-register-component',
   templateUrl: './register-org.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 

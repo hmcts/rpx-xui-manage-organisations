@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 import { SingleAccountSummary } from '../../models/single-account-summary';
 
@@ -9,6 +9,7 @@ import { SingleAccountSummary } from '../../models/single-account-summary';
 @Component({
   selector: 'app-prd-summary-component',
   templateUrl: './summary.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class SummaryComponent {

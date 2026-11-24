@@ -11,7 +11,7 @@ import * as fromContainers from './containers';
 import { StoreModule } from '@ngrx/store';
 import * as fromServices from './services';
 
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { EffectsModule } from '@ngrx/effects';
 import { OrganisationService } from '../organisation/services';
 import { effects as orgEffects, reducers as orgReducers } from '../organisation/store';
@@ -34,7 +34,7 @@ export const COMPONENTS = [AccountOverviewComponent, AccountSummaryComponent, Ac
     StoreModule.forFeature('feeAccounts', reducers),
     EffectsModule.forFeature(effects),
     StoreModule.forFeature('org', orgReducers),
-    EffectsModule.forFeature(orgEffects)], providers: [...fromServices.services, ...GUARDS, OrganisationService, provideHttpClient(withInterceptorsFromDi())] })
+    EffectsModule.forFeature(orgEffects)], providers: [...fromServices.services, ...GUARDS, OrganisationService, provideHttpClient(withXhr(), withInterceptorsFromDi())] })
 
 /**
  * Entry point to FeeAccountsModule

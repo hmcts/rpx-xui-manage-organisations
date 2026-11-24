@@ -1,5 +1,7 @@
 
-import { AfterViewInit, Component, Inject, Input, OnChanges, SimpleChanges, DOCUMENT } from '@angular/core';
+import { AfterViewInit, Component, Inject, Input, OnChanges, SimpleChanges, DOCUMENT,
+  ChangeDetectionStrategy
+} from '@angular/core';
 import { buildIdOrIndexKey } from '../../utils/track-by.util';
 
 /*
@@ -11,6 +13,7 @@ import { buildIdOrIndexKey } from '../../utils/track-by.util';
 @Component({
   selector: 'app-hmcts-error-summary',
   templateUrl: './hmcts-error-summary.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class HmctsErrorSummaryComponent implements AfterViewInit, OnChanges {

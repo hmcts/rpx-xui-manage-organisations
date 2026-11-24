@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { CookieService, FeatureToggleService, FeatureUser, GoogleAnalyticsService, ManageSessionServices } from '@hmcts/rpx-xui-common-lib';
 import { Store, select } from '@ngrx/store';
@@ -23,6 +23,7 @@ import * as fromRoot from '../../store';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class AppComponent implements OnInit, OnDestroy {
@@ -248,7 +249,7 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   public initIdleService(idleModalDisplayTime, totalIdleTime) {
     const idleModalDisplayTimeInSeconds = idleModalDisplayTime * 60;
-    const totalIdleTimeInMilliseconds = (totalIdleTime * 60) * 1000;
+    const totalIdleTimeInMilliseconds = totalIdleTime * 60 * 1000;
 
     const idleConfig: any = {
       timeout: idleModalDisplayTimeInSeconds,

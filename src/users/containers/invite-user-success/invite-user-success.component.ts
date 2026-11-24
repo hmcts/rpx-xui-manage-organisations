@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
@@ -7,6 +7,7 @@ import * as fromStore from '../../store';
 @Component({
   selector: 'app-invite-user-success',
   templateUrl: './invite-user-success.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class InviteUserSuccessComponent implements OnInit, OnDestroy {

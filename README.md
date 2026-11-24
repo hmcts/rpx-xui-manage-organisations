@@ -100,6 +100,10 @@ flowchart TB
 
 ## Local Development
 
+The frontend uses Angular and Material/CDK 22.3, NgRx 22, and TypeScript 6.0. Use the Node version in `.nvmrc` and Yarn 4.9.2, then run `yarn install --immutable` before building or testing.
+
+The Angular 22 integration currently uses these HMCTS prereleases: `@hmcts/ccd-case-ui-toolkit@7.4.28-angular-22`, `@hmcts/rpx-xui-common-lib@3.2.30-angular-22`, `@hmcts/media-viewer@4.2.49-upgrade-angular-22`, and `rpx-xui-translation@1.2.20-angular-22-upgrade`. Some upstream peer declarations remain inconsistent: the payment component and datetime picker declare older Angular versions, the toolkit declares Zone.js 0.15, and the media viewer requests the previous translation prerelease. Yarn reports these warnings; the application keeps one Angular 22 and Zone.js 0.16 dependency tree.
+
 Start the Angular frontend:
 
 ```bash

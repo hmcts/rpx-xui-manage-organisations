@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
 import { Router } from '@angular/router';
@@ -11,6 +11,7 @@ import { EnvironmentService } from '../../../shared/services/environment.service
 @Component({
   selector: 'app-organisation-services-access',
   templateUrl: './organisation-services-access.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class OrganisationServicesAccessComponent extends RegisterComponent implements OnInit, OnDestroy {
@@ -19,7 +20,7 @@ export class OrganisationServicesAccessComponent extends RegisterComponent imple
   public servicesFormGroup: FormGroup;
   public services: OrganisationService[];
   public selectedServices: OrganisationService[];
-  public validationErrors: { id: string, message: string }[] = [];
+  public validationErrors: { id: string; message: string }[] = [];
   public noServicesError: string;
   public otherServicesError: string;
   public showOtherServicesInput: boolean;

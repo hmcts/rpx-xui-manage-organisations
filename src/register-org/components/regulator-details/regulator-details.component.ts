@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { buildCompositeTrackKey, buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -17,6 +17,7 @@ import { RegisterOrgService } from '../../services/register-org.service';
 @Component({
   selector: 'app-regulator-details',
   templateUrl: './regulator-details.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class RegulatorDetailsComponent extends RegisterComponent implements OnInit, OnDestroy {
@@ -30,7 +31,7 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
   public regulatorDetailsFormGroup: FormGroup;
   public regulatorTypes$: Observable<RegulatoryOrganisationType[]>;
   public regulatorTypeEnum = RegulatorType;
-  public validationErrors: { id: string, message: string }[] = [];
+  public validationErrors: { id: string; message: string }[] = [];
   public duplicatesIndex: number[];
   public previousUrl: string;
 
@@ -59,7 +60,7 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
     // organisationRegistrationNumber) are added to or removed from the FormGroup
     const formGroup = this.regulators.controls[formGroupIndex] as FormGroup;
     switch (value) {
-      case (RegulatoryType.Other): {
+      case RegulatoryType.Other: {
         formGroup.addControl('regulatorName', new FormControl(formGroup.value.regulatorName, Validators.required));
         if (formGroup.get('organisationRegistrationNumber')) {
           formGroup.get('organisationRegistrationNumber').reset();
@@ -68,7 +69,7 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
         }
         break;
       }
-      case (RegulatoryType.NotApplicable): {
+      case RegulatoryType.NotApplicable: {
         formGroup.removeControl('regulatorName');
         formGroup.removeControl('organisationRegistrationNumber');
         break;
@@ -97,7 +98,7 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
       // Pre-populate the form fields based on the registration data
       regulatorsFromSession.forEach((regulatoryOrganisationType) => {
         switch (regulatoryOrganisationType.regulatorType) {
-          case (RegulatoryType.Other): {
+          case RegulatoryType.Other: {
             this.regulators.push(new FormGroup({
               regulatorType: new FormControl(regulatoryOrganisationType.regulatorType, Validators.required),
               regulatorName: new FormControl(regulatoryOrganisationType.regulatorName, Validators.required),
@@ -105,7 +106,7 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
             }));
             break;
           }
-          case (RegulatoryType.NotApplicable): {
+          case RegulatoryType.NotApplicable: {
             this.regulators.push(new FormGroup({
               regulatorType: new FormControl(regulatoryOrganisationType.regulatorType, Validators.required)
             }));
@@ -265,9 +266,10 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
       }
 
       if (formGroup.get('regulatorType').value !== RegulatoryType.NotApplicable) {
-        regulators.push(formGroup.get('regulatorType').value.trim().toLowerCase() +
-          formGroup.get('regulatorName')?.value?.trim().toLowerCase() +
-          formGroup.get('organisationRegistrationNumber')?.value?.trim().toLowerCase()
+        regulators.push(
+          formGroup.get('regulatorType').value.trim().toLowerCase() +
+            formGroup.get('regulatorName')?.value?.trim().toLowerCase() +
+            formGroup.get('organisationRegistrationNumber')?.value?.trim().toLowerCase()
         );
       }
     });
@@ -299,7 +301,7 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
   private duplicateExists(regulators: string[]): boolean {
     const uniqueRegulators = regulators.filter((value, index, array) => array.indexOf(value) === index);
     uniqueRegulators.forEach((item) => {
-      const index = regulators.map((m, i) => m === item ? i : -1).filter((i) => i !== -1);
+      const index = regulators.map((m, i) => (m === item ? i : -1)).filter((i) => i !== -1);
       if (index.length > 1) {
         this.duplicatesIndex = this.duplicatesIndex.concat(index);
       }
@@ -308,7 +310,10 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
   }
 
   private isSRARegulated(regulators: Regulator[]): boolean {
-    const sraRegulatorFound = regulators.some((regulator) => regulator.regulatorType === RegulatorDetailsComponent.SRA_REG_TYPE && regulator.organisationRegistrationNumber);
+    const sraRegulatorFound = regulators.some(
+      (regulator) =>
+        regulator.regulatorType === RegulatorDetailsComponent.SRA_REG_TYPE && regulator.organisationRegistrationNumber
+    );
     return sraRegulatorFound;
   }
 
@@ -316,7 +321,8 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
   public trackByRegulatorControl(index: number): string | number {
     const fg = this.regulators?.at?.(index);
     // Use shared composite key builder; falls back to index when all empty
-    return buildCompositeTrackKey(index,
+    return buildCompositeTrackKey(
+      index,
       fg?.get('regulatorType')?.value,
       fg?.get('regulatorName')?.value,
       fg?.get('organisationRegistrationNumber')?.value

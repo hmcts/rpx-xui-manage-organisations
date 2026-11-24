@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RegisterComponent } from '../../containers/register/register-org.component';
@@ -7,13 +7,14 @@ import { RegisterOrgService } from '../../services/register-org.service';
 @Component({
   selector: 'app-document-exchange-reference',
   templateUrl: './document-exchange-reference.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class DocumentExchangeReferenceComponent extends RegisterComponent implements OnInit, OnDestroy {
   @ViewChild('errorSummaryTitleElement') public errorSummaryTitleElement: ElementRef;
 
   public dxFormGroup: FormGroup;
-  public dxErrors: { id: string, message: string }[] = [];
+  public dxErrors: { id: string; message: string }[] = [];
   public errorPresent = false;
 
   constructor(public readonly router: Router,

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { EditUserFailureReset } from 'src/users/store';
@@ -7,6 +7,7 @@ import { UserState } from 'src/users/store/reducers';
 @Component({
   selector: 'app-manage-user-failure',
   templateUrl: './manage-user-failure.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class ManageUserFailureComponent implements OnInit {

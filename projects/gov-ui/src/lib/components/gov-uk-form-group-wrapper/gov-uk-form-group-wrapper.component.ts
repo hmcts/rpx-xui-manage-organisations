@@ -26,7 +26,6 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
   `,
   changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
-
 })
 export class GovUkFormGroupWrapperComponent {
   constructor () {}

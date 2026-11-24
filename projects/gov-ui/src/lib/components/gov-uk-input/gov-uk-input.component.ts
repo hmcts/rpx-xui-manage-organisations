@@ -41,7 +41,6 @@ import { HtmlTemplatesHelper } from '../../util/helpers/html-templates.helper';
   `,
   changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
-
 })
 export class GovUkInputComponent implements OnInit {
   @Input() public errorMessage: {isInvalid: boolean; mesages: string[] };

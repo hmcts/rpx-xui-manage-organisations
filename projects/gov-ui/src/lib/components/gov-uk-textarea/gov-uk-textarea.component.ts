@@ -34,7 +34,6 @@ import { HtmlTemplatesHelper } from '../../util/helpers/html-templates.helper';
   `,
   changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
-
 })
 export class GovUkTextareaComponent {
   @Input() config: {label: string; classes: string; hint: string; key: string; rows: number; id: string};

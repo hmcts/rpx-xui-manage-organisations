@@ -34,7 +34,6 @@ import { HtmlTemplatesHelper } from '../../util/helpers/html-templates.helper';
   `,
   changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
-
 })
 export class GovUkFieldsetComponent {
   constructor () {}

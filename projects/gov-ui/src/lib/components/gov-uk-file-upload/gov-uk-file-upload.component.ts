@@ -43,7 +43,6 @@ import { HtmlTemplatesHelper } from '../../util/helpers/html-templates.helper';
   `,
   changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
-
 })
 export class GovUkFileUploadComponent implements OnInit {
   @Input() public errorMessage;

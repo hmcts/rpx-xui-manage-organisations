@@ -6,7 +6,6 @@ import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core
   styleUrls: ['./hmcts-identity-bar.component.scss'],
   changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
-
 })
 export class HmctsIdentityBarComponent {
     @Input() set content(value) {

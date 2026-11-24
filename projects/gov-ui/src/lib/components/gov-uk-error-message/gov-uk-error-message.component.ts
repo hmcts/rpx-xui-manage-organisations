@@ -16,7 +16,6 @@ import { Component, Directive, Input, ChangeDetectionStrategy } from '@angular/c
   `,
   changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
-
 })
 export class GovUkErrorMessageComponent {
   constructor () {}

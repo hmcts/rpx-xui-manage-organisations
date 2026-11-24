@@ -8,7 +8,6 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./hmcts-primary-navigation.component.scss'],
   changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
-
 })
 export class HmctsPrimaryNavigationComponent {
   @Input() set userLoggedIn(value) {

@@ -20,7 +20,6 @@ import { CheckboxesModel } from '../../models/checkboxesModel';
   `,
   changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
-
 })
 export class GovUkRadiosComponent {
   @Input() options: CheckboxesModel;

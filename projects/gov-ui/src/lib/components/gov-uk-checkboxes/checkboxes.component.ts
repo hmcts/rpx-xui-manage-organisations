@@ -69,7 +69,6 @@ type CheckboxOptions = Omit<CheckboxesModel, 'items'> & { items: CheckboxItem[] 
   `,
   changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
-
 })
 export class CheckboxesComponent implements OnInit {
   @Input() options: CheckboxOptions;

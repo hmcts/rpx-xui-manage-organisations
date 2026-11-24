@@ -36,7 +36,6 @@ import { HtmlTemplatesHelper } from '../../util/helpers/html-templates.helper';
   `,
   changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
-
 })
 export class GovUkSelectComponent {
   constructor () {}

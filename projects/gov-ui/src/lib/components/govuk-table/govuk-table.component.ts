@@ -8,7 +8,6 @@ import { buildCompositeTrackKey, buildIdOrIndexKey } from '../../util/track-by.u
   styleUrls: ['./govuk-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
-
 })
 export class GovukTableComponent {
     @Input() classes = '';

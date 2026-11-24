@@ -24,7 +24,6 @@ import { FormGroup } from '@angular/forms';
   `,
   changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
-
 })
 export class GovUkRadioComponent implements OnInit {
   @Input() public group: FormGroup;

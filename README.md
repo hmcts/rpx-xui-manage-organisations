@@ -104,6 +104,20 @@ The frontend uses Angular and Material/CDK 22.3, NgRx 22, and TypeScript 6.0. Us
 
 The Angular 22 integration currently uses these HMCTS prereleases: `@hmcts/ccd-case-ui-toolkit@7.4.28-angular-22`, `@hmcts/rpx-xui-common-lib@3.2.30-angular-22`, `@hmcts/media-viewer@4.2.49-upgrade-angular-22`, and `rpx-xui-translation@1.2.20-angular-22-upgrade`. Some upstream peer declarations remain inconsistent: the payment component and datetime picker declare older Angular versions, the toolkit declares Zone.js 0.15, and the media viewer requests the previous translation prerelease. Yarn reports these warnings; the application keeps one Angular 22 and Zone.js 0.16 dependency tree.
 
+The additional dependencies below provide required peers declared by the published libraries:
+
+| Dependency | Upstream requirement |
+| --- | --- |
+| `lodash` | Required and imported by the toolkit and media viewer. |
+| `underscore` | Required and imported by the toolkit. |
+| `marked` | Required and imported by the toolkit; also a required peer of `ngx-markdown`. |
+| `prosemirror-commands`, `prosemirror-history`, `prosemirror-model`, `prosemirror-schema-list` | Required and imported by the toolkit's rich text controls; versions match its published peer declarations. |
+| `rxjs-compat` | A required toolkit peer. Neither the application nor the toolkit's published JavaScript bundle imports it. It is retained to satisfy that declaration, while application code uses RxJS 7. It must not be used as an RxJS 7 compatibility layer. |
+| `@angular/upgrade` | A required toolkit peer. The application does not import it or bootstrap an AngularJS hybrid application. |
+| `@angular/localize` | A required peer of the toolkit and common library. The application does not import it directly. |
+
+The API emits ES2022 instead of ES5 and retains CommonJS output. This runtime target is supported by the Node version in `.nvmrc`. The API build and `ts-node` use TypeScript 6's supported `moduleResolution: "bundler"` with `module: "commonjs"`, replacing deprecated Node 10 resolution without `ignoreDeprecations`. Explicit `strict: false` preserves the pre-upgrade compiler behaviour: [TypeScript 6 changed the default to `true`](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-6-0.html#simple-default-changes). Enabling strict checking across the existing code is a separate migration.
+
 Start the Angular frontend:
 
 ```bash

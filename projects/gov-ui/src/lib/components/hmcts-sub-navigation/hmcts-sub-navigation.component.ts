@@ -7,7 +7,6 @@ import { buildIdOrIndexKey } from '../../util/track-by.util';
   styleUrls: ['./hmcts-sub-navigation.component.scss'],
   changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
-
 })
 export class HmctsSubNavigationComponent {
     @Input() label: string;

@@ -87,7 +87,6 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
   </div>`,
   changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
-
 })
 export class GovUkDateComponent {
   @Input() config: { id: string };

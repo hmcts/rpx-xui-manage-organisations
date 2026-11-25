@@ -1,5 +1,5 @@
 import { User } from '@hmcts/rpx-xui-common-lib';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { UserDetailsComponent } from './user-details.component';
 import { Store } from '@ngrx/store';
 import * as fromOrgStore from '../../../organisation/store';
@@ -132,6 +132,163 @@ describe('User Details Component', () => {
       component.ngOnInit();
 
       expect(component.userAccessTypes).toEqual([]);
+    });
+  });
+
+  describe('ngOnInit with store data', () => {
+    const organisationAccessTypes = [
+      {
+        jurisdictionName: 'Civil',
+        accessTypes: [
+          { accessTypeId: 'mandatory', organisationProfileId: 'P1', accessMandatory: true, display: false, description: 'Mandatory access' },
+          { accessTypeId: 'enabled', organisationProfileId: 'P1', accessMandatory: false, display: true, description: 'Enabled access' },
+          { accessTypeId: 'disabled', organisationProfileId: 'P1', accessMandatory: false, display: true, description: 'Disabled access' },
+          { accessTypeId: 'hidden', organisationProfileId: 'P1', accessMandatory: false, display: false, description: 'Hidden access' },
+          { accessTypeId: 'enabled', organisationProfileId: 'OTHER', accessMandatory: false, display: true, description: 'Other profile' }
+        ]
+      },
+      {
+        jurisdictionName: 'Family',
+        accessTypes: [
+          { accessTypeId: 'family', organisationProfileId: 'P2', accessMandatory: false, display: true, description: 'Family access' }
+        ]
+      }
+    ];
+
+    const caseManager = {
+      status: 'Active',
+      roles: ['pui-case-manager'],
+      userAccessTypes: [
+        { accessTypeId: 'enabled', organisationProfileId: 'P1', enabled: true, jurisdictionId: 'CIVIL' },
+        { accessTypeId: 'disabled', organisationProfileId: 'P1', enabled: false, jurisdictionId: 'CIVIL' },
+        { accessTypeId: 'hidden', organisationProfileId: 'P1', enabled: true, jurisdictionId: 'CIVIL' },
+        { accessTypeId: 'family', organisationProfileId: 'P2', enabled: true, jurisdictionId: 'FAMILY' }
+      ]
+    };
+
+    function setupStores(options: { user: any, editEnabled?: boolean, ogdEnabled?: boolean, accessTypes?: any[], actions?: any[] }) {
+      const { user, editEnabled = false, ogdEnabled = false, accessTypes = organisationAccessTypes, actions = [of(), of()] } = options;
+      orgStoreSpyObject.pipe.and.returnValue(of(accessTypes));
+      // order: getEditUserFeatureIsEnabled, getOgdInviteUserFlowFeatureIsEnabled
+      routerStoreSpyObject.pipe.and.returnValues(of(editEnabled), of(ogdEnabled));
+      // order: getGetUserLoading, getUserDetails
+      userStoreSpyObject.pipe.and.returnValues(of(false), of(user));
+      // order: SUSPEND_USER_SUCCESS, SUSPEND_USER_FAIL
+      actionsObject.pipe.and.returnValues(...actions);
+    }
+
+    it('should dispatch CheckUserListLoaded and LoadUserDetails with route userId', () => {
+      activeRoute.snapshot.params = { userId: 'user-123' };
+      setupStores({ user: caseManager });
+      component.ngOnInit();
+      expect(userStoreSpyObject.dispatch).toHaveBeenCalledWith(new fromStore.CheckUserListLoaded());
+      expect(userStoreSpyObject.dispatch).toHaveBeenCalledWith(new fromStore.LoadUserDetails('user-123'));
+      expect(component.userId).toBe('user-123');
+    });
+
+    it('should list mandatory and enabled displayable access types for a case manager when OGD flow is enabled', () => {
+      setupStores({ user: caseManager, ogdEnabled: true });
+      component.ngOnInit();
+      expect(component.userAccessTypes).toEqual([
+        'Civil - Mandatory access',
+        'Civil - Enabled access',
+        'Family - Family access'
+      ]);
+    });
+
+    it('should only list mandatory access types when user has no userAccessTypes', () => {
+      setupStores({ user: { ...caseManager, userAccessTypes: undefined }, ogdEnabled: true });
+      component.ngOnInit();
+      expect(component.userAccessTypes).toEqual(['Civil - Mandatory access']);
+    });
+
+    it('should not list access types when OGD flow is disabled', () => {
+      setupStores({ user: caseManager, ogdEnabled: false });
+      component.ngOnInit();
+      expect(component.userAccessTypes).toEqual([]);
+    });
+
+    it('should not list access types when user is not a case manager', () => {
+      setupStores({ user: { ...caseManager, roles: ['pui-user-manager'] }, ogdEnabled: true });
+      component.ngOnInit();
+      expect(component.userAccessTypes).toEqual([]);
+    });
+
+    it('should not list access types when user has no roles', () => {
+      setupStores({ user: { status: 'Active' }, ogdEnabled: true });
+      component.ngOnInit();
+      expect(component.userAccessTypes).toEqual([]);
+    });
+
+    it('should not list access types when user is null', () => {
+      setupStores({ user: null, ogdEnabled: true });
+      component.ngOnInit();
+      expect(component.userAccessTypes).toEqual([]);
+      expect(component.user).toBeUndefined();
+    });
+
+    it('should set editPermissionRouter to "manage" when OGD flow is enabled', () => {
+      setupStores({ user: caseManager, editEnabled: true, ogdEnabled: true });
+      component.ngOnInit();
+      expect(component.editPermissionRouter).toBe('manage');
+    });
+
+    it('should set editPermissionRouter to "editpermission" when only edit user feature is enabled', () => {
+      setupStores({ user: caseManager, editEnabled: true, ogdEnabled: false });
+      component.ngOnInit();
+      expect(component.editPermissionRouter).toBe('editpermission');
+    });
+
+    it('should set editPermissionRouter to empty when both features are disabled', () => {
+      setupStores({ user: caseManager });
+      component.ngOnInit();
+      expect(component.editPermissionRouter).toBe('');
+    });
+
+    it('should set user and suspend action button for active user when edit feature is enabled', () => {
+      setupStores({ user: caseManager, editEnabled: true });
+      component.ngOnInit();
+      expect(component.user.status).toBe('Active');
+      expect(component.user.resendInvite).toBeFalse();
+      expect(component.actionButtons.length).toBe(1);
+      expect(component.actionButtons[0].name).toBe('Suspend account');
+      expect(component.actionButtons[0].action).toBe(component.showSuspendView);
+    });
+
+    it('should hide suspend view on SUSPEND_USER_SUCCESS', () => {
+      setupStores({ user: caseManager, actions: [of({ type: fromStore.SUSPEND_USER_SUCCESS }), of()] });
+      component.suspendViewFlag = true;
+      component.ngOnInit();
+      expect(component.suspendViewFlag).toBeFalse();
+    });
+
+    it('should navigate to service-down on SUSPEND_USER_FAIL', () => {
+      setupStores({ user: caseManager, actions: [of(), of({ type: fromStore.SUSPEND_USER_FAIL })] });
+      component.ngOnInit();
+      expect(routerStoreSpyObject.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({
+        payload: jasmine.objectContaining({ path: ['service-down'] })
+      }));
+    });
+
+    it('should stop updating access types after ngOnDestroy', () => {
+      const user$ = new BehaviorSubject<any>(caseManager);
+      orgStoreSpyObject.pipe.and.returnValue(of(organisationAccessTypes));
+      routerStoreSpyObject.pipe.and.returnValues(of(false), of(true));
+      userStoreSpyObject.pipe.and.returnValues(of(false), user$);
+      actionsObject.pipe.and.returnValues(of(), of());
+      component.ngOnInit();
+      expect(component.userAccessTypes.length).toBe(3);
+
+      component.ngOnDestroy();
+      user$.next({ ...caseManager, roles: [] });
+      expect(component.userAccessTypes.length).toBe(3);
+    });
+
+    it('should set ogdUpdateRefreshUserEnabled to false when not configured', () => {
+      component = new UserDetailsComponent(userStoreSpyObject, routerStoreSpyObject, orgStoreSpyObject, actionsObject, activeRoute, {} as EnvironmentConfig);
+      setupStores({ user: caseManager });
+      component.ngOnInit();
+      expect(component.ogdUpdateRefreshUserEnabled).toBeFalse();
     });
   });
 

@@ -1,5 +1,5 @@
 <footer class="govuk-footer" role="contentinfo">
-  <div class="govuk-width-container ">
+  <div class="govuk-width-container">
     @if (userEmail) {
       <p class="govuk-body-s">Logged in as: {{ userEmail }}</p>
     }
@@ -25,7 +25,6 @@
     </svg>
     <div class="govuk-footer__meta">
       <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
-        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
         <ul class="hmcts-footer__list hmcts-footer__list--inline">
           @for (item of navigation.items; track trackByFooterNavItem($index, item)) {
             <li class="hmcts-footer__list-item">
@@ -33,7 +32,7 @@
             </li>
           }
         </ul>
-        <div class="hmcts-footer__licence govuk-!-margin-top-4">
+        <div class="hmcts-footer__licence">
           <svg
             aria-hidden="true"
             focusable="false"
@@ -59,7 +58,7 @@
         </div>
       </div>
       <div class="govuk-footer__meta-item">
-        <a class="govuk-footer__link" href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/">
+        <a class="govuk-footer__link hmcts-footer__copyright-link" href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/">
           <img src="/assets/images/govuk-crest.svg" alt="HMCTS logo" />
           <div>&copy; Crown copyright</div>
         </a>

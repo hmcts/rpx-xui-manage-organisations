@@ -1,17 +1,27 @@
 @if (isUserLoggedIn) {
   <nav class="hmcts-primary-navigation" [attr.aria-label]="label">
-    <div class="hmcts-primary-navigation__container">
+    <div class="hmcts-primary-navigation__container hmcts-header">
       @if (isBrandedHeader) {
         <div class="govuk-header__logo"></div>
       }
       <ul class="hmcts-primary-navigation__list">
           @for (item of items; track trackByNavItem($index, item)) {
-          <li class="hmcts-primary-navigation__item" >
-            <a class="hmcts-primary-navigation__link" routerLinkActive #rla="routerLinkActive" [attr.aria-current]="item.active || rla.isActive ? true: null" [routerLink]="item.href">{{item.text}}</a>
+          <li
+            class="hmcts-primary-navigation__item"
+            routerLinkActive
+            #rla="routerLinkActive"
+            [class.hmcts-primary-navigation__item--current]="item.active || rla.isActive"
+          >
+            <a
+              class="hmcts-primary-navigation__link"
+              [attr.aria-current]="item.active || rla.isActive ? 'page' : null"
+              [routerLink]="item.href"
+            >
+              <span>{{item.text}}</span>
+            </a>
           </li>
         }
       </ul>
     </div>
   </nav>
 }
-

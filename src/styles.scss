@@ -1,13 +1,78 @@
-/* You can add global styles to this file, and also import other style files */
+@use "govuk-frontend/dist/govuk" as govuk with (
+  $govuk-global-styles: true,
+  $govuk-page-width: 1220px
+);
 
-@use "./assets/sass/application" as *;
-@use '../node_modules/@angular/material/prebuilt-themes/indigo-pink.css';
-@use "../node_modules/govuk-frontend/dist/govuk/base" as *;
+/* You can add global styles to this file, and also import other style files */
 
 // Path to assets for use with the file-url function
 // in the govuk frontend toolkit"s url-helpers partial
 $path: "";
 $jui-assets-path : "";
+
+@import "./assets/sass/application";
+@import '../node_modules/@angular/material/prebuilt-themes/indigo-pink.css';
+
+app-hmcts-global-header .hmcts-header.hmcts-header,
+.hmcts-header {
+  background-color: govuk.govuk-colour("blue") !important;
+}
+
+app-hmcts-primary-navigation .hmcts-primary-navigation,
+app-hmcts-primary-navigation .hmcts-primary-navigation__container.hmcts-header {
+  background-color: var(--govuk-surface-background-colour, #f4f8fb) !important;
+}
+
+app-hmcts-primary-navigation .hmcts-primary-navigation__link:link,
+app-hmcts-primary-navigation .hmcts-primary-navigation__link:visited,
+app-hmcts-primary-navigation .hmcts-primary-navigation__link[aria-current] {
+  color: govuk.govuk-colour("blue") !important;
+}
+
+app-hmcts-primary-navigation .hmcts-primary-navigation__link:hover {
+  color: govuk.govuk-colour("dark-blue") !important;
+}
+
+app-hmcts-primary-navigation .hmcts-primary-navigation .hmcts-primary-navigation__link,
+app-hmcts-primary-navigation .hmcts-primary-navigation .hmcts-primary-navigation__link[aria-current] {
+  text-decoration: none !important;
+}
+
+app-hmcts-primary-navigation .hmcts-primary-navigation .hmcts-primary-navigation__link:hover,
+app-hmcts-primary-navigation .hmcts-primary-navigation .hmcts-primary-navigation__link:focus {
+  text-decoration: underline !important;
+}
+
+app-hmcts-primary-navigation .hmcts-primary-navigation .hmcts-primary-navigation__link[aria-current]:hover,
+app-hmcts-primary-navigation .hmcts-primary-navigation .hmcts-primary-navigation__link[aria-current]:focus {
+  text-decoration: none !important;
+}
+
+app-hmcts-primary-navigation .hmcts-primary-navigation__item {
+  box-sizing: border-box;
+  border-bottom: 5px solid transparent;
+}
+
+app-hmcts-primary-navigation .hmcts-primary-navigation__item--current {
+  border-bottom-color: var(--govuk-link-colour, #1a65a6);
+}
+
+app-hmcts-primary-navigation .hmcts-primary-navigation__link {
+  padding-bottom: 8px !important;
+}
+
+app-hmcts-primary-navigation .hmcts-primary-navigation__link[aria-current]::before {
+  display: none !important;
+}
+
+app-hmcts-primary-navigation .hmcts-primary-navigation__link:focus {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+app-hmcts-primary-navigation .hmcts-primary-navigation__link:focus > span {
+  @include govuk.govuk-focused-text;
+}
 
 div.govuk-prose-scope,
 p {
@@ -27,6 +92,99 @@ td.govuk-table__cell {
 div.govuk-header__logo,
 div.hmcts-header__logo {
   width: 23.33%;
+}
+
+// Preserve the HMCTS header component's legacy structure with GOV.UK Frontend 6.
+.hmcts-header {
+  .govuk-header__logo {
+    box-sizing: border-box;
+    padding-top: 0;
+    padding-right: govuk.govuk-spacing(8);
+    padding-bottom: govuk.govuk-spacing(2);
+
+    @include govuk.govuk-media-query($from: desktop) {
+      float: left;
+      padding-right: govuk.govuk-spacing(3);
+      vertical-align: top;
+    }
+  }
+
+  .govuk-header__link--homepage {
+    @include govuk.govuk-font($size: false, $weight: bold);
+
+    display: inline-block;
+    margin-right: govuk.govuk-spacing(2);
+    color: govuk.govuk-colour("white");
+    font-size: 30px;
+    line-height: 1;
+    text-decoration: none;
+
+    &:link,
+    &:visited {
+      color: govuk.govuk-colour("white");
+      text-decoration: none;
+    }
+
+    &:hover,
+    &:active {
+      margin-bottom: -3px;
+      border-bottom: 3px solid;
+      color: govuk.govuk-colour("white");
+    }
+
+    &:focus {
+      @include govuk.govuk-focused-text;
+
+      margin-bottom: 0;
+      border-bottom: 0;
+    }
+
+    @include govuk.govuk-media-query($from: tablet) {
+      display: inline;
+    }
+  }
+
+  .govuk-header__logotype {
+    top: auto;
+    margin-right: 0;
+    margin-bottom: 0;
+    vertical-align: baseline;
+  }
+}
+
+app-hmcts-global-header .hmcts-header .govuk-header__logo {
+  padding-bottom: 16px;
+  padding-top: 16px;
+}
+
+app-hmcts-global-header .hmcts-header {
+  box-sizing: border-box;
+  min-height: 64px;
+}
+
+@media (min-width: 40.0625em) {
+  app-hmcts-global-header .hmcts-header {
+    padding-top: 0;
+  }
+
+  app-hmcts-global-header .govuk-header__logo {
+    padding-bottom: 0;
+  }
+
+  app-hmcts-global-header .hmcts-header__container {
+    display: flex;
+    align-items: center;
+    min-height: 64px;
+  }
+
+  app-hmcts-global-header .hmcts-header__content {
+    margin-left: auto;
+    padding-bottom: 0;
+  }
+
+  app-hmcts-global-header .hmcts-header__navigation {
+    margin-top: 0;
+  }
 }
 
 .my_hmcts_application_name {
@@ -102,12 +260,12 @@ div.hmcts-header__logo {
 }
 
 .xui-page-top-offset {
-  margin-top: govuk-spacing(4);
+  margin-top: govuk.govuk-spacing(4);
 }
 
 .xui-back-button-margin {
-  margin-top: govuk-spacing(4);
-  margin-bottom: govuk-spacing(4);
+  margin-top: govuk.govuk-spacing(4);
+  margin-bottom: govuk.govuk-spacing(4);
 }
 
 .govuk-js-link {
@@ -120,14 +278,14 @@ div.hmcts-header__logo {
   cursor: pointer;
 
   // :link / :visited only match <a>, so repeat the colours
-  color: govuk-colour("blue");
+  color: govuk.govuk-colour("blue");
 
   &:hover {
-    color: govuk-colour("dark-blue");
+    color: govuk.govuk-colour("blue", $variant: "shade-50");
   }
 
   &:focus {
-    @include govuk-focused-text;
+    @include govuk.govuk-focused-text;
   }
 }
 

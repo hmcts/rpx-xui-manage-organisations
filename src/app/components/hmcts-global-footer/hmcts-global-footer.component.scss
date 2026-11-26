@@ -1,10 +1,20 @@
 .hmcts-footer__licence {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
+  display: block;
+  margin-top: 18px;
 
   .govuk-footer__licence-logo {
-    flex-shrink: 0;
-    margin: 0;
+    display: block;
+    margin: 0 0 8px;
   }
+
+  .govuk-footer__licence-description {
+    display: block;
+    max-width: 430px;
+  }
+}
+
+.govuk-footer__link.hmcts-footer__copyright-link,
+.govuk-footer__link.hmcts-footer__copyright-link:visited,
+.govuk-footer__link.hmcts-footer__copyright-link:hover {
+  color: #0b0c0c;
 }

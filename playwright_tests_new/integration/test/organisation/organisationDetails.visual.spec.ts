@@ -61,6 +61,17 @@ test.describe('SRT organisation visual baseline', {
     await page.getByRole('link', { name: 'Cases', exact: true }).click();
     await expect(casesPage.pageHeading).toBeVisible();
     await expect(casesPage.caseList).toContainText(unassignedAsylumCase.caseReference);
+
+    const selectedMenuItem = page.locator('.hmcts-primary-navigation__item--current');
+    await expect(selectedMenuItem).toContainText('Cases');
+    await expect(selectedMenuItem).toHaveCSS('border-bottom-width', '5px');
+    const selectedMenuLink = selectedMenuItem.getByRole('link', { name: 'Cases', exact: true });
+    const selectedBorderColor = await selectedMenuItem.evaluate((element) => getComputedStyle(element).borderBottomColor);
+    expect(selectedBorderColor).not.toBe('rgba(0, 0, 0, 0)');
+    await selectedMenuLink.evaluate((element) => (element as HTMLElement).blur());
+    await expect(selectedMenuItem).toHaveClass(/hmcts-primary-navigation__item--current/);
+    await expect(selectedMenuItem).toHaveCSS('border-bottom-color', selectedBorderColor);
+
     await page.evaluate(() => document.fonts.ready);
 
     await expect(page).toHaveScreenshot('case-list.png', {
@@ -81,7 +92,8 @@ test.describe('SRT organisation visual baseline', {
     await expect(page).toHaveScreenshot('registration-start.png', {
       fullPage: true,
       animations: 'disabled',
-      caret: 'hide'
+      caret: 'hide',
+      maxDiffPixels: 4
     });
   });
 

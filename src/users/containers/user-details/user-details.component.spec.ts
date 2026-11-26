@@ -1,3 +1,9 @@
+import { CommonModule } from '@angular/common';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
+import { Actions } from '@ngrx/effects';
+import { ENVIRONMENT_CONFIG } from '../../../models/environmentConfig.model';
 import { User } from '@hmcts/rpx-xui-common-lib';
 import { Observable, of } from 'rxjs';
 import { UserDetailsComponent } from './user-details.component';
@@ -300,3 +306,54 @@ function createAccessType(overrides: Partial<OrganisationAccessType> = {}): Orga
     ...overrides
   };
 }
+
+describe('User Details Status template @EXUI-4006', () => {
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [UserDetailsComponent],
+      imports: [CommonModule],
+      providers: [
+        { provide: Store, useValue: {} },
+        { provide: Actions, useValue: {} },
+        { provide: ActivatedRoute, useValue: {} },
+        { provide: ENVIRONMENT_CONFIG, useValue: {} }
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
+    }).compileComponents();
+  });
+
+  it('does not display a blank status before user details are available', () => {
+    spyOn(UserDetailsComponent.prototype, 'ngOnInit');
+    const fixture = TestBed.createComponent(UserDetailsComponent);
+    fixture.componentInstance.isLoading$ = of(false);
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('#user-status-heading')).toBeNull();
+  });
+
+  it('keeps status hidden while loading', () => {
+    spyOn(UserDetailsComponent.prototype, 'ngOnInit');
+    const fixture = TestBed.createComponent(UserDetailsComponent);
+    fixture.componentInstance.user = { status: 'Active' };
+    fixture.componentInstance.isLoading$ = of(true);
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('#user-status-heading')).toBeNull();
+  });
+
+  for (const status of ['Active', 'Pending', 'Suspended']) {
+    it(`renders normalized ${status} in the Status section after user details`, () => {
+      spyOn(UserDetailsComponent.prototype, 'ngOnInit');
+      const fixture = TestBed.createComponent(UserDetailsComponent);
+      fixture.componentInstance.user = { status };
+      fixture.componentInstance.isLoading$ = of(false);
+      fixture.detectChanges();
+
+      const element: HTMLElement = fixture.nativeElement;
+      const section = element.querySelector('section[aria-labelledby="user-status-heading"]');
+      expect(section?.querySelector('h2')?.textContent).toBe('Status');
+      expect(section?.querySelector('p')?.textContent.trim()).toBe(status);
+      expect(element.querySelector('xuilib-user-details')?.nextElementSibling).toBe(section);
+    });
+  }
+});

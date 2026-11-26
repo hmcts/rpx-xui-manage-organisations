@@ -10,8 +10,7 @@ export const userAdminActiveUser = {
   lastName: 'Active',
   fullName: 'Avery Active',
   email: 'avery.active@example.com',
-  idamStatus: 'ACTIVE',
-  status: 'Active'
+  idamStatus: 'ACTIVE'
 };
 
 export const userAdminPendingUser = {
@@ -20,8 +19,16 @@ export const userAdminPendingUser = {
   lastName: 'Pending',
   fullName: 'Parker Pending',
   email: 'parker.pending@example.com',
-  idamStatus: 'PENDING',
-  status: 'Pending'
+  idamStatus: 'PENDING'
+};
+
+export const userAdminSuspendedUser = {
+  userIdentifier: 'user-admin-suspended-user-id',
+  firstName: 'Sasha',
+  lastName: 'Suspended',
+  fullName: 'Sasha Suspended',
+  email: 'sasha.suspended@example.com',
+  idamStatus: 'SUSPENDED'
 };
 
 export const userAdminActiveUserRoles = [
@@ -62,6 +69,13 @@ export const userAdminPendingUserDetails = {
   roles: userAdminPendingUserRoles
 };
 
+export const userAdminSuspendedUserDetails = {
+  ...userAdminSuspendedUser,
+  accessTypes: [],
+  userAccessTypes: [],
+  roles: userAdminActiveUserRoles
+};
+
 export const userAdminUsersWithoutRolesResponse = {
   organisationIdentifier: manageOrgIntegrationOrganisationIdentifier,
   organisationProfileIds: userAdminOrganisationProfileIds,
@@ -70,7 +84,8 @@ export const userAdminUsersWithoutRolesResponse = {
       ...userAdminActiveUser,
       userAccessTypes: userAdminActiveUserAccessTypes
     },
-    userAdminPendingUser
+    userAdminPendingUser,
+    userAdminSuspendedUser
   ]
 };
 

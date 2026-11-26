@@ -5,7 +5,8 @@ import {
   inviteUserFormData,
   userAdminActiveUser,
   userAdminOrganisationProfileIds,
-  userAdminPendingUser
+  userAdminPendingUser,
+  userAdminSuspendedUser
 } from '../../mocks/userAdmin.mock';
 import { UserAdminPage } from '../../page-objects/user-admin.po';
 
@@ -45,7 +46,39 @@ const expectedCivilAccessTypes = (standardAccessEnabled: boolean, financeAccessE
 ];
 
 test.describe('User administration UI and invite payloads', { tag: ['@integration', '@integration-user-admin'] }, () => {
-  test('renders the users list and returns from invite-user with the back link', async ({
+  for (const { user, status } of [
+    { user: userAdminActiveUser, status: 'Active' },
+    { user: userAdminPendingUser, status: 'Pending' },
+    { user: userAdminSuspendedUser, status: 'Suspended' }
+  ]) {
+    test(`shows ${status} consistently in the list and details after direct reload`, { tag: '@EXUI-4006' }, async ({
+      manageOrgIntegrationPage: page
+    }) => {
+      const routeState = await setupUserAdminRoutes(page);
+      const userAdminPage = new UserAdminPage(page);
+
+      await userAdminPage.openUsers();
+      await expect(userAdminPage.userStatusCell(user.email)).toHaveText(status);
+      await userAdminPage.openUserDetails(user.email);
+      await expect(userAdminPage.userStatus).toHaveText(status);
+      await expect(userAdminPage.userDetailValue('Email address')).toContainText(user.email);
+      await expect(userAdminPage.resendInvitationButton).toBeVisible({ visible: status === 'Pending' });
+      await expect(userAdminPage.suspendedAccountWarning)
+        .toBeVisible({ visible: status === 'Suspended' });
+      await expect(userAdminPage.editPermissionsLink(user.userIdentifier)).toHaveCount(status === 'Active' ? 1 : 0);
+
+      await page.reload();
+      await expect(userAdminPage.userStatus).toHaveText(status);
+      await expect(userAdminPage.userDetailValue('Email address')).toContainText(user.email);
+      expect(routeState.userDetailsRequests.filter((request) => request.userId === user.userIdentifier).length)
+        .toBeGreaterThanOrEqual(2);
+      expect(routeState.inviteUserRequests).toHaveLength(0);
+      expect(routeState.suspendUserRequests).toHaveLength(0);
+      expect(routeState.editUserPermissionRequests).toHaveLength(0);
+    });
+  }
+
+  test('renders all three user statuses and returns from invite-user with the back link', async ({
     manageOrgIntegrationPage: page
   }) => {
     const routeState = await setupUserAdminRoutes(page);
@@ -55,12 +88,15 @@ test.describe('User administration UI and invite payloads', { tag: ['@integratio
 
     await expect(userAdminPage.heading).toBeVisible();
     await expect(userAdminPage.inviteUserButton).toBeVisible();
+    await expect(userAdminPage.userListHeaders).toHaveText(['Name', 'Email', 'Status']);
     await expect(userAdminPage.userList).toContainText(userAdminActiveUser.email);
     await expect(userAdminPage.userList).toContainText(userAdminPendingUser.email);
     await expect(userAdminPage.userRow(userAdminActiveUser.email)).toContainText(userAdminActiveUser.fullName);
     await expect(userAdminPage.userRow(userAdminPendingUser.email)).toContainText(userAdminPendingUser.fullName);
+    await expect(userAdminPage.userRow(userAdminSuspendedUser.email)).toContainText(userAdminSuspendedUser.fullName);
     await expect(userAdminPage.userStatusCell(userAdminActiveUser.email)).toHaveText('Active');
     await expect(userAdminPage.userStatusCell(userAdminPendingUser.email)).toHaveText('Pending');
+    await expect(userAdminPage.userStatusCell(userAdminSuspendedUser.email)).toHaveText('Suspended');
     expect((await userAdminPage.tableCellTexts()).every((cellText) => cellText.length > 0)).toBe(true);
     await expect.poll(() => routeState.userListRequests.length).toBeGreaterThan(0);
     expect(routeState.userListRequests.every((method) => method === 'GET')).toBe(true);
@@ -324,7 +360,7 @@ test.describe('User administration UI and invite payloads', { tag: ['@integratio
     });
     await expect(userAdminPage.userDetailsHeading).toBeVisible();
     await expect(userAdminPage.userDetailValue('Permissions')).toContainText('Manage organisations');
-    await expect(page.getByText('This user\'s account has been suspended.')).toBeVisible();
+    await expect(userAdminPage.suspendedAccountWarning).toBeVisible();
   });
 
   test('submits OGD manage-user update payload with access profile changes', async ({

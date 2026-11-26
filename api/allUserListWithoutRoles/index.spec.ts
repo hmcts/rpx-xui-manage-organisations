@@ -26,6 +26,18 @@ describe('allUserList without roles: index', () => {
     sinon.restore();
   });
 
+  for (const idamStatus of ['ACTIVE', 'PENDING', 'SUSPENDED']) {
+    it(`preserves ${idamStatus} from the provider for list display @EXUI-4006`, async () => {
+      const data = { users: [{ userIdentifier: 'status-user', idamStatus }] };
+      sinon.stub(req.http, 'get').resolves({ data } as AxiosResponse);
+
+      await handleAllUserListRoute(req, res);
+
+      expect(res.send).to.have.been.calledWithExactly(data);
+      expect(data.users[0].idamStatus).to.equal(idamStatus);
+    });
+  }
+
   it('should return User List data and send it in an HTTP response', async () => {
     // Stub the http.get call to return a mock response
     const mockAxiosResponse = {

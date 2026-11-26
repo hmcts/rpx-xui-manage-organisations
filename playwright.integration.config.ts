@@ -24,7 +24,9 @@ module.exports = defineConfig({
   outputDir,
   testDir: 'playwright_tests_new/integration',
   testMatch: ['**/*.spec.ts'],
-  testIgnore: process.env.PLAYWRIGHT_INCLUDE_A11Y === 'true' ? [] : ['**/*.a11y.spec.ts'],
+  // Other integration accessibility packs retain their existing opt-in policy.
+  testIgnore:
+    process.env.PLAYWRIGHT_INCLUDE_A11Y === 'true' ? [] : ['**/pbaManagement.a11y.spec.ts', '**/userAdmin.a11y.spec.ts'],
   grep: integrationTagFilters.grep,
   grepInvert: integrationTagFilters.grepInvert,
   fullyParallel: true,

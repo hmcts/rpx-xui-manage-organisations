@@ -30,6 +30,6 @@ export class AssignedCasesPage extends CaseListPage {
   }
 
   public async startCaseSharing(): Promise<void> {
-    await this.clickVisibleControl(this.manageCaseSharingButton);
+    await this.manageCaseSharingButton.click();
   }
 }

@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { User } from '@hmcts/rpx-xui-common-lib';
 import { Observable, Subscription, of } from 'rxjs';
 import { catchError, debounceTime, switchMap, tap } from 'rxjs/operators';
-import { CaaCasesUtil } from '../../../caa-cases/util/caa-cases.util';
+import { CaaCasesUtil } from '../../../cases/util/caa-cases.util';
 import { ErrorMessage } from '../../../shared/models/error-message.model';
 import {
   CaaCasesFilterErrorMessage,

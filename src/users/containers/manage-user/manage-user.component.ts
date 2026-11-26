@@ -89,27 +89,26 @@ export class ManageUserComponent implements OnInit, OnDestroy {
 
     combineLatest([this.user$, this.organisation$, this.organisationAccessTypes$]).pipe(takeUntil(this.onDestroy$)).subscribe(([user, organisation, organisationAccessTypes]) => {
       this.user = user;
-      console.log('user', this.user);
       this.organisationProfileIds = organisation?.organisationProfileIds ?? [];
       this.resendInvite = user?.status === 'Pending';
       this.jurisdictions = organisationAccessTypes;
     });
 
-    this.actions$.pipe(ofType(fromStore.EDIT_USER_SUCCESS)).subscribe(() => {
+    this.actions$.pipe(ofType(fromStore.EDIT_USER_SUCCESS), takeUntil(this.onDestroy$)).subscribe(() => {
       this.routerStore.dispatch(new fromRoot.Go({ path: ['users/updated-user-success'] }));
     });
 
-    this.actions$.pipe(ofType(fromStore.EDIT_USER_SERVER_ERROR)).subscribe(() => {
+    this.actions$.pipe(ofType(fromStore.EDIT_USER_SERVER_ERROR), takeUntil(this.onDestroy$)).subscribe(() => {
       this.routerStore.dispatch(new fromRoot.Go({ path: ['service-down'] }));
     });
 
-    this.userStore.select(editUserFailureSelector).subscribe((editUserFailure) => {
+    this.userStore.select(editUserFailureSelector).pipe(takeUntil(this.onDestroy$)).subscribe((editUserFailure) => {
       if (editUserFailure) {
         this.routerStore.dispatch(new fromRoot.Go({ path: [`users/user/${this.userId}/manage-user-failure`] }));
       }
     });
 
-    this.actions$.pipe(ofType(fromStore.REFRESH_USER_FAIL)).subscribe(() => {
+    this.actions$.pipe(ofType(fromStore.REFRESH_USER_FAIL), takeUntil(this.onDestroy$)).subscribe(() => {
       this.summaryErrorsSubject.next({
         isFromValid: false,
         items: [

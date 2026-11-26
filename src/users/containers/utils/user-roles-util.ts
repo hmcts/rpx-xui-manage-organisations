@@ -151,14 +151,12 @@ export class UserRolesUtil {
     accessTypes: UserAccessType[],
     updatedAccessTypes: UserAccessType[]
   ): boolean {
-    const sortedAccessTypes = [...accessTypes].sort((a, b) =>
-      a.accessTypeId.localeCompare(b.accessTypeId)
-    );
-    const sortedUpdatedAccessTypes = [...updatedAccessTypes].sort((a, b) =>
-      a.accessTypeId.localeCompare(b.accessTypeId)
-    );
-    const accessTypesJson = JSON.stringify(sortedAccessTypes);
-    const updatedAccessTypesJson = JSON.stringify(sortedUpdatedAccessTypes);
-    return accessTypesJson === updatedAccessTypesJson;
+    const normalized = (types: UserAccessType[]) => (types ?? []).map((type) => JSON.stringify([
+      type.jurisdictionId,
+      type.organisationProfileId,
+      type.accessTypeId,
+      type.enabled
+    ])).sort();
+    return JSON.stringify(normalized(accessTypes)) === JSON.stringify(normalized(updatedAccessTypes));
   }
 }

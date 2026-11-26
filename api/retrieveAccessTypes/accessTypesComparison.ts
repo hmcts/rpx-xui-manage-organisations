@@ -9,10 +9,9 @@ export function processAccessTypes(currentOrganisationAccessTypes, userAccessTyp
     });
   });
 
-  userAccessTypeOptions.userAccessTypes.forEach((userAccessType) => {
+  (userAccessTypeOptions.userAccessTypes ?? []).forEach((userAccessType) => {
     const key = JSON.stringify([userAccessType.jurisdictionId, userAccessType.organisationProfileId, userAccessType.accessTypeId]);
-    const currentAccessType = accessTypesMap.get(key);
-    const accessType = currentAccessType?.accessType;
+    const accessType = accessTypesMap.get(key)?.accessType;
 
     if (accessType?.display) {
       if (accessType.accessMandatory && accessType.accessDefault) {

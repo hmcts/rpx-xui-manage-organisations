@@ -1,12 +1,10 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Inject, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User, UserAccessType } from '@hmcts/rpx-xui-common-lib';
-import { Observable, Subject, map, shareReplay, takeUntil, Subscription } from 'rxjs';
+import { Subject, takeUntil, Subscription } from 'rxjs';
 import { CaseManagementPermissions } from '../../models/case-management-permissions.model';
 import { Jurisdiction } from 'src/models';
-import { AppConstants } from '../../../app/app.constants';
 import { Accordion, isSupported } from 'govuk-frontend';
-import { OrganisationProfileService } from 'src/users/services/org-profiles.service';
 import { ENVIRONMENT_CONFIG, EnvironmentConfig } from '../../../models/environmentConfig.model';
 
 @Component({
@@ -18,22 +16,19 @@ import { ENVIRONMENT_CONFIG, EnvironmentConfig } from '../../../models/environme
 })
 export class OrganisationAccessPermissionsComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
   @Input() public jurisdictions: Jurisdiction[] = [];
-  @Input() public organisationProfileIds: string[] = [];
   @Input() user: User;
 
   @Output() public selectedPermissionsChanged = new EventEmitter<CaseManagementPermissions>();
 
   public permissions: JurisdictionPermissionViewModel[];
   public jurisdictionPermissionsForm: FormGroup<AccessForm>;
-  public ogdProfileTypes = AppConstants.OGD_PROFILE_TYPES;
-
   public enableCaseManagement: boolean;
   public ogdUpdateRefreshUserEnabled = false;
-  public orgProfileType: string;
 
   private userAccessTypes: UserAccessType[];
   private readonly onDestroy$ = new Subject<void>();
   private formChangesSubscription = new Subscription();
+  private hasInitialized = false;
 
   private readonly accordianConfig = {
     i18n: {
@@ -46,28 +41,29 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnChanges
   constructor(
     private readonly fb: FormBuilder,
     private readonly cdRef: ChangeDetectorRef,
-    private readonly orgProfileService: OrganisationProfileService,
     @Inject(ENVIRONMENT_CONFIG) private readonly environmentConfig: EnvironmentConfig
   ) { }
 
   ngOnInit(): void {
     this.ogdUpdateRefreshUserEnabled = !!this.environmentConfig.ogdUpdateRefreshUserEnabled;
-    this.initializeComponent();
+    if (!this.hasInitialized) {
+      this.initializeComponent();
+    }
   }
 
   // If the user reloads on the invite page it doesnt handle the loading of data without the below block
   ngOnChanges(changes: SimpleChanges): void {
     this.ogdUpdateRefreshUserEnabled = !!this.environmentConfig.ogdUpdateRefreshUserEnabled;
-    if (changes.user || changes.jurisdictions || changes.organisationProfileIds) {
+    if (changes.user || changes.jurisdictions) {
       this.initializeComponent();
     }
   }
 
   private initializeComponent(): void {
+    this.hasInitialized = true;
     this.enableCaseManagement = this.user?.roles?.includes('pui-case-manager') ?? false;
     this.userAccessTypes = this.user?.userAccessTypes ?? [];
     this.permissions = this.createPermissionsViewModel();
-    this.orgProfileType = this.orgProfileService.getOrganisationProfileType(this.organisationProfileIds);
     this.createFormAndPopulate();
     this.subscribeToAccessTypesChanges();
     this.publishCurrentPermissions();
@@ -116,6 +112,7 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnChanges
         .filter((accessType) => accessType.display)
         .map((accessType) => {
           const accessTypePermissionViewModel: AccessTypePermissionViewModel = {
+            organisationProfileId: accessType.organisationProfileId,
             accessTypeId: accessType.accessTypeId,
             enabled: accessType.accessDefault,
             display: accessType.display,
@@ -124,7 +121,10 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnChanges
             hint: accessType.hint,
             accessDefault: accessType.accessDefault
           };
-          const userAccessType = this.userAccessTypes?.find((ua) => ua.accessTypeId === accessType.accessTypeId && ua.jurisdictionId === jurisdiction.jurisdictionId);
+          const userAccessType = this.userAccessTypes?.find((ua) =>
+            ua.accessTypeId === accessType.accessTypeId &&
+            ua.jurisdictionId === jurisdiction.jurisdictionId &&
+            ua.organisationProfileId === accessType.organisationProfileId);
           if (userAccessType) {
             accessTypePermissionViewModel.enabled = userAccessType.enabled;
           }
@@ -145,11 +145,10 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnChanges
       return [];
     }
     const accessTypes = this.permissions.reduce((acc, permission) => {
-      const orgProfileId = this.jurisdictions[0].accessTypes[0].organisationProfileId;
       const mappedAccessTypes = permission.accessTypes.map((accessType) => {
         return {
           jurisdictionId: permission.jurisdictionId,
-          organisationProfileId: orgProfileId,
+          organisationProfileId: accessType.organisationProfileId,
           accessTypeId: accessType.accessTypeId,
           enabled: accessType.enabled
         } as UserAccessType;
@@ -176,9 +175,13 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnChanges
 
     this.jurisdictionsFormArray.controls.forEach((jurisdictionGroup: FormGroup<JurisdictionPermissionViewModelForm>) => {
       this.formChangesSubscription.add(
-        this.createPermissionChangeObservableForGroup(jurisdictionGroup)
+        jurisdictionGroup.controls.accessTypes.valueChanges
           .pipe(takeUntil(this.onDestroy$))
-          .subscribe(() => {
+          .subscribe((value) => {
+            const jurisdictionId = jurisdictionGroup.controls.jurisdictionId.value;
+            value.forEach((accessType) => {
+              this.updatePermissionsWithCurrentSelection(jurisdictionId, accessType.organisationProfileId, accessType.accessTypeId, accessType.enabled);
+            });
             this.publishCurrentPermissions();
           })
       );
@@ -196,28 +199,15 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnChanges
     });
   }
 
-  private createPermissionChangeObservableForGroup(jurisdictionGroup: FormGroup<JurisdictionPermissionViewModelForm>): Observable<JurisdictionPermissionViewModel[]> {
-    return jurisdictionGroup.controls.accessTypes.valueChanges.pipe(
-      map((value) => {
-        const jurisdictionId = jurisdictionGroup.controls.jurisdictionId.value;
-        value.forEach((accessType) => {
-          this.updatePermissionsWithCurrentSelection(jurisdictionId, accessType.accessTypeId, accessType.enabled);
-        });
-        return this.permissions;
-      }),
-      shareReplay(1));
-  }
-
-  private updatePermissionsWithCurrentSelection(jurisdictionId: string, accessTypeId: string, enabled: boolean) {
+  private updatePermissionsWithCurrentSelection(jurisdictionId: string, organisationProfileId: string, accessTypeId: string, enabled: boolean) {
     const jurisdictionPermissions = this.permissions.find((permission) => permission.jurisdictionId === jurisdictionId);
     if (jurisdictionPermissions) {
-      const permissionAccessType = jurisdictionPermissions.accessTypes.find((pa) => pa.accessTypeId === accessTypeId);
-      if (permissionAccessType) {
-        permissionAccessType.enabled = enabled;
+      const permissionAccessType = jurisdictionPermissions.accessTypes.find((pa) =>
+        pa.organisationProfileId === organisationProfileId && pa.accessTypeId === accessTypeId);
+      if (!permissionAccessType) {
+        return;
       }
-      if (permissionAccessType.accessMandatory) {
-        permissionAccessType.enabled = true;
-      }
+      permissionAccessType.enabled = permissionAccessType.accessMandatory ? permissionAccessType.accessDefault : enabled;
     }
   }
 
@@ -238,6 +228,7 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnChanges
         // cater to edge case where existing access type is changed to mandatory, ignore user selection and set to accessDefault value
         const accessTypeEnabledState = accessType.accessMandatory ? accessType.accessDefault : accessType.enabled;
         return this.fb.nonNullable.group<AccessTypePermissionViewModelForm>({
+          organisationProfileId: new FormControl(accessType.organisationProfileId, Validators.required),
           accessTypeId: new FormControl(accessType.accessTypeId, Validators.required),
           enabled: new FormControl({ value: accessTypeEnabledState, disabled: !accessType.display || accessType.accessMandatory }, validation),
           display: new FormControl(accessType.display),
@@ -264,6 +255,7 @@ interface JurisdictionPermissionViewModel {
   accessTypes: AccessTypePermissionViewModel[];
 }
 interface AccessTypePermissionViewModel {
+  organisationProfileId: string;
   accessTypeId: string;
   enabled: boolean;
   display: boolean;
@@ -285,6 +277,7 @@ interface JurisdictionPermissionViewModelForm {
 }
 
 interface AccessTypePermissionViewModelForm {
+  organisationProfileId: FormControl<string>;
   accessTypeId: FormControl<string>;
   enabled: FormControl<boolean>;
   display: FormControl<boolean>;

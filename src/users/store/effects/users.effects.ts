@@ -7,7 +7,7 @@ import { LoggerService } from '../../../shared/services/logger.service';
 import { UsersService } from '../../services';
 import * as usersActions from '../actions';
 import * as orgActions from '../../../organisation/store/actions';
-import { PrdUser } from 'src/users/models/prd-users.model';
+import { PrdUser, RawPrdUserLite } from 'src/users/models/prd-users.model';
 import { Store, select } from '@ngrx/store';
 import * as usersSelectors from '../selectors/user.selectors';
 
@@ -38,27 +38,10 @@ export class UsersEffects {
       switchMap((action: any) => {
         return this.usersService.getListOfUsers(action.payload).pipe(
           concatMap((userDetails) => {
-            const amendedUsers: PrdUser[] = [];
-            let organisationProfileIds = [];
-            userDetails.users.forEach((element) => {
-              const fullName = `${element.firstName} ${element.lastName}`;
-              const accessTypes = element?.userAccessTypes || [];
-              const user: PrdUser = {
-                ...element,
-                fullName: `${element.firstName} ${element.lastName}`,
-                routerLink: `user/${element.userIdentifier}`,
-                routerLinkTitle: `User details for ${fullName} with id ${element.userIdentifier}`,
-                userAccessTypes: accessTypes
-              };
-              amendedUsers.push(user);
-              user.userAccessTypes = user?.userAccessTypes || [];
-              organisationProfileIds = [
-                ...organisationProfileIds,
-                ...UsersEffects.getOrganisationProfileIds(user)
-              ];
-            });
-
-            organisationProfileIds = [...new Set(organisationProfileIds)];
+            const amendedUsers = userDetails.users.map(UsersEffects.toPrdUser);
+            const organisationProfileIds = [...new Set(amendedUsers.reduce(
+              (ids, user) => [...ids, ...UsersEffects.getOrganisationProfileIds(user)], [] as string[]
+            ))];
             return [
               new orgActions.OrganisationUpdateUpdateProfileIds(
                 organisationProfileIds
@@ -93,25 +76,12 @@ export class UsersEffects {
   public loadAllUsersNoRoleData$ = createEffect(() =>
     this.actions$.pipe(
       ofType(usersActions.LOAD_ALL_USERS_NO_ROLE_DATA),
-      switchMap(() => this.appStore.pipe(select(fromRoot.getOgdInviteUserFlowFeatureIsEnabled))),
+      switchMap(() => this.appStore.pipe(select(fromRoot.getOgdInviteUserFlowFeatureIsEnabled), take(1))),
       switchMap((featureEnabled:boolean) => {
         return this.usersService.getAllUsersList().pipe(
           concatMap((userDetails) => {
-            const amendedUsers: PrdUser[] = [];
+            const amendedUsers = userDetails.users.map(UsersEffects.toPrdUser);
             const organisationProfileIds = userDetails.organisationProfileIds;
-            userDetails.users.forEach((element) => {
-              const fullName = `${element.firstName} ${element.lastName}`;
-              const accessTypes = element?.userAccessTypes || [];
-              const user: PrdUser = {
-                ...element,
-                fullName: `${element.firstName} ${element.lastName}`,
-                routerLink: `user/${element.userIdentifier}`,
-                routerLinkTitle: `User details for ${fullName} with id ${element.userIdentifier}`,
-                userAccessTypes: accessTypes
-              };
-              amendedUsers.push(user);
-              user.userAccessTypes = user?.userAccessTypes || [];
-            });
             if (featureEnabled){
               return [
                 new orgActions.OrganisationUpdateUpdateProfileIds(
@@ -179,42 +149,39 @@ export class UsersEffects {
   public inviteNewUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(usersActions.INVITE_NEW_USER),
-      switchMap(() => {
-        return this.appStore.pipe(
-          select(fromRoot.getOgdInviteUserFlowFeatureIsEnabled),
-          take(1),
-          map((isEnabled) => {
-            if (isEnabled) {
-              return new fromRoot.Go({ path: ['users/manage'] });
-            }
-            return new fromRoot.Go({ path: ['users/invite-user'] });
-          })
-        );
-      })
+      switchMap(() => this.getInviteNavigation())
     )
   );
 
   public reinviteUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(usersActions.REINVITE_PENDING_USER),
-      switchMap(() => {
-        return this.appStore.pipe(
-          select(fromRoot.getOgdInviteUserFlowFeatureIsEnabled),
-          take(1),
-          map((isEnabled) => {
-            if (isEnabled) {
-              return new fromRoot.Go({ path: ['users/manage'] });
-            }
-            return new fromRoot.Go({ path: ['users/invite-user'] });
-          })
-        );
-      })
+      switchMap(() => this.getInviteNavigation())
     )
   );
 
   private static getOrganisationProfileIds(user: PrdUser): string[] {
     return user.userAccessTypes.map(
       (accessType) => accessType.organisationProfileId
+    );
+  }
+
+  private static toPrdUser(element: RawPrdUserLite): PrdUser {
+    const fullName = `${element.firstName} ${element.lastName}`;
+    return {
+      ...element,
+      fullName,
+      routerLink: `user/${element.userIdentifier}`,
+      routerLinkTitle: `User details for ${fullName} with id ${element.userIdentifier}`,
+      userAccessTypes: element.userAccessTypes || []
+    };
+  }
+
+  private getInviteNavigation() {
+    return this.appStore.pipe(
+      select(fromRoot.getOgdInviteUserFlowFeatureIsEnabled),
+      take(1),
+      map((isEnabled) => new fromRoot.Go({ path: [isEnabled ? 'users/manage' : 'users/invite-user'] }))
     );
   }
 }

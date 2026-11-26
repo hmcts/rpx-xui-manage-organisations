@@ -1,5 +1,5 @@
 import { SharedCase } from '@hmcts/rpx-xui-common-lib';
-import * as converts from './case-converter';
+import * as converts from '../../cases/converters/case-converter';
 
 describe('case-converter', () => {
   describe('toShareCaseConverter()', () => {

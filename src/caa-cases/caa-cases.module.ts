@@ -19,7 +19,6 @@ import { FeatureToggleAccountGuard } from './guards/feature-toggle.guard';
 import { RoleGuard } from './guards/user-role.guard';
 import * as fromServices from './services';
 import { effects, reducers } from './store';
-import { NewCaseFeatureToggleGuard } from './guards/new-cases-feature-toggle.guard';
 
 @NgModule({
   exports: [...fromContainers.containers, ...fromComponents.components],
@@ -39,7 +38,7 @@ import { NewCaseFeatureToggleGuard } from './guards/new-cases-feature-toggle.gua
     MatTabsModule,
     MatAutocompleteModule
   ],
-  providers: [...fromServices.services, OrganisationService, PBAService, UsersService, InviteUserService, FeatureToggleAccountGuard, NewCaseFeatureToggleGuard, RoleGuard, provideHttpClient(withInterceptorsFromDi())]
+  providers: [...fromServices.services, OrganisationService, PBAService, UsersService, InviteUserService, FeatureToggleAccountGuard, RoleGuard, provideHttpClient(withInterceptorsFromDi())]
 })
 
 export class CaaCasesModule {

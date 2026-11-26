@@ -7,6 +7,7 @@ import { RegisterOrgModule } from '../../register-org.module';
 import { buildMockStoreProviders } from '../../testing/mock-store-state';
 import { RegistrationData } from '../../models/registration-data.model';
 import { RegisterOrgService } from '../../services/register-org.service';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { IndividualRegisteredWithRegulatorComponent } from './individual-registered-with-regulator.component';
 
 describe('IndividualRegisteredWithRegulatorComponent', () => {
@@ -48,7 +49,7 @@ describe('IndividualRegisteredWithRegulatorComponent', () => {
     await TestBed.configureTestingModule({
       // RegisterOrgModule already declares IndividualRegisteredWithRegulatorComponent and related dependencies
       declarations: [],
-      imports: [RouterTestingModule, ReactiveFormsModule, ExuiCommonLibModule, RegisterOrgModule],
+      imports: [RpxTranslationTestingModule, RouterTestingModule, ReactiveFormsModule, ExuiCommonLibModule, RegisterOrgModule],
       providers: [
         { provide: Router, useValue: mockRouter },
         { provide: RegisterOrgService, useValue: service },

@@ -17,13 +17,13 @@
                         (click)="onUserClick(u)">{{ u.fullName }}</a>
                 </td>
                 <td class="govuk-table__cell" data-selector="table-cell">{{ u.email }}</td>
-                <td class="govuk-table__cell" data-selector="table-cell">{{ u.status }}</td>
+                <td class="govuk-table__cell" data-selector="table-cell">{{ u.status | rpxTranslate }}</td>
             </tr>
         </ng-container>
         }
         @if (filteredItems.length == 0) {
         <tr>
-            <td colspan="3" class="govuk-table__cell">No users matching Name/Status</td>
+            <td colspan="3" class="govuk-table__cell">{{ 'No users matching Name/Status' | rpxTranslate }}</td>
         </tr>
         }
     </tbody>

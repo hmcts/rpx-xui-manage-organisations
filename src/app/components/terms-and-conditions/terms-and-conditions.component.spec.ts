@@ -10,6 +10,7 @@ import { of } from 'rxjs';
 import { TermsConditionsService } from '../../../shared/services/termsConditions.service';
 import { ENVIRONMENT_CONFIG } from '../../../models/environmentConfig.model';
 import { mockEnvironmentConfig } from '../../../shared/services/environment.service.spec';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { TermsAndConditionsComponent } from './terms-and-conditions.component';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
@@ -49,7 +50,7 @@ describe('TermsAndConditionsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [TermsAndConditionsComponent, TestDummyHostComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [RouterTestingModule],
+      imports: [RpxTranslationTestingModule, RouterTestingModule],
       providers: [
         {
           provide: Store,

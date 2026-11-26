@@ -6,6 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
 import { buildMockStoreProviders } from '../../../register-org/testing/mock-store-state';
 import { of } from 'rxjs';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { RegisterComponent } from './register.component';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ENVIRONMENT_CONFIG } from '../../../models/environmentConfig.model';
@@ -23,7 +24,7 @@ describe('RegisterComponent', () => {
     TestBed.configureTestingModule({
       declarations: [RegisterComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [RouterTestingModule.withRoutes([])],
+      imports: [RpxTranslationTestingModule, RouterTestingModule.withRoutes([])],
       providers: [
         ...buildMockStoreProviders(),
         { provide: ENVIRONMENT_CONFIG, useValue: mockEnvironmentConfig },

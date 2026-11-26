@@ -10,19 +10,19 @@
           </span>
         </a>
       </div>
-      <a class="hmcts-header__link my_hmcts_application_name" [routerLink]="headerTitle?.url" [attr.aria-label]="headerTitle?.name" >{{headerTitle?.name}}</a>
+      <a class="hmcts-header__link my_hmcts_application_name" [routerLink]="headerTitle?.url" [attr.aria-label]="headerTitle?.name | rpxTranslate" >{{ headerTitle?.name | rpxTranslate }}</a>
     } @else {
       <div class="hmcts-header__logo remove-wrapping">
-        <a class="hmcts-header__link" [routerLink]="'/'" [attr.aria-label]="headerTitle?.name" >{{headerTitle?.name}}</a>
+        <a class="hmcts-header__link" [routerLink]="'/'" [attr.aria-label]="headerTitle?.name | rpxTranslate" >{{ headerTitle?.name | rpxTranslate }}</a>
       </div>
     }
     <div class="hmcts-header__content">
-      <nav class="hmcts-header__navigation" attr.aria-label="{{navigation.label}}">
+      <nav class="hmcts-header__navigation" [attr.aria-label]="navigation.label | rpxTranslate">
         <ul class="hmcts-header__navigation-list" >
           @for (item of navigation.items; track trackByNavItem($index, item); let i = $index) {
             <li class="hmcts-header__navigation-item">
               @if (userValue) {
-                <a class="hmcts-header__navigation-link" (click)="onEmitEvent(i)" [routerLink]="[item.href]">{{item.text}}</a>
+                <a class="hmcts-header__navigation-link" (click)="onEmitEvent(i)" [routerLink]="[item.href]">{{ item.text | rpxTranslate }}</a>
               }
             </li>
           }

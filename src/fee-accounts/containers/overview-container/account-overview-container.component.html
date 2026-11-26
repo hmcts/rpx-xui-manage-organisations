@@ -2,15 +2,14 @@
   <div [ngClass]="{'govuk-form-group govuk-form-group--error' : oneOrMoreAccountInfoMissing}">
     @if (oneOrMoreAccountInfoMissing) {
       <span id="fee-error" class="govuk-error-message">
-        <span class="govuk-visually-hidden">Error:</span> PBA number not found
-      </span>
+        <span class="govuk-visually-hidden">{{ 'Error:' | rpxTranslate }}</span>  {{ 'PBA number not found' | rpxTranslate }} </span>
     }
     <table class="{{'govuk-table ' + classes}}" role="presentation">
-      <caption class="govuk-table__caption">{{caption}}</caption>
+      <caption class="govuk-table__caption">{{ caption | rpxTranslate }}</caption>
       <thead class="govuk-table__head" >
         <tr class="govuk-table__row">
           @for (h of columnConfig; track trackByAccountOverviewHeader($index, h)) {
-            <th class="govuk-table__header" scope="col">{{h.header}}</th>
+            <th class="govuk-table__header" scope="col">{{ h.header | rpxTranslate }}</th>
           }
         </tr>
       </thead>

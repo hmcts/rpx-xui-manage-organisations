@@ -1,6 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { CookiePolicyComponent } from './cookie-policy.component';
 
 describe('CookiePolicyComponentTest', () => {
@@ -11,6 +12,7 @@ describe('CookiePolicyComponentTest', () => {
     TestBed.configureTestingModule({
       declarations: [CookiePolicyComponent],
       imports: [
+        RpxTranslationTestingModule,
         RouterTestingModule
       ],
       schemas: [

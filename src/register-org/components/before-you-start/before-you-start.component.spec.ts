@@ -7,6 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { EnvironmentService } from '../../../shared/services/environment.service';
 import { ENVIRONMENT_CONFIG } from '../../../models/environmentConfig.model';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { BeforeYouStartComponent } from './before-you-start.component';
 import { mockEnvironmentConfig } from '../../../shared/services/environment.service.spec';
 
@@ -22,7 +23,7 @@ describe('BeforeYouStartComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [BeforeYouStartComponent],
-      imports: [RouterTestingModule, ReactiveFormsModule, ExuiCommonLibModule],
+      imports: [RpxTranslationTestingModule, RouterTestingModule, ReactiveFormsModule, ExuiCommonLibModule],
       providers: [
         EnvironmentService,
         { provide: ENVIRONMENT_CONFIG, useValue: mockEnvironmentConfig },

@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { TermsAndConditionsRegisterOtherOrgComponent } from './terms-and-conditions-register-other-org.component';
 
 describe('TermsAndConditionsRegisterOtherOrgComponent', () => {
@@ -7,6 +8,7 @@ describe('TermsAndConditionsRegisterOtherOrgComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      imports: [RpxTranslationTestingModule],
       declarations: [TermsAndConditionsRegisterOtherOrgComponent]
     })
       .compileComponents();

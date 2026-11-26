@@ -17,6 +17,7 @@ import { AppConstants } from '../../app.constants';
 import * as fromRoot from '../../store';
 import { Logout, reducers } from '../../store';
 import { HeaderComponent } from '../header/header.component';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { AppComponent } from './app.component';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
@@ -101,7 +102,7 @@ describe('AppComponent', () => {
         HeaderComponent
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [RouterTestingModule,
+      imports: [RpxTranslationTestingModule, RouterTestingModule,
         StoreModule.forRoot({
           ...reducers,
           userProfile: combineReducers(fromAuth.reducer)

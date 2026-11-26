@@ -11,6 +11,7 @@ import { throwError } from 'rxjs';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { RegistrationData } from '../../models/registration-data.model';
 import { RegisterOrgService } from '../../services';
+import { RpxTranslationTestingModule } from '../../../testing/rpx-translation-testing.module';
 import { CheckYourAnswersComponent } from './check-your-answers.component';
 import { EnvironmentService } from '../../../shared/services/environment.service';
 import { ENVIRONMENT_CONFIG } from '../../../models';
@@ -60,7 +61,7 @@ describe('CheckYourAnswersComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [],
       // RegisterOrgModule declares CheckYourAnswersComponent and dependent components (e.g. RegulatorListComponent)
-      imports: [RouterTestingModule, ReactiveFormsModule, ExuiCommonLibModule, RegisterOrgModule],
+      imports: [RpxTranslationTestingModule, RouterTestingModule, ReactiveFormsModule, ExuiCommonLibModule, RegisterOrgModule],
       providers: [
         { provide: LoggerService, useValue: mockLoggerService },
         EnvironmentService,

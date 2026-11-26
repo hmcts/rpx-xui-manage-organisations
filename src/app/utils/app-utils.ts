@@ -107,6 +107,9 @@ export class AppUtils {
     if (url.indexOf('assigned-cases') !== -1) {
       return 'Manage organisation - Assigned cases - GOV.UK';
     }
+    if (url.indexOf('history') !== -1) {
+      return 'Manage organisation - Organisation history - GOV.UK';
+    }
     return 'Manage organisation - GOV.UK';
   }
 

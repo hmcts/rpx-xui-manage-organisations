@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserDetails } from '@hmcts/rpx-xui-common-lib';
 import { Subject } from 'rxjs';
@@ -7,6 +7,7 @@ import { PersonalDetails } from '../../models/personal-details.model';
 @Component({
   selector: 'app-user-personal-details',
   templateUrl: './user-personal-details.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class UserPersonalDetailsComponent implements OnInit, OnDestroy {
@@ -26,7 +27,7 @@ export class UserPersonalDetailsComponent implements OnInit, OnDestroy {
   public personalDetailForm: FormGroup<PersonalDetailsForm>;
   // edit mode is currently read only
   public inviteMode: boolean;
-  public errors: {firstName: string[], lastName: string[], email: string[]} = {
+  public errors: {firstName: string[]; lastName: string[]; email: string[]} = {
     firstName: [],
     lastName: [],
     email: []

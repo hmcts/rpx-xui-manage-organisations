@@ -8,12 +8,12 @@ describe('GovukTableComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ GovukTableComponent ],
+      declarations: [GovukTableComponent],
       imports: [
         RouterModule
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

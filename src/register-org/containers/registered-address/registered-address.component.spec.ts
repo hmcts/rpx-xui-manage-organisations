@@ -7,7 +7,7 @@ import { AddressMessageEnum } from '@hmcts/rpx-xui-common-lib';
 import { INTERNATIONAL_HEADING, POSTCODE_HEADING } from '../../constants/register-org-constants';
 import { RegisterOrgService } from '../../services';
 import { RegisteredAddressComponent } from './registered-address.component';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 
 describe('RegisteredAddressComponent', () => {
   let component: RegisteredAddressComponent;
@@ -40,7 +40,7 @@ describe('RegisteredAddressComponent', () => {
         {
           provide: Router, useValue: mockRouter
         },
-        { provide: ActivatedRoute, useValue: mockRoute }, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+        { provide: ActivatedRoute, useValue: mockRoute }, provideHttpClient(withXhr(), withInterceptorsFromDi()), provideHttpClientTesting()]
     })
       .compileComponents();
   });

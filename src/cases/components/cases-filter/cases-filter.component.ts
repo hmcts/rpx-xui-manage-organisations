@@ -1,4 +1,6 @@
-import { Component, EventEmitter, Inject, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges,
+  ChangeDetectionStrategy
+} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from '@hmcts/rpx-xui-common-lib';
 import { Observable, of, Subject } from 'rxjs';
@@ -14,6 +16,7 @@ import { ENVIRONMENT_CONFIG, EnvironmentConfig } from '../../../models/environme
   selector: 'app-cases-filter',
   templateUrl: './cases-filter.component.html',
   styleUrls: ['./cases-filter.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class CasesFilterComponent implements OnInit, OnChanges, OnDestroy {
@@ -90,7 +93,7 @@ export class CasesFilterComponent implements OnInit, OnChanges, OnDestroy {
         this.showAutocomplete = false;
         this.filteredAndGroupedUsers = null;
         return this.filterSelectedOrganisationUsers(searchTerm).pipe(
-          tap({ next: () => this.showAutocomplete = true }),
+          tap({ next: () => (this.showAutocomplete = true) }),
           catchError(() => {
             this.filteredAndGroupedUsers = null;
             return of(new Map<string, User[]>());
@@ -187,7 +190,8 @@ export class CasesFilterComponent implements OnInit, OnChanges, OnDestroy {
         const selectedUser = this.form.controls.assigneePerson.value;
         const [fullName, email] = selectedUser.split(' - ');
         filterValue = this.selectedOrganisationUsers?.find(
-          (user) => user.fullName === fullName && user.email === email)?.userIdentifier;
+          (user) => user.fullName === fullName && user.email === email
+        )?.userIdentifier;
       }
       const selectedFilter: SelectedCaseFilter = {
         filterType: this.selectedFilterType,
@@ -228,14 +232,22 @@ export class CasesFilterComponent implements OnInit, OnChanges, OnDestroy {
     if (this.form.controls.filterOption.value === CaaCasesFilterType.CasesAssignedToAUser) {
       this.form.controls.assigneePerson.updateValueAndValidity({ emitEvent: false, onlySelf: true });
       if (this.form.controls.assigneePerson.invalid) {
-        this.errorMessages.push({ title: '', description: CaaCasesFilterErrorMessage.InvalidAssigneeName, fieldId: 'assigneePerson' });
+        this.errorMessages.push({
+          title: '',
+          description: CaaCasesFilterErrorMessage.InvalidAssigneeName,
+          fieldId: 'assigneePerson'
+        });
         isValid = false;
       }
     }
     if (this.form.controls.filterOption.value === CaaCasesFilterType.CaseReferenceNumber) {
       this.form.controls.caseReferenceNumber.updateValueAndValidity({ emitEvent: false, onlySelf: true });
       if (this.form.controls.caseReferenceNumber.invalid) {
-        this.errorMessages.push({ title: '', description: CaaCasesFilterErrorMessage.InvalidCaseReference, fieldId: 'caseReferenceNumber' });
+        this.errorMessages.push({
+          title: '',
+          description: CaaCasesFilterErrorMessage.InvalidCaseReference,
+          fieldId: 'caseReferenceNumber'
+        });
         isValid = false;
       }
     }

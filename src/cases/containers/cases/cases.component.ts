@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CaaCasesService } from 'src/cases/services';
 
 import * as organisationStore from '../../../organisation/store';
@@ -23,6 +23,7 @@ import { ENVIRONMENT_CONFIG, EnvironmentConfig } from '../../../models/environme
   selector: 'app-cases',
   templateUrl: './cases.component.html',
   styleUrls: ['./cases.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class CasesComponent implements OnInit, OnDestroy {
@@ -129,8 +130,8 @@ export class CasesComponent implements OnInit, OnDestroy {
     ]).pipe(
       map(([isPageLoading, isGlobalLoaderShowing]) => isPageLoading && !isGlobalLoaderShowing),
       distinctUntilChanged(),
-      switchMap((showOverlay) => showOverlay ? timer(300).pipe(map(() => true)) : of(false))
-    );
+      switchMap((showOverlay) => (showOverlay ? timer(300).pipe(map(() => true)) : of(false))
+      ));
     sessionStorage.removeItem('newCases');
     this.caaCasesStore.pipe(
       select(caaCasesStore.getAllCases),
@@ -344,16 +345,18 @@ export class CasesComponent implements OnInit, OnDestroy {
   }
 
   private isFilterAlreadyLoaded(selectedFilter: SelectedCaseFilter, nextPageType: CaaCasesPageType): boolean {
-    return this.hasLoadedCaseTypesForCurrentFilter &&
+    return (
+      this.hasLoadedCaseTypesForCurrentFilter &&
       this.selectedFilterType === selectedFilter.filterType &&
       this.selectedFilterValue === selectedFilter.filterValue &&
-      this.caaCasesPageType === nextPageType;
+      this.caaCasesPageType === nextPageType);
   }
 
   private hasSelectedFilterChanged(selectedFilter: SelectedCaseFilter, nextPageType: CaaCasesPageType): boolean {
-    return this.selectedFilterType !== selectedFilter.filterType ||
+    return (
+      this.selectedFilterType !== selectedFilter.filterType ||
       this.selectedFilterValue !== selectedFilter.filterValue ||
-      this.caaCasesPageType !== nextPageType;
+      this.caaCasesPageType !== nextPageType);
   }
 
   private resetPagination(): void {

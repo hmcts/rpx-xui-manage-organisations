@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 
@@ -8,6 +8,7 @@ import { UserState } from '../../store/reducers';
 @Component({
   selector: 'app-edit-user-permissions-failure',
   templateUrl: './edit-user-permissions-failure.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class EditUserPermissionsFailureComponent implements OnInit {

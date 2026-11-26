@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -13,6 +13,7 @@ import { EnvironmentService } from '../../../shared/services/environment.service
 @Component({
   selector: 'app-check-your-answers',
   templateUrl: './check-your-answers.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class CheckYourAnswersComponent extends RegisterComponent implements OnInit {
@@ -22,7 +23,7 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
   public regulatorType = RegulatorType;
   public regulatoryType = RegulatoryType;
   public services: string[] = [];
-  public validationErrors: { id: string, message: string }[] = [];
+  public validationErrors: { id: string; message: string }[] = [];
   public readonly errorMessage = 'Please select checkbox to confirm you have read and understood the terms and conditions';
   public readonly apiErrorMessage = 'Sorry, there is a problem with the service. Try again later';
 
@@ -55,7 +56,11 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
 
   public onBack(): void {
     if (this.registrationData.hasIndividualRegisteredWithRegulator) {
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator-details', true]);
+      this.router.navigate([
+        this.registerOrgService.REGISTER_ORG_NEW_ROUTE,
+        'individual-registered-with-regulator-details',
+        true
+      ]);
     } else {
       this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator']);
     }
@@ -65,14 +70,9 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
     if (this.validateForm()) {
       this.registerOrgService.postRegistration().subscribe({
         next: (response) => {
-          this.loggerService.info(
-            `New Organisation Submitted: ${response?.organisationIdentifier}`
-          );
+          this.loggerService.info(`New Organisation Submitted: ${response?.organisationIdentifier}`);
 
-          this.router.navigate([
-            this.registerOrgService.REGISTER_ORG_NEW_ROUTE,
-            'registration-submitted'
-          ]);
+          this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registration-submitted']);
         },
         error: (errorResponse) => {
           const returnedError = {

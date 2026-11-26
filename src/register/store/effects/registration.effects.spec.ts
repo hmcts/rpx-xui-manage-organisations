@@ -8,7 +8,7 @@ import { RegistrationFormService } from '../../services/registration-form.servic
 import { LoadPageItemsSuccess } from '../actions';
 import { LoadPageItems, LoadPageItemsFail, SubmitFormData, SubmitFormDataFail, SubmitFormDataSuccess } from '../actions/registration.actions';
 import { RegistrationEffects } from './registration.effects';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 
 function createError(): Error {
   return new Error();
@@ -39,7 +39,7 @@ describe('Registration Effects', () => {
         },
         RegistrationEffects,
         provideMockActions(() => actions$),
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting()
       ]
     });

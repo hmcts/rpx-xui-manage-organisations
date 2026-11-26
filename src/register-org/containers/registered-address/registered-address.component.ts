@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AddressMessageEnum, AddressModel } from '@hmcts/rpx-xui-common-lib';
@@ -10,6 +10,7 @@ import { RegisterOrgService } from '../../services/register-org.service';
 @Component({
   selector: 'app-registered-address',
   templateUrl: './registered-address.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class RegisteredAddressComponent extends RegisterComponent implements OnInit, OnDestroy {
@@ -22,7 +23,7 @@ export class RegisteredAddressComponent extends RegisterComponent implements OnI
 
   public isInternational: boolean;
 
-  public addressErrors: { id: string, message: string }[] = [];
+  public addressErrors: { id: string; message: string }[] = [];
 
   public submissionAttempted = false;
 

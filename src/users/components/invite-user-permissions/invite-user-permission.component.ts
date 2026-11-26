@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { Observable } from 'rxjs';
@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-invite-permission-form',
   templateUrl: './invite-user-permission.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 

@@ -8,7 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 import { LovRefDataService } from '../../../shared/services/lov-ref-data.service';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('IndividualRegisteredWithRegulatorDetailsComponent', () => {
@@ -27,7 +27,7 @@ describe('IndividualRegisteredWithRegulatorDetailsComponent', () => {
       providers: [
         { provide: ActivatedRoute, useValue: mockRoute },
         { provide: LovRefDataService, useValue: mockLovRefDataService },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
         ...buildMockStoreProviders()
       ]

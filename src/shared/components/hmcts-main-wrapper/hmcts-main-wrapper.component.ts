@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { buildCompositeTrackKey } from '../../utils/track-by.util';
 
 /*
@@ -16,6 +16,7 @@ import { buildCompositeTrackKey } from '../../utils/track-by.util';
   selector: 'app-hmcts-main-wrapper',
   templateUrl: './hmcts-main-wrapper.component.html',
   styles: ['.govuk-back-link { cursor: pointer }'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class HmctsMainWrapperComponent {
@@ -25,10 +26,11 @@ export class HmctsMainWrapperComponent {
   @Input() public summaryErrors: {
     isFromValid: boolean;
     header?: string;
-    items: { id: string; message: any; }[]
+    items: { id: string; message: any}[]
+  ;
   };
 
-  @Input() public actionButtons: { name: string, class: string, action: () => void }[];
+  @Input() public actionButtons: { name: string; class: string; action: () => void }[];
   @Input() public showWarningMessage: boolean;
 
   public trackByActionButton(index: number, btn: { name: string; class: string }): string | number {

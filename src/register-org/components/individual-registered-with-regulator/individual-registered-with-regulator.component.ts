@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RegisterComponent } from '../../containers/register/register-org.component';
@@ -7,11 +7,12 @@ import { RegisterOrgService } from '../../services/register-org.service';
 @Component({
   selector: 'app-individual-registered-with-regulator',
   templateUrl: './individual-registered-with-regulator.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class IndividualRegisteredWithRegulatorComponent extends RegisterComponent implements OnInit, OnDestroy {
   public registeredWithRegulatorFormGroup: FormGroup;
-  public validationErrors: { id: string, message: string }[] = [];
+  public validationErrors: { id: string; message: string }[] = [];
 
   constructor(public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService

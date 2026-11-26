@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
 
 @Component({
   selector: 'app-extensions',
   templateUrl: './extensions.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class ExtensionsComponent {

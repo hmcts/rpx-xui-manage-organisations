@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -31,7 +31,7 @@ const ROUTES = [
     StoreModule.forFeature('acceptTc', reducers),
     EffectsModule.forFeature(effects),
     FormsModule,
-    ExuiCommonLibModule], providers: [...fromServices.services, provideHttpClient(withInterceptorsFromDi())] })
+    ExuiCommonLibModule], providers: [...fromServices.services, provideHttpClient(withXhr(), withInterceptorsFromDi())] })
 
 /**
  * Entry point to AcceptTandC

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { buildCompositeTrackKey } from 'src/shared/utils/track-by.util';
 import { select, Store } from '@ngrx/store';
 
@@ -8,6 +8,7 @@ import { GlobalError } from '../../../app/store/reducers/app.reducer';
 @Component({
   selector: 'app-service-down',
   templateUrl: './service-down.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class ServiceDownComponent implements OnInit, OnDestroy {
@@ -33,7 +34,7 @@ export class ServiceDownComponent implements OnInit, OnDestroy {
   }
 
   public showErrorLinkWithNewTab(newTab?: boolean): string {
-    return (newTab !== null && newTab === true) ? '_blank' : '_self';
+    return newTab !== null && newTab === true? '_blank' : '_self';
   }
 
   public trackByServiceDownError(index: number, error: { bodyText: string; urlText?: string }): string | number {

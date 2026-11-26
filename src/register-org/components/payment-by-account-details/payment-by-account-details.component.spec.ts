@@ -1,5 +1,5 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
@@ -29,7 +29,7 @@ describe('PaymentByAccountDetailsComponent', () => {
         EnvironmentService,
         { provide: ENVIRONMENT_CONFIG, useValue: mockEnvironmentConfig },
         { provide: Router, useValue: mockRouter },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
         ...buildMockStoreProviders()
       ]

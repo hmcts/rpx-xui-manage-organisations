@@ -1,6 +1,6 @@
-import {Component, Input} from '@angular/core';
-import {FormGroup} from '@angular/forms';
-import {HtmlTemplatesHelper} from '../../util/helpers/html-templates.helper';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { HtmlTemplatesHelper } from '../../util/helpers/html-templates.helper';
 /*
 * CheckBox component - state less
 * Responsible for displaying a list of gov-uk-checkboxes
@@ -9,30 +9,38 @@ import {HtmlTemplatesHelper} from '../../util/helpers/html-templates.helper';
 * @param: errors - array of errorMessage
 * */
 @Component({
-    selector: 'lib-gov-uk-textarea',
-    template: `
-    <div [formGroup]="group" 
-      class="govuk-form-group" [ngClass]="{'govuk-form-group--error': errorMessage?.isInvalid}">
+  selector: 'lib-gov-uk-textarea',
+  template: `
+    <div
+      [formGroup]="group"
+      class="govuk-form-group"
+      [ngClass]="{ 'govuk-form-group--error': $safeNavigationMigration(errorMessage?.isInvalid) }"
+    >
       <lib-gov-label [config]="config"></lib-gov-label>
       <span id="more-detail-hint" class="govuk-hint">
-        {{config.hint}}
+        {{ config.hint }}
       </span>
       <lib-gov-uk-error-message [config]="config" [errorMessage]="errorMessage"></lib-gov-uk-error-message>
       <textarea
-        class="govuk-textarea" [formControlName]="config.key"
-        [ngClass]="{'govuk-textarea--error': errorMessage?.isInvalid}"
-        [id]="config.id" name="more-detail" [rows]="config.rows" [attr.aria-describedby]="setDescribedBy()"></textarea>
+        class="govuk-textarea"
+        [formControlName]="config.key"
+        [ngClass]="{ 'govuk-textarea--error': $safeNavigationMigration(errorMessage?.isInvalid) }"
+        [id]="config.id"
+        name="more-detail"
+        [rows]="config.rows"
+        [attr.aria-describedby]="setDescribedBy()"
+      ></textarea>
     </div>
   `,
-    standalone: false
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class GovUkTextareaComponent {
-  @Input() config: {label: string; classes: string; hint: string; key: string; rows: number, id: string};
+  @Input() config: {label: string; classes: string; hint: string; key: string; rows: number; id: string};
   @Input() errorMessage: any;
   @Input() group: FormGroup;
 
   setDescribedBy(): string {
     return HtmlTemplatesHelper.setDescribedBy(this.errorMessage, this.config);
   }
-
 }

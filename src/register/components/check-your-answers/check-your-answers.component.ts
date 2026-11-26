@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
 import { select, Store } from '@ngrx/store';
 
@@ -13,6 +13,7 @@ import * as fromStore from '../../store';
 @Component({
   selector: 'app-check-your-answers',
   templateUrl: './check-your-answers.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class CheckYourAnswersComponent implements OnInit, OnDestroy, AfterViewInit {

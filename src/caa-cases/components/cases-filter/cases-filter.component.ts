@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from '@hmcts/rpx-xui-common-lib';
 import { Observable, catchError, debounceTime, of, switchMap, tap } from 'rxjs';
@@ -12,6 +12,7 @@ import { ErrorMessage } from 'src/shared/models/error-message.model';
   selector: 'app-cases-filter',
   templateUrl: './cases-filter.component.html',
   styleUrls: ['./cases-filter.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class CasesFilterComponent implements OnInit, OnChanges{
@@ -74,12 +75,13 @@ export class CasesFilterComponent implements OnInit, OnChanges{
       } }),
       debounceTime(300),
       switchMap((searchTerm: any) => this.filterSelectedOrganisationUsers(searchTerm).pipe(
-        tap({ next: () => this.showAutocomplete = true }),
-        catchError(() => this.filteredAndGroupedUsers = null)
+        tap({ next: () => (this.showAutocomplete = true) }),
+        catchError(() => (this.filteredAndGroupedUsers = null)
+        ))
       ))
-    ).subscribe((filteredAndGroupedUsers: Map<string, User[]>) => {
-      this.filteredAndGroupedUsers = filteredAndGroupedUsers;
-    });
+      .subscribe((filteredAndGroupedUsers: Map<string, User[]>) => {
+        this.filteredAndGroupedUsers = filteredAndGroupedUsers;
+      });
   }
 
   public populateFormFromSessionState(): void {
@@ -157,7 +159,8 @@ export class CasesFilterComponent implements OnInit, OnChanges{
         const fullName = selectedUser.split(' - ')[0];
         const email = selectedUser.split(' - ')[1];
         filterValue = this.selectedOrganisationUsers?.find(
-          (user) => user.fullName === fullName && user.email === email).userIdentifier;
+          (user) => user.fullName === fullName && user.email === email
+        ).userIdentifier;
       }
       const selectedFilter: SelectedCaseFilter = {
         filterType: this.selectedFilterType,
@@ -190,14 +193,22 @@ export class CasesFilterComponent implements OnInit, OnChanges{
     if (this.form.controls.filterOption.value === CaaCasesFilterType.AssigneeName) {
       this.form.controls.assigneePerson.updateValueAndValidity({ emitEvent: false, onlySelf: true }); // ensure validation is run even if the field is empty
       if (this.form.controls.assigneePerson.invalid) {
-        this.errorMessages.push({ title: '', description: CaaCasesFilterErrorMessage.InvalidAssigneeName, fieldId: 'assigneePerson' });
+        this.errorMessages.push({
+          title: '',
+          description: CaaCasesFilterErrorMessage.InvalidAssigneeName,
+          fieldId: 'assigneePerson'
+        });
         isValid = false;
       }
     }
     if (this.form.controls.filterOption.value === CaaCasesFilterType.CaseReferenceNumber) {
       this.form.controls.caseReferenceNumber.updateValueAndValidity({ emitEvent: false, onlySelf: true }); // ensure validation is run even if the field is empty
       if (this.form.controls.caseReferenceNumber.invalid) {
-        this.errorMessages.push({ title: '', description: CaaCasesFilterErrorMessage.InvalidCaseReference, fieldId: 'caseReferenceNumber' });
+        this.errorMessages.push({
+          title: '',
+          description: CaaCasesFilterErrorMessage.InvalidCaseReference,
+          fieldId: 'caseReferenceNumber'
+        });
         isValid = false;
       }
     }

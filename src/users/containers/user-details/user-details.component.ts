@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { User, UserAccessType } from '@hmcts/rpx-xui-common-lib';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
@@ -15,6 +15,7 @@ import { OrganisationAccessType } from '../../../models';
   selector: 'app-prd-user-details-component',
   templateUrl: './user-details.component.html',
   styleUrls: ['./user-details.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class UserDetailsComponent implements OnInit, OnDestroy {
@@ -29,7 +30,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   public userSubscription: Subscription;
   public suspendUserServerErrorSubscription: Subscription;
 
-  public actionButtons: { name: string, class: string, action: () => void }[] = [];
+  public actionButtons: { name: string; class: string; action: () => void }[] = [];
 
   public suspendViewFlag: boolean = false;
 
@@ -100,8 +101,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
           for (const accessType of jurisdiction.accessTypes) {
             if (this.shouldIncludeAccessType(accessType, enabledUserAccessTypes)) {
               this.userAccessTypes.push(
-                `${jurisdiction.jurisdictionName} - ${accessType.description}`
-              );
+                `${jurisdiction.jurisdictionName} - ${accessType.description}`);
             }
           }
         }
@@ -136,15 +136,12 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   }
 
   public getDependencyObservables(routerStore: Store<fromStore.UserState>, userStore: Store<fromRoot.State>) {
-    return combineLatest([
-      routerStore.pipe(select(fromRoot.getRouterState)),
-      userStore.pipe(select(fromStore.getGetUserLoaded))
-    ]);
+    return combineLatest([routerStore.pipe(select(fromRoot.getRouterState)), userStore.pipe(select(fromStore.getGetUserLoaded))]);
   }
 
   public setSuspendViewFunctions(): void {
-    this.hideSuspendView = () => this.suspendViewFlag = false;
-    this.showSuspendView = () => this.suspendViewFlag = true;
+    this.hideSuspendView = () => (this.suspendViewFlag = false);
+    this.showSuspendView = () => (this.suspendViewFlag = true);
   }
 
   public handleUserSubscription(user, isFeatureEnabled$: Observable<boolean>): void {
@@ -191,10 +188,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     this.userStore.dispatch(new fromStore.ReinvitePendingUser(user));
   }
 
-  private shouldIncludeAccessType(
-    accessType: OrganisationAccessType,
-    enabledUserAccessTypes: UserAccessType[]
-  ): boolean {
+  private shouldIncludeAccessType(accessType: OrganisationAccessType, enabledUserAccessTypes: UserAccessType[]): boolean {
     return (
       accessType.accessMandatory ||
       (accessType.display &&

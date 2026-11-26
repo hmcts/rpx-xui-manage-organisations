@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject, combineLatest, map, takeUntil } from 'rxjs';
@@ -22,6 +22,7 @@ import { editUserFailureSelector } from '../../store';
 @Component({
   selector: 'app-manage-user',
   templateUrl: './manage-user.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class ManageUserComponent implements OnInit, OnDestroy {
@@ -31,9 +32,9 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   public backUrl: string;
   public userId: string;
   public organisationAccessTypes$: Observable<Jurisdiction[]>;
-  public summaryErrorsSubject = new Subject<{ isFromValid: boolean; items: { id: string; message: any; }[]; header: string }>();
+  public summaryErrorsSubject = new Subject<{ isFromValid: boolean; items: { id: string; message: any}[]; header: string }>();
   public summaryErrors$ = this.summaryErrorsSubject.asObservable();
-  public errorsArray$: Observable<{ isFromValid: boolean; items: { id: string; message: any; } []}>;
+  public errorsArray$: Observable<{ isFromValid: boolean; items: { id: string; message: any} []}>;
   public permissionErrors: { isInvalid: boolean; messages: string[] };
   public user: User;
   public showWarningMessage: boolean = false;
@@ -41,7 +42,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   public hasOrganisationAccessPermission: boolean = false;
   public combinedErrors$: Observable<{
     isFromValid: boolean;
-    items: { id: string; message: any; }[];
+    items: { id: string; message: any}[];
     header: string;
   }>;
 
@@ -118,10 +119,11 @@ export class ManageUserComponent implements OnInit, OnDestroy {
             message: 'There was a problem refreshing the user. Please wait for the batch process for changes to be made.'
           }
         ],
-        header: 'There was a problem' });
+        header: 'There was a problem'
+      });
     });
 
-    if (!this.userId){
+    if (!this.userId) {
       this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_400), takeUntil(this.onDestroy$)).subscribe(() => {
         this.handleError(this.userStore, 400);
       });
@@ -151,21 +153,24 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
-  onPersonalDetailsChange($event: PersonalDetails){
+  onPersonalDetailsChange($event: PersonalDetails) {
     this.updatedUser = { ...this.updatedUser, firstName: $event.firstName, lastName: $event.lastName, email: $event.email };
   }
 
   onSelectedCaseManagamentPermissionsChange($event: CaseManagementPermissions) {
     this.hasOrganisationAccessPermission = $event.manageCases;
-    if (this.standardPermission && (this.hasOrganisationAccessPermission || this.standardPermission.errors.basicPermissions.length > 0)) {
+    if (
+      this.standardPermission &&
+      (this.hasOrganisationAccessPermission || this.standardPermission.errors.basicPermissions.length > 0)
+    ) {
       this.standardPermission.hasOrganisationAccessPermission = this.hasOrganisationAccessPermission;
       this.standardPermission.updateCurrentErrors();
     }
     // when manageCases is true, add add the pui-case-manager roles field to the user else remove it from the roles field
     const caseAdminRole = 'pui-case-manager';
     let updatedRoles: string[];
-    if ($event.manageCases){
-      updatedRoles = [...this.updatedUser?.roles ?? [], caseAdminRole];
+    if ($event.manageCases) {
+      updatedRoles = [...(this.updatedUser?.roles ?? []), caseAdminRole];
     } else {
       updatedRoles = this.updatedUser?.roles?.filter((role: string) => role !== caseAdminRole) ?? [];
     }
@@ -175,8 +180,9 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   }
 
   onStandardUserPermissionsChange($event: BasicAccessTypes) {
-    let roles: string[] = (this.updatedUser?.roles ?? this.user?.roles ?? [])
-      .filter((role) => !this.standardPermissionRoleNames.includes(role));
+    let roles: string[] = (this.updatedUser?.roles ?? this.user?.roles ?? []).filter(
+      (role) => !this.standardPermissionRoleNames.includes(role)
+    );
     roles = this.updateStandardPermission(roles, 'pui-user-manager', $event.isPuiUserManager);
     roles = this.updateStandardPermission(roles, 'pui-finance-manager', $event.isPuiFinanceManager);
     roles = this.updateStandardPermission(roles, 'pui-organisation-manager', $event.isPuiOrganisationManager);
@@ -207,7 +213,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
       items: errorItems,
       header: 'There is a problem'
     });
-    if (errorItems.length > 0){
+    if (errorItems.length > 0) {
       return;
     }
     if (this.userId && !this.resendInvite) {
@@ -223,15 +229,15 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     this.standardPermission.permissionsForm.markAllAsTouched();
     this.standardPermission.updateCurrentErrors();
 
-    const errorItems: {id: string; message: string[];}[] = [];
-    if (!this.userId){
+    const errorItems: { id: string; message: string[] }[] = [];
+    if (!this.userId) {
       Object.keys(this.userPersonalDetails.errors).forEach((key) => {
         if (this.userPersonalDetails.errors[key].length > 0) {
           errorItems.push({ id: key, message: this.userPersonalDetails.errors[key] });
         }
       });
     }
-    if (!this.hasOrganisationAccessPermission && this.standardPermission.errors.basicPermissions.length > 0){
+    if (!this.hasOrganisationAccessPermission && this.standardPermission.errors.basicPermissions.length > 0) {
       errorItems.push({ id: 'isCaseAccessAdmin', message: this.standardPermission.errors.basicPermissions });
     }
 
@@ -239,7 +245,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   }
 
   public inviteUser(): void {
-    const value:any = {
+    const value: any = {
       ...this.updatedUser,
       resendInvite: this.resendInvite
     };
@@ -260,13 +266,37 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     const permissions = this.updatedUser.roles;
     const rolesAdded = [...new Set(UserRolesUtil.getRolesAdded(this.user, permissions))];
     const rolesDeleted = [...new Set(UserRolesUtil.getRolesDeleted(this.user, permissions))];
-    const editUserRolesObj = UserRolesUtil.mapEditUserRoles(this.user, this.userId, rolesAdded, rolesDeleted, this.updatedUser.userAccessTypes);
-    const hasChanges = (rolesAdded.length > 0 || rolesDeleted.length > 0 || !UserRolesUtil.accessTypesMatch(this.user.userAccessTypes, this.updatedUser.userAccessTypes));
+    const editUserRolesObj = UserRolesUtil.mapEditUserRoles(
+      this.user,
+      this.userId,
+      rolesAdded,
+      rolesDeleted,
+      this.updatedUser.userAccessTypes
+    );
+    const hasChanges =
+      rolesAdded.length > 0 ||
+      rolesDeleted.length > 0 ||
+      !UserRolesUtil.accessTypesMatch(this.user.userAccessTypes, this.updatedUser.userAccessTypes);
     if (hasChanges) {
       this.userStore.dispatch(new fromStore.EditUser(editUserRolesObj, this.organisationProfileIds));
     } else {
-      this.summaryErrorsSubject.next({ isFromValid: false, items: [{ id: 'roles', message: 'You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same' }], header: 'There is a problem' });
-      this.permissionErrors = { isInvalid: true, messages: ['You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'] };
+      this.summaryErrorsSubject.next({
+        isFromValid: false,
+        items: [
+          {
+            id: 'roles',
+            message:
+              'You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'
+          }
+        ],
+        header: 'There is a problem'
+      });
+      this.permissionErrors = {
+        isInvalid: true,
+        messages: [
+          'You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'
+        ]
+      };
     }
   }
 
@@ -294,43 +324,54 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   private getErrorMessages(error: number) {
     switch (error) {
       case 400:
-        return [{
-          bodyText: 'to check the status of the user',
-          urlText: 'Refresh and go back',
-          url: '/users'
-        }];
+        return [
+          {
+            bodyText: 'to check the status of the user',
+            urlText: 'Refresh and go back',
+            url: '/users'
+          }
+        ];
       case 404:
-        return [{
-          bodyText: 'to reactivate this account',
-          urlText: 'Get help',
-          url: '/get-help',
-          newTab: true
-        }, {
-          bodyText: null,
-          urlText: 'Go back to manage users',
-          url: '/users'
-        }];
+        return [
+          {
+            bodyText: 'to reactivate this account',
+            urlText: 'Get help',
+            url: '/get-help',
+            newTab: true
+          },
+          {
+            bodyText: null,
+            urlText: 'Go back to manage users',
+            url: '/users'
+          }
+        ];
       case 422:
-        return [{
-          bodyText: 'User has been created but roles have not been refreshed.',
-          urlText: null,
-          url: null
-        }, {
-          bodyText: '',
-          urlText: 'Go back to manage users',
-          url: '/users'
-        }];
+        return [
+          {
+            bodyText: 'User has been created but roles have not been refreshed.',
+            urlText: null,
+            url: null
+          },
+          {
+            bodyText: '',
+            urlText: 'Go back to manage users',
+            url: '/users'
+          }
+        ];
       case 500:
       default:
-        return [{
-          bodyText: 'Try again later.',
-          urlText: null,
-          url: null
-        }, {
-          bodyText: null,
-          urlText: 'Go back to manage users',
-          url: '/users'
-        }];
+        return [
+          {
+            bodyText: 'Try again later.',
+            urlText: null,
+            url: null
+          },
+          {
+            bodyText: null,
+            urlText: 'Go back to manage users',
+            url: '/users'
+          }
+        ];
     }
   }
 

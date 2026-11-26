@@ -5,7 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { RegistrationData } from '../../models/registration-data.model';
 import { RegisterOrgService } from '../../services';
 import { RegisterComponent } from './register-org.component';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -49,7 +49,7 @@ describe('RegisterComponent', () => {
       providers: [
         { provide: Router, useValue: mockRouter },
         { provide: RegisterOrgService, useValue: mockRegisterOrgService },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting()
       ]
     })

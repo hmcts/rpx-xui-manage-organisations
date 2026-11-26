@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { Pagination, User } from '@hmcts/rpx-xui-common-lib';
 
 export interface FilterValues {
@@ -10,6 +10,7 @@ export interface FilterValues {
 @Component({
   selector: 'app-prd-users-table',
   templateUrl: './user-table.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 
@@ -38,9 +39,9 @@ export class UserTableComponent implements OnChanges, OnInit {
 
     applyFilter() {
       this.filteredItems = this.users.filter((user) => {
-        return (!this.filterValues.name || user.fullName.includes(this.filterValues.name)) &&
+        return ((!this.filterValues.name || user.fullName.includes(this.filterValues.name)) &&
                 (!this.filterValues.email || user.email.includes(this.filterValues.email)) &&
-                (!this.filterValues.status || user.status.toLowerCase() === this.filterValues.status.toLowerCase());
+                (!this.filterValues.status || user.status.toLowerCase() === this.filterValues.status.toLowerCase()));
       });
       this.currentPage = 0;
       this.updatePagination();

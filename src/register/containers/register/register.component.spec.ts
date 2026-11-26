@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 import { buildMockStoreProviders } from '../../../register-org/testing/mock-store-state';
 import { of } from 'rxjs';
 import { RegisterComponent } from './register.component';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { ENVIRONMENT_CONFIG } from '../../../models/environmentConfig.model';
 import { mockEnvironmentConfig } from '../../../shared/services/environment.service.spec';
 
@@ -27,7 +27,7 @@ describe('RegisterComponent', () => {
       providers: [
         ...buildMockStoreProviders(),
         { provide: ENVIRONMENT_CONFIG, useValue: mockEnvironmentConfig },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting()
       ]
     })

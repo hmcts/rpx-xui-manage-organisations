@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
@@ -13,6 +13,7 @@ import { UserRolesUtil } from '../utils/user-roles-util';
 @Component({
   selector: 'app-edit-user-permission',
   templateUrl: './edit-user-permission.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class EditUserPermissionComponent implements OnInit, OnDestroy {
@@ -38,7 +39,7 @@ export class EditUserPermissionComponent implements OnInit, OnDestroy {
   public editPermissionServerErrorSubscription: Subscription;
   public backUrl: string;
 
-  public summaryErrors: { isFromValid: boolean; items: { id: string; message: any; }[]; header: string };
+  public summaryErrors: { isFromValid: boolean; items: { id: string; message: any}[]; header: string };
   public permissionErrors: { isInvalid: boolean; messages: string[] };
 
   constructor(
@@ -84,9 +85,14 @@ export class EditUserPermissionComponent implements OnInit, OnDestroy {
       this.isPuiFinanceManager = this.getIsPuiFinanceManager(user);
       this.isCaseAccessAdmin = this.getIsCaseAccessAdmin(user);
 
-      this.editUserForm = this.getFormGroup(this.isPuiCaseManager,
-        this.isPuiUserManager, this.isPuiOrganisationManager, this.isPuiFinanceManager, this.isCaseAccessAdmin,
-        checkboxesBeCheckedValidator);
+      this.editUserForm = this.getFormGroup(
+        this.isPuiCaseManager,
+        this.isPuiUserManager,
+        this.isPuiOrganisationManager,
+        this.isPuiFinanceManager,
+        this.isCaseAccessAdmin,
+        checkboxesBeCheckedValidator
+      );
     });
   }
 
@@ -100,16 +106,27 @@ export class EditUserPermissionComponent implements OnInit, OnDestroy {
   }
 
   // TODO: Sort out parameter typing.
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public getFormGroup(isPuiCaseManager, isPuiUserManager, isPuiOrganisationManager, isPuiFinanceManager, isCaseAccessAdmin, validator: any): FormGroup {
+
+  public getFormGroup(
+    isPuiCaseManager,
+    isPuiUserManager,
+    isPuiOrganisationManager,
+    isPuiFinanceManager,
+    isCaseAccessAdmin,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    validator: any
+  ): FormGroup {
     return new FormGroup({
-      roles: new FormGroup({
-        'pui-case-manager': new FormControl(isPuiCaseManager),
-        'pui-user-manager': new FormControl(isPuiUserManager),
-        'pui-organisation-manager': new FormControl(isPuiOrganisationManager),
-        'pui-finance-manager': new FormControl(isPuiFinanceManager),
-        'pui-caa': new FormControl(isCaseAccessAdmin)
-      }, checkboxesBeCheckedValidator())
+      roles: new FormGroup(
+        {
+          'pui-case-manager': new FormControl(isPuiCaseManager),
+          'pui-user-manager': new FormControl(isPuiUserManager),
+          'pui-organisation-manager': new FormControl(isPuiOrganisationManager),
+          'pui-finance-manager': new FormControl(isPuiFinanceManager),
+          'pui-caa': new FormControl(isCaseAccessAdmin)
+        },
+        checkboxesBeCheckedValidator()
+      )
     });
   }
 
@@ -141,8 +158,11 @@ export class EditUserPermissionComponent implements OnInit, OnDestroy {
 
   public onSubmit(): void {
     if (!this.editUserForm.valid) {
-      this.summaryErrors = { isFromValid: false, items: [{ id: 'roles',
-        message: this.errorMessages.roles[0] }], header: this.errorMessages.header };
+      this.summaryErrors = {
+        isFromValid: false,
+        items: [{ id: 'roles', message: this.errorMessages.roles[0] }],
+        header: this.errorMessages.header
+      };
       this.permissionErrors = { isInvalid: true, messages: [this.errorMessages.roles[0]] };
       return;
     }
@@ -156,10 +176,28 @@ export class EditUserPermissionComponent implements OnInit, OnDestroy {
     if (rolesAdded.length > 0 || rolesDeleted.length > 0) {
       this.userStore.dispatch(new fromStore.EditUser(editUserRolesObj));
     } else {
-      this.summaryErrors = { isFromValid: false, items: [{ id: 'roles', message: 'You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same' }],
-        header: this.errorMessages.header };
-      this.permissionErrors = { isInvalid: true, messages: ['You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'] };
-      return this.userStore.dispatch(new fromStore.EditUserFailure('You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'));
+      this.summaryErrors = {
+        isFromValid: false,
+        items: [
+          {
+            id: 'roles',
+            message:
+              'You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'
+          }
+        ],
+        header: this.errorMessages.header
+      };
+      this.permissionErrors = {
+        isInvalid: true,
+        messages: [
+          'You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'
+        ]
+      };
+      return this.userStore.dispatch(
+        new fromStore.EditUserFailure(
+          'You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'
+        )
+      );
     }
   }
 }

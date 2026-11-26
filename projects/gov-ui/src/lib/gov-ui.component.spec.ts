@@ -8,9 +8,9 @@ describe('GovUiComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GovUiComponent ]
+      declarations: [GovUiComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

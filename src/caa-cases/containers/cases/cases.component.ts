@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CaaCasesService } from 'src/caa-cases/services';
 
 import * as organisationStore from '../../../organisation/store';
@@ -20,6 +20,7 @@ import * as converters from '../../converters/case-converter';
   selector: 'app-cases',
   templateUrl: './cases.component.html',
   styleUrls: ['./cases.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class CasesComponent implements OnInit {

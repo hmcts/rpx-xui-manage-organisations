@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -39,7 +39,7 @@ import { FeatureToggleOdgInviteUserFlowGuard } from './guards/feature-toggle-ogd
     NgxPaginationModule,
     RpxTranslationModule.forChild()
   ],
-  providers: [...fromServices.services, InviteUserSuccessGuard, FeatureToggleOdgInviteUserFlowGuard, provideHttpClient(withInterceptorsFromDi())]
+  providers: [...fromServices.services, InviteUserSuccessGuard, FeatureToggleOdgInviteUserFlowGuard, provideHttpClient(withXhr(), withInterceptorsFromDi())]
 })
 
 /**

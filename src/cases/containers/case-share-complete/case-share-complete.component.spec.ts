@@ -59,6 +59,17 @@ describe('CaseShareCompleteComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should show both access messages after updating assigned cases', () => {
+    component.completeScreenMode = 'COMPLETE';
+    component.pageType = CaaCasesPageType.AssignedCases;
+
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('#what-happens-next-added')).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('#what-happens-next-removed')).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('#what-happens-next-shared')).toBeNull();
+  });
+
   it('should check if pending', () => {
     const sharedCases = [{
       caseId: '9417373995765133',

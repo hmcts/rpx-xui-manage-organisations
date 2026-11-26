@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { AddressService, ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { RpxTranslationConfig, RpxTranslationService } from 'rpx-xui-translation';
@@ -13,6 +13,6 @@ import * as fromServices from './services';
   declarations: [...fromContainers.containers, ...fromComponent.components], imports: [CommonModule,
     ExuiCommonLibModule,
     registerRouting,
-    SharedModule], providers: [AddressService, RpxTranslationService, RpxTranslationConfig, ...fromServices.services, provideHttpClient(withInterceptorsFromDi())] })
+    SharedModule], providers: [AddressService, RpxTranslationService, RpxTranslationConfig, ...fromServices.services, provideHttpClient(withXhr(), withInterceptorsFromDi())] })
 
 export class RegisterOrgModule {}

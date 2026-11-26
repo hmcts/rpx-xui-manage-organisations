@@ -1,5 +1,5 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -39,7 +39,7 @@ describe('DocumentExchangeReferenceComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [DocumentExchangeReferenceDetailsComponent],
       imports: [RouterTestingModule, ReactiveFormsModule, ExuiCommonLibModule],
-      providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting(), ...buildMockStoreProviders()]
+      providers: [provideHttpClient(withXhr(), withInterceptorsFromDi()), provideHttpClientTesting(), ...buildMockStoreProviders()]
     })
       .compileComponents();
   });

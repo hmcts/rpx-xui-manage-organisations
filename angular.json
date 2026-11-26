@@ -147,8 +147,7 @@
     "rpx-xui-manage-organisations-e2e": {
       "root": "e2e/",
       "projectType": "application",
-      "architect": {
-      }
+      "architect": {}
     },
     "gov-ui": {
       "root": "projects/gov-ui",
@@ -157,7 +156,7 @@
       "prefix": "lib",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "projects/gov-ui/tsconfig.lib.json",
             "project": "projects/gov-ui/ng-package.json"

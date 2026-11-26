@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { ValidationService } from '../../services/form-builder-validation.service';
@@ -14,6 +14,7 @@ import { buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
 @Component({
   selector: 'app-form-builder',
   templateUrl: './form-builder.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 

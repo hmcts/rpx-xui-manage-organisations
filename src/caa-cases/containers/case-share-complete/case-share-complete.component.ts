@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FeatureToggleService, SharedCase } from '@hmcts/rpx-xui-common-lib';
 import { select, Store } from '@ngrx/store';
@@ -12,6 +12,7 @@ import * as fromCaseList from '../../store/reducers';
   selector: 'app-exui-case-share-complete',
   templateUrl: './case-share-complete.component.html',
   styleUrls: ['case-share-complete.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class CaseShareCompleteComponent implements OnInit, OnDestroy {
@@ -37,12 +38,12 @@ export class CaseShareCompleteComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.shareCaseState$ = this.store.pipe(select(fromCasesFeature.getCaseShareState));
-    this.shareCaseState$.subscribe((state) => this.isLoading = state.loading);
+    this.shareCaseState$.subscribe((state) => (this.isLoading = state.loading));
 
     this.shareCases$ = this.pageType === CaaCasesPageType.UnassignedCases
       ? this.store.pipe(select(fromCasesFeature.getShareUnassignedCaseListState))
       : this.store.pipe(select(fromCasesFeature.getShareAssignedCaseListState));
-    this.shareCases$.subscribe((shareCases) => this.shareCases = shareCases);
+    this.shareCases$.subscribe((shareCases) => (this.shareCases = shareCases));
 
     if (this.pageType === CaaCasesPageType.UnassignedCases) {
       this.store.dispatch(new fromCasesFeature.AssignUsersToUnassignedCase(this.shareCases));
@@ -97,6 +98,6 @@ export class CaseShareCompleteComponent implements OnInit, OnDestroy {
 
   public trackByPendingUser(index: number, user: any): string | number {
     return buildCompositeTrackKey(index, user?.idamId, user?.userIdentifier, user?.email, user?.fullName,
-      (user ? ((user.firstName || '') + ' ' + (user.lastName || '')).trim() : ''));
+      user ? ((user.firstName || '') + ' ' + (user.lastName || '')).trim() : '');
   }
 }

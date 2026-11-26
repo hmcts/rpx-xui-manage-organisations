@@ -10,7 +10,7 @@ import {
   LoadSingleFeeAccountTransactions, LoadSingleFeeAccountTransactionsFail, LoadSingleFeeAccountTransactionsSuccess
 } from '../actions';
 import * as fromSingleFeeAccountEffects from './single-fee-account.effects';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 
 describe('Single fee account Effects', () => {
   let actions$;
@@ -37,7 +37,7 @@ describe('Single fee account Effects', () => {
         },
         fromSingleFeeAccountEffects.SingleFeeAccountEffects,
         provideMockActions(() => actions$),
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting()
       ]
     });

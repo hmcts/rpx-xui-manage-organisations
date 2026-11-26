@@ -1,7 +1,6 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "esModuleInterop": true,
@@ -10,37 +9,45 @@
     "moduleResolution": "bundler",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es2015",
+    "target": "es2022",
     "importHelpers": true,
     "skipLibCheck": true,
     "typeRoots": [
       "node_modules/@types"
     ],
     "lib": [
-      "es2018",
+      "es2022",
       "dom"
     ],
     "paths": {
       "hmcts-form-builder": [
-        "dist/hmcts-form-builder"
+        "./dist/hmcts-form-builder"
       ],
       "hmcts-form-builder/*": [
-        "dist/hmcts-form-builder/*"
+        "./dist/hmcts-form-builder/*"
       ],
       "gov-ui": [
-        "dist/gov-ui"
+        "./dist/gov-ui"
       ],
       "gov-ui/*": [
-        "dist/gov-ui/*"
+        "./dist/gov-ui/*"
+      ],
+      "src/*": [
+        "./src/*"
+      ],
+      "projects/*": [
+        "./projects/*"
       ]
     },
-    "useDefineForClassFields": false
+    "useDefineForClassFields": false,
+    "strict": false,
+    "rootDir": "."
   },
   "ts-node": {
     "transpileOnly": true,
     "compilerOptions": {
       "module": "commonjs",
-      "moduleResolution": "node"
+      "moduleResolution": "bundler"
     }
   }
 }

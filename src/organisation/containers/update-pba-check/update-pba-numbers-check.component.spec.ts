@@ -1,5 +1,5 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
@@ -10,10 +10,11 @@ import { PBAService } from '../../services/pba.service';
 import * as fromStore from '../../store';
 import { UpdatePbaNumbersCheckComponent } from './update-pba-numbers-check.component';
 import { AppConstants } from '../../../app/app.constants';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 
 @Component({
   template: '<div>Nothing to see here. Move along, please.</div>',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 class MockComponent {}
@@ -109,7 +110,7 @@ describe('UpdatePbaNumbersCheckComponent', () => {
         },
         PBAService,
         { provide: ActivatedRoute, useValue: activatedRoute },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting()
       ]
     }).compileComponents();

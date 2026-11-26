@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -13,6 +13,7 @@ import { RegisterOrgService } from '../../services';
 @Component({
   selector: 'app-organisation-type',
   templateUrl: './organisation-type.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class OrganisationTypeComponent extends RegisterComponent implements OnInit, OnDestroy {
@@ -21,9 +22,9 @@ export class OrganisationTypeComponent extends RegisterComponent implements OnIn
   public readonly CATEGORY_ORGANISATION_TYPE = 'OrgType';
 
   public organisationTypeFormGroup: FormGroup;
-  public organisationTypeErrors: { id: string, message: string }[] = [];
-  public otherOrgTypeErrors: { id: string, message: string };
-  public otherOrgDetailsErrors: { id: string, message: string };
+  public organisationTypeErrors: { id: string; message: string }[] = [];
+  public otherOrgTypeErrors: { id: string; message: string };
+  public otherOrgDetailsErrors: { id: string; message: string };
   public organisationTypes: LovRefDataModel[];
   public otherOrganisationTypes: LovRefDataModel[];
   public subscription: Subscription;

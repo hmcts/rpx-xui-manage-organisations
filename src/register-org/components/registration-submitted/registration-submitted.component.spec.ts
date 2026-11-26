@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RegistrationSubmittedComponent } from './registration-submitted.component';
 import { buildMockStoreProviders } from '../../testing/mock-store-state';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 
 describe('RegistrationSubmittedComponent', () => {
   let component: RegistrationSubmittedComponent;
@@ -12,7 +12,7 @@ describe('RegistrationSubmittedComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [RegistrationSubmittedComponent],
       imports: [],
-      providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting(), ...buildMockStoreProviders()]
+      providers: [provideHttpClient(withXhr(), withInterceptorsFromDi()), provideHttpClientTesting(), ...buildMockStoreProviders()]
     })
       .compileComponents();
   });

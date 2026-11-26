@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { User } from '@hmcts/rpx-xui-common-lib';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -13,6 +13,7 @@ import { AppConstants } from 'src/app/app.constants';
   selector: 'app-prd-users-component',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class UsersComponent implements OnInit, OnDestroy {

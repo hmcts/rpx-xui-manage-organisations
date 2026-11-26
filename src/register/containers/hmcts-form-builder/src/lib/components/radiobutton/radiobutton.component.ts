@@ -1,10 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
 
 @Component({
   selector: 'app-radiobutton',
   templateUrl: './radiobutton.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class RadiobuttonComponent {

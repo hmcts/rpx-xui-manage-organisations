@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RegisterComponent } from '../../containers/register/register-org.component';
@@ -8,11 +8,12 @@ import { RegisterOrgService } from '../../services/register-org.service';
 @Component({
   selector: 'app-contact-details',
   templateUrl: './contact-details.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class ContactDetailsComponent extends RegisterComponent implements OnInit, OnDestroy {
   public contactDetailsFormGroup: FormGroup;
-  public validationErrors: { id: string, message: string }[] = [];
+  public validationErrors: { id: string; message: string }[] = [];
   public firstNameError = null;
   public lastNameError = null;
   public workEmailAddressError = null;

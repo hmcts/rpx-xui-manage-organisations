@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { User } from '@hmcts/rpx-xui-common-lib';
@@ -7,6 +7,7 @@ import * as userStore from '../../store';
 @Component({
   selector: 'app-user-updated-success',
   templateUrl: './user-updated-success.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class UserUpdatedSuccessComponent implements OnInit, OnDestroy {

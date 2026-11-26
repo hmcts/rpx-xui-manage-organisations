@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -15,6 +15,7 @@ import * as fromUserProfile from '../../user-profile/store';
   selector: 'app-accept-terms-conditions-wrapper',
   templateUrl: './accept-tc-wrapper.component.html',
   styleUrls: ['./accept-tc-wrapper.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class AcceptTcWrapperComponent implements OnInit, OnDestroy {
@@ -27,7 +28,7 @@ export class AcceptTcWrapperComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    this.uidSubscription = this.store.pipe(select(fromUserProfile.getUid)).subscribe((uid) => this.uid = uid);
+    this.uidSubscription = this.store.pipe(select(fromUserProfile.getUid)).subscribe((uid) => (this.uid = uid));
     this.subscription = this.getObservable(this.actions$, fromStore.AuthActionTypes.ACCEPT_T_AND_C_SUCCESS).subscribe(() => {
       this.dispatchAction(this.store, new fromRoot.Go({ path: ['home'] }));
     });

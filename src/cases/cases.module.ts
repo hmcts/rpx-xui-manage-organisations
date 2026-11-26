@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withXhr } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -45,7 +45,8 @@ import { effects, reducers } from './store';
     InviteUserService,
     FeatureToggleAccountGuard,
     RoleGuard,
-    provideHttpClient()
+    provideHttpClient(withXhr()
+    )
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

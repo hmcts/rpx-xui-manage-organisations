@@ -1,41 +1,50 @@
-import {Component, Input} from '@angular/core';
-import {FormGroup} from '@angular/forms';
-import {HtmlTemplatesHelper} from '../../util/helpers/html-templates.helper';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { HtmlTemplatesHelper } from '../../util/helpers/html-templates.helper';
 /*
 * Gov Uk Select Dumb Component responsible for
 * dropdown input.
 * */
 @Component({
-    selector: 'lib-gov-select',
-    template: `
-    <div class="govuk-form-group" [formGroup]="group"
-      [ngClass]="{'govuk-form-group--error': errorMessage?.isInvalid}">
+  selector: 'lib-gov-select',
+  template: `
+    <div
+      class="govuk-form-group"
+      [formGroup]="group"
+      [ngClass]="{ 'govuk-form-group--error': $safeNavigationMigration(errorMessage?.isInvalid) }"
+    >
       <lib-gov-label [config]="config"></lib-gov-label>
       @if (config.hint) {
-        <span [id]="config.id +'-hint'" class="govuk-hint">
-          {{config.hint}}
+        <span [id]="config.id + '-hint'" class="govuk-hint">
+          {{ config.hint }}
         </span>
       }
       <lib-gov-uk-error-message [config]="config" [errorMessage]="errorMessage"></lib-gov-uk-error-message>
-    
-      <select class="govuk-select" [id]="config.id" [name]="config.id" [formControlName]="config.id" [attr.aria-describedby]='setDescribedBy()'>
+
+      <select
+        class="govuk-select"
+        [id]="config.id"
+        [name]="config.id"
+        [formControlName]="config.id"
+        [attr.aria-describedby]="setDescribedBy()"
+      >
         @for (item of items; track item) {
-          <option value="{{item.value}}">{{item.label}}</option>
+          <option value="{{ item.value }}">{{ item.label }}</option>
         }
       </select>
     </div>
-    `,
-    standalone: false
+  `,
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class GovUkSelectComponent {
   constructor () {}
   @Input() errorMessage;
   @Input() group: FormGroup;
-  @Input() config: {hint: string; name: string; id: string,  sPageHeading: boolean, classes: string };
-  @Input() items: {label: string, value: string; id: string}[];
+  @Input() config: {hint: string; name: string; id: string; sPageHeading: boolean; classes: string };
+  @Input() items: {label: string; value: string; id: string}[];
 
   setDescribedBy(): string {
     return HtmlTemplatesHelper.setDescribedBy(this.errorMessage, this.config);
   }
-
 }

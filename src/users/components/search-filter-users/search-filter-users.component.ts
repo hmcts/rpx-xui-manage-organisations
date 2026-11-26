@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subject, combineLatest, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
@@ -15,6 +15,7 @@ interface User {
   selector: 'app-search-filter-users',
   templateUrl: './search-filter-users.component.html',
   styleUrls: ['./search-filter-users.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class SearchFilterUserComponent implements OnInit, OnDestroy {
@@ -133,35 +134,38 @@ export class SearchFilterUserComponent implements OnInit, OnDestroy {
       return undefined;
     }
 
-    const name = [user.firstName, user.lastName]
-      .filter(Boolean)
-      .join(' ');
+    const name = [user.firstName, user.lastName].filter(Boolean).join(' ');
 
     return user.email ? `${name} (${user.email})` : name;
   }
 
   public filterJudicialUsers(searchTerm: string): Observable<Array<any>> {
-    return of(this.usersList.filter((item) => {
-      const searchStr = searchTerm.toLowerCase();
-      const fullName = `${item.firstName} ${item.lastName}`.toLowerCase();
-      const statusOption = this.statusFilterControl.value.toUpperCase();
+    return of(
+      this.usersList
+        .filter((item) => {
+          const searchStr = searchTerm.toLowerCase();
+          const fullName = `${item.firstName} ${item.lastName}`.toLowerCase();
+          const statusOption = this.statusFilterControl.value.toUpperCase();
 
-      const isSearchMatch = item.email.toLowerCase().includes(searchStr) ||
-        item.firstName.toLowerCase().includes(searchStr) ||
-        item.lastName.toLowerCase().includes(searchStr) ||
-        fullName.includes(searchStr);
+          const isSearchMatch =
+            item.email.toLowerCase().includes(searchStr) ||
+            item.firstName.toLowerCase().includes(searchStr) ||
+            item.lastName.toLowerCase().includes(searchStr) ||
+            fullName.includes(searchStr);
 
-      const isStatusMatch = statusOption === 'ALL' || item.idamStatus === statusOption;
+          const isStatusMatch = statusOption === 'ALL' || item.idamStatus === statusOption;
 
-      return isSearchMatch && isStatusMatch;
-    }).sort((a, b) => {
-      const fullNameA = `${a.firstName} ${a.lastName}`.toLowerCase();
-      const fullNameB = `${b.firstName} ${b.lastName}`.toLowerCase();
-      if (fullNameA === fullNameB) {
-        return a.email.toLowerCase().localeCompare(b.email.toLowerCase());
-      }
-      return fullNameA.localeCompare(fullNameB);
-    }));
+          return isSearchMatch && isStatusMatch;
+        })
+        .sort((a, b) => {
+          const fullNameA = `${a.firstName} ${a.lastName}`.toLowerCase();
+          const fullNameB = `${b.firstName} ${b.lastName}`.toLowerCase();
+          if (fullNameA === fullNameB) {
+            return a.email.toLowerCase().localeCompare(b.email.toLowerCase());
+          }
+          return fullNameA.localeCompare(fullNameB);
+        })
+    );
   }
 
   public onSelectionChange(event) {

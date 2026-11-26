@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FeatureToggleService, SharedCase, UserDetails } from '@hmcts/rpx-xui-common-lib';
 import { RouterReducerState } from '@ngrx/router-store';
 import { select, Store } from '@ngrx/store';
@@ -13,6 +13,7 @@ import * as fromCaseList from '../../store/reducers';
   selector: 'app-exui-case-share',
   templateUrl: './case-share.component.html',
   styleUrls: ['./case-share.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class CaseShareComponent implements OnInit, OnDestroy {
@@ -70,7 +71,7 @@ export class CaseShareComponent implements OnInit, OnDestroy {
       }
 
       this.shareCases$ = this.store.pipe(select(fromCasesFeature.getShareCaseListState));
-      this.shareCases$.pipe(takeUntil(this.destroy$)).subscribe((shareCases) => this.shareCases = shareCases);
+      this.shareCases$.pipe(takeUntil(this.destroy$)).subscribe((shareCases) => (this.shareCases = shareCases));
     });
 
     this.orgUsers$ = this.store.pipe(select(fromCasesFeature.getOrganisationUsersState));

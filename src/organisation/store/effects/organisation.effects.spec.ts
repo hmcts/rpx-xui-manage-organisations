@@ -11,7 +11,7 @@ import { OrganisationService } from '../../services';
 import { LoadOrganisation, LoadOrganisationFail, LoadOrganisationSuccess } from '../actions';
 import * as fromOrganisationEffects from './organisation.effects';
 import { AppConstants } from '../../../app/app.constants';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 
 describe('Organisation Effects', () => {
   let actions$;
@@ -47,7 +47,7 @@ describe('Organisation Effects', () => {
         },
         fromOrganisationEffects.OrganisationEffects,
         provideMockActions(() => actions$),
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting()
       ]
     });

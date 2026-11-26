@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -10,11 +10,12 @@ import { RegisterOrgService } from '../../services/register-org.service';
 @Component({
   selector: 'app-payment-by-account-details',
   templateUrl: './payment-by-account-details.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class PaymentByAccountDetailsComponent extends RegisterComponent implements OnInit, OnDestroy {
   public pbaDetailsFormGroup: FormGroup;
-  public validationErrors: { id: string, message: string }[] = [];
+  public validationErrors: { id: string; message: string }[] = [];
   public displayErrorBanner = false;
 
   constructor(public readonly router: Router,

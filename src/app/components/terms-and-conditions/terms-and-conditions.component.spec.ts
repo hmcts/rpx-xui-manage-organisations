@@ -11,7 +11,7 @@ import { TermsConditionsService } from '../../../shared/services/termsConditions
 import { ENVIRONMENT_CONFIG } from '../../../models/environmentConfig.model';
 import { mockEnvironmentConfig } from '../../../shared/services/environment.service.spec';
 import { TermsAndConditionsComponent } from './terms-and-conditions.component';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 
 const storeMock = {
   pipe: () => of(null),
@@ -65,7 +65,7 @@ describe('TermsAndConditionsComponent', () => {
           useValue: routerMock
         },
         { provide: ENVIRONMENT_CONFIG, useValue: mockEnvironmentConfig },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting()
       ]
     })

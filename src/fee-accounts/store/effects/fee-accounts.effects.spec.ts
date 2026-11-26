@@ -8,7 +8,7 @@ import { LoggerService } from '../../../shared/services/logger.service';
 import { LoadFeeAccountsSuccess } from '../actions';
 import { LoadFeeAccounts, LoadFeeAccountsFail } from '../actions/fee-accounts.actions';
 import { FeeAccountsEffects } from './fee-accounts.effects';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 
 describe('Fee accounts Effects', () => {
   let actions$;
@@ -35,7 +35,7 @@ describe('Fee accounts Effects', () => {
         },
         FeeAccountsEffects,
         provideMockActions(() => actions$),
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting()
       ]
     });

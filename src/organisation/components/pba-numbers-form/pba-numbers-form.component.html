@@ -16,7 +16,7 @@
                 <th class="govuk-table__header" scope="row">{{pba.pbaNumber}}</th>
                 <td class="govuk-table__cell">
                   <a class="govuk-link fright" id="remove-pba-account-number__link" [routerLink]=""
-                    aria-label="Remove PBA account number"
+                    [attr.aria-label]="'Remove PBA account number ' + pba.pbaNumber"
                   (click)="onRemoveExistingPaymentByAccountNumberClicked(pba)">Remove</a>
                 </td>
               </tr>
@@ -37,7 +37,7 @@
                   <th class="govuk-table__header" scope="row">{{pba.pbaNumber}}</th>
                   <td class="govuk-table__cell">
                     <a class="govuk-link fright" id="remove-pba-account-number__link" [routerLink]=""
-                      aria-label="Remove PBA account number"
+                      [attr.aria-label]="'Cancel removal of PBA account number ' + pba.pbaNumber"
                     (click)="onCancelRemoveExistingPaymentByAccountNumberClicked(pba)">Cancel</a>
                   </td>
                 </tr>
@@ -51,6 +51,9 @@
               <div>
                 <div [formGroupName]="i">
                   <button type="button" class="govuk-button hmcts-button--secondary fright"
+                    [attr.aria-label]="pbaNumberCtrl.get('pbaNumber')?.value
+                      ? 'Remove PBA account number ' + pbaNumberCtrl.get('pbaNumber')?.value
+                      : 'Remove PBA number ' + (i + 1)"
                     (click)="onRemoveNewPbaNumberClicked(i)">
                     Remove
                   </button>

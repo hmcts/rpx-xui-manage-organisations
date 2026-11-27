@@ -23,6 +23,7 @@ import {
 } from './configuration/references';
 import * as log4jui from './lib/log4jui';
 import * as tunnel from './lib/tunnel';
+import { applyCspNonce } from './lib/csp';
 import openRoutes from './openRoutes';
 import routes from './routes';
 import { idamCheck } from './idamCheck';
@@ -45,10 +46,6 @@ function loadIndexHtml(): string {
 }
 const indexHtmlRaw = loadIndexHtml();
 
-function injectNonce(html: string, nonce: string): string {
-  return html.replace(/{{cspNonce}}/g, nonce);
-}
-
 export const app = express();
 
 export const logger = log4jui.getLogger('server');
@@ -69,10 +66,24 @@ logger.info(environmentCheckText());
 if (showFeature(FEATURE_HELMET_ENABLED)) {
   logger.info('Helmet enabled');
   const helmetConfig = getConfigValue(HELMET);
+
   if (helmetConfig && typeof helmetConfig === 'object') {
-    app.use(helmet(helmetConfig)); // use the configured rules
+    const configuredCsp = helmetConfig.contentSecurityPolicy;
+    const reportOnlyCsp =
+      configuredCsp &&
+      typeof configuredCsp === 'object' &&
+      configuredCsp.reportOnly === true
+        ? configuredCsp
+        : false;
+
+    app.use(
+      helmet({
+        ...helmetConfig,
+        contentSecurityPolicy: reportOnlyCsp
+      })
+    );
   } else {
-    app.use(helmet()); // fall back to Helmet defaults
+    app.use(helmet({ contentSecurityPolicy: false }));
   }
   app.use(
     csp({
@@ -160,7 +171,7 @@ app.use('/api', routes);
 // Serve /index.html through the same nonce injector
 // This is to ensure that <MC URL>/index.html works with CSP
 app.get('/index.html', (req, res) => {
-  const html = injectNonce(indexHtmlRaw, res.locals.cspNonce as string);
+  const html = applyCspNonce(indexHtmlRaw, res.locals.cspNonce as string);
   res
     .type('html')
     .set('Cache-Control', 'no-store, max-age=0')
@@ -173,7 +184,7 @@ app.use(
 );
 // Catch-all handler for every URL that the static middleware didn’t serve
 app.use('/{*splat}', (req, res) => {
-  const html = injectNonce(indexHtmlRaw, res.locals.cspNonce as string);
+  const html = applyCspNonce(indexHtmlRaw, res.locals.cspNonce as string);
   res.type('html').set('Cache-Control', 'no-store, max-age=0').send(html);
 });
 

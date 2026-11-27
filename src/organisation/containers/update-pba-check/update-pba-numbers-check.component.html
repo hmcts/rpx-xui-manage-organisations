@@ -24,7 +24,7 @@
             @for (pba of organisationDetails.pendingAddPaymentAccount; track trackByPendingAddPba($index, pba)) {
               <div>{{pba.pbaNumber}}
                 @if (getError(pba)) {
-                  <div style="color:red">
+                  <div class="pba-error">
                     {{ getError(pba) }}
                   </div>
                 }
@@ -52,7 +52,7 @@
             @for (pba of organisationDetails.pendingRemovePaymentAccount; track trackByPendingRemovePba($index, pba)) {
               <div>{{pba.pbaNumber}}
                 @if (getError(pba)) {
-                  <div style="color:red">
+                  <div class="pba-error">
                     {{ getError(pba) }}
                   </div>
                 }

@@ -77,7 +77,7 @@
           @if (data.checkbox.groups && group.controls[data.checkbox.control].value) {
             <div
               class="govuk-checkboxes__conditional"
-              [ngStyle]="{ 'border-left': (validate && group.invalid) ? '5px solid #b10e1e' : '' }">
+              [class.govuk-checkboxes__conditional--invalid]="validate && group.invalid">
               @for (subgroup of data.checkbox.groups; track trackByCheckboxSubgroup($index, subgroup)) {
                 @if (subgroup.fieldset) {
                   <app-fieldset

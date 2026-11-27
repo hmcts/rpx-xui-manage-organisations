@@ -56,6 +56,7 @@
                           'govuk-input--error':
                             form.controls.assigneePerson.invalid
                         }" />
+                      <!-- TODO(CSP): CDK Overlay writes runtime positioning styles; replace it before removing style-src-attr 'unsafe-inline'. -->
                       <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="
                           onUserSelectionChange($event.option.value)
                         ">

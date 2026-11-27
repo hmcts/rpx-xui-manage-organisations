@@ -67,9 +67,14 @@ if (showFeature(FEATURE_HELMET_ENABLED)) {
   logger.info('Helmet enabled');
   const helmetConfig = getConfigValue(HELMET);
   if (helmetConfig && typeof helmetConfig === 'object') {
-    app.use(helmet(helmetConfig)); // use the configured rules
+    app.use(
+      helmet({
+        ...helmetConfig,
+        contentSecurityPolicy: false
+      })
+    );
   } else {
-    app.use(helmet()); // fall back to Helmet defaults
+    app.use(helmet({ contentSecurityPolicy: false }));
   }
   app.use(
     csp({

@@ -1,4 +1,5 @@
 @if (navItems && navItems.length > 0) {
+  <!-- TODO(CSP): Material tabs write runtime transform and sizing styles; replace them before removing style-src-attr 'unsafe-inline'. -->
   <mat-tab-group
     #tabGroup
     animationDuration="0ms"
@@ -47,6 +48,7 @@
         </button>
       </div>
         @if (cases.length > 0 && tableConfig) {
+          <!-- TODO(CSP): Verify or update the CCD toolkit's runtime field styling before enforcing a strict style-src-attr policy. -->
           <ccd-case-list
             [cases]="cases"
             [selectedCases]="selectedCases"

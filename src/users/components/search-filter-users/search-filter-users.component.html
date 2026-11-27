@@ -12,6 +12,7 @@
                   </div>
                   <input id="event-name" class="govuk-input" formControlName="nameFilter" [matAutocomplete]="autoComplete"
                         (blur)="onBlur($event)" aria-describedby="event-name-hint">
+                  <!-- TODO(CSP): CDK Overlay writes runtime positioning styles; replace it before removing style-src-attr 'unsafe-inline'. -->
                   <mat-autocomplete #autoComplete="matAutocomplete" [displayWith]="displayJudicialUser"
                         [hidden]="searchTerm.length < 3">
                         <div [ngClass]="{'hide-autocomplete': !showAutocomplete}">

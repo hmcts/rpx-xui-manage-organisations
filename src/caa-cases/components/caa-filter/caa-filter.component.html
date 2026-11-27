@@ -50,6 +50,7 @@
                         <input class="govuk-input" [formControlName]="assigneePersonFormControl" id="assignee-person"
                           [name]="assigneePersonFormControl" type="text" [matAutocomplete]="auto" placeholder="e.g. John Smith"
                           [ngClass]="{'govuk-input--error': assigneeNameErrorMessage.length > 0}">
+                        <!-- TODO(CSP): CDK Overlay writes runtime positioning styles; replace it before removing style-src-attr 'unsafe-inline'. -->
                         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onSelectionChange($event.option.value)">
                           @for (filteredAndGroupedUser of filteredAndGroupedUsers | keyvalue; track trackByFilteredUserGroup($index, filteredAndGroupedUser)) {
                             <mat-optgroup>

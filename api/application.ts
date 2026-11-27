@@ -66,11 +66,20 @@ logger.info(environmentCheckText());
 if (showFeature(FEATURE_HELMET_ENABLED)) {
   logger.info('Helmet enabled');
   const helmetConfig = getConfigValue(HELMET);
+
   if (helmetConfig && typeof helmetConfig === 'object') {
+    const configuredCsp = helmetConfig.contentSecurityPolicy;
+    const reportOnlyCsp =
+      configuredCsp &&
+      typeof configuredCsp === 'object' &&
+      configuredCsp.reportOnly === true
+        ? configuredCsp
+        : false;
+
     app.use(
       helmet({
         ...helmetConfig,
-        contentSecurityPolicy: false
+        contentSecurityPolicy: reportOnlyCsp
       })
     );
   } else {

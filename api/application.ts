@@ -23,6 +23,7 @@ import {
 } from './configuration/references';
 import * as log4jui from './lib/log4jui';
 import * as tunnel from './lib/tunnel';
+import { applyCspNonce } from './lib/csp';
 import openRoutes from './openRoutes';
 import routes from './routes';
 import { idamCheck } from './idamCheck';
@@ -44,10 +45,6 @@ function loadIndexHtml(): string {
   return readFileSync(p, 'utf8');
 }
 const indexHtmlRaw = loadIndexHtml();
-
-function injectNonce(html: string, nonce: string): string {
-  return html.replace(/{{cspNonce}}/g, nonce);
-}
 
 export const app = express();
 
@@ -160,7 +157,7 @@ app.use('/api', routes);
 // Serve /index.html through the same nonce injector
 // This is to ensure that <MC URL>/index.html works with CSP
 app.get('/index.html', (req, res) => {
-  const html = injectNonce(indexHtmlRaw, res.locals.cspNonce as string);
+  const html = applyCspNonce(indexHtmlRaw, res.locals.cspNonce as string);
   res
     .type('html')
     .set('Cache-Control', 'no-store, max-age=0')
@@ -173,7 +170,7 @@ app.use(
 );
 // Catch-all handler for every URL that the static middleware didn’t serve
 app.use('/{*splat}', (req, res) => {
-  const html = injectNonce(indexHtmlRaw, res.locals.cspNonce as string);
+  const html = applyCspNonce(indexHtmlRaw, res.locals.cspNonce as string);
   res.type('html').set('Cache-Control', 'no-store, max-age=0').send(html);
 });
 
